@@ -9,7 +9,7 @@ using Repository;
 
 #nullable disable
 
-namespace LAS_BACKEND_MAIN.Migrations
+namespace LMS_BACKEND_MAIN.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20240609154708_next")]

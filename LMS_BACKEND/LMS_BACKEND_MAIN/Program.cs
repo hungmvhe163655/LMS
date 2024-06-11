@@ -1,5 +1,5 @@
 using Entities.Models;
-using LAS_BACKEND_MAIN.Extentions;
+using LMS_BACKEND_MAIN.Extentions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +23,9 @@ builder.Services.AddIdentity<Account, IdentityRole>()
     .AddDefaultTokenProviders();
 */
 // Custom services config
+builder.Services.ConfigureRepositoryManager();
+
+builder.Services.ConfigureServiceManager();
 
 builder.Services.ConfigureCor();
 
@@ -31,7 +34,9 @@ builder.Services.ConfigureIISIntegration();
 builder.Services.ConfigureLoggerService();
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(LMS_BACKEND_MAIN.Presentation.AssemblyReference).Assembly);
+
 
 builder.Services.AddAuthentication();
 

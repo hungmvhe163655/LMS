@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Repository;
 
-namespace LAS_BACKEND_MAIN.ContextFactory
+namespace LMS_BACKEND_MAIN.ContextFactory
 {
     public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
     {
@@ -13,7 +13,7 @@ namespace LAS_BACKEND_MAIN.ContextFactory
             .AddJsonFile("appsettings.json")
             .Build();
             var builder = new DbContextOptionsBuilder<DataContext>()
-            .UseSqlServer(configuration.GetConnectionString("LemaoString"), a=> a.MigrationsAssembly("LAS_BACKEND_MAIN"));
+            .UseSqlServer(configuration.GetConnectionString("LemaoString"), a=> a.MigrationsAssembly("LMS_BACKEND_MAIN"));
             return new DataContext(builder.Options);
         }
     }
