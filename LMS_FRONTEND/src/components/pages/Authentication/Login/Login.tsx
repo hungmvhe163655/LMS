@@ -92,6 +92,7 @@ const LoginForm: React.FC = () => {
                     <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input
+                        type="password"
                         placeholder="Password must have more than 6 characters"
                         {...field}
                       />

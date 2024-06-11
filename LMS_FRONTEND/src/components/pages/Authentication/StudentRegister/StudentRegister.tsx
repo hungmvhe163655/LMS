@@ -31,10 +31,15 @@ const FormSchema = z.object({
   password: z
     .string()
     .min(6, { message: "Password must have more than 6 characters" }),
+  confirmPassword: z.string(),
+
   fullname: z
     .string()
     .min(3, { message: "Fullname must have more than 3 characters" }),
   supervisor: z.number(),
+  phonenumber: z
+    .string()
+    .min(9, { message: "Phone number must have more than 9 characters" }),
 });
 
 //LoginForm component
@@ -55,7 +60,7 @@ const RegisterForm: React.FC = () => {
 
   //HTML?
   return (
-    <div className="loginFormContainer">
+    <div className="registerFormContainer">
       <Card className="card">
         <CardHeader>
           <CardTitle>Register</CardTitle>
@@ -69,16 +74,61 @@ const RegisterForm: React.FC = () => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="w-2/3 space-y-6"
             >
-              {/* Email or Roll Number Input Field */}
+              {/* Fullname input field */}
               <FormField
                 control={form.control}
-                name="emailOrRoll"
+                name="fullname"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email Or Roll Number</FormLabel>
+                    <FormLabel>Fullname</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Nguyen Van A" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Email Input Field */}
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email Number</FormLabel>
+                    <FormControl>
+                      <Input placeholder="yourname@fpt.edu.vn" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Phone Number Input Field */}
+              <FormField
+                control={form.control}
+                name="phonenumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone Number</FormLabel>
+                    <FormControl>
+                      <Input placeholder="0912345678" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Phone Number Input Field */}
+              <FormField
+                control={form.control}
+                name="supervisor"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Supervisor ID.</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="yourname@fpt.edu.vn/HE123456"
+                        placeholder="This will later be a combobox when dev has his APIs"
                         {...field}
                       />
                     </FormControl>
@@ -86,6 +136,7 @@ const RegisterForm: React.FC = () => {
                   </FormItem>
                 )}
               />
+
               {/* Password Input Field */}
               <FormField
                 control={form.control}
@@ -95,7 +146,8 @@ const RegisterForm: React.FC = () => {
                     <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Password must have more than 6 characters"
+                        type="password"
+                        placeholder="Your password"
                         {...field}
                       />
                     </FormControl>
@@ -103,6 +155,26 @@ const RegisterForm: React.FC = () => {
                   </FormItem>
                 )}
               />
+
+              {/* Password Input Field */}
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Confirm your password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <Button type="submit">Submit</Button>
             </form>
           </Form>
