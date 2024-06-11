@@ -1,4 +1,6 @@
-﻿using Entities.Models;
+﻿using Contracts.Interfaces;
+using Entities.Models;
+using LoggerServices;
 using Microsoft.AspNetCore.Identity;
 using Repository;
 
@@ -9,7 +11,7 @@ namespace LAS_BACKEND_MAIN.Extentions
         public static void ConfigureCor(this IServiceCollection services)
         {
             services.AddCors(
-                options => options.AddPolicy("CorsPolicy", builder => 
+                options => options.AddPolicy("CorsPolicy", builder =>
                 builder.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader())
@@ -35,5 +37,7 @@ namespace LAS_BACKEND_MAIN.Extentions
                 .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
         }
+        public static void ConfigureLoggerService(this IServiceCollection services) =>
+                services.AddSingleton<ILoggerManager, LoggerManager>();
     }
 }
