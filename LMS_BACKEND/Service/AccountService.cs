@@ -1,4 +1,5 @@
 ﻿using Contracts.Interfaces;
+using Entities.Models;
 using Service.Contracts;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,18 @@ namespace Service
         {
             _repository = repository;
             _logger = logger;
+        }
+
+        public Account GetUserByName(string userName)
+        {
+            try
+            {
+                var user = _repository.account.FindByNameAsync(userName, false).Result;
+                return user;
+            }catch
+            {
+                throw;
+            }
         }
     }
 }
