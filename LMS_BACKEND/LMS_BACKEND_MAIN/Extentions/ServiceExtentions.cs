@@ -4,7 +4,7 @@ using LoggerServices;
 using Microsoft.AspNetCore.Identity;
 using Repository;
 
-namespace LAS_BACKEND_MAIN.Extentions
+namespace LMS_BACKEND_MAIN.Extentions
 {
     public static class ServiceExtentions
     {

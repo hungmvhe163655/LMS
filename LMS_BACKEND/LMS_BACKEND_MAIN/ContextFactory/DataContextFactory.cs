@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Repository;
 
-namespace LAS_BACKEND_MAIN.ContextFactory
+namespace LMS_BACKEND_MAIN.ContextFactory
 {
     public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
     {

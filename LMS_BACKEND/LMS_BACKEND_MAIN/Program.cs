@@ -1,5 +1,5 @@
 using Entities.Models;
-using LAS_BACKEND_MAIN.Extentions;
+using LMS_BACKEND_MAIN.Extentions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -7,12 +7,9 @@ using NLog;
 using Repository;
 
 var builder = WebApplication.CreateBuilder(args);
+var logger = NLog.LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
 
-var logger = NLog.LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(),
-"/nlog.config"));
-
-
-var connectionString = builder.Configuration.GetConnectionString("LemaoString") ?? throw new InvalidOperationException("Connection string 'LemaoString' not found.");
+var connectionString = builder.Configuration.GetConnectionString("Cnn") ?? throw new InvalidOperationException("Connection string 'Cnn' not found.");
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(connectionString));
 
