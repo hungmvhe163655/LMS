@@ -627,7 +627,31 @@ namespace Repository
                 entity.HasOne(d => d.TaskStatus).WithMany()
                     .HasForeignKey(d => d.TaskStatusId)
                     .HasConstraintName("FK_TaskHistories_TaskStatus");
+//////////////////////////////////////////////
+///
+            /*
+                entity.HasMany(d => d.Accounts).WithMany()
+                    .UsingEntity<Dictionary<string, object>>(
+                        "TaskHistoriesAccounts",
 
+                        r => r.HasOne<Account>().WithMany()
+                            .HasForeignKey("AccountId")
+                            .OnDelete(DeleteBehavior.ClientSetNull)
+                            .HasConstraintName("FK_TaskHistoriesAccounts_Accounts"),
+                        l => l.HasOne<TaskHistory>().WithMany()
+                            .HasForeignKey("TaskHistoryId")
+                            .OnDelete(DeleteBehavior.ClientSetNull)
+                            .HasConstraintName("FK_TaskHistoriesAccounts_TaskHistories"),
+
+                        j =>
+                        {
+                            j.HasKey("TaskHistoryId", "AccountId");
+                            j.ToTable("TaskHistoriesAccounts");
+                            j.IndexerProperty<Guid>("TaskHistoryId").HasColumnName("taskHistoryId");
+                            j.IndexerProperty<string>("AccountId").HasColumnName("accountId");
+                        });
+                */
+/////////////////////////////////////////////////////////////
                 entity.HasMany(d => d.Labels).WithMany()
                     .UsingEntity<Dictionary<string, object>>(
                         "TaskHistoriesLabels",
