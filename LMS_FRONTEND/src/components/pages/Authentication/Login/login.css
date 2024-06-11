@@ -1,71 +1,92 @@
-.login-container {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 2rem;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+/* login.css */
+
+body,
+.loginFormContainer {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+}
+
+.card-description {
+  font-size: 14px;
+  color: #666;
+}
+.card-content {
+  padding: 20px;
+  width: 130%;
+}
+
+.card-header {
   text-align: center;
-  align-items: center;
+  padding: 20px;
 }
 
-.link {
-  color: #0056b3;
-  text-decoration: underline;
+.card-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
-h1 {
-  margin-bottom: 1.5rem;
+.card-footer {
+  text-align: center;
+  padding: 10px 20px;
+  border-top: 1px solid #eee;
 }
 
-.input-group {
-  margin-bottom: 1rem;
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.input-group input {
-  width: calc(100% - 2rem);
-  padding: 0.5rem 1rem;
+.form-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  padding: 10px;
+  font-size: 14px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
+  border-radius: 4px;
 }
 
-.actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.actions label {
-  display: flex;
-  align-items: center;
-}
-
-.actions input {
-  margin-right: 0.5rem;
-}
-
-.actions a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.actions a:hover {
-  text-decoration: underline;
-}
-
-button {
+.button {
   width: 100%;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
   background-color: #007bff;
-  color: #fff;
-  font-size: 1rem;
+  color: white;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-button:hover {
+.button:hover {
   background-color: #0056b3;
+}
+
+.register-link {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+  font-weight: bold;
 }

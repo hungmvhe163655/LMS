@@ -1,61 +1,121 @@
-import React, { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import "./login.css";
 
-const Login: React.FC = () => {
-  //   const [emailOrRoll, setEmailOrRoll] = useState<string>("");
-  //   const [password, setPassword] = useState<string>("");
-  //   const [rememberMe, setRememberMe] = useState<boolean>(false);
+//FormSchema and Validation
+const FormSchema = z.object({
+  emailOrRoll: z.string().min(6, {
+    message: "Email or roll number must have more than 6 characters", //This will be shown using FormMessage
+  }),
+  password: z
+    .string()
+    .min(6, { message: "Password must have more than 6 characters" }),
+});
 
-  //   const handleLogin = (e: React.FormEvent) => {
-  //     e.preventDefault();
-  //     // Add login logic here
-  //     console.log("Login", { emailOrRoll, password, rememberMe });
-  //   };
+//LoginForm component
+const LoginForm: React.FC = () => {
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      emailOrRoll: "",
+      password: "",
+    },
+  });
 
+  //onSubmit
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log(data);
+    //Submit Logic
+  }
+
+  //HTML?
   return (
-    <div className="login-container">
-      <h1>Student/Supervisor Login</h1>
-      {/* <form onSubmit={handleLogin}> */}
-      <div className="input-group">
-        <input
-          type="text"
-          placeholder="Roll number or email"
-          // value={emailOrRoll}
-          // onChange={(e) => setEmailOrRoll(e.target.value)}
-          required
-        />
-      </div>
-      <div className="input-group">
-        <input
-          type="password"
-          placeholder="Password"
-          // value={password}
-          // onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </div>
-      <div className="actions">
-        <label>
-          <input
-            type="checkbox"
-            //   checked={rememberMe}
-            //   onChange={(e) => setRememberMe(e.target.checked)}
-          />
-          Remember me
-        </label>
-        <a href="#forgot-password">Forgot Password?</a>
-      </div>
-      <button type="submit">Login</button>
-      {/* </form> */}
-      <h3>
-        Not a member?{" "}
-        <Link className="link" to={"/StudentRegister"}>
-          Register now
-        </Link>
-      </h3>
+    <div className="loginFormContainer">
+      <Card className="card">
+        <CardHeader>
+          <CardTitle>Login</CardTitle>
+          <CardDescription>
+            Welcome to SAP Lab Management System
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="card-content">
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="w-2/3 space-y-6"
+            >
+              {/* Email or Roll Number Input Field */}
+              <FormField
+                control={form.control}
+                name="emailOrRoll"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email Or Roll Number</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="yourname@fpt.edu.vn/HE123456"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Password Input Field */}
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Password must have more than 6 characters"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit">Submit</Button>
+            </form>
+          </Form>
+        </CardContent>
+        <CardFooter>
+          <p>
+            Don't have an account?{" "}
+            <Link className="registerLink" to={"/StudentRegister"}>
+              Register now
+            </Link>
+          </p>
+        </CardFooter>
+      </Card>{" "}
     </div>
   );
 };
 
-export default Login;
+export default LoginForm;
