@@ -21,13 +21,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LMS_BACKEND_MAIN.Presentation\LMS_BACKEND_MAIN.Presentation.csproj" />
     <ProjectReference Include="..\LoggerServices\LoggerServices.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
+    <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

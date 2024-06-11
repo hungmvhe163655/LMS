@@ -8,7 +8,7 @@ using Repository;
 
 #nullable disable
 
-namespace LAS_BACKEND_MAIN.Migrations
+namespace LMS_BACKEND_MAIN.Migrations
 {
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
