@@ -1,4 +1,5 @@
-﻿using Contracts.Interfaces;
+﻿using AutoMapper;
+using Contracts.Interfaces;
 using Entities.Models;
 using Service.Contracts;
 using System;
@@ -13,10 +14,12 @@ namespace Service
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
-        public AccountService(IRepositoryManager repository, ILoggerManager logger)
+        private readonly IMapper _mapper;
+        public AccountService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public Account GetUserByName(string userName)
