@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Interfaces
+namespace LMS_BACKEND_MAIN_Presentation.Controller
 {
-    public interface IAccountRepository
+    public static class AssemblyReference
     {
+
     }
 }

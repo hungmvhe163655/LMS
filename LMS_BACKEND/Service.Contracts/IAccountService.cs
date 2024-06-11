@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Interfaces
+namespace Service.Contracts
 {
-    public interface IAccountRepository
+    public interface IAccountService
     {
     }
 }
