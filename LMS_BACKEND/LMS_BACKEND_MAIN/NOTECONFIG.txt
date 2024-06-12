@@ -14,4 +14,4 @@
 }
 ]
 nho chay bang quyen admin [CMD]
-setx SECRET "MinhTC" /M
+setx SECRET "This Is My Super Long Custom Key" /M
