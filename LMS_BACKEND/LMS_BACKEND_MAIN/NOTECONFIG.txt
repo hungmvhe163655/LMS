@@ -13,3 +13,5 @@
   }
 }
 ]
+nho chay bang quyen admin [CMD]
+setx SECRET "MinhTC" /M
