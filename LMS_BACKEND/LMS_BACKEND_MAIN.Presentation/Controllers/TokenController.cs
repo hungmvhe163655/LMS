@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
-    [Route("api/token")]
+    [Route("api/[Controller]")]
     public class TokenController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -29,7 +29,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     var tokenDtoEnd = await _service.AuthenticationService.RefreshToken(model);
                     return Ok(tokenDtoEnd);
                 }
-                catch (Exception ex)
+                catch
                 {
                     return StatusCode(500,"INTERNAL ERROR");
                 }
