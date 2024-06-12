@@ -9,5 +9,6 @@ namespace Service.Contracts
     public interface IServiceManager
     {
         IAccountService accountService { get; }
+        IAuthenticationService AuthenticationService { get; }
     }
 }

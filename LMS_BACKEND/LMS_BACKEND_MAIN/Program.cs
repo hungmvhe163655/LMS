@@ -1,5 +1,6 @@
 using Entities.Models;
 using LMS_BACKEND_MAIN.Extentions;
+using LMS_BACKEND_MAIN.Presentation.ActionFilters;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,10 +31,11 @@ builder.Services.ConfigureIISIntegration();
 
 builder.Services.ConfigureLoggerService();
 
+builder.Services.ConfigureJWT(builder.Configuration);
 
-builder.Services.AddControllers()
-    .AddApplicationPart(typeof(LMS_BACKEND_MAIN.Presentation.AssemblyReference).Assembly);
+builder.Services.AddControllers().AddApplicationPart(typeof(LMS_BACKEND_MAIN.Presentation.AssemblyReference).Assembly);
 
+builder.Services.AddScoped<ValidationFilterAttribute>();
 
 builder.Services.AddAuthentication();
 
@@ -44,6 +46,8 @@ builder.Services.ConfigureIdentity();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 

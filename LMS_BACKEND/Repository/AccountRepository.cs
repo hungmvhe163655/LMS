@@ -13,5 +13,21 @@ namespace Repository
         public AccountRepository(DataContext context) : base(context)
         {
         }
+
+        public Task<bool> CheckPassWord(string userName, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Account> FindByNameAsync(string userName, bool trackable)
+        {
+            var hold = await FindAllAsync(false);
+            if (hold != null)
+            {
+                var end = hold.Where(x => x.UserName.Equals(userName)).First();
+                return end != null ? end : null;
+            }
+            return null;
+        }
     }
 }
