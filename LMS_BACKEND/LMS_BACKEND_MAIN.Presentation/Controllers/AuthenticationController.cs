@@ -35,6 +35,22 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             return StatusCode(201);
         }
-
+        public async Task<IActionResult> Authenticate([FromBody] LoginRequestModel model)
+        {
+            if(!await _service.AuthenticationService.ValidateUser(model))
+            {
+                return Unauthorized();
+            }
+            var Tokendto = await _service.AuthenticationService.CreateToken(true);
+            return Ok(Tokendto);
+        }
+        public async Task<IActionResult> Logout()
+        {
+            if(!await _service.AuthenticationService.InvalidateToken())
+            {
+                return Unauthorized();
+            }
+            return Ok("Logout Successfully");
+        }
     }
 }

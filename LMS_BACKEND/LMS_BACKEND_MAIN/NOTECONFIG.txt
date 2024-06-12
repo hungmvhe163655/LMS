@@ -1,0 +1,15 @@
+﻿appsettings file template
+[
+{
+  "AllowedHosts": "*",
+
+  "ConnectionStrings": {
+    "LemaoString": "server=(local);database=LLLLLLLLLLLLLLLLLLLLLLLLL;uid=sa;pwd=123;TrustServerCertificate=true;Trusted_Connection=true"
+  },
+  "JwtSettings": {
+    "validIssuer": "MinhTC",
+    "validAudience": "https://localhost:5002",
+    "expires" :  10
+  }
+}
+]

@@ -10,8 +10,8 @@ namespace Entities.Models
     {
         public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string Content { get; set; }
-        public string CreatedBy { get; set; }
+        public string? Content { get; set; }
+        public string? CreatedBy { get; set; }
         public Guid? ParentId { get; set; }
         public Guid TaskId { get; set; }
         public virtual Account CreatedByUser { get; set; } = null!;
