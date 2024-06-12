@@ -16,6 +16,8 @@ namespace Entities.Models
         public string? VerifiedBy { get; set; }
         public bool isDeleted { get; set; }
         public bool isBanned { get; set; }
+        public string? UserRefreshToken { get; set; }
+        public DateTime UserRefreshTokenExpiryTime { get; set; }
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
         public virtual ICollection<Device> Devices { get; set; } = new List<Device>();

@@ -1,4 +1,5 @@
 ﻿using Contracts.Interfaces;
+using Entities.ConfigurationModels;
 using Entities.Models;
 using LoggerServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -44,7 +45,8 @@ namespace LMS_BACKEND_MAIN.Extentions
         }
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwtSettings = configuration.GetSection("JwtSettings");
+            var jwtConfiguration = new JwtConfiguration();
+            configuration.Bind(jwtConfiguration.Section, jwtConfiguration);
             var secretKey = Environment.GetEnvironmentVariable("SECRET");
             services.AddAuthentication(opt =>
             {
@@ -59,10 +61,10 @@ namespace LMS_BACKEND_MAIN.Extentions
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettings["validIssuer"],
-                    ValidAudience = jwtSettings["validAudience"],
+                    ValidIssuer = jwtConfiguration.ValidIssuer,
+                    ValidAudience = jwtConfiguration.ValidAudience,
                     IssuerSigningKey = new
-                SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+            SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
                 };
             });
         }
@@ -73,5 +75,7 @@ namespace LMS_BACKEND_MAIN.Extentions
             services.AddScoped<IRepositoryManager, RepositoryManager>();
         public static void ConfigureServiceManager(this IServiceCollection services) =>
             services.AddScoped<IServiceManager, ServiceManager>();
+        public static void AddJwtConfiguration(this IServiceCollection services,IConfiguration configuration) =>
+            services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
     }
 }
