@@ -12,8 +12,8 @@ namespace Entities.Models
         public Guid Id { get; set; }
         public int DeviceStatusId { get; set; }
         public string? OwnedBy { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
         public DateTime LastUsed { get; set; }
         public bool isDeleted { get; set; }
         public virtual DeviceStatus DeviceStatus { get; set; } = null!;

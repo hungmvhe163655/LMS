@@ -14,6 +14,7 @@ namespace LMS_BACKEND_MAIN.Presentation.ActionFilters
         { }
         public void OnActionExecuting(ActionExecutingContext context)
         {
+            /*
             var action = context.RouteData.Values["action"];
             var controller = context.RouteData.Values["controller"];
             var param = context.ActionArguments
@@ -25,6 +26,7 @@ namespace LMS_BACKEND_MAIN.Presentation.ActionFilters
             }
             if (!context.ModelState.IsValid)
                 context.Result = new UnprocessableEntityObjectResult(context.ModelState);
+            */
         }
 
         public void OnActionExecuted(ActionExecutedContext context) { }

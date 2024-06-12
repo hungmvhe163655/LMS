@@ -33,6 +33,8 @@ builder.Services.ConfigureLoggerService();
 
 builder.Services.ConfigureJWT(builder.Configuration);
 
+builder.Services.AddJwtConfiguration(builder.Configuration);
+
 builder.Services.AddControllers().AddApplicationPart(typeof(LMS_BACKEND_MAIN.Presentation.AssemblyReference).Assembly);
 
 builder.Services.AddScoped<ValidationFilterAttribute>();
