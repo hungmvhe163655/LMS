@@ -1,10 +1,10 @@
 import React from "react";
-import { ReactDOM } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import "./App.css";
 import Login from "./components/pages/Authentication/Login/Login";
 import StudentRegister from "./components/pages/Authentication/StudentRegister/StudentRegister";
-// import { Button } from "@/components/ui/button";
+import SupervisorRegisterForm from "./components/pages/Authentication/SupervisorRegister/SupervisorRegister";
+import Register from "./components/pages/Authentication/ChooseRole/ChooseRole";
+import ForgotPassword from "./components/pages/Authentication/ForgotPassword/ForgotPassword";
 
 const router = createBrowserRouter([
   {
@@ -13,8 +13,20 @@ const router = createBrowserRouter([
     errorElement: <div>Error 404 Not Found</div>,
   },
   {
+    path: "/Register",
+    element: <Register />,
+  },
+  {
     path: "/StudentRegister",
     element: <StudentRegister />,
+  },
+  {
+    path: "/SupervisorRegister",
+    element: <SupervisorRegisterForm />,
+  },
+  {
+    path: "/ForgotPassword",
+    element: <ForgotPassword />,
   },
 ]);
 
