@@ -21,7 +21,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import "./login.css";
 
 // FormSchema and Validation
 const FormSchema = z.object({

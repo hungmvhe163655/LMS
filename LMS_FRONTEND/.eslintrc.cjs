@@ -4,9 +4,6 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    "airbnb",
-    "airbnb-typescript",
-    "airbnb/hooks",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
@@ -30,25 +27,13 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint", "prettier"],
   rules: {
-    // Disabling the requirement for React to be in scope with JSX
     "react/react-in-jsx-scope": "off",
-    // Disabling the requirement for file extensions in import statements
-    "import/extensions": [
+    "react/prop-types": "off",
+    "prettier/prettier": [
       "error",
-      "ignorePackages",
       {
-        js: "never",
-        jsx: "never",
-        ts: "never",
-        tsx: "never",
+        endOfLine: "auto",
       },
     ],
-    // Disabling the rule that prevents props spreading in TSX
-    "react/jsx-props-no-spreading": "warn",
-    // Disabling the rule that prevents the use of 'any' type in TypeScript
-    "@typescript-eslint/no-explicit-any": "warn",
-    "import/prefer-default-export": "off",
-    "react/require-default-props": "warn",
-    "jsx-a11y/label-has-associated-control": "off",
   },
 };

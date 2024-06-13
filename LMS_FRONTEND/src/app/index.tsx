@@ -5,13 +5,13 @@ import { RouterProvider } from "react-router-dom";
 import { AppProvider } from "./main-provider";
 import { createRouter } from "./routes";
 
-const AppRouter = () => {
+function AppRouter() {
   const queryClient = useQueryClient();
 
   const router = useMemo(() => createRouter(queryClient), [queryClient]);
 
   return <RouterProvider router={router} />;
-};
+}
 
 function App() {
   return (
