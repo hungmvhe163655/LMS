@@ -105,8 +105,8 @@ function LoginForm() {
         </CardContent>
         <CardFooter>
           <p>
-            Don t have an account?
-            <Link className="registerLink" to="/StudentRegister">
+            Don t have an account?{" "}
+            <Link className="registerLink" to={"/register"}>
               Register now
             </Link>
           </p>

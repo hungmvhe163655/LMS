@@ -11,7 +11,7 @@ function Register() {
             className="register-button"
           />
         </Link>
-        <Link to="/StudentRegister">
+        <Link to="/ValidateRollNumber">
           <img
             src="src\assets\Student Button.png"
             alt="Student Register"
