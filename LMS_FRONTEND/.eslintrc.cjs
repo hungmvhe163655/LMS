@@ -26,9 +26,30 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
+    project: "./tsconfig.json",
   },
-  plugins: ["@typescript-eslint", "react"],
+  plugins: ["react", "@typescript-eslint", "prettier"],
   rules: {
-    "react/react-in-jsx-scope": 0,
+    // Disabling the requirement for React to be in scope with JSX
+    "react/react-in-jsx-scope": "off",
+    // Disabling the requirement for file extensions in import statements
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "": "never",
+        js: "never",
+        jsx: "never",
+        ts: "never",
+        tsx: "never",
+      },
+    ],
+    // Disabling the rule that prevents props spreading in TSX
+    "react/jsx-props-no-spreading": "warn",
+    // Disabling the rule that prevents the use of 'any' type in TypeScript
+    "@typescript-eslint/no-explicit-any": "warn",
+    "import/prefer-default-export": "off",
+    "react/require-default-props": "warn",
+    "jsx-a11y/label-has-associated-control": "off",
   },
 };

@@ -27,15 +27,15 @@ import {
 } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
-//FormSchema and Validation
+
+// FormSchema and Validation
 const FormSchema = z.object({
   emailOrPhone: z.string().min(6, {
-    message: "Email or phone number must have more than 6 characters", //This will be shown using FormMessage
+    message: "Email or phone number must have more than 6 characters", // This will be shown using FormMessage
   }),
 });
 
-const ForgotPassword: React.FC = () => {
+function ForgotPassword() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -45,7 +45,7 @@ const ForgotPassword: React.FC = () => {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
-    //Submit Logic
+    // Submit Logic
   }
   return (
     <div className="loginFormContainer">
@@ -99,8 +99,8 @@ const ForgotPassword: React.FC = () => {
             </InputOTPGroup>
           </InputOTP>
         </CardFooter>
-      </Card>{" "}
+      </Card>
     </div>
   );
-};
+}
 export default ForgotPassword;

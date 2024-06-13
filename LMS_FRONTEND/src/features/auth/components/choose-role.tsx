@@ -1,8 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import "./chooseRole.css";
 
-const Register: React.FC = () => {
+function Register() {
   return (
     <div className="register-container">
       <div className="button-container">
@@ -23,6 +21,6 @@ const Register: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Register;

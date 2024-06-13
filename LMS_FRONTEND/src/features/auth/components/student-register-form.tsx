@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -20,12 +21,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
 
-//FormSchema and Validation
+// FormSchema and Validation
 const FormSchema = z.object({
   email: z.string().min(6, {
-    message: "Email must have more than 6 characters", //This will be shown using FormMessage
+    message: "Email must have more than 6 characters", // This will be shown using FormMessage
   }),
   password: z
     .string()
@@ -41,8 +41,8 @@ const FormSchema = z.object({
     .min(9, { message: "Phone number must have more than 9 characters" }),
 });
 
-//LoginForm component
-const RegisterForm: React.FC = () => {
+// LoginForm component
+function RegisterForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -51,13 +51,13 @@ const RegisterForm: React.FC = () => {
     },
   });
 
-  //onSubmit
+  // onSubmit
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
-    //Submit Logic
+    // Submit Logic
   }
 
-  //HTML?
+  // HTML?
   return (
     <div className="registerFormContainer">
       <Card className="card">
@@ -190,7 +190,7 @@ const RegisterForm: React.FC = () => {
         <CardFooter>
           <p>
             Already have an account?{" "}
-            <Link className="registerLink" to={"/"}>
+            <Link className="registerLink" to="/">
               Login Here!
             </Link>
           </p>
@@ -198,6 +198,6 @@ const RegisterForm: React.FC = () => {
       </Card>{" "}
     </div>
   );
-};
+}
 
 export default RegisterForm;
