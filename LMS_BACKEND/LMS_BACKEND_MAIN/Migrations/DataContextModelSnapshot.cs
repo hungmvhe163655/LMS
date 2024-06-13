@@ -26,7 +26,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -119,7 +119,7 @@ namespace LMS_BACKEND_MAIN.Migrations
 
                     b.HasIndex("VerifiedBy");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Account", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Comment", b =>
@@ -963,24 +963,24 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("SystemRole", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = "651869c5-2ee7-46a3-a1d7-89a1f88e0c36",
+                            Id = "c1954e56-5744-4731-9921-64c4417c8c35",
                             Name = "LabLead",
                             NormalizedName = "LABADMIN"
                         },
                         new
                         {
-                            Id = "21149844-71cf-49ec-9b52-adb2bb357acc",
+                            Id = "c40af1dd-685c-48dc-8fe6-bc35ec5b8115",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "3d2823d1-7845-46f5-8d04-31eb118e7dd9",
+                            Id = "ab494a47-34ff-4758-ac4f-c98d2623cb87",
                             Name = "Teacher",
                             NormalizedName = "SUPERVISOR"
                         });
@@ -1008,7 +1008,7 @@ namespace LMS_BACKEND_MAIN.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("RoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -1033,7 +1033,7 @@ namespace LMS_BACKEND_MAIN.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("AccountClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -1055,7 +1055,7 @@ namespace LMS_BACKEND_MAIN.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("AccountLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -1070,7 +1070,7 @@ namespace LMS_BACKEND_MAIN.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("AccountRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -1089,7 +1089,7 @@ namespace LMS_BACKEND_MAIN.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("AccountToken", (string)null);
                 });
 
             modelBuilder.Entity("ProjectsPermission", b =>

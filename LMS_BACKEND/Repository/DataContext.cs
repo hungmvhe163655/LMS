@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Repository.Configuration;
@@ -42,12 +43,47 @@ namespace Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            /*
+            modelBuilder.Entity<IdentityUser>(entity =>
+            {
+                entity.ToTable("Account");
+                entity.Property(e => e.Id).HasColumnName("Id");
+            });
+            */
 
+            modelBuilder.Entity<IdentityUserRole<string>>(entity =>
+            {
+                entity.ToTable("AccountRoles");
+            });
+
+            modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
+            {
+                entity.ToTable("AccountLogins");
+            });
+
+            modelBuilder.Entity<IdentityUserClaim<string>>(entity =>
+            {
+                entity.ToTable("AccountClaims");
+            });
+
+            modelBuilder.Entity<IdentityRole>(entity =>
+            {
+                entity.ToTable("SystemRole");
+            });
+            modelBuilder.Entity<IdentityRoleClaim<string>>(entity =>
+            {
+                entity.ToTable("RoleClaims");
+            });
+            modelBuilder.Entity<IdentityUserToken<string>>(entity =>
+            {
+                entity.ToTable("AccountToken");
+            });
             modelBuilder.Entity<Account>(entity =>
             {
+                entity.ToTable("Account");
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
                 entity.Property(e => e.CreatedDate).HasColumnName("createdDate");
                 entity.Property(e => e.FullName)
                     .HasMaxLength(255)
