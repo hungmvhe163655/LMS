@@ -545,7 +545,7 @@ appsettings.json
 appsettings.Development.json
 
 # Ignore logfile
-# BackendCore/internal_logs/internallog.txt
+LMS_BACKEND_MAIN/internal_logs/
 
 # Windows Installer files from build outputs
 
