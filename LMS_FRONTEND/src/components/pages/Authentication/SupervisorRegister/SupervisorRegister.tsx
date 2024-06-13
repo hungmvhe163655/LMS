@@ -35,14 +35,13 @@ const FormSchema = z.object({
   fullname: z
     .string()
     .min(3, { message: "Fullname must have more than 3 characters" }),
-  supervisor: z.number(),
   phonenumber: z
     .string()
     .min(9, { message: "Phone number must have more than 9 characters" }),
 });
 
 //LoginForm component
-const RegisterForm: React.FC = () => {
+const SupervisorRegisterForm: React.FC = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -62,7 +61,7 @@ const RegisterForm: React.FC = () => {
     <div className="registerFormContainer">
       <Card className="card">
         <CardHeader>
-          <CardTitle>Register</CardTitle>
+          <CardTitle>Registering Account For Supervisor</CardTitle>
           <CardDescription>
             Welcome to SAP Lab Management System
           </CardDescription>
@@ -118,24 +117,6 @@ const RegisterForm: React.FC = () => {
                 )}
               />
 
-              {/* Phone Number Input Field */}
-              <FormField
-                control={form.control}
-                name="supervisor"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Supervisor ID.</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="This will later be a combobox when dev has his APIs"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
               {/* Password Input Field */}
               <FormField
                 control={form.control}
@@ -173,7 +154,6 @@ const RegisterForm: React.FC = () => {
                   </FormItem>
                 )}
               />
-
               <div className="flex items-center space-x-2">
                 <Checkbox id="terms" />
                 <label
@@ -200,4 +180,4 @@ const RegisterForm: React.FC = () => {
   );
 };
 
-export default RegisterForm;
+export default SupervisorRegisterForm;
