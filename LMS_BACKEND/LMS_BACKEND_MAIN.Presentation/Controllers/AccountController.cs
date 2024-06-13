@@ -23,7 +23,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             try
             {
                 var user =
-                _service.accountService.GetUserByName(userName);
+                _service.AccountService.GetUserByName(userName);
                 return Ok(user);
             }
             catch

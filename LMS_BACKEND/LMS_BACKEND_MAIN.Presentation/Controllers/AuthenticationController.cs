@@ -25,60 +25,110 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterLabLead([FromBody] RegisterRequestModel model)
         {
-            var result = await
-            _service.AuthenticationService.RegisterLabLead(model);
-            if (!result.Succeeded)
+            try
             {
-                foreach (var error in result.Errors)
+                var result = await
+
+           _service.AuthenticationService.RegisterLabLead(model);
+
+                if (!result.Succeeded)
                 {
-                    ModelState.TryAddModelError(error.Code, error.Description);
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.TryAddModelError(error.Code, error.Description);
+                    }
+                    return BadRequest(ModelState);
                 }
-                return BadRequest(ModelState);
+                await _service.MailService.SendVerifyOtp(model.UserName, model.Email);
+
+                return StatusCode(201);
             }
-            return StatusCode(201);
+            catch (Exception ex)
+            {
+                return BadRequest();
+
+            }
         }
         [HttpPost("RegisterSupervisor")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterSupervisor([FromBody] RegisterRequestModel model)
         {
-            var result = await
-            _service.AuthenticationService.RegisterSupervisor(model);
-            if (!result.Succeeded)
+            try
             {
-                foreach (var error in result.Errors)
+                var result = await
+
+           _service.AuthenticationService.RegisterSupervisor(model);
+
+                if (!result.Succeeded)
                 {
-                    ModelState.TryAddModelError(error.Code, error.Description);
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.TryAddModelError(error.Code, error.Description);
+                    }
+                    return BadRequest(ModelState);
                 }
-                return BadRequest(ModelState);
+                await _service.MailService.SendVerifyOtp(model.UserName, model.Email);
+
+                return StatusCode(201);
             }
-            return StatusCode(201);
+            catch (Exception ex)
+            {
+                return BadRequest();
+
+            }
         }
         [HttpPost("RegisterStudent")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterStudent([FromBody] RegisterRequestModel model)
         {
-            var result = await
-            _service.AuthenticationService.RegisterLabLead(model);
-            if (!result.Succeeded)
+            try
             {
-                foreach (var error in result.Errors)
+                var result = await
+
+           _service.AuthenticationService.RegisterStudent(model);
+
+                if (!result.Succeeded)
                 {
-                    ModelState.TryAddModelError(error.Code, error.Description);
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.TryAddModelError(error.Code, error.Description);
+                    }
+                    return BadRequest(ModelState);
                 }
-                return BadRequest(ModelState);
+                await _service.MailService.SendVerifyOtp(model.UserName, model.Email);
+
+                return StatusCode(201);
             }
-            return StatusCode(201);
+            catch (Exception ex)
+            {
+                return BadRequest();
+
+            }
         }
         [HttpPost("Login")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestModel model)
         {
-            if(!await _service.AuthenticationService.ValidateUser(model))
+            string outcome = await _service.AuthenticationService.ValidateUser(model);
+            
+            if (outcome.Split("|")[0].Equals("BADLOGIN|"))
             {
-                return Unauthorized();
+                return Unauthorized("Wrong password or username");
             }
-            var Tokendto = await _service.AuthenticationService.CreateToken(true);
-            return Ok(Tokendto);
+            if (outcome.Split("|")[0].Equals("UNVERIFIED|"))
+            {
+                return Ok("NeedVerify" + outcome.Split("|")[1]);
+            }
+            if (outcome.Split("|")[0].Equals("ISBANNED|"))
+            {
+                return Ok("Banned");
+            }
+            if (outcome.Split("|")[0].Equals("SUCCESS|"))
+            {
+                var Tokendto = await _service.AuthenticationService.CreateToken(true);
+                return Ok(Tokendto);
+            }
+            return BadRequest();
         }
         [HttpPost("Logout")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]

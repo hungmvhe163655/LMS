@@ -45,6 +45,7 @@ namespace Service
             _jwtConfiguration = new JwtConfiguration();
             _configuration.Bind(_jwtConfiguration.Section, _jwtConfiguration);
         }
+
         public async Task<IdentityResult> RegisterLabLead(RegisterRequestModel model)
         {
             try
@@ -85,7 +86,9 @@ namespace Service
                     user.VerifiedBy = null;
 
                     var result = await _userManager.CreateAsync(user, model.Password);
+
                     if (result.Errors.Any()) return result;
+
                     await _userManager.AddToRolesAsync(user, validRoles);
 
                     return result;
@@ -138,6 +141,7 @@ namespace Service
                     }
                 if (validRoles.Any())
                 {
+
                     user.VerifiedBy = verifier.Result.Id;
 
                     var result = await _userManager.CreateAsync(user, model.Password);
@@ -192,6 +196,7 @@ namespace Service
                     }
                 if (validRoles.Any())
                 {
+
                     user.VerifiedBy = verifier.Result.Id;
 
                     var result = await _userManager.CreateAsync(user, model.Password);
@@ -210,23 +215,37 @@ namespace Service
             }
         }
         //////////////////////////////////////// TOKEN AREA  -  DO NOT TOUCH  ///////////////////////////////////////////////////
-        public async Task<bool> ValidateUser(LoginRequestModel userForAuth)
+        public async Task<string> ValidateUser(LoginRequestModel userForAuth)
         {
             /// Tim nguoi dung trong he thong khong nhap ten thi authen loi log vao 
             if (string.IsNullOrEmpty(userForAuth.UserName) || string.IsNullOrEmpty(userForAuth.PassWord))
             {
                 _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Empty user name or password");
-                return false;
+                return "BADLOGIN|";
             }
             _account = await _userManager.FindByNameAsync(userForAuth.UserName);
             var result = (_account != null && await _userManager.CheckPasswordAsync(_account, userForAuth.PassWord));
             if (!result)
+            {
                 _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");
-            return result;
+                return "BADLOGIN|";
+            }
+            if (result)
+            {
+                if (string.IsNullOrEmpty(_account.EmailVerifyCode))
+                {
+                    return "UNVERIFIED|" + _account.UserName;
+                }
+                if (_account.isBanned)
+                {
+                    return "ISBANNED|";
+                }
+            }
+            return "SUCCESS|";
         }
         public async Task<string> CreateToken()//onetime short token (khong gui ve refresh token)
         {
-            /// phai setup secret truoc khi thuc hien Open CMD (as admin) => setx SECRET "MinhTC" /M
+            /// phai setup secret truoc khi thuc hien Open CMD (as admin) => example setx SECRET "MINTCHE SUPER LONG KEY FOR JWT" /M
             var signingCredentials = GetSigningCredentials();
             if (signingCredentials.Key == null)
             {

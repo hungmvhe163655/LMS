@@ -89,6 +89,10 @@ namespace Repository
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("fullname");
+                entity.Property(e => e.EmailVerifyCode)
+                    .HasMaxLength(6)
+                    .HasColumnName("EmailVerifyCode");
+                entity.Property(e => e.EmailVerifyCodeAge).HasColumnName("EmailVerifyCodeAge");
                 entity.Property(e => e.Gender).HasColumnName("gender");
                 entity.Property(e => e.isBanned).HasColumnName("isBanned");
                 entity.Property(e => e.isDeleted).HasColumnName("isDeleted");

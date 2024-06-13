@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LMS_BACKEND_MAIN.Migrations
 {
     /// <inheritdoc />
-    public partial class Test : Migration
+    public partial class Test2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,6 +24,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                     verifiedBy = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: false),
                     isBanned = table.Column<bool>(type: "bit", nullable: false),
+                    EmailVerifyCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: true),
+                    EmailVerifyCodeAge = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserRefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserRefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -89,16 +91,17 @@ namespace LMS_BACKEND_MAIN.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Permissions",
+                name: "Permission",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false),
-                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Permissions", x => x.id);
+                    table.PrimaryKey("PK_Permission", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -123,19 +126,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProjectTypes", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Settings",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false),
-                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Settings", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -560,47 +550,27 @@ namespace LMS_BACKEND_MAIN.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectsPermissions",
+                name: "PermissionProject",
                 columns: table => new
                 {
-                    projectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    permissionId = table.Column<int>(type: "int", nullable: false)
+                    PermissionsId = table.Column<int>(type: "int", nullable: false),
+                    ProjectsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectsPermissions", x => new { x.projectId, x.permissionId });
+                    table.PrimaryKey("PK_PermissionProject", x => new { x.PermissionsId, x.ProjectsId });
                     table.ForeignKey(
-                        name: "FK_ProjectsPermissions_Permissions",
-                        column: x => x.permissionId,
-                        principalTable: "Permissions",
-                        principalColumn: "id");
+                        name: "FK_PermissionProject_Permission_PermissionsId",
+                        column: x => x.PermissionsId,
+                        principalTable: "Permission",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProjectsPermissions_Projects",
-                        column: x => x.projectId,
+                        name: "FK_PermissionProject_Projects_ProjectsId",
+                        column: x => x.ProjectsId,
                         principalTable: "Projects",
-                        principalColumn: "id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProjectsSettings",
-                columns: table => new
-                {
-                    projectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    settingId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectsSettings", x => new { x.projectId, x.settingId });
-                    table.ForeignKey(
-                        name: "FK_ProjectsSettings_Projects",
-                        column: x => x.projectId,
-                        principalTable: "Projects",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "FK_ProjectsSettings_Settings",
-                        column: x => x.settingId,
-                        principalTable: "Settings",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -870,9 +840,9 @@ namespace LMS_BACKEND_MAIN.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ab494a47-34ff-4758-ac4f-c98d2623cb87", null, "Teacher", "SUPERVISOR" },
-                    { "c1954e56-5744-4731-9921-64c4417c8c35", null, "LabLead", "LABADMIN" },
-                    { "c40af1dd-685c-48dc-8fe6-bc35ec5b8115", null, "Student", "STUDENT" }
+                    { "355f5fcf-92f6-4ef8-b7c6-28aab481da76", null, "Teacher", "SUPERVISOR" },
+                    { "97f0f3bd-394b-462e-b7b0-0018b129a9db", null, "Student", "STUDENT" },
+                    { "b2ab0e08-6661-4deb-a531-6241b02e1170", null, "LabLead", "LABADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -978,6 +948,11 @@ namespace LMS_BACKEND_MAIN.Migrations
                 column: "notificationTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PermissionProject_ProjectsId",
+                table: "PermissionProject",
+                column: "ProjectsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Projects_projectStatusId",
                 table: "Projects",
                 column: "projectStatusId");
@@ -986,16 +961,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                 name: "IX_Projects_projectTypeId",
                 table: "Projects",
                 column: "projectTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectsPermissions_permissionId",
-                table: "ProjectsPermissions",
-                column: "permissionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectsSettings_settingId",
-                table: "ProjectsSettings",
-                column: "settingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reports_AccountId",
@@ -1137,10 +1102,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                 name: "notificationAccounts");
 
             migrationBuilder.DropTable(
-                name: "ProjectsPermissions");
-
-            migrationBuilder.DropTable(
-                name: "ProjectsSettings");
+                name: "PermissionProject");
 
             migrationBuilder.DropTable(
                 name: "Reports");
@@ -1170,10 +1132,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                 name: "Notifications");
 
             migrationBuilder.DropTable(
-                name: "Permissions");
-
-            migrationBuilder.DropTable(
-                name: "Settings");
+                name: "Permission");
 
             migrationBuilder.DropTable(
                 name: "Schedules");
