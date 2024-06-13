@@ -107,7 +107,7 @@ const LoginForm: React.FC = () => {
         <CardFooter>
           <p>
             Don't have an account?{" "}
-            <Link className="registerLink" to={"/StudentRegister"}>
+            <Link className="registerLink" to={"/register"}>
               Register now
             </Link>
           </p>
