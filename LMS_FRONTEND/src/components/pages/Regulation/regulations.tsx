@@ -2,9 +2,9 @@ const Regulation: React.FC = () => {
   return (
     <div>
       <h1>Regulation Of Laboratory</h1>
-      <p>1. Follow the regulations of the University</p>
-      <p>2. Right purpose</p>
-      <p>3. Maintain cleaniness</p>
+      <h2>1. Follow the regulations of the University</h2>
+      <h2>2. Right purpose</h2>
+      <h2>3. Maintain cleaniness</h2>
     </div>
   );
 };

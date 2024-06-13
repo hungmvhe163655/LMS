@@ -5,6 +5,8 @@ import StudentRegister from "./components/pages/Authentication/StudentRegister/S
 import SupervisorRegisterForm from "./components/pages/Authentication/SupervisorRegister/SupervisorRegister";
 import Register from "./components/pages/Authentication/ChooseRole/ChooseRole";
 import ForgotPassword from "./components/pages/Authentication/ForgotPassword/ForgotPassword";
+import ValidateRollNumber from "./components/pages/Authentication/ValidateStudentRollNumber/ValidateStudentRollNumber";
+import ValidateEmail from "./components/pages/Authentication/ValidateEmail/ValidateEmail";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +29,14 @@ const router = createBrowserRouter([
   {
     path: "/ForgotPassword",
     element: <ForgotPassword />,
+  },
+  {
+    path: "/ValidateRollNumber",
+    element: <ValidateRollNumber />,
+  },
+  {
+    path: "/ValidateEmail",
+    element: <ValidateEmail />,
   },
 ]);
 

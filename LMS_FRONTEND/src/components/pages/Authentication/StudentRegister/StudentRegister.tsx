@@ -1,3 +1,4 @@
+import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,18 +21,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-//FormSchema and Validation
 const FormSchema = z.object({
   email: z.string().min(6, {
-    message: "Email must have more than 6 characters", //This will be shown using FormMessage
+    message: "Email must have more than 6 characters",
   }),
   password: z
     .string()
     .min(6, { message: "Password must have more than 6 characters" }),
   confirmPassword: z.string(),
-
   fullname: z
     .string()
     .min(3, { message: "Fullname must have more than 3 characters" }),
@@ -41,23 +40,28 @@ const FormSchema = z.object({
     .min(9, { message: "Phone number must have more than 9 characters" }),
 });
 
-//LoginForm component
 const RegisterForm: React.FC = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const studentCode = searchParams.get("studentCode");
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
+      fullname: "",
+      supervisor: 0,
+      phonenumber: "",
     },
   });
 
-  //onSubmit
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
-    //Submit Logic
+    // Submit Logic
   }
 
-  //HTML?
   return (
     <div className="registerFormContainer">
       <Card className="card">
@@ -73,6 +77,12 @@ const RegisterForm: React.FC = () => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="w-2/3 space-y-6"
             >
+              {/* Display the student code */}
+              {studentCode && (
+                <div>
+                  <p>Student Code: {studentCode}</p>
+                </div>
+              )}
               {/* Fullname input field */}
               <FormField
                 control={form.control}
@@ -94,7 +104,7 @@ const RegisterForm: React.FC = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email Number</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input placeholder="yourname@fpt.edu.vn" {...field} />
                     </FormControl>
@@ -118,13 +128,13 @@ const RegisterForm: React.FC = () => {
                 )}
               />
 
-              {/* Phone Number Input Field */}
+              {/* Supervisor Input Field */}
               <FormField
                 control={form.control}
                 name="supervisor"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Supervisor ID.</FormLabel>
+                    <FormLabel>Supervisor ID</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="This will later be a combobox when dev has his APIs"
@@ -155,13 +165,13 @@ const RegisterForm: React.FC = () => {
                 )}
               />
 
-              {/* Password Input Field */}
+              {/* Confirm Password Input Field */}
               <FormField
                 control={form.control}
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm password</FormLabel>
+                    <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
