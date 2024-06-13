@@ -12,8 +12,8 @@ using Repository;
 namespace LMS_BACKEND_MAIN.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240609154708_next")]
-    partial class next
+    [Migration("20240612141511_lemao")]
+    partial class lemao
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,7 +50,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)")
@@ -93,6 +92,12 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("UserRefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UserRefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("VerifiedBy")
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("verifiedBy");
@@ -127,14 +132,12 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .IsUnicode(false)
                         .HasColumnType("varchar(1000)")
                         .HasColumnName("content");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("createdBy");
 
@@ -168,7 +171,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("description");
 
@@ -181,7 +183,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasColumnName("lastUsed");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(250)
                         .IsUnicode(false)
                         .HasColumnType("varchar(250)")
@@ -210,7 +211,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
@@ -971,19 +971,19 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8dfd73f5-e9e2-4b79-8a0a-1da884b212a7",
+                            Id = "651869c5-2ee7-46a3-a1d7-89a1f88e0c36",
                             Name = "LabLead",
                             NormalizedName = "LABADMIN"
                         },
                         new
                         {
-                            Id = "a9ec9449-ca5b-4dac-a5ea-99b27965e451",
+                            Id = "21149844-71cf-49ec-9b52-adb2bb357acc",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "19f1dce7-09c9-40b3-9db2-110758429a75",
+                            Id = "3d2823d1-7845-46f5-8d04-31eb118e7dd9",
                             Name = "Teacher",
                             NormalizedName = "SUPERVISOR"
                         });
@@ -1212,7 +1212,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasOne("Entities.Models.Account", "CreatedByUser")
                         .WithMany("Comments")
                         .HasForeignKey("CreatedBy")
-                        .IsRequired()
                         .HasConstraintName("FK_Comments_Accounts");
 
                     b.HasOne("Entities.Models.Comment", "Parent")
