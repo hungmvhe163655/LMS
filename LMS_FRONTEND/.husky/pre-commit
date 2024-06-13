@@ -1,0 +1,7 @@
+
+cd LMS_FRONTEND
+
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npx lint-staged
