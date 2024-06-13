@@ -1,4 +1,5 @@
 ﻿using LMS_BACKEND_MAIN.Presentation.ActionFilters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared;
@@ -19,6 +20,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = service;
         }
         [HttpPost("refreshtoken")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Refresh([FromBody]TokenDTO model)
         {
