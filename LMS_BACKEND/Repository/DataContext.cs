@@ -25,13 +25,13 @@ namespace Repository
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<NotificationAccount> notificationAccounts { get; set; }
         public DbSet<NotificationType> notificationTypes { get; set; }
-        public DbSet<Permission> Permissions { get; set; }
+        //public DbSet<Permission> Permissions { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectStatus> ProjectStatuses { get; set; }
         public DbSet<ProjectType> ProjectTypes { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
-        public DbSet<Setting> Settings { get; set; }
+        //public DbSet<Setting> Settings { get; set; }
         public DbSet<StudentDetail> StudentDetails { get; set; }
         public DbSet<TaskHistory> TaskHistories { get; set; }
         public DbSet<TaskList> TaskLists { get; set; }
@@ -355,7 +355,7 @@ namespace Repository
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_NotificationsAccounts_Notifications");
             });
-
+            /*
             modelBuilder.Entity<Permission>(entity =>
             {
                 entity.Property(e => e.Id)
@@ -368,7 +368,7 @@ namespace Repository
                     .HasMaxLength(255)
                     .HasColumnName("name");
             });
-
+            */
             modelBuilder.Entity<Project>(entity =>
             {
                 entity.Property(e => e.Id)
@@ -398,7 +398,7 @@ namespace Repository
                     .HasForeignKey(d => d.ProjectTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Projects_ProjectTypes");
-
+                /*
                 entity.HasMany(d => d.Permissions).WithMany(p => p.Projects)
                     .UsingEntity<Dictionary<string, object>>(
                         "ProjectsPermission",
@@ -417,7 +417,7 @@ namespace Repository
                             j.IndexerProperty<Guid>("ProjectId").HasColumnName("projectId");
                             j.IndexerProperty<int>("PermissionId").HasColumnName("permissionId");
                         });
-
+                
                 entity.HasMany(d => d.Settings).WithMany(p => p.Projects)
                     .UsingEntity<Dictionary<string, object>>(
                         "ProjectsSetting",
@@ -436,6 +436,7 @@ namespace Repository
                             j.IndexerProperty<Guid>("ProjectId").HasColumnName("projectId");
                             j.IndexerProperty<int>("SettingId").HasColumnName("settingId");
                         });
+                */
             });
 
             modelBuilder.Entity<ProjectStatus>(entity =>
@@ -499,7 +500,7 @@ namespace Repository
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Schedules_Devices");
             });
-
+            /*
             modelBuilder.Entity<Setting>(entity =>
             {
                 entity.Property(e => e.Id)
@@ -512,6 +513,7 @@ namespace Repository
                     .HasMaxLength(255)
                     .HasColumnName("name");
             });
+            */
 
             modelBuilder.Entity<StudentDetail>(entity =>
             {
