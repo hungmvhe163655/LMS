@@ -10,7 +10,7 @@ using Repository;
 var builder = WebApplication.CreateBuilder(args);
 var logger = NLog.LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
 
-var connectionString = builder.Configuration.GetConnectionString("Cnn") ?? throw new InvalidOperationException("Connection string 'Cnn' not found.");
+var connectionString = builder.Configuration.GetConnectionString("LemaoString") ?? throw new InvalidOperationException("Connection string 'Cnn' not found.");
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(connectionString));
 

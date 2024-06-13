@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects.RequestDTO
 {
-    public class StudentRegisterRequestModel
+    public class RegisterRequestModel
     {
         public string? FullName { get; set; }
         [Required(ErrorMessage = "Username is required")]
         public string? UserName { get; set; }
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
-        public Guid SupervisorID { get; set; }
+        public string? VerifiedByUserName { get; set; }
         [Required(ErrorMessage = "Password is required")]
         public string? Password { get; set; }
         public ICollection<string>? Roles { get; init; }
