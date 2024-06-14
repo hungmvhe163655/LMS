@@ -22,11 +22,11 @@ namespace Service
             _mapper = mapper;
         }
 
-        public Account GetUserByName(string userName)
+        public async Task<Account> GetUserByName(string userName)
         {
             try
             {
-                var user = _repository.account.FindByNameAsync(userName, false).Result;
+                var user = await _repository.account.FindByNameAsync(userName, false);
                 return user;
             }catch
             {

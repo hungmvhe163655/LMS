@@ -1,4 +1,5 @@
 ﻿using LMS_BACKEND_MAIN.Presentation.ActionFilters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared;
@@ -27,9 +28,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             try
             {
-                var result = await
-
-           _service.AuthenticationService.RegisterLabLead(model);
+                var result = await _service.AuthenticationService.RegisterLabLead(model);
 
                 if (!result.Succeeded)
                 {
@@ -48,6 +47,36 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 return BadRequest();
 
             }
+        }
+        [HttpPut("ReSendVerifyEmail")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> ReSendVerifyEmail([FromBody] SimpleRequestModel model)
+        {
+            if(model.Propety1 == null)
+            {
+                return BadRequest();
+            }
+            if (await _service.MailService.SendVerifyOtp(model.Propety1, null))
+            {
+                return Ok("New Verify code Has been sent to your email");
+            }
+            return BadRequest();
+        }
+        [HttpPut("VerifyEmail")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> VerifyEmail([FromBody] SimpleRequestModel model)
+        {
+            var email = model.Propety1;
+            var token = model.Propety2;
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(token))
+            {
+                return BadRequest();
+            }
+            if(await _service.AuthenticationService.VerifyEmail(email, token))
+            {
+                return Ok("Success");
+            }
+            return BadRequest("Invalid Token");
         }
         [HttpPost("RegisterSupervisor")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
@@ -105,32 +134,62 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             }
         }
+        [HttpPost("Login-2factor")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> Authenticate2Factor([FromBody] LoginRequestModel model)
+        {
+            try
+            {
+                if( await _service.MailService.VerifyTwoFactorOtp(model.UserName, model.AuCode)){
+                    string outcome = await _service.AuthenticationService.ValidateUser(model);
+                    var Tokendto = await _service.AuthenticationService.CreateToken(true);
+                    return Ok(Tokendto);
+                }
+                return BadRequest();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
         [HttpPost("Login")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestModel model)
         {
             string outcome = await _service.AuthenticationService.ValidateUser(model);
-            
-            if (outcome.Split("|")[0].Equals("BADLOGIN|"))
+            var user = await _service.AccountService.GetUserByName(model.UserName);
+            if (outcome.Split("|")[0].Equals("BADLOGIN"))
             {
                 return Unauthorized("Wrong password or username");
             }
-            if (outcome.Split("|")[0].Equals("UNVERIFIED|"))
+            if (outcome.Split("|")[0].Equals("UNVERIFIED"))
             {
                 return Ok("NeedVerify" + outcome.Split("|")[1]);
             }
-            if (outcome.Split("|")[0].Equals("ISBANNED|"))
+            if (outcome.Split("|")[0].Equals("ISBANNED"))
             {
                 return Ok("Banned");
             }
-            if (outcome.Split("|")[0].Equals("SUCCESS|"))
+            if (outcome.Split("|")[0].Equals("SUCCESS"))
             {
-                var Tokendto = await _service.AuthenticationService.CreateToken(true);
-                return Ok(Tokendto);
+                if(user.TwoFactorEnabled)
+                {
+                    if(await _service.MailService.SendTwoFactorOtp(model.UserName, model.Email))
+                    {
+                        return Ok("Two factor code was sent to your email");
+                    }
+                    return BadRequest("Badrequest");
+                }
+                else
+                {
+                    var Tokendto = await _service.AuthenticationService.CreateToken(true);
+                    return Ok(Tokendto);
+                }
             }
             return BadRequest();
         }
         [HttpPost("Logout")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Logout([FromBody] TokenDTO model)
         {

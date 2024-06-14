@@ -44,8 +44,31 @@ namespace Service
             _roleManager = roleManager;
             _jwtConfiguration = new JwtConfiguration();
             _configuration.Bind(_jwtConfiguration.Section, _jwtConfiguration);
-        }
 
+        }
+        public async Task<bool> VerifyEmail(string email,string token)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                var hold = (user != null && user.EmailVerifyCode != null && user.EmailVerifyCodeAge < DateTime.Now && !user.EmailConfirmed) ? user.EmailVerifyCode : null;
+                if(hold != null)
+                {
+                    if (hold.Equals(token))
+                    {
+                        user.EmailVerifyCode = null;
+                        user.EmailVerifyCodeAge = DateTime.MinValue;
+                        user.EmailConfirmed = true;
+                        await  _userManager.UpdateAsync(user);
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+            }
+            return false;
+        }
         public async Task<IdentityResult> RegisterLabLead(RegisterRequestModel model)
         {
             try
@@ -232,7 +255,7 @@ namespace Service
             }
             if (result)
             {
-                if (string.IsNullOrEmpty(_account.EmailVerifyCode))
+                if (!_account.EmailConfirmed)
                 {
                     return "UNVERIFIED|" + _account.UserName;
                 }
