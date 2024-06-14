@@ -44,18 +44,168 @@ namespace Service
             _roleManager = roleManager;
             _jwtConfiguration = new JwtConfiguration();
             _configuration.Bind(_jwtConfiguration.Section, _jwtConfiguration);
+
         }
-        public async Task<IdentityResult> RegisterStudent(StudentRegisterRequestModel model)
+        public async Task<bool> VerifyEmail(string email,string token)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                var hold = (user != null && user.EmailVerifyCode != null && user.EmailVerifyCodeAge < DateTime.Now && !user.EmailConfirmed) ? user.EmailVerifyCode : null;
+                if(hold != null)
+                {
+                    if (hold.Equals(token))
+                    {
+                        user.EmailVerifyCode = null;
+                        user.EmailVerifyCodeAge = DateTime.MinValue;
+                        user.EmailConfirmed = true;
+                        await  _userManager.UpdateAsync(user);
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+            }
+            return false;
+        }
+        public async Task<IdentityResult> RegisterLabLead(RegisterRequestModel model)
         {
             try
             {
                 var user = _mapper.Map<Account>(model);
-                if (string.IsNullOrEmpty(model.Password))
+
+                if (string.IsNullOrEmpty(model.VerifiedByUserName))
                 {
                     return IdentityResult.Failed();
                 }
+               // var verifier = _userManager.FindByNameAsync(model.VerifiedByUserName);
+
+               // if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
+
+               // var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
+
+               // if (verifierRole == null || !verifierRole.Equals("Teacher")) { return IdentityResult.Failed(); }
+
+                if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
+
                 var rolesToAdd = model.Roles != null ? model.Roles : null;
+
                 var validRoles = new List<string>();
+
+                if (rolesToAdd != null && rolesToAdd.Any()) foreach (var role in rolesToAdd)
+                    {
+                        if (await _roleManager.RoleExistsAsync(role))
+                        {
+                            validRoles.Add(role);
+                        }
+                        else
+                        {
+                            _logger.LogWarning($"{nameof(RegisterLabLead)}Role '{role}' does not exist.");
+                        }
+                    }
+                if (validRoles.Any())
+                {
+                    user.VerifiedBy = null;
+
+                    var result = await _userManager.CreateAsync(user, model.Password);
+
+                    if (result.Errors.Any()) return result;
+
+                    await _userManager.AddToRolesAsync(user, validRoles);
+
+                    return result;
+                }
+                return IdentityResult.Failed();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(RegisterLabLead)}Error During Authentication Process has Occur for LabLead");
+
+                _logger.LogError(ex.Message);
+                
+                return IdentityResult.Failed();
+            }
+        }
+        public async Task<IdentityResult> RegisterSupervisor(RegisterRequestModel model)
+        {
+            try
+            {
+                var user = _mapper.Map<Account>(model);
+
+                if (string.IsNullOrEmpty(model.VerifiedByUserName))
+                {
+                    return IdentityResult.Failed();
+                }
+                var verifier = _userManager.FindByNameAsync(model.VerifiedByUserName);
+
+                if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
+
+                var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
+
+                if (verifierRole == null || !(verifierRole.Equals("LabLead")||verifierRole.Equals("Teacher"))) { return IdentityResult.Failed(); }// sua pham vi role o day
+
+                if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
+
+                var rolesToAdd = model.Roles != null ? model.Roles : null;
+
+                var validRoles = new List<string>();
+
+                if (rolesToAdd != null && rolesToAdd.Any()) foreach (var role in rolesToAdd)
+                    {
+                        if (await _roleManager.RoleExistsAsync(role))
+                        {
+                            validRoles.Add(role);
+                        }
+                        else
+                        {
+                            _logger.LogWarning($"{nameof(RegisterSupervisor)}Role '{role}' does not exist.");
+                        }
+                    }
+                if (validRoles.Any())
+                {
+
+                    user.VerifiedBy = verifier.Result.Id;
+
+                    var result = await _userManager.CreateAsync(user, model.Password);
+
+                    await _userManager.AddToRolesAsync(user, validRoles);
+
+                    return result;
+                }
+                return IdentityResult.Failed();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(RegisterSupervisor)}Error During Authentication Process has Occur for Teacher");
+                _logger.LogError(ex.Message);
+                return IdentityResult.Failed();
+            }
+        }
+        public async Task<IdentityResult> RegisterStudent(RegisterRequestModel model)
+        {
+            try
+            {
+                var user = _mapper.Map<Account>(model);
+
+                if (string.IsNullOrEmpty(model.VerifiedByUserName))
+                {
+                    return IdentityResult.Failed();
+                }
+                var verifier = _userManager.FindByNameAsync(model.VerifiedByUserName);
+
+                if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
+
+                var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
+
+                if (verifierRole == null || !(verifierRole.Equals("LabLead") || verifierRole.Equals("Teacher"))) { return IdentityResult.Failed(); }
+
+                if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
+
+                var rolesToAdd = model.Roles != null ? model.Roles : null;
+
+                var validRoles = new List<string>();
+
                 if (rolesToAdd != null && rolesToAdd.Any()) foreach (var role in rolesToAdd)
                     {
                         if (await _roleManager.RoleExistsAsync(role))
@@ -69,8 +219,13 @@ namespace Service
                     }
                 if (validRoles.Any())
                 {
+
+                    user.VerifiedBy = verifier.Result.Id;
+
                     var result = await _userManager.CreateAsync(user, model.Password);
+
                     await _userManager.AddToRolesAsync(user, validRoles);
+
                     return result;
                 }
                 return IdentityResult.Failed();
@@ -83,23 +238,37 @@ namespace Service
             }
         }
         //////////////////////////////////////// TOKEN AREA  -  DO NOT TOUCH  ///////////////////////////////////////////////////
-        public async Task<bool> ValidateUser(LoginRequestModel userForAuth)
+        public async Task<string> ValidateUser(LoginRequestModel userForAuth)
         {
             /// Tim nguoi dung trong he thong khong nhap ten thi authen loi log vao 
             if (string.IsNullOrEmpty(userForAuth.UserName) || string.IsNullOrEmpty(userForAuth.PassWord))
             {
                 _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Empty user name or password");
-                return false;
+                return "BADLOGIN|";
             }
             _account = await _userManager.FindByNameAsync(userForAuth.UserName);
             var result = (_account != null && await _userManager.CheckPasswordAsync(_account, userForAuth.PassWord));
             if (!result)
+            {
                 _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");
-            return result;
+                return "BADLOGIN|";
+            }
+            if (result)
+            {
+                if (!_account.EmailConfirmed)
+                {
+                    return "UNVERIFIED|" + _account.UserName;
+                }
+                if (_account.isBanned)
+                {
+                    return "ISBANNED|";
+                }
+            }
+            return "SUCCESS|";
         }
         public async Task<string> CreateToken()//onetime short token (khong gui ve refresh token)
         {
-            /// phai setup secret truoc khi thuc hien Open CMD (as admin) => setx SECRET "MinhTC" /M
+            /// phai setup secret truoc khi thuc hien Open CMD (as admin) => example setx SECRET "MINTCHE SUPER LONG KEY FOR JWT" /M
             var signingCredentials = GetSigningCredentials();
             if (signingCredentials.Key == null)
             {
@@ -211,16 +380,20 @@ namespace Service
             _account = user;
             return await CreateToken(false);
         }
-        public async Task<bool> InvalidateToken()
+        public async Task<bool> InvalidateToken(TokenDTO tokenDTO)
         {
-            if(_account == null) return false;
             try
             {
-                _account.UserRefreshToken = null;
-                _account.UserRefreshTokenExpiryTime = DateTime.MinValue;
+                var principal = GetPrincipalFromExpiredToken(tokenDTO.AccessToken);
+                var user = await _userManager.FindByNameAsync(principal.Identity.Name);
+                if(user==null) { return false; }
+                user.UserRefreshToken = null;
+                user.UserRefreshTokenExpiryTime = DateTime.MinValue;
+                await _userManager.UpdateAsync(user);
                 return true;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 _logger.LogError($"Internal error happened at {nameof(InvalidateToken)}: {ex.Message}");
             }
             return false;

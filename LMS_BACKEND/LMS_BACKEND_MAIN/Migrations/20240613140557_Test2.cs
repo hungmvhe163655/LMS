@@ -8,36 +8,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LMS_BACKEND_MAIN.Migrations
 {
     /// <inheritdoc />
-    public partial class next : Migration
+    public partial class Test2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AspNetRoles",
+                name: "Account",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    fullname = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    fullname = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     gender = table.Column<bool>(type: "bit", nullable: false),
                     createdDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     verifiedBy = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: false),
                     isBanned = table.Column<bool>(type: "bit", nullable: false),
+                    EmailVerifyCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: true),
+                    EmailVerifyCodeAge = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserRefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserRefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -55,12 +45,12 @@ namespace LMS_BACKEND_MAIN.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.id);
+                    table.PrimaryKey("PK_Account", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Accounts_Accounts",
                         column: x => x.verifiedBy,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id");
+                        principalTable: "Account",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -68,7 +58,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false),
-                    name = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false)
+                    name = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -101,16 +91,17 @@ namespace LMS_BACKEND_MAIN.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Permissions",
+                name: "Permission",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false),
-                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Permissions", x => x.id);
+                    table.PrimaryKey("PK_Permission", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -138,16 +129,17 @@ namespace LMS_BACKEND_MAIN.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Settings",
+                name: "SystemRole",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false),
-                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Settings", x => x.id);
+                    table.PrimaryKey("PK_SystemRole", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,28 +167,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
+                name: "AccountClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -207,17 +178,17 @@ namespace LMS_BACKEND_MAIN.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.PrimaryKey("PK_AccountClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        name: "FK_AccountClaims_Account_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id",
+                        principalTable: "Account",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserLogins",
+                name: "AccountLogins",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -227,41 +198,17 @@ namespace LMS_BACKEND_MAIN.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.PrimaryKey("PK_AccountLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        name: "FK_AccountLogins_Account_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserRoles",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
+                        principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
+                name: "AccountToken",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -271,12 +218,12 @@ namespace LMS_BACKEND_MAIN.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.PrimaryKey("PK_AccountToken", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        name: "FK_AccountToken_Account_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id",
+                        principalTable: "Account",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -295,8 +242,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                     table.ForeignKey(
                         name: "FK_Folders_Accounts",
                         column: x => x.createdBy,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id");
+                        principalTable: "Account",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -315,8 +262,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                     table.ForeignKey(
                         name: "FK_News_Accounts",
                         column: x => x.createdBy,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id");
+                        principalTable: "Account",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -334,8 +281,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                     table.ForeignKey(
                         name: "FK_StudentDetails_Accounts",
                         column: x => x.accountId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id");
+                        principalTable: "Account",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -345,8 +292,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     deviceStatusId = table.Column<int>(type: "int", nullable: false),
                     ownedBy = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    name = table.Column<string>(type: "varchar(250)", unicode: false, maxLength: 250, nullable: false),
-                    description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    name = table.Column<string>(type: "varchar(250)", unicode: false, maxLength: 250, nullable: true),
+                    description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     lastUsed = table.Column<DateTime>(type: "datetime2", nullable: false),
                     isDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -356,8 +303,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                     table.ForeignKey(
                         name: "FK_Devices_Accounts",
                         column: x => x.ownedBy,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id");
+                        principalTable: "Account",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Devices_DeviceStatuses",
                         column: x => x.deviceStatusId,
@@ -383,8 +330,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                     table.ForeignKey(
                         name: "FK_Notifications_Accounts",
                         column: x => x.createdBy,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id",
+                        principalTable: "Account",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Notifications_NotificationTypes",
@@ -419,6 +366,51 @@ namespace LMS_BACKEND_MAIN.Migrations
                         column: x => x.projectTypeId,
                         principalTable: "ProjectTypes",
                         principalColumn: "id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccountRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AccountRoles_Account_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Account",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AccountRoles_SystemRole_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "SystemRole",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RoleClaims_SystemRole_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "SystemRole",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -502,8 +494,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                     table.ForeignKey(
                         name: "FK_Schedules_Accounts",
                         column: x => x.accountId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id");
+                        principalTable: "Account",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Schedules_Devices",
                         column: x => x.deviceId,
@@ -525,8 +517,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                     table.ForeignKey(
                         name: "FK_NotificationsAccounts_Accounts",
                         column: x => x.accountId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id");
+                        principalTable: "Account",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_NotificationsAccounts_Notifications",
                         column: x => x.notificationId,
@@ -548,8 +540,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                     table.ForeignKey(
                         name: "FK_Members_Accounts",
                         column: x => x.userId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id");
+                        principalTable: "Account",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Members_Projects",
                         column: x => x.projectId,
@@ -558,47 +550,27 @@ namespace LMS_BACKEND_MAIN.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectsPermissions",
+                name: "PermissionProject",
                 columns: table => new
                 {
-                    projectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    permissionId = table.Column<int>(type: "int", nullable: false)
+                    PermissionsId = table.Column<int>(type: "int", nullable: false),
+                    ProjectsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectsPermissions", x => new { x.projectId, x.permissionId });
+                    table.PrimaryKey("PK_PermissionProject", x => new { x.PermissionsId, x.ProjectsId });
                     table.ForeignKey(
-                        name: "FK_ProjectsPermissions_Permissions",
-                        column: x => x.permissionId,
-                        principalTable: "Permissions",
-                        principalColumn: "id");
+                        name: "FK_PermissionProject_Permission_PermissionsId",
+                        column: x => x.PermissionsId,
+                        principalTable: "Permission",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProjectsPermissions_Projects",
-                        column: x => x.projectId,
+                        name: "FK_PermissionProject_Projects_ProjectsId",
+                        column: x => x.ProjectsId,
                         principalTable: "Projects",
-                        principalColumn: "id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProjectsSettings",
-                columns: table => new
-                {
-                    projectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    settingId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectsSettings", x => new { x.projectId, x.settingId });
-                    table.ForeignKey(
-                        name: "FK_ProjectsSettings_Projects",
-                        column: x => x.projectId,
-                        principalTable: "Projects",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "FK_ProjectsSettings_Settings",
-                        column: x => x.settingId,
-                        principalTable: "Settings",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -634,10 +606,10 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     table.PrimaryKey("PK_Reports", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Reports_AspNetUsers_AccountId",
+                        name: "FK_Reports_Account_AccountId",
                         column: x => x.AccountId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id");
+                        principalTable: "Account",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Reports_Schedules",
                         column: x => x.ScheduleId,
@@ -670,8 +642,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                     table.ForeignKey(
                         name: "FK_Tasks_Accounts",
                         column: x => x.assignedTo,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id");
+                        principalTable: "Account",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Tasks_TaskLists",
                         column: x => x.taskListId,
@@ -700,8 +672,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     createdDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    content = table.Column<string>(type: "varchar(1000)", unicode: false, maxLength: 1000, nullable: false),
-                    createdBy = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    content = table.Column<string>(type: "varchar(1000)", unicode: false, maxLength: 1000, nullable: true),
+                    createdBy = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     parentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     taskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -711,8 +683,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                     table.ForeignKey(
                         name: "FK_Comments_Accounts",
                         column: x => x.createdBy,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id");
+                        principalTable: "Account",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Comments_Comments",
                         column: x => x.parentId,
@@ -746,10 +718,10 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     table.PrimaryKey("PK_TaskHistories", x => x.id);
                     table.ForeignKey(
-                        name: "FK_TaskHistories_AspNetUsers_AssignedToUserId",
+                        name: "FK_TaskHistories_Account_AssignedToUserId",
                         column: x => x.AssignedToUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id",
+                        principalTable: "Account",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TaskHistories_TaskPrioties",
@@ -788,8 +760,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                     table.ForeignKey(
                         name: "FK_TasksAccounts_Accounts",
                         column: x => x.accountId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "id");
+                        principalTable: "Account",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_TasksAccounts_Tasks",
                         column: x => x.taskId,
@@ -864,58 +836,46 @@ namespace LMS_BACKEND_MAIN.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
+                table: "SystemRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "19f1dce7-09c9-40b3-9db2-110758429a75", null, "Teacher", "SUPERVISOR" },
-                    { "8dfd73f5-e9e2-4b79-8a0a-1da884b212a7", null, "LabLead", "LABADMIN" },
-                    { "a9ec9449-ca5b-4dac-a5ea-99b27965e451", null, "Student", "STUDENT" }
+                    { "355f5fcf-92f6-4ef8-b7c6-28aab481da76", null, "Teacher", "SUPERVISOR" },
+                    { "97f0f3bd-394b-462e-b7b0-0018b129a9db", null, "Student", "STUDENT" },
+                    { "b2ab0e08-6661-4deb-a531-6241b02e1170", null, "LabLead", "LABADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetRoleClaims_RoleId",
-                table: "AspNetRoleClaims",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserClaims_UserId",
-                table: "AspNetUserClaims",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserLogins_UserId",
-                table: "AspNetUserLogins",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_RoleId",
-                table: "AspNetUserRoles",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                table: "AspNetUsers",
+                table: "Account",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_verifiedBy",
-                table: "AspNetUsers",
+                name: "IX_Account_verifiedBy",
+                table: "Account",
                 column: "verifiedBy");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                table: "AspNetUsers",
+                table: "Account",
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountClaims_UserId",
+                table: "AccountClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountLogins_UserId",
+                table: "AccountLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountRoles_RoleId",
+                table: "AccountRoles",
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_createdBy",
@@ -988,6 +948,11 @@ namespace LMS_BACKEND_MAIN.Migrations
                 column: "notificationTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PermissionProject_ProjectsId",
+                table: "PermissionProject",
+                column: "ProjectsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Projects_projectStatusId",
                 table: "Projects",
                 column: "projectStatusId");
@@ -996,16 +961,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                 name: "IX_Projects_projectTypeId",
                 table: "Projects",
                 column: "projectTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectsPermissions_permissionId",
-                table: "ProjectsPermissions",
-                column: "permissionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectsSettings_settingId",
-                table: "ProjectsSettings",
-                column: "settingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reports_AccountId",
@@ -1019,6 +974,11 @@ namespace LMS_BACKEND_MAIN.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_RoleClaims_RoleId",
+                table: "RoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Schedules_accountId",
                 table: "Schedules",
                 column: "accountId");
@@ -1027,6 +987,13 @@ namespace LMS_BACKEND_MAIN.Migrations
                 name: "IX_Schedules_deviceId",
                 table: "Schedules",
                 column: "deviceId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "SystemRole",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TaskHistories_AssignedToUserId",
@@ -1108,19 +1075,16 @@ namespace LMS_BACKEND_MAIN.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AspNetRoleClaims");
+                name: "AccountClaims");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserClaims");
+                name: "AccountLogins");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserLogins");
+                name: "AccountRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUserTokens");
+                name: "AccountToken");
 
             migrationBuilder.DropTable(
                 name: "Comments");
@@ -1138,13 +1102,13 @@ namespace LMS_BACKEND_MAIN.Migrations
                 name: "notificationAccounts");
 
             migrationBuilder.DropTable(
-                name: "ProjectsPermissions");
-
-            migrationBuilder.DropTable(
-                name: "ProjectsSettings");
+                name: "PermissionProject");
 
             migrationBuilder.DropTable(
                 name: "Reports");
+
+            migrationBuilder.DropTable(
+                name: "RoleClaims");
 
             migrationBuilder.DropTable(
                 name: "StudentDetails");
@@ -1162,22 +1126,19 @@ namespace LMS_BACKEND_MAIN.Migrations
                 name: "TasksLabels");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
                 name: "News");
 
             migrationBuilder.DropTable(
                 name: "Notifications");
 
             migrationBuilder.DropTable(
-                name: "Permissions");
-
-            migrationBuilder.DropTable(
-                name: "Settings");
+                name: "Permission");
 
             migrationBuilder.DropTable(
                 name: "Schedules");
+
+            migrationBuilder.DropTable(
+                name: "SystemRole");
 
             migrationBuilder.DropTable(
                 name: "TaskHistories");
@@ -1213,7 +1174,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                 name: "TaskStatus");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Account");
 
             migrationBuilder.DropTable(
                 name: "Projects");

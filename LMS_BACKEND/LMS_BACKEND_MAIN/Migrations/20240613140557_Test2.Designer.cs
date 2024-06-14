@@ -12,8 +12,8 @@ using Repository;
 namespace LMS_BACKEND_MAIN.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240609154708_next")]
-    partial class next
+    [Migration("20240613140557_Test2")]
+    partial class Test2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,7 +29,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -49,8 +49,16 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("EmailVerifyCode")
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)")
+                        .HasColumnName("EmailVerifyCode");
+
+                    b.Property<DateTime>("EmailVerifyCodeAge")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("EmailVerifyCodeAge");
+
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)")
@@ -93,6 +101,12 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("UserRefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UserRefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("VerifiedBy")
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("verifiedBy");
@@ -117,7 +131,7 @@ namespace LMS_BACKEND_MAIN.Migrations
 
                     b.HasIndex("VerifiedBy");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Account", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Comment", b =>
@@ -127,14 +141,12 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .IsUnicode(false)
                         .HasColumnType("varchar(1000)")
                         .HasColumnName("content");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("createdBy");
 
@@ -168,7 +180,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("description");
 
@@ -181,7 +192,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasColumnName("lastUsed");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(250)
                         .IsUnicode(false)
                         .HasColumnType("varchar(250)")
@@ -210,7 +220,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
@@ -508,24 +517,22 @@ namespace LMS_BACKEND_MAIN.Migrations
             modelBuilder.Entity("Entities.Models.Permission", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
-                        .HasColumnName("description");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("name");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permission");
                 });
 
             modelBuilder.Entity("Entities.Models.Project", b =>
@@ -683,29 +690,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasIndex("DeviceId");
 
                     b.ToTable("Schedules");
-                });
-
-            modelBuilder.Entity("Entities.Models.Setting", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
-                        .HasColumnName("description");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("Entities.Models.StudentDetail", b =>
@@ -966,24 +950,24 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("SystemRole", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = "8dfd73f5-e9e2-4b79-8a0a-1da884b212a7",
+                            Id = "b2ab0e08-6661-4deb-a531-6241b02e1170",
                             Name = "LabLead",
                             NormalizedName = "LABADMIN"
                         },
                         new
                         {
-                            Id = "a9ec9449-ca5b-4dac-a5ea-99b27965e451",
+                            Id = "97f0f3bd-394b-462e-b7b0-0018b129a9db",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "19f1dce7-09c9-40b3-9db2-110758429a75",
+                            Id = "355f5fcf-92f6-4ef8-b7c6-28aab481da76",
                             Name = "Teacher",
                             NormalizedName = "SUPERVISOR"
                         });
@@ -1011,7 +995,7 @@ namespace LMS_BACKEND_MAIN.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("RoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -1036,7 +1020,7 @@ namespace LMS_BACKEND_MAIN.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("AccountClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -1058,7 +1042,7 @@ namespace LMS_BACKEND_MAIN.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("AccountLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -1073,7 +1057,7 @@ namespace LMS_BACKEND_MAIN.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("AccountRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -1092,41 +1076,22 @@ namespace LMS_BACKEND_MAIN.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("AccountToken", (string)null);
                 });
 
-            modelBuilder.Entity("ProjectsPermission", b =>
+            modelBuilder.Entity("PermissionProject", b =>
                 {
-                    b.Property<Guid>("ProjectId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("projectId");
+                    b.Property<int>("PermissionsId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("PermissionId")
-                        .HasColumnType("int")
-                        .HasColumnName("permissionId");
+                    b.Property<Guid>("ProjectsId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ProjectId", "PermissionId");
+                    b.HasKey("PermissionsId", "ProjectsId");
 
-                    b.HasIndex("PermissionId");
+                    b.HasIndex("ProjectsId");
 
-                    b.ToTable("ProjectsPermissions", (string)null);
-                });
-
-            modelBuilder.Entity("ProjectsSetting", b =>
-                {
-                    b.Property<Guid>("ProjectId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("projectId");
-
-                    b.Property<int>("SettingId")
-                        .HasColumnType("int")
-                        .HasColumnName("settingId");
-
-                    b.HasKey("ProjectId", "SettingId");
-
-                    b.HasIndex("SettingId");
-
-                    b.ToTable("ProjectsSettings", (string)null);
+                    b.ToTable("PermissionProject");
                 });
 
             modelBuilder.Entity("TaskHistoriesLabels", b =>
@@ -1212,7 +1177,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasOne("Entities.Models.Account", "CreatedByUser")
                         .WithMany("Comments")
                         .HasForeignKey("CreatedBy")
-                        .IsRequired()
                         .HasConstraintName("FK_Comments_Accounts");
 
                     b.HasOne("Entities.Models.Comment", "Parent")
@@ -1580,34 +1544,19 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjectsPermission", b =>
+            modelBuilder.Entity("PermissionProject", b =>
                 {
                     b.HasOne("Entities.Models.Permission", null)
                         .WithMany()
-                        .HasForeignKey("PermissionId")
-                        .IsRequired()
-                        .HasConstraintName("FK_ProjectsPermissions_Permissions");
+                        .HasForeignKey("PermissionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Entities.Models.Project", null)
                         .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .IsRequired()
-                        .HasConstraintName("FK_ProjectsPermissions_Projects");
-                });
-
-            modelBuilder.Entity("ProjectsSetting", b =>
-                {
-                    b.HasOne("Entities.Models.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .IsRequired()
-                        .HasConstraintName("FK_ProjectsSettings_Projects");
-
-                    b.HasOne("Entities.Models.Setting", null)
-                        .WithMany()
-                        .HasForeignKey("SettingId")
-                        .IsRequired()
-                        .HasConstraintName("FK_ProjectsSettings_Settings");
+                        .HasForeignKey("ProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TaskHistoriesLabels", b =>
