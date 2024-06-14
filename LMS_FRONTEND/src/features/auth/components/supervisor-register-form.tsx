@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -9,24 +10,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
+import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
 
-//FormSchema and Validation
+// FormSchema and Validation
 const FormSchema = z.object({
   email: z.string().min(6, {
-    message: "Email must have more than 6 characters", //This will be shown using FormMessage
+    message: "Email must have more than 6 characters", // This will be shown using FormMessage
   }),
   password: z
     .string()
@@ -36,14 +35,13 @@ const FormSchema = z.object({
   fullname: z
     .string()
     .min(3, { message: "Fullname must have more than 3 characters" }),
-  supervisor: z.number(),
   phonenumber: z
     .string()
     .min(9, { message: "Phone number must have more than 9 characters" }),
 });
 
-//LoginForm component
-const RegisterForm: React.FC = () => {
+// LoginForm component
+function SupervisorRegisterForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -52,18 +50,18 @@ const RegisterForm: React.FC = () => {
     },
   });
 
-  //onSubmit
+  // onSubmit
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
-    //Submit Logic
+    // Submit Logic
   }
 
-  //HTML?
+  // HTML?
   return (
     <div className="registerFormContainer">
       <Card className="card">
         <CardHeader>
-          <CardTitle>Register</CardTitle>
+          <CardTitle>Registering Account For Supervisor</CardTitle>
           <CardDescription>
             Welcome to SAP Lab Management System
           </CardDescription>
@@ -119,24 +117,6 @@ const RegisterForm: React.FC = () => {
                 )}
               />
 
-              {/* Phone Number Input Field */}
-              <FormField
-                control={form.control}
-                name="supervisor"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Supervisor ID.</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="This will later be a combobox when dev has his APIs"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
               {/* Password Input Field */}
               <FormField
                 control={form.control}
@@ -174,22 +154,30 @@ const RegisterForm: React.FC = () => {
                   </FormItem>
                 )}
               />
-
+              <div className="flex items-center space-x-2">
+                <Checkbox id="terms" />
+                <label
+                  htmlFor="terms"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  I agree with Regulations Of SAP Laboratory.
+                </label>
+              </div>
               <Button type="submit">Submit</Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter>
           <p>
-            Don't have an account?{" "}
-            <Link className="registerLink" to={"/StudentRegister"}>
-              Register now
+            Already have an account?{" "}
+            <Link className="registerLink" to="/">
+              Login Here!
             </Link>
           </p>
         </CardFooter>
       </Card>{" "}
     </div>
   );
-};
+}
 
-export default RegisterForm;
+export default SupervisorRegisterForm;

@@ -23,10 +23,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    },
-
-    "jsx": "react-jsx"
+    }
   },
-  "include": ["src"],
+  "include": [".eslintrc.cjs", "src", "tailwind.config.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

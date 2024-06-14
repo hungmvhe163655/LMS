@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -14,28 +15,25 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
-import "./login.css";
 
-//FormSchema and Validation
+// FormSchema and Validation
 const FormSchema = z.object({
   emailOrRoll: z.string().min(6, {
-    message: "Email or roll number must have more than 6 characters", //This will be shown using FormMessage
+    message: "Email or roll number must have more than 6 characters", // This will be shown using FormMessage
   }),
   password: z
     .string()
     .min(6, { message: "Password must have more than 6 characters" }),
 });
 
-//LoginForm component
-const LoginForm: React.FC = () => {
+// LoginForm component
+function LoginForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -44,13 +42,13 @@ const LoginForm: React.FC = () => {
     },
   });
 
-  //onSubmit
+  // onSubmit
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
-    //Submit Logic
+    // Submit Logic
   }
 
-  //HTML?
+  // HTML?
   return (
     <div className="loginFormContainer">
       <Card className="card">
@@ -107,15 +105,15 @@ const LoginForm: React.FC = () => {
         </CardContent>
         <CardFooter>
           <p>
-            Don't have an account?{" "}
-            <Link className="registerLink" to={"/StudentRegister"}>
+            Don t have an account?{" "}
+            <Link className="registerLink" to={"/register"}>
               Register now
             </Link>
           </p>
         </CardFooter>
-      </Card>{" "}
+      </Card>
     </div>
   );
-};
+}
 
 export default LoginForm;
