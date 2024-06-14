@@ -46,6 +46,15 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("EmailVerifyCode")
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)")
+                        .HasColumnName("EmailVerifyCode");
+
+                    b.Property<DateTime>("EmailVerifyCodeAge")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("EmailVerifyCodeAge");
+
                     b.Property<string>("FullName")
                         .HasMaxLength(255)
                         .IsUnicode(false)
@@ -505,24 +514,22 @@ namespace LMS_BACKEND_MAIN.Migrations
             modelBuilder.Entity("Entities.Models.Permission", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
-                        .HasColumnName("description");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("name");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permission");
                 });
 
             modelBuilder.Entity("Entities.Models.Project", b =>
@@ -680,29 +687,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasIndex("DeviceId");
 
                     b.ToTable("Schedules");
-                });
-
-            modelBuilder.Entity("Entities.Models.Setting", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
-                        .HasColumnName("description");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("Entities.Models.StudentDetail", b =>
@@ -968,19 +952,19 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c1954e56-5744-4731-9921-64c4417c8c35",
+                            Id = "b2ab0e08-6661-4deb-a531-6241b02e1170",
                             Name = "LabLead",
                             NormalizedName = "LABADMIN"
                         },
                         new
                         {
-                            Id = "c40af1dd-685c-48dc-8fe6-bc35ec5b8115",
+                            Id = "97f0f3bd-394b-462e-b7b0-0018b129a9db",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "ab494a47-34ff-4758-ac4f-c98d2623cb87",
+                            Id = "355f5fcf-92f6-4ef8-b7c6-28aab481da76",
                             Name = "Teacher",
                             NormalizedName = "SUPERVISOR"
                         });
@@ -1092,38 +1076,19 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.ToTable("AccountToken", (string)null);
                 });
 
-            modelBuilder.Entity("ProjectsPermission", b =>
+            modelBuilder.Entity("PermissionProject", b =>
                 {
-                    b.Property<Guid>("ProjectId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("projectId");
+                    b.Property<int>("PermissionsId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("PermissionId")
-                        .HasColumnType("int")
-                        .HasColumnName("permissionId");
+                    b.Property<Guid>("ProjectsId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ProjectId", "PermissionId");
+                    b.HasKey("PermissionsId", "ProjectsId");
 
-                    b.HasIndex("PermissionId");
+                    b.HasIndex("ProjectsId");
 
-                    b.ToTable("ProjectsPermissions", (string)null);
-                });
-
-            modelBuilder.Entity("ProjectsSetting", b =>
-                {
-                    b.Property<Guid>("ProjectId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("projectId");
-
-                    b.Property<int>("SettingId")
-                        .HasColumnType("int")
-                        .HasColumnName("settingId");
-
-                    b.HasKey("ProjectId", "SettingId");
-
-                    b.HasIndex("SettingId");
-
-                    b.ToTable("ProjectsSettings", (string)null);
+                    b.ToTable("PermissionProject");
                 });
 
             modelBuilder.Entity("TaskHistoriesLabels", b =>
@@ -1576,34 +1541,19 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjectsPermission", b =>
+            modelBuilder.Entity("PermissionProject", b =>
                 {
                     b.HasOne("Entities.Models.Permission", null)
                         .WithMany()
-                        .HasForeignKey("PermissionId")
-                        .IsRequired()
-                        .HasConstraintName("FK_ProjectsPermissions_Permissions");
+                        .HasForeignKey("PermissionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Entities.Models.Project", null)
                         .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .IsRequired()
-                        .HasConstraintName("FK_ProjectsPermissions_Projects");
-                });
-
-            modelBuilder.Entity("ProjectsSetting", b =>
-                {
-                    b.HasOne("Entities.Models.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .IsRequired()
-                        .HasConstraintName("FK_ProjectsSettings_Projects");
-
-                    b.HasOne("Entities.Models.Setting", null)
-                        .WithMany()
-                        .HasForeignKey("SettingId")
-                        .IsRequired()
-                        .HasConstraintName("FK_ProjectsSettings_Settings");
+                        .HasForeignKey("ProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TaskHistoriesLabels", b =>

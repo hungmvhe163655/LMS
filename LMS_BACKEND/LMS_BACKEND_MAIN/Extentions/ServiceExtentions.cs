@@ -8,6 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Service;
 using Service.Contracts;
+using System.Net.Mail;
+using System.Net;
 using System.Text;
 
 namespace LMS_BACKEND_MAIN.Extentions
@@ -68,7 +70,36 @@ namespace LMS_BACKEND_MAIN.Extentions
                 };
             });
         }
+        public static void ConfigureSmtpClient(this IServiceCollection services)
+        {
+            services.AddTransient<SmtpClient>(serviceProvider =>
+            {
+                var hold = Environment.GetEnvironmentVariable("EMAILADMIN");
+                if (hold == null)
+                {
+                    throw new InvalidOperationException("EMAILADMIN environment variable not set.");
+                }
 
+                string[] parts = hold.Split('/');
+                if (parts.Length != 4)
+                {
+                    throw new InvalidOperationException("Invalid EMAILADMIN environment variable format.");
+                }
+
+                string _gmailsend = parts[0];
+                string _gmailpassword = parts[1];
+                int _port = Convert.ToInt32(parts[2]);
+                string _apppassword = parts[3];
+
+                var client = new SmtpClient("smtp.gmail.com", _port)
+                {
+                    Credentials = new NetworkCredential(_gmailsend, _apppassword),
+                    EnableSsl = true
+                };
+
+                return client;
+            });
+        }
         public static void ConfigureLoggerService(this IServiceCollection services) =>
                 services.AddSingleton<ILoggerManager, LoggerManager>();
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>

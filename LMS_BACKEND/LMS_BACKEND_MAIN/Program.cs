@@ -31,6 +31,8 @@ builder.Services.ConfigureIISIntegration();
 
 builder.Services.ConfigureLoggerService();
 
+builder.Services.ConfigureSmtpClient();
+
 builder.Services.ConfigureJWT(builder.Configuration);
 
 builder.Services.AddJwtConfiguration(builder.Configuration);

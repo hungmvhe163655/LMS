@@ -15,7 +15,7 @@ namespace Service.Contracts
         Task<IdentityResult> RegisterSupervisor(RegisterRequestModel model);
         Task<IdentityResult> RegisterLabLead(RegisterRequestModel model);
         Task<IdentityResult> RegisterStudent(RegisterRequestModel studentRegisterRequestModel);
-        Task<bool> ValidateUser(LoginRequestModel loginRequestModel);
+        Task<string> ValidateUser(LoginRequestModel loginRequestModel);
         Task<string> CreateToken();
         Task<TokenDTO> CreateToken(bool populateExpiration);
         Task<TokenDTO> RefreshToken(TokenDTO tokenDTO);
