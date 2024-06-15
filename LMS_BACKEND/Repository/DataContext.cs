@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Repository.Configuration;
@@ -24,13 +25,13 @@ namespace Repository
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<NotificationAccount> notificationAccounts { get; set; }
         public DbSet<NotificationType> notificationTypes { get; set; }
-        public DbSet<Permission> Permissions { get; set; }
+        //public DbSet<Permission> Permissions { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectStatus> ProjectStatuses { get; set; }
         public DbSet<ProjectType> ProjectTypes { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
-        public DbSet<Setting> Settings { get; set; }
+        //public DbSet<Setting> Settings { get; set; }
         public DbSet<StudentDetail> StudentDetails { get; set; }
         public DbSet<TaskHistory> TaskHistories { get; set; }
         public DbSet<TaskList> TaskLists { get; set; }
@@ -42,17 +43,56 @@ namespace Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            /*
+            modelBuilder.Entity<IdentityUser>(entity =>
+            {
+                entity.ToTable("Account");
+                entity.Property(e => e.Id).HasColumnName("Id");
+            });
+            */
 
+            modelBuilder.Entity<IdentityUserRole<string>>(entity =>
+            {
+                entity.ToTable("AccountRoles");
+            });
+
+            modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
+            {
+                entity.ToTable("AccountLogins");
+            });
+
+            modelBuilder.Entity<IdentityUserClaim<string>>(entity =>
+            {
+                entity.ToTable("AccountClaims");
+            });
+
+            modelBuilder.Entity<IdentityRole>(entity =>
+            {
+                entity.ToTable("SystemRole");
+            });
+            modelBuilder.Entity<IdentityRoleClaim<string>>(entity =>
+            {
+                entity.ToTable("RoleClaims");
+            });
+            modelBuilder.Entity<IdentityUserToken<string>>(entity =>
+            {
+                entity.ToTable("AccountToken");
+            });
             modelBuilder.Entity<Account>(entity =>
             {
+                entity.ToTable("Account");
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
                 entity.Property(e => e.CreatedDate).HasColumnName("createdDate");
                 entity.Property(e => e.FullName)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("fullname");
+                entity.Property(e => e.EmailVerifyCode)
+                    .HasMaxLength(6)
+                    .HasColumnName("EmailVerifyCode");
+                entity.Property(e => e.EmailVerifyCodeAge).HasColumnName("EmailVerifyCodeAge");
                 entity.Property(e => e.Gender).HasColumnName("gender");
                 entity.Property(e => e.isBanned).HasColumnName("isBanned");
                 entity.Property(e => e.isDeleted).HasColumnName("isDeleted");
@@ -319,7 +359,7 @@ namespace Repository
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_NotificationsAccounts_Notifications");
             });
-
+            /*
             modelBuilder.Entity<Permission>(entity =>
             {
                 entity.Property(e => e.Id)
@@ -332,7 +372,7 @@ namespace Repository
                     .HasMaxLength(255)
                     .HasColumnName("name");
             });
-
+            */
             modelBuilder.Entity<Project>(entity =>
             {
                 entity.Property(e => e.Id)
@@ -362,7 +402,7 @@ namespace Repository
                     .HasForeignKey(d => d.ProjectTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Projects_ProjectTypes");
-
+                /*
                 entity.HasMany(d => d.Permissions).WithMany(p => p.Projects)
                     .UsingEntity<Dictionary<string, object>>(
                         "ProjectsPermission",
@@ -381,7 +421,7 @@ namespace Repository
                             j.IndexerProperty<Guid>("ProjectId").HasColumnName("projectId");
                             j.IndexerProperty<int>("PermissionId").HasColumnName("permissionId");
                         });
-
+                
                 entity.HasMany(d => d.Settings).WithMany(p => p.Projects)
                     .UsingEntity<Dictionary<string, object>>(
                         "ProjectsSetting",
@@ -400,6 +440,7 @@ namespace Repository
                             j.IndexerProperty<Guid>("ProjectId").HasColumnName("projectId");
                             j.IndexerProperty<int>("SettingId").HasColumnName("settingId");
                         });
+                */
             });
 
             modelBuilder.Entity<ProjectStatus>(entity =>
@@ -463,7 +504,7 @@ namespace Repository
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Schedules_Devices");
             });
-
+            /*
             modelBuilder.Entity<Setting>(entity =>
             {
                 entity.Property(e => e.Id)
@@ -476,6 +517,7 @@ namespace Repository
                     .HasMaxLength(255)
                     .HasColumnName("name");
             });
+            */
 
             modelBuilder.Entity<StudentDetail>(entity =>
             {

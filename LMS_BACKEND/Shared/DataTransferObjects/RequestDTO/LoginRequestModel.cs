@@ -14,5 +14,6 @@ namespace Shared.DataTransferObjects.RequestDTO
         public string? UserName { get; set; }
         [Required(ErrorMessage = "Password is Required")]
         public string? PassWord { get; set; }
+        public string? AuCode { get;set; }
     }
 }

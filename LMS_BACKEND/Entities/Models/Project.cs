@@ -33,7 +33,7 @@ namespace Entities.Models
 
         public virtual ICollection<Permission> Permissions { get; set; } = new List<Permission>();
 
-        public virtual ICollection<Setting> Settings { get; set; } = new List<Setting>();
+        //public virtual ICollection<Setting> Settings { get; set; } = new List<Setting>();
     }
 
 }
