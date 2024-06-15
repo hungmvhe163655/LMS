@@ -9,6 +9,8 @@ namespace Service.Contracts
 {
     public interface IMailService
     {
+        Task<bool> VerifyTwoFactorOtp(string username, string token);
+        Task<bool> SendTwoFactorOtp(string username, string? email);
         Task<bool> SendMailToUser(string username, string? email);
         Task<bool> SendVerifyOtp(string username, string? email);
     }

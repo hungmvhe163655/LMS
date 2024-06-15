@@ -22,16 +22,25 @@ namespace Service
             _mapper = mapper;
         }
 
-        public Account GetUserByName(string userName)
+        public async Task<Account> GetUserByName(string userName)
         {
             try
             {
-                var user = _repository.account.FindByNameAsync(userName, false).Result;
+                var user = await _repository.account.FindByNameAsync(userName, false);
                 return user;
             }catch
             {
                 throw;
             }
+        }
+        public async Task<IEnumerable<Account>> GetVerifierAccounts(string username)
+        {
+            try
+            {
+                var user = await _repository.account.FindByVerifierAsync(username, false);
+                return  _repository.account.GetByCondition(entity => entity.VerifiedBy.Equals(user.First().Id), false).ToList();
+            }
+            catch { throw; }
         }
     }
 }

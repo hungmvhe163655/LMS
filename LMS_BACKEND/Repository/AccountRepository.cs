@@ -88,5 +88,10 @@ namespace Repository
             }
             return false;
         }
+
+        public Task<IQueryable<Account>> FindByVerifierAsync(string userName, bool Trackable)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

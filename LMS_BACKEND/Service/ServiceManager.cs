@@ -3,6 +3,7 @@ using Contracts.Interfaces;
 using Entities.ConfigurationModels;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Service.Contracts;
@@ -28,11 +29,12 @@ namespace Service
             UserManager<Account> userManager,
             RoleManager<IdentityRole> roleManager,
             SmtpClient client,
-            IConfiguration configuration) 
+            IConfiguration configuration,
+            IMemoryCache memoryCache) 
         {
             _accountService = new Lazy<IAccountService>(() => new AccountService(repositoryManager, logger,mapper));
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper,userManager,configuration,roleManager));
-            _mailService = new Lazy<IMailService>(() => new MailService(logger,client,userManager));
+            _mailService = new Lazy<IMailService>(() => new MailService(logger,client,userManager,memoryCache));
         }
         public IAccountService AccountService => _accountService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;

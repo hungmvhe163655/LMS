@@ -27,6 +27,8 @@ builder.Services.ConfigureServiceManager();
 
 builder.Services.ConfigureCor();
 
+builder.Services.AddMemoryCache();
+
 builder.Services.ConfigureIISIntegration();
 
 builder.Services.ConfigureLoggerService();
