@@ -33,5 +33,14 @@ namespace Service
                 throw;
             }
         }
+        public async Task<IEnumerable<Account>> GetVerifierAccounts(string username)
+        {
+            try
+            {
+                var user = await _repository.account.FindByVerifierAsync(username, false);
+                return  _repository.account.GetByCondition(entity => entity.VerifiedBy.Equals(user.First().Id), false).ToList();
+            }
+            catch { throw; }
+        }
     }
 }

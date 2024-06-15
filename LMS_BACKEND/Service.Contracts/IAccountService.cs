@@ -10,5 +10,6 @@ namespace Service.Contracts
     public interface IAccountService
     {
         Task<Account> GetUserByName(string userName);
+        Task<IEnumerable<Account>> GetVerifierAccounts(string userName);
     }
 }

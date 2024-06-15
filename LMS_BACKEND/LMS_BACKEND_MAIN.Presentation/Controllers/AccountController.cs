@@ -17,14 +17,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = service;
         }
-        [HttpGet]
+        [HttpGet("GetVerifierAccount")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult Get(string userName)
         {
             try
             {
                 var user =
-                _service.AccountService.GetUserByName(userName);
-                return Ok(user);
+                _service.AccountService.GetVerifierAccounts(userName);
+                return Ok(new { Status = "success",Value = user});
             }
             catch
             {
