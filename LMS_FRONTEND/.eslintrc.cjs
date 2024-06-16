@@ -45,7 +45,7 @@ module.exports = {
       ],
       rules: {
         'import/no-cycle': 'error',
-        'linebreak-style': ['error', 'unix'],
+        'linebreak-style': 0,
         'react/prop-types': 'off',
         'import/order': [
           'error',
@@ -60,7 +60,6 @@ module.exports = {
         'import/no-named-as-default': 'off',
         'react/react-in-jsx-scope': 'off',
         'jsx-a11y/anchor-is-valid': 'off',
-        '@typescript-eslint/no-unused-vars': ['error'],
         '@typescript-eslint/explicit-function-return-type': ['off'],
         '@typescript-eslint/explicit-module-boundary-types': ['off'],
         '@typescript-eslint/no-empty-function': ['off'],
@@ -75,8 +74,6 @@ module.exports = {
             ignoreMiddleExtensions: true
           }
         ],
-        'react/react-in-jsx-scope': 'off',
-        'react/prop-types': 'off',
         'no-unused-vars': 'off',
         '@typescript-eslint/no-unused-vars': [
           'error',
