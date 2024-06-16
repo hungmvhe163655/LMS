@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// import { useState } from 'react';
+import React from 'react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -20,9 +21,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
-
-const validCode = '012345';
+// import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 
 // FormSchema and Validation
 const FormSchema = z.object({
@@ -32,8 +31,8 @@ const FormSchema = z.object({
 });
 
 const ValidateEmail: React.FC = () => {
-  const [isOTPSent, setIsOTPSent] = useState(false);
-  const [otp, setOtp] = useState(Array(6).fill(''));
+  // const [isOTPSent, setIsOTPSent] = useState(false);
+  // const [otp, setOtp] = useState(Array(6).fill(''));
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -42,25 +41,25 @@ const ValidateEmail: React.FC = () => {
     }
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-    setIsOTPSent(true);
-  }
+  // function onSubmit(data: z.infer<typeof FormSchema>) {
+  //   console.log(data);
+  //   setIsOTPSent(true);
+  // }
 
-  function handleOTPChange(index: number, value: string) {
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-  }
+  // function handleOTPChange(index: number, value: string) {
+  //   const newOtp = [...otp];
+  //   newOtp[index] = value;
+  //   setOtp(newOtp);
+  // }
 
-  function handleOTPSubmit() {
-    const enteredCode = otp.join('');
-    if (enteredCode === validCode) {
-      alert('OTP is correct');
-    } else {
-      alert('OTP is incorrect');
-    }
-  }
+  // function handleOTPSubmit() {
+  //   const enteredCode = otp.join('');
+  //   if (enteredCode === validCode) {
+  //     alert('OTP is correct');
+  //   } else {
+  //     alert('OTP is incorrect');
+  //   }
+  // }
 
   return (
     <div>
@@ -71,7 +70,10 @@ const ValidateEmail: React.FC = () => {
         </CardHeader>
         <CardContent className='card-content'>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='w-2/3 space-y-6'>
+            <form
+              // onSubmit={form.handleSubmit(onSubmit)}
+              className='w-2/3 space-y-6'
+            >
               {/* Email or Phone Number Input Field */}
               <FormField
                 control={form.control}
@@ -90,7 +92,7 @@ const ValidateEmail: React.FC = () => {
             </form>
           </Form>
 
-          {isOTPSent && (
+          {/* {isOTPSent && (
             <div>
               <InputOTP maxLength={6} onChange={(value, index) => handleOTPChange(index, value)}>
                 <InputOTPGroup>
@@ -104,7 +106,7 @@ const ValidateEmail: React.FC = () => {
               </InputOTP>
               <Button onClick={handleOTPSubmit}>Verify OTP</Button>
             </div>
-          )}
+          )} */}
         </CardContent>
         <CardFooter></CardFooter>
       </Card>

@@ -1,17 +1,17 @@
 import { Link } from 'react-router-dom';
 
-function Register() {
+function ChooseRoleRegister() {
   return (
     <div className='register-container'>
       <div className='button-container'>
-        <Link to='/SupervisorRegister'>
+        <Link to='/auth/validate-roll-number'>
           <img
             src='src\assets\Supervisor Button.png'
             alt='Supervisor Register'
             className='register-button'
           />
         </Link>
-        <Link to='/ValidateRollNumber'>
+        <Link to='/register/student'>
           <img
             src='src\assets\Student Button.png'
             alt='Student Register'
@@ -23,4 +23,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default ChooseRoleRegister;

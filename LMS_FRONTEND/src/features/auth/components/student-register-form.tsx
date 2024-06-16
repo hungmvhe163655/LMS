@@ -34,7 +34,7 @@ const FormSchema = z.object({
   phonenumber: z.string().min(9, { message: 'Phone number must have more than 9 characters' })
 });
 
-const RegisterForm: React.FC = () => {
+const StudentRegisterForm: React.FC = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const studentCode = searchParams.get('studentCode');
@@ -191,4 +191,4 @@ const RegisterForm: React.FC = () => {
   );
 };
 
-export default RegisterForm;
+export default StudentRegisterForm;
