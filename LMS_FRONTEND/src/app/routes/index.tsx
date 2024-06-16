@@ -74,5 +74,13 @@ export const createRouter = (queryClient: QueryClient) =>
         const { CreateNewsRoute } = await import('./news/create-news');
         return { Component: CreateNewsRoute };
       }
+    },
+    {
+      path: '/student/dashboard',
+      lazy: async () => {
+        queryClient;
+        const { StudentDashboardRoute } = await import('./student/student-dashboard');
+        return { Component: StudentDashboardRoute };
+      }
     }
   ]);
