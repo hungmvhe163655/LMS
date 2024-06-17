@@ -1,6 +1,12 @@
 import { QueryClient } from '@tanstack/react-query';
 import { createBrowserRouter } from 'react-router-dom';
 
+import EmailRoute from './profile/email';
+import OverallRoute from './profile/overall';
+import PasswordRoute from './profile/password';
+import PhoneNumberRoute from './profile/phone-number';
+import TwoFactorRoute from './profile/two-factor';
+
 export const createRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
     {
@@ -78,9 +84,12 @@ export const createRouter = (queryClient: QueryClient) =>
     {
       path: '/student/dashboard',
       lazy: async () => {
-        queryClient;
         const { StudentDashboardRoute } = await import('./student/student-dashboard');
         return { Component: StudentDashboardRoute };
       }
+    },
+    {
+      path: 'profile',
+      children: [OverallRoute, EmailRoute, PasswordRoute, PhoneNumberRoute, TwoFactorRoute]
     }
   ]);
