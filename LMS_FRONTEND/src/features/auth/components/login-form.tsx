@@ -96,7 +96,7 @@ function LoginForm() {
         <CardFooter>
           <p>
             Don t have an account?{' '}
-            <Link className='registerLink' to={'/register'}>
+            <Link className='registerLink' to={'/register/choose-role'}>
               Register now
             </Link>
           </p>

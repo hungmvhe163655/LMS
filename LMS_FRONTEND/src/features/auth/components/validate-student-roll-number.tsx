@@ -39,7 +39,7 @@ const ValidateRollNumber: React.FC = () => {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
     // Navigate to StudentRegister with student code as a query parameter
-    navigate(`/StudentRegister?studentCode=${data.studentCode}`);
+    navigate(`/register/student?studentCode=${data.studentCode}`);
   }
 
   return (
