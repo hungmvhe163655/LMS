@@ -1,0 +1,11 @@
+{
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "LemaoString": "server=(local);database=LLLLLLLLLLLLLLLLLLLLLLLLL;uid=sa;pwd=123;TrustServerCertificate=true"
+  },
+  "JwtSettings": {
+    "validIssuer": "MinhTC",
+    "validAudience": "https://localhost:5002",
+    "expires": 10
+  }
+}
