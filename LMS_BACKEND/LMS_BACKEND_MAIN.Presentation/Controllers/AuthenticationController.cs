@@ -6,6 +6,7 @@ using Shared;
 using Shared.DataTransferObjects.RequestDTO;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,7 +53,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ReSendVerifyEmail([FromBody] SimpleRequestModel model)
         {
-            if(model.Propety1 == null)
+            if (model.Propety1 == null)
             {
                 return BadRequest();
             }
@@ -72,7 +73,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             {
                 return BadRequest();
             }
-            if(await _service.AuthenticationService.VerifyEmail(email, token))
+            if (await _service.AuthenticationService.VerifyEmail(email, token))
             {
                 return Ok("Success");
             }
@@ -140,16 +141,56 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             try
             {
-                if( await _service.MailService.VerifyTwoFactorOtp(model.UserName, model.AuCode)){
+                if (await _service.MailService.VerifyTwoFactorOtp(model.UserName, model.AuCode))
+                {
                     string outcome = await _service.AuthenticationService.ValidateUser(model);
                     var Tokendto = await _service.AuthenticationService.CreateToken(true);
                     return Ok(Tokendto);
                 }
                 return BadRequest();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
+            }
+        }
+        private async Task<IActionResult> LoginProcess(string outcome, bool twofactor, LoginRequestModel model)
+        {
+            try
+            {
+                if (outcome.Split("|")[0].Equals("BADLOGIN"))
+                {
+                    return Unauthorized("Wrong password or username");
+                }
+                if (outcome.Split("|")[0].Equals("UNVERIFIED"))
+                {
+                    return Ok("NeedVerify" + outcome.Split("|")[1]);
+                }
+                if (outcome.Split("|")[0].Equals("ISBANNED"))
+                {
+                    return Ok("Banned");
+                }
+                if (outcome.Split("|")[0].Equals("SUCCESS"))
+                {
+                    if (twofactor)
+                    {
+                        if (await _service.MailService.SendTwoFactorOtp(model.UserName, model.Email))
+                        {
+                            return Ok("Two factor code was sent to your email");
+                        }
+                        return BadRequest("Badrequest");
+                    }
+                    else
+                    {
+                        var Tokendto = await _service.AuthenticationService.CreateToken(true);
+                        return Ok(Tokendto);
+                    }
+                }
+                return BadRequest();
+            }
+            catch
+            {
+                return BadRequest();
             }
         }
         [HttpPost("Login")]
@@ -158,46 +199,41 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             string outcome = await _service.AuthenticationService.ValidateUser(model);
             var user = await _service.AccountService.GetUserByName(model.UserName);
-            if (outcome.Split("|")[0].Equals("BADLOGIN"))
-            {
-                return Unauthorized("Wrong password or username");
-            }
-            if (outcome.Split("|")[0].Equals("UNVERIFIED"))
-            {
-                return Ok("NeedVerify" + outcome.Split("|")[1]);
-            }
-            if (outcome.Split("|")[0].Equals("ISBANNED"))
-            {
-                return Ok("Banned");
-            }
-            if (outcome.Split("|")[0].Equals("SUCCESS"))
-            {
-                if(user.TwoFactorEnabled)
-                {
-                    if(await _service.MailService.SendTwoFactorOtp(model.UserName, model.Email))
-                    {
-                        return Ok("Two factor code was sent to your email");
-                    }
-                    return BadRequest("Badrequest");
-                }
-                else
-                {
-                    var Tokendto = await _service.AuthenticationService.CreateToken(true);
-                    return Ok(Tokendto);
-                }
-            }
-            return BadRequest();
+            return await LoginProcess(outcome, user.TwoFactorEnabled, model);
         }
         [HttpPost("Logout")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Logout([FromBody] TokenDTO model)
         {
-            if(!await _service.AuthenticationService.InvalidateToken(model))
+            if (!await _service.AuthenticationService.InvalidateToken(model))
             {
                 return Unauthorized();
             }
             return Ok("Logout Successfully");
+        }
+        [HttpPost("ForgotPassword")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestModel model)
+        {
+            if (await _service.MailService.SendForgotPasswordOtp(model.Email, model.PhoneNumber))
+            {
+                return Ok("OTP SENT TO USER EMAIL/PHONE");
+            }
+            return BadRequest();
+        }
+        [HttpPost("ForgotPasswordOtp")]
+        public async Task<IActionResult> ForgotPasswordOtp([FromBody] ForgotPasswordRequestModel model)
+        {
+            if(string.IsNullOrEmpty(model.VerifyCode) || string.IsNullOrEmpty(model.Email))
+            {
+                return BadRequest();
+            }
+            if(await _service.MailService.VerifyForgotPasswordOtp(model.Email,model.VerifyCode))
+            {
+                return Ok(model.Email);
+            }
+            return BadRequest();
         }
     }
 }

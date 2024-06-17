@@ -3,6 +3,7 @@ using Contracts.Interfaces;
 using Entities.ConfigurationModels;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
@@ -380,7 +381,7 @@ namespace Service
             _account = user;
             return await CreateToken(false);
         }
-        public async Task<bool> InvalidateToken(TokenDTO tokenDTO)
+        public async Task<bool> InvalidateToken(TokenDTO tokenDTO)//logout logic
         {
             try
             {

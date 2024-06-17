@@ -33,12 +33,34 @@ namespace Service
                 throw;
             }
         }
+        public async Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> userNameList)
+        {
+            List<Account> accountList = new List<Account>();
+            if(userNameList.Any())
+            {
+                foreach(var userName in userNameList)
+                {
+                    accountList.Add(await _repository.account.FindByNameAsync(userName,false).ConfigureAwait(false));
+                }
+                if(accountList.Any())
+                {
+                    foreach(var account in accountList)
+                    {
+                        account.isVerified = true;
+                        _repository.account.Update(account);
+                        _repository.Save();
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
         public async Task<IEnumerable<Account>> GetVerifierAccounts(string username)
         {
             try
             {
-                var user = await _repository.account.FindByVerifierAsync(username, false);
-                return  _repository.account.GetByCondition(entity => entity.VerifiedBy.Equals(user.First().Id), false).ToList();
+                var user = await _repository.account.FindByNameAsync(username, false);
+                return  _repository.account.GetByCondition(entity => entity.VerifiedBy.Equals(user.Id), false).ToList();
             }
             catch { throw; }
         }

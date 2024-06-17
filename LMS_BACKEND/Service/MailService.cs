@@ -21,12 +21,19 @@ namespace Service
         private readonly SmtpClient _smtpClient;
         private readonly UserManager<Account> _userManager;
         private readonly IMemoryCache _cache;
-        public MailService(ILoggerManager logger, SmtpClient smtpClient, UserManager<Account> userManager, IMemoryCache memoryCache)
+        private readonly IRepositoryManager _repository;
+        public MailService(
+            ILoggerManager logger,
+            SmtpClient smtpClient,
+            UserManager<Account> userManager,
+            IMemoryCache memoryCache,
+            IRepositoryManager repository)
         {
             _logger = logger;
             _smtpClient = smtpClient;
             _userManager = userManager;
             _cache = memoryCache;
+            _repository = repository;
         }
 
         private string GenerateOtp()
@@ -35,9 +42,13 @@ namespace Service
             int otp = random.Next(1000000, 1999999);
             return otp.ToString().Substring(1);
         }
-        private string GetCacheKeyForToken(Account user)
+        private string GetCacheKeyForTwoFactorToken(Account user)
         {
             return $"TwoFactorToken_{user.Id}";
+        }
+        private string GetCacheKeyForForgotPasswordToken(Account user)
+        {
+            return $"ForgotPasswordToken_{user.Id}";
         }
         public async Task<bool>VerifyTwoFactorOtp(string username,string token)
         {
@@ -49,7 +60,7 @@ namespace Service
                 var hold_user = await _userManager.FindByNameAsync(username);
                 if (hold_user != null && hold_user.TwoFactorEnabled)
                 {
-                    var cacheKey = GetCacheKeyForToken(hold_user);
+                    var cacheKey = GetCacheKeyForTwoFactorToken(hold_user);
                     if (_cache.TryGetValue(cacheKey, out string storedToken))
                     {
                         return storedToken.Equals(token);
@@ -70,9 +81,65 @@ namespace Service
                 if (hold_user != null && hold_user.TwoFactorEnabled)
                 {
                     var Token = await _userManager.GenerateTwoFactorTokenAsync(hold_user, "Email");
-                    _cache.Set(GetCacheKeyForToken(hold_user),Token, TimeSpan.FromMinutes(2));
+                    _cache.Set(GetCacheKeyForTwoFactorToken(hold_user),Token, TimeSpan.FromMinutes(2));
                     return await SendMailGmailSmtp(Environment.GetEnvironmentVariable("EMAILADMIN").Split("/")[0], hold_user.Email, "LMS - LOGIN VERIFY", "Your login Verify Code: " + Token);
                 }
+            }
+            catch
+            {
+                return false;
+            }
+            return false;
+        }
+        public async Task<bool> VerifyForgotPasswordOtp(string email, string token)
+        {
+
+            if (email == null) throw new ArgumentNullException(nameof(Account));
+            if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
+            try
+            {
+                var hold_user = await _userManager.FindByEmailAsync(email);
+                if (hold_user != null)
+                {
+                    var cacheKey = GetCacheKeyForForgotPasswordToken(hold_user);
+                    if (_cache.TryGetValue(cacheKey, out string storedToken))
+                    {
+                        return storedToken.Equals(token);
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return false;
+        }
+        public async Task<bool> SendForgotPasswordOtp(string? email, string? phone)
+        {
+            try
+            {
+                if(email != null)
+                {
+                    var hold_user = await _userManager.FindByEmailAsync(email);
+                    if (hold_user != null && hold_user.TwoFactorEnabled)
+                    {
+                        var Token = await _userManager.GenerateTwoFactorTokenAsync(hold_user, "Email");
+                        _cache.Set(GetCacheKeyForForgotPasswordToken(hold_user), Token, TimeSpan.FromMinutes(2));
+                        return await SendMailGmailSmtp(Environment.GetEnvironmentVariable("EMAILADMIN").Split("/")[0], hold_user.Email, "LMS - FORGOT PASSWORD VERIFY", "Your Verify Code: " + Token);
+                    }
+                }
+                if(phone != null)// chua implement so dien thoai do khong co service nao ho tro nen dung tam email
+                {
+                    var hold_user = await _repository.account.GetByConditionAsync(entity => entity.PhoneNumber.Equals(phone) && entity.PhoneNumberConfirmed, false);
+                    if (hold_user != null)
+                    {
+                        var end = hold_user.FirstOrDefault(entity=>entity.PhoneNumber.Equals(phone));
+                        var Token = await _userManager.GenerateTwoFactorTokenAsync(end, "Email");
+                        _cache.Set(GetCacheKeyForForgotPasswordToken(end), Token, TimeSpan.FromMinutes(2));
+                        return await SendMailGmailSmtp(Environment.GetEnvironmentVariable("EMAILADMIN").Split("/")[0], end.Email, "LMS - FORGOT PASSWORD VERIFY", "Your Verify Code: " + Token);
+                    }
+                }
+                
             }
             catch
             {

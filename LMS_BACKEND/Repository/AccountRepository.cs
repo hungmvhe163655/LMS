@@ -14,10 +14,6 @@ namespace Repository
         {
         }
 
-        public Task<bool> CheckPassWord(string userName, string password)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<Account> FindByNameAsync(string userName, bool trackable)
         {
