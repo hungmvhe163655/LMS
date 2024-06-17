@@ -1,3 +1,5 @@
+import { Layout } from '@/components/layouts/profile-layout';
+
 export function PhoneNumber() {
-  return <div>phone-number</div>;
+  return <Layout>phone-number</Layout>;
 }

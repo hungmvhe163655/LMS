@@ -1,3 +1,5 @@
+import { Layout } from '@/components/layouts/profile-layout';
+
 export function Email() {
-  return <div>email</div>;
+  return <Layout>email</Layout>;
 }

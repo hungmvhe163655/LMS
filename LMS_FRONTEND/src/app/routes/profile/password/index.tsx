@@ -1,5 +1,5 @@
 const PasswordRoute = {
-  path: 'phone-number',
+  path: 'password',
   lazy: async () => {
     const { Password } = await import('./password');
     return { Component: Password };

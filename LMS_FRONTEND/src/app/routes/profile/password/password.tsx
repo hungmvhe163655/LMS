@@ -1,3 +1,5 @@
+import { Layout } from '@/components/layouts/profile-layout';
+
 export function Password() {
-  return <div>password</div>;
+  return <Layout>password</Layout>;
 }
