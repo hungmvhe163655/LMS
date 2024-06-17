@@ -14,10 +14,6 @@ namespace Repository
         {
         }
 
-        public Task<bool> CheckPassWord(string userName, string password)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<Account> FindByNameAsync(string userName, bool trackable)
         {
@@ -28,6 +24,11 @@ namespace Repository
                 return end != null ? end : null;
             }
             return null; 
+        }
+
+        public Task<IQueryable<Account>> FindByVerifierAsync(string userName, bool Trackable)
+        {
+            throw new NotImplementedException();
         }
     }
 }

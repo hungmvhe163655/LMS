@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Contracts.Interfaces
 {
-    public interface IAccountRepository
+    public interface IAccountRepository : IRepositoryBase<Account>
     {
         Task<Account> FindByNameAsync(string userName, bool Trackable);
-        Task<bool> CheckPassWord(string userName, string password);
+        Task<IQueryable<Account>> FindByVerifierAsync(string userName, bool Trackable);
     }
 }

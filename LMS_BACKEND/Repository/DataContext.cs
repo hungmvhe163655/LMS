@@ -96,6 +96,7 @@ namespace Repository
                 entity.Property(e => e.Gender).HasColumnName("gender");
                 entity.Property(e => e.isBanned).HasColumnName("isBanned");
                 entity.Property(e => e.isDeleted).HasColumnName("isDeleted");
+                entity.Property(e => e.isVerified).HasColumnName("IsVerified");
                 entity.Property(e => e.VerifiedBy).HasColumnName("verifiedBy");
 
                 entity.HasOne(d => d.VerifiedByUser).WithMany(p => p.VerifiedAccounts)
