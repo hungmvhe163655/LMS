@@ -32,6 +32,7 @@ namespace Service
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration, roleManager));
             _mailService = new Lazy<IMailService>(() => new MailService(logger, client, userManager, memoryCache));
             _newsService = new Lazy<INewsService>(() => new NewsService(logger, repositoryManager, mapper));
+ 
         }
         public IAccountService AccountService => _accountService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;

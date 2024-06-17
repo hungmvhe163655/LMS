@@ -11,5 +11,6 @@ namespace Service.Contracts
     {
         Task<Account> GetUserByName(string userName);
         Task<IEnumerable<Account>> GetVerifierAccounts(string userName);
+        Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> userNameList);
     }
 }
