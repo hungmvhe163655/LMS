@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Link } from './link';
+import { Link } from '../ui/link';
 
 interface HeaderProps {
   title: string;

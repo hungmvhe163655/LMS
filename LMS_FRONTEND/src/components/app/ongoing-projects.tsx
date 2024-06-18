@@ -8,11 +8,11 @@ interface ProjectProps {
 
 const OngoingProjects: React.FC<ProjectProps> = ({ name, supervisor, tasksUndone }) => {
   return (
-    <div className='bg-blue-100 p-4 rounded-lg shadow-md'>
-      <h2 className='text-xl font-bold mb-2'>{name}</h2>
+    <div className='rounded-lg bg-blue-100 p-4 shadow-md'>
+      <h2 className='mb-2 text-xl font-bold'>{name}</h2>
       <p className='text-gray-700'>Supervisor: {supervisor}</p>
       <p className='text-gray-700'>Tasks undone: {tasksUndone}</p>
-      <button className='mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg'>
+      <button className='mt-2 rounded-lg bg-blue-500 px-4 py-2 text-white'>
         View your projects
       </button>
     </div>

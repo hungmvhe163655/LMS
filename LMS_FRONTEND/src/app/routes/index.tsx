@@ -69,7 +69,7 @@ export const createRouter = (queryClient: QueryClient) =>
       path: '/news/list',
       lazy: async () => {
         queryClient;
-        const { ListNewsRoute } = await import('./news/list-news');
+        const { ListNewsRoute } = await import('./news/list');
         return { Component: ListNewsRoute };
       }
     },
@@ -77,7 +77,7 @@ export const createRouter = (queryClient: QueryClient) =>
       path: '/news/create',
       lazy: async () => {
         queryClient;
-        const { CreateNewsRoute } = await import('./news/create-news');
+        const { CreateNewsRoute } = await import('./news/create');
         return { Component: CreateNewsRoute };
       }
     },

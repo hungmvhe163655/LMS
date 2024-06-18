@@ -1,7 +1,8 @@
 import React from 'react';
-import OngoingProjects from '@/components/ui/ongoing-projects';
-import CurrentTasks from '@/components/ui/current-tasks';
-import ImportantNotifications from '@/components/ui/important-notifications';
+
+import CurrentTasks from '@/components/app/current-tasks';
+import ImportantNotifications from '@/components/app/important-notifications';
+import OngoingProjects from '@/components/app/ongoing-projects';
 
 const StudentDashboard: React.FC = () => {
   const ongoingProjects = {
@@ -28,7 +29,7 @@ const StudentDashboard: React.FC = () => {
   return (
     <div className='min-h-screen bg-gray-100 p-6'>
       <header className='mb-4'>{/* Your existing header component */}</header>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+      <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
         <OngoingProjects {...ongoingProjects} />
         <CurrentTasks tasks={currentTasks} />
         <ImportantNotifications notifications={notifications} />

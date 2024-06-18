@@ -1,8 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 
-import { cn } from '@/lib/utils';
-
 import { SidebarNavProps } from '../types/type';
+
+import { cn } from '@/lib/utils';
 
 export function SidebarNav({ items }: SidebarNavProps) {
   const location = useLocation();

@@ -34,7 +34,7 @@ export function Layout({ children }: LayoutProps) {
       <div className='w-64 bg-white p-4 shadow'>
         <SidebarNav items={sidebarItems} />
       </div>
-      <div className='flex flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8'>
+      <div className='flex flex-1 flex-col py-2 sm:px-2 lg:px-4'>
         <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
           <div className='bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10'>{children}</div>
         </div>
