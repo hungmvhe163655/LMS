@@ -12,24 +12,24 @@ namespace Repository
             builder.Entity<IdentityRole>().HasData(
                     new IdentityRole
                     {
-                        Id = "db1782c7-bf14-41f7-bc1f-950128ecb3bd",
-                        Name = "User",
-                        NormalizedName = Uppercase("User"),
-                        ConcurrencyStamp = "b11bbed6-4919-4f52-a4b1-c45091a8fbf0"
+                        Id = "355f5fcf-92f6-4ef8-b7c6-28aab481da76",
+                        Name = "Teacher",
+                        NormalizedName = Uppercase("SUPERVISOR"),
+                        ConcurrencyStamp = ""
                     },
                     new IdentityRole
                     {
-                        Id = "db5782c7-bf14-41f7-bc1f-950128ecb3bb",
-                        Name = "Blog Owner",
-                        NormalizedName = Uppercase("Blog Owner"),
-                        ConcurrencyStamp = "b31bbed6-4919-4f52-a4b1-c45091a8fbf0"
+                        Id = "97f0f3bd-394b-462e-b7b0-0018b129a9db",
+                        Name = "Student",
+                        NormalizedName = Uppercase("STUDENT"),
+                        ConcurrencyStamp = ""
                     },
                      new IdentityRole
                      {
-                         Id = "e94a9bca-5a7a-4806-b8cd-97e9075ff13a",
-                         Name = "Contributor",
-                         NormalizedName = Uppercase("Contributor"),
-                         ConcurrencyStamp = "e22ebaa4-db51-4cb3-8f37-ad4ba73b0e1e"
+                         Id = "b2ab0e08-6661-4deb-a531-6241b02e1170",
+                         Name = "LabLead",
+                         NormalizedName = Uppercase("LABADMIN"),
+                         ConcurrencyStamp = ""
                      }
                 );
             builder.Entity<Account>().HasData
@@ -49,7 +49,7 @@ namespace Repository
                      TwoFactorEnabled = false,
                      LockoutEnabled = false,
                      AccessFailedCount = 0,
-                     PhoneNumber = "0985695635",
+                     PhoneNumber = "0963661093",
 
                  }
              );
@@ -58,25 +58,44 @@ namespace Repository
                 (
                     new IdentityUserRole<string>
                     {
-                        RoleId = "e94a9bca-5a7a-4806-b8cd-97e9075ff13a",
+                        RoleId = "355f5fcf-92f6-4ef8-b7c6-28aab481da76", //supervisor
                         UserId = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                     }
-                    //,
-                    //new IdentityUserRole<string>
-                    //{
-                    //    RoleId = "db5782c7-bf14-41f7-bc1f-950128ecb3bb",
-                    //    UserId = "21842bcb-fae8-4c00-9c33-de997d4e8103"
-                    //},
-                    //new IdentityUserRole<string>
-                    //{
-                    //    RoleId = "db1782c7-bf14-41f7-bc1f-950128ecb3bd",
-                    //    UserId = "21811bcb-fae8-4c00-9c33-de997d4e8107"
-                    //},
-                    //new IdentityUserRole<string>
-                    //{
-                    //    RoleId = "db1782c7-bf14-41f7-bc1f-950128ecb3bd",
-                    //    UserId = "b0446349-235d-4b0f-a8e9-87382a82923f"
-                    //}
+                );
+            builder.Entity<News>().HasData
+                (
+                   new News
+                   {
+                       Id = 1,
+                       Title = "First News Title",
+                       Content = "This is the content of the first news item.",
+                       CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", // Assuming 1 is a valid UserId in the Accounts table
+                       CreatedDate = new DateTime(2023, 6, 18)
+                   },
+                new News
+                {
+                    Id = 2,
+                    Title = "Second News Title",
+                    Content = "This is the content of the second news item.",
+                    CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", // Assuming 2 is a valid UserId in the Accounts table
+                    CreatedDate = new DateTime(2023, 6, 19)
+                },
+                new News
+                {
+                    Id = 3,
+                    Title = "Third News Title",
+                    Content = "This is the content of the second news item.",
+                    CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", // Assuming 2 is a valid UserId in the Accounts table
+                    CreatedDate = new DateTime(2023, 6, 19)
+                },
+                new News
+                {
+                    Id = 4,
+                    Title = "Fourth News Title",
+                    Content = "This is the content of the second news item.",
+                    CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", // Assuming 2 is a valid UserId in the Accounts table
+                    CreatedDate = new DateTime(2023, 6, 19)
+                }
                 );
         }
     }
