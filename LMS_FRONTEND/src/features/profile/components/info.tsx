@@ -1,6 +1,16 @@
 import { FaEdit } from 'react-icons/fa';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/dialog';
+
+import { EditProfileForm } from './edit-profile-form';
 
 export function Info() {
   return (
@@ -38,9 +48,20 @@ export function Info() {
         </div>
       </div>
       <div>
-        <button className='inline-flex items-center rounded-lg bg-blue-500 p-3 text-white hover:bg-blue-600'>
-          Edit <FaEdit className='ml-2' />
-        </button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <button className='inline-flex items-center rounded-lg bg-blue-500 p-3 text-white hover:bg-blue-600'>
+              Edit <FaEdit className='ml-2' />
+            </button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit profile</DialogTitle>
+              <DialogDescription>Make changes to your profile here.</DialogDescription>
+            </DialogHeader>
+            <EditProfileForm />
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
