@@ -25,12 +25,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
         [HttpGet("GetVerifierAccount")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Get(string userName)
+        public IActionResult Get(string email)
         {
             try
             {
                 var user =
-                _service.AccountService.GetVerifierAccounts(userName);
+                _service.AccountService.GetVerifierAccounts(email);
                 return Ok(new { Status = "success", Value = user });
             }
             catch

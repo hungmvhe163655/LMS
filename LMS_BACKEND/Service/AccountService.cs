@@ -63,12 +63,13 @@ namespace Service
             }
             return false;
         }
-        public async Task<IEnumerable<Account>> GetVerifierAccounts(string username)
+        public async Task<IEnumerable<Account>> GetVerifierAccounts(string email)
         {
             try
             {
-                var user = await _repository.account.FindByNameAsync(username, false);
-                return  _repository.account.GetByCondition(entity => entity.VerifiedBy.Equals(user.Id), false).ToList();
+                var user = await _repository.account.GetByConditionAsync(entity=>entity.Email.Equals(email), false);
+                var end = user.First();
+                return  _repository.account.GetByCondition(entity => entity.VerifiedBy.Equals(end.Id), false).ToList();
             }
             catch { throw; }
         }
