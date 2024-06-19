@@ -13,7 +13,7 @@ namespace Service
     public class FileService : IFileService
     {
         private readonly IAmazonS3 _s3Client;
-        private readonly string _bucketName;
+        private readonly string? _bucketName;
         public FileService(IAmazonS3 s3Client, IConfiguration configuration)
         {
             _s3Client = s3Client;
@@ -42,6 +42,7 @@ namespace Service
             };
 
             var response = await _s3Client.GetObjectAsync(request);
+
             return response.ResponseStream;
         }
     }

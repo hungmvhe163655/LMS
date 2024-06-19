@@ -52,15 +52,21 @@ namespace Service
             try
             {
                 var user = await _userManager.FindByEmailAsync(email);
+
                 var hold = (user != null && user.EmailVerifyCodeAge > DateTime.Now && !user.EmailConfirmed) ? user.EmailVerifyCode : null;
+
                 if(hold != null)
                 {
                     if (hold.Equals(token))
                     {
                         user.EmailVerifyCode = null;
+
                         user.EmailVerifyCodeAge = DateTime.MinValue;
+
                         user.EmailConfirmed = true;
+
                         await  _userManager.UpdateAsync(user);
+
                         return true;
                     }
                 }
@@ -110,7 +116,9 @@ namespace Service
                 if (validRoles.Any())
                 {
                     user.VerifiedBy = null;
+
                     user.UserName = model.Email;
+
                     var result = await _userManager.CreateAsync(user, model.Password);
 
                     if (result.Errors.Any()) return result;
@@ -181,7 +189,9 @@ namespace Service
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(RegisterSupervisor)}Error During Authentication Process has Occur for Teacher");
+
                 _logger.LogError(ex.Message);
+
                 return IdentityResult.Failed();
             }
         }
@@ -236,7 +246,9 @@ namespace Service
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(RegisterStudent)}Error During Authentication Process has Occur for Student");
+
                 _logger.LogError(ex.Message);
+
                 return IdentityResult.Failed();
             }
         }
@@ -293,8 +305,11 @@ namespace Service
             if (hold != null)
             {
                 var key = Encoding.UTF8.GetBytes(hold);
+
                 var secret = new SymmetricSecurityKey(key);
+
                 return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+
             }
             return new SigningCredentials(null, SecurityAlgorithms.HmacSha256);
         }
@@ -352,51 +367,75 @@ namespace Service
                 ValidAudience = _jwtConfiguration.ValidAudience
             };
             var tokenHandler = new JwtSecurityTokenHandler();
+
             SecurityToken securityToken;
+
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out
            securityToken);
+
             var jwtSecurityToken = securityToken as JwtSecurityToken;
+
             if (jwtSecurityToken == null ||
            !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
             StringComparison.InvariantCultureIgnoreCase))
             {
                 throw new SecurityTokenException("Invalid token");
             }
+
             return principal;
         }
         public async Task<TokenDTO> CreateToken(bool populateExp)//gui ve request token de duy tri dang nhap
         {
             var signingCredentials = GetSigningCredentials();
+
             var claims = await GetClaims();
+
             var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
+
             var refreshToken = GenerateRefreshToken();
+
             _account.UserRefreshToken = refreshToken;
+
             if (populateExp)
                 _account.UserRefreshTokenExpiryTime = DateTime.Now.AddDays(7);// them thoi gian cho refreshToken neu muon tuy
+
             await _userManager.UpdateAsync(_account);
+
             var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
             return new TokenDTO(accessToken, refreshToken);
+
         }
         public async Task<TokenDTO> RefreshToken(TokenDTO tokenDto)
         {
             var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
+
             var user = await _userManager.FindByNameAsync(principal.Identity.Name);
+
             if (user == null || user.UserRefreshToken != tokenDto.RefreshToken ||
             user.UserRefreshTokenExpiryTime <= DateTime.Now)
                 return null;
+
             _account = user;
+
             return await CreateToken(false);
+
         }
         public async Task<bool> InvalidateToken(TokenDTO tokenDTO)//logout logic
         {
             try
             {
                 var principal = GetPrincipalFromExpiredToken(tokenDTO.AccessToken);
+
                 var user = await _userManager.FindByNameAsync(principal.Identity.Name);
+
                 if(user==null) { return false; }
                 user.UserRefreshToken = null;
+
                 user.UserRefreshTokenExpiryTime = DateTime.MinValue;
+
                 await _userManager.UpdateAsync(user);
+
                 return true;
             }
             catch (Exception ex)

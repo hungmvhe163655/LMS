@@ -109,43 +109,38 @@ namespace LMS_BACKEND_MAIN.Extentions
             services.AddScoped<IRepositoryManager, RepositoryManager>();
         public static void ConfigureServiceManager(this IServiceCollection services) =>
             services.AddScoped<IServiceManager, ServiceManager>();
-        public static void AddJwtConfiguration(this IServiceCollection services,IConfiguration configuration) =>
+        public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration) =>
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
         public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
         {//nho chay app setup truoc khi release phai sua phan encryptionkey vaf iv nay
             var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
+
             var iv = Environment.GetEnvironmentVariable("ivKey");
 
-            var encryptedAccessKey = Environment.GetEnvironmentVariable("ENCRYPTED_ACCESS_KEY");
-            var encryptedSecretKey = Environment.GetEnvironmentVariable("ENCRYPTED_SECRET_KEY");
-
             var awsOptions = configuration.GetAWSOptions("AWS");
+
+            var url = Environment.GetEnvironmentVariable("SERVICE_URL");
+
             awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
 
-            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
-                Decrypter.DecryptString(encryptedAccessKey, encryptionKey, iv),
-                Decrypter.DecryptString(encryptedSecretKey, encryptionKey, iv)
-            );
+            var holdAccess = Environment.GetEnvironmentVariable("ENCRYPTED_ACCESS_KEY");
 
-            awsOptions.DefaultClientConfig.ServiceURL = configuration["AWS:ServiceURL"];
+            var holdSecret = Environment.GetEnvironmentVariable("ENCRYPTED_SECRET_KEY");
+
+            if (holdAccess == null || holdSecret == null || encryptionKey == null || iv == null || url == null) 
+                throw new InvalidOperationException("environment variable not set.");
+
+            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
+                Decrypter.DecryptString(holdAccess, encryptionKey, iv),
+                Decrypter.DecryptString(holdSecret, encryptionKey, iv)
+            );
+            awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
 
             services.AddDefaultAWSOptions(awsOptions);
-            services.AddAWSService<IAmazonS3>();
-            /*
-            services.AddSingleton<IAmazonS3>(sp =>
-            {
-                var config = sp.GetRequiredService<IConfiguration>();
-                var serviceUrl = config["CloudflareR2:ServiceUrl"];
 
-                return new AmazonS3Client
-                (Decrypter.DecryptString(encryptedAccessKey,encryptionKey,iv),
-                Decrypter.DecryptString(encryptedSecretKey,encryptionKey,iv),
-                new AmazonS3Config
-                {
-                    ServiceURL = serviceUrl
-                });
-            });
-            */
+            services.AddAWSService<IAmazonS3>();
+
+            services.AddScoped<IFileService, FileService>();
         }
     }
 }

@@ -1,12 +1,8 @@
-﻿string encryptionKey = null; // Ensure this is a 32-byte (256-bit) key
-string iv = null;             // Ensure this is a 16-byte (128-bit) IV
-
-string accessKey = null;
-string secretKey = null;
-string url = null;
+﻿string accessKey = "";
+string secretKey = "";
+string url = "";
 bool check = true;
 string checker = "n";
-
 const string allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@$?_-";
 char[] chars = new char[32];
 char[] char2 = new char[16];
@@ -19,10 +15,9 @@ for (int i = 0; i < 16; i++)
 {
     char2[i] = allowedChars[rd.Next(0, allowedChars.Length)];
 }
-var hold16 = new string(char2);
-var hold32 = new string(chars);
-encryptionKey = hold32;
-iv = hold16;
+var iv = new string(char2);
+var encryptionKey = new string(chars);
+
 Console.WriteLine("your encryptionkey: " + encryptionKey);
 Console.WriteLine("your iv: " + iv);
 check = true;
