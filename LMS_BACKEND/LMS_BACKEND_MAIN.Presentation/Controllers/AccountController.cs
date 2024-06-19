@@ -1,3 +1,4 @@
+
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +20,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IServiceManager _service;
-        public AccountController(IServiceManager service)
+        private readonly ILogger _logger;
+        public AccountController(IServiceManager service, ILogger logger)
         {
+            _logger = logger;
             _service = service;
         }
         [HttpGet("GetVerifierAccount")]
