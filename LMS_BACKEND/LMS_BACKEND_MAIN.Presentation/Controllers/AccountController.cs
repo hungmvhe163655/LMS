@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.ResponseDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,13 +52,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 var user = await _service.AccountService.GetUserById(model.UserID);
                 if (user == null)
                 {
-                    return BadRequest("User with the email does not existed");
+                    return BadRequest(new ResponseObjectModel { Code = "401" ,Status = "BadRequest", Value = user});
                 }
                 var hold = new List<string>();
                 hold.Add(model.UserID);
                 if (await _service.AccountService.UpdateAccountVerifyStatus(hold,model.verifierID))
                 {
-                    return Ok(new { Status = "success", Value = "Update User " + user.FullName + " Status Successully" });
+                    return Ok(new ResponseObjectModel { Status = "success",Code = "200", Value = "Update User " + user.FullName + " Status Successully" });
                 }
             }
             catch

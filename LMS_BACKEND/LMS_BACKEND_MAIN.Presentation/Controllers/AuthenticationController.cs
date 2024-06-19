@@ -166,6 +166,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 {
                     return Ok("NeedVerify|" + outcome.Split("|")[1]);
                 }
+                if (outcome.Split("|")[0].Equals("UNVERIFIEDEMAIL"))
+                {
+                    return BadRequest("Email Need Verify|" + outcome.Split("|")[1]);
+                }
                 if (outcome.Split("|")[0].Equals("ISBANNED"))
                 {
                     return Ok("Banned");
