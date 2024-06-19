@@ -1,3 +1,6 @@
+using Amazon;
+using Amazon.S3;
+using Amazon.S3.Transfer;
 using Entities.Models;
 using LMS_BACKEND_MAIN.Extentions;
 using LMS_BACKEND_MAIN.Presentation.ActionFilters;
@@ -22,6 +25,8 @@ builder.Services.AddIdentity<Account, IdentityRole>()
 */
 // Custom services config
 builder.Services.ConfigureRepositoryManager();
+
+builder.Services.ConfigureAwsS3(builder.Configuration);
 
 builder.Services.ConfigureServiceManager();
 

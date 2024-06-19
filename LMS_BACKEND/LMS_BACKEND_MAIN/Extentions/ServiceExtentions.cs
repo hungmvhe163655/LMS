@@ -11,6 +11,9 @@ using Service.Contracts;
 using System.Net.Mail;
 using System.Net;
 using System.Text;
+using Amazon.S3;
+using Amazon;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LMS_BACKEND_MAIN.Extentions
 {
@@ -106,7 +109,38 @@ namespace LMS_BACKEND_MAIN.Extentions
             services.AddScoped<IRepositoryManager, RepositoryManager>();
         public static void ConfigureServiceManager(this IServiceCollection services) =>
             services.AddScoped<IServiceManager, ServiceManager>();
-        public static void AddJwtConfiguration(this IServiceCollection services,IConfiguration configuration) =>
+        public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration) =>
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
+        public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
+        {//nho chay app setup truoc khi release phai sua phan encryptionkey vaf iv nay
+            var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
+
+            var iv = Environment.GetEnvironmentVariable("ivKey");
+
+            var awsOptions = configuration.GetAWSOptions("AWS");
+
+            var url = Environment.GetEnvironmentVariable("SERVICE_URL");
+
+            awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
+
+            var holdAccess = Environment.GetEnvironmentVariable("ENCRYPTED_ACCESS_KEY");
+
+            var holdSecret = Environment.GetEnvironmentVariable("ENCRYPTED_SECRET_KEY");
+
+            if (holdAccess == null || holdSecret == null || encryptionKey == null || iv == null || url == null) 
+                throw new InvalidOperationException("environment variable not set.");
+
+            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
+                Decrypter.DecryptString(holdAccess, encryptionKey, iv),
+                Decrypter.DecryptString(holdSecret, encryptionKey, iv)
+            );
+            awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
+
+            services.AddDefaultAWSOptions(awsOptions);
+
+            services.AddAWSService<IAmazonS3>();
+
+            services.AddScoped<IFileService, FileService>();
+        }
     }
 }

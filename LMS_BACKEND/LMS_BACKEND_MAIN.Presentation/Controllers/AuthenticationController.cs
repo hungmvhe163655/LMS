@@ -190,11 +190,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                         return Ok(Tokendto);
                     }
                 }
-                return NotFound("User not found");
+                return NotFound(new ResponseObjectModel { Code = "404", Status = "Not found", Value="email or password was wrong"});
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex);
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(LoginProcess)}" });
+
             }
         }
         [HttpPost("Login")]
