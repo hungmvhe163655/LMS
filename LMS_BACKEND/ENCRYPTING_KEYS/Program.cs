@@ -25,49 +25,6 @@ encryptionKey = hold32;
 iv = hold16;
 Console.WriteLine("your encryptionkey: " + encryptionKey);
 Console.WriteLine("your iv: " + iv);
-/*
-while (check)
-{
-    Console.WriteLine("Please enter your encryptionKey (32 characters)");
-    encryptionKey = Console.ReadLine();
-    if (encryptionKey == null || encryptionKey.Length != 32)
-    {
-        Console.WriteLine("String not long enough or too short");
-    }
-    else
-    {
-        Console.WriteLine("Is this correct? " + encryptionKey + " y/n: ");
-
-        checker = Console.ReadLine();
-        if (checker != null || checker.Equals("y"))
-        {
-            check = false;
-            checker = "n";
-        }
-    }
-}
-check = true;
-while (check)
-{
-    Console.WriteLine("Please enter your iv (16 characters)");
-    iv = Console.ReadLine();
-    if (iv == null || iv.Length != 16)
-    {
-        Console.WriteLine("String not long enough or too short");
-    }
-    else
-    {
-        Console.WriteLine("Is this correct? " + iv + " y/n: ");
-
-        checker = Console.ReadLine();
-        if (checker != null && checker.Equals("y"))
-        {
-            check = false;
-            checker = "n";
-        }
-    }
-}
-*/
 check = true;
 while (check)
 {
@@ -98,7 +55,7 @@ while (check)
 check = true;
 while (check)
 {
-    Console.WriteLine("Write down your service Url (ex : https://<your_account_id>.r2.cloudflarestorage.com)");
+    Console.WriteLine("Write down your service Url: ");
     url = Console.ReadLine();
     Console.WriteLine("Is this correct? " + url + " y/n: ");
     checker = Console.ReadLine();
