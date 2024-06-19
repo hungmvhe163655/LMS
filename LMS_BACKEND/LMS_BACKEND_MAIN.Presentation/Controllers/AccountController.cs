@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Service.Contracts;
+
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
+using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.ResponseDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,26 +42,26 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
         }
         [HttpPost("UpdateVerifierAccount")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> UpdateAccountVerifyStatus(string userName)
+       // [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> UpdateAccountVerifyStatus([FromBody]UpdateVerifyStatusRequestModel model)
         {
-            if (userName == null)
+            if (model.UserID == null||model.verifierID==null)
             {
                 ModelState.AddModelError("BadRequest", "Username can't be empty");
                 return BadRequest();
             }
             try
             {
-                var user = await _service.AccountService.GetUserByName(userName);
+                var user = await _service.AccountService.GetUserById(model.UserID);
                 if (user == null)
                 {
-                    return BadRequest();
+                    return BadRequest(new ResponseObjectModel { Code = "401" ,Status = "BadRequest", Value = user});
                 }
                 var hold = new List<string>();
-                hold.Add(userName);
-                if (await _service.AccountService.UpdateAccountVerifyStatus(hold))
+                hold.Add(model.UserID);
+                if (await _service.AccountService.UpdateAccountVerifyStatus(hold,model.verifierID))
                 {
-                    return Ok(new { Status = "success", Value = "Update User " + userName + " Status Successully" });
+                    return Ok(new ResponseObjectModel { Status = "success",Code = "200", Value = "Update User " + user.FullName + " Status Successully" });
                 }
             }
             catch

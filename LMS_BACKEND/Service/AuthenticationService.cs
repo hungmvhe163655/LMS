@@ -52,7 +52,7 @@ namespace Service
             try
             {
                 var user = await _userManager.FindByEmailAsync(email);
-                var hold = (user != null && user.EmailVerifyCode != null && user.EmailVerifyCodeAge < DateTime.Now && !user.EmailConfirmed) ? user.EmailVerifyCode : null;
+                var hold = (user != null && user.EmailVerifyCodeAge > DateTime.Now && !user.EmailConfirmed) ? user.EmailVerifyCode : null;
                 if(hold != null)
                 {
                     if (hold.Equals(token))
@@ -110,7 +110,7 @@ namespace Service
                 if (validRoles.Any())
                 {
                     user.VerifiedBy = null;
-
+                    user.UserName = model.Email;
                     var result = await _userManager.CreateAsync(user, model.Password);
 
                     if (result.Errors.Any()) return result;
@@ -260,11 +260,15 @@ namespace Service
             {
                 if (!_account.EmailConfirmed)
                 {
-                    return "UNVERIFIED|" + _account.UserName;
+                    return "UNVERIFIEDEMAIL|" + _account.UserName;
                 }
                 if (_account.isBanned)
                 {
                     return "ISBANNED|";
+                }
+                if (!_account.isVerified)
+                {
+                    return "UNVERIFIED|" + _account.UserName;
                 }
             }
             return "SUCCESS|";

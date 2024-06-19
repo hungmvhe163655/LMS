@@ -28,11 +28,10 @@ namespace Service
             IConfiguration configuration,
             IMemoryCache memoryCache)
         {
-            _accountService = new Lazy<IAccountService>(() => new AccountService(repositoryManager, logger, mapper));
-            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration, roleManager));
-            _mailService = new Lazy<IMailService>(() => new MailService(logger, client, userManager, memoryCache));
+            _accountService = new Lazy<IAccountService>(() => new AccountService(repositoryManager, logger,mapper));
+            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper,userManager,configuration,roleManager));
+            _mailService = new Lazy<IMailService>(() => new MailService(logger,client,userManager,memoryCache,repositoryManager));
             _newsService = new Lazy<INewsService>(() => new NewsService(logger, repositoryManager, mapper));
- 
         }
         public IAccountService AccountService => _accountService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
