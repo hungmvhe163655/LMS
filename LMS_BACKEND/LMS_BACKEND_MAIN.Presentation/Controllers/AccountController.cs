@@ -40,25 +40,25 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
         [HttpPost("UpdateVerifierAccount")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> UpdateAccountVerifyStatus(string userName)
+        public async Task<IActionResult> UpdateAccountVerifyStatus(string email)
         {
-            if (userName == null)
+            if (email == null)
             {
                 ModelState.AddModelError("BadRequest", "Username can't be empty");
                 return BadRequest();
             }
             try
             {
-                var user = await _service.AccountService.GetUserByName(userName);
+                var user = await _service.AccountService.GetUserByEmail(email);
                 if (user == null)
                 {
                     return BadRequest();
                 }
                 var hold = new List<string>();
-                hold.Add(userName);
+                hold.Add(email);
                 if (await _service.AccountService.UpdateAccountVerifyStatus(hold))
                 {
-                    return Ok(new { Status = "success", Value = "Update User " + userName + " Status Successully" });
+                    return Ok(new { Status = "success", Value = "Update User " + email + " Status Successully" });
                 }
             }
             catch

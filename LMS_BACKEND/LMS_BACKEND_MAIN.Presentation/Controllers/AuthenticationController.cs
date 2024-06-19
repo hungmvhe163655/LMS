@@ -198,7 +198,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestModel model)
         {
             string outcome = await _service.AuthenticationService.ValidateUser(model);
-            var user = await _service.AccountService.GetUserByName(model.UserName);
+            var user = await _service.AccountService.GetUserByEmail(model.Email);
             return await LoginProcess(outcome, user.TwoFactorEnabled, model);
         }
         [HttpPost("Logout")]
