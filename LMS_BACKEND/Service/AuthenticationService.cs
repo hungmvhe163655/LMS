@@ -82,13 +82,13 @@ namespace Service
                     return IdentityResult.Failed();
                 }
                 */
-               // var verifier = _userManager.FindByNameAsync(model.VerifiedByUserName);
+                // var verifier = _userManager.FindByIdAsync(model.VerifiedByUserName);
 
-               // if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
+                // if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
 
-               // var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
+                // var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
 
-               // if (verifierRole == null || !verifierRole.Equals("Teacher")) { return IdentityResult.Failed(); }
+                // if (verifierRole == null || !verifierRole.Equals("Teacher")) { return IdentityResult.Failed(); }
 
                 if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
 
@@ -140,7 +140,7 @@ namespace Service
                 {
                     return IdentityResult.Failed();
                 }
-                var verifier = _userManager.FindByNameAsync(model.VerifiedByUserID);
+                var verifier = _userManager.FindByIdAsync(model.VerifiedByUserID);
 
                 if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
 
@@ -195,7 +195,7 @@ namespace Service
                 {
                     return IdentityResult.Failed();
                 }
-                var verifier = _userManager.FindByNameAsync(model.VerifiedByUserID);
+                var verifier = _userManager.FindByIdAsync(model.VerifiedByUserID);
 
                 if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
 
