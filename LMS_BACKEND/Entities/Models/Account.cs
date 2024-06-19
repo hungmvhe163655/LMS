@@ -15,6 +15,7 @@ namespace Entities.Models
         public DateTime CreatedDate { get; set; }
         public string? VerifiedBy { get; set; }
         public bool isDeleted { get; set; }
+        public bool isVerified { get;set; }
         public bool isBanned { get; set; }
         public string? EmailVerifyCode { get; set; }
         public DateTime EmailVerifyCodeAge { get; set; }
