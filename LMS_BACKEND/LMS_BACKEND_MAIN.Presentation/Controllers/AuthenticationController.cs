@@ -141,7 +141,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             try
             {
-                if (await _service.MailService.VerifyTwoFactorOtp(model.AuCode))
+                if (await _service.MailService.VerifyTwoFactorOtp(model.Email,model.AuCode))
                 {
                     string outcome = await _service.AuthenticationService.ValidateUser(model);
                     var Tokendto = await _service.AuthenticationService.CreateToken(true);
@@ -164,7 +164,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 }
                 if (outcome.Split("|")[0].Equals("UNVERIFIED"))
                 {
-                    return Ok("NeedVerify" + outcome.Split("|")[1]);
+                    return Ok("NeedVerify|" + outcome.Split("|")[1]);
+                }
+                if (outcome.Split("|")[0].Equals("UNVERIFIEDEMAIL"))
+                {
+                    return BadRequest("Email Need Verify|" + outcome.Split("|")[1]);
                 }
                 if (outcome.Split("|")[0].Equals("ISBANNED"))
                 {
@@ -198,7 +202,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestModel model)
         {
             string outcome = await _service.AuthenticationService.ValidateUser(model);
-            var user = await _service.AccountService.GetUserByName(model.UserName);
+            var user = await _service.AccountService.GetUserByEmail(model.Email);
             return await LoginProcess(outcome, user.TwoFactorEnabled, model);
         }
         [HttpPost("Logout")]
