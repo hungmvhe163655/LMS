@@ -50,14 +50,14 @@ namespace Service
         {
             return $"ForgotPasswordToken_{user.Id}";
         }
-        public async Task<bool>VerifyTwoFactorOtp(string username,string token)
+        public async Task<bool>VerifyTwoFactorOtp(string email,string token)
         {
 
-            if (username == null) throw new ArgumentNullException(nameof(Account));
+            if (email == null) throw new ArgumentNullException(nameof(Account));
             if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
             try
             {
-                var hold_user = await _userManager.FindByNameAsync(username);
+                var hold_user = await _userManager.FindByEmailAsync(email);
                 if (hold_user != null && hold_user.TwoFactorEnabled)
                 {
                     var cacheKey = GetCacheKeyForTwoFactorToken(hold_user);
@@ -73,11 +73,11 @@ namespace Service
             }
             return false;
         }
-        public async Task<bool> SendTwoFactorOtp(string username, string? email)
+        public async Task<bool> SendTwoFactorOtp(string? email)
         {
             try
             {
-                var hold_user = await _userManager.FindByNameAsync(username);
+                var hold_user = await _userManager.FindByEmailAsync(email);
                 if (hold_user != null && hold_user.TwoFactorEnabled)
                 {
                     var Token = await _userManager.GenerateTwoFactorTokenAsync(hold_user, "Email");
@@ -147,11 +147,11 @@ namespace Service
             }
             return false;
         }
-        public async Task<bool> SendVerifyOtp(string username,string? email)
+        public async Task<bool> SendVerifyOtp(string? email)
         {
             try
             {
-                var hold_user = await _userManager.FindByNameAsync(username);
+                var hold_user = await _userManager.FindByEmailAsync(email);
                 if (hold_user != null && !hold_user.EmailConfirmed)
                 {
                     hold_user.EmailVerifyCode = GenerateOtp();
@@ -166,9 +166,9 @@ namespace Service
             }
             return false;
         }
-        public async Task<bool> SendMailToUser(string username,string? email)
+        public async Task<bool> SendMailToUser(string? email)
         {
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
                 return false;
