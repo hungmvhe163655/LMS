@@ -76,17 +76,19 @@ namespace Service
             {
                 var user = _mapper.Map<Account>(model);
 
+                /*
                 if (string.IsNullOrEmpty(model.VerifiedByUserName))
                 {
                     return IdentityResult.Failed();
                 }
-               // var verifier = _userManager.FindByNameAsync(model.VerifiedByUserName);
+                */
+                // var verifier = _userManager.FindByIdAsync(model.VerifiedByUserName);
 
-               // if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
+                // if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
 
-               // var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
+                // var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
 
-               // if (verifierRole == null || !verifierRole.Equals("Teacher")) { return IdentityResult.Failed(); }
+                // if (verifierRole == null || !verifierRole.Equals("Teacher")) { return IdentityResult.Failed(); }
 
                 if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
 
@@ -134,11 +136,11 @@ namespace Service
             {
                 var user = _mapper.Map<Account>(model);
 
-                if (string.IsNullOrEmpty(model.VerifiedByUserName))
+                if (string.IsNullOrEmpty(model.VerifiedByUserID))
                 {
                     return IdentityResult.Failed();
                 }
-                var verifier = _userManager.FindByNameAsync(model.VerifiedByUserName);
+                var verifier = _userManager.FindByIdAsync(model.VerifiedByUserID);
 
                 if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
 
@@ -189,11 +191,11 @@ namespace Service
             {
                 var user = _mapper.Map<Account>(model);
 
-                if (string.IsNullOrEmpty(model.VerifiedByUserName))
+                if (string.IsNullOrEmpty(model.VerifiedByUserID))
                 {
                     return IdentityResult.Failed();
                 }
-                var verifier = _userManager.FindByNameAsync(model.VerifiedByUserName);
+                var verifier = _userManager.FindByIdAsync(model.VerifiedByUserID);
 
                 if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
 
@@ -242,12 +244,12 @@ namespace Service
         public async Task<string> ValidateUser(LoginRequestModel userForAuth)
         {
             /// Tim nguoi dung trong he thong khong nhap ten thi authen loi log vao 
-            if (string.IsNullOrEmpty(userForAuth.UserName) || string.IsNullOrEmpty(userForAuth.PassWord))
+            if (string.IsNullOrEmpty(userForAuth.Email) || string.IsNullOrEmpty(userForAuth.PassWord))
             {
-                _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Empty user name or password");
+                _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Empty Email or password");
                 return "BADLOGIN|";
             }
-            _account = await _userManager.FindByNameAsync(userForAuth.UserName);
+            _account = await _userManager.FindByEmailAsync(userForAuth.Email);
             var result = (_account != null && await _userManager.CheckPasswordAsync(_account, userForAuth.PassWord));
             if (!result)
             {

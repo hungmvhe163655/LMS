@@ -39,13 +39,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     }
                     return BadRequest(ModelState);
                 }
-                await _service.MailService.SendVerifyOtp(model.UserName, model.Email);
+                await _service.MailService.SendVerifyOtp(model.Email);
 
                 return StatusCode(201);
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex);
 
             }
         }
@@ -55,13 +55,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             if (model.Propety1 == null)
             {
-                return BadRequest();
+                return BadRequest("Email can't be empty");
             }
-            if (await _service.MailService.SendVerifyOtp(model.Propety1, null))
+            if (await _service.MailService.SendVerifyOtp(model.Propety1))
             {
                 return Ok("New Verify code Has been sent to your email");
             }
-            return BadRequest();
+            return BadRequest("Wrong request");
         }
         [HttpPut("VerifyEmail")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
@@ -71,7 +71,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             var token = model.Propety2;
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(token))
             {
-                return BadRequest();
+                return BadRequest("Empty email or token");
             }
             if (await _service.AuthenticationService.VerifyEmail(email, token))
             {
@@ -97,13 +97,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     }
                     return BadRequest(ModelState);
                 }
-                await _service.MailService.SendVerifyOtp(model.UserName, model.Email);
+                await _service.MailService.SendVerifyOtp(model.Email);
 
                 return StatusCode(201);
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex);
 
             }
         }
@@ -125,13 +125,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     }
                     return BadRequest(ModelState);
                 }
-                await _service.MailService.SendVerifyOtp(model.UserName, model.Email);
+                await _service.MailService.SendVerifyOtp(model.Email);
 
-                return StatusCode(201);
+                return StatusCode(201,"success");
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex);
 
             }
         }
@@ -141,13 +141,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             try
             {
-                if (await _service.MailService.VerifyTwoFactorOtp(model.UserName, model.AuCode))
+                if (await _service.MailService.VerifyTwoFactorOtp(model.Email,model.AuCode))
                 {
                     string outcome = await _service.AuthenticationService.ValidateUser(model);
                     var Tokendto = await _service.AuthenticationService.CreateToken(true);
                     return Ok(Tokendto);
                 }
-                return BadRequest();
+                return BadRequest("Wrong code");
             }
             catch (Exception ex)
             {
@@ -174,7 +174,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 {
                     if (twofactor)
                     {
-                        if (await _service.MailService.SendTwoFactorOtp(model.UserName, model.Email))
+                        if (await _service.MailService.SendTwoFactorOtp(model.Email))
                         {
                             return Ok("Two factor code was sent to your email");
                         }
@@ -186,11 +186,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                         return Ok(Tokendto);
                     }
                 }
-                return BadRequest();
+                return NotFound("User not found");
             }
-            catch
+            catch(Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex);
             }
         }
         [HttpPost("Login")]
@@ -208,7 +208,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             if (!await _service.AuthenticationService.InvalidateToken(model))
             {
-                return Unauthorized();
+                return Unauthorized("Invalid token");
             }
             return Ok("Logout Successfully");
         }
@@ -220,20 +220,20 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             {
                 return Ok("OTP SENT TO USER EMAIL/PHONE");
             }
-            return BadRequest();
+            return BadRequest("Invalid email/phonenumber");
         }
         [HttpPost("ForgotPasswordOtp")]
         public async Task<IActionResult> ForgotPasswordOtp([FromBody] ForgotPasswordRequestModel model)
         {
             if(string.IsNullOrEmpty(model.VerifyCode) || string.IsNullOrEmpty(model.Email))
             {
-                return BadRequest();
+                return BadRequest("empty verify code/ Email");
             }
             if(await _service.MailService.VerifyForgotPasswordOtp(model.Email,model.VerifyCode))
             {
                 return Ok(model.Email);
             }
-            return BadRequest();
+            return BadRequest("User not found or wrong verify code");
         }
     }
 }
