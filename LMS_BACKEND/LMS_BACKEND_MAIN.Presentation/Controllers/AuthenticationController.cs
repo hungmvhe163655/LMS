@@ -141,7 +141,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             try
             {
-                if (await _service.MailService.VerifyTwoFactorOtp(model.AuCode))
+                if (await _service.MailService.VerifyTwoFactorOtp(model.Email,model.AuCode))
                 {
                     string outcome = await _service.AuthenticationService.ValidateUser(model);
                     var Tokendto = await _service.AuthenticationService.CreateToken(true);
