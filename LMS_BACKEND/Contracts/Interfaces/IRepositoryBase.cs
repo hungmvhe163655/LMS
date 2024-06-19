@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 
 namespace Contracts.Interfaces
 {
@@ -19,5 +14,7 @@ namespace Contracts.Interfaces
         Task UpdateAsync(T entity);
         void Delete(T entity);
         Task DeleteAsync(T entity);
+        public T Find(int id);
+        public IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includes);
     }
 }

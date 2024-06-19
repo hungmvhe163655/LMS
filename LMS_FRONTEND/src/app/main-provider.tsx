@@ -6,7 +6,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import { MainErrorFallback } from '@/components/errors/main';
 import { Toaster } from '@/components/ui/sonner';
 import { Spinner } from '@/components/ui/spinner';
-
 import { queryClient } from '@/lib/react-query';
 
 type AppProviderProps = {

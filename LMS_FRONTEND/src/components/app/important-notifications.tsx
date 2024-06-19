@@ -12,12 +12,12 @@ interface NotificationsProps {
 
 const ImportantNotifications: React.FC<NotificationsProps> = ({ notifications }) => {
   return (
-    <div className='bg-blue-100 p-4 rounded-lg shadow-md'>
-      <h2 className='text-xl font-bold mb-2'>Important Notifications</h2>
+    <div className='rounded-lg bg-blue-100 p-4 shadow-md'>
+      <h2 className='mb-2 text-xl font-bold'>Important Notifications</h2>
       {notifications.map((notification, index) => (
         <div
           key={index}
-          className={`mb-2 p-2 rounded-lg ${notification.type === 'info' ? 'bg-blue-200' : 'bg-red-200'}`}
+          className={`mb-2 rounded-lg p-2 ${notification.type === 'info' ? 'bg-blue-200' : 'bg-red-200'}`}
         >
           <p className='text-gray-700'>{notification.date}</p>
           <p className='text-gray-900'>{notification.message}</p>

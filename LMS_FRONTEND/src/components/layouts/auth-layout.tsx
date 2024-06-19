@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import Header from '../app/header';
+
 import { Head } from '@/components/seo';
 
 type LayoutProps = {
@@ -10,6 +12,7 @@ type LayoutProps = {
 export function Layout({ children, title }: LayoutProps) {
   return (
     <>
+      <Header />
       <Head title={title} />
       <div className='flex min-h-screen flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
