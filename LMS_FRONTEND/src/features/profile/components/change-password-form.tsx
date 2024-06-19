@@ -45,7 +45,7 @@ export function ChangePasswordForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='mx-16 max-w-fit space-y-3 p-3'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='mx-16 w-1/4 min-w-fit space-y-3 p-3'>
         <FormField
           control={form.control}
           name='oldPassword'
