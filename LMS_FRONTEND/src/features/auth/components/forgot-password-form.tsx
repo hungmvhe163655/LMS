@@ -1,6 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -9,7 +11,6 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-
 import {
   Form,
   FormControl,
@@ -18,15 +19,13 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form';
-
+import { Input } from '@/components/ui/input';
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot
 } from '@/components/ui/input-otp';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 // FormSchema and Validation
 const FormSchema = z.object({
   emailOrPhone: z.string().min(6, {
