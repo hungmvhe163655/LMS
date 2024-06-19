@@ -9,8 +9,9 @@ namespace Shared.DataTransferObjects.RequestDTO
 {
     public class LoginRequestModel
     {
+        [Required(ErrorMessage = "Email Is Required")]
         public string? Email { get; set; }
-        [Required(ErrorMessage = "Username Is Required")]
+        
         public string? UserName { get; set; }
         [Required(ErrorMessage = "Password is Required")]
         public string? PassWord { get; set; }
