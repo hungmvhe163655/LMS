@@ -260,11 +260,15 @@ namespace Service
             {
                 if (!_account.EmailConfirmed)
                 {
-                    return "UNVERIFIED|" + _account.UserName;
+                    return "UNVERIFIEDEMAIL|" + _account.UserName;
                 }
                 if (_account.isBanned)
                 {
                     return "ISBANNED|";
+                }
+                if (!_account.isVerified)
+                {
+                    return "UNVERIFIED|" + _account.UserName;
                 }
             }
             return "SUCCESS|";

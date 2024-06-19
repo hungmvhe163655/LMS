@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
+using Shared.DataTransferObjects.RequestDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IServiceManager _service;
-        private readonly ILogger _logger;
-        public AccountController(IServiceManager service, ILogger logger)
+        public AccountController(IServiceManager service)
         {
-            _logger = logger;
             _service = service;
         }
         [HttpGet("GetVerifierAccount")]
@@ -39,26 +38,26 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
         }
         [HttpPost("UpdateVerifierAccount")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> UpdateAccountVerifyStatus(string email)
+       // [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> UpdateAccountVerifyStatus([FromBody]UpdateVerifyStatusRequestModel model)
         {
-            if (email == null)
+            if (model.UserID == null||model.verifierID==null)
             {
                 ModelState.AddModelError("BadRequest", "Username can't be empty");
                 return BadRequest();
             }
             try
             {
-                var user = await _service.AccountService.GetUserByEmail(email);
+                var user = await _service.AccountService.GetUserById(model.UserID);
                 if (user == null)
                 {
-                    return BadRequest();
+                    return BadRequest("User with the email does not existed");
                 }
                 var hold = new List<string>();
-                hold.Add(email);
-                if (await _service.AccountService.UpdateAccountVerifyStatus(hold))
+                hold.Add(model.UserID);
+                if (await _service.AccountService.UpdateAccountVerifyStatus(hold,model.verifierID))
                 {
-                    return Ok(new { Status = "success", Value = "Update User " + email + " Status Successully" });
+                    return Ok(new { Status = "success", Value = "Update User " + user.FullName + " Status Successully" });
                 }
             }
             catch

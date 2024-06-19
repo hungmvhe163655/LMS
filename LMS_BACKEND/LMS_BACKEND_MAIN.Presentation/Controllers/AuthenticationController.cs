@@ -164,7 +164,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 }
                 if (outcome.Split("|")[0].Equals("UNVERIFIED"))
                 {
-                    return Ok("NeedVerify" + outcome.Split("|")[1]);
+                    return Ok("NeedVerify|" + outcome.Split("|")[1]);
                 }
                 if (outcome.Split("|")[0].Equals("ISBANNED"))
                 {
