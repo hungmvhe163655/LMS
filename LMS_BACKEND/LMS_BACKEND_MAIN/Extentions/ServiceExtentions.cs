@@ -11,6 +11,9 @@ using Service.Contracts;
 using System.Net.Mail;
 using System.Net;
 using System.Text;
+using Amazon.S3;
+using Amazon;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LMS_BACKEND_MAIN.Extentions
 {
@@ -108,5 +111,41 @@ namespace LMS_BACKEND_MAIN.Extentions
             services.AddScoped<IServiceManager, ServiceManager>();
         public static void AddJwtConfiguration(this IServiceCollection services,IConfiguration configuration) =>
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
+        public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
+        {//nho chay app setup truoc khi release phai sua phan encryptionkey vaf iv nay
+            var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
+            var iv = Environment.GetEnvironmentVariable("ivKey");
+
+            var encryptedAccessKey = Environment.GetEnvironmentVariable("ENCRYPTED_ACCESS_KEY");
+            var encryptedSecretKey = Environment.GetEnvironmentVariable("ENCRYPTED_SECRET_KEY");
+
+            var awsOptions = configuration.GetAWSOptions("AWS");
+            awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
+
+            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
+                Decrypter.DecryptString(encryptedAccessKey, encryptionKey, iv),
+                Decrypter.DecryptString(encryptedSecretKey, encryptionKey, iv)
+            );
+
+            awsOptions.DefaultClientConfig.ServiceURL = configuration["AWS:ServiceURL"];
+
+            services.AddDefaultAWSOptions(awsOptions);
+            services.AddAWSService<IAmazonS3>();
+            /*
+            services.AddSingleton<IAmazonS3>(sp =>
+            {
+                var config = sp.GetRequiredService<IConfiguration>();
+                var serviceUrl = config["CloudflareR2:ServiceUrl"];
+
+                return new AmazonS3Client
+                (Decrypter.DecryptString(encryptedAccessKey,encryptionKey,iv),
+                Decrypter.DecryptString(encryptedSecretKey,encryptionKey,iv),
+                new AmazonS3Config
+                {
+                    ServiceURL = serviceUrl
+                });
+            });
+            */
+        }
     }
 }

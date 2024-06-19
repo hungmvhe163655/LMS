@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS_BACKEND_MAIN", "LMS_BACKEND_MAIN\LMS_BACKEND_MAIN.csproj", "{F9C1040F-CC39-4AAA-8C88-C418AA5FDEDD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ENCRYPTION_APPLICATION", "ENCRYPTION_APPLICATION", "{B78921F0-80D1-4FCB-8DDC-179BB1FA4233}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ENCRYPTING_KEYS", "ENCRYPTING_KEYS\ENCRYPTING_KEYS.csproj", "{D63FA45C-0015-4134-9461-D2085110D0EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,9 +67,16 @@ Global
 		{F9C1040F-CC39-4AAA-8C88-C418AA5FDEDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9C1040F-CC39-4AAA-8C88-C418AA5FDEDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9C1040F-CC39-4AAA-8C88-C418AA5FDEDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D63FA45C-0015-4134-9461-D2085110D0EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D63FA45C-0015-4134-9461-D2085110D0EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D63FA45C-0015-4134-9461-D2085110D0EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D63FA45C-0015-4134-9461-D2085110D0EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D63FA45C-0015-4134-9461-D2085110D0EC} = {B78921F0-80D1-4FCB-8DDC-179BB1FA4233}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C9BB9037-4F66-4762-9A06-61C4B95EDCD9}
