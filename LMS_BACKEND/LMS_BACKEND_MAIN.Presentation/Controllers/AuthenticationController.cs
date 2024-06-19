@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.ResponseDTO;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -45,19 +46,18 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex);
-
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterLabLead)}" });
             }
         }
         [HttpPut("ReSendVerifyEmail")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> ReSendVerifyEmail([FromBody] SimpleRequestModel model)
+        public async Task<IActionResult> ReSendVerifyEmail([FromBody] MailRequestModel model)
         {
-            if (model.Propety1 == null)
+            if (model.Email == null)
             {
                 return BadRequest("Email can't be empty");
             }
-            if (await _service.MailService.SendVerifyOtp(model.Propety1))
+            if (await _service.MailService.SendVerifyOtp(model.Email))
             {
                 return Ok("New Verify code Has been sent to your email");
             }
@@ -65,10 +65,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
         [HttpPut("VerifyEmail")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> VerifyEmail([FromBody] SimpleRequestModel model)
+        public async Task<IActionResult> VerifyEmail([FromBody] MailRequestModel model)
         {
-            var email = model.Propety1;
-            var token = model.Propety2;
+            var email = model.Email;
+            var token = model.AuCode;
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(token))
             {
                 return BadRequest("Empty email or token");
@@ -95,15 +95,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     {
                         ModelState.TryAddModelError(error.Code, error.Description);
                     }
-                    return BadRequest(ModelState);
+                    return BadRequest(new ResponseObjectModel { Code = "401", Status = "Error while trying to create Supervisor", Value = ModelState });
                 }
                 await _service.MailService.SendVerifyOtp(model.Email);
 
-                return StatusCode(201);
+                return StatusCode(201,new ResponseObjectModel { Code = "201", Status = "Create User Successfully", Value = model });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex);
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterSupervisor)}"});
 
             }
         }
@@ -127,11 +127,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 }
                 await _service.MailService.SendVerifyOtp(model.Email);
 
-                return StatusCode(201,"success");
+                return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Create User Successfully", Value = model });
+            
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex);
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterStudent)}" });
+
 
             }
         }
@@ -141,7 +143,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             try
             {
-                if (await _service.MailService.VerifyTwoFactorOtp(model.Email,model.AuCode))
+                if (await _service.MailService.VerifyTwoFactorOtp(model.Email, model.AuCode))
                 {
                     string outcome = await _service.AuthenticationService.ValidateUser(model);
                     var Tokendto = await _service.AuthenticationService.CreateToken(true);
@@ -151,7 +153,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(Authenticate2Factor)}" });
+
             }
         }
         private async Task<IActionResult> LoginProcess(string outcome, bool twofactor, LoginRequestModel model)
@@ -192,7 +195,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 }
                 return NotFound("User not found");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex);
             }
@@ -201,9 +204,17 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestModel model)
         {
-            string outcome = await _service.AuthenticationService.ValidateUser(model);
-            var user = await _service.AccountService.GetUserByEmail(model.Email);
-            return await LoginProcess(outcome, user.TwoFactorEnabled, model);
+            try
+            {
+                string outcome = await _service.AuthenticationService.ValidateUser(model);
+                var user = await _service.AccountService.GetUserByEmail(model.Email);
+                return await LoginProcess(outcome, user.TwoFactorEnabled, model);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(Authenticate)}" });
+
+            }
         }
         [HttpPost("Logout")]
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -229,11 +240,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPost("ForgotPasswordOtp")]
         public async Task<IActionResult> ForgotPasswordOtp([FromBody] ForgotPasswordRequestModel model)
         {
-            if(string.IsNullOrEmpty(model.VerifyCode) || string.IsNullOrEmpty(model.Email))
+            if (string.IsNullOrEmpty(model.VerifyCode) || string.IsNullOrEmpty(model.Email))
             {
                 return BadRequest("empty verify code/ Email");
             }
-            if(await _service.MailService.VerifyForgotPasswordOtp(model.Email,model.VerifyCode))
+            if (await _service.MailService.VerifyForgotPasswordOtp(model.Email, model.VerifyCode))
             {
                 return Ok(model.Email);
             }
