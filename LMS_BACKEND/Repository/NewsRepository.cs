@@ -7,6 +7,7 @@ namespace Repository
     {
         public NewsRepository(DataContext context) : base(context)
         {
+            //implement logic crud news vao day
         }
     }
 }
