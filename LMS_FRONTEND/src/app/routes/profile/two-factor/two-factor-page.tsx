@@ -1,5 +1,5 @@
 import { Layout } from '@/components/layouts/profile-layout';
 
-export function TwoFactor() {
+export function TwoFactorPage() {
   return <Layout>two-factor</Layout>;
 }
