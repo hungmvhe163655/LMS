@@ -48,7 +48,7 @@ function LoginForm() {
       </CardHeader>
       <CardContent className='py-0'>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='mb-4 space-y-3'>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='mb-4 space-y-4'>
             {/* Email or Roll Number Input Field */}
             <FormField
               control={form.control}
@@ -77,16 +77,13 @@ function LoginForm() {
                 </FormItem>
               )}
             />
-            <Button
-              type='submit'
-              className='mb-2 me-2 w-full rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300'
-            >
+            <Button type='submit' className='w-full'>
               Login
             </Button>
           </form>
         </Form>
       </CardContent>
-      <CardFooter className='flex-col content-start'>
+      <CardFooter className='flex-col space-y-2'>
         <p>
           Don&apos;t have an account?
           <Link to='/auth/register/choose-role'> Register now!</Link>

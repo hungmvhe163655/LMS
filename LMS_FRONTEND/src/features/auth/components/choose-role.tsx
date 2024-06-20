@@ -7,7 +7,7 @@ function ChooseRoleRegister() {
   return (
     <div className='flex justify-center space-x-8'>
       <Link
-        to='/auth/roll-number'
+        to='/auth/register/choose-role/student'
         className='rounded-lg bg-slate-200 text-black hover:bg-slate-300 hover:text-black'
       >
         <div className='rounded-md p-4'>

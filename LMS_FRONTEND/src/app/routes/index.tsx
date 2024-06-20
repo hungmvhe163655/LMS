@@ -5,7 +5,6 @@ import ForgotPasswordRoute from './auth/forget-password';
 import LoginRoute from './auth/login';
 import RegisterRoute from './auth/register';
 import ValidateEmailRoute from './auth/validate-email';
-import ValidateRollNumberRoute from './auth/validate-roll-number';
 import StudentDashboardRoute from './dashboard/student';
 import ListNewsRoute from './news';
 import EmailRoute from './profile/email';
@@ -34,13 +33,7 @@ export const createRouter = (queryClient: QueryClient) =>
     },
     {
       path: '/auth',
-      children: [
-        RegisterRoute,
-        LoginRoute,
-        ForgotPasswordRoute,
-        ValidateEmailRoute,
-        ValidateRollNumberRoute
-      ]
+      children: [RegisterRoute, LoginRoute, ForgotPasswordRoute, ValidateEmailRoute]
     },
     {
       path: '/profile',
