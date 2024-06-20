@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import Header from '../app/header';
+import { BaseLayout } from './base-layout';
 
 import { Head } from '@/components/seo';
 
@@ -11,18 +11,17 @@ type LayoutProps = {
 
 export function Layout({ children, title }: LayoutProps) {
   return (
-    <>
-      <Header />
+    <BaseLayout>
       <Head title={title} />
-      <div className='flex min-h-screen flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8'>
+      <div className='flex min-h-screen flex-col justify-center bg-gray-50 py-6 sm:px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
           <div className='flex justify-center' />
 
-          <h2 className='mt-3 text-center text-3xl font-extrabold text-gray-900'>{title}</h2>
+          <h2 className='mt-1 text-center text-3xl font-extrabold text-gray-900'>{title}</h2>
         </div>
 
-        <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>{children}</div>
+        <div className='mt-5 sm:mx-auto sm:w-full sm:max-w-md'>{children}</div>
       </div>
-    </>
+    </BaseLayout>
   );
 }

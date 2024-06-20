@@ -3,7 +3,7 @@ import SupervisorRegisterForm from '@/features/auth/components/supervisor-regist
 
 export function SupervisorRegisterPage() {
   return (
-    <Layout title='Register Your Supervisor Account'>
+    <Layout title='Register as Supervisor'>
       <SupervisorRegisterForm />
     </Layout>
   );
