@@ -1,7 +1,7 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace Repository
+namespace Repository.Configuration
 {
     public static class DataContextInitializer
     {

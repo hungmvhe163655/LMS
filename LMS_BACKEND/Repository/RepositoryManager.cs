@@ -11,6 +11,7 @@ namespace Repository
         {
             _context = context;
             _accountRepository = new Lazy<IAccountRepository>(() => new AccountRepository(context));
+            //khoi tao newsRepo
         }
         public IAccountRepository account => _accountRepository.Value;
 
