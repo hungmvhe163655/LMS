@@ -1,6 +1,7 @@
 import { Link } from '../ui/link';
 
 import { AvatarDropdown } from './avatar-dropdown';
+import { Logo } from './logo';
 
 export function Header() {
   const isLogin = false;
@@ -8,9 +9,7 @@ export function Header() {
   return (
     <header className='flex items-center justify-between bg-gray-800 p-4'>
       <div>
-        <Link to='/' className='text-2xl font-bold text-slate-600 hover:text-gray-300'>
-          LMS
-        </Link>
+        <Logo />
       </div>
       <ul>
         {isLogin ? (
