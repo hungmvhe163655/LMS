@@ -1,6 +1,6 @@
-import { Link } from '../ui/link';
-
 import { cn } from '@/lib/utils';
+
+import { Link } from '../ui/link';
 
 export function Logo() {
   return (

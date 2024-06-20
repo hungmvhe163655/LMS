@@ -21,7 +21,7 @@ export function AppProvider({ children }: AppProviderProps) {
         </div>
       }
     >
-      <ErrorBoundary FallbackComponent={MainErrorFallback}>
+      <ErrorBoundary fallback={<MainErrorFallback />}>
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
             {children}
