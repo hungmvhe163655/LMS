@@ -5,7 +5,7 @@ import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/plugins.pkgd.min.css';
 import 'froala-editor/css/themes/gray.min.css';
 
-const CreateNews: React.FC = () => {
+const CreateForm: React.FC = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
@@ -25,10 +25,10 @@ const CreateNews: React.FC = () => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen px-4'>
+    <div className='flex min-h-screen flex-col items-center justify-center px-4'>
       <form onSubmit={handleSubmit} className='w-full max-w-3xl space-y-6'>
         <div>
-          <label className='block text-lg font-semibold mb-2' htmlFor='news-title'>
+          <label className='mb-2 block text-lg font-semibold' htmlFor='news-title'>
             News title
           </label>
           <input
@@ -36,13 +36,13 @@ const CreateNews: React.FC = () => {
             type='text'
             value={title}
             onChange={handleTitleChange}
-            className='w-full border border-gray-300 rounded px-4 py-2'
+            className='w-full rounded border border-gray-300 px-4 py-2'
             placeholder='Enter news title'
             required
           />
         </div>
         <div>
-          <label className='block text-lg font-semibold mb-2' htmlFor='news-content'>
+          <label className='mb-2 block text-lg font-semibold' htmlFor='news-content'>
             News content
           </label>
           <FroalaEditor
@@ -55,7 +55,7 @@ const CreateNews: React.FC = () => {
             }}
           />
         </div>
-        <button type='submit' className='bg-blue-500 text-white px-6 py-2 rounded'>
+        <button type='submit' className='rounded bg-blue-500 px-6 py-2 text-white'>
           Create News
         </button>
       </form>
@@ -63,4 +63,4 @@ const CreateNews: React.FC = () => {
   );
 };
 
-export default CreateNews;
+export default CreateForm;
