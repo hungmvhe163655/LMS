@@ -57,7 +57,11 @@ function LoginForm() {
                 <FormItem>
                   <FormLabel>Email Or Roll Number</FormLabel>
                   <FormControl>
-                    <Input placeholder='yourname@fpt.edu.vn or HE123456' {...field} />
+                    <Input
+                      placeholder='yourname@fpt.edu.vn or HE123456'
+                      {...field}
+                      autoComplete='email'
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -85,11 +89,10 @@ function LoginForm() {
       </CardContent>
       <CardFooter className='flex-col space-y-2'>
         <p>
-          Don&apos;t have an account?
-          <Link to='/auth/register/choose-role'> Register now!</Link>
+          Don&apos;t have an account? <Link to='/auth/register/choose-role'>Register now!</Link>
         </p>
         <p>
-          Don&apos;t remember your password?
+          Don&apos;t remember your password?{' '}
           <Link to='/auth/forget-password'> Forget Password</Link>
         </p>
       </CardFooter>

@@ -4,7 +4,7 @@ import { AvatarDropdown } from './avatar-dropdown';
 import { Logo } from './logo';
 
 export function Header() {
-  const isLogin = false;
+  const isLogin = true;
 
   return (
     <header className='flex items-center justify-between bg-gray-800 p-4'>
@@ -13,7 +13,7 @@ export function Header() {
       </div>
       <ul>
         {isLogin ? (
-          <li>
+          <li className='mr-4'>
             <AvatarDropdown />
           </li>
         ) : (

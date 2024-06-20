@@ -67,7 +67,7 @@ function SupervisorRegisterForm() {
               name='fullname'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Fullname</FormLabel>
+                  <FormLabel>Full Name</FormLabel>
                   <FormControl>
                     <Input placeholder='Nguyen Van A' {...field} />
                   </FormControl>
@@ -84,7 +84,7 @@ function SupervisorRegisterForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='email@fpt.edu.vn' {...field} />
+                    <Input placeholder='email@fpt.edu.vn' {...field} autoComplete='email' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -114,7 +114,7 @@ function SupervisorRegisterForm() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <PasswordInput {...field} />
+                    <PasswordInput {...field} autoComplete='off' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -127,7 +127,7 @@ function SupervisorRegisterForm() {
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <PasswordInput {...field} />
+                    <PasswordInput {...field} autoComplete='off' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
