@@ -1,17 +1,10 @@
 
-﻿using Entities.Models;
+using Contracts.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -20,8 +13,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IServiceManager _service;
-        private readonly ILogger _logger;
-        public AccountController(IServiceManager service, ILogger logger)
+        private readonly ILoggerManager _logger;
+
+        public AccountController(IServiceManager service, ILoggerManager logger)
         {
             _logger = logger;
             _service = service;
@@ -69,6 +63,36 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 
             }
             return BadRequest(ModelState);
+        }
+        [HttpPost("ChangePassword")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> ChangePassword(string userId, string oldPassword, string newPassword)
+        {
+            try
+            {
+                var user =
+                await _service.AccountService.ChangePasswordAsync(userId,oldPassword, newPassword);
+                return Ok(new { Status = "success", Value = user });
+            }
+            catch
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+        [HttpPost("UpdateProfile")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> UpdateProfile(string userId, string name, string rollNumber, string major, string specialized)
+        {
+            try
+            {
+                var user =
+                await _service.AccountService.UpdateProfileAsync(userId, name, rollNumber, major, specialized);
+                return Ok(new { Status = "success", Value = user });
+            }
+            catch
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

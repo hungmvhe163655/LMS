@@ -31,7 +31,7 @@ namespace Service
             IAmazonS3 clients3
             )
         {
-            _accountService = new Lazy<IAccountService>(() => new AccountService(repositoryManager, logger,mapper));
+            _accountService = new Lazy<IAccountService>(() => new AccountService(repositoryManager, logger,mapper, userManager));
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper,userManager,configuration,roleManager));
             _mailService = new Lazy<IMailService>(() => new MailService(logger,client,userManager,memoryCache,repositoryManager));
             _newsService = new Lazy<INewsService>(() => new NewsService(logger, repositoryManager, mapper));

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces;
 using Entities.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using System;
@@ -16,11 +17,14 @@ namespace Service
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        public AccountService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
+        private readonly UserManager<Account> _userManager;
+
+        public AccountService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper, UserManager<Account> userManager)
         {
             _repository = repository;
             _logger = logger;
             _mapper = mapper;
+            _userManager = userManager;
         }
        // public async Task<Account> GetUserByEmail(string email) =>  _repository.account.GetByCondition(entity => entity.Email.Equals(email), false).FirstOrDefault();
         public async Task<Account> GetUserByEmail(string email)
@@ -72,6 +76,106 @@ namespace Service
                 return  _repository.account.GetByCondition(entity => entity.VerifiedBy.Equals(end.Id), false).ToList();
             }
             catch { throw; }
+        }
+
+        public async Task<IdentityResult> ChangePasswordAsync(string userId, string oldPassword, string newPassword)
+        {
+            try
+            {
+                var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), false);
+                var account = user.FirstOrDefault();
+                if (account != null)
+                {
+                    var result = await _userManager.ChangePasswordAsync(account, oldPassword, newPassword);
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Exceptions Occur at service {nameof(ChangePasswordAsync)} with the message\" + ex.messeage");
+            }
+            return IdentityResult.Failed();
+        }
+
+        //public async Task<bool> ChangePhone(string userId, string newPhone, string verifyCode)
+        //{
+        //    if (VerifyPhoneCode(userId, verifyCode))
+        //    {
+        //        var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), false);
+        //        var account = user.FirstOrDefault();
+        //        if (account != null)
+        //        {
+        //            account.PhoneNumber = newPhone;
+        //            _repository.account.Update(account);
+        //            await _repository.SaveAsync();
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
+
+        //public async Task<bool> ChangeEmail(string userId, string newEmail, string verifyCode)
+        //{
+        //    if (VerifyEmailCode(userId, verifyCode))
+        //    {
+        //        var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), false);
+        //        var account = user.FirstOrDefault();
+        //        if (account != null)
+        //        {
+        //            account.Email = newEmail;
+        //            _repository.account.Update(account);
+        //            await _repository.SaveAsync();
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
+
+        //private bool VerifyPhoneCode(string userId, string verifyCode)
+        //{
+        //    // Implement your phone code verification logic here
+        //    return true; // Placeholder
+        //}
+
+        //private bool VerifyEmailCode(string userId, string verifyCode)
+        //{
+        //    // Implement your email code verification logic here
+        //    return true; // Placeholder
+        //}
+
+        public async Task<IdentityResult> UpdateProfileAsync(string userId, string name, string rollNumber, string major, string specialized)
+        {
+            try
+            {
+                var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), false);
+                var account = user.FirstOrDefault();
+                if (account != null)
+                {
+                    if(name != null)
+                    {
+                        account.FullName = name;
+                    }
+                    if(rollNumber != null)
+                    {
+                        account.StudentDetail.RollNumber = rollNumber;
+                    }
+                    if(major != null)
+                    {
+                        account.StudentDetail.Major = major;
+                    }
+                    if(specialized != null)
+                    {
+                        account.StudentDetail.Specialized = specialized;
+                    }
+                    await _repository.account.UpdateAsync(account);
+                    return IdentityResult.Success;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Exceptions Occur at service {nameof(ChangePasswordAsync)} with the message\" + ex.messeage");
+            }
+            return IdentityResult.Failed();
         }
     }
 }
