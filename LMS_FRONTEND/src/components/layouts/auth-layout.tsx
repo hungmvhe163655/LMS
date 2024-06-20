@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import Header from '../app/header';
+import { Header } from '../app/header';
 
 import { Head } from '@/components/seo';
 
