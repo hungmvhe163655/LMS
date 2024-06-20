@@ -25,15 +25,15 @@ export const createRouter = (queryClient: QueryClient) =>
       }
     },
     {
-      path: 'news',
+      path: '/news',
       children: [ListNewsRoute]
     },
     {
-      path: 'dashboard',
+      path: '/dashboard',
       children: [StudentDashboardRoute]
     },
     {
-      path: 'auth',
+      path: '/auth',
       children: [
         RegisterRoute,
         LoginRoute,
@@ -43,7 +43,7 @@ export const createRouter = (queryClient: QueryClient) =>
       ]
     },
     {
-      path: 'profile',
+      path: '/profile',
       children: [OverallRoute, EmailRoute, PasswordRoute, PhoneNumberRoute, TwoFactorRoute]
     }
   ]);
