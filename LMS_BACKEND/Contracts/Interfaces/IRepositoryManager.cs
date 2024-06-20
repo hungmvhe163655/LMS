@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Contracts.Interfaces
+﻿namespace Contracts.Interfaces
 {
     public interface IRepositoryManager
     {
         IAccountRepository account { get; }
+        INewsRepository news { get; }
         void Save();
     }
 }

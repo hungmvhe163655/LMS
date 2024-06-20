@@ -104,7 +104,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterSupervisor)}"});
-
             }
         }
         [HttpPost("RegisterStudent")]
@@ -133,8 +132,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterStudent)}" });
-
-
             }
         }
         [HttpPost("Login-2factor")]
