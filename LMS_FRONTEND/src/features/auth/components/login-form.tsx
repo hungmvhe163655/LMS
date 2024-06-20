@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { PasswordInput } from '@/components/app/password';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/card';
 import {
@@ -70,7 +71,7 @@ function LoginForm() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type='password' placeholder='password' {...field} />
+                    <PasswordInput {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -78,17 +79,21 @@ function LoginForm() {
             />
             <Button
               type='submit'
-              className='mb-2 me-2 w-full rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+              className='mb-2 me-2 w-full rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300'
             >
               Login
             </Button>
           </form>
         </Form>
       </CardContent>
-      <CardFooter>
+      <CardFooter className='flex-col content-start'>
         <p>
           Don&apos;t have an account?
-          <Link to='/auth/register/choose-role'> Register now</Link>
+          <Link to='/auth/register/choose-role'> Register now!</Link>
+        </p>
+        <p>
+          Don&apos;t remember your password?
+          <Link to='/auth/forget-password'> Forget Password</Link>
         </p>
       </CardFooter>
     </Card>

@@ -1,5 +1,5 @@
 const ForgotPasswordRoute = {
-  path: 'login',
+  path: 'forget-password',
   lazy: async () => {
     const { ForgotPasswordPage: ForgotPasswordPage } = await import('./forgot-password-page');
     return { Component: ForgotPasswordPage };

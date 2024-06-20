@@ -3,14 +3,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -28,16 +21,14 @@ import {
 } from '@/components/ui/input-otp';
 // FormSchema and Validation
 const FormSchema = z.object({
-  emailOrPhone: z.string().min(6, {
-    message: 'Email or phone number must have more than 6 characters' // This will be shown using FormMessage
-  })
+  email: z.string().email()
 });
 
 function ForgotPassword() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      emailOrPhone: ''
+      email: ''
     }
   });
 
@@ -46,24 +37,20 @@ function ForgotPassword() {
     // Submit Logic
   }
   return (
-    <div className='loginFormContainer'>
-      <Card className='card'>
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>Welcome to SAP Lab Management System</CardDescription>
-        </CardHeader>
-        <CardContent className='card-content'>
+    <div>
+      <Card>
+        <CardContent className='p-4'>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='w-2/3 space-y-6'>
-              {/* Email or Phone Number Input Field */}
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+              {/* Email Input Field */}
               <FormField
                 control={form.control}
-                name='emailOrPhone'
+                name='email'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email Or Phone Number</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder='example@gmail.com or 0912345678' {...field} />
+                      <Input placeholder='Your email...' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
