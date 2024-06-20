@@ -1,7 +1,7 @@
 const EmailRoute = {
   path: 'email',
   lazy: async () => {
-    const { Email } = await import('./email');
+    const { EmailPage: Email } = await import('./email-page');
     return { Component: Email };
   }
 };

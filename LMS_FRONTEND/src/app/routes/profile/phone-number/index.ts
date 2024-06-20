@@ -1,8 +1,8 @@
 const PhoneNumberRoute = {
   path: 'phone-number',
   lazy: async () => {
-    const { PhoneNumber } = await import('./phone-number');
-    return { Component: PhoneNumber };
+    const { PhoneNumberPage: PhoneNumberPage } = await import('./phone-number-page');
+    return { Component: PhoneNumberPage };
   }
 };
 
