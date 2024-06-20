@@ -1,6 +1,12 @@
 import { QueryClient } from '@tanstack/react-query';
 import { createBrowserRouter } from 'react-router-dom';
 
+import EmailRoute from './profile/email';
+import OverallRoute from './profile/overall';
+import PasswordRoute from './profile/password';
+import PhoneNumberRoute from './profile/phone-number';
+import TwoFactorRoute from './profile/two-factor';
+
 export const createRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
     {
@@ -63,7 +69,7 @@ export const createRouter = (queryClient: QueryClient) =>
       path: '/news/list',
       lazy: async () => {
         queryClient;
-        const { ListNewsRoute } = await import('./news/list-news');
+        const { ListNewsRoute } = await import('./news/list');
         return { Component: ListNewsRoute };
       }
     },
@@ -71,16 +77,19 @@ export const createRouter = (queryClient: QueryClient) =>
       path: '/news/create',
       lazy: async () => {
         queryClient;
-        const { CreateNewsRoute } = await import('./news/create-news');
+        const { CreateNewsRoute } = await import('./news/create');
         return { Component: CreateNewsRoute };
       }
     },
     {
       path: '/student/dashboard',
       lazy: async () => {
-        queryClient;
         const { StudentDashboardRoute } = await import('./student/student-dashboard');
         return { Component: StudentDashboardRoute };
       }
+    },
+    {
+      path: 'profile',
+      children: [OverallRoute, EmailRoute, PasswordRoute, PhoneNumberRoute, TwoFactorRoute]
     }
   ]);

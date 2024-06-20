@@ -96,6 +96,7 @@ namespace Repository
                 entity.Property(e => e.Gender).HasColumnName("gender");
                 entity.Property(e => e.isBanned).HasColumnName("isBanned");
                 entity.Property(e => e.isDeleted).HasColumnName("isDeleted");
+                entity.Property(e => e.isVerified).HasColumnName("IsVerified");
                 entity.Property(e => e.VerifiedBy).HasColumnName("verifiedBy");
 
                 entity.HasOne(d => d.VerifiedByUser).WithMany(p => p.VerifiedAccounts)
@@ -473,14 +474,14 @@ namespace Repository
 
                 entity.HasOne(d => d.Schedules)
                     .WithOne(p => p.Report)
-                    .HasForeignKey<Report>(d => d.ScheduleId) 
+                    .HasForeignKey<Report>(d => d.ScheduleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Reports_Schedules");
             });
 
             modelBuilder.Entity<Schedule>(entity =>
             {
-                entity.HasKey(e => e.Id); 
+                entity.HasKey(e => e.Id);
 
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.DeviceId).HasColumnName("deviceId");
@@ -586,7 +587,7 @@ namespace Repository
                     .HasForeignKey(d => d.TaskStatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Tasks_TaskStatus");
-//////////////////////////////////////////////
+                //////////////////////////////////////////////
                 entity.HasMany(d => d.Accounts).WithMany(p => p.TasksCurrent)
                     .UsingEntity<Dictionary<string, object>>(
                         "TasksAccount",
@@ -599,7 +600,7 @@ namespace Repository
                             .HasForeignKey("TaskId")
                             .OnDelete(DeleteBehavior.ClientSetNull)
                             .HasConstraintName("FK_TasksAccounts_Tasks"),
- 
+
                         j =>
                         {
                             j.HasKey("TaskId", "AccountId");
@@ -607,7 +608,7 @@ namespace Repository
                             j.IndexerProperty<Guid>("TaskId").HasColumnName("taskId");
                             j.IndexerProperty<string>("AccountId").HasColumnName("accountId");
                         });
-////////////////////////////////////////////////
+                ////////////////////////////////////////////////
                 entity.HasMany(d => d.Files).WithMany(p => p.Tasks)
                     .UsingEntity<Dictionary<string, object>>(
                         "TasksFile",
@@ -669,31 +670,31 @@ namespace Repository
                 entity.HasOne(d => d.TaskStatus).WithMany()
                     .HasForeignKey(d => d.TaskStatusId)
                     .HasConstraintName("FK_TaskHistories_TaskStatus");
-//////////////////////////////////////////////
-///
-            /*
-                entity.HasMany(d => d.Accounts).WithMany()
-                    .UsingEntity<Dictionary<string, object>>(
-                        "TaskHistoriesAccounts",
+                //////////////////////////////////////////////
+                ///
+                /*
+                    entity.HasMany(d => d.Accounts).WithMany()
+                        .UsingEntity<Dictionary<string, object>>(
+                            "TaskHistoriesAccounts",
 
-                        r => r.HasOne<Account>().WithMany()
-                            .HasForeignKey("AccountId")
-                            .OnDelete(DeleteBehavior.ClientSetNull)
-                            .HasConstraintName("FK_TaskHistoriesAccounts_Accounts"),
-                        l => l.HasOne<TaskHistory>().WithMany()
-                            .HasForeignKey("TaskHistoryId")
-                            .OnDelete(DeleteBehavior.ClientSetNull)
-                            .HasConstraintName("FK_TaskHistoriesAccounts_TaskHistories"),
+                            r => r.HasOne<Account>().WithMany()
+                                .HasForeignKey("AccountId")
+                                .OnDelete(DeleteBehavior.ClientSetNull)
+                                .HasConstraintName("FK_TaskHistoriesAccounts_Accounts"),
+                            l => l.HasOne<TaskHistory>().WithMany()
+                                .HasForeignKey("TaskHistoryId")
+                                .OnDelete(DeleteBehavior.ClientSetNull)
+                                .HasConstraintName("FK_TaskHistoriesAccounts_TaskHistories"),
 
-                        j =>
-                        {
-                            j.HasKey("TaskHistoryId", "AccountId");
-                            j.ToTable("TaskHistoriesAccounts");
-                            j.IndexerProperty<Guid>("TaskHistoryId").HasColumnName("taskHistoryId");
-                            j.IndexerProperty<string>("AccountId").HasColumnName("accountId");
-                        });
-                */
-/////////////////////////////////////////////////////////////
+                            j =>
+                            {
+                                j.HasKey("TaskHistoryId", "AccountId");
+                                j.ToTable("TaskHistoriesAccounts");
+                                j.IndexerProperty<Guid>("TaskHistoryId").HasColumnName("taskHistoryId");
+                                j.IndexerProperty<string>("AccountId").HasColumnName("accountId");
+                            });
+                    */
+                /////////////////////////////////////////////////////////////
                 entity.HasMany(d => d.Labels).WithMany()
                     .UsingEntity<Dictionary<string, object>>(
                         "TaskHistoriesLabels",
@@ -759,7 +760,8 @@ namespace Repository
                     .HasColumnName("name");
             });
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
-        }
 
+            modelBuilder.SeedData();
+        }
     }
 }

@@ -1,7 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { Link } from 'react-router-dom';
+import { z } from 'zod';
+
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -11,7 +13,6 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,

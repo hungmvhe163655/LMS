@@ -116,6 +116,10 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("isDeleted");
 
+                    b.Property<bool>("isVerified")
+                        .HasColumnType("bit")
+                        .HasColumnName("IsVerified");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -952,19 +956,19 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b2ab0e08-6661-4deb-a531-6241b02e1170",
+                            Id = "e4de5e8c-56bc-40ed-90a1-6b2d57d2e1aa",
                             Name = "LabLead",
                             NormalizedName = "LABADMIN"
                         },
                         new
                         {
-                            Id = "97f0f3bd-394b-462e-b7b0-0018b129a9db",
+                            Id = "3e1770f4-e15e-4147-9d98-54faae40d9d5",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "355f5fcf-92f6-4ef8-b7c6-28aab481da76",
+                            Id = "11acfb83-e13f-4460-bd49-19c86228b17b",
                             Name = "Teacher",
                             NormalizedName = "SUPERVISOR"
                         });

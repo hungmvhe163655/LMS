@@ -3,6 +3,7 @@ using Contracts.Interfaces;
 using Entities.ConfigurationModels;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
@@ -51,15 +52,21 @@ namespace Service
             try
             {
                 var user = await _userManager.FindByEmailAsync(email);
-                var hold = (user != null && user.EmailVerifyCode != null && user.EmailVerifyCodeAge < DateTime.Now && !user.EmailConfirmed) ? user.EmailVerifyCode : null;
+
+                var hold = (user != null && user.EmailVerifyCodeAge > DateTime.Now && !user.EmailConfirmed) ? user.EmailVerifyCode : null;
+
                 if(hold != null)
                 {
                     if (hold.Equals(token))
                     {
                         user.EmailVerifyCode = null;
+
                         user.EmailVerifyCodeAge = DateTime.MinValue;
+
                         user.EmailConfirmed = true;
+
                         await  _userManager.UpdateAsync(user);
+
                         return true;
                     }
                 }
@@ -75,17 +82,19 @@ namespace Service
             {
                 var user = _mapper.Map<Account>(model);
 
+                /*
                 if (string.IsNullOrEmpty(model.VerifiedByUserName))
                 {
                     return IdentityResult.Failed();
                 }
-               // var verifier = _userManager.FindByNameAsync(model.VerifiedByUserName);
+                */
+                // var verifier = _userManager.FindByIdAsync(model.VerifiedByUserName);
 
-               // if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
+                // if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
 
-               // var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
+                // var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
 
-               // if (verifierRole == null || !verifierRole.Equals("Teacher")) { return IdentityResult.Failed(); }
+                // if (verifierRole == null || !verifierRole.Equals("Teacher")) { return IdentityResult.Failed(); }
 
                 if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
 
@@ -107,6 +116,8 @@ namespace Service
                 if (validRoles.Any())
                 {
                     user.VerifiedBy = null;
+
+                    user.UserName = model.Email;
 
                     var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -133,11 +144,11 @@ namespace Service
             {
                 var user = _mapper.Map<Account>(model);
 
-                if (string.IsNullOrEmpty(model.VerifiedByUserName))
+                if (string.IsNullOrEmpty(model.VerifiedByUserID))
                 {
                     return IdentityResult.Failed();
                 }
-                var verifier = _userManager.FindByNameAsync(model.VerifiedByUserName);
+                var verifier = _userManager.FindByIdAsync(model.VerifiedByUserID);
 
                 if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
 
@@ -178,7 +189,9 @@ namespace Service
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(RegisterSupervisor)}Error During Authentication Process has Occur for Teacher");
+
                 _logger.LogError(ex.Message);
+
                 return IdentityResult.Failed();
             }
         }
@@ -188,11 +201,11 @@ namespace Service
             {
                 var user = _mapper.Map<Account>(model);
 
-                if (string.IsNullOrEmpty(model.VerifiedByUserName))
+                if (string.IsNullOrEmpty(model.VerifiedByUserID))
                 {
                     return IdentityResult.Failed();
                 }
-                var verifier = _userManager.FindByNameAsync(model.VerifiedByUserName);
+                var verifier = _userManager.FindByIdAsync(model.VerifiedByUserID);
 
                 if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
 
@@ -233,7 +246,9 @@ namespace Service
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(RegisterStudent)}Error During Authentication Process has Occur for Student");
+
                 _logger.LogError(ex.Message);
+
                 return IdentityResult.Failed();
             }
         }
@@ -241,12 +256,12 @@ namespace Service
         public async Task<string> ValidateUser(LoginRequestModel userForAuth)
         {
             /// Tim nguoi dung trong he thong khong nhap ten thi authen loi log vao 
-            if (string.IsNullOrEmpty(userForAuth.UserName) || string.IsNullOrEmpty(userForAuth.PassWord))
+            if (string.IsNullOrEmpty(userForAuth.Email) || string.IsNullOrEmpty(userForAuth.PassWord))
             {
-                _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Empty user name or password");
+                _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Empty Email or password");
                 return "BADLOGIN|";
             }
-            _account = await _userManager.FindByNameAsync(userForAuth.UserName);
+            _account = await _userManager.FindByEmailAsync(userForAuth.Email);
             var result = (_account != null && await _userManager.CheckPasswordAsync(_account, userForAuth.PassWord));
             if (!result)
             {
@@ -257,11 +272,15 @@ namespace Service
             {
                 if (!_account.EmailConfirmed)
                 {
-                    return "UNVERIFIED|" + _account.UserName;
+                    return "UNVERIFIEDEMAIL|" + _account.UserName;
                 }
                 if (_account.isBanned)
                 {
                     return "ISBANNED|";
+                }
+                if (!_account.isVerified)
+                {
+                    return "UNVERIFIED|" + _account.UserName;
                 }
             }
             return "SUCCESS|";
@@ -286,8 +305,11 @@ namespace Service
             if (hold != null)
             {
                 var key = Encoding.UTF8.GetBytes(hold);
+
                 var secret = new SymmetricSecurityKey(key);
+
                 return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+
             }
             return new SigningCredentials(null, SecurityAlgorithms.HmacSha256);
         }
@@ -345,51 +367,75 @@ namespace Service
                 ValidAudience = _jwtConfiguration.ValidAudience
             };
             var tokenHandler = new JwtSecurityTokenHandler();
+
             SecurityToken securityToken;
+
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out
            securityToken);
+
             var jwtSecurityToken = securityToken as JwtSecurityToken;
+
             if (jwtSecurityToken == null ||
            !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
             StringComparison.InvariantCultureIgnoreCase))
             {
                 throw new SecurityTokenException("Invalid token");
             }
+
             return principal;
         }
         public async Task<TokenDTO> CreateToken(bool populateExp)//gui ve request token de duy tri dang nhap
         {
             var signingCredentials = GetSigningCredentials();
+
             var claims = await GetClaims();
+
             var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
+
             var refreshToken = GenerateRefreshToken();
+
             _account.UserRefreshToken = refreshToken;
+
             if (populateExp)
                 _account.UserRefreshTokenExpiryTime = DateTime.Now.AddDays(7);// them thoi gian cho refreshToken neu muon tuy
+
             await _userManager.UpdateAsync(_account);
+
             var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
             return new TokenDTO(accessToken, refreshToken);
+
         }
         public async Task<TokenDTO> RefreshToken(TokenDTO tokenDto)
         {
             var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
+
             var user = await _userManager.FindByNameAsync(principal.Identity.Name);
+
             if (user == null || user.UserRefreshToken != tokenDto.RefreshToken ||
             user.UserRefreshTokenExpiryTime <= DateTime.Now)
                 return null;
+
             _account = user;
+
             return await CreateToken(false);
+
         }
-        public async Task<bool> InvalidateToken(TokenDTO tokenDTO)
+        public async Task<bool> InvalidateToken(TokenDTO tokenDTO)//logout logic
         {
             try
             {
                 var principal = GetPrincipalFromExpiredToken(tokenDTO.AccessToken);
+
                 var user = await _userManager.FindByNameAsync(principal.Identity.Name);
+
                 if(user==null) { return false; }
                 user.UserRefreshToken = null;
+
                 user.UserRefreshTokenExpiryTime = DateTime.MinValue;
+
                 await _userManager.UpdateAsync(user);
+
                 return true;
             }
             catch (Exception ex)

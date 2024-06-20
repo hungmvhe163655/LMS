@@ -1,18 +1,11 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces;
-using Entities.ConfigurationModels;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Service.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -22,6 +15,9 @@ namespace Service
         private readonly Lazy<IAccountService> _accountService;
         private readonly Lazy<IAuthenticationService> _authenticationService;
         private readonly Lazy<IMailService> _mailService;
+        private readonly Lazy<INewsService> _newsService;
+        private readonly IMemoryCache _cache;
+
         //
         public ServiceManager(
             IRepositoryManager repositoryManager,
@@ -30,15 +26,17 @@ namespace Service
             RoleManager<IdentityRole> roleManager,
             SmtpClient client,
             IConfiguration configuration,
-            IMemoryCache memoryCache) 
+            IMemoryCache memoryCache)
         {
             _accountService = new Lazy<IAccountService>(() => new AccountService(repositoryManager, logger,mapper));
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper,userManager,configuration,roleManager));
-            _mailService = new Lazy<IMailService>(() => new MailService(logger,client,userManager,memoryCache));
+            _mailService = new Lazy<IMailService>(() => new MailService(logger,client,userManager,memoryCache,repositoryManager));
+            _newsService = new Lazy<INewsService>(() => new NewsService(logger, repositoryManager, mapper));
         }
         public IAccountService AccountService => _accountService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
         public IMailService MailService => _mailService.Value;
+        public INewsService NewsService => _newsService.Value;
 
 
     }

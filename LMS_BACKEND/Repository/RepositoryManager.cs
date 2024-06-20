@@ -1,9 +1,4 @@
 ﻿using Contracts.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -11,12 +6,15 @@ namespace Repository
     {
         private readonly DataContext _context;
         private readonly Lazy<IAccountRepository> _accountRepository;
-        public RepositoryManager(DataContext context) 
+        private readonly Lazy<INewsRepository> _newsRepository;
+        public RepositoryManager(DataContext context)
         {
             _context = context;
-            _accountRepository = new Lazy<IAccountRepository>(()=>new AccountRepository(context));
+            _accountRepository = new Lazy<IAccountRepository>(() => new AccountRepository(context));
         }
-        public IAccountRepository account  => _accountRepository.Value;
+        public IAccountRepository account => _accountRepository.Value;
+
+        public INewsRepository news => _newsRepository.Value;
 
         public void Save() => _context.SaveChanges();
     }

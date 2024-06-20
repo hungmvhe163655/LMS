@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LMS_BACKEND_MAIN.Migrations
 {
     /// <inheritdoc />
-    public partial class Test2 : Migration
+    public partial class DB_V1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,6 +23,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                     createdDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     verifiedBy = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    IsVerified = table.Column<bool>(type: "bit", nullable: false),
                     isBanned = table.Column<bool>(type: "bit", nullable: false),
                     EmailVerifyCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: true),
                     EmailVerifyCodeAge = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -840,9 +841,9 @@ namespace LMS_BACKEND_MAIN.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "355f5fcf-92f6-4ef8-b7c6-28aab481da76", null, "Teacher", "SUPERVISOR" },
-                    { "97f0f3bd-394b-462e-b7b0-0018b129a9db", null, "Student", "STUDENT" },
-                    { "b2ab0e08-6661-4deb-a531-6241b02e1170", null, "LabLead", "LABADMIN" }
+                    { "26aac27d-772a-4b85-8ca8-86fe4596b85b", null, "LabLead", "LABADMIN" },
+                    { "c1d622f0-1406-4c25-89a7-5269a0ae7fb0", null, "Teacher", "SUPERVISOR" },
+                    { "ccaefe4b-34ed-4eb9-9654-ec18985cab04", null, "Student", "STUDENT" }
                 });
 
             migrationBuilder.CreateIndex(
