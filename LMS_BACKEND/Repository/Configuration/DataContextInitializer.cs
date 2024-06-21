@@ -9,29 +9,6 @@ namespace Repository.Configuration
         public static void SeedData(this Microsoft.EntityFrameworkCore.ModelBuilder builder)
         {
             // Thêm data tương ứng
-            builder.Entity<IdentityRole>().HasData(
-                    new IdentityRole
-                    {
-                        Id = "355f5fcf-92f6-4ef8-b7c6-28aab481da76",
-                        Name = "Teacher",
-                        NormalizedName = Uppercase("SUPERVISOR"),
-                        ConcurrencyStamp = ""
-                    },
-                    new IdentityRole
-                    {
-                        Id = "97f0f3bd-394b-462e-b7b0-0018b129a9db",
-                        Name = "Student",
-                        NormalizedName = Uppercase("STUDENT"),
-                        ConcurrencyStamp = ""
-                    },
-                     new IdentityRole
-                     {
-                         Id = "b2ab0e08-6661-4deb-a531-6241b02e1170",
-                         Name = "LabLead",
-                         NormalizedName = Uppercase("LABADMIN"),
-                         ConcurrencyStamp = ""
-                     }
-                );
             builder.Entity<Account>().HasData
              (
                  // mật khẩu Abc@123

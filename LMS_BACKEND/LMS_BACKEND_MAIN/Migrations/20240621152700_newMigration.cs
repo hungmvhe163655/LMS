@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LMS_BACKEND_MAIN.Migrations
 {
     /// <inheritdoc />
-    public partial class DB_V1 : Migration
+    public partial class newMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -841,9 +841,9 @@ namespace LMS_BACKEND_MAIN.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "26aac27d-772a-4b85-8ca8-86fe4596b85b", null, "LabLead", "LABADMIN" },
-                    { "c1d622f0-1406-4c25-89a7-5269a0ae7fb0", null, "Teacher", "SUPERVISOR" },
-                    { "ccaefe4b-34ed-4eb9-9654-ec18985cab04", null, "Student", "STUDENT" }
+                    { "3f884d61-da25-4f2f-a4d1-4972fafb7e19", null, "Student", "STUDENT" },
+                    { "8c1fe727-64fe-453a-bfd5-cc92a521055e", null, "Supervisor", "SUPERVISOR" },
+                    { "e533a2f9-0e65-4b87-bb6a-8f8c5b261de5", null, "LabAdmin", "LABADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
