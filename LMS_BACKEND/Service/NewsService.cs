@@ -41,7 +41,7 @@ namespace Service
         {
             try
             {
-                News news = _repository.news.Find(id);
+                News news = _repository.news.GetByCondition(x => x.Id.Equals(id), false).First();
                 if (news != null)
                 {
                     _repository.news.Delete(news);
@@ -59,7 +59,7 @@ namespace Service
         {
             try
             {
-                IEnumerable<News> news = _repository.news.GetAll().ToList();
+                IEnumerable<News> news = (IEnumerable<News>)_repository.news.FindAllAsync(true);
                 if (!String.IsNullOrEmpty(Title))
                 {
                     news = news.Where(x => x.Title.ToLower().Trim() == Title.ToLower().Trim());
@@ -78,7 +78,7 @@ namespace Service
         {
             try
             {
-                News news = _repository.news.Find(id);
+                News news = _repository.news.GetByCondition(x => x.Id.Equals(id), false).First();
                 if (news != null)
                 {
                     NewsReponse newsReponse = _mapper.Map<NewsReponse>(news);
@@ -97,7 +97,7 @@ namespace Service
         {
             try
             {
-                News newsUpdate = _repository.news.Find(news.Id);
+                News newsUpdate = _repository.news.GetByCondition(x => x.Id.Equals(news.Id), false).First();
                 if (news != null)
                 {
                     newsUpdate.Title = news.Title;

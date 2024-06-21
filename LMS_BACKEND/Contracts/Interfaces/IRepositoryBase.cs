@@ -14,7 +14,5 @@ namespace Contracts.Interfaces
         Task UpdateAsync(T entity);
         void Delete(T entity);
         Task DeleteAsync(T entity);
-        public T Find(int id);
-        public IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includes);
     }
 }
