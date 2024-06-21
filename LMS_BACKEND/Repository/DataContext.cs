@@ -761,7 +761,7 @@ namespace Repository
             });
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
 
-            modelBuilder.SeedData();
+            //modelBuilder.SeedData();
         }
     }
 }
