@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Configuration
 {
-    internal class OverralDbConfig
+    internal class OverallDbConfig
     {
     }
 }
