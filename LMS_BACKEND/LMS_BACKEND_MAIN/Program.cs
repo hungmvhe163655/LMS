@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NLog;
 using Repository;
+using Servive.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 var logger = NLog.LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
@@ -17,14 +18,9 @@ var connectionString = builder.Configuration.GetConnectionString("LemaoString") 
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(connectionString));
 
-// Add Identity services
-/*
-builder.Services.AddIdentity<Account, IdentityRole>()
-    .AddEntityFrameworkStores<DataContext>()
-    .AddDefaultTokenProviders();
-*/
-// Custom services config
 builder.Services.ConfigureRepositoryManager();
+
+builder.Services.AddSignalR();
 
 builder.Services.ConfigureAwsS3(builder.Configuration);
 
@@ -83,5 +79,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<NotificationHub>("/notifyHub");
 
 app.Run();
