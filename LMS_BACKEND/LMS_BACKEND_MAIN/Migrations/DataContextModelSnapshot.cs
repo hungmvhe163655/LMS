@@ -139,21 +139,22 @@ namespace LMS_BACKEND_MAIN.Migrations
                         {
                             Id = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e71e0648-13bf-4638-ac40-597a98179ce3",
-                            CreatedDate = new DateTime(2024, 6, 23, 20, 17, 52, 437, DateTimeKind.Local).AddTicks(6346),
+                            ConcurrencyStamp = "0d0bf15f-e528-4afe-87ed-3fb8d03956cf",
+                            CreatedDate = new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6502),
                             Email = "minhtche161354@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 23, 13, 17, 52, 437, DateTimeKind.Utc).AddTicks(6358),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6513),
                             Gender = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "MINHTCHE161354@FPT.EDU.VN",
                             NormalizedUserName = "MINHTCHE161354",
+                            PasswordHash = "AQAAAAIAAYagAAAAELgUn5wJH9empSyZm7MdUy84spVESi+LvNCV8nDY9PMgoY0fOBYhfZO/MPZHjSZimA==",
                             PhoneNumber = "0963661093",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "fd01e86d-6252-4ffc-b84c-63710c097009",
+                            SecurityStamp = "9ba7044d-2862-4115-8c25-48abc381e7ef",
                             TwoFactorEnabled = false,
                             UserName = "minhtche161354",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 23, 13, 17, 52, 437, DateTimeKind.Utc).AddTicks(6359),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6514),
                             isBanned = false,
                             isDeleted = false,
                             isVerified = true
@@ -162,21 +163,22 @@ namespace LMS_BACKEND_MAIN.Migrations
                         {
                             Id = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b28a8d31-7737-4b43-a274-634d29464098",
-                            CreatedDate = new DateTime(2024, 6, 23, 20, 17, 52, 502, DateTimeKind.Local).AddTicks(9304),
+                            ConcurrencyStamp = "1c110567-4e6a-4045-83ab-25cb640db893",
+                            CreatedDate = new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6535),
                             Email = "thailshe160614@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 23, 13, 17, 52, 502, DateTimeKind.Utc).AddTicks(9319),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6537),
                             Gender = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "THAILSHE160614@FPT.EDU.VN",
                             NormalizedUserName = "THAILSHE160614",
+                            PasswordHash = "AQAAAAIAAYagAAAAEO5SGANyOkCieJN+MspCJeIbBLjDruXYD5omO5+7u9NVKctIo979jEts1uoDaalzTw==",
                             PhoneNumber = "0497461220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "bcd6903e-2c4c-43cf-be81-a89f5fe403f6",
+                            SecurityStamp = "f2590979-cee0-4f48-8b2e-84a70343d174",
                             TwoFactorEnabled = false,
                             UserName = "thailshe160614",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 23, 13, 17, 52, 502, DateTimeKind.Utc).AddTicks(9319),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6537),
                             isBanned = false,
                             isDeleted = false,
                             isVerified = true
@@ -185,21 +187,22 @@ namespace LMS_BACKEND_MAIN.Migrations
                         {
                             Id = "a687bb04-4f19-49d5-a60f-2db52044767c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ee12d0e7-47fb-4cdc-8e8c-b24838fa9b93",
-                            CreatedDate = new DateTime(2024, 6, 23, 20, 17, 52, 567, DateTimeKind.Local).AddTicks(992),
+                            ConcurrencyStamp = "e1008e2b-a5a5-4d03-9394-38f280bb4b46",
+                            CreatedDate = new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6547),
                             Email = "hungmvhe163655@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 23, 13, 17, 52, 567, DateTimeKind.Utc).AddTicks(1007),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6548),
                             Gender = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "HUNGMVHE163655@FPT.EDU.VN",
                             NormalizedUserName = "HUNGMVHE163655",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHaY3BZO2ooRDvclwsiVvksAaPExz0GAXkEHlfwAtwfVBfRcw9gQTR02USItL9NrSg==",
                             PhoneNumber = "0975461220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "0a46d748-3f8d-46c9-b674-5f3350ed7664",
+                            SecurityStamp = "e172a6e3-905e-4a5e-b14c-3d8f1b7f99e5",
                             TwoFactorEnabled = false,
                             UserName = "hungmvhe163655",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 23, 13, 17, 52, 567, DateTimeKind.Utc).AddTicks(1007),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6548),
                             isBanned = false,
                             isDeleted = false,
                             isVerified = true
@@ -208,21 +211,22 @@ namespace LMS_BACKEND_MAIN.Migrations
                         {
                             Id = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "67e44c94-0c48-4cd4-86d7-c50175ac27f8",
-                            CreatedDate = new DateTime(2024, 6, 23, 20, 17, 52, 630, DateTimeKind.Local).AddTicks(4229),
+                            ConcurrencyStamp = "c5617c84-70de-4942-8d7a-ca124ea40048",
+                            CreatedDate = new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6560),
                             Email = "cuongndhe163098@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 23, 13, 17, 52, 630, DateTimeKind.Utc).AddTicks(4242),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6561),
                             Gender = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CUONGNDHE163098@FPT.EDU.VN",
                             NormalizedUserName = "CUONGNDHE163098",
+                            PasswordHash = "AQAAAAIAAYagAAAAENVZ95qV36S0GH4gzip/nSmI9JKDA1CAGuL2+t1ysccrtPgGLrSZ6k9v/tS37ojoSw==",
                             PhoneNumber = "0975465220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "8ecf114b-dd68-484f-aa17-e9acee9b982d",
+                            SecurityStamp = "680d8c01-96fa-49f0-80fc-44a7a229e5c3",
                             TwoFactorEnabled = false,
                             UserName = "cuongndhe163098",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 23, 13, 17, 52, 630, DateTimeKind.Utc).AddTicks(4243),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6562),
                             isBanned = false,
                             isDeleted = false,
                             isVerified = true
@@ -231,21 +235,94 @@ namespace LMS_BACKEND_MAIN.Migrations
                         {
                             Id = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "02aba608-a5b2-4135-a192-a1e2b3ab791a",
-                            CreatedDate = new DateTime(2024, 6, 23, 20, 17, 52, 697, DateTimeKind.Local).AddTicks(1416),
+                            ConcurrencyStamp = "31bffa2a-a4b1-481c-a3c5-d0a176381643",
+                            CreatedDate = new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6572),
                             Email = "hoangnmhe163884@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 23, 13, 17, 52, 697, DateTimeKind.Utc).AddTicks(1428),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6573),
                             Gender = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "HOANGNMHE163884@FPT.EDU.VN",
                             NormalizedUserName = "HOANGNMHE163884",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBSeWGYcWJzo0jTXDBqXgYkMmzdQCRKsLrFMaaqieAdCHchkvB2oa1eRy3gsuvWyVw==",
                             PhoneNumber = "0975765220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "93038b80-721d-4295-8245-ba129d7e96a5",
+                            SecurityStamp = "ce190368-5d67-4c8c-b5c3-b98d8e4a6bfe",
                             TwoFactorEnabled = false,
                             UserName = "hoangnmhe163884",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 23, 13, 17, 52, 697, DateTimeKind.Utc).AddTicks(1429),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6573),
+                            isBanned = false,
+                            isDeleted = false,
+                            isVerified = true
+                        },
+                        new
+                        {
+                            Id = "7397c854-194b-4749-9205-f46e4f2fccf8",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "49d30084-6a6e-4512-896f-f4bed2fe715f",
+                            CreatedDate = new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6583),
+                            Email = "littlejohn123@gmail.com",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6584),
+                            Gender = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "LITTLEJOHN123@GMAIL.COM",
+                            NormalizedUserName = "LITTLEJOHN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0965765228",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "a6e349c2-faee-4002-ba0b-d1e1ffb4be68",
+                            TwoFactorEnabled = false,
+                            UserName = "littlejohn",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6584),
+                            isBanned = false,
+                            isDeleted = false,
+                            isVerified = true
+                        },
+                        new
+                        {
+                            Id = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "3f6f86e9-cd4e-4125-8831-92af06a05941",
+                            CreatedDate = new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6596),
+                            Email = "kenshiyonezu123@gmail.com",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6597),
+                            Gender = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "KENSHIYONEZU123@GMAIL.COM",
+                            NormalizedUserName = "KENSHIYONEZU",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0965765120",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "8f774f7d-ecb6-450e-b655-1d06ff2f6348",
+                            TwoFactorEnabled = false,
+                            UserName = "kenshiyonezu",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6598),
+                            isBanned = false,
+                            isDeleted = false,
+                            isVerified = true
+                        },
+                        new
+                        {
+                            Id = "1c5c3b44-7164-4232-a49a-10ab367d5102",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "674b2afc-8b7c-4a7c-be3a-2f4d48aa03ed",
+                            CreatedDate = new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6612),
+                            Email = "gakkou123@gmail.com",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6613),
+                            Gender = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "GAKKOU123@GMAIL.COM",
+                            NormalizedUserName = "GAKKOU",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0965795220",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "393d041f-5b52-4ae4-982a-477a1f94c437",
+                            TwoFactorEnabled = false,
+                            UserName = "gakkou",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6614),
                             isBanned = false,
                             isDeleted = false,
                             isVerified = true
@@ -855,6 +932,27 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Major = "Data Engineer",
                             RollNumber = "HE163884",
                             Specialized = "Data Analyst"
+                        },
+                        new
+                        {
+                            AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
+                            Major = "Artifact Intelligent",
+                            RollNumber = "HE163956",
+                            Specialized = "C"
+                        },
+                        new
+                        {
+                            AccountId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
+                            Major = "Iot",
+                            RollNumber = "HE145689",
+                            Specialized = "Python"
+                        },
+                        new
+                        {
+                            AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
+                            Major = "Software Engineering",
+                            RollNumber = "HE156894",
+                            Specialized = "PHP"
                         });
                 });
 
@@ -1217,6 +1315,21 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             UserId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
+                            RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d"
+                        },
+                        new
+                        {
+                            UserId = "7397c854-194b-4749-9205-f46e4f2fccf8",
+                            RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d"
+                        },
+                        new
+                        {
+                            UserId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
+                            RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d"
+                        },
+                        new
+                        {
+                            UserId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d"
                         });
                 });

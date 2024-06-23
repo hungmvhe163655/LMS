@@ -5,10 +5,10 @@ namespace Repository.Configuration
 {
     public static class DataContextInitializer
     {
-        private static string Uppercase(string name) { return name.ToUpper(); }
         public static void SeedData(this Microsoft.EntityFrameworkCore.ModelBuilder builder)
         {
             PasswordHasher<Account> passwordHasher = new PasswordHasher<Account>();
+
             Account user1 = new Account()
             {
                 Id = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
@@ -29,8 +29,8 @@ namespace Repository.Configuration
                 isVerified = true,
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
+                PasswordHash = "AQAAAAIAAYagAAAAELgUn5wJH9empSyZm7MdUy84spVESi+LvNCV8nDY9PMgoY0fOBYhfZO/MPZHjSZimA==",
             };
-            passwordHasher.HashPassword(user1, "Minhtche161354@");
 
             Account user2 = new Account()
             {
@@ -52,9 +52,8 @@ namespace Repository.Configuration
                 isVerified = true,
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
-
+                PasswordHash = "AQAAAAIAAYagAAAAEO5SGANyOkCieJN+MspCJeIbBLjDruXYD5omO5+7u9NVKctIo979jEts1uoDaalzTw==",
             };
-            passwordHasher.HashPassword(user2, "Thailshe160614@");
 
             Account user3 = new Account()
             {
@@ -76,9 +75,9 @@ namespace Repository.Configuration
                 isVerified = true,
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
+                PasswordHash = "AQAAAAIAAYagAAAAEHaY3BZO2ooRDvclwsiVvksAaPExz0GAXkEHlfwAtwfVBfRcw9gQTR02USItL9NrSg==",
 
             };
-            passwordHasher.HashPassword(user3, "Hungmvhe163655@");
 
             Account user4 = new Account()
             {
@@ -100,9 +99,8 @@ namespace Repository.Configuration
                 isVerified = true,
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
-
+                PasswordHash = "AQAAAAIAAYagAAAAENVZ95qV36S0GH4gzip/nSmI9JKDA1CAGuL2+t1ysccrtPgGLrSZ6k9v/tS37ojoSw==",
             };
-            passwordHasher.HashPassword(user4, "Cuongndhe163098@");
 
             Account user5 = new Account()
             {
@@ -124,11 +122,79 @@ namespace Repository.Configuration
                 isVerified = true,
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
-
+                PasswordHash = "AQAAAAIAAYagAAAAEBSeWGYcWJzo0jTXDBqXgYkMmzdQCRKsLrFMaaqieAdCHchkvB2oa1eRy3gsuvWyVw==",
             };
-            passwordHasher.HashPassword(user5, "Hoangnmhe163884@");
 
-            builder.Entity<Account>().HasData(user1, user2, user3, user4, user5);
+            Account user6 = new Account()
+            {
+                Id = "7397c854-194b-4749-9205-f46e4f2fccf8",
+                UserName = "littlejohn",
+                NormalizedUserName = ("littlejohn").ToUpper(),
+                Email = "littlejohn123@gmail.com",
+                NormalizedEmail = ("littlejohn123@gmail.com").ToUpper(),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PhoneNumber = "0965765228",
+                CreatedDate = DateTime.Now,
+                Gender = false,
+                isDeleted = false,
+                isBanned = false,
+                isVerified = true,
+                EmailVerifyCodeAge = DateTime.UtcNow,
+                UserRefreshTokenExpiryTime = DateTime.UtcNow,
+                PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+            };
+
+            Account user7 = new Account()
+            {
+                Id = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
+                UserName = "kenshiyonezu",
+                NormalizedUserName = ("kenshiyonezu").ToUpper(),
+                Email = "kenshiyonezu123@gmail.com",
+                NormalizedEmail = ("kenshiyonezu123@gmail.com").ToUpper(),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PhoneNumber = "0965765120",
+                CreatedDate = DateTime.Now,
+                Gender = false,
+                isDeleted = false,
+                isBanned = false,
+                isVerified = true,
+                EmailVerifyCodeAge = DateTime.UtcNow,
+                UserRefreshTokenExpiryTime = DateTime.UtcNow,
+                PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+            };
+
+            Account user8 = new Account()
+            {
+                Id = "1c5c3b44-7164-4232-a49a-10ab367d5102",
+                UserName = "gakkou",
+                NormalizedUserName = ("gakkou").ToUpper(),
+                Email = "gakkou123@gmail.com",
+                NormalizedEmail = ("gakkou123@gmail.com").ToUpper(),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PhoneNumber = "0965795220",
+                CreatedDate = DateTime.Now,
+                Gender = false,
+                isDeleted = false,
+                isBanned = false,
+                isVerified = true,
+                EmailVerifyCodeAge = DateTime.UtcNow,
+                UserRefreshTokenExpiryTime = DateTime.UtcNow,
+                PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+            };
+
+            builder.Entity<Account>().HasData(user1, user2, user3, user4, user5, user6, user7, user8);
 
             builder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>
@@ -155,7 +221,23 @@ namespace Repository.Configuration
                 {
                     RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
                     UserId = user5.Id,
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
+                    UserId = user6.Id,
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
+                    UserId = user7.Id,
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
+                    UserId = user8.Id,
                 }
+
             );
 
             builder.Entity<StudentDetail>().HasData(
@@ -172,6 +254,27 @@ namespace Repository.Configuration
                     Major = "Data Engineer",
                     Specialized = "Data Analyst",
                     RollNumber = "HE163884"
+                },
+                new StudentDetail()
+                {
+                    AccountId = user6.Id,
+                    Major = "Artifact Intelligent",
+                    Specialized = "C",
+                    RollNumber = "HE163956"
+                },
+                new StudentDetail()
+                {
+                    AccountId = user7.Id,
+                    Major = "Iot",
+                    Specialized = "Python",
+                    RollNumber = "HE145689"
+                },
+                new StudentDetail()
+                {
+                    AccountId = user8.Id,
+                    Major = "Software Engineering",
+                    Specialized = "PHP",
+                    RollNumber = "HE156894"
                 }
             );
         }
