@@ -3,9 +3,9 @@ import * as React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { HelmetProvider } from 'react-helmet-async';
 
+import { Spinner } from '@/components/app/spinner';
 import { MainErrorFallback } from '@/components/errors/main';
 import { Toaster } from '@/components/ui/sonner';
-import { Spinner } from '@/components/ui/spinner';
 import { queryClient } from '@/lib/react-query';
 
 type AppProviderProps = {
