@@ -18,11 +18,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpGet("Gets")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Gets(string? title)
+        public IActionResult Gets(NewsRequestGetListsModel newsRequestGetLists)
         {
             try
             {
-                var data = _service.NewsService.GetNewsByTitle(title);
+                var data = _service.NewsService.GetNews(newsRequestGetLists);
                 return Ok(new { Status = "success", Value = data });
             }
             catch

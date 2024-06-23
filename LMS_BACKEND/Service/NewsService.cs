@@ -55,18 +55,18 @@ namespace Service
             }
         }
 
-        public async Task<IEnumerable<NewsReponse>> GetNewsByTitle(string? Title)
+        public async Task<IEnumerable<NewsReponse>> GetNews(NewsRequestGetListsModel newsRequestGetLists)
         {
             try
             {
                 IEnumerable<News> news = (IEnumerable<News>)_repository.news.FindAllAsync(true);
-                if (!String.IsNullOrEmpty(Title))
+                if (!String.IsNullOrEmpty(newsRequestGetLists.title))
                 {
-                    news = news.Where(x => x.Title.ToLower().Trim() == Title.ToLower().Trim());
+                    news = news.Where(x => x.Title.ToLower().Trim() == newsRequestGetLists.title.ToLower().Trim());
                 }
                 IEnumerable<NewsReponse> newsReponses = _mapper.Map<IEnumerable<NewsReponse>>(news);
 
-                return newsReponses;
+                return newsReponses.Skip((newsRequestGetLists.pageIndex - 1) * newsRequestGetLists.pageSize).Take(newsRequestGetLists.pageSize).ToList();
             }
             catch
             {

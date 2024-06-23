@@ -39,10 +39,10 @@ namespace Repository.Configuration
                  new Account
                  {
                      Id = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                     UserName = "minhContributor@gmail.com",
-                     NormalizedUserName = Uppercase("minhContributor@gmail.com"),
-                     Email = "minhContributor@gmail.com",
-                     NormalizedEmail = Uppercase("minhContributor@gmail.com"),
+                     UserName = "minhSUPERVISOR@gmail.com",
+                     NormalizedUserName = Uppercase("minhSUPERVISOR@gmail.com"),
+                     Email = "minhSUPERVISOR@gmail.com",
+                     NormalizedEmail = Uppercase("minhSUPERVISOR@gmail.com"),
                      EmailConfirmed = true,
                      PasswordHash = "AQAAAAEAACcQAAAAEJ51SmQrANatorjKkODvG7wRz8i73uIAUIHAmXRldg8ikayfZiaDQvbSOuY+XFPiJQ==",
                      PhoneNumberConfirmed = true,
@@ -50,7 +50,6 @@ namespace Repository.Configuration
                      LockoutEnabled = false,
                      AccessFailedCount = 0,
                      PhoneNumber = "0963661093",
-
                  }
              );
 

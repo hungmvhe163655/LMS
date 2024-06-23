@@ -22,4 +22,11 @@
 
         List<string> FileKeys { get; set; }
     }
+
+    public class NewsRequestGetListsModel
+    {
+        public string? title { get; set; }
+        public int pageIndex { get; set; } = 0;
+        public int pageSize { get; set; } = 5;
+    }
 }
