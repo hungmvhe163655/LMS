@@ -24,16 +24,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = service;
         }
-        [Authorize(Roles = "labadmin")]
         [HttpGet("GetUser")]
         public async Task<IActionResult> GetUsers(string role)
         {
             try
             {
-               var hold = await _service.AccountService.GetUserByRole(role.ToUpper());
+                var hold = await _service.AccountService.GetUserByRole(role.ToUpper());
                 if (hold != null)
                 {
-                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = hold.Where(x=>x.isVerified=true) });
+                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = hold.Where(x => x.isVerified = true) });
                 }
                 return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "EMPTY", Value = hold });
             }
@@ -41,8 +40,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             {
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = ex });
             }
-            
+
         }
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Supervisor")]
         [HttpGet("GetVerifierAccount")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult Get(string email)
@@ -58,6 +58,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Supervisor")]
         [HttpPost("UpdateVerifierAccount")]
         // [Authorize(AuthenticationSchemes = "Bearer")]
         [Authorize(Roles = "labadmin")]

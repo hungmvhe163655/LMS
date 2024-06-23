@@ -24,6 +24,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = serviceManager;
         }
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "LabAdmin")]
         [HttpPost("Register")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [Authorize]
