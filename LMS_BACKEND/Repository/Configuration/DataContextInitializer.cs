@@ -29,7 +29,6 @@ namespace Repository.Configuration
                 isVerified = true,
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
-
             };
             passwordHasher.HashPassword(user1, "Minhtche161354@");
 
@@ -55,7 +54,7 @@ namespace Repository.Configuration
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
 
             };
-            passwordHasher.HashPassword(user1, "Thailshe160614@");
+            passwordHasher.HashPassword(user2, "Thailshe160614@");
 
             Account user3 = new Account()
             {
@@ -79,7 +78,7 @@ namespace Repository.Configuration
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
 
             };
-            passwordHasher.HashPassword(user1, "Hungmvhe163655@");
+            passwordHasher.HashPassword(user3, "Hungmvhe163655@");
 
             Account user4 = new Account()
             {
@@ -103,7 +102,7 @@ namespace Repository.Configuration
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
 
             };
-            passwordHasher.HashPassword(user1, "Cuongndhe163098@");
+            passwordHasher.HashPassword(user4, "Cuongndhe163098@");
 
             Account user5 = new Account()
             {
@@ -127,7 +126,7 @@ namespace Repository.Configuration
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
 
             };
-            passwordHasher.HashPassword(user1, "Hoangnmhe163884@");
+            passwordHasher.HashPassword(user5, "Hoangnmhe163884@");
 
             builder.Entity<Account>().HasData(user1, user2, user3, user4, user5);
 

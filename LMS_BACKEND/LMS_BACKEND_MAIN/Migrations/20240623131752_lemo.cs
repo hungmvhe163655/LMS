@@ -8,11 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LMS_BACKEND_MAIN.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:LMS_BACKEND/LMS_BACKEND_MAIN/Migrations/20240620151155_lemo.cs
     public partial class lemo : Migration
-========
-    public partial class newMigration : Migration
->>>>>>>> minh_backend:LMS_BACKEND/LMS_BACKEND_MAIN/Migrations/20240621152700_newMigration.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -841,19 +837,46 @@ namespace LMS_BACKEND_MAIN.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Account",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "createdDate", "Email", "EmailConfirmed", "EmailVerifyCode", "EmailVerifyCodeAge", "fullname", "gender", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "UserRefreshToken", "UserRefreshTokenExpiryTime", "verifiedBy", "isBanned", "isDeleted", "IsVerified" },
+                values: new object[,]
+                {
+                    { "603600b5-ca65-4fa7-817e-4583ef22b330", 0, "67e44c94-0c48-4cd4-86d7-c50175ac27f8", new DateTime(2024, 6, 23, 20, 17, 52, 630, DateTimeKind.Local).AddTicks(4229), "cuongndhe163098@fpt.edu.vn", true, null, new DateTime(2024, 6, 23, 13, 17, 52, 630, DateTimeKind.Utc).AddTicks(4242), null, false, false, null, "CUONGNDHE163098@FPT.EDU.VN", "CUONGNDHE163098", null, "0975465220", true, "8ecf114b-dd68-484f-aa17-e9acee9b982d", false, "cuongndhe163098", null, new DateTime(2024, 6, 23, 13, 17, 52, 630, DateTimeKind.Utc).AddTicks(4243), null, false, false, true },
+                    { "68fdf17c-7cbe-4a4c-a674-c530ffc77667", 0, "02aba608-a5b2-4135-a192-a1e2b3ab791a", new DateTime(2024, 6, 23, 20, 17, 52, 697, DateTimeKind.Local).AddTicks(1416), "hoangnmhe163884@fpt.edu.vn", true, null, new DateTime(2024, 6, 23, 13, 17, 52, 697, DateTimeKind.Utc).AddTicks(1428), null, false, false, null, "HOANGNMHE163884@FPT.EDU.VN", "HOANGNMHE163884", null, "0975765220", true, "93038b80-721d-4295-8245-ba129d7e96a5", false, "hoangnmhe163884", null, new DateTime(2024, 6, 23, 13, 17, 52, 697, DateTimeKind.Utc).AddTicks(1429), null, false, false, true },
+                    { "6c6abe62-f811-4a8b-96eb-ed326c47d209", 0, "b28a8d31-7737-4b43-a274-634d29464098", new DateTime(2024, 6, 23, 20, 17, 52, 502, DateTimeKind.Local).AddTicks(9304), "thailshe160614@fpt.edu.vn", true, null, new DateTime(2024, 6, 23, 13, 17, 52, 502, DateTimeKind.Utc).AddTicks(9319), null, false, false, null, "THAILSHE160614@FPT.EDU.VN", "THAILSHE160614", null, "0497461220", true, "bcd6903e-2c4c-43cf-be81-a89f5fe403f6", false, "thailshe160614", null, new DateTime(2024, 6, 23, 13, 17, 52, 502, DateTimeKind.Utc).AddTicks(9319), null, false, false, true },
+                    { "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", 0, "e71e0648-13bf-4638-ac40-597a98179ce3", new DateTime(2024, 6, 23, 20, 17, 52, 437, DateTimeKind.Local).AddTicks(6346), "minhtche161354@fpt.edu.vn", true, null, new DateTime(2024, 6, 23, 13, 17, 52, 437, DateTimeKind.Utc).AddTicks(6358), null, false, false, null, "MINHTCHE161354@FPT.EDU.VN", "MINHTCHE161354", null, "0963661093", true, "fd01e86d-6252-4ffc-b84c-63710c097009", false, "minhtche161354", null, new DateTime(2024, 6, 23, 13, 17, 52, 437, DateTimeKind.Utc).AddTicks(6359), null, false, false, true },
+                    { "a687bb04-4f19-49d5-a60f-2db52044767c", 0, "ee12d0e7-47fb-4cdc-8e8c-b24838fa9b93", new DateTime(2024, 6, 23, 20, 17, 52, 567, DateTimeKind.Local).AddTicks(992), "hungmvhe163655@fpt.edu.vn", true, null, new DateTime(2024, 6, 23, 13, 17, 52, 567, DateTimeKind.Utc).AddTicks(1007), null, false, false, null, "HUNGMVHE163655@FPT.EDU.VN", "HUNGMVHE163655", null, "0975461220", true, "0a46d748-3f8d-46c9-b674-5f3350ed7664", false, "hungmvhe163655", null, new DateTime(2024, 6, 23, 13, 17, 52, 567, DateTimeKind.Utc).AddTicks(1007), null, false, false, true }
+                });
+
+            migrationBuilder.InsertData(
                 table: "SystemRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:LMS_BACKEND/LMS_BACKEND_MAIN/Migrations/20240620151155_lemo.cs
-                    { "c55924f5-4cf4-4a29-9820-b5d0d9bdf3c5", null, "LabLead", "LABADMIN" },
-                    { "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2", null, "Teacher", "SUPERVISOR" },
-                    { "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d", null, "Student", "STUDENT" }
-========
-                    { "3f884d61-da25-4f2f-a4d1-4972fafb7e19", null, "Student", "STUDENT" },
-                    { "8c1fe727-64fe-453a-bfd5-cc92a521055e", null, "Supervisor", "SUPERVISOR" },
-                    { "e533a2f9-0e65-4b87-bb6a-8f8c5b261de5", null, "LabAdmin", "LABADMIN" }
->>>>>>>> minh_backend:LMS_BACKEND/LMS_BACKEND_MAIN/Migrations/20240621152700_newMigration.cs
+                    { "c55924f5-4cf4-4a29-9820-b5d0d9bdf3c5", null, "LabAdmin", "LABADMIN" },
+                    { "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2", null, "Student", "STUDENT" },
+                    { "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d", null, "Supervisor", "SUPERVISOR" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AccountRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d", "603600b5-ca65-4fa7-817e-4583ef22b330" },
+                    { "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d", "68fdf17c-7cbe-4a4c-a674-c530ffc77667" },
+                    { "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2", "6c6abe62-f811-4a8b-96eb-ed326c47d209" },
+                    { "c55924f5-4cf4-4a29-9820-b5d0d9bdf3c5", "97571dcc-079e-4c3a-ba9b-bbde3d03a03d" },
+                    { "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2", "a687bb04-4f19-49d5-a60f-2db52044767c" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "StudentDetails",
+                columns: new[] { "accountId", "major", "rollNumber", "specialized" },
+                values: new object[,]
+                {
+                    { "603600b5-ca65-4fa7-817e-4583ef22b330", "Software Engineering", "HE163098", "ASP.NET" },
+                    { "68fdf17c-7cbe-4a4c-a674-c530ffc77667", "Data Engineer", "HE163884", "Data Analyst" }
                 });
 
             migrationBuilder.CreateIndex(
