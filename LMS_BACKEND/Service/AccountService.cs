@@ -158,7 +158,7 @@ namespace Service
                 {
                     if (account.StudentDetail == null)
                     {
-                        account.StudentDetail = new StudentDetail();
+                        account.StudentDetail = new StudentDetail{AccountId=account.Id };
                     }
 
                     if (name != null)
