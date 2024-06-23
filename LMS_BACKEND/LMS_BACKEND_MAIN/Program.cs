@@ -46,6 +46,13 @@ builder.Services.AddScoped<ValidationFilterAttribute>();
 
 builder.Services.AddAuthentication();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("adminorsupervisor", policy => policy.RequireRole("labadmin", "supervisor"));
+    options.AddPolicy("admin", policy => policy.RequireRole("labadmin"));
+    options.AddPolicy("supervisor", policy => policy.RequireRole("supervisor"));
+});
+
 builder.Services.ConfigureIdentity();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
