@@ -154,7 +154,7 @@ namespace Service
 
                 var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
 
-                if (verifierRole == null || !(verifierRole.Equals("LabLead")||verifierRole.Equals("Teacher"))) { return IdentityResult.Failed(); }// sua pham vi role o day
+                if (verifierRole == null || !(verifierRole.ToLower().Equals("labadmin")||verifierRole.ToLower().Equals("supervisor"))) { return IdentityResult.Failed(); }// sua pham vi role o day
 
                 if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
 
@@ -177,6 +177,8 @@ namespace Service
                 {
 
                     user.VerifiedBy = verifier.Result.Id;
+
+                    user.UserName = user.Id.ToString();
 
                     var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -211,7 +213,7 @@ namespace Service
 
                 var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
 
-                if (verifierRole == null || !(verifierRole.Equals("LabLead") || verifierRole.Equals("Teacher"))) { return IdentityResult.Failed(); }
+                if (verifierRole == null || !verifierRole.ToLower().Equals("labadmin") || verifierRole.ToLower().Equals("supervisor")) { return IdentityResult.Failed(); }
 
                 if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
 
@@ -234,6 +236,8 @@ namespace Service
                 {
 
                     user.VerifiedBy = verifier.Result.Id;
+
+                    user.UserName = user.Id.ToString();
 
                     var result = await _userManager.CreateAsync(user, model.Password);
 
