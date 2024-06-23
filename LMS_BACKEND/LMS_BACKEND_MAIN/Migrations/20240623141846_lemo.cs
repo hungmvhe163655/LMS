@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LMS_BACKEND_MAIN.Migrations
 {
     /// <inheritdoc />
-    public partial class DB_V1 : Migration
+    public partial class lemo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -837,13 +837,55 @@ namespace LMS_BACKEND_MAIN.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Account",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "createdDate", "Email", "EmailConfirmed", "EmailVerifyCode", "EmailVerifyCodeAge", "fullname", "gender", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "UserRefreshToken", "UserRefreshTokenExpiryTime", "verifiedBy", "isBanned", "isDeleted", "IsVerified" },
+                values: new object[,]
+                {
+                    { "1c5c3b44-7164-4232-a49a-10ab367d5102", 0, "674b2afc-8b7c-4a7c-be3a-2f4d48aa03ed", new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6612), "gakkou123@gmail.com", true, null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6613), null, false, false, null, "GAKKOU123@GMAIL.COM", "GAKKOU", "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==", "0965795220", true, "393d041f-5b52-4ae4-982a-477a1f94c437", false, "gakkou", null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6614), null, false, false, true },
+                    { "603600b5-ca65-4fa7-817e-4583ef22b330", 0, "c5617c84-70de-4942-8d7a-ca124ea40048", new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6560), "cuongndhe163098@fpt.edu.vn", true, null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6561), null, false, false, null, "CUONGNDHE163098@FPT.EDU.VN", "CUONGNDHE163098", "AQAAAAIAAYagAAAAENVZ95qV36S0GH4gzip/nSmI9JKDA1CAGuL2+t1ysccrtPgGLrSZ6k9v/tS37ojoSw==", "0975465220", true, "680d8c01-96fa-49f0-80fc-44a7a229e5c3", false, "cuongndhe163098", null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6562), null, false, false, true },
+                    { "68fdf17c-7cbe-4a4c-a674-c530ffc77667", 0, "31bffa2a-a4b1-481c-a3c5-d0a176381643", new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6572), "hoangnmhe163884@fpt.edu.vn", true, null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6573), null, false, false, null, "HOANGNMHE163884@FPT.EDU.VN", "HOANGNMHE163884", "AQAAAAIAAYagAAAAEBSeWGYcWJzo0jTXDBqXgYkMmzdQCRKsLrFMaaqieAdCHchkvB2oa1eRy3gsuvWyVw==", "0975765220", true, "ce190368-5d67-4c8c-b5c3-b98d8e4a6bfe", false, "hoangnmhe163884", null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6573), null, false, false, true },
+                    { "6ad0a020-e6a6-4e66-8f4a-d815594ba862", 0, "3f6f86e9-cd4e-4125-8831-92af06a05941", new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6596), "kenshiyonezu123@gmail.com", true, null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6597), null, false, false, null, "KENSHIYONEZU123@GMAIL.COM", "KENSHIYONEZU", "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==", "0965765120", true, "8f774f7d-ecb6-450e-b655-1d06ff2f6348", false, "kenshiyonezu", null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6598), null, false, false, true },
+                    { "6c6abe62-f811-4a8b-96eb-ed326c47d209", 0, "1c110567-4e6a-4045-83ab-25cb640db893", new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6535), "thailshe160614@fpt.edu.vn", true, null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6537), null, false, false, null, "THAILSHE160614@FPT.EDU.VN", "THAILSHE160614", "AQAAAAIAAYagAAAAEO5SGANyOkCieJN+MspCJeIbBLjDruXYD5omO5+7u9NVKctIo979jEts1uoDaalzTw==", "0497461220", true, "f2590979-cee0-4f48-8b2e-84a70343d174", false, "thailshe160614", null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6537), null, false, false, true },
+                    { "7397c854-194b-4749-9205-f46e4f2fccf8", 0, "49d30084-6a6e-4512-896f-f4bed2fe715f", new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6583), "littlejohn123@gmail.com", true, null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6584), null, false, false, null, "LITTLEJOHN123@GMAIL.COM", "LITTLEJOHN", "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==", "0965765228", true, "a6e349c2-faee-4002-ba0b-d1e1ffb4be68", false, "littlejohn", null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6584), null, false, false, true },
+                    { "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", 0, "0d0bf15f-e528-4afe-87ed-3fb8d03956cf", new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6502), "minhtche161354@fpt.edu.vn", true, null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6513), null, false, false, null, "MINHTCHE161354@FPT.EDU.VN", "MINHTCHE161354", "AQAAAAIAAYagAAAAELgUn5wJH9empSyZm7MdUy84spVESi+LvNCV8nDY9PMgoY0fOBYhfZO/MPZHjSZimA==", "0963661093", true, "9ba7044d-2862-4115-8c25-48abc381e7ef", false, "minhtche161354", null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6514), null, false, false, true },
+                    { "a687bb04-4f19-49d5-a60f-2db52044767c", 0, "e1008e2b-a5a5-4d03-9394-38f280bb4b46", new DateTime(2024, 6, 23, 21, 18, 46, 639, DateTimeKind.Local).AddTicks(6547), "hungmvhe163655@fpt.edu.vn", true, null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6548), null, false, false, null, "HUNGMVHE163655@FPT.EDU.VN", "HUNGMVHE163655", "AQAAAAIAAYagAAAAEHaY3BZO2ooRDvclwsiVvksAaPExz0GAXkEHlfwAtwfVBfRcw9gQTR02USItL9NrSg==", "0975461220", true, "e172a6e3-905e-4a5e-b14c-3d8f1b7f99e5", false, "hungmvhe163655", null, new DateTime(2024, 6, 23, 14, 18, 46, 639, DateTimeKind.Utc).AddTicks(6548), null, false, false, true }
+                });
+
+            migrationBuilder.InsertData(
                 table: "SystemRole",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "26aac27d-772a-4b85-8ca8-86fe4596b85b", null, "LabLead", "LABADMIN" },
-                    { "c1d622f0-1406-4c25-89a7-5269a0ae7fb0", null, "Teacher", "SUPERVISOR" },
-                    { "ccaefe4b-34ed-4eb9-9654-ec18985cab04", null, "Student", "STUDENT" }
+                    { "c55924f5-4cf4-4a29-9820-b5d0d9bdf3c5", null, "LabAdmin", "LABADMIN" },
+                    { "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2", null, "Student", "STUDENT" },
+                    { "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d", null, "Supervisor", "SUPERVISOR" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AccountRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d", "1c5c3b44-7164-4232-a49a-10ab367d5102" },
+                    { "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d", "603600b5-ca65-4fa7-817e-4583ef22b330" },
+                    { "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d", "68fdf17c-7cbe-4a4c-a674-c530ffc77667" },
+                    { "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d", "6ad0a020-e6a6-4e66-8f4a-d815594ba862" },
+                    { "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2", "6c6abe62-f811-4a8b-96eb-ed326c47d209" },
+                    { "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d", "7397c854-194b-4749-9205-f46e4f2fccf8" },
+                    { "c55924f5-4cf4-4a29-9820-b5d0d9bdf3c5", "97571dcc-079e-4c3a-ba9b-bbde3d03a03d" },
+                    { "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2", "a687bb04-4f19-49d5-a60f-2db52044767c" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "StudentDetails",
+                columns: new[] { "accountId", "major", "rollNumber", "specialized" },
+                values: new object[,]
+                {
+                    { "1c5c3b44-7164-4232-a49a-10ab367d5102", "Software Engineering", "HE156894", "PHP" },
+                    { "603600b5-ca65-4fa7-817e-4583ef22b330", "Software Engineering", "HE163098", "ASP.NET" },
+                    { "68fdf17c-7cbe-4a4c-a674-c530ffc77667", "Data Engineer", "HE163884", "Data Analyst" },
+                    { "6ad0a020-e6a6-4e66-8f4a-d815594ba862", "Iot", "HE145689", "Python" },
+                    { "7397c854-194b-4749-9205-f46e4f2fccf8", "Artifact Intelligent", "HE163956", "C" }
                 });
 
             migrationBuilder.CreateIndex(

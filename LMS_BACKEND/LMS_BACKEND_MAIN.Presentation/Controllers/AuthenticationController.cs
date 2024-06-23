@@ -24,8 +24,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = serviceManager;
         }
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "LabAdmin")]
         [HttpPost("Register")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize]
         public async Task<IActionResult> RegisterLabLead([FromBody] RegisterRequestModel model)
         {
             try
@@ -42,7 +44,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 }
                 await _service.MailService.SendVerifyOtp(model.Email);
 
-                return StatusCode(201);
+                return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Success", Value = result });
             }
             catch (Exception ex)
             {
@@ -87,7 +89,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             {
                 var result = await
 
-           _service.AuthenticationService.RegisterSupervisor(model);
+           _service.AuthenticationService.Register(model);
 
                 if (!result.Succeeded)
                 {
@@ -99,11 +101,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 }
                 await _service.MailService.SendVerifyOtp(model.Email);
 
-                return StatusCode(201,new ResponseObjectModel { Code = "201", Status = "Create User Successfully", Value = model });
+                return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Create User Successfully", Value = model });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterSupervisor)}"});
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterSupervisor)}" });
             }
         }
         [HttpPost("RegisterStudent")]
@@ -114,7 +116,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             {
                 var result = await
 
-           _service.AuthenticationService.RegisterStudent(model);
+           _service.AuthenticationService.Register(model);
 
                 if (!result.Succeeded)
                 {
@@ -127,7 +129,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 await _service.MailService.SendVerifyOtp(model.Email);
 
                 return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Create User Successfully", Value = model });
-            
+
             }
             catch (Exception ex)
             {
@@ -160,19 +162,19 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             {
                 if (outcome.Split("|")[0].Equals("BADLOGIN"))
                 {
-                    return Unauthorized("Wrong password or username");
+                    return Unauthorized(new ResponseObjectModel { Code = "401", Status = "Login Failed", Value = "Wrong password or email" });
                 }
                 if (outcome.Split("|")[0].Equals("UNVERIFIED"))
                 {
-                    return Ok("NeedVerify|" + outcome.Split("|")[1]);
+                    return Unauthorized(new ResponseObjectModel { Code = "401", Status = "Login Failed", Value = "Account NeedVerify|" + outcome.Split("|")[1] });
                 }
                 if (outcome.Split("|")[0].Equals("UNVERIFIEDEMAIL"))
                 {
-                    return BadRequest("Email Need Verify|" + outcome.Split("|")[1]);
+                    return Unauthorized(new ResponseObjectModel { Code = "401", Status = "Login Failed", Value = "Email Need Verify|" + outcome.Split("|")[1] });
                 }
                 if (outcome.Split("|")[0].Equals("ISBANNED"))
                 {
-                    return Ok("Banned");
+                    return Unauthorized(new ResponseObjectModel { Code = "401", Status = "Account is banned" });
                 }
                 if (outcome.Split("|")[0].Equals("SUCCESS"))
                 {
@@ -180,9 +182,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     {
                         if (await _service.MailService.SendTwoFactorOtp(model.Email))
                         {
-                            return Ok("Two factor code was sent to your email");
+                            return Ok(new ResponseObjectModel { Code = "200", Status = "TwoFactorSuccess", Value = "2 Factor code was sent" });
                         }
-                        return BadRequest("Badrequest");
+                        return BadRequest(new ResponseObjectModel { Code = "400", Value = "Bad Login", Status = "Login Failed" });
                     }
                     else
                     {
@@ -190,7 +192,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                         return Ok(Tokendto);
                     }
                 }
-                return NotFound(new ResponseObjectModel { Code = "404", Status = "Not found", Value="email or password was wrong"});
+                return NotFound(new ResponseObjectModel { Code = "404", Status = "Not found", Value = "email or password was wrong" });
             }
             catch (Exception ex)
             {
@@ -208,7 +210,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 var user = await _service.AccountService.GetUserByEmail(model.Email);
                 return await LoginProcess(outcome, user.TwoFactorEnabled, model);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(Authenticate)}" });
 
@@ -221,9 +223,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             if (!await _service.AuthenticationService.InvalidateToken(model))
             {
-                return Unauthorized("Invalid token");
+                return Unauthorized(new ResponseObjectModel { Code = "401", Value = "Invalid Token", Status = "Failed" });
             }
-            return Ok("Logout Successfully");
+            return Ok(new ResponseObjectModel { Code="200", Value="", Status="Logout Success"});
         }
         [HttpPost("ForgotPassword")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
