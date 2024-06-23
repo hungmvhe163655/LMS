@@ -956,20 +956,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e4de5e8c-56bc-40ed-90a1-6b2d57d2e1aa",
-                            Name = "LabLead",
+                            Id = "e533a2f9-0e65-4b87-bb6a-8f8c5b261de5",
+                            Name = "LabAdmin",
                             NormalizedName = "LABADMIN"
                         },
                         new
                         {
-                            Id = "3e1770f4-e15e-4147-9d98-54faae40d9d5",
+                            Id = "3f884d61-da25-4f2f-a4d1-4972fafb7e19",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "11acfb83-e13f-4460-bd49-19c86228b17b",
-                            Name = "Teacher",
+                            Id = "8c1fe727-64fe-453a-bfd5-cc92a521055e",
+                            Name = "Supervisor",
                             NormalizedName = "SUPERVISOR"
                         });
                 });
