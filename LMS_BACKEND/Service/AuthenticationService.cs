@@ -76,6 +76,67 @@ namespace Service
             }
             return false;
         }
+        public async Task<IdentityResult> Register(RegisterRequestModel model)
+        {
+            {
+                try
+                {
+                    var user = _mapper.Map<Account>(model);
+
+                    if (string.IsNullOrEmpty(model.VerifiedByUserID))
+                    {
+                        return IdentityResult.Failed();
+                    }
+                    var verifier = _userManager.FindByIdAsync(model.VerifiedByUserID);
+
+                    if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
+
+                    var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
+
+                    if (verifierRole == null || !(verifierRole.ToLower().Equals("labadmin") || verifierRole.ToLower().Equals("supervisor"))) { return IdentityResult.Failed(); }// sua pham vi role o day
+
+                    if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
+
+                    var rolesToAdd = model.Roles != null ? model.Roles : null;
+
+                    var validRoles = new List<string>();
+
+                    if (rolesToAdd != null && rolesToAdd.Any()) foreach (var role in rolesToAdd)
+                        {
+                            if (await _roleManager.RoleExistsAsync(role))
+                            {
+                                validRoles.Add(role);
+                            }
+                            else
+                            {
+                                _logger.LogWarning($"{nameof(Register)}Role '{role}' does not exist.");
+                            }
+                        }
+                    if (validRoles.Any())
+                    {
+
+                        user.VerifiedBy = verifier.Result.Id;
+
+                        user.UserName = user.Id.ToString();
+
+                        var result = await _userManager.CreateAsync(user, model.Password);
+
+                        await _userManager.AddToRolesAsync(user, validRoles);
+
+                        return result;
+                    }
+                    return IdentityResult.Failed();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"{nameof(Register)}Error During Authentication Process has Occured");
+
+                    _logger.LogError(ex.Message);
+
+                    return IdentityResult.Failed();
+                }
+            }
+        }
         public async Task<IdentityResult> RegisterLabLead(RegisterRequestModel model)
         {
             try

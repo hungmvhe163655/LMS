@@ -24,15 +24,16 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = service;
         }
-        [HttpGet("GetSupervisors")]
-        public async Task<IActionResult> GetSupervisor()
+        [Authorize(Roles = "labadmin")]
+        [HttpGet("GetUser")]
+        public async Task<IActionResult> GetUsers(string role)
         {
             try
             {
-               var hold = await _service.AccountService.GetUserByRole("SUPERVISOR");
+               var hold = await _service.AccountService.GetUserByRole(role.ToUpper());
                 if (hold != null)
                 {
-                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = hold });
+                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = hold.Where(x=>x.isVerified=true) });
                 }
                 return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "EMPTY", Value = hold });
             }
@@ -41,24 +42,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = ex });
             }
             
-        }
-        [HttpGet("GetLabLead")]
-        public async Task<IActionResult> GetLabLead()
-        {
-            try
-            {
-                var hold = await _service.AccountService.GetUserByRole("LABADMIN");
-                if(hold != null)
-                {
-                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = hold });
-                }
-                return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "EMPTY", Value = hold });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = ex });
-            }
-
         }
         [HttpGet("GetVerifierAccount")]
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -77,6 +60,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
         [HttpPost("UpdateVerifierAccount")]
         // [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(Roles = "labadmin")]
         public async Task<IActionResult> UpdateAccountVerifyStatus([FromBody] UpdateVerifyStatusRequestModel model)
         {
             if (model.UserID == null || model.verifierID == null)
