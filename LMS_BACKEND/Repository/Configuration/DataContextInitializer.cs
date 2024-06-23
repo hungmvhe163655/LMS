@@ -8,95 +8,173 @@ namespace Repository.Configuration
         private static string Uppercase(string name) { return name.ToUpper(); }
         public static void SeedData(this Microsoft.EntityFrameworkCore.ModelBuilder builder)
         {
-            // Thêm data tương ứng
-            builder.Entity<IdentityRole>().HasData(
-                    new IdentityRole
-                    {
-                        Id = "355f5fcf-92f6-4ef8-b7c6-28aab481da76",
-                        Name = "Teacher",
-                        NormalizedName = Uppercase("SUPERVISOR"),
-                        ConcurrencyStamp = ""
-                    },
-                    new IdentityRole
-                    {
-                        Id = "97f0f3bd-394b-462e-b7b0-0018b129a9db",
-                        Name = "Student",
-                        NormalizedName = Uppercase("STUDENT"),
-                        ConcurrencyStamp = ""
-                    },
-                     new IdentityRole
-                     {
-                         Id = "b2ab0e08-6661-4deb-a531-6241b02e1170",
-                         Name = "LabLead",
-                         NormalizedName = Uppercase("LABADMIN"),
-                         ConcurrencyStamp = ""
-                     }
-                );
-            builder.Entity<Account>().HasData
-             (
-                 // mật khẩu Abc@123
+            PasswordHasher<Account> passwordHasher = new PasswordHasher<Account>();
+            Account user1 = new Account()
+            {
+                Id = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                UserName = "minhtche161354",
+                NormalizedUserName = ("minhtche161354").ToUpper(),
+                Email = "minhtche161354@fpt.edu.vn",
+                NormalizedEmail = ("minhtche161354@fpt.edu.vn").ToUpper(),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PhoneNumber = "0963661093",
+                CreatedDate = DateTime.Now,
+                Gender = false,
+                isDeleted = false,
+                isBanned = false,
+                isVerified = true,
+                EmailVerifyCodeAge = DateTime.UtcNow,
+                UserRefreshTokenExpiryTime = DateTime.UtcNow,
 
-                 new Account
-                 {
-                     Id = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                     UserName = "minhContributor@gmail.com",
-                     NormalizedUserName = Uppercase("minhContributor@gmail.com"),
-                     Email = "minhContributor@gmail.com",
-                     NormalizedEmail = Uppercase("minhContributor@gmail.com"),
-                     EmailConfirmed = true,
-                     PasswordHash = "AQAAAAEAACcQAAAAEJ51SmQrANatorjKkODvG7wRz8i73uIAUIHAmXRldg8ikayfZiaDQvbSOuY+XFPiJQ==",
-                     PhoneNumberConfirmed = true,
-                     TwoFactorEnabled = false,
-                     LockoutEnabled = false,
-                     AccessFailedCount = 0,
-                     PhoneNumber = "0963661093",
+            };
+            passwordHasher.HashPassword(user1, "Minhtche161354@");
 
-                 }
-             );
+            Account user2 = new Account()
+            {
+                Id = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                UserName = "thailshe160614",
+                NormalizedUserName = ("thailshe160614").ToUpper(),
+                Email = "thailshe160614@fpt.edu.vn",
+                NormalizedEmail = ("thailshe160614@fpt.edu.vn").ToUpper(),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PhoneNumber = "0497461220",
+                CreatedDate = DateTime.Now,
+                Gender = false,
+                isDeleted = false,
+                isBanned = false,
+                isVerified = true,
+                EmailVerifyCodeAge = DateTime.UtcNow,
+                UserRefreshTokenExpiryTime = DateTime.UtcNow,
 
-            builder.Entity<IdentityUserRole<string>>().HasData
-                (
-                    new IdentityUserRole<string>
-                    {
-                        RoleId = "355f5fcf-92f6-4ef8-b7c6-28aab481da76", //supervisor
-                        UserId = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
-                    }
-                );
-            builder.Entity<News>().HasData
-                (
-                   new News
-                   {
-                       Id = 1,
-                       Title = "First News Title",
-                       Content = "This is the content of the first news item.",
-                       CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", // Assuming 1 is a valid UserId in the Accounts table
-                       CreatedDate = new DateTime(2023, 6, 18)
-                   },
-                new News
+            };
+            passwordHasher.HashPassword(user1, "Thailshe160614@");
+
+            Account user3 = new Account()
+            {
+                Id = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                UserName = "hungmvhe163655",
+                NormalizedUserName = ("hungmvhe163655").ToUpper(),
+                Email = "hungmvhe163655@fpt.edu.vn",
+                NormalizedEmail = ("hungmvhe163655@fpt.edu.vn").ToUpper(),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PhoneNumber = "0975461220",
+                CreatedDate = DateTime.Now,
+                Gender = false,
+                isDeleted = false,
+                isBanned = false,
+                isVerified = true,
+                EmailVerifyCodeAge = DateTime.UtcNow,
+                UserRefreshTokenExpiryTime = DateTime.UtcNow,
+
+            };
+            passwordHasher.HashPassword(user1, "Hungmvhe163655@");
+
+            Account user4 = new Account()
+            {
+                Id = "603600b5-ca65-4fa7-817e-4583ef22b330",
+                UserName = "cuongndhe163098",
+                NormalizedUserName = ("cuongndhe163098").ToUpper(),
+                Email = "cuongndhe163098@fpt.edu.vn",
+                NormalizedEmail = ("cuongndhe163098@fpt.edu.vn").ToUpper(),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PhoneNumber = "0975465220",
+                CreatedDate = DateTime.Now,
+                Gender = false,
+                isDeleted = false,
+                isBanned = false,
+                isVerified = true,
+                EmailVerifyCodeAge = DateTime.UtcNow,
+                UserRefreshTokenExpiryTime = DateTime.UtcNow,
+
+            };
+            passwordHasher.HashPassword(user1, "Cuongndhe163098@");
+
+            Account user5 = new Account()
+            {
+                Id = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
+                UserName = "hoangnmhe163884",
+                NormalizedUserName = ("hoangnmhe163884").ToUpper(),
+                Email = "hoangnmhe163884@fpt.edu.vn",
+                NormalizedEmail = ("hoangnmhe163884@fpt.edu.vn").ToUpper(),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PhoneNumber = "0975765220",
+                CreatedDate = DateTime.Now,
+                Gender = false,
+                isDeleted = false,
+                isBanned = false,
+                isVerified = true,
+                EmailVerifyCodeAge = DateTime.UtcNow,
+                UserRefreshTokenExpiryTime = DateTime.UtcNow,
+
+            };
+            passwordHasher.HashPassword(user1, "Hoangnmhe163884@");
+
+            builder.Entity<Account>().HasData(user1, user2, user3, user4, user5);
+
+            builder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>
                 {
-                    Id = 2,
-                    Title = "Second News Title",
-                    Content = "This is the content of the second news item.",
-                    CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", // Assuming 2 is a valid UserId in the Accounts table
-                    CreatedDate = new DateTime(2023, 6, 19)
+                    RoleId = "c55924f5-4cf4-4a29-9820-b5d0d9bdf3c5",
+                    UserId = user1.Id,
                 },
-                new News
+                new IdentityUserRole<string>
                 {
-                    Id = 3,
-                    Title = "Third News Title",
-                    Content = "This is the content of the second news item.",
-                    CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", // Assuming 2 is a valid UserId in the Accounts table
-                    CreatedDate = new DateTime(2023, 6, 19)
+                    RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
+                    UserId = user2.Id,
                 },
-                new News
+                new IdentityUserRole<string>
                 {
-                    Id = 4,
-                    Title = "Fourth News Title",
-                    Content = "This is the content of the second news item.",
-                    CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", // Assuming 2 is a valid UserId in the Accounts table
-                    CreatedDate = new DateTime(2023, 6, 19)
+                    RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
+                    UserId = user3.Id,
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
+                    UserId = user4.Id,
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
+                    UserId = user5.Id,
                 }
-                );
+            );
+
+            builder.Entity<StudentDetail>().HasData(
+                new StudentDetail()
+                {
+                    AccountId = user4.Id,
+                    Major = "Software Engineering",
+                    Specialized = "ASP.NET",
+                    RollNumber = "HE163098"
+                },
+                new StudentDetail()
+                {
+                    AccountId = user5.Id,
+                    Major = "Data Engineer",
+                    Specialized = "Data Analyst",
+                    RollNumber = "HE163884"
+                }
+            );
         }
     }
 }
