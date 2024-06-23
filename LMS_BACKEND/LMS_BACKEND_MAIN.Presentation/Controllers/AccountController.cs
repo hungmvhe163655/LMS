@@ -1,11 +1,17 @@
 
-using Contracts.Interfaces;
+using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
-using System.Xml.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -14,12 +20,45 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IServiceManager _service;
-        private readonly ILoggerManager _logger;
-
-        public AccountController(IServiceManager service, ILoggerManager logger)
+        public AccountController(IServiceManager service)
         {
-            _logger = logger;
             _service = service;
+        }
+        [HttpGet("GetSupervisors")]
+        public async Task<IActionResult> GetSupervisor()
+        {
+            try
+            {
+               var hold = await _service.AccountService.GetUserByRole("SUPERVISOR");
+                if (hold != null)
+                {
+                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = hold });
+                }
+                return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "EMPTY", Value = hold });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = ex });
+            }
+            
+        }
+        [HttpGet("GetLabLead")]
+        public async Task<IActionResult> GetLabLead()
+        {
+            try
+            {
+                var hold = await _service.AccountService.GetUserByRole("LABADMIN");
+                if(hold != null)
+                {
+                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = hold });
+                }
+                return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "EMPTY", Value = hold });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = ex });
+            }
+
         }
         [HttpGet("GetVerifierAccount")]
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -64,48 +103,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             }
             return BadRequest(ModelState);
-        }
-        [HttpPost("ChangePassword")]
-        //[Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestModel model)
-        {
-            if (model.UserID == null || model.OldPassword == null || model.NewPassword == null)
-            {
-                ModelState.AddModelError("BadRequest", "Username can't be empty");
-                return BadRequest();
-            }
-            try
-            {
-                if (await _service.AccountService.ChangePasswordAsync(model.UserID, model.OldPassword, model.NewPassword))
-                {
-                    return Ok(new ResponseObjectModel { Status = "success", Code = "200", Value = "Change Password Successully" });
-                }
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
-            return BadRequest();
-        }
-        [HttpPost("UpdateProfile")]
-        //[Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileRequestModel model)
-        {
-            if (model.UserID == null || model.FullName == null || model.RollNumber == null || model.Major == null || model.Specialized == null)
-            {
-                ModelState.AddModelError("BadRequest", "Username can't be empty");
-                return BadRequest();
-            }
-            try
-            {
-                if(await _service.AccountService.UpdateProfileAsync(model.UserID, model.FullName,model.RollNumber, model.Major, model.Specialized))
-                    return Ok(new ResponseObjectModel { Status = "success", Code = "200", Value = "Update Profile Successully" });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
-            return BadRequest();
         }
     }
 }

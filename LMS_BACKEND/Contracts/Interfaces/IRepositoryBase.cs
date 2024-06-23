@@ -1,8 +1,9 @@
-﻿using System.Linq.Expressions;
+﻿using Entities;
+using System.Linq.Expressions;
 
 namespace Contracts.Interfaces
 {
-    public interface IRepositoryBase<T>
+    public interface IRepositoryBase<T> where T : class
     {
         IQueryable<T> FindAll(bool Trackable);
         Task<IEnumerable<T>> FindAllAsync(bool Trackable);
@@ -14,7 +15,9 @@ namespace Contracts.Interfaces
         Task UpdateAsync(T entity);
         void Delete(T entity);
         Task DeleteAsync(T entity);
+        Task<PageModel<T>> GetPagedAsync(int page, int pageSize, bool Trackable);
         public T Find(int id);
         public IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includes);
     }
+
 }

@@ -10,6 +10,7 @@ namespace Service.Contracts
 {
     public interface IAccountService
     {
+        Task<IEnumerable<Account>> GetUserByRole(string role);
         Task<Account> GetUserByName(string userName);
         Task<Account> GetUserByEmail(string email);
         Task<Account> GetUserById(string id);
