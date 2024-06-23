@@ -12,8 +12,8 @@ using Repository;
 namespace LMS_BACKEND_MAIN.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240617081328_DB_V1")]
-    partial class DB_V1
+    [Migration("20240621152700_newMigration")]
+    partial class newMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -959,20 +959,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "26aac27d-772a-4b85-8ca8-86fe4596b85b",
-                            Name = "LabLead",
+                            Id = "e533a2f9-0e65-4b87-bb6a-8f8c5b261de5",
+                            Name = "LabAdmin",
                             NormalizedName = "LABADMIN"
                         },
                         new
                         {
-                            Id = "ccaefe4b-34ed-4eb9-9654-ec18985cab04",
+                            Id = "3f884d61-da25-4f2f-a4d1-4972fafb7e19",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "c1d622f0-1406-4c25-89a7-5269a0ae7fb0",
-                            Name = "Teacher",
+                            Id = "8c1fe727-64fe-453a-bfd5-cc92a521055e",
+                            Name = "Supervisor",
                             NormalizedName = "SUPERVISOR"
                         });
                 });

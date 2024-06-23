@@ -11,7 +11,7 @@ namespace Repository.Configuration
             builder.HasData(
              new IdentityRole
              {
-                 Name = "LabLead",
+                 Name = "LabAdmin",
                  NormalizedName = "LABADMIN"
              },
              new IdentityRole
@@ -21,7 +21,7 @@ namespace Repository.Configuration
              },
              new IdentityRole
              {
-                 Name = "Teacher",
+                 Name = "Supervisor",
                  NormalizedName = "SUPERVISOR"
              }
                 );

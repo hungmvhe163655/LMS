@@ -15,6 +15,9 @@ using Amazon.S3;
 using Amazon;
 using Microsoft.Extensions.DependencyInjection;
 
+using Microsoft.AspNetCore.SignalR;
+
+
 namespace LMS_BACKEND_MAIN.Extentions
 {
     public static class ServiceExtentions

@@ -7,5 +7,6 @@
         IMailService MailService { get; }
         IFileService FileService { get; }
         INewsService NewsService { get; }
+        INotificationService NotificationService { get; }
     }
 }
