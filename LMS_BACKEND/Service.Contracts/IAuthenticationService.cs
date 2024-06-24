@@ -12,6 +12,7 @@ namespace Service.Contracts
 {
     public interface IAuthenticationService
     {
+        Task<IdentityResult> Register(RegisterRequestModel model);
         Task<bool> VerifyEmail(string email, string token);
         Task<IdentityResult> RegisterSupervisor(RegisterRequestModel model);
         Task<IdentityResult> RegisterLabLead(RegisterRequestModel model);

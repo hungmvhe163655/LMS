@@ -15,6 +15,9 @@ using Amazon.S3;
 using Amazon;
 using Microsoft.Extensions.DependencyInjection;
 
+using Microsoft.AspNetCore.SignalR;
+using System.Security.Claims;
+
 namespace LMS_BACKEND_MAIN.Extentions
 {
     public static class ServiceExtentions
@@ -68,8 +71,8 @@ namespace LMS_BACKEND_MAIN.Extentions
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtConfiguration.ValidIssuer,
                     ValidAudience = jwtConfiguration.ValidAudience,
-                    IssuerSigningKey = new
-            SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+                    RoleClaimType = ClaimTypes.Role
                 };
             });
         }
@@ -127,7 +130,7 @@ namespace LMS_BACKEND_MAIN.Extentions
 
             var holdSecret = Environment.GetEnvironmentVariable("ENCRYPTED_SECRET_KEY");
 
-            if (holdAccess == null || holdSecret == null || encryptionKey == null || iv == null || url == null) 
+            if (holdAccess == null || holdSecret == null || encryptionKey == null || iv == null || url == null)
                 throw new InvalidOperationException("environment variable not set.");
 
             awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
