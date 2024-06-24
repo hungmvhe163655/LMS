@@ -1,18 +1,16 @@
-using Amazon;
-using Amazon.S3;
-using Amazon.S3.Transfer;
-using Entities.Models;
 using LMS_BACKEND_MAIN.Extentions;
 using LMS_BACKEND_MAIN.Presentation.ActionFilters;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using NLog;
 using Repository;
 using Servive.Hubs;
+using LMS_BACKEND_MAIN.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
-var logger = NLog.LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
+
+var logger = NLog.LogManager.Setup().LoadConfigurationFromFile(Path.Combine(Directory.GetCurrentDirectory(), "nlog.config")).GetCurrentClassLogger();
 
 var connectionString = builder.Configuration.GetConnectionString("LemaoString") ?? throw new InvalidOperationException("Connection string 'Cnn' not found.");
 builder.Services.AddDbContext<DataContext>(options =>
@@ -40,7 +38,15 @@ builder.Services.ConfigureJWT(builder.Configuration);
 
 builder.Services.AddJwtConfiguration(builder.Configuration);
 
-builder.Services.AddControllers().AddApplicationPart(typeof(LMS_BACKEND_MAIN.Presentation.AssemblyReference).Assembly);
+builder.Services.AddControllers(
+    config =>
+        {
+            config.RespectBrowserAcceptHeader = true;
+            config.ReturnHttpNotAcceptable = true;
+        }
+    ).AddApplicationPart(typeof(LMS_BACKEND_MAIN.Presentation.AssemblyReference).Assembly);
+
+builder.Services.AddTransient<IConfigureOptions<MvcOptions>, MvcOptionsSetup>();
 
 builder.Services.AddScoped<ValidationFilterAttribute>();
 

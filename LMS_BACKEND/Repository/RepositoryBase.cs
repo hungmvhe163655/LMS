@@ -35,7 +35,7 @@ namespace Repository
         public async Task<IEnumerable<T>> FindAllAsync(bool Trackable) => !Trackable ?
           await _context.Set<T>().AsNoTracking().ToListAsync()
           : await _context.Set<T>().ToListAsync();
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Ignore these methods
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Ignore these methods
         public T Find(int id)
         {
             try
@@ -69,20 +69,8 @@ namespace Repository
         public async Task CreateAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
-            await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(T entity)
-        {
-            _context.Set<T>().Update(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(T entity)
-        {
-            _context.Set<T>().Remove(entity);
-            await _context.SaveChangesAsync();
-        }
         public async Task<PageModel<T>> GetPagedAsync(int page, int pageSize, bool Trackable)
         {
             var query = !Trackable ? _context.Set<T>().AsNoTracking() : _context.Set<T>();
