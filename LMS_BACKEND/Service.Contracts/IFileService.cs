@@ -11,6 +11,6 @@ namespace Service.Contracts
     public interface IFileService
     {
         Task<bool> CreateFile(FileUploadRequestModel model, Stream inputStream);
-        Task<(Stream,FileResponseRequestModel)> GetFile(string FileID);
+        Task<(Stream,FileResponseModel)> GetFile(string FileID);
     }
 }

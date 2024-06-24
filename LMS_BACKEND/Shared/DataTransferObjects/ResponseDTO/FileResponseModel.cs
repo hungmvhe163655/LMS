@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects.ResponseDTO
 {
-    public class FileResponseRequestModel
+    public class FileResponseModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
