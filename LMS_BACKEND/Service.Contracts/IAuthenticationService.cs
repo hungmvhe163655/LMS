@@ -1,6 +1,7 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Shared;
+using Shared.DataTransferObjects;
 using Shared.DataTransferObjects.RequestDTO;
 using System;
 using System.Collections.Generic;

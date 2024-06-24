@@ -66,8 +66,8 @@ namespace Service
                     {
                         account.isVerified = true;
                         account.VerifiedBy = verifier;
-                        await _repository.account.UpdateAsync(account);
-                        _repository.Save();
+                        _repository.account.Update(account);
+                        await _repository.Save();
                     }
                     return true;
                 }
@@ -151,7 +151,8 @@ namespace Service
                         account.StudentDetail.Specialized = specialized;
                     }
 
-                    await _repository.account.UpdateAsync(account);
+                    _repository.account.Update(account);
+                    await _repository.Save();
                     return true;
                 }
             }

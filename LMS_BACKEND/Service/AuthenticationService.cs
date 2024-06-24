@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared;
+using Shared.DataTransferObjects;
 using Shared.DataTransferObjects.RequestDTO;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,7 @@ namespace Service
             _Secret = hold ?? "#";
 
         }
+
         public async Task<bool> VerifyEmail(string email, string token)
         {
             try
