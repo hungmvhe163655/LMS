@@ -16,7 +16,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = service;
         }
 
-        [HttpGet("Gets")]
+        [HttpPost("Gets")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult Gets(NewsRequestGetListsModel newsRequestGetLists)
         {
@@ -31,7 +31,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
         }
 
-        [HttpGet("GetDetails")]
+        [HttpPost("GetDetails")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult GetDetails(int id)
         {
@@ -46,7 +46,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
         }
 
-        [HttpGet("Create")]
+        [HttpPost("Create")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult Create(NewsRequestCreateModel newsRequestCreateModel)
         {
@@ -61,7 +61,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
         }
 
-        [HttpGet("Update")]
+        [HttpPut("Update")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult Update(NewsRequestUpdateModel newsRequestUpdateModel)
         {
@@ -77,7 +77,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
 
-        [HttpGet("Delete")]
+        [HttpDelete("Delete")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult Delete(int id)
         {
