@@ -42,13 +42,53 @@ namespace Service
             int otp = random.Next(1000000, 1999999);
             return otp.ToString().Substring(1);
         }
-        private string GetCacheKeyForTwoFactorToken(Account user)
+        private string GetCacheKey(Account user, string keymode)
         {
-            return $"TwoFactorToken_{user.Id}";
+            return $"{keymode}_{user.Id}";
         }
-        private string GetCacheKeyForForgotPasswordToken(Account user)
+        public async Task<bool>SendOTP(string email,string keymode)
         {
-            return $"ForgotPasswordToken_{user.Id}";
+            try
+            {
+                if (email != null)
+                {
+                    var hold_user = await _userManager.FindByEmailAsync(email);
+                    if (hold_user != null)
+                    {
+                        var Token = GenerateOtp();
+                        _cache.Set(GetCacheKey(hold_user,keymode), Token, TimeSpan.FromMinutes(2));
+                        return await SendMailGmailSmtp(Environment.GetEnvironmentVariable("EMAILADMIN").Split("/")[0], hold_user.Email, "LMS - FORGOT PASSWORD VERIFY", "Your Verify Code: " + Token);
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return false;
+        }
+        public async Task<bool> VerifyOtp(string email, string token,string keymode)
+        {
+
+            if (email == null) throw new ArgumentNullException(nameof(Account));
+            if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
+            try
+            {
+                var hold_user = await _userManager.FindByEmailAsync(email);
+                if (hold_user != null)
+                {
+                    var cacheKey = GetCacheKey(hold_user, keymode);
+                    if (_cache.TryGetValue(cacheKey, out string storedToken))
+                    {
+                        return storedToken.Equals(token);
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return false;
         }
         //lmao
         public async Task<bool>VerifyTwoFactorOtp(string email,string token)
@@ -61,7 +101,7 @@ namespace Service
                 var hold_user = await _userManager.FindByEmailAsync(email);
                 if (hold_user != null && hold_user.TwoFactorEnabled)
                 {
-                    var cacheKey = GetCacheKeyForTwoFactorToken(hold_user);
+                    var cacheKey = GetCacheKey(hold_user, "TwoFactorToken");
                     if (_cache.TryGetValue(cacheKey, out string storedToken))
                     {
                         return storedToken.Equals(token);
@@ -82,65 +122,9 @@ namespace Service
                 if (hold_user != null && hold_user.TwoFactorEnabled)
                 {
                     var Token = await _userManager.GenerateTwoFactorTokenAsync(hold_user, "Email");
-                    _cache.Set(GetCacheKeyForTwoFactorToken(hold_user),Token, TimeSpan.FromMinutes(2));
+                    _cache.Set(GetCacheKey(hold_user, "TwoFactorToken"),Token, TimeSpan.FromMinutes(2));
                     return await SendMailGmailSmtp(Environment.GetEnvironmentVariable("EMAILADMIN").Split("/")[0], hold_user.Email, "LMS - LOGIN VERIFY", "Your login Verify Code: " + Token);
                 }
-            }
-            catch
-            {
-                return false;
-            }
-            return false;
-        }
-        public async Task<bool> VerifyForgotPasswordOtp(string email, string token)
-        {
-
-            if (email == null) throw new ArgumentNullException(nameof(Account));
-            if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
-            try
-            {
-                var hold_user = await _userManager.FindByEmailAsync(email);
-                if (hold_user != null)
-                {
-                    var cacheKey = GetCacheKeyForForgotPasswordToken(hold_user);
-                    if (_cache.TryGetValue(cacheKey, out string storedToken))
-                    {
-                        return storedToken.Equals(token);
-                    }
-                }
-            }
-            catch
-            {
-                return false;
-            }
-            return false;
-        }
-        public async Task<bool> SendForgotPasswordOtp(string? email, string? phone)
-        {
-            try
-            {
-                if(email != null)
-                {
-                    var hold_user = await _userManager.FindByEmailAsync(email);
-                    if (hold_user != null && hold_user.TwoFactorEnabled)
-                    {
-                        var Token = await _userManager.GenerateTwoFactorTokenAsync(hold_user, "Email");
-                        _cache.Set(GetCacheKeyForForgotPasswordToken(hold_user), Token, TimeSpan.FromMinutes(2));
-                        return await SendMailGmailSmtp(Environment.GetEnvironmentVariable("EMAILADMIN").Split("/")[0], hold_user.Email, "LMS - FORGOT PASSWORD VERIFY", "Your Verify Code: " + Token);
-                    }
-                }
-                if(phone != null)// chua implement so dien thoai do khong co service nao ho tro nen dung tam email
-                {
-                    var hold_user = await _repository.account.GetByConditionAsync(entity => entity.PhoneNumber.Equals(phone) && entity.PhoneNumberConfirmed, false);
-                    if (hold_user != null)
-                    {
-                        var end = hold_user.FirstOrDefault(entity=>entity.PhoneNumber.Equals(phone));
-                        var Token = await _userManager.GenerateTwoFactorTokenAsync(end, "Email");
-                        _cache.Set(GetCacheKeyForForgotPasswordToken(end), Token, TimeSpan.FromMinutes(2));
-                        return await SendMailGmailSmtp(Environment.GetEnvironmentVariable("EMAILADMIN").Split("/")[0], end.Email, "LMS - FORGOT PASSWORD VERIFY", "Your Verify Code: " + Token);
-                    }
-                }
-                
             }
             catch
             {
