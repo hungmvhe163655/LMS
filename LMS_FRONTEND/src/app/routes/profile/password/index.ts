@@ -1,7 +1,7 @@
 const PasswordRoute = {
   path: 'password',
   lazy: async () => {
-    const { Password } = await import('./password');
+    const { PasswordPage: Password } = await import('./password-page');
     return { Component: Password };
   }
 };
