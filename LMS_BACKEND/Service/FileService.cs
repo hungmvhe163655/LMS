@@ -30,7 +30,6 @@ namespace Service
             };
 
             var response = await _s3Client.PutObjectAsync(putRequest);
-            // Handle response if needed
         }
 
         public async Task<Stream> GetFileFromS3Async(string key)

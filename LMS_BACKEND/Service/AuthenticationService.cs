@@ -35,6 +35,7 @@ namespace Service
         private readonly RoleManager<IdentityRole> _roleManager;
 
 
+        private readonly string _Secret;
         private Account? _account;
         public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<Account> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager)
         {
@@ -45,9 +46,11 @@ namespace Service
             _roleManager = roleManager;
             _jwtConfiguration = new JwtConfiguration();
             _configuration.Bind(_jwtConfiguration.Section, _jwtConfiguration);
+            var hold = Environment.GetEnvironmentVariable("SECRET");
+            _Secret = hold ?? "#";
 
         }
-        public async Task<bool> VerifyEmail(string email,string token)
+        public async Task<bool> VerifyEmail(string email, string token)
         {
             try
             {
@@ -55,9 +58,9 @@ namespace Service
 
                 var hold = (user != null && user.EmailVerifyCodeAge > DateTime.Now && !user.EmailConfirmed) ? user.EmailVerifyCode : null;
 
-                if(hold != null)
+                if (hold != null)
                 {
-                    if (hold.Equals(token))
+                    if (hold.Equals(token) && user != null)
                     {
                         user.EmailVerifyCode = null;
 
@@ -65,7 +68,7 @@ namespace Service
 
                         user.EmailConfirmed = true;
 
-                        await  _userManager.UpdateAsync(user);
+                        await _userManager.UpdateAsync(user);
 
                         return true;
                     }
@@ -97,7 +100,7 @@ namespace Service
 
                     if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
 
-                    var rolesToAdd = model.Roles != null ? model.Roles : null;
+                    var rolesToAdd = model.Roles ?? null;
 
                     var validRoles = new List<string>();
 
@@ -159,7 +162,7 @@ namespace Service
 
                 if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
 
-                var rolesToAdd = model.Roles != null ? model.Roles : null;
+                var rolesToAdd = model.Roles ?? null;
 
                 var validRoles = new List<string>();
 
@@ -195,7 +198,7 @@ namespace Service
                 _logger.LogError($"{nameof(RegisterLabLead)}Error During Authentication Process has Occur for LabLead");
 
                 _logger.LogError(ex.Message);
-                
+
                 return IdentityResult.Failed();
             }
         }
@@ -215,11 +218,11 @@ namespace Service
 
                 var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
 
-                if (verifierRole == null || !(verifierRole.ToLower().Equals("labadmin")||verifierRole.ToLower().Equals("supervisor"))) { return IdentityResult.Failed(); }// sua pham vi role o day
+                if (verifierRole == null || !(verifierRole.ToLower().Equals("labadmin") || verifierRole.ToLower().Equals("supervisor"))) { return IdentityResult.Failed(); }// sua pham vi role o day
 
                 if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
 
-                var rolesToAdd = model.Roles != null ? model.Roles : null;
+                var rolesToAdd = model.Roles ?? null;
 
                 var validRoles = new List<string>();
 
@@ -278,7 +281,7 @@ namespace Service
 
                 if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
 
-                var rolesToAdd = model.Roles != null ? model.Roles : null;
+                var rolesToAdd = model.Roles ?? null;
 
                 var validRoles = new List<string>();
 
@@ -333,7 +336,7 @@ namespace Service
                 _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");
                 return "BADLOGIN|";
             }
-            if (result)
+            if (result && _account != null)
             {
                 if (!_account.EmailConfirmed)
                 {
@@ -366,8 +369,8 @@ namespace Service
         private SigningCredentials GetSigningCredentials()
         {
             /// phai setup secret truoc khi thuc hien Open CMD (as admin) => setx SECRET "MinhTC" /M
-            var hold = Environment.GetEnvironmentVariable("SECRET");
-            if (hold != null)
+            var hold = _Secret;
+            if (!hold.Equals("#"))
             {
                 var key = Encoding.UTF8.GetBytes(hold);
 
@@ -380,21 +383,28 @@ namespace Service
         }
         private async Task<List<Claim>> GetClaims()
         {
-            if (_account != null && string.IsNullOrEmpty(_account.UserName))
+            try
             {
-                return null;
+                /// Tao claims khong co gi dac biet
+                if (_account != null && _account.UserName != null)
+                {
+                    var claims = new List<Claim>
+                     {
+                     new Claim(ClaimTypes.Name, _account.UserName)
+                     };
+                    var roles = await _userManager.GetRolesAsync(_account);
+                    foreach (var role in roles)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, role));
+                    }
+                    return claims;
+                }
             }
-            /// Tao claims khong co gi dac biet
-            var claims = new List<Claim>
-             {
-             new Claim(ClaimTypes.Name, _account.UserName)
-             };
-            var roles = await _userManager.GetRolesAsync(_account);
-            foreach (var role in roles)
+            catch
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                throw;
             }
-            return claims;
+            return new List<Claim>();
         }
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
         {
@@ -409,14 +419,12 @@ namespace Service
             );
             return tokenOptions;
         }
-        private string GenerateRefreshToken()
+        private static string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
-            }
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
         private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
@@ -426,21 +434,17 @@ namespace Service
                 ValidateIssuer = true,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"))),
+                Encoding.UTF8.GetBytes(_Secret)),
                 ValidateLifetime = true,
                 ValidIssuer = _jwtConfiguration.ValidIssuer,
                 ValidAudience = _jwtConfiguration.ValidAudience
             };
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            SecurityToken securityToken;
 
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out
-           securityToken);
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
 
-            var jwtSecurityToken = securityToken as JwtSecurityToken;
-
-            if (jwtSecurityToken == null ||
+            if (securityToken is not JwtSecurityToken jwtSecurityToken ||
            !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
             StringComparison.InvariantCultureIgnoreCase))
             {
@@ -451,40 +455,49 @@ namespace Service
         }
         public async Task<TokenDTO> CreateToken(bool populateExp)//gui ve request token de duy tri dang nhap
         {
-            var signingCredentials = GetSigningCredentials();
+            if (_account != null)
+            {
+                var signingCredentials = GetSigningCredentials();
 
-            var claims = await GetClaims();
+                var claims = await GetClaims();
 
-            var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
+                var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
 
-            var refreshToken = GenerateRefreshToken();
+                var refreshToken = GenerateRefreshToken();
 
-            _account.UserRefreshToken = refreshToken;
+                _account.UserRefreshToken = refreshToken;
 
-            if (populateExp)
-                _account.UserRefreshTokenExpiryTime = DateTime.Now.AddDays(7);// them thoi gian cho refreshToken neu muon tuy
+                if (populateExp)
+                    _account.UserRefreshTokenExpiryTime = DateTime.Now.AddDays(7);// them thoi gian cho refreshToken neu muon tuy
 
-            await _userManager.UpdateAsync(_account);
+                await _userManager.UpdateAsync(_account);
 
-            var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+                var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-            return new TokenDTO(accessToken, refreshToken);
+                return new TokenDTO(accessToken, refreshToken);
+            }
+            else
+            {
+                return new TokenDTO("Notfound", "NotFound");
+            }
 
         }
-        public async Task<TokenDTO> RefreshToken(TokenDTO tokenDto)
+        public async Task<TokenDTO> RefreshTokens(TokenDTO tokenDto)
         {
             var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
 
-            var user = await _userManager.FindByNameAsync(principal.Identity.Name);
+            if (principal.Identity != null && principal.Identity.Name != null)
+            {
+                var user = await _userManager.FindByNameAsync(principal.Identity.Name);
 
-            if (user == null || user.UserRefreshToken != tokenDto.RefreshToken ||
-            user.UserRefreshTokenExpiryTime <= DateTime.Now)
-                return null;
+                if (user == null || user.UserRefreshToken != tokenDto.RefreshToken ||
+                user.UserRefreshTokenExpiryTime <= DateTime.Now)
+                    return new TokenDTO("Not Found", "Not Found");
+                _account = user;
 
-            _account = user;
-
-            return await CreateToken(false);
-
+                return await CreateToken(false);
+            }
+            return new TokenDTO("Not Found", "Not Found");
         }
         public async Task<bool> InvalidateToken(TokenDTO tokenDTO)//logout logic
         {
@@ -492,9 +505,11 @@ namespace Service
             {
                 var principal = GetPrincipalFromExpiredToken(tokenDTO.AccessToken);
 
+                if (principal.Identity == null || principal.Identity.Name == null) return false;
+
                 var user = await _userManager.FindByNameAsync(principal.Identity.Name);
 
-                if(user==null) { return false; }
+                if (user == null) { return false; }
                 user.UserRefreshToken = null;
 
                 user.UserRefreshTokenExpiryTime = DateTime.MinValue;

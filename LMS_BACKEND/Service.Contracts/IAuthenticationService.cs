@@ -20,7 +20,7 @@ namespace Service.Contracts
         Task<string> ValidateUser(LoginRequestModel loginRequestModel);
         Task<string> CreateToken();
         Task<TokenDTO> CreateToken(bool populateExpiration);
-        Task<TokenDTO> RefreshToken(TokenDTO tokenDTO);
+        Task<TokenDTO> RefreshTokens(TokenDTO tokenDTO);
         Task<bool> InvalidateToken(TokenDTO tokenDTO);
     }
 }
