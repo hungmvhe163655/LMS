@@ -2,6 +2,7 @@ import { Link } from '../ui/link';
 
 import { AvatarDropdown } from './avatar-dropdown';
 import { Logo } from './logo';
+import { NotificationDropdown } from './notification-dropdown';
 
 export function Header() {
   const isLogin = true;
@@ -11,19 +12,26 @@ export function Header() {
       <div>
         <Logo />
       </div>
-      <ul>
-        {isLogin ? (
-          <li className='mr-4'>
+
+      {isLogin ? (
+        <ul className='flex space-x-4'>
+          <li className='my-auto mr-5'>
+            <NotificationDropdown />
+          </li>
+          <li>
             <AvatarDropdown />
           </li>
-        ) : (
-          <li>
-            <Link to='/auth/login' className='text-white hover:text-gray-400'>
-              Login
-            </Link>
-          </li>
-        )}
-      </ul>
+        </ul>
+      ) : (
+        <div className='mr-4'>
+          <Link
+            to='/auth/login'
+            className='text-xl font-bold text-white hover:text-gray-300 hover:no-underline'
+          >
+            Login
+          </Link>
+        </div>
+      )}
     </header>
   );
 }

@@ -55,10 +55,10 @@ function LoginForm() {
               name='emailOrRoll'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email Or Roll Number</FormLabel>
+                  <FormLabel>Email or Roll Number</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='yourname@fpt.edu.vn or HE123456'
+                      placeholder='email@fpt.edu.vn or HE123456'
                       {...field}
                       autoComplete='email'
                     />
