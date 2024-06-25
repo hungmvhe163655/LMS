@@ -1,6 +1,7 @@
 ﻿using LMS_BACKEND_MAIN.Presentation.ActionFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Internal;
 using Service.Contracts;
 using Shared;
 using Shared.DataTransferObjects.RequestDTO;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
-    [Route("api/[Controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -24,7 +25,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = serviceManager;
         }
-        
+
         [HttpPut("ReSendVerifyEmail")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ReSendVerifyEmail([FromBody] MailRequestModel model)
@@ -73,7 +74,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     }
                     return BadRequest(new ResponseObjectModel { Code = "400", Status = "Error while trying to create Supervisor", Value = ModelState });
                 }
-                await _service.MailService.SendVerifyOtp(model.Email??"");
+                await _service.MailService.SendVerifyOtp(model.Email ?? "");
 
                 return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Create User Successfully", Value = model });
             }
@@ -154,7 +155,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 {
                     if (twofactor)
                     {
-                        if (await _service.MailService.SendTwoFactorOtp(model.Email??""))
+                        if (await _service.MailService.SendTwoFactorOtp(model.Email ?? ""))
                         {
                             return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = "2 Factor code was sent" });
                         }
@@ -183,7 +184,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 if (model.Email == null) return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Email can't be null" });
                 string outcome = await _service.AuthenticationService.ValidateUser(model);
                 var user = await _service.AccountService.GetUserByEmail(model.Email);
-                return  await LoginProcess(outcome, user.TwoFactorEnabled, model);
+                return await LoginProcess(outcome, user.TwoFactorEnabled, model);
             }
             catch (Exception ex)
             {
@@ -194,9 +195,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPost("Logout")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> Logout([FromBody] TokenDTO model)
+        public async Task<IActionResult> Logout([FromBody] TokenDTORequestModel model)
         {
-            if (!await _service.AuthenticationService.InvalidateToken(model))
+            var hold = new TokenDTO(model.AccessToken ?? "", model.RefreshToken ?? "");
+            if (!await _service.AuthenticationService.InvalidateToken(hold))
             {
                 return Unauthorized(new ResponseObjectModel { Code = "401", Value = "Invalid Token", Status = "Failed" });
             }
