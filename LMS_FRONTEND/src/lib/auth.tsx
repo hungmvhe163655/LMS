@@ -2,9 +2,9 @@ import { configureAuth } from 'react-query-auth';
 import { useLocation, Navigate } from 'react-router-dom';
 import { z } from 'zod';
 
-import { api } from './api-client';
-
 import { AuthResponse, User } from '@/types/api';
+
+import { api } from './api-client';
 
 // api call definitions for auth (types, schemas, requests):
 // these are not part of features as this is a module shared across features
@@ -61,7 +61,7 @@ const registerWithEmailAndPassword = async (data: RegisterInput): Promise<AuthRe
   return api.post(endpoint, data);
 };
 const authConfig = {
-  userFn: getUser,
+  userFn: () => getUser(),
   loginFn: async (data: LoginInput) => {
     const response = await loginWithEmailAndPassword(data);
     return response.user;
@@ -70,7 +70,7 @@ const authConfig = {
     const response = await registerWithEmailAndPassword(data);
     return response.user;
   },
-  logoutFn: logout
+  logoutFn: () => logout()
 };
 
 export const { useUser, useLogin, useLogout, useRegister, AuthLoader } = configureAuth(authConfig);
