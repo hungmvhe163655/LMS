@@ -116,6 +116,7 @@ namespace LMS_BACKEND_MAIN.Extentions
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
         public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
         {//nho chay app setup truoc khi release phai sua phan encryptionkey vaf iv nay
+            /* Undo Doan code nay de chay cloud
             var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
 
             var iv = Environment.GetEnvironmentVariable("ivKey");
@@ -137,9 +138,10 @@ namespace LMS_BACKEND_MAIN.Extentions
                 Decrypter.DecryptString(holdAccess, encryptionKey, iv),
                 Decrypter.DecryptString(holdSecret, encryptionKey, iv)
             );
-            //awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
+            awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
 
             services.AddDefaultAWSOptions(awsOptions);
+            */
 
             services.AddAWSService<IAmazonS3>();
 
