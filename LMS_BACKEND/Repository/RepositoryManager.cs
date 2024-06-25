@@ -8,6 +8,7 @@ namespace Repository
         private readonly Lazy<IAccountRepository> _accountRepository;
         private readonly Lazy<INewsRepository> _newsRepository;
         private readonly Lazy<INotificationRepository> _notificationsRepository;
+        private readonly Lazy<IStudentDetailRepository> _studentDetailRepository;
         private readonly Lazy<IFileRepository> _fileRepository;
         private readonly Lazy<IFolderClosureRepository> _folderClosureRepository;
         private readonly Lazy<IFolderRepository> _folderRepository;
@@ -16,6 +17,8 @@ namespace Repository
             _context = context;
             _accountRepository = new Lazy<IAccountRepository>(() => new AccountRepository(context));
             _newsRepository = new Lazy<INewsRepository>(() => new NewsRepository(context));
+            _notificationsRepository = new Lazy<INotificationRepository>(()=> new NotificationRepository(context));
+            _studentDetailRepository = new Lazy<IStudentDetailRepository>(() => new StudentDetailRepository(context));
             _notificationsRepository = new Lazy<INotificationRepository>(() => new NotificationRepository(context));
             _fileRepository = new Lazy<IFileRepository>(() => new FileRepository(context));
             _folderRepository = new Lazy<IFolderRepository>(() => new FolderRepository(context));
@@ -25,6 +28,7 @@ namespace Repository
         public IAccountRepository account => _accountRepository.Value;
         public INewsRepository news => _newsRepository.Value;
         public INotificationRepository notification => _notificationsRepository.Value;
+        public IStudentDetailRepository studentDetail => _studentDetailRepository.Value;
         public IFileRepository file => _fileRepository.Value;
         public IFolderClosureRepository folderClosure => _folderClosureRepository.Value;
         public IFolderRepository folder => _folderRepository.Value;

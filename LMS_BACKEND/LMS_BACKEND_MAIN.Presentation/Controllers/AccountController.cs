@@ -1,5 +1,6 @@
 
 using Entities.Models;
+using LMS_BACKEND_MAIN.Presentation.ActionFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,6 +9,7 @@ using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -24,6 +26,33 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = service;
         }
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "LabAdmin")]
+        [HttpPost("CreateAccount")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize]
+        public async Task<IActionResult> RegisterLabLead([FromBody] RegisterRequestModel model)
+        {
+            try
+            {
+                var result = await _service.AuthenticationService.RegisterLabLead(model);
+
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.TryAddModelError(error.Code, error.Description);
+                    }
+                    return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = ModelState });
+                }
+                await _service.MailService.SendVerifyOtp(model.Email ?? "");
+
+                return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Success", Value = result });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterLabLead)}", Value = ex });
+            }
+        }
         [HttpGet("GetUser")]
         public async Task<IActionResult> GetUsers(string role)
         {
@@ -32,7 +61,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 var hold = await _service.AccountService.GetUserByRole(role.ToUpper());
                 if (hold != null)
                 {
-                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = hold.Where(x => x.isVerified = true) });
+                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = hold.Where(x => x.IsVerified = true) });
                 }
                 return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "EMPTY", Value = hold });
             }
