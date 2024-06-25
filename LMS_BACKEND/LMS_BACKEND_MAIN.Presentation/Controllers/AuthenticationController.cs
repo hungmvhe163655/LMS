@@ -181,9 +181,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             try
             {
                 if (model.Email == null) return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Email can't be null" });
+
                 string outcome = await _service.AuthenticationService.ValidateUser(model);
+
                 var user = await _service.AccountService.GetUserByEmail(model.Email);
-                return await LoginProcess(outcome, user.TwoFactorEnabled, model);
+
+                if (user.Any()) return await LoginProcess(outcome, user.First().TwoFactorEnabled, model);
+
+                return await LoginProcess(outcome, false, model);
             }
             catch (Exception ex)
             {
