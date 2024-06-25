@@ -46,7 +46,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
                 return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Success", Value = result });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterLabLead)}", Value = ex });
             }
@@ -103,7 +103,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
                 return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Create User Successfully", Value = model });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterSupervisor)}", Value = ex });
             }
@@ -131,7 +131,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Create User Successfully", Value = model });
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterStudent)}", Value = ex });
             }
