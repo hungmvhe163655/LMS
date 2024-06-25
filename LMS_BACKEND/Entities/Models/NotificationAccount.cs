@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Entities.Models
@@ -14,7 +15,7 @@ namespace Entities.Models
         public bool IsRead { get; set; }
 
         public virtual Account Account { get; set; } = null!;
-
+        [JsonIgnore]
         public virtual Notification Notification { get; set; } = null!;
     }
 

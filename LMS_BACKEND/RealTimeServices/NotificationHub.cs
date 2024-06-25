@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository.Configuration
+namespace RealTimeServices
 {
-    internal class OverralDbConfig
+    public sealed class NotificationHub
     {
     }
 }
