@@ -14,7 +14,7 @@ const createEnv = () => {
 
   // Extract environment variables from import.meta.env and merge with default values
   const envVars = {
-    API_URL: '',
+    API_URL: 'http://localhost:5002',
     ENABLE_API_MOCKING: 'false',
     APP_URL: 'http://localhost:5002',
     ...Object.entries(import.meta.env).reduce<Record<string, string>>((acc, [key, value]) => {
