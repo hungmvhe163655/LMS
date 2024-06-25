@@ -1,4 +1,4 @@
-import { Link } from '../ui/link';
+import { Link } from '../app/link';
 
 import { Logo } from './logo';
 

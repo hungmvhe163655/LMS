@@ -1,77 +1,86 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { CheckIcon } from 'lucide-react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useLocation } from 'react-router-dom';
+import { FaChalkboardTeacher } from 'react-icons/fa';
+import { useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 
+import { Link } from '@/components/app/link';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem
+} from '@/components/ui/command';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { registerInputSchema, useRegister } from '@/lib/auth';
+import { cn } from '@/lib/utils';
 
-const FormSchema = z.object({
-  email: z.string().min(6, {
-    message: 'Email must have more than 6 characters'
-  }),
-  password: z.string().min(6, { message: 'Password must have more than 6 characters' }),
-  confirmPassword: z.string(),
-  fullname: z.string().min(3, { message: 'Fullname must have more than 3 characters' }),
-  supervisor: z.number(),
-  phonenumber: z.string().min(9, { message: 'Phone number must have more than 9 characters' })
-});
+// Waiting for  API
+const supervisors = [
+  {
+    value: 'ChiLP2',
+    label: 'Lê Phương Chi (ChiLP)'
+  },
+  {
+    value: 'SonNT',
+    label: 'Ngô Tùng Sơn (SonNT)'
+  },
+  {
+    value: 'AnhBN',
+    label: 'Bùi Ngọc Anh (AnhBN)'
+  }
+];
 
 const StudentRegisterForm: React.FC = () => {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const studentCode = searchParams.get('studentCode');
+  const registering = useRegister();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirectTo');
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const registerSchema = registerInputSchema.and(
+    z.object({
+      verifiedBy: z.string(),
+      rollNumber: z.string().min(1, 'Required')
+    })
+  );
+
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       email: '',
       password: '',
       confirmPassword: '',
       fullname: '',
-      supervisor: 0,
-      phonenumber: ''
+      verifiedBy: '',
+      phonenumber: '',
+      rollNumber: ''
     }
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-    // Submit Logic
+  function onSubmit(data: z.infer<typeof registerSchema>) {
+    registering.mutate(data);
   }
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Register</CardTitle>
-        <CardDescription>Welcome to SAP Lab Management System</CardDescription>
-      </CardHeader>
-      <CardContent className='card-content'>
+      <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='w-2/3 space-y-6'>
-            {/* Display the student code */}
-            {studentCode && (
-              <div>
-                <p>Student Code: {studentCode}</p>
-              </div>
-            )}
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
             {/* Fullname input field */}
             <FormField
               control={form.control}
@@ -80,7 +89,7 @@ const StudentRegisterForm: React.FC = () => {
                 <FormItem>
                   <FormLabel>Fullname</FormLabel>
                   <FormControl>
-                    <Input placeholder='Nguyen Van A' {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -95,7 +104,7 @@ const StudentRegisterForm: React.FC = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='yourname@fpt.edu.vn' {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -110,7 +119,7 @@ const StudentRegisterForm: React.FC = () => {
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>
                   <FormControl>
-                    <Input placeholder='0912345678' {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -120,16 +129,58 @@ const StudentRegisterForm: React.FC = () => {
             {/* Supervisor Input Field */}
             <FormField
               control={form.control}
-              name='supervisor'
+              name='verifiedBy'
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Supervisor ID</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='This will later be a combobox when dev has his APIs'
-                      {...field}
-                    />
-                  </FormControl>
+                <FormItem className='flex flex-col'>
+                  <FormLabel>Supervisor</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant='outline'
+                          role='combobox'
+                          className={cn(
+                            'w-[200px] justify-between',
+                            !field.value && 'text-muted-foreground'
+                          )}
+                        >
+                          {field.value
+                            ? supervisors.find((supervisor) => supervisor.value === field.value)
+                                ?.label
+                            : 'Select supervisor'}
+                          <FaChalkboardTeacher className='ml-2 size-4 shrink-0 opacity-50' />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className='w-[200px] p-0'>
+                      <Command>
+                        <CommandInput placeholder='Search Supervisor...' className='h-9' />
+                        <CommandEmpty>No Supervisor found.</CommandEmpty>
+                        <CommandGroup>
+                          {supervisors.map((supervisor) => (
+                            <CommandItem
+                              value={supervisor.label}
+                              key={supervisor.value}
+                              onSelect={() => {
+                                form.setValue('verifiedBy', supervisor.value);
+                              }}
+                            >
+                              {supervisor.label}
+                              <CheckIcon
+                                className={cn(
+                                  'ml-auto h-4 w-4',
+                                  supervisor.value === field.value ? 'opacity-100' : 'opacity-0'
+                                )}
+                              />
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <FormDescription>
+                    This is the Supervisor that will verify your account.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -171,16 +222,28 @@ const StudentRegisterForm: React.FC = () => {
                 htmlFor='terms'
                 className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
               >
-                I agree with Regulations Of SAP Laboratory.
+                I agree with
+                <Link to='/regulation' target='_blank'>
+                  {' '}
+                  Regulations Of SAP Laboratory.
+                </Link>
               </label>
             </div>
-            <Button type='submit'>Submit</Button>
+            <Button type='submit' className='w-full'>
+              Register
+            </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter>
         <p>
-          Already have an account? <Link to='/'>Login Here!</Link>
+          Already have an account?
+          <Link
+            to={`/auth/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
+          >
+            {' '}
+            Login Here!
+          </Link>
         </p>
       </CardFooter>
     </Card>

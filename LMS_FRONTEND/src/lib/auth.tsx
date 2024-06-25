@@ -2,9 +2,9 @@ import { configureAuth } from 'react-query-auth';
 import { useLocation, Navigate } from 'react-router-dom';
 import { z } from 'zod';
 
-import { AuthResponse, User } from '@/types/api';
-
 import { api } from './api-client';
+
+import { AuthResponse, User } from '@/types/api';
 
 // api call definitions for auth (types, schemas, requests):
 // these are not part of features as this is a module shared across features
@@ -30,23 +30,28 @@ const loginWithEmailAndPassword = (data: LoginInput): Promise<AuthResponse> => {
 export const registerInputSchema = z
   .object({
     email: z.string().min(1, 'Required'),
-    firstName: z.string().min(1, 'Required'),
-    lastName: z.string().min(1, 'Required'),
-    password: z.string().min(1, 'Required')
-  })
-  .and(
-    z
-      .object({
-        teamId: z.string().min(1, 'Required'),
-        teamName: z.null().default(null)
+    fullname: z.string().min(1, 'Required'),
+    password: z.string().min(1, 'Required'),
+    confirmPassword: z.string().min(1, 'Required'),
+    gender: z.boolean({
+      required_error: 'Required'
+    }),
+    phonenumber: z
+      .string()
+      .min(1, 'Required')
+      .regex(/^\d{10}$/, {
+        message: 'Phone number must be exactly 10 digits'
       })
-      .or(
-        z.object({
-          teamName: z.string().min(1, 'Required'),
-          teamId: z.null().default(null)
-        })
-      )
-  );
+  })
+  .superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'The passwords did not match',
+        path: ['confirmPassword']
+      });
+    }
+  });
 
 export type RegisterInput = z.infer<typeof registerInputSchema>;
 

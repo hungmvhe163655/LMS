@@ -5,26 +5,12 @@ import * as React from 'react';
 import { useUser } from './auth';
 
 export enum ROLES {
-  ADMIN = 'ADMIN',
-  USER = 'USER'
+  SUPERVISOR = 'ADMIN',
+  STUDENT = 'STUDENT',
+  LAB_DIRECTOR = 'LAB_DIRECTOR'
 }
 
 type RoleTypes = keyof typeof ROLES;
-
-/* export const POLICIES = {
- 'comment:delete': (user: User, comment: Comment) => {
-    if (user.role === 'ADMIN') {
-      return true;
-    }
-
-    if (user.role === 'USER' && comment.author?.id === user.id) {
-      return true;
-    }
-
-    return false;
-  },
-};
-*/
 
 export const useAuthorization = () => {
   const user = useUser();

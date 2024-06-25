@@ -1,5 +1,5 @@
+import { Link } from '@/components/app/link';
 import { BaseLayout } from '@/components/layouts/base-layout';
-import { Link } from '@/components/ui/link';
 
 export function NotFoundRoute() {
   return (

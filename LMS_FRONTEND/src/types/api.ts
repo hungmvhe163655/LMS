@@ -1,6 +1,6 @@
 export type BaseEntity = {
   id: string;
-  createdAt: number;
+  createdDate: number;
 };
 
 export type Entity<T> = {
@@ -8,12 +8,13 @@ export type Entity<T> = {
 } & BaseEntity;
 
 export type User = Entity<{
-  firstName: string;
-  lastName: string;
+  fullname: string;
   email: string;
-  role: 'ADMIN' | 'USER';
-  teamId: string;
-  bio: string;
+  gender: boolean;
+  verifiedBy: string;
+  isDeleted: boolean;
+  isBanned: boolean;
+  role: 'SUPERVISOR' | 'STUDENT' | 'LAB_DIRECTOR';
 }>;
 
 export type AuthResponse = {

@@ -1,5 +1,6 @@
 import { Bell, User } from 'lucide-react';
 
+import { Link } from '../app/link';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '../ui/dropdown-menu';
-import { Link } from '../ui/link';
 
 export function NotificationDropdown() {
   return (
