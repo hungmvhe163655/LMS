@@ -33,10 +33,10 @@ namespace Service
             _roleManager = roleManager;
         }
         // public async Task<Account> GetUserByEmail(string email) =>  _repository.account.GetByCondition(entity => entity.Email.Equals(email), false).FirstOrDefault();
-        public async Task<Account> GetUserByEmail(string email)
+        public async Task<IEnumerable<Account>> GetUserByEmail(string email)
         {
             var end = await _repository.account.GetByConditionAsync(entity => entity.Email.Equals(email), false);
-            return end.First();
+            return end;
         }
         public async Task<Account> GetUserById(string id) => await _repository.account.GetByCondition(entity => entity.Id.Equals(id), false).FirstAsync();
         public async Task<Account> GetUserByName(string userName)
@@ -135,7 +135,7 @@ namespace Service
 
                 if (studentDetail == null)
                 {
-                    var newStudentDetail = new StudentDetail() {AccountId = userId, RollNumber= rollNumber, Major= major, Specialized= specialized };
+                    var newStudentDetail = new StudentDetail() { AccountId = userId, RollNumber = rollNumber, Major = major, Specialized = specialized };
                     await _repository.studentDetail.CreateAsync(newStudentDetail);
                 }
                 else
