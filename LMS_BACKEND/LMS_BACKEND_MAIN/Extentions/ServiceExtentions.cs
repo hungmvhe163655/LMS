@@ -17,13 +17,21 @@ using System.Security.Claims;
 
 namespace LMS_BACKEND_MAIN.Extentions
 {
+    public class CorsConfig
+    {
+        public string[]? Origins { get; set; }
+    }
     public static class ServiceExtentions
     {
-        public static void ConfigureCor(this IServiceCollection services)
+        public static void ConfigureCor(this IServiceCollection services, IConfiguration configuration)
         {
+            var corsConfig = new CorsConfig();
+
+            configuration.GetSection("CorsConfig").Bind(corsConfig);
+
             services.AddCors(
                 options => options.AddPolicy("CorsPolicy", builder =>
-                builder.AllowAnyOrigin()
+                builder.WithOrigins(corsConfig.Origins??throw new NullReferenceException("Not found corsConfig"))
                 .AllowAnyMethod()
                 .AllowAnyHeader())
                 );
@@ -108,7 +116,7 @@ namespace LMS_BACKEND_MAIN.Extentions
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
         public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
         {//nho chay app setup truoc khi release phai sua phan encryptionkey vaf iv nay
-            
+            /*
             var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
 
             var iv = Environment.GetEnvironmentVariable("ivKey");
@@ -133,6 +141,7 @@ namespace LMS_BACKEND_MAIN.Extentions
             awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
 
             services.AddDefaultAWSOptions(awsOptions);
+            */
 
             services.AddAWSService<IAmazonS3>();
 
