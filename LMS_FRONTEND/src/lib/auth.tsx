@@ -30,6 +30,7 @@ const loginWithEmailAndPassword = (data: LoginInput): Promise<AuthResponse> => {
 export const registerInputSchema = z
   .object({
     email: z.string().min(1, 'Required'),
+    role: z.enum(['STUDENT', 'SUPERVISOR']),
     fullname: z.string().min(1, 'Required'),
     password: z.string().min(1, 'Required'),
     confirmPassword: z.string().min(1, 'Required'),
@@ -55,10 +56,10 @@ export const registerInputSchema = z
 
 export type RegisterInput = z.infer<typeof registerInputSchema>;
 
-const registerWithEmailAndPassword = (data: RegisterInput): Promise<AuthResponse> => {
-  return api.post('/auth/register', data);
+const registerWithEmailAndPassword = async (data: RegisterInput): Promise<AuthResponse> => {
+  const endpoint = data.role === 'STUDENT' ? '/auth/register/student' : '/auth/register/supervisor';
+  return api.post(endpoint, data);
 };
-
 const authConfig = {
   userFn: getUser,
   loginFn: async (data: LoginInput) => {

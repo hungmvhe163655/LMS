@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 
 import { Link } from '@/components/app/link';
@@ -16,43 +17,28 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-
-// FormSchema and Validation
-const FormSchema = z
-  .object({
-    email: z.string().min(6, {
-      message: 'Email must have more than 6 characters' // This will be shown using FormMessage
-    }),
-    password: z.string().min(6, { message: 'Password must have more than 6 characters' }),
-    confirmPassword: z.string(),
-
-    fullname: z.string().min(3, { message: 'Fullname must have more than 3 characters' }),
-    phonenumber: z.string().min(9, { message: 'Phone number must have more than 9 characters' })
-  })
-  .superRefine(({ confirmPassword, password }, ctx) => {
-    if (confirmPassword !== password) {
-      ctx.addIssue({
-        code: 'custom',
-        message: 'The passwords did not match',
-        path: ['confirmPassword']
-      });
-    }
-  });
+import { registerInputSchema, useRegister } from '@/lib/auth';
 
 // LoginForm component
 function SupervisorRegisterForm() {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const registering = useRegister();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirectTo');
+
+  const form = useForm<z.infer<typeof registerInputSchema>>({
+    resolver: zodResolver(registerInputSchema),
     defaultValues: {
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: '',
+      fullname: '',
+      phonenumber: '',
+      role: 'SUPERVISOR'
     }
   });
 
-  // onSubmit
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-    // Submit Logic
+  function onSubmit(data: z.infer<typeof registerInputSchema>) {
+    registering.mutate(data);
   }
 
   // HTML?
@@ -69,7 +55,7 @@ function SupervisorRegisterForm() {
                 <FormItem>
                   <FormLabel>Full Name</FormLabel>
                   <FormControl>
-                    <Input placeholder='Nguyen Van A' {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -84,7 +70,7 @@ function SupervisorRegisterForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='email@fpt.edu.vn' {...field} autoComplete='email' />
+                    <Input {...field} autoComplete='email' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -155,7 +141,12 @@ function SupervisorRegisterForm() {
       <CardFooter>
         <p>
           Already have an account?
-          <Link to='/'> Login Here!</Link>
+          <Link
+            to={`/auth/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
+          >
+            {' '}
+            Login Here!
+          </Link>
         </p>
       </CardFooter>
     </Card>

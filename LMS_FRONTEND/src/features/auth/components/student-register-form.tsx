@@ -68,7 +68,8 @@ const StudentRegisterForm: React.FC = () => {
       fullname: '',
       verifiedBy: '',
       phonenumber: '',
-      rollNumber: ''
+      rollNumber: '',
+      role: 'STUDENT'
     }
   });
 
