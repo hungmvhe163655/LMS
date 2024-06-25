@@ -24,33 +24,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = serviceManager;
         }
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "LabAdmin")]
-        [HttpPost("Register")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [Authorize]
-        public async Task<IActionResult> RegisterLabLead([FromBody] RegisterRequestModel model)
-        {
-            try
-            {
-                var result = await _service.AuthenticationService.RegisterLabLead(model);
-
-                if (!result.Succeeded)
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.TryAddModelError(error.Code, error.Description);
-                    }
-                    return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = ModelState });
-                }
-                await _service.MailService.SendVerifyOtp(model.Email ?? "");
-
-                return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Success", Value = result });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterLabLead)}", Value = ex });
-            }
-        }
+        
         [HttpPut("ReSendVerifyEmail")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ReSendVerifyEmail([FromBody] MailRequestModel model)
@@ -189,7 +163,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     else
                     {
                         var Tokendto = await _service.AuthenticationService.CreateToken(true);
-                        return Ok(new ResponseObjectModel { Code = "200", Status = "TwoFactorSuccess", Value = Tokendto });
+                        return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = Tokendto });
                     }
                 }
                 return NotFound(new ResponseObjectModel { Code = "404", Status = "Not found", Value = "email or password was wrong" });
@@ -209,7 +183,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 if (model.Email == null) return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Email can't be null" });
                 string outcome = await _service.AuthenticationService.ValidateUser(model);
                 var user = await _service.AccountService.GetUserByEmail(model.Email);
-                return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = await LoginProcess(outcome, user.TwoFactorEnabled, model) });
+                return  await LoginProcess(outcome, user.TwoFactorEnabled, model);
             }
             catch (Exception ex)
             {
