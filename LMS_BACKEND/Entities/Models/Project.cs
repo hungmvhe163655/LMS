@@ -9,9 +9,9 @@ namespace Entities.Models
     public class Project
     {
         public Guid Id { get; set; }
-        public string Name { get; set; } = null!;
+        public string? Name { get; set; } = null!;
 
-        public string Description { get; set; } = null!;
+        public string? Description { get; set; } = null!;
 
         public DateTime CreatedDate { get; set; }
 
@@ -19,7 +19,7 @@ namespace Entities.Models
 
         public int MaxMember { get; set; }
 
-        public string IsRecruiting { get; set; } = null!;
+        public string? IsRecruiting { get; set; } = null!;
 
         public int ProjectTypeId { get; set; }
 
@@ -31,7 +31,7 @@ namespace Entities.Models
 
         public virtual ICollection<TaskList> TaskLists { get; set; } = new List<TaskList>();
 
-        public virtual ICollection<Permission> Permissions { get; set; } = new List<Permission>();
+        //public virtual ICollection<Permission> Permissions { get; set; } = new List<Permission>();
 
         //public virtual ICollection<Setting> Settings { get; set; } = new List<Setting>();
     }

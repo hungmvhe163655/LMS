@@ -14,9 +14,9 @@ namespace Entities.Models
         public bool Gender { get; set; }
         public DateTime CreatedDate { get; set; }
         public string? VerifiedBy { get; set; }
-        public bool isDeleted { get; set; }
-        public bool isVerified { get;set; }
-        public bool isBanned { get; set; }
+        public bool IsDeleted { get; set; }
+        public bool IsVerified { get;set; }
+        public bool IsBanned { get; set; }
         public string? EmailVerifyCode { get; set; }
         public DateTime EmailVerifyCodeAge { get; set; }
         public string? UserRefreshToken { get; set; }

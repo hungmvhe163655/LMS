@@ -27,64 +27,6 @@ namespace Repository
             return null;
         }
 
-        //public async Task<Account> FindProfileByIdAsync(string id)
-        //{
-        //    var hold = await GetByConditionAsync(false);
-        //    if(hold != null)
-        //    {
-
-        //    }
-        //    return null;
-        //}
-
-
-        public async Task<bool> ChangePasswordAsync(Account a, string newPassword)
-        {
-            if (a != null)
-            {
-                a.PasswordHash = newPassword;
-                Update(a);
-                return true;
-            }
-            return false;
-        }
-
-        public async Task<bool> ChangeEmailAsync(Account a, string newEmail)
-        {
-            if (a != null)
-            {
-                a.Email = newEmail;
-                Update(a);
-                return true;
-            }
-            return false;
-        }
-
-        public async Task<bool> ChangePhoneAsync(Account a, string newPhone)
-        {
-            if (a != null)
-            {
-                a.PhoneNumber = newPhone;
-                Update(a);
-                return true;
-            }
-            return false;
-        }
-
-        public async Task<bool> UpdateProfileAsync(Account a, bool gender, string fullName, string major, string specialized, string rollNumber)
-        {
-            if (a != null)
-            {
-                if (gender) a.Gender = gender;
-                if (fullName != null) a.FullName = fullName;
-                if (major != null) a.StudentDetail.Major = major;
-                if (specialized != null) a.StudentDetail.Specialized = specialized;
-                if (rollNumber != null) a.StudentDetail.RollNumber = rollNumber;
-                Update(a);
-                return true;
-            }
-            return false;
-        }
         public Task<IQueryable<Account>> FindByVerifierAsync(string userName, bool Trackable)
         {
             throw new NotImplementedException();

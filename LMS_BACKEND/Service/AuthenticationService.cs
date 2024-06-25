@@ -339,11 +339,11 @@ namespace Service
                 {
                     return "UNVERIFIEDEMAIL|" + _account.UserName;
                 }
-                if (_account.isBanned)
+                if (_account.IsBanned)
                 {
                     return "ISBANNED|";
                 }
-                if (!_account.isVerified)
+                if (!_account.IsVerified)
                 {
                     return "UNVERIFIED|" + _account.UserName;
                 }
