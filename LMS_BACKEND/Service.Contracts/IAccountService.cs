@@ -12,7 +12,7 @@ namespace Service.Contracts
     {
         Task<IEnumerable<Account>> GetUserByRole(string role);
         Task<Account> GetUserByName(string userName);
-        Task<Account> GetUserByEmail(string email);
+        Task<IEnumerable<Account>> GetUserByEmail(string email);
         Task<Account> GetUserById(string id);
         Task<IEnumerable<Account>> GetVerifierAccounts(string userName);
         Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> userIdList,string verifier);
