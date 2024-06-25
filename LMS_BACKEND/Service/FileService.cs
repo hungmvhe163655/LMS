@@ -68,9 +68,9 @@ namespace Service
         {
             var hold_FileDB = await _repositoryManager.file.GetFiles(false);
             var end = hold_FileDB.Where(x => x.Id.Equals(fileID)).First();
-            var hold = await GetFileFromS3Async(end.FileKey);
+            var hold = await GetFileFromS3Async(end.FileKey ?? throw new Exception("Not found File key"));
             var hold_return_model = _mappers.Map<FileResponseModel>(hold_FileDB);
-            hold_return_model.FolderPath = _repositoryManager.folderClosure.GetBranch(end.FolderId.ToString(), false).ToString();
+            hold_return_model.FolderPath = _repositoryManager.folderClosure.GetBranch(end.FolderId.ToString(), false).ToString() ?? "";
             return (hold, hold_return_model);
         }
         public async Task<GetFolderContentResponseModel> GetFolderContent(string folderID)
@@ -83,11 +83,14 @@ namespace Service
             {
                 folders.Add(_repositoryManager.folder.GetFolder(item.DescendantID, false));
             }
-            return new GetFolderContentResponseModel { Files = end, Folders = folders};
+            return new GetFolderContentResponseModel { Files = end, Folders = folders };
         }
         public async Task<bool> CreateFolder(string ancs_id, CreateFolderRequestModel model)
         {
-            return true;// ddang code gio
+            var hold_ancs = _repositoryManager.folderClosure.FindAncestors(ancs_id,false);
+            var hold = new List<FolderClosure>();
+            hold.Add()
+            return true;
         }
     }
 }

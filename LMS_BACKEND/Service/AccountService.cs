@@ -143,9 +143,10 @@ namespace Service
                     studentDetail.RollNumber = rollNumber;
                     studentDetail.Major = major;
                     studentDetail.Specialized = specialized;
-                    await _repository.studentDetail.UpdateAsync(studentDetail);
+                    _repository.studentDetail.Update(studentDetail);
                 }
-                await _repository.account.UpdateAsync(account);
+                _repository.account.Update(account);
+                await _repository.Save();
 
                 return true;
             }

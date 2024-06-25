@@ -13,9 +13,6 @@ using System.Net;
 using System.Text;
 using Amazon.S3;
 using Amazon;
-using Microsoft.Extensions.DependencyInjection;
-
-using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
 
 namespace LMS_BACKEND_MAIN.Extentions
@@ -80,12 +77,7 @@ namespace LMS_BACKEND_MAIN.Extentions
         {
             services.AddTransient<SmtpClient>(serviceProvider =>
             {
-                var hold = Environment.GetEnvironmentVariable("EMAILADMIN");
-                if (hold == null)
-                {
-                    throw new InvalidOperationException("EMAILADMIN environment variable not set.");
-                }
-
+                var hold = Environment.GetEnvironmentVariable("EMAILADMIN") ?? throw new InvalidOperationException("EMAILADMIN environment variable not set.");
                 string[] parts = hold.Split('/');
                 if (parts.Length != 4)
                 {

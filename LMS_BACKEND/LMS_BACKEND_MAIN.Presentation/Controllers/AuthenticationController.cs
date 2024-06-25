@@ -42,11 +42,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     }
                     return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = ModelState });
                 }
-                await _service.MailService.SendVerifyOtp(model.Email);
+                await _service.MailService.SendVerifyOtp(model.Email ?? "");
 
                 return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Success", Value = result });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterLabLead)}", Value = ex });
             }
@@ -99,11 +99,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     }
                     return BadRequest(new ResponseObjectModel { Code = "400", Status = "Error while trying to create Supervisor", Value = ModelState });
                 }
-                await _service.MailService.SendVerifyOtp(model.Email);
+                await _service.MailService.SendVerifyOtp(model.Email??"");
 
                 return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Create User Successfully", Value = model });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterSupervisor)}", Value = ex });
             }
@@ -126,12 +126,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     }
                     return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = ModelState });
                 }
-                await _service.MailService.SendVerifyOtp(model.Email);
+                await _service.MailService.SendVerifyOtp(model.Email ?? "");
 
                 return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Create User Successfully", Value = model });
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterStudent)}", Value = ex });
             }
@@ -180,7 +180,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 {
                     if (twofactor)
                     {
-                        if (await _service.MailService.SendTwoFactorOtp(model.Email))
+                        if (await _service.MailService.SendTwoFactorOtp(model.Email??""))
                         {
                             return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = "2 Factor code was sent" });
                         }
