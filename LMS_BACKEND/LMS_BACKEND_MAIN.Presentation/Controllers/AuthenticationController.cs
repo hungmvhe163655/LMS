@@ -40,7 +40,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     {
                         ModelState.TryAddModelError(error.Code, error.Description);
                     }
-                    return BadRequest(ModelState);
+                    return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = ModelState });
                 }
                 await _service.MailService.SendVerifyOtp(model.Email);
 
@@ -48,7 +48,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterLabLead)}" });
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterLabLead)}", Value = ex });
             }
         }
         [HttpPut("ReSendVerifyEmail")]
@@ -57,13 +57,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             if (model.Email == null)
             {
-                return BadRequest("Email can't be empty");
+                return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Email can't be empty" });
             }
             if (await _service.MailService.SendVerifyOtp(model.Email))
             {
-                return Ok("New Verify code Has been sent to your email");
+                return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = "New Verify code Has been sent to your email" });
             }
-            return BadRequest("Wrong request");
+            return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Wrong request" });
         }
         [HttpPut("VerifyEmail")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
@@ -73,13 +73,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             var token = model.AuCode;
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(token))
             {
-                return BadRequest("Empty email or token");
+                return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Empty email or token" });
             }
             if (await _service.AuthenticationService.VerifyEmail(email, token))
             {
-                return Ok("Success");
+                return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = model.Email });
             }
-            return BadRequest("Invalid Token");
+            return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Invalid Token" });
         }
         [HttpPost("RegisterSupervisor")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
@@ -97,7 +97,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     {
                         ModelState.TryAddModelError(error.Code, error.Description);
                     }
-                    return BadRequest(new ResponseObjectModel { Code = "401", Status = "Error while trying to create Supervisor", Value = ModelState });
+                    return BadRequest(new ResponseObjectModel { Code = "400", Status = "Error while trying to create Supervisor", Value = ModelState });
                 }
                 await _service.MailService.SendVerifyOtp(model.Email);
 
@@ -105,7 +105,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterSupervisor)}" });
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterSupervisor)}", Value = ex });
             }
         }
         [HttpPost("RegisterStudent")]
@@ -124,7 +124,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     {
                         ModelState.TryAddModelError(error.Code, error.Description);
                     }
-                    return BadRequest(ModelState);
+                    return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = ModelState });
                 }
                 await _service.MailService.SendVerifyOtp(model.Email);
 
@@ -133,7 +133,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterStudent)}" });
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterStudent)}", Value = ex });
             }
         }
         [HttpPost("Login-2factor")]
@@ -142,17 +142,17 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             try
             {
-                if (await _service.MailService.VerifyTwoFactorOtp(model.Email, model.AuCode))
+                if (model.Email != null && model.AuCode != null && await _service.MailService.VerifyTwoFactorOtp(model.Email, model.AuCode))
                 {
                     string outcome = await _service.AuthenticationService.ValidateUser(model);
                     var Tokendto = await _service.AuthenticationService.CreateToken(true);
-                    return Ok(Tokendto);
+                    return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = Tokendto });
                 }
-                return BadRequest("Wrong code");
+                return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Wrong code" });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(Authenticate2Factor)}" });
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(Authenticate2Factor)}", Value = ex });
 
             }
         }
@@ -182,21 +182,21 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     {
                         if (await _service.MailService.SendTwoFactorOtp(model.Email))
                         {
-                            return Ok(new ResponseObjectModel { Code = "200", Status = "TwoFactorSuccess", Value = "2 Factor code was sent" });
+                            return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = "2 Factor code was sent" });
                         }
-                        return BadRequest(new ResponseObjectModel { Code = "400", Value = "Bad Login", Status = "Login Failed" });
+                        return BadRequest(new ResponseObjectModel { Code = "400", Value = "Bad Login", Status = "Failed" });
                     }
                     else
                     {
                         var Tokendto = await _service.AuthenticationService.CreateToken(true);
-                        return Ok(Tokendto);
+                        return Ok(new ResponseObjectModel { Code = "200", Status = "TwoFactorSuccess", Value = Tokendto });
                     }
                 }
                 return NotFound(new ResponseObjectModel { Code = "404", Status = "Not found", Value = "email or password was wrong" });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(LoginProcess)}" });
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(LoginProcess)}", Value = ex });
 
             }
         }
@@ -206,13 +206,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             try
             {
+                if (model.Email == null) return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Email can't be null" });
                 string outcome = await _service.AuthenticationService.ValidateUser(model);
                 var user = await _service.AccountService.GetUserByEmail(model.Email);
-                return await LoginProcess(outcome, user.TwoFactorEnabled, model);
+                return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = await LoginProcess(outcome, user.TwoFactorEnabled, model) });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(Authenticate)}" });
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(Authenticate)}", Value = ex });
 
             }
         }
@@ -225,30 +226,30 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             {
                 return Unauthorized(new ResponseObjectModel { Code = "401", Value = "Invalid Token", Status = "Failed" });
             }
-            return Ok(new ResponseObjectModel { Code="200", Value="", Status="Logout Success"});
+            return Ok(new ResponseObjectModel { Code = "200", Value = "", Status = "Logout Success" });
         }
         [HttpPost("ForgotPassword")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestModel model)
         {
-            if (await _service.MailService.SendForgotPasswordOtp(model.Email, model.PhoneNumber))
+            if (model.Email != null && await _service.MailService.SendOTP(model.Email, "ForgotPasswordKey"))
             {
-                return Ok("OTP SENT TO USER EMAIL/PHONE");
+                return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = "\"OTP SENT TO USER EMAIL/PHONE\"" });
             }
-            return BadRequest("Invalid email/phonenumber");
+            return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Invalid email/phonenumber" });
         }
         [HttpPost("ForgotPasswordOtp")]
         public async Task<IActionResult> ForgotPasswordOtp([FromBody] ForgotPasswordRequestModel model)
         {
             if (string.IsNullOrEmpty(model.VerifyCode) || string.IsNullOrEmpty(model.Email))
             {
-                return BadRequest("empty verify code/ Email");
+                return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "empty verify code/ Email" });
             }
-            if (await _service.MailService.VerifyForgotPasswordOtp(model.Email, model.VerifyCode))
+            if (await _service.MailService.VerifyOtp(model.Email, model.VerifyCode, "ForgotPasswordKey"))
             {
-                return Ok(model.Email);
+                return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = model.Email });
             }
-            return BadRequest("User not found or wrong verify code");
+            return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "User not found or wrong verify code" });
         }
     }
 }

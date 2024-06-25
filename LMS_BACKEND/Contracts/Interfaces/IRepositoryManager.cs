@@ -5,6 +5,9 @@
         IAccountRepository account { get; }
         INewsRepository news { get; }
         INotificationRepository notification { get; }
-        void Save();
+        IFileRepository file { get; }
+        IFolderRepository folder { get; }
+        IFolderClosureRepository folderClosure { get; }
+        Task Save();
     }
 }
