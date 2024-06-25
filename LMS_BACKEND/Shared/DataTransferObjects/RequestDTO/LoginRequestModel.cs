@@ -11,8 +11,6 @@ namespace Shared.DataTransferObjects.RequestDTO
     {
         [Required(ErrorMessage = "Email Is Required")]
         public string? Email { get; set; }
-        
-        public string? UserName { get; set; }
         [Required(ErrorMessage = "Password is Required")]
         public string? PassWord { get; set; }
         public string? AuCode { get;set; }
