@@ -24,7 +24,7 @@ builder.Services.ConfigureAwsS3(builder.Configuration);
 
 builder.Services.ConfigureServiceManager();
 
-builder.Services.ConfigureCor();
+builder.Services.ConfigureCor(builder.Configuration);
 
 builder.Services.AddMemoryCache();
 
