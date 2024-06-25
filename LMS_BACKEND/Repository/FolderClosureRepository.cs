@@ -13,7 +13,7 @@ namespace Repository
         public FolderClosureRepository(DataContext context) : base(context)
         {
         }
-        public IEnumerable<FolderClosure> FindAncestors(string Ancs_Id, bool track)
+        public IEnumerable<FolderClosure> FindAncestors(Guid Ancs_Id, bool track)
         {
             return FindAll(track).Where(x => x.DescendantID.Equals(Ancs_Id)).ToList();
         }
@@ -25,11 +25,11 @@ namespace Repository
             }
             return true;
         }
-        public IEnumerable<FolderClosure> GetFolderContent(string Id, bool track)
+        public IEnumerable<FolderClosure> GetFolderContent(Guid Id, bool track)
         {
             return FindAll(track).Where(x=>x.AncestorID.Equals(Id)&&x.Depth==1).ToList();
         }
-        public IEnumerable<FolderClosure> GetBranch(string Id, bool track)
+        public IEnumerable<FolderClosure> GetBranch(Guid Id, bool track)
         {
             return FindAll(track).Where(x=>x.DescendantID.Equals(Id)).OrderByDescending(x=>x.Depth).ToList();
         }

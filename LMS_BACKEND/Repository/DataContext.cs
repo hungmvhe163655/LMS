@@ -218,12 +218,12 @@ namespace Repository
 
                 entity.HasOne(d => d.AncestorNavigation).WithMany(p => p.FolderClosureAncestor)
                     .HasForeignKey(d => d.AncestorID)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_FolderClosures_Folders");
 
                 entity.HasOne(d => d.DescendantNavigation).WithMany(p => p.FolderClosureDescendant)
                     .HasForeignKey(d => d.DescendantID)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_FolderClosures_Folders1");
             });
 
