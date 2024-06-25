@@ -76,8 +76,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 {
                     return BadRequest(new ResponseObjectModel { Code = "401", Status = "BadRequest", Value = user });
                 }
-                var hold = new List<string>();
-                hold.Add(model.UserID);
+                var hold = new List<string>
+                {
+                    model.UserID
+                };
                 if (await _service.AccountService.UpdateAccountVerifyStatus(hold, model.verifierID))
                 {
                     return Ok(new ResponseObjectModel { Status = "success", Code = "200", Value = "Update User " + user.FullName + " Status Successully" });

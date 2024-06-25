@@ -22,6 +22,7 @@ namespace Service
         private readonly UserManager<Account> _userManager;
         private readonly IMemoryCache _cache;
         private readonly IRepositoryManager _repository;
+        private readonly string _Mail;
         public MailService(
             ILoggerManager logger,
             SmtpClient smtpClient,
@@ -34,9 +35,11 @@ namespace Service
             _userManager = userManager;
             _cache = memoryCache;
             _repository = repository;
+            var hold = Environment.GetEnvironmentVariable("EMAILADMIN");
+            _Mail = hold ?? "//////";
         }
 
-        private string GenerateOtp()
+        private static string GenerateOtp()
         {
             Random random = new Random();
             int otp = random.Next(1000000, 1999999);
@@ -46,18 +49,18 @@ namespace Service
         {
             return $"{keymode}_{user.Id}";
         }
-        public async Task<bool>SendOTP(string email,string keymode)
+        public async Task<bool> SendOTP(string email, string keymode)
         {
             try
             {
                 if (email != null)
                 {
                     var hold_user = await _userManager.FindByEmailAsync(email);
-                    if (hold_user != null)
+                    if (hold_user != null && hold_user.Email != null)
                     {
                         var Token = GenerateOtp();
-                        _cache.Set(GetCacheKey(hold_user,keymode), Token, TimeSpan.FromMinutes(2));
-                        return await SendMailGmailSmtp(Environment.GetEnvironmentVariable("EMAILADMIN").Split("/")[0], hold_user.Email, "LMS - FORGOT PASSWORD VERIFY", "Your Verify Code: " + Token);
+                        _cache.Set(GetCacheKey(hold_user, keymode), Token, TimeSpan.FromMinutes(2));
+                        return await SendMailGmailSmtp(_Mail.Split("/")[0], hold_user.Email, "LMS - FORGOT PASSWORD VERIFY", "Your Verify Code: " + Token);
                     }
                 }
             }
@@ -67,7 +70,7 @@ namespace Service
             }
             return false;
         }
-        public async Task<bool> VerifyOtp(string email, string token,string keymode)
+        public async Task<bool> VerifyOtp(string email, string token, string keymode)
         {
 
             if (email == null) throw new ArgumentNullException(nameof(Account));
@@ -78,9 +81,9 @@ namespace Service
                 if (hold_user != null)
                 {
                     var cacheKey = GetCacheKey(hold_user, keymode);
-                    if (_cache.TryGetValue(cacheKey, out string storedToken))
+                    if (_cache.TryGetValue(cacheKey, out string? storedToken))
                     {
-                        return storedToken.Equals(token);
+                        return !string.IsNullOrEmpty(storedToken) ? storedToken.Equals(token) : false;
                     }
                 }
             }
@@ -91,7 +94,7 @@ namespace Service
             return false;
         }
         //lmao
-        public async Task<bool>VerifyTwoFactorOtp(string email,string token)
+        public async Task<bool> VerifyTwoFactorOtp(string email, string token)
         {
 
             if (email == null) throw new ArgumentNullException(nameof(Account));
@@ -102,10 +105,10 @@ namespace Service
                 if (hold_user != null && hold_user.TwoFactorEnabled)
                 {
                     var cacheKey = GetCacheKey(hold_user, "TwoFactorToken");
-                    if (_cache.TryGetValue(cacheKey, out string storedToken))
+                    if (_cache.TryGetValue(cacheKey, out string? storedToken))
                     {
-                        return storedToken.Equals(token);
-                    }                
+                        return !string.IsNullOrEmpty(storedToken) ? storedToken.Equals(token) : false;
+                    }
                 }
             }
             catch
@@ -114,16 +117,16 @@ namespace Service
             }
             return false;
         }
-        public async Task<bool> SendTwoFactorOtp(string? email)
+        public async Task<bool> SendTwoFactorOtp(string email)
         {
             try
             {
                 var hold_user = await _userManager.FindByEmailAsync(email);
-                if (hold_user != null && hold_user.TwoFactorEnabled)
+                if (hold_user != null && hold_user.Email != null && hold_user.TwoFactorEnabled)
                 {
                     var Token = await _userManager.GenerateTwoFactorTokenAsync(hold_user, "Email");
-                    _cache.Set(GetCacheKey(hold_user, "TwoFactorToken"),Token, TimeSpan.FromMinutes(2));
-                    return await SendMailGmailSmtp(Environment.GetEnvironmentVariable("EMAILADMIN").Split("/")[0], hold_user.Email, "LMS - LOGIN VERIFY", "Your login Verify Code: " + Token);
+                    _cache.Set(GetCacheKey(hold_user, "TwoFactorToken"), Token, TimeSpan.FromMinutes(2));
+                    return await SendMailGmailSmtp(_Mail.Split("/")[0], hold_user.Email, "LMS - LOGIN VERIFY", "Your login Verify Code: " + Token);
                 }
             }
             catch
@@ -132,17 +135,17 @@ namespace Service
             }
             return false;
         }
-        public async Task<bool> SendVerifyOtp(string? email)
+        public async Task<bool> SendVerifyOtp(string email)
         {
             try
             {
                 var hold_user = await _userManager.FindByEmailAsync(email);
-                if (hold_user != null && !hold_user.EmailConfirmed)
+                if (hold_user != null && hold_user.Email != null && !hold_user.EmailConfirmed)
                 {
                     hold_user.EmailVerifyCode = GenerateOtp();
                     hold_user.EmailVerifyCodeAge = DateTime.Now.AddDays(1);
                     await _userManager.UpdateAsync(hold_user);
-                    return await SendMailGmailSmtp(Environment.GetEnvironmentVariable("EMAILADMIN").Split("/")[0], hold_user.Email, "LMS - EMAIL VERIFY","Your Email Verify Code: "+ hold_user.EmailVerifyCode);
+                    return await SendMailGmailSmtp(_Mail.Split("/")[0], hold_user.Email, "LMS - EMAIL VERIFY", "Your Email Verify Code: " + hold_user.EmailVerifyCode);
                 }
             }
             catch
@@ -151,7 +154,7 @@ namespace Service
             }
             return false;
         }
-        public async Task<bool> SendMailToUser(string? email)
+        public async Task<bool> SendMailToUser(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
@@ -189,13 +192,14 @@ namespace Service
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to send email at {nameof(SendMail)}");
+                _logger.LogWarning($"Failed to send email at {nameof(SendMail)}");
+                _logger.LogWarning(ex.Message);
                 return false;
             }
         }
         private async Task<bool> SendMailGmailSmtp(string _from, string _to, string _subject, string _body)
-        { 
-                    return await SendMail(_from, _to, _subject, _body, _smtpClient);
+        {
+            return await SendMail(_from, _to, _subject, _body, _smtpClient);
         }
     }
 }

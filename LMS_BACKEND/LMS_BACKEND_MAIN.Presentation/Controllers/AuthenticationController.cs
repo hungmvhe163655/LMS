@@ -48,7 +48,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterLabLead)}" });
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterLabLead)}", Value = ex });
             }
         }
         [HttpPut("ReSendVerifyEmail")]
@@ -105,7 +105,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterSupervisor)}" });
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterSupervisor)}", Value = ex });
             }
         }
         [HttpPost("RegisterStudent")]
@@ -133,7 +133,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterStudent)}" });
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterStudent)}", Value = ex });
             }
         }
         [HttpPost("Login-2factor")]
@@ -142,7 +142,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             try
             {
-                if (await _service.MailService.VerifyTwoFactorOtp(model.Email, model.AuCode))
+                if (model.Email != null && model.AuCode != null && await _service.MailService.VerifyTwoFactorOtp(model.Email, model.AuCode))
                 {
                     string outcome = await _service.AuthenticationService.ValidateUser(model);
                     var Tokendto = await _service.AuthenticationService.CreateToken(true);
@@ -152,7 +152,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(Authenticate2Factor)}" });
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(Authenticate2Factor)}", Value = ex });
 
             }
         }
@@ -196,7 +196,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(LoginProcess)}" });
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(LoginProcess)}", Value = ex });
 
             }
         }
@@ -206,13 +206,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             try
             {
+                if (model.Email == null) return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Email can't be null" });
                 string outcome = await _service.AuthenticationService.ValidateUser(model);
                 var user = await _service.AccountService.GetUserByEmail(model.Email);
                 return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = await LoginProcess(outcome, user.TwoFactorEnabled, model) });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(Authenticate)}" });
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(Authenticate)}", Value = ex });
 
             }
         }
@@ -231,7 +232,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestModel model)
         {
-            if (await _service.MailService.SendOTP(model.Email, "ForgotPasswordKey"))
+            if (model.Email != null && await _service.MailService.SendOTP(model.Email, "ForgotPasswordKey"))
             {
                 return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = "\"OTP SENT TO USER EMAIL/PHONE\"" });
             }

@@ -12,9 +12,7 @@ namespace Contracts.Interfaces
         void Create(T entity);
         Task CreateAsync(T entity);
         void Update(T entity);
-        Task UpdateAsync(T entity);
         void Delete(T entity);
-        Task DeleteAsync(T entity);
         Task<PageModel<T>> GetPagedAsync(int page, int pageSize, bool Trackable);
         public T Find(int id);
         public IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includes);

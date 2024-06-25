@@ -66,8 +66,8 @@ namespace Service
                     {
                         account.IsVerified = true;
                         account.VerifiedBy = verifier;
-                        await _repository.account.UpdateAsync(account);
-                        _repository.Save();
+                        _repository.account.Update(account);
+                        await _repository.Save();
                     }
                     return true;
                 }

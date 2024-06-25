@@ -29,8 +29,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             {
                 try
                 {
-                    var tokenDtoEnd = await _service.AuthenticationService.RefreshToken(model);
-                    return Ok(tokenDtoEnd);
+                    var tokenDtoEnd = await _service.AuthenticationService.RefreshTokens(model);
+                    return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = tokenDtoEnd });
                 }
                 catch (Exception ex)
                 {
