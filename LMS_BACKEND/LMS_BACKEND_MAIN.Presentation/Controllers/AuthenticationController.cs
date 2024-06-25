@@ -5,16 +5,10 @@ using Service.Contracts;
 using Shared;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
-    [Route("api/[Controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -24,8 +18,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = serviceManager;
         }
-        
-        [HttpPut("ReSendVerifyEmail")]
+
+        [HttpPut("resend-verify-email")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ReSendVerifyEmail([FromBody] MailRequestModel model)
         {
@@ -39,7 +33,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Wrong request" });
         }
-        [HttpPut("VerifyEmail")]
+
+        [HttpPut("verify-email")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> VerifyEmail([FromBody] MailRequestModel model)
         {
@@ -55,15 +50,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Invalid Token" });
         }
-        [HttpPost("RegisterSupervisor")]
+
+        [HttpPost("register/supervisor")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterSupervisor([FromBody] RegisterRequestModel model)
         {
             try
             {
-                var result = await
-
-           _service.AuthenticationService.Register(model);
+                var result = await _service.AuthenticationService.Register(model);
 
                 if (!result.Succeeded)
                 {
@@ -73,7 +67,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     }
                     return BadRequest(new ResponseObjectModel { Code = "400", Status = "Error while trying to create Supervisor", Value = ModelState });
                 }
-                await _service.MailService.SendVerifyOtp(model.Email??"");
+                await _service.MailService.SendVerifyOtp(model.Email ?? "");
 
                 return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Create User Successfully", Value = model });
             }
@@ -82,7 +76,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterSupervisor)}", Value = ex });
             }
         }
-        [HttpPost("RegisterStudent")]
+
+        [HttpPost("register/student")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterStudent([FromBody] RegisterRequestModel model)
         {
@@ -110,7 +105,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterStudent)}", Value = ex });
             }
         }
-        [HttpPost("Login-2factor")]
+
+        [HttpPost("login-2factor")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate2Factor([FromBody] LoginRequestModel model)
         {
@@ -130,6 +126,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             }
         }
+
         private async Task<IActionResult> LoginProcess(string outcome, bool twofactor, LoginRequestModel model)
         {
             try
@@ -140,7 +137,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 }
                 if (outcome.Split("|")[0].Equals("UNVERIFIED"))
                 {
-                    return Unauthorized(new ResponseObjectModel { Code = "401", Status = "Login Failed", Value = "Account NeedVerify|" + outcome.Split("|")[1] });
+                    return Unauthorized(new ResponseObjectModel { Code = "401", Status = "Login Failed", Value = "Account Need Verify|" + outcome.Split("|")[1] });
                 }
                 if (outcome.Split("|")[0].Equals("UNVERIFIEDEMAIL"))
                 {
@@ -154,7 +151,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 {
                     if (twofactor)
                     {
-                        if (await _service.MailService.SendTwoFactorOtp(model.Email??""))
+                        if (await _service.MailService.SendTwoFactorOtp(model.Email ?? ""))
                         {
                             return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = "2 Factor code was sent" });
                         }
@@ -174,7 +171,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             }
         }
-        [HttpPost("Login")]
+
+        [HttpPost("login")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestModel model)
         {
@@ -183,7 +181,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 if (model.Email == null) return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Email can't be null" });
                 string outcome = await _service.AuthenticationService.ValidateUser(model);
                 var user = await _service.AccountService.GetUserByEmail(model.Email);
-                return  await LoginProcess(outcome, user.TwoFactorEnabled, model);
+                return await LoginProcess(outcome, user.TwoFactorEnabled, model);
             }
             catch (Exception ex)
             {
@@ -191,7 +189,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             }
         }
-        [HttpPost("Logout")]
+
+        [HttpPost("logout")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Logout([FromBody] TokenDTO model)
@@ -202,7 +201,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             return Ok(new ResponseObjectModel { Code = "200", Value = "", Status = "Logout Success" });
         }
-        [HttpPost("ForgotPassword")]
+
+        [HttpPost("forgot-password")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestModel model)
         {
@@ -212,7 +212,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Invalid email/phonenumber" });
         }
-        [HttpPost("ForgotPasswordOtp")]
+
+        [HttpPost("forgot-password-otp")]
         public async Task<IActionResult> ForgotPasswordOtp([FromBody] ForgotPasswordRequestModel model)
         {
             if (string.IsNullOrEmpty(model.VerifyCode) || string.IsNullOrEmpty(model.Email))
