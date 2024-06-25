@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Internal;
+using Microsoft.VisualBasic;
 using Service.Contracts;
 using Shared;
 using Shared.DataTransferObjects.RequestDTO;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -231,6 +233,32 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = model.Email });
             }
             return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "User not found or wrong verify code" });
+        }
+        [HttpGet("me")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetCurrentLoggedInUser()
+        {
+            var userClaims = User.Claims;
+            var userId = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+            var email = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            try
+            {
+                if (userId != null)
+                {
+                    var result = await _service.AccountService.GetUserById(userId);
+                    return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = result });
+                }
+                if(email != null)
+                {
+                    var result = await _service.AccountService.GetUserByName(email);
+                    return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(GetCurrentLoggedInUser)}", Value = ex });
+            }
+            return Unauthorized(new ResponseObjectModel { Code = "401", Status = "Failed", Value = "Not found User" });
         }
     }
 }
