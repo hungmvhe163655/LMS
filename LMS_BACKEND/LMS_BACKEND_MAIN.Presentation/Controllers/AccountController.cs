@@ -32,7 +32,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 var hold = await _service.AccountService.GetUserByRole(role.ToUpper());
                 if (hold != null)
                 {
-                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = hold.Where(x => x.isVerified = true) });
+                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = hold.Where(x => x.IsVerified = true) });
                 }
                 return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "EMPTY", Value = hold });
             }

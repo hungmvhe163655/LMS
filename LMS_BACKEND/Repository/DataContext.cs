@@ -21,17 +21,15 @@ namespace Repository
         public DbSet<Label> Labels { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<News> News { get; set; }
-        public DbSet<NewsFile> newsFiles { get; set; }
+        //public DbSet<NewsFile> NewsFiles { get; set; }
         public DbSet<Notification> Notifications { get; set; }
-        public DbSet<NotificationAccount> notificationAccounts { get; set; }
-        public DbSet<NotificationType> notificationTypes { get; set; }
-        //public DbSet<Permission> Permissions { get; set; }
+        public DbSet<NotificationAccount> NotificationAccounts { get; set; }
+        public DbSet<NotificationType> NotificationTypes { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectStatus> ProjectStatuses { get; set; }
         public DbSet<ProjectType> ProjectTypes { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
-        //public DbSet<Setting> Settings { get; set; }
         public DbSet<StudentDetail> StudentDetails { get; set; }
         public DbSet<TaskHistory> TaskHistories { get; set; }
         public DbSet<TaskList> TaskLists { get; set; }
@@ -84,20 +82,20 @@ namespace Repository
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
                     .HasColumnName("Id");
-                entity.Property(e => e.CreatedDate).HasColumnName("createdDate");
+                entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.FullName)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("fullname");
+                    .HasColumnName("FullName");
                 entity.Property(e => e.EmailVerifyCode)
                     .HasMaxLength(6)
                     .HasColumnName("EmailVerifyCode");
                 entity.Property(e => e.EmailVerifyCodeAge).HasColumnName("EmailVerifyCodeAge");
-                entity.Property(e => e.Gender).HasColumnName("gender");
-                entity.Property(e => e.isBanned).HasColumnName("isBanned");
-                entity.Property(e => e.isDeleted).HasColumnName("isDeleted");
-                entity.Property(e => e.isVerified).HasColumnName("IsVerified");
-                entity.Property(e => e.VerifiedBy).HasColumnName("verifiedBy");
+                entity.Property(e => e.Gender).HasColumnName("Gender");
+                entity.Property(e => e.IsBanned).HasColumnName("IsBanned");
+                entity.Property(e => e.IsDeleted).HasColumnName("IsDeleted");
+                entity.Property(e => e.IsVerified).HasColumnName("IsVerified");
+                entity.Property(e => e.VerifiedBy).HasColumnName("VerifiedBy");
 
                 entity.HasOne(d => d.VerifiedByUser).WithMany(p => p.VerifiedAccounts)
                     .HasForeignKey(d => d.VerifiedBy)
@@ -108,15 +106,15 @@ namespace Repository
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
                 entity.Property(e => e.Content)
                     .HasMaxLength(1000)
                     .IsUnicode(false)
-                    .HasColumnName("content");
-                entity.Property(e => e.CreatedBy).HasColumnName("createdBy");
-                entity.Property(e => e.CreatedDate).HasColumnName("createdDate");
-                entity.Property(e => e.ParentId).HasColumnName("parentId");
-                entity.Property(e => e.TaskId).HasColumnName("taskId");
+                    .HasColumnName("Content");
+                entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
+                entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
+                entity.Property(e => e.ParentId).HasColumnName("ParentId");
+                entity.Property(e => e.TaskId).HasColumnName("TaskId");
 
                 entity.HasOne(d => d.CreatedByUser).WithMany(p => p.Comments)
                     .HasForeignKey(d => d.CreatedBy)
@@ -137,15 +135,15 @@ namespace Repository
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
-                entity.Property(e => e.Description).HasColumnName("description");
-                entity.Property(e => e.DeviceStatusId).HasColumnName("deviceStatusId");
-                entity.Property(e => e.LastUsed).HasColumnName("lastUsed");
+                    .HasColumnName("Id");
+                entity.Property(e => e.Description).HasColumnName("Description");
+                entity.Property(e => e.DeviceStatusId).HasColumnName("DeviceStatusId");
+                entity.Property(e => e.LastUsed).HasColumnName("LastUsed");
                 entity.Property(e => e.Name)
                     .HasMaxLength(250)
                     .IsUnicode(false)
-                    .HasColumnName("name");
-                entity.Property(e => e.OwnedBy).HasColumnName("ownedBy");
+                    .HasColumnName("Name");
+                entity.Property(e => e.OwnedBy).HasColumnName("OwnedBy");
 
                 entity.HasOne(d => d.DeviceStatus).WithMany(p => p.Devices)
                     .HasForeignKey(d => d.DeviceStatusId)
@@ -162,30 +160,30 @@ namespace Repository
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("name");
+                    .HasColumnName("Name");
             });
 
             modelBuilder.Entity<Files>(entity =>
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
                 entity.Property(e => e.FileKey)
                     .HasMaxLength(500)
-                    .HasColumnName("fileKey");
-                entity.Property(e => e.FolderId).HasColumnName("folderId");
+                    .HasColumnName("FileKey");
+                entity.Property(e => e.FolderId).HasColumnName("FolderId");
                 entity.Property(e => e.MimeType)
                     .HasMaxLength(20)
-                    .HasColumnName("mimeType");
+                    .HasColumnName("MimeType");
                 entity.Property(e => e.Name)
                     .HasMaxLength(500)
-                    .HasColumnName("name");
-                entity.Property(e => e.Size).HasColumnName("size");
-                entity.Property(e => e.UploadDate).HasColumnName("uploadDate");
+                    .HasColumnName("Name");
+                entity.Property(e => e.Size).HasColumnName("Size");
+                entity.Property(e => e.UploadDate).HasColumnName("UploadDate");
 
                 entity.HasOne(d => d.Folder).WithMany(p => p.Files)
                     .HasForeignKey(d => d.FolderId)
@@ -197,12 +195,12 @@ namespace Repository
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
-                entity.Property(e => e.CreatedBy).HasColumnName("createdBy");
-                entity.Property(e => e.CreatedDate).HasColumnName("createdDate");
+                    .HasColumnName("Id");
+                entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
+                entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
-                    .HasColumnName("name");
+                    .HasColumnName("Name");
 
                 entity.HasOne(d => d.CreatedByUser).WithMany(p => p.Folders)
                     .HasForeignKey(d => d.CreatedBy)
@@ -214,9 +212,9 @@ namespace Repository
             {
                 entity.HasKey(e => new { e.AncestorID, e.DescendantID });
 
-                entity.Property(e => e.AncestorID).HasColumnName("ancestor");
-                entity.Property(e => e.DescendantID).HasColumnName("descendant");
-                entity.Property(e => e.Depth).HasColumnName("depth");
+                entity.Property(e => e.AncestorID).HasColumnName("Ancestor");
+                entity.Property(e => e.DescendantID).HasColumnName("Descendant");
+                entity.Property(e => e.Depth).HasColumnName("Depth");
 
                 entity.HasOne(d => d.AncestorNavigation).WithMany(p => p.FolderClosureAncestor)
                     .HasForeignKey(d => d.AncestorID)
@@ -233,25 +231,25 @@ namespace Repository
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
                 entity.Property(e => e.HexColor)
                     .HasMaxLength(7)
                     .IsUnicode(false)
                     .IsFixedLength()
-                    .HasColumnName("hexColor");
+                    .HasColumnName("HexColor");
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("name");
+                    .HasColumnName("Name");
             });
 
             modelBuilder.Entity<Member>(entity =>
             {
                 entity.HasKey(e => new { e.ProjectId, e.UserId });
 
-                entity.Property(e => e.ProjectId).HasColumnName("projectId");
-                entity.Property(e => e.UserId).HasColumnName("userId");
-                entity.Property(e => e.IsLeader).HasColumnName("isLeader");
+                entity.Property(e => e.ProjectId).HasColumnName("ProjectId");
+                entity.Property(e => e.UserId).HasColumnName("UserId");
+                entity.Property(e => e.IsLeader).HasColumnName("IsLeader");
 
                 entity.HasOne(d => d.Project).WithMany(p => p.Members)
                     .HasForeignKey(d => d.ProjectId)
@@ -268,14 +266,14 @@ namespace Repository
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
-                entity.Property(e => e.Content).HasColumnName("content");
-                entity.Property(e => e.CreatedBy).HasColumnName("createdBy");
-                entity.Property(e => e.CreatedDate).HasColumnName("createdDate");
+                    .HasColumnName("Id");
+                entity.Property(e => e.Content).HasColumnName("Content");
+                entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
+                entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.Title)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("title");
+                    .HasColumnName("Title");
 
                 entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.News)
                     .HasForeignKey(d => d.CreatedBy)
@@ -289,11 +287,11 @@ namespace Repository
 
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
                 entity.Property(e => e.FileKey)
                     .HasMaxLength(500)
-                    .HasColumnName("fileKey");
-                entity.Property(e => e.NewsID).HasColumnName("newsId");
+                    .HasColumnName("FileKey");
+                entity.Property(e => e.NewsID).HasColumnName("NewsId");
 
                 entity.HasOne(d => d.News).WithMany(p => p.NewsFiles)
                     .HasForeignKey(d => d.NewsID)
@@ -305,21 +303,21 @@ namespace Repository
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
                 entity.Property(e => e.Content)
                     .HasMaxLength(500)
                     .IsUnicode(false)
-                    .HasColumnName("content");
-                entity.Property(e => e.CreatedBy).HasColumnName("createdBy");
-                entity.Property(e => e.CreatedDate).HasColumnName("createdDate");
-                entity.Property(e => e.NotificationTypeId).HasColumnName("notificationTypeId");
+                    .HasColumnName("Content");
+                entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
+                entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
+                entity.Property(e => e.NotificationTypeId).HasColumnName("NotificationTypeId");
                 entity.Property(e => e.Title)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("title");
+                    .HasColumnName("Title");
                 entity.Property(e => e.Url)
                     .HasMaxLength(2048)
-                    .HasColumnName("url");
+                    .HasColumnName("Url");
 
                 entity.HasOne(d => d.CreatedByUser).WithMany(p => p.Notifications)
                     .HasForeignKey(d => d.CreatedBy)
@@ -335,20 +333,20 @@ namespace Repository
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("name");
+                    .HasColumnName("Name");
             });
 
             modelBuilder.Entity<NotificationAccount>(entity =>
             {
                 entity.HasKey(e => new { e.NotificationId, e.AccountId });
 
-                entity.Property(e => e.NotificationId).HasColumnName("notificationId");
-                entity.Property(e => e.AccountId).HasColumnName("accountId");
-                entity.Property(e => e.IsRead).HasColumnName("isRead");
+                entity.Property(e => e.NotificationId).HasColumnName("NotificationId");
+                entity.Property(e => e.AccountId).HasColumnName("AccountId");
+                entity.Property(e => e.IsRead).HasColumnName("IsRead");
 
                 entity.HasOne(d => d.Account).WithMany(p => p.NotificationsAccounts)
                     .HasForeignKey(d => d.AccountId)
@@ -360,39 +358,25 @@ namespace Repository
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_NotificationsAccounts_Notifications");
             });
-            /*
-            modelBuilder.Entity<Permission>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
-                entity.Property(e => e.Description)
-                    .HasMaxLength(500)
-                    .HasColumnName("description");
-                entity.Property(e => e.Name)
-                    .HasMaxLength(255)
-                    .HasColumnName("name");
-            });
-            */
             modelBuilder.Entity<Project>(entity =>
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
-                entity.Property(e => e.CreatedDate).HasColumnName("createdDate");
+                    .HasColumnName("Id");
+                entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.Description)
                     .HasMaxLength(2000)
-                    .HasColumnName("description");
+                    .HasColumnName("Description");
                 entity.Property(e => e.IsRecruiting)
                     .HasMaxLength(10)
                     .IsFixedLength()
-                    .HasColumnName("isRecruiting");
-                entity.Property(e => e.MaxMember).HasColumnName("maxMember");
+                    .HasColumnName("IsRecruiting");
+                entity.Property(e => e.MaxMember).HasColumnName("MaxMember");
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
-                    .HasColumnName("name");
-                entity.Property(e => e.ProjectStatusId).HasColumnName("projectStatusId");
-                entity.Property(e => e.ProjectTypeId).HasColumnName("projectTypeId");
+                    .HasColumnName("Name");
+                entity.Property(e => e.ProjectStatusId).HasColumnName("ProjectStatusId");
+                entity.Property(e => e.ProjectTypeId).HasColumnName("ProjectTypeId");
 
                 entity.HasOne(d => d.ProjectStatus).WithMany(p => p.Projects)
                     .HasForeignKey(d => d.ProjectStatusId)
@@ -403,74 +387,35 @@ namespace Repository
                     .HasForeignKey(d => d.ProjectTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Projects_ProjectTypes");
-                /*
-                entity.HasMany(d => d.Permissions).WithMany(p => p.Projects)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "ProjectsPermission",
-                        r => r.HasOne<Permission>().WithMany()
-                            .HasForeignKey("PermissionId")
-                            .OnDelete(DeleteBehavior.ClientSetNull)
-                            .HasConstraintName("FK_ProjectsPermissions_Permissions"),
-                        l => l.HasOne<Project>().WithMany()
-                            .HasForeignKey("ProjectId")
-                            .OnDelete(DeleteBehavior.ClientSetNull)
-                            .HasConstraintName("FK_ProjectsPermissions_Projects"),
-                        j =>
-                        {
-                            j.HasKey("ProjectId", "PermissionId");
-                            j.ToTable("ProjectsPermissions");
-                            j.IndexerProperty<Guid>("ProjectId").HasColumnName("projectId");
-                            j.IndexerProperty<int>("PermissionId").HasColumnName("permissionId");
-                        });
-                
-                entity.HasMany(d => d.Settings).WithMany(p => p.Projects)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "ProjectsSetting",
-                        r => r.HasOne<Setting>().WithMany()
-                            .HasForeignKey("SettingId")
-                            .OnDelete(DeleteBehavior.ClientSetNull)
-                            .HasConstraintName("FK_ProjectsSettings_Settings"),
-                        l => l.HasOne<Project>().WithMany()
-                            .HasForeignKey("ProjectId")
-                            .OnDelete(DeleteBehavior.ClientSetNull)
-                            .HasConstraintName("FK_ProjectsSettings_Projects"),
-                        j =>
-                        {
-                            j.HasKey("ProjectId", "SettingId");
-                            j.ToTable("ProjectsSettings");
-                            j.IndexerProperty<Guid>("ProjectId").HasColumnName("projectId");
-                            j.IndexerProperty<int>("SettingId").HasColumnName("settingId");
-                        });
-                */
             });
 
             modelBuilder.Entity<ProjectStatus>(entity =>
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("name");
+                    .HasColumnName("Name");
             });
 
             modelBuilder.Entity<ProjectType>(entity =>
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("name");
+                    .HasColumnName("Name");
             });
 
             modelBuilder.Entity<Report>(entity =>
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
 
                 entity.HasOne(d => d.Schedules)
                     .WithOne(p => p.Report)
@@ -483,15 +428,15 @@ namespace Repository
             {
                 entity.HasKey(e => e.Id);
 
-                entity.Property(e => e.Id).HasColumnName("id");
-                entity.Property(e => e.DeviceId).HasColumnName("deviceId");
-                entity.Property(e => e.AccountId).HasColumnName("accountId");
-                entity.Property(e => e.EndDate).HasColumnName("endDate");
+                entity.Property(e => e.Id).HasColumnName("Id");
+                entity.Property(e => e.DeviceId).HasColumnName("DeviceId");
+                entity.Property(e => e.AccountId).HasColumnName("AccountId");
+                entity.Property(e => e.EndDate).HasColumnName("EndDate");
                 entity.Property(e => e.Purpose)
                     .HasMaxLength(250)
                     .IsUnicode(false)
-                    .HasColumnName("purpose");
-                entity.Property(e => e.StartDate).HasColumnName("startDate");
+                    .HasColumnName("Purpose");
+                entity.Property(e => e.StartDate).HasColumnName("StartDate");
 
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.Schedules)
@@ -505,20 +450,6 @@ namespace Repository
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Schedules_Devices");
             });
-            /*
-            modelBuilder.Entity<Setting>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
-                entity.Property(e => e.Description)
-                    .HasMaxLength(500)
-                    .HasColumnName("description");
-                entity.Property(e => e.Name)
-                    .HasMaxLength(255)
-                    .HasColumnName("name");
-            });
-            */
 
             modelBuilder.Entity<StudentDetail>(entity =>
             {
@@ -526,19 +457,19 @@ namespace Repository
 
                 entity.Property(e => e.AccountId)
                     .ValueGeneratedNever()
-                    .HasColumnName("accountId");
+                    .HasColumnName("AccountId");
                 entity.Property(e => e.Major)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("major");
+                    .HasColumnName("Major");
                 entity.Property(e => e.RollNumber)
                     .HasMaxLength(20)
                     .IsUnicode(false)
-                    .HasColumnName("rollNumber");
+                    .HasColumnName("RollNumber");
                 entity.Property(e => e.Specialized)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("specialized");
+                    .HasColumnName("Specialized");
 
                 entity.HasOne(d => d.Account).WithOne(p => p.StudentDetail)
                     .HasForeignKey<StudentDetail>(d => d.AccountId)
@@ -550,20 +481,20 @@ namespace Repository
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
-                entity.Property(e => e.AssignedTo).HasColumnName("assignedTo");
-                entity.Property(e => e.CreatedBy).HasColumnName("createdBy");
-                entity.Property(e => e.CreatedDate).HasColumnName("createdDate");
-                entity.Property(e => e.DueDate).HasColumnName("dueDate");
-                entity.Property(e => e.PredecessorTaskId).HasColumnName("predecessorTaskId");
-                entity.Property(e => e.RequiredValidation).HasColumnName("requiresValidation");
-                entity.Property(e => e.StartDate).HasColumnName("startDate");
-                entity.Property(e => e.TaskListId).HasColumnName("taskListId");
-                entity.Property(e => e.TaskPriorityId).HasColumnName("taskPriorityId");
-                entity.Property(e => e.TaskStatusId).HasColumnName("taskStatusId");
+                    .HasColumnName("Id");
+                entity.Property(e => e.AssignedTo).HasColumnName("AssignedTo");
+                entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
+                entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
+                entity.Property(e => e.DueDate).HasColumnName("DueDate");
+                entity.Property(e => e.PredecessorTaskId).HasColumnName("PredecessorTaskId");
+                entity.Property(e => e.RequiredValidation).HasColumnName("RequiresValidation");
+                entity.Property(e => e.StartDate).HasColumnName("StartDate");
+                entity.Property(e => e.TaskListId).HasColumnName("TaskListId");
+                entity.Property(e => e.TaskPriorityId).HasColumnName("TaskPriorityId");
+                entity.Property(e => e.TaskStatusId).HasColumnName("TaskStatusId");
                 entity.Property(e => e.Title)
                     .HasMaxLength(500)
-                    .HasColumnName("title");
+                    .HasColumnName("Title");
 
                 entity.HasOne(d => d.AssignedToUser).WithMany(p => p.Tasks)
                     .HasForeignKey(d => d.AssignedTo)
@@ -605,8 +536,8 @@ namespace Repository
                         {
                             j.HasKey("TaskId", "AccountId");
                             j.ToTable("TasksAccounts");
-                            j.IndexerProperty<Guid>("TaskId").HasColumnName("taskId");
-                            j.IndexerProperty<string>("AccountId").HasColumnName("accountId");
+                            j.IndexerProperty<Guid>("TaskId").HasColumnName("TaskId");
+                            j.IndexerProperty<string>("AccountId").HasColumnName("AccountId");
                         });
                 ////////////////////////////////////////////////
                 entity.HasMany(d => d.Files).WithMany(p => p.Tasks)
@@ -624,8 +555,8 @@ namespace Repository
                         {
                             j.HasKey("TaskId", "FileId");
                             j.ToTable("TasksFiles");
-                            j.IndexerProperty<Guid>("TaskId").HasColumnName("taskId");
-                            j.IndexerProperty<Guid>("FileId").HasColumnName("fileId");
+                            j.IndexerProperty<Guid>("TaskId").HasColumnName("TaskId");
+                            j.IndexerProperty<Guid>("FileId").HasColumnName("FileId");
                         });
 
                 entity.HasMany(d => d.Labels).WithMany(p => p.Tasks)
@@ -643,25 +574,25 @@ namespace Repository
                         {
                             j.HasKey("TaskId", "LabelId");
                             j.ToTable("TasksLabels");
-                            j.IndexerProperty<Guid>("TaskId").HasColumnName("taskId");
-                            j.IndexerProperty<Guid>("LabelId").HasColumnName("labelId");
+                            j.IndexerProperty<Guid>("TaskId").HasColumnName("TaskId");
+                            j.IndexerProperty<Guid>("LabelId").HasColumnName("LabelId");
                         });
             });
             modelBuilder.Entity<TaskHistory>(entity =>
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
 
-                entity.Property(e => e.TaskGuid).HasColumnName("taskGuid");
-                entity.Property(e => e.Title).HasColumnName("title");
-                entity.Property(e => e.RequiredValidation).HasColumnName("requiresValidation");
-                entity.Property(e => e.Description).HasColumnName("description");
-                entity.Property(e => e.EditDate).HasColumnName("editDate");
-                entity.Property(e => e.StartDate).HasColumnName("startDate");
-                entity.Property(e => e.DueDate).HasColumnName("dueDate");
-                entity.Property(e => e.TaskPriorityId).HasColumnName("taskPriorityId");
-                entity.Property(e => e.TaskStatusId).HasColumnName("taskStatusId");
+                entity.Property(e => e.TaskGuid).HasColumnName("TaskGuid");
+                entity.Property(e => e.Title).HasColumnName("Title");
+                entity.Property(e => e.RequiredValidation).HasColumnName("RequiresValidation");
+                entity.Property(e => e.Description).HasColumnName("Description");
+                entity.Property(e => e.EditDate).HasColumnName("EditDate");
+                entity.Property(e => e.StartDate).HasColumnName("StartDate");
+                entity.Property(e => e.DueDate).HasColumnName("DueDate");
+                entity.Property(e => e.TaskPriorityId).HasColumnName("TaskPriorityId");
+                entity.Property(e => e.TaskStatusId).HasColumnName("TaskStatusId");
 
                 entity.HasOne(d => d.TaskPriority).WithMany()
                     .HasForeignKey(d => d.TaskPriorityId)
@@ -710,8 +641,8 @@ namespace Repository
                         {
                             j.HasKey("TaskHistoryId", "LabelId");
                             j.ToTable("TaskHistoriesLabels");
-                            j.IndexerProperty<Guid>("TaskHistoryId").HasColumnName("taskHistoryId");
-                            j.IndexerProperty<Guid>("LabelId").HasColumnName("labelId");
+                            j.IndexerProperty<Guid>("TaskHistoryId").HasColumnName("TaskHistoryId");
+                            j.IndexerProperty<Guid>("LabelId").HasColumnName("LabelId");
                         });
 
                 entity.HasOne(d => d.TaskVersion).WithMany()
@@ -724,12 +655,12 @@ namespace Repository
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
-                entity.Property(e => e.MaxTasks).HasColumnName("maxTasks");
+                    .HasColumnName("Id");
+                entity.Property(e => e.MaxTasks).HasColumnName("MaxTasks");
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
-                    .HasColumnName("name");
-                entity.Property(e => e.ProjectId).HasColumnName("projectId");
+                    .HasColumnName("Name");
+                entity.Property(e => e.ProjectId).HasColumnName("ProjectId");
 
                 entity.HasOne(d => d.Project).WithMany(p => p.TaskLists)
                     .HasForeignKey(d => d.ProjectId)
@@ -741,11 +672,11 @@ namespace Repository
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("name");
+                    .HasColumnName("Name");
             });
 
             modelBuilder.Entity<TasksStatus>(entity =>
@@ -754,10 +685,10 @@ namespace Repository
 
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("Id");
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
-                    .HasColumnName("name");
+                    .HasColumnName("Name");
             });
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
 
