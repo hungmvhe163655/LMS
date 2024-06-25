@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.ResponseDTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +10,7 @@ namespace Service.Contracts
 {
     public interface IFileService
     {
-        Task UploadFileToS3Async(string key, Stream inputStream);
-        Task<Stream> GetFileFromS3Async(string key);
+        Task<bool> CreateFile(FileUploadRequestModel model, Stream inputStream);
+        Task<(Stream,FileResponseModel)> GetFile(string FileID);
     }
 }

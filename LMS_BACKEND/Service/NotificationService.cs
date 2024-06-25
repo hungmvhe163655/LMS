@@ -27,7 +27,7 @@ namespace Service
         {
             var hold = new Notification {Id = Guid.NewGuid(), Title = title, Content = content, NotificationTypeId = type, CreatedBy = createUserId ,Url = "lmao.com"};
             await _repositoryManager.notification.saveNotification(hold);
-            _repositoryManager.Save();
+            await _repositoryManager.Save();
             await _hubContext.Clients.Groups(group).SendAsync("ReceiveNotification", hold);
             return hold;
         }
