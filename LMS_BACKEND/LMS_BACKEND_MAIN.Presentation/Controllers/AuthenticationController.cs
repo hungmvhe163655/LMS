@@ -1,6 +1,7 @@
 ﻿using LMS_BACKEND_MAIN.Presentation.ActionFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Internal;
 using Service.Contracts;
 using Shared;
 using Shared.DataTransferObjects.RequestDTO;
@@ -152,6 +153,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     if (twofactor)
                     {
                         if (await _service.MailService.SendTwoFactorOtp(model.Email ?? ""))
+                        if (await _service.MailService.SendTwoFactorOtp(model.Email ?? ""))
                         {
                             return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = "2 Factor code was sent" });
                         }
@@ -193,9 +195,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPost("logout")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> Logout([FromBody] TokenDTO model)
+        public async Task<IActionResult> Logout([FromBody] TokenDTORequestModel model)
         {
-            if (!await _service.AuthenticationService.InvalidateToken(model))
+            var hold = new TokenDTO(model.AccessToken ?? "", model.RefreshToken ?? "");
+            if (!await _service.AuthenticationService.InvalidateToken(hold))
             {
                 return Unauthorized(new ResponseObjectModel { Code = "401", Value = "Invalid Token", Status = "Failed" });
             }
