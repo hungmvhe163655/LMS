@@ -37,7 +37,7 @@ namespace LMS_BACKEND_MAIN.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("createdDate");
+                        .HasColumnName("CreatedDate");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -59,11 +59,23 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)")
-                        .HasColumnName("fullname");
+                        .HasColumnName("FullName");
 
                     b.Property<bool>("Gender")
                         .HasColumnType("bit")
-                        .HasColumnName("gender");
+                        .HasColumnName("Gender");
+
+                    b.Property<bool>("IsBanned")
+                        .HasColumnType("bit")
+                        .HasColumnName("IsBanned");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit")
+                        .HasColumnName("IsVerified");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -106,19 +118,7 @@ namespace LMS_BACKEND_MAIN.Migrations
 
                     b.Property<string>("VerifiedBy")
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("verifiedBy");
-
-                    b.Property<bool>("isBanned")
-                        .HasColumnType("bit")
-                        .HasColumnName("isBanned");
-
-                    b.Property<bool>("isDeleted")
-                        .HasColumnType("bit")
-                        .HasColumnName("isDeleted");
-
-                    b.Property<bool>("isVerified")
-                        .HasColumnType("bit")
-                        .HasColumnName("IsVerified");
+                        .HasColumnName("VerifiedBy");
 
                     b.HasKey("Id");
 
@@ -133,35 +133,236 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasIndex("VerifiedBy");
 
                     b.ToTable("Account", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "dd22e9fb-9cf3-4cba-9987-a3706c497436",
+                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(7928),
+                            Email = "minhtche161354@fpt.edu.vn",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(7948),
+                            FullName = "Tran Cong Minh",
+                            Gender = false,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MINHTCHE161354@FPT.EDU.VN",
+                            NormalizedUserName = "MINHTCHE161354",
+                            PasswordHash = "AQAAAAIAAYagAAAAELgUn5wJH9empSyZm7MdUy84spVESi+LvNCV8nDY9PMgoY0fOBYhfZO/MPZHjSZimA==",
+                            PhoneNumber = "0963661093",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "18ba47a6-84e1-4e32-92f8-f27ef7dff936",
+                            TwoFactorEnabled = false,
+                            UserName = "minhtche161354",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(7949)
+                        },
+                        new
+                        {
+                            Id = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "469301ff-a174-4a1b-9930-a2bafee66372",
+                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(7974),
+                            Email = "thailshe160614@fpt.edu.vn",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(7975),
+                            FullName = "Le Sy Thai",
+                            Gender = true,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "THAILSHE160614@FPT.EDU.VN",
+                            NormalizedUserName = "THAILSHE160614",
+                            PasswordHash = "AQAAAAIAAYagAAAAEO5SGANyOkCieJN+MspCJeIbBLjDruXYD5omO5+7u9NVKctIo979jEts1uoDaalzTw==",
+                            PhoneNumber = "0497461220",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "304dacee-6d82-43e9-b280-3a07182f9fcd",
+                            TwoFactorEnabled = false,
+                            UserName = "thailshe160614",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(7976)
+                        },
+                        new
+                        {
+                            Id = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "dfbae132-dfea-4e79-b88b-5afc27dcbfd8",
+                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(7988),
+                            Email = "hungmvhe163655@fpt.edu.vn",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(7990),
+                            FullName = "Mai Viet Hung",
+                            Gender = true,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "HUNGMVHE163655@FPT.EDU.VN",
+                            NormalizedUserName = "HUNGMVHE163655",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHaY3BZO2ooRDvclwsiVvksAaPExz0GAXkEHlfwAtwfVBfRcw9gQTR02USItL9NrSg==",
+                            PhoneNumber = "0975461220",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "585e1b41-c664-4be9-b427-f6d9bf726f73",
+                            TwoFactorEnabled = false,
+                            UserName = "hungmvhe163655",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(7991)
+                        },
+                        new
+                        {
+                            Id = "603600b5-ca65-4fa7-817e-4583ef22b330",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "fc4267e1-c2e7-4adc-bdc5-ba1941cbc5d6",
+                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(8006),
+                            Email = "cuongndhe163098@fpt.edu.vn",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8007),
+                            FullName = "Nguyen Duc Cuong",
+                            Gender = true,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "CUONGNDHE163098@FPT.EDU.VN",
+                            NormalizedUserName = "CUONGNDHE163098",
+                            PasswordHash = "AQAAAAIAAYagAAAAENVZ95qV36S0GH4gzip/nSmI9JKDA1CAGuL2+t1ysccrtPgGLrSZ6k9v/tS37ojoSw==",
+                            PhoneNumber = "0975465220",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "b020e31c-d328-4406-9970-0d75e0921bff",
+                            TwoFactorEnabled = false,
+                            UserName = "cuongndhe163098",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8007)
+                        },
+                        new
+                        {
+                            Id = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "1dc4e382-89e8-4cba-8cb9-adbf95505e10",
+                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(8022),
+                            Email = "hoangnmhe163884@fpt.edu.vn",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8023),
+                            Gender = false,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "HOANGNMHE163884@FPT.EDU.VN",
+                            NormalizedUserName = "HOANGNMHE163884",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBSeWGYcWJzo0jTXDBqXgYkMmzdQCRKsLrFMaaqieAdCHchkvB2oa1eRy3gsuvWyVw==",
+                            PhoneNumber = "0975765220",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "e121efcb-d5f0-466a-8130-902ab2a6d194",
+                            TwoFactorEnabled = false,
+                            UserName = "hoangnmhe163884",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8023)
+                        },
+                        new
+                        {
+                            Id = "7397c854-194b-4749-9205-f46e4f2fccf8",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "32b61da4-08c3-4218-9784-6da8606a219e",
+                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(8052),
+                            Email = "littlejohn123@gmail.com",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8053),
+                            FullName = "John",
+                            Gender = true,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "LITTLEJOHN123@GMAIL.COM",
+                            NormalizedUserName = "LITTLEJOHN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0965765228",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "7cd516ee-97b2-40d9-8f1a-48448bde8718",
+                            TwoFactorEnabled = false,
+                            UserName = "littlejohn",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8053)
+                        },
+                        new
+                        {
+                            Id = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "5d1fb404-6a71-486c-a2ab-b30f13fac430",
+                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(8064),
+                            Email = "kenshiyonezu123@gmail.com",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8065),
+                            FullName = "Kenshi Yonezu",
+                            Gender = true,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "KENSHIYONEZU123@GMAIL.COM",
+                            NormalizedUserName = "KENSHIYONEZU",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0965765120",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "d9800449-ae67-4c67-8c53-1c60971c6720",
+                            TwoFactorEnabled = false,
+                            UserName = "kenshiyonezu",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8065)
+                        },
+                        new
+                        {
+                            Id = "1c5c3b44-7164-4232-a49a-10ab367d5102",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "12cfac18-4082-4535-8318-dff260d2298a",
+                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(8078),
+                            Email = "gakkou123@gmail.com",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8080),
+                            FullName = "Gakkou Atarashi",
+                            Gender = false,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "GAKKOU123@GMAIL.COM",
+                            NormalizedUserName = "GAKKOU",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0965795220",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "6e94869a-0630-4749-8f84-e37a477084e4",
+                            TwoFactorEnabled = false,
+                            UserName = "gakkou",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8080)
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.Comment", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("Content")
                         .HasMaxLength(1000)
                         .IsUnicode(false)
                         .HasColumnType("varchar(1000)")
-                        .HasColumnName("content");
+                        .HasColumnName("Content");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("createdBy");
+                        .HasColumnName("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("createdDate");
+                        .HasColumnName("CreatedDate");
 
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("parentId");
+                        .HasColumnName("ParentId");
 
                     b.Property<Guid>("TaskId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("taskId");
+                        .HasColumnName("TaskId");
 
                     b.HasKey("Id");
 
@@ -178,32 +379,32 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("description");
+                        .HasColumnName("Description");
 
                     b.Property<int>("DeviceStatusId")
                         .HasColumnType("int")
-                        .HasColumnName("deviceStatusId");
+                        .HasColumnName("DeviceStatusId");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("LastUsed")
                         .HasColumnType("datetime2")
-                        .HasColumnName("lastUsed");
+                        .HasColumnName("LastUsed");
 
                     b.Property<string>("Name")
                         .HasMaxLength(250)
                         .IsUnicode(false)
                         .HasColumnType("varchar(250)")
-                        .HasColumnName("name");
+                        .HasColumnName("Name");
 
                     b.Property<string>("OwnedBy")
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("ownedBy");
-
-                    b.Property<bool>("isDeleted")
-                        .HasColumnType("bit");
+                        .HasColumnName("OwnedBy");
 
                     b.HasKey("Id");
 
@@ -218,13 +419,13 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
-                        .HasColumnName("name");
+                        .HasColumnName("Name");
 
                     b.HasKey("Id");
 
@@ -235,37 +436,34 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("FileKey")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
-                        .HasColumnName("fileKey");
+                        .HasColumnName("FileKey");
 
                     b.Property<Guid>("FolderId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("folderId");
+                        .HasColumnName("FolderId");
 
                     b.Property<string>("MimeType")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
-                        .HasColumnName("mimeType");
+                        .HasColumnName("MimeType");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
-                        .HasColumnName("name");
+                        .HasColumnName("Name");
 
                     b.Property<float>("Size")
                         .HasColumnType("real")
-                        .HasColumnName("size");
+                        .HasColumnName("Size");
 
                     b.Property<DateTime>("UploadDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("uploadDate");
+                        .HasColumnName("UploadDate");
 
                     b.HasKey("Id");
 
@@ -278,22 +476,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("createdBy");
+                        .HasColumnName("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("createdDate");
+                        .HasColumnName("CreatedDate");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
-                        .HasColumnName("name");
+                        .HasColumnName("Name");
 
                     b.HasKey("Id");
 
@@ -306,15 +502,15 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<Guid>("AncestorID")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("ancestor");
+                        .HasColumnName("Ancestor");
 
                     b.Property<Guid>("DescendantID")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("descendant");
+                        .HasColumnName("Descendant");
 
                     b.Property<int>("Depth")
                         .HasColumnType("int")
-                        .HasColumnName("depth");
+                        .HasColumnName("Depth");
 
                     b.HasKey("AncestorID", "DescendantID");
 
@@ -327,22 +523,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("HexColor")
-                        .IsRequired()
                         .HasMaxLength(7)
                         .IsUnicode(false)
                         .HasColumnType("char(7)")
-                        .HasColumnName("hexColor")
+                        .HasColumnName("HexColor")
                         .IsFixedLength();
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
-                        .HasColumnName("name");
+                        .HasColumnName("Name");
 
                     b.HasKey("Id");
 
@@ -353,15 +547,15 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("projectId");
+                        .HasColumnName("ProjectId");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("userId");
+                        .HasColumnName("UserId");
 
                     b.Property<bool>("IsLeader")
                         .HasColumnType("bit")
-                        .HasColumnName("isLeader");
+                        .HasColumnName("IsLeader");
 
                     b.HasKey("ProjectId", "UserId");
 
@@ -374,28 +568,26 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("content");
+                        .HasColumnName("Content");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("createdBy");
+                        .HasColumnName("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("createdDate");
+                        .HasColumnName("CreatedDate");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)")
-                        .HasColumnName("title");
+                        .HasColumnName("Title");
 
                     b.HasKey("Id");
 
@@ -408,64 +600,59 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("FileKey")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
-                        .HasColumnName("fileKey");
+                        .HasColumnName("FileKey");
 
                     b.Property<int>("NewsID")
                         .HasColumnType("int")
-                        .HasColumnName("newsId");
+                        .HasColumnName("NewsId");
 
                     b.HasKey("Id")
                         .HasName("PK_NewsFiles_1");
 
                     b.HasIndex("NewsID");
 
-                    b.ToTable("NewsFile");
+                    b.ToTable("NewsFiles");
                 });
 
             modelBuilder.Entity("Entities.Models.Notification", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .IsUnicode(false)
                         .HasColumnType("varchar(500)")
-                        .HasColumnName("content");
+                        .HasColumnName("Content");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("createdBy");
+                        .HasColumnName("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("createdDate");
+                        .HasColumnName("CreatedDate");
 
                     b.Property<int>("NotificationTypeId")
                         .HasColumnType("int")
-                        .HasColumnName("notificationTypeId");
+                        .HasColumnName("NotificationTypeId");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)")
-                        .HasColumnName("title");
+                        .HasColumnName("Title");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)")
-                        .HasColumnName("url");
+                        .HasColumnName("Url");
 
                     b.HasKey("Id");
 
@@ -480,102 +667,77 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<Guid>("NotificationId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("notificationId");
+                        .HasColumnName("NotificationId");
 
                     b.Property<string>("AccountId")
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("accountId");
+                        .HasColumnName("AccountId");
 
                     b.Property<bool>("IsRead")
                         .HasColumnType("bit")
-                        .HasColumnName("isRead");
+                        .HasColumnName("IsRead");
 
                     b.HasKey("NotificationId", "AccountId");
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("notificationAccounts");
+                    b.ToTable("NotificationAccounts");
                 });
 
             modelBuilder.Entity("Entities.Models.NotificationType", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)")
-                        .HasColumnName("name");
+                        .HasColumnName("Name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("notificationTypes");
-                });
-
-            modelBuilder.Entity("Entities.Models.Permission", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Permission");
+                    b.ToTable("NotificationTypes");
                 });
 
             modelBuilder.Entity("Entities.Models.Project", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("createdDate");
+                        .HasColumnName("CreatedDate");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)")
-                        .HasColumnName("description");
+                        .HasColumnName("Description");
 
                     b.Property<string>("IsRecruiting")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nchar(10)")
-                        .HasColumnName("isRecruiting")
+                        .HasColumnName("IsRecruiting")
                         .IsFixedLength();
 
                     b.Property<int>("MaxMember")
                         .HasColumnType("int")
-                        .HasColumnName("maxMember");
+                        .HasColumnName("MaxMember");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
-                        .HasColumnName("name");
+                        .HasColumnName("Name");
 
                     b.Property<int>("ProjectStatusId")
                         .HasColumnType("int")
-                        .HasColumnName("projectStatusId");
+                        .HasColumnName("ProjectStatusId");
 
                     b.Property<int>("ProjectTypeId")
                         .HasColumnType("int")
-                        .HasColumnName("projectTypeId");
+                        .HasColumnName("ProjectTypeId");
 
                     b.HasKey("Id");
 
@@ -590,14 +752,13 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
-                        .HasColumnName("name");
+                        .HasColumnName("Name");
 
                     b.HasKey("Id");
 
@@ -608,14 +769,13 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
-                        .HasColumnName("name");
+                        .HasColumnName("Name");
 
                     b.HasKey("Id");
 
@@ -626,7 +786,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("AccountId")
                         .HasColumnType("nvarchar(450)");
@@ -655,34 +815,33 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("AccountId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("accountId");
+                        .HasColumnName("AccountId");
 
                     b.Property<Guid>("DeviceId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("deviceId");
+                        .HasColumnName("DeviceId");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("endDate");
+                        .HasColumnName("EndDate");
 
                     b.Property<string>("Purpose")
-                        .IsRequired()
                         .HasMaxLength(250)
                         .IsUnicode(false)
                         .HasColumnType("varchar(250)")
-                        .HasColumnName("purpose");
+                        .HasColumnName("Purpose");
 
                     b.Property<DateTime>("ScheduledDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("startDate");
+                        .HasColumnName("StartDate");
 
                     b.HasKey("Id");
 
@@ -697,84 +856,116 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<string>("AccountId")
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("accountId");
+                        .HasColumnName("AccountId");
 
                     b.Property<string>("Major")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
-                        .HasColumnName("major");
+                        .HasColumnName("Major");
 
                     b.Property<string>("RollNumber")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)")
-                        .HasColumnName("rollNumber");
+                        .HasColumnName("RollNumber");
 
                     b.Property<string>("Specialized")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
-                        .HasColumnName("specialized");
+                        .HasColumnName("Specialized");
 
                     b.HasKey("AccountId");
 
                     b.ToTable("StudentDetails");
+
+                    b.HasData(
+                        new
+                        {
+                            AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
+                            Major = "Software Engineering",
+                            RollNumber = "HE163098",
+                            Specialized = "ASP.NET"
+                        },
+                        new
+                        {
+                            AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
+                            Major = "Data Engineer",
+                            RollNumber = "HE163884",
+                            Specialized = "Data Analyst"
+                        },
+                        new
+                        {
+                            AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
+                            Major = "Artifact Intelligent",
+                            RollNumber = "HE163956",
+                            Specialized = "C"
+                        },
+                        new
+                        {
+                            AccountId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
+                            Major = "Iot",
+                            RollNumber = "HE145689",
+                            Specialized = "Python"
+                        },
+                        new
+                        {
+                            AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
+                            Major = "Software Engineering",
+                            RollNumber = "HE156894",
+                            Specialized = "PHP"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.TaskHistory", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("AssignedToUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("description");
+                        .HasColumnName("Description");
 
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("dueDate");
+                        .HasColumnName("DueDate");
 
                     b.Property<DateTime>("EditDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("editDate");
+                        .HasColumnName("EditDate");
 
                     b.Property<bool>("RequiredValidation")
                         .HasColumnType("bit")
-                        .HasColumnName("requiresValidation");
+                        .HasColumnName("RequiresValidation");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("startDate");
+                        .HasColumnName("StartDate");
 
                     b.Property<Guid>("TaskGuid")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("taskGuid");
+                        .HasColumnName("TaskGuid");
 
                     b.Property<int>("TaskPriorityId")
                         .HasColumnType("int")
-                        .HasColumnName("taskPriorityId");
+                        .HasColumnName("TaskPriorityId");
 
                     b.Property<int>("TaskStatusId")
                         .HasColumnType("int")
-                        .HasColumnName("taskStatusId");
+                        .HasColumnName("TaskStatusId");
 
                     b.Property<Guid?>("TasksId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("title");
+                        .HasColumnName("Title");
 
                     b.HasKey("Id");
 
@@ -795,21 +986,21 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<int>("MaxTasks")
                         .HasColumnType("int")
-                        .HasColumnName("maxTasks");
+                        .HasColumnName("MaxTasks");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
-                        .HasColumnName("name");
+                        .HasColumnName("Name");
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("projectId");
+                        .HasColumnName("ProjectId");
 
                     b.HasKey("Id");
 
@@ -822,14 +1013,13 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
-                        .HasColumnName("name");
+                        .HasColumnName("Name");
 
                     b.HasKey("Id");
 
@@ -840,60 +1030,58 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("AssignedTo")
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("assignedTo");
+                        .HasColumnName("AssignedTo");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("createdBy");
+                        .HasColumnName("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("createdDate");
+                        .HasColumnName("CreatedDate");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("dueDate");
+                        .HasColumnName("DueDate");
 
                     b.Property<Guid?>("PredecessorTaskId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("predecessorTaskId");
+                        .HasColumnName("PredecessorTaskId");
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool?>("RequiredValidation")
                         .HasColumnType("bit")
-                        .HasColumnName("requiresValidation");
+                        .HasColumnName("RequiresValidation");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("startDate");
+                        .HasColumnName("StartDate");
 
                     b.Property<Guid>("TaskListId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("taskListId");
+                        .HasColumnName("TaskListId");
 
                     b.Property<int>("TaskPriorityId")
                         .HasColumnType("int")
-                        .HasColumnName("taskPriorityId");
+                        .HasColumnName("TaskPriorityId");
 
                     b.Property<int>("TaskStatusId")
                         .HasColumnType("int")
-                        .HasColumnName("taskStatusId");
+                        .HasColumnName("TaskStatusId");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
-                        .HasColumnName("title");
+                        .HasColumnName("Title");
 
                     b.HasKey("Id");
 
@@ -914,13 +1102,12 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
-                        .HasColumnName("name");
+                        .HasColumnName("Name");
 
                     b.HasKey("Id");
 
@@ -956,19 +1143,19 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e533a2f9-0e65-4b87-bb6a-8f8c5b261de5",
+                            Id = "c55924f5-4cf4-4a29-9820-b5d0d9bdf3c5",
                             Name = "LabAdmin",
                             NormalizedName = "LABADMIN"
                         },
                         new
                         {
-                            Id = "3f884d61-da25-4f2f-a4d1-4972fafb7e19",
+                            Id = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "8c1fe727-64fe-453a-bfd5-cc92a521055e",
+                            Id = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
                             Name = "Supervisor",
                             NormalizedName = "SUPERVISOR"
                         });
@@ -1059,6 +1246,48 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AccountRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            RoleId = "c55924f5-4cf4-4a29-9820-b5d0d9bdf3c5"
+                        },
+                        new
+                        {
+                            UserId = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2"
+                        },
+                        new
+                        {
+                            UserId = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2"
+                        },
+                        new
+                        {
+                            UserId = "603600b5-ca65-4fa7-817e-4583ef22b330",
+                            RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d"
+                        },
+                        new
+                        {
+                            UserId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
+                            RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d"
+                        },
+                        new
+                        {
+                            UserId = "7397c854-194b-4749-9205-f46e4f2fccf8",
+                            RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d"
+                        },
+                        new
+                        {
+                            UserId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
+                            RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d"
+                        },
+                        new
+                        {
+                            UserId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
+                            RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -1080,30 +1309,15 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.ToTable("AccountToken", (string)null);
                 });
 
-            modelBuilder.Entity("PermissionProject", b =>
-                {
-                    b.Property<int>("PermissionsId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("ProjectsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("PermissionsId", "ProjectsId");
-
-                    b.HasIndex("ProjectsId");
-
-                    b.ToTable("PermissionProject");
-                });
-
             modelBuilder.Entity("TaskHistoriesLabels", b =>
                 {
                     b.Property<Guid>("TaskHistoryId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("taskHistoryId");
+                        .HasColumnName("TaskHistoryId");
 
                     b.Property<Guid>("LabelId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("labelId");
+                        .HasColumnName("LabelId");
 
                     b.HasKey("TaskHistoryId", "LabelId");
 
@@ -1116,11 +1330,11 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<Guid>("TaskId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("taskId");
+                        .HasColumnName("TaskId");
 
                     b.Property<string>("AccountId")
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("accountId");
+                        .HasColumnName("AccountId");
 
                     b.HasKey("TaskId", "AccountId");
 
@@ -1133,11 +1347,11 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<Guid>("TaskId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("taskId");
+                        .HasColumnName("TaskId");
 
                     b.Property<Guid>("FileId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("fileId");
+                        .HasColumnName("FileId");
 
                     b.HasKey("TaskId", "FileId");
 
@@ -1150,11 +1364,11 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     b.Property<Guid>("TaskId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("taskId");
+                        .HasColumnName("TaskId");
 
                     b.Property<Guid>("LabelId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("labelId");
+                        .HasColumnName("LabelId");
 
                     b.HasKey("TaskId", "LabelId");
 
@@ -1232,7 +1446,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasOne("Entities.Models.Account", "CreatedByUser")
                         .WithMany("Folders")
                         .HasForeignKey("CreatedBy")
-                        .IsRequired()
                         .HasConstraintName("FK_Folders_Accounts");
 
                     b.Navigation("CreatedByUser");
@@ -1281,7 +1494,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasOne("Entities.Models.Account", "CreatedByNavigation")
                         .WithMany("News")
                         .HasForeignKey("CreatedBy")
-                        .IsRequired()
                         .HasConstraintName("FK_News_Accounts");
 
                     b.Navigation("CreatedByNavigation");
@@ -1303,8 +1515,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasOne("Entities.Models.Account", "CreatedByUser")
                         .WithMany("Notifications")
                         .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK_Notifications_Accounts");
 
                     b.HasOne("Entities.Models.NotificationType", "NotificationType")
@@ -1541,21 +1751,6 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasOne("Entities.Models.Account", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PermissionProject", b =>
-                {
-                    b.HasOne("Entities.Models.Permission", null)
-                        .WithMany()
-                        .HasForeignKey("PermissionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Models.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -9,8 +9,8 @@ namespace Entities.Models
     public class NewsFile
     {
         public int Id { get; set; }
-        public string FileKey { get; set; }
+        public string? FileKey { get; set; }
         public int NewsID { get; set; }
-        public virtual News News { get; set; }
+        public virtual News? News { get; set; }
     }
 }

@@ -13,10 +13,7 @@ using System.Net;
 using System.Text;
 using Amazon.S3;
 using Amazon;
-using Microsoft.Extensions.DependencyInjection;
-
-using Microsoft.AspNetCore.SignalR;
-
+using System.Security.Claims;
 
 namespace LMS_BACKEND_MAIN.Extentions
 {
@@ -55,7 +52,7 @@ namespace LMS_BACKEND_MAIN.Extentions
         {
             var jwtConfiguration = new JwtConfiguration();
             configuration.Bind(jwtConfiguration.Section, jwtConfiguration);
-            var secretKey = Environment.GetEnvironmentVariable("SECRET");
+            var secretKey = Environment.GetEnvironmentVariable("SECRET") ?? "#";
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -71,8 +68,8 @@ namespace LMS_BACKEND_MAIN.Extentions
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtConfiguration.ValidIssuer,
                     ValidAudience = jwtConfiguration.ValidAudience,
-                    IssuerSigningKey = new
-            SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+                    RoleClaimType = ClaimTypes.Role
                 };
             });
         }
@@ -80,12 +77,7 @@ namespace LMS_BACKEND_MAIN.Extentions
         {
             services.AddTransient<SmtpClient>(serviceProvider =>
             {
-                var hold = Environment.GetEnvironmentVariable("EMAILADMIN");
-                if (hold == null)
-                {
-                    throw new InvalidOperationException("EMAILADMIN environment variable not set.");
-                }
-
+                var hold = Environment.GetEnvironmentVariable("EMAILADMIN") ?? throw new InvalidOperationException("EMAILADMIN environment variable not set.");
                 string[] parts = hold.Split('/');
                 if (parts.Length != 4)
                 {
@@ -116,6 +108,7 @@ namespace LMS_BACKEND_MAIN.Extentions
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
         public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
         {//nho chay app setup truoc khi release phai sua phan encryptionkey vaf iv nay
+            
             var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
 
             var iv = Environment.GetEnvironmentVariable("ivKey");
@@ -130,7 +123,7 @@ namespace LMS_BACKEND_MAIN.Extentions
 
             var holdSecret = Environment.GetEnvironmentVariable("ENCRYPTED_SECRET_KEY");
 
-            if (holdAccess == null || holdSecret == null || encryptionKey == null || iv == null || url == null) 
+            if (holdAccess == null || holdSecret == null || encryptionKey == null || iv == null || url == null)
                 throw new InvalidOperationException("environment variable not set.");
 
             awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository.Configuration
+namespace Service.Contracts
 {
-    internal class OverralDbConfig
+    public interface IFolderService
     {
     }
 }

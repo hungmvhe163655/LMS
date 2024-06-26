@@ -10,8 +10,8 @@ namespace Entities.Models
     public class Tasks
     {
         public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string CreatedBy { get; set; }
+        public string? Title { get; set; }
+        public string? CreatedBy { get; set; }
         public Guid? PredecessorTaskId { get; set; }
         public bool? RequiredValidation { get; set; }
         public string? Description { get; set; }

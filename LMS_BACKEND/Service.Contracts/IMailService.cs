@@ -9,11 +9,11 @@ namespace Service.Contracts
 {
     public interface IMailService
     {
+        Task<bool> SendOTP(string email, string keymode);
+        Task<bool> VerifyOtp(string email, string token, string keymode);
         Task<bool> VerifyTwoFactorOtp(string email,string token);
-        Task<bool> SendTwoFactorOtp(string? email);
-        Task<bool> SendMailToUser(string? email);
-        Task<bool> SendVerifyOtp(string? email);
-        Task<bool> SendForgotPasswordOtp(string? email, string? phone);
-        Task<bool> VerifyForgotPasswordOtp(string Email, string token);
+        Task<bool> SendTwoFactorOtp(string email);
+        Task<bool> SendMailToUser(string email);
+        Task<bool> SendVerifyOtp(string email);
     }
 }
