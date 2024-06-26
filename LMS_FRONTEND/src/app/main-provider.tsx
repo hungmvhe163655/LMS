@@ -6,7 +6,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Spinner } from '@/components/app/spinner';
 import { MainErrorFallback } from '@/components/errors/main';
 import { Toaster } from '@/components/ui/sonner';
-import { AuthLoader } from '@/lib/auth';
 import { queryClient } from '@/lib/react-query';
 
 type AppProviderProps = {
@@ -25,15 +24,7 @@ export function AppProvider({ children }: AppProviderProps) {
       <ErrorBoundary fallback={<MainErrorFallback />}>
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
-            <AuthLoader
-              renderLoading={() => (
-                <div className='flex h-screen w-screen items-center justify-center'>
-                  <Spinner size='xl' />
-                </div>
-              )}
-            >
-              {children}
-            </AuthLoader>
+            {children}
             <Toaster />
           </QueryClientProvider>
         </HelmetProvider>

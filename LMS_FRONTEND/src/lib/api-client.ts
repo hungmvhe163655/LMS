@@ -2,10 +2,15 @@ import Axios, { InternalAxiosRequestConfig } from 'axios';
 
 import { useToast } from '@/components/ui/use-toast';
 import { env } from '@/config/env';
+import { cookieStorage as storage } from '@/utils/cookie-storage';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   if (config.headers) {
     config.headers.Accept = 'application/json';
+    const token = storage.getToken();
+    if (token) {
+      config.headers.Authorization = token;
+    }
   }
 
   config.withCredentials = true;
