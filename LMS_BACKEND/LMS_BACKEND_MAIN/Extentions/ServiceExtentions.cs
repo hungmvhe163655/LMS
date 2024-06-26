@@ -32,6 +32,7 @@ namespace LMS_BACKEND_MAIN.Extentions
             services.AddCors(
                 options => options.AddPolicy("CorsPolicy", builder =>
                 builder.WithOrigins(corsConfig.Origins??throw new NullReferenceException("Not found corsConfig"))
+                .AllowCredentials()
                 .AllowAnyMethod()
                 .AllowAnyHeader())
                 );
