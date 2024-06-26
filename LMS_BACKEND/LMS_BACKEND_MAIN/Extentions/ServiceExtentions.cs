@@ -31,10 +31,11 @@ namespace LMS_BACKEND_MAIN.Extentions
 
             services.AddCors(
                 options => options.AddPolicy("CorsPolicy", builder =>
-                builder.WithOrigins(corsConfig.Origins??throw new NullReferenceException("Not found corsConfig"))
-                .AllowAnyMethod()
-                .AllowAnyHeader())
-                );
+                builder.WithOrigins(corsConfig.Origins ?? throw new NullReferenceException("Not found corsConfig"))
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials()
+                ));
         }
         public static void ConfigureIISIntegration(this IServiceCollection services)
         {
