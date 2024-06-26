@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.ResponseDTO;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -18,77 +19,98 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpPost("Gets")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Gets(NewsRequestGetListsModel newsRequestGetLists)
+        public async Task<IActionResult> Gets([FromBody] NewsRequestGetListsModel newsRequestGetLists)
         {
             try
             {
-                var data = _service.NewsService.GetNews(newsRequestGetLists);
-                return Ok(new { Status = "success", Value = data });
+                var data = await _service.NewsService.GetNews(newsRequestGetLists);
+                if (data != null)
+                {
+                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = data });
+                }
+                return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "EMPTY", Value = data });
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = ex });
             }
         }
 
         [HttpPost("GetDetails")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult GetDetails(int id)
+        public async Task<IActionResult> GetDetails(int id)
         {
             try
             {
-                var data = _service.NewsService.GetNewsDetail(id);
-                return Ok(new { Status = "success", Value = data });
+                var data = await _service.NewsService.GetNewsDetail(id);
+
+                if (data != null)
+                {
+                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = data });
+                }
+                return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "EMPTY", Value = data });
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = ex });
             }
         }
 
         [HttpPost("Create")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Create(NewsRequestCreateModel newsRequestCreateModel)
+        public async Task<IActionResult> Create([FromBody] NewsRequestCreateModel newsRequestCreateModel)
         {
             try
             {
-                var data = _service.NewsService.CreateNews(newsRequestCreateModel);
-                return Ok(new { Status = "success", Value = data });
+                var data = await _service.NewsService.CreateNews(newsRequestCreateModel);
+                if (data != null && data == true)
+                {
+                    return StatusCode(200, new ResponseObjectModel { Status = "success", Code = "200", Value = "Create News Status Successully" });
+                }
+                return StatusCode(200, new ResponseObjectModel { Code = "401", Status = "Internal Error Create" });
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = ex });
             }
         }
 
         [HttpPut("Update")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Update(NewsRequestUpdateModel newsRequestUpdateModel)
+        public async Task<IActionResult> Update([FromBody] NewsRequestUpdateModel newsRequestUpdateModel)
         {
             try
             {
-                var data = _service.NewsService.UpdateNews(newsRequestUpdateModel);
-                return Ok(new { Status = "success", Value = data });
+                var data = await _service.NewsService.UpdateNews(newsRequestUpdateModel);
+                if (data != null && data == true)
+                {
+                    return StatusCode(200, new ResponseObjectModel { Status = "success", Code = "200", Value = "Update News Status Successully" });
+                }
+                return StatusCode(200, new ResponseObjectModel { Code = "401", Status = "Internal Error Create" });
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = ex });
             }
         }
 
 
         [HttpDelete("Delete")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                var data = _service.NewsService.DeleteNews(id);
-                return Ok(new { Status = "success", Value = data });
+                var data = await _service.NewsService.DeleteNews(id);
+                if (data != null && data == true)
+                {
+                    return StatusCode(200, new ResponseObjectModel { Status = "success", Code = "200", Value = "Delete News Status Successully" });
+                }
+                return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "Internal Error Create" });
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = ex });
             }
         }
 
