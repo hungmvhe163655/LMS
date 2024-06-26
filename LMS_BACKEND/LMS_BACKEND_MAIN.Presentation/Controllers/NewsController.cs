@@ -19,7 +19,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpPost("Gets")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Gets([FromBody] NewsRequestGetListsModel newsRequestGetLists)
+        public async Task<IActionResult> GetNews([FromBody] NewsRequestGetListsModel newsRequestGetLists)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpPost("GetDetails")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> GetDetails(int id)
+        public async Task<IActionResult> GetNewDetails(int id)
         {
             try
             {
