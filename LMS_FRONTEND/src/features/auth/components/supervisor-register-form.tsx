@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-
+import { useNavigate } from 'react-router-dom';
 import { PasswordInput } from '@/components/app/password';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -16,16 +16,14 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Link } from '@/components/ui/link';
+import { useState } from 'react';
+import { registerSupervisor } from '../api/auth';
 
-// FormSchema and Validation
 const FormSchema = z
   .object({
-    email: z.string().min(6, {
-      message: 'Email must have more than 6 characters' // This will be shown using FormMessage
-    }),
+    email: z.string().email({ message: 'Invalid email address' }),
     password: z.string().min(6, { message: 'Password must have more than 6 characters' }),
     confirmPassword: z.string(),
-
     fullname: z.string().min(3, { message: 'Fullname must have more than 3 characters' }),
     phonenumber: z.string().min(9, { message: 'Phone number must have more than 9 characters' })
   })
@@ -39,29 +37,42 @@ const FormSchema = z
     }
   });
 
-// LoginForm component
 function SupervisorRegisterForm() {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: '',
+      fullname: '',
+      phonenumber: ''
     }
   });
 
-  // onSubmit
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-    // Submit Logic
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setIsLoading(true);
+
+    try {
+      const result = await registerSupervisor(data); // Use the function
+      console.log('Success:', result);
+      navigate(`/auth/email?email=${data.email}`);
+      // Handle successful registration (e.g., show a success message or redirect to login)
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle error (e.g., show an error message)
+    } finally {
+      setIsLoading(false);
+    }
   }
 
-  // HTML?
   return (
     <Card>
       <CardContent className='p-6'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
-            {/* Fullname input field */}
             <FormField
               control={form.control}
               name='fullname'
@@ -75,8 +86,6 @@ function SupervisorRegisterForm() {
                 </FormItem>
               )}
             />
-
-            {/* Email Input Field */}
             <FormField
               control={form.control}
               name='email'
@@ -90,8 +99,6 @@ function SupervisorRegisterForm() {
                 </FormItem>
               )}
             />
-
-            {/* Phone Number Input Field */}
             <FormField
               control={form.control}
               name='phonenumber'
@@ -105,8 +112,6 @@ function SupervisorRegisterForm() {
                 </FormItem>
               )}
             />
-
-            {/* Password Input Field */}
             <FormField
               control={form.control}
               name='password'
@@ -146,8 +151,8 @@ function SupervisorRegisterForm() {
                 </Link>
               </label>
             </div>
-            <Button type='submit' className='w-full'>
-              Submit
+            <Button type='submit' className='w-full' disabled={isLoading}>
+              {isLoading ? 'Submitting...' : 'Submit'}
             </Button>
           </form>
         </Form>
