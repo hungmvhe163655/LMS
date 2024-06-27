@@ -14,6 +14,8 @@ using System.Text;
 using Amazon.S3;
 using Amazon;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Diagnostics;
+using Shared.DataTransferObjects.ResponseDTO;
 
 namespace LMS_BACKEND_MAIN.Extentions
 {
@@ -23,6 +25,7 @@ namespace LMS_BACKEND_MAIN.Extentions
     }
     public static class ServiceExtentions
     {
+       
         public static void ConfigureCor(this IServiceCollection services, IConfiguration configuration)
         {
             var corsConfig = new CorsConfig();

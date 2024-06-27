@@ -2,6 +2,7 @@
 using Entities.Models;
 using LMS_BACKEND_MAIN.Presentation.ActionFilters;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
@@ -76,16 +77,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult Get(string email)
         {
-            try
-            {
                 var user =
                 _service.AccountService.GetVerifierAccounts(email);
                 return Ok(new { Status = "success", Value = user });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Supervisor")]
         [HttpPost("UpdateVerifierAccount")]
