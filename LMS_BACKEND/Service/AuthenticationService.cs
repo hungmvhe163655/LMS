@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces;
 using Entities.ConfigurationModels;
+using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -70,7 +71,8 @@ namespace Service
 
                         user.EmailConfirmed = true;
 
-                        await _userManager.UpdateAsync(user);
+                       var result = await _userManager.UpdateAsync(user);
+                        if (!result.Succeeded) throw new Exception("Internal Error");
 
                         return true;
                     }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces;
+using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -76,13 +77,10 @@ namespace Service
         }
         public async Task<IEnumerable<Account>> GetVerifierAccounts(string email)
         {
-            try
-            {
                 var user = await _repository.account.GetByConditionAsync(entity => entity.Email.Equals(email), false);
                 var end = user.First();
+                if (end == null) throw new UnauthorizedException("Invalid User");
                 return _repository.account.GetByCondition(entity => entity.VerifiedBy.Equals(end.Id), false).ToList();
-            }
-            catch { throw; }
         }
 
         public async Task<IEnumerable<Account>> GetUserByRole(string role)
