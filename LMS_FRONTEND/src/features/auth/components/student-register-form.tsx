@@ -15,7 +15,8 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandInput,
-  CommandItem
+  CommandItem,
+  CommandList
 } from '@/components/ui/command';
 import {
   Form,
@@ -45,7 +46,7 @@ const supervisors = [
     value: 'AnhBN',
     label: 'Bùi Ngọc Anh (AnhBN)'
   }
-];
+] as const;
 
 const StudentRegisterForm: React.FC = () => {
   const registering = useRegister();
@@ -54,7 +55,9 @@ const StudentRegisterForm: React.FC = () => {
 
   const registerSchema = registerInputSchema.and(
     z.object({
-      verifiedBy: z.string(),
+      verifiedBy: z.string({
+        required_error: 'Please select a supervisor.'
+      }),
       rollNumber: z.string().min(1, 'Required')
     })
   );
@@ -66,7 +69,6 @@ const StudentRegisterForm: React.FC = () => {
       password: '',
       confirmPassword: '',
       fullname: '',
-      verifiedBy: '',
       phonenumber: '',
       rollNumber: '',
       role: 'STUDENT'
@@ -78,10 +80,10 @@ const StudentRegisterForm: React.FC = () => {
   }
 
   return (
-    <Card>
+    <Card className='my-8'>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6 py-4'>
             {/* Fullname input field */}
             <FormField
               control={form.control}
@@ -140,10 +142,7 @@ const StudentRegisterForm: React.FC = () => {
                         <Button
                           variant='outline'
                           role='combobox'
-                          className={cn(
-                            'w-[200px] justify-between',
-                            !field.value && 'text-muted-foreground'
-                          )}
+                          className={cn('justify-between', !field.value && 'text-muted-foreground')}
                         >
                           {field.value
                             ? supervisors.find((supervisor) => supervisor.value === field.value)
@@ -153,28 +152,30 @@ const StudentRegisterForm: React.FC = () => {
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className='w-[200px] p-0'>
+                    <PopoverContent className='p-0 w-96'>
                       <Command>
                         <CommandInput placeholder='Search Supervisor...' className='h-9' />
                         <CommandEmpty>No Supervisor found.</CommandEmpty>
                         <CommandGroup>
-                          {supervisors.map((supervisor) => (
-                            <CommandItem
-                              value={supervisor.label}
-                              key={supervisor.value}
-                              onSelect={() => {
-                                form.setValue('verifiedBy', supervisor.value);
-                              }}
-                            >
-                              {supervisor.label}
-                              <CheckIcon
-                                className={cn(
-                                  'ml-auto h-4 w-4',
-                                  supervisor.value === field.value ? 'opacity-100' : 'opacity-0'
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
+                          <CommandList>
+                            {supervisors.map((supervisor) => (
+                              <CommandItem
+                                value={supervisor.value}
+                                key={supervisor.value}
+                                onSelect={() => {
+                                  form.setValue('verifiedBy', supervisor.value);
+                                }}
+                              >
+                                {supervisor.label}
+                                <CheckIcon
+                                  className={cn(
+                                    'ml-auto h-4 w-4',
+                                    supervisor.value === field.value ? 'opacity-100' : 'opacity-0'
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandList>
                         </CommandGroup>
                       </Command>
                     </PopoverContent>
