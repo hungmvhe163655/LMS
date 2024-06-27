@@ -7,8 +7,6 @@ namespace Repository.Configuration
     {
         public static void SeedData(this Microsoft.EntityFrameworkCore.ModelBuilder builder)
         {
-            PasswordHasher<Account> passwordHasher = new PasswordHasher<Account>();
-
             Account user1 = new Account()
             {
                 Id = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
@@ -285,108 +283,117 @@ namespace Repository.Configuration
                 }
             );
 
-            builder.Entity<Notification>().HasData(
-                new Notification
-                {
-                    Id = new Guid("b0e8e8d5-9c1a-4d15-a2e8-7e2c9e31e06a"),
-                    Title = "System Update",
-                    Content = "A new system update will be available tomorrow.",
-                    CreatedDate = DateTime.Now.AddDays(-1),
-                    Url = "",
-                    NotificationTypeId = 1,
-                    CreatedBy = "MinhTC"
-                },
-                new Notification
-                {
-                    Id = new Guid("c9e9b9d6-1c2b-4d26-b3f9-8f3d9f42f07b"),
-                    Title = "Maintenance Notice",
-                    Content = "Scheduled maintenance will occur this weekend.",
-                    CreatedDate = DateTime.Now.AddDays(-2),
-                    Url = "",
-                    NotificationTypeId = 1,
-                    CreatedBy = "MinhTC"
-                },
-                new Notification
-                {
-                    Id = new Guid("d0e0c0d7-2d3c-4e37-c4fa-9g4e0g53g08c"),
-                    Title = "New Feature Release",
-                    Content = "We are excited to announce a new feature in our application.",
-                    CreatedDate = DateTime.Now.AddDays(-3),
-                    Url = "",
-                    NotificationTypeId = 1,
-                    CreatedBy = "Admin"
-                },
-                new Notification
-                {
-                    Id = new Guid("e1f1d1e8-3e4d-4f48-d5fb-a5h5h64h19d"),
-                    Title = "Security Alert",
-                    Content = "Please update your password to enhance security.",
-                    CreatedDate = DateTime.Now.AddDays(-4),
-                    Url = "",
-                    NotificationTypeId = 1,
-                    CreatedBy = "ThaiLS"
-                },
-                new Notification
-                {
-                    Id = new Guid("f2g2e2f9-4f5e-5g59-e6gc-b6i6i75i20e"),
-                    Title = "Downtime Notification",
-                    Content = "The system will be down for maintenance tonight.",
-                    CreatedDate = DateTime.Now.AddDays(-5),
-                    Url = "",
-                    NotificationTypeId = 1,
-                    CreatedBy = "HungMV"
-                },
-                new Notification
-                {
-                    Id = new Guid("a3h3f3g1-5g6f-6h60-f7hd-c7j7j86j31f"),
-                    Title = "Weekly Meeting",
-                    Content = "Join weekly meeting.",
-                    CreatedDate = DateTime.Now.AddDays(-6),
-                    Url = "",
-                    NotificationTypeId = 2,
-                    CreatedBy = "HungMV"
-                },
-                new Notification
-                {
-                    Id = new Guid("b4i4g4h2-6h7g-7i71-g8ie-d8k8k97k42g"),
-                    Title = "Promotion Alert",
-                    Content = "Don't miss out on our latest promotions!",
-                    CreatedDate = DateTime.Now.AddDays(-7),
-                    Url = "",
-                    NotificationTypeId = 2,
-                    CreatedBy = "HungMV"
-                },
-                new Notification
-                {
-                    Id = new Guid("c5j5h5i3-7i8h-8j82-h9jf-e9l9l08l53h"),
-                    Title = "Survey Request",
-                    Content = "Please take a moment to complete our user survey.",
-                    CreatedDate = DateTime.Now.AddDays(-8),
-                    Url = "",
-                    NotificationTypeId = 2,
-                    CreatedBy = "ThaiLS"
-                },
-                new Notification
-                {
-                    Id = new Guid("d6k6i6j4-8j9i-9k93-iakg-fam0m19m64i"),
-                    Title = "Account Notice",
-                    Content = "Your account details have been updated.",
-                    CreatedDate = DateTime.Now.AddDays(-9),
-                    Url = "",
-                    NotificationTypeId = 1,
-                    CreatedBy = "MinhTC"
-                },
-                new Notification
-                {
-                    Id = new Guid("e7l7j7k5-9kal-ak04-jblh-gbn1n20n75j"),
-                    Title = "Event Reminder",
-                    Content = "Don't forget about the event tomorrow!",
-                    CreatedDate = DateTime.Now.AddDays(-10),
-                    Url = "",
-                    NotificationTypeId = 1,
-                    CreatedBy = "MinhTC"
-                }
-            );
+            Notification noti1 = new Notification
+            {
+                Id = new Guid("e331de18-289c-403d-8028-26c4b595587a"),
+                Title = "System Update",
+                Content = "A new system update will be available tomorrow.",
+                CreatedDate = DateTime.Now.AddDays(-1),
+                Url = "",
+                NotificationTypeId = 1,
+                CreatedBy = "MinhTC"
+            };
+
+            Notification noti2 = new Notification
+            {
+                Id = new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"),
+                Title = "Maintenance Notice",
+                Content = "Scheduled maintenance will occur this weekend.",
+                CreatedDate = DateTime.Now.AddDays(-2),
+                Url = "",
+                NotificationTypeId = 1,
+                CreatedBy = "MinhTC"
+            };
+
+            Notification noti3 = new Notification
+            {
+                Id = new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"),
+                Title = "New Feature Release",
+                Content = "We are excited to announce a new feature in our application.",
+                CreatedDate = DateTime.Now.AddDays(-3),
+                Url = "",
+                NotificationTypeId = 1,
+                CreatedBy = "Admin"
+            };
+
+            Notification noti4 = new Notification
+            {
+                Id = new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"),
+                Title = "Security Alert",
+                Content = "Please update your password to enhance security.",
+                CreatedDate = DateTime.Now.AddDays(-4),
+                Url = "",
+                NotificationTypeId = 1,
+                CreatedBy = "ThaiLS"
+            };
+
+            Notification noti5 = new Notification
+            {
+                Id = new Guid("d6dedee7-ab6d-4bfd-bdf7-b3665679cc50"),
+                Title = "Downtime Notification",
+                Content = "The system will be down for maintenance tonight.",
+                CreatedDate = DateTime.Now.AddDays(-5),
+                Url = "",
+                NotificationTypeId = 1,
+                CreatedBy = "HungMV"
+            };
+
+            Notification noti6 = new Notification
+            {
+                Id = new Guid("e4455de4-ff95-4957-85a1-b03b8b97f9c3"),
+                Title = "Weekly Meeting",
+                Content = "Join weekly meeting.",
+                CreatedDate = DateTime.Now.AddDays(-6),
+                Url = "",
+                NotificationTypeId = 2,
+                CreatedBy = "HungMV"
+            };
+
+            Notification noti7 = new Notification
+            {
+                Id = new Guid("4f517076-e6c7-43ce-93b6-9aeae4857760"),
+                Title = "Promotion Alert",
+                Content = "Don't miss out on our latest promotions!",
+                CreatedDate = DateTime.Now.AddDays(-7),
+                Url = "",
+                NotificationTypeId = 2,
+                CreatedBy = "HungMV"
+            };
+
+            Notification noti8 = new Notification
+            {
+                Id = new Guid("931129a9-986f-4560-99f1-a06b692c71a1"),
+                Title = "Survey Request",
+                Content = "Please take a moment to complete our user survey.",
+                CreatedDate = DateTime.Now.AddDays(-8),
+                Url = "",
+                NotificationTypeId = 2,
+                CreatedBy = "ThaiLS"
+            };
+
+            Notification noti9 = new Notification
+            {
+                Id = new Guid("5754541e-7c1e-4839-8021-963e90f6e4e0"),
+                Title = "Account Notice",
+                Content = "Your account details have been updated.",
+                CreatedDate = DateTime.Now.AddDays(-9),
+                Url = "",
+                NotificationTypeId = 1,
+                CreatedBy = "MinhTC"
+            };
+
+            Notification noti10 = new Notification
+            {
+                Id = new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"),
+                Title = "Event Reminder",
+                Content = "Don't forget about the event tomorrow!",
+                CreatedDate = DateTime.Now.AddDays(-10),
+                Url = "",
+                NotificationTypeId = 1,
+                CreatedBy = "MinhTC"
+            };
+
+            builder.Entity<Notification>().HasData(noti1, noti2, noti3, noti4, noti5, noti6, noti7, noti8, noti9, noti10);
             builder.Entity<NotificationType>().HasData(
                 new NotificationType
                 {
@@ -399,6 +406,526 @@ namespace Repository.Configuration
                     Name = "Project",
                 }
             );
+            builder.Entity<NotificationAccount>().HasData(
+                new NotificationAccount
+                {
+                    AccountId = user1.Id,
+                    NotificationId = noti1.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user2.Id,
+                    NotificationId = noti1.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user3.Id,
+                    NotificationId = noti1.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user4.Id,
+                    NotificationId = noti1.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user5.Id,
+                    NotificationId = noti1.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user6.Id,
+                    NotificationId = noti1.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user7.Id,
+                    NotificationId = noti1.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user8.Id,
+                    NotificationId = noti1.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user1.Id,
+                    NotificationId = noti2.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user2.Id,
+                    NotificationId = noti2.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user3.Id,
+                    NotificationId = noti2.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user5.Id,
+                    NotificationId = noti2.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user6.Id,
+                    NotificationId = noti2.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user1.Id,
+                    NotificationId = noti3.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user3.Id,
+                    NotificationId = noti3.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user4.Id,
+                    NotificationId = noti3.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user6.Id,
+                    NotificationId = noti3.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user7.Id,
+                    NotificationId = noti3.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user8.Id,
+                    NotificationId = noti3.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user1.Id,
+                    NotificationId = noti4.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user2.Id,
+                    NotificationId = noti4.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user3.Id,
+                    NotificationId = noti4.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user4.Id,
+                    NotificationId = noti4.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user5.Id,
+                    NotificationId = noti4.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user6.Id,
+                    NotificationId = noti4.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user7.Id,
+                    NotificationId = noti4.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user8.Id,
+                    NotificationId = noti4.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user1.Id,
+                    NotificationId = noti5.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user2.Id,
+                    NotificationId = noti5.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user3.Id,
+                    NotificationId = noti5.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user1.Id,
+                    NotificationId = noti6.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user2.Id,
+                    NotificationId = noti6.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user3.Id,
+                    NotificationId = noti6.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user4.Id,
+                    NotificationId = noti6.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user2.Id,
+                    NotificationId = noti7.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user3.Id,
+                    NotificationId = noti7.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user6.Id,
+                    NotificationId = noti7.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user8.Id,
+                    NotificationId = noti7.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user1.Id,
+                    NotificationId = noti8.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user3.Id,
+                    NotificationId = noti8.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user5.Id,
+                    NotificationId = noti8.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user6.Id,
+                    NotificationId = noti8.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user7.Id,
+                    NotificationId = noti8.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user8.Id,
+                    NotificationId = noti8.Id,
+                    IsRead = true,
+                }, 
+                new NotificationAccount
+                {
+                    AccountId = user1.Id,
+                    NotificationId = noti9.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user3.Id,
+                    NotificationId = noti9.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user5.Id,
+                    NotificationId = noti9.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user7.Id,
+                    NotificationId = noti9.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user1.Id,
+                    NotificationId = noti10.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user2.Id,
+                    NotificationId = noti10.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user3.Id,
+                    NotificationId = noti10.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user4.Id,
+                    NotificationId = noti10.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user5.Id,
+                    NotificationId = noti10.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user6.Id,
+                    NotificationId = noti10.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user7.Id,
+                    NotificationId = noti10.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user8.Id,
+                    NotificationId = noti10.Id,
+                    IsRead = true,
+                }
+            );
+
+            News news1 = new News
+            {
+                Id = new Guid("efb06517-4673-4b44-bf11-ee12198c26a7"),
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 5, 1),
+                Content = "This is the content of news item 1.",
+                Title = "News Title 1"
+            };
+
+            News news2 = new News
+            {
+                Id = new Guid("7c712eff-f7d8-41af-a36c-9d7ce1439e3b"),
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2024, 5, 2),
+                Content = "This is the content of news item 2.",
+                Title = "News Title 2"
+            };
+
+            News news3 = new News
+            {
+                Id = new Guid("cfc8a241-628f-4fab-acaf-60ffd42f97cd"),
+                CreatedBy = user3.Id,
+                CreatedDate = new DateTime(2024, 5, 3),
+                Content = "This is the content of news item 3.",
+                Title = "News Title 3"
+            };
+
+            News news4 = new News
+            {
+                Id = new Guid("650204d7-0be6-4f91-89f7-d80572d4f76a"),
+                CreatedBy = user3.Id,
+                CreatedDate = new DateTime(2024, 5, 4),
+                Content = "This is the content of news item 4.",
+                Title = "News Title 4"
+            };
+
+            News news5 = new News
+            {
+                Id = new Guid("049d2c9c-f550-4e21-8911-efc5789106ec"),
+                CreatedBy = user3.Id,
+                CreatedDate = new DateTime(2024, 5, 5),
+                Content = "This is the content of news item 5.",
+                Title = "News Title 5"
+            };
+
+            News news6 = new News
+            {
+                Id = new Guid("6798cf4d-8399-4572-955e-595ddf13f292"),
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 5, 6),
+                Content = "This is the content of news item 6.",
+                Title = "News Title 6"
+            };
+
+            News news7 = new News
+            {
+                Id = new Guid("a491e3db-344e-4f16-a051-1ed491901340"),
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2024, 5, 7),
+                Content = "This is the content of news item 7.",
+                Title = "News Title 7"
+            };
+
+            News news8 = new News
+            {
+                Id = new Guid("c0268d79-cfd7-44c3-9b13-709869ae00e2"),
+                CreatedBy = user3.Id,
+                CreatedDate = new DateTime(2024, 5, 8),
+                Content = "This is the content of news item 8.",
+                Title = "News Title 8"
+            };
+
+            News news9 = new News
+            {
+                Id = new Guid("f3e39c12-df43-4e2a-b84e-92374739e0e9"),
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 5, 9),
+                Content = "This is the content of news item 9.",
+                Title = "News Title 9"
+            };
+
+            News news10 = new News
+            {
+                Id = new Guid("663c5d19-d3ed-4d6a-aff6-3997dd0c43c4"),
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2024, 5, 10),
+                Content = "This is the content of news item 10.",
+                Title = "News Title 10"
+            };
+
+            News news11 = new News
+            {
+                Id = new Guid("6e08720f-d73a-4ae1-be83-559dbb96a344"),
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 5, 11),
+                Content = "This is the content of news item 11.",
+                Title = "News Title 11"
+            };
+
+            News news12 = new News
+            {
+                Id = new Guid("14764db6-10f1-48e6-a4e8-3ae063814acf"),
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 5, 12),
+                Content = "This is the content of news item 12.",
+                Title = "News Title 12"
+            };
+
+            News news13 = new News
+            {
+                Id = new Guid("f0c49374-4c7d-464a-9f38-e6f59b20344d"),
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 5, 13),
+                Content = "This is the content of news item 13.",
+                Title = "News Title 13"
+            };
+
+            News news14 = new News
+            {
+                Id = new Guid("0da0b088-1b08-404b-9696-eb539d31c9e5"),
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 5, 14),
+                Content = "This is the content of news item 14.",
+                Title = "News Title 14"
+            };
+
+            News news15 = new News
+            {
+                Id = new Guid("5d0bfb1c-d68d-450e-8fe9-e7d94be4eaac"),
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 5, 15),
+                Content = "This is the content of news item 15.",
+                Title = "News Title 15"
+            };
+
+            News news16 = new News
+            {
+                Id = new Guid("0985634f-496f-4480-83f0-14ff0c30b002"),
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 5, 16),
+                Content = "This is the content of news item 16.",
+                Title = "News Title 16"
+            };
+
+            News news17 = new News
+            {
+                Id = new Guid("245b3c4d-ba95-4040-818d-23da69f08e9b"),
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 5, 17),
+                Content = "This is the content of news item 17.",
+                Title = "News Title 17"
+            };
+
+            News news18 = new News
+            {
+                Id = new Guid("e277ec7f-14cf-47a2-a234-1265920647a4"),
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 5, 18),
+                Content = "This is the content of news item 18.",
+                Title = "News Title 18"
+            };
+
+            News news19 = new News
+            {
+                Id = new Guid("fb4d071c-c460-4a01-8ee4-9247a97214a6"),
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 5, 19),
+                Content = "This is the content of news item 19.",
+                Title = "News Title 19"
+            };
+
+            News news20 = new News
+            {
+                Id = new Guid("97755739-5cc9-49f7-bcf7-a66765be0571"),
+                CreatedBy = user3.Id,
+                CreatedDate = new DateTime(2024, 5, 20),
+                Content = "This is the content of news item 20.",
+                Title = "News Title 20"
+            };
+
+            builder.Entity<News>().HasData(news1, news2, news10, news11, news12, news13, news14, news15, news16, news17, news18, news19, news20, news3, news4, news5, news6, news7, news8, news9);
         }
     }
 }

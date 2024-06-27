@@ -10,7 +10,7 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         public string? FileKey { get; set; }
-        public int NewsID { get; set; }
+        public Guid NewsID { get; set; }
         public virtual News? News { get; set; }
     }
 }

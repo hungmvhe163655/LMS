@@ -12,8 +12,8 @@ using Repository;
 namespace LMS_BACKEND_MAIN.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240627150758_lamao")]
-    partial class lamao
+    [Migration("20240627155734_InitialDb")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -142,11 +142,11 @@ namespace LMS_BACKEND_MAIN.Migrations
                         {
                             Id = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8ae013ac-6e5f-4ef9-b6df-57374304abe8",
-                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(803),
+                            ConcurrencyStamp = "2225d0ec-64c8-43dc-bcf7-b269667b0708",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1733),
                             Email = "minhtche161354@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(815),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1747),
                             FullName = "Tran Cong Minh",
                             Gender = false,
                             IsBanned = false,
@@ -158,20 +158,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAELgUn5wJH9empSyZm7MdUy84spVESi+LvNCV8nDY9PMgoY0fOBYhfZO/MPZHjSZimA==",
                             PhoneNumber = "0963661093",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "5344f081-1e79-4390-93a8-d7db2788a34e",
+                            SecurityStamp = "7e89fcc2-8643-44dd-941e-d35aa12313cb",
                             TwoFactorEnabled = false,
                             UserName = "minhtche161354",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(816)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1749)
                         },
                         new
                         {
                             Id = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1f1a2ee2-4884-49c0-a815-732ccbe6fb59",
-                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(833),
+                            ConcurrencyStamp = "62f84eb7-178a-4a17-a307-743c8b2c2c5d",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1769),
                             Email = "thailshe160614@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(835),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1770),
                             FullName = "Le Sy Thai",
                             Gender = true,
                             IsBanned = false,
@@ -183,20 +183,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEO5SGANyOkCieJN+MspCJeIbBLjDruXYD5omO5+7u9NVKctIo979jEts1uoDaalzTw==",
                             PhoneNumber = "0497461220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "d5870138-331a-4da4-b028-4a6f3e21ea9d",
+                            SecurityStamp = "94d000c9-f127-4cfb-89b3-3b1783fffe92",
                             TwoFactorEnabled = false,
                             UserName = "thailshe160614",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(835)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1771)
                         },
                         new
                         {
                             Id = "a687bb04-4f19-49d5-a60f-2db52044767c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4414701e-8618-48bd-8038-f1f1a786cf5f",
-                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(854),
+                            ConcurrencyStamp = "b96cfa86-b473-43db-959e-8bb80558d826",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1786),
                             Email = "hungmvhe163655@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(856),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1787),
                             FullName = "Mai Viet Hung",
                             Gender = true,
                             IsBanned = false,
@@ -208,20 +208,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHaY3BZO2ooRDvclwsiVvksAaPExz0GAXkEHlfwAtwfVBfRcw9gQTR02USItL9NrSg==",
                             PhoneNumber = "0975461220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "e150867e-6474-43d7-ba9e-8ad0139d3c93",
+                            SecurityStamp = "b3d7064e-6009-41e6-a2d0-c82725ce8735",
                             TwoFactorEnabled = false,
                             UserName = "hungmvhe163655",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(856)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1788)
                         },
                         new
                         {
                             Id = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5b7819b9-517b-4e45-bb67-77b571f840c4",
-                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(872),
+                            ConcurrencyStamp = "ec88f415-808e-4da5-8de9-9d776a959f0f",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1815),
                             Email = "cuongndhe163098@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(873),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1817),
                             FullName = "Nguyen Duc Cuong",
                             Gender = true,
                             IsBanned = false,
@@ -233,20 +233,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAENVZ95qV36S0GH4gzip/nSmI9JKDA1CAGuL2+t1ysccrtPgGLrSZ6k9v/tS37ojoSw==",
                             PhoneNumber = "0975465220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "9057eab6-16c5-46ce-a6fd-2b69091028aa",
+                            SecurityStamp = "368304ee-f974-4a84-a5c4-cd656a0e0da5",
                             TwoFactorEnabled = false,
                             UserName = "cuongndhe163098",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(874)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1818)
                         },
                         new
                         {
                             Id = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7feca6ac-b71f-4f64-9243-e7d9063894b1",
-                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(889),
+                            ConcurrencyStamp = "49b7714e-a407-4e2c-8fac-10bac031ecc4",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1836),
                             Email = "hoangnmhe163884@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(891),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1837),
                             Gender = false,
                             IsBanned = false,
                             IsDeleted = false,
@@ -257,20 +257,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEBSeWGYcWJzo0jTXDBqXgYkMmzdQCRKsLrFMaaqieAdCHchkvB2oa1eRy3gsuvWyVw==",
                             PhoneNumber = "0975765220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "16d24e82-3b5f-43e4-b2e5-30c64042af7c",
+                            SecurityStamp = "ce6c9524-20a0-481f-8b19-39eaafa41bb7",
                             TwoFactorEnabled = false,
                             UserName = "hoangnmhe163884",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(891)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1837)
                         },
                         new
                         {
                             Id = "7397c854-194b-4749-9205-f46e4f2fccf8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1fc39864-bc3a-4a73-bb1d-4030ce7f286b",
-                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(909),
+                            ConcurrencyStamp = "15a0616f-dc27-40da-b1d5-171ed5313c09",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1853),
                             Email = "littlejohn123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(910),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1854),
                             FullName = "John",
                             Gender = true,
                             IsBanned = false,
@@ -282,20 +282,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965765228",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "894cfb8c-7028-4a5d-b921-429fbbc12073",
+                            SecurityStamp = "fb20698f-5428-4697-b71d-ff273fa00ef4",
                             TwoFactorEnabled = false,
                             UserName = "littlejohn",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(911)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1855)
                         },
                         new
                         {
                             Id = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b946cd8d-a447-443a-8f01-4b252a4c6dd8",
-                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(926),
+                            ConcurrencyStamp = "7a61fbaa-d45e-4cbe-b608-723b99863478",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1869),
                             Email = "kenshiyonezu123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(927),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1870),
                             FullName = "Kenshi Yonezu",
                             Gender = true,
                             IsBanned = false,
@@ -307,20 +307,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965765120",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "0f62becb-ff6d-4219-a76e-111cafcb041b",
+                            SecurityStamp = "25d7f0e1-052a-41b2-899c-0a9b15462082",
                             TwoFactorEnabled = false,
                             UserName = "kenshiyonezu",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(928)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1870)
                         },
                         new
                         {
                             Id = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3c3f851d-a22a-4094-bb14-4b8acb63b16b",
-                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(957),
+                            ConcurrencyStamp = "0cf9fa9a-79fd-4898-b423-3e5bb12b1cba",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1887),
                             Email = "gakkou123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(958),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1888),
                             FullName = "Gakkou Atarashi",
                             Gender = false,
                             IsBanned = false,
@@ -332,10 +332,10 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965795220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "fe9fbde3-ad1f-4cd9-ae5a-80fb8146740d",
+                            SecurityStamp = "cd3bf9d5-622b-4cda-abb7-11bdb3b9e08b",
                             TwoFactorEnabled = false,
                             UserName = "gakkou",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(959)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1888)
                         });
                 });
 
@@ -569,8 +569,8 @@ namespace LMS_BACKEND_MAIN.Migrations
 
             modelBuilder.Entity("Entities.Models.News", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
                     b.Property<string>("Content")
@@ -597,6 +597,168 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.ToTable("News");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("efb06517-4673-4b44-bf11-ee12198c26a7"),
+                            Content = "This is the content of news item 1.",
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 1"
+                        },
+                        new
+                        {
+                            Id = new Guid("7c712eff-f7d8-41af-a36c-9d7ce1439e3b"),
+                            Content = "This is the content of news item 2.",
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2024, 5, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 2"
+                        },
+                        new
+                        {
+                            Id = new Guid("663c5d19-d3ed-4d6a-aff6-3997dd0c43c4"),
+                            Content = "This is the content of news item 10.",
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2024, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 10"
+                        },
+                        new
+                        {
+                            Id = new Guid("6e08720f-d73a-4ae1-be83-559dbb96a344"),
+                            Content = "This is the content of news item 11.",
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 11"
+                        },
+                        new
+                        {
+                            Id = new Guid("14764db6-10f1-48e6-a4e8-3ae063814acf"),
+                            Content = "This is the content of news item 12.",
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 12"
+                        },
+                        new
+                        {
+                            Id = new Guid("f0c49374-4c7d-464a-9f38-e6f59b20344d"),
+                            Content = "This is the content of news item 13.",
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 13"
+                        },
+                        new
+                        {
+                            Id = new Guid("0da0b088-1b08-404b-9696-eb539d31c9e5"),
+                            Content = "This is the content of news item 14.",
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 14"
+                        },
+                        new
+                        {
+                            Id = new Guid("5d0bfb1c-d68d-450e-8fe9-e7d94be4eaac"),
+                            Content = "This is the content of news item 15.",
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 15"
+                        },
+                        new
+                        {
+                            Id = new Guid("0985634f-496f-4480-83f0-14ff0c30b002"),
+                            Content = "This is the content of news item 16.",
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 16"
+                        },
+                        new
+                        {
+                            Id = new Guid("245b3c4d-ba95-4040-818d-23da69f08e9b"),
+                            Content = "This is the content of news item 17.",
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 17"
+                        },
+                        new
+                        {
+                            Id = new Guid("e277ec7f-14cf-47a2-a234-1265920647a4"),
+                            Content = "This is the content of news item 18.",
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 18"
+                        },
+                        new
+                        {
+                            Id = new Guid("fb4d071c-c460-4a01-8ee4-9247a97214a6"),
+                            Content = "This is the content of news item 19.",
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 19"
+                        },
+                        new
+                        {
+                            Id = new Guid("97755739-5cc9-49f7-bcf7-a66765be0571"),
+                            Content = "This is the content of news item 20.",
+                            CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            CreatedDate = new DateTime(2024, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 20"
+                        },
+                        new
+                        {
+                            Id = new Guid("cfc8a241-628f-4fab-acaf-60ffd42f97cd"),
+                            Content = "This is the content of news item 3.",
+                            CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            CreatedDate = new DateTime(2024, 5, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 3"
+                        },
+                        new
+                        {
+                            Id = new Guid("650204d7-0be6-4f91-89f7-d80572d4f76a"),
+                            Content = "This is the content of news item 4.",
+                            CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            CreatedDate = new DateTime(2024, 5, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 4"
+                        },
+                        new
+                        {
+                            Id = new Guid("049d2c9c-f550-4e21-8911-efc5789106ec"),
+                            Content = "This is the content of news item 5.",
+                            CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            CreatedDate = new DateTime(2024, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 5"
+                        },
+                        new
+                        {
+                            Id = new Guid("6798cf4d-8399-4572-955e-595ddf13f292"),
+                            Content = "This is the content of news item 6.",
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 6"
+                        },
+                        new
+                        {
+                            Id = new Guid("a491e3db-344e-4f16-a051-1ed491901340"),
+                            Content = "This is the content of news item 7.",
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2024, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 7"
+                        },
+                        new
+                        {
+                            Id = new Guid("c0268d79-cfd7-44c3-9b13-709869ae00e2"),
+                            Content = "This is the content of news item 8.",
+                            CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            CreatedDate = new DateTime(2024, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 8"
+                        },
+                        new
+                        {
+                            Id = new Guid("f3e39c12-df43-4e2a-b84e-92374739e0e9"),
+                            Content = "This is the content of news item 9.",
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "News Title 9"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.NewsFile", b =>
@@ -610,8 +772,8 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasColumnType("nvarchar(500)")
                         .HasColumnName("FileKey");
 
-                    b.Property<int>("NewsID")
-                        .HasColumnType("int")
+                    b.Property<Guid>("NewsID")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("NewsId");
 
                     b.HasKey("Id")
@@ -664,6 +826,108 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasIndex("NotificationTypeId");
 
                     b.ToTable("Notifications");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e331de18-289c-403d-8028-26c4b595587a"),
+                            Content = "A new system update will be available tomorrow.",
+                            CreatedBy = "MinhTC",
+                            CreatedDate = new DateTime(2024, 6, 26, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2050),
+                            NotificationTypeId = 1,
+                            Title = "System Update",
+                            Url = ""
+                        },
+                        new
+                        {
+                            Id = new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"),
+                            Content = "Scheduled maintenance will occur this weekend.",
+                            CreatedBy = "MinhTC",
+                            CreatedDate = new DateTime(2024, 6, 25, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2061),
+                            NotificationTypeId = 1,
+                            Title = "Maintenance Notice",
+                            Url = ""
+                        },
+                        new
+                        {
+                            Id = new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"),
+                            Content = "We are excited to announce a new feature in our application.",
+                            CreatedBy = "Admin",
+                            CreatedDate = new DateTime(2024, 6, 24, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2064),
+                            NotificationTypeId = 1,
+                            Title = "New Feature Release",
+                            Url = ""
+                        },
+                        new
+                        {
+                            Id = new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"),
+                            Content = "Please update your password to enhance security.",
+                            CreatedBy = "ThaiLS",
+                            CreatedDate = new DateTime(2024, 6, 23, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2067),
+                            NotificationTypeId = 1,
+                            Title = "Security Alert",
+                            Url = ""
+                        },
+                        new
+                        {
+                            Id = new Guid("d6dedee7-ab6d-4bfd-bdf7-b3665679cc50"),
+                            Content = "The system will be down for maintenance tonight.",
+                            CreatedBy = "HungMV",
+                            CreatedDate = new DateTime(2024, 6, 22, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2075),
+                            NotificationTypeId = 1,
+                            Title = "Downtime Notification",
+                            Url = ""
+                        },
+                        new
+                        {
+                            Id = new Guid("e4455de4-ff95-4957-85a1-b03b8b97f9c3"),
+                            Content = "Join weekly meeting.",
+                            CreatedBy = "HungMV",
+                            CreatedDate = new DateTime(2024, 6, 21, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2079),
+                            NotificationTypeId = 2,
+                            Title = "Weekly Meeting",
+                            Url = ""
+                        },
+                        new
+                        {
+                            Id = new Guid("4f517076-e6c7-43ce-93b6-9aeae4857760"),
+                            Content = "Don't miss out on our latest promotions!",
+                            CreatedBy = "HungMV",
+                            CreatedDate = new DateTime(2024, 6, 20, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2082),
+                            NotificationTypeId = 2,
+                            Title = "Promotion Alert",
+                            Url = ""
+                        },
+                        new
+                        {
+                            Id = new Guid("931129a9-986f-4560-99f1-a06b692c71a1"),
+                            Content = "Please take a moment to complete our user survey.",
+                            CreatedBy = "ThaiLS",
+                            CreatedDate = new DateTime(2024, 6, 19, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2084),
+                            NotificationTypeId = 2,
+                            Title = "Survey Request",
+                            Url = ""
+                        },
+                        new
+                        {
+                            Id = new Guid("5754541e-7c1e-4839-8021-963e90f6e4e0"),
+                            Content = "Your account details have been updated.",
+                            CreatedBy = "MinhTC",
+                            CreatedDate = new DateTime(2024, 6, 18, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2087),
+                            NotificationTypeId = 1,
+                            Title = "Account Notice",
+                            Url = ""
+                        },
+                        new
+                        {
+                            Id = new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"),
+                            Content = "Don't forget about the event tomorrow!",
+                            CreatedBy = "MinhTC",
+                            CreatedDate = new DateTime(2024, 6, 17, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2089),
+                            NotificationTypeId = 1,
+                            Title = "Event Reminder",
+                            Url = ""
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.NotificationAccount", b =>
@@ -685,6 +949,344 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasIndex("AccountId");
 
                     b.ToTable("NotificationAccounts");
+
+                    b.HasData(
+                        new
+                        {
+                            NotificationId = new Guid("e331de18-289c-403d-8028-26c4b595587a"),
+                            AccountId = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("e331de18-289c-403d-8028-26c4b595587a"),
+                            AccountId = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("e331de18-289c-403d-8028-26c4b595587a"),
+                            AccountId = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("e331de18-289c-403d-8028-26c4b595587a"),
+                            AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("e331de18-289c-403d-8028-26c4b595587a"),
+                            AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("e331de18-289c-403d-8028-26c4b595587a"),
+                            AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("e331de18-289c-403d-8028-26c4b595587a"),
+                            AccountId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("e331de18-289c-403d-8028-26c4b595587a"),
+                            AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"),
+                            AccountId = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"),
+                            AccountId = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"),
+                            AccountId = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"),
+                            AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"),
+                            AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"),
+                            AccountId = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"),
+                            AccountId = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"),
+                            AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"),
+                            AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"),
+                            AccountId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"),
+                            AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"),
+                            AccountId = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"),
+                            AccountId = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"),
+                            AccountId = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"),
+                            AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"),
+                            AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"),
+                            AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"),
+                            AccountId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"),
+                            AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("d6dedee7-ab6d-4bfd-bdf7-b3665679cc50"),
+                            AccountId = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("d6dedee7-ab6d-4bfd-bdf7-b3665679cc50"),
+                            AccountId = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("d6dedee7-ab6d-4bfd-bdf7-b3665679cc50"),
+                            AccountId = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("e4455de4-ff95-4957-85a1-b03b8b97f9c3"),
+                            AccountId = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("e4455de4-ff95-4957-85a1-b03b8b97f9c3"),
+                            AccountId = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("e4455de4-ff95-4957-85a1-b03b8b97f9c3"),
+                            AccountId = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("e4455de4-ff95-4957-85a1-b03b8b97f9c3"),
+                            AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("4f517076-e6c7-43ce-93b6-9aeae4857760"),
+                            AccountId = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("4f517076-e6c7-43ce-93b6-9aeae4857760"),
+                            AccountId = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("4f517076-e6c7-43ce-93b6-9aeae4857760"),
+                            AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("4f517076-e6c7-43ce-93b6-9aeae4857760"),
+                            AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("931129a9-986f-4560-99f1-a06b692c71a1"),
+                            AccountId = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("931129a9-986f-4560-99f1-a06b692c71a1"),
+                            AccountId = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("931129a9-986f-4560-99f1-a06b692c71a1"),
+                            AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("931129a9-986f-4560-99f1-a06b692c71a1"),
+                            AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("931129a9-986f-4560-99f1-a06b692c71a1"),
+                            AccountId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("931129a9-986f-4560-99f1-a06b692c71a1"),
+                            AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("5754541e-7c1e-4839-8021-963e90f6e4e0"),
+                            AccountId = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("5754541e-7c1e-4839-8021-963e90f6e4e0"),
+                            AccountId = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("5754541e-7c1e-4839-8021-963e90f6e4e0"),
+                            AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("5754541e-7c1e-4839-8021-963e90f6e4e0"),
+                            AccountId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"),
+                            AccountId = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"),
+                            AccountId = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"),
+                            AccountId = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"),
+                            AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"),
+                            AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"),
+                            AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"),
+                            AccountId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
+                            IsRead = true
+                        },
+                        new
+                        {
+                            NotificationId = new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"),
+                            AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
+                            IsRead = true
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.NotificationType", b =>
@@ -702,6 +1304,18 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("NotificationTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "System"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Project"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.Project", b =>
@@ -1459,14 +2073,12 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasOne("Entities.Models.Folder", "AncestorNavigation")
                         .WithMany("FolderClosureAncestor")
                         .HasForeignKey("AncestorID")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_FolderClosures_Folders");
 
                     b.HasOne("Entities.Models.Folder", "DescendantNavigation")
                         .WithMany("FolderClosureDescendant")
                         .HasForeignKey("DescendantID")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_FolderClosures_Folders1");
 

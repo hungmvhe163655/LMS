@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LMS_BACKEND_MAIN.Migrations
 {
     /// <inheritdoc />
-    public partial class lamao : Migration
+    public partial class InitialDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -237,7 +237,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                 name: "News",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -436,14 +436,12 @@ namespace LMS_BACKEND_MAIN.Migrations
                         name: "FK_FolderClosures_Folders",
                         column: x => x.Ancestor,
                         principalTable: "Folders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_FolderClosures_Folders1",
                         column: x => x.Descendant,
                         principalTable: "Folders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -452,7 +450,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     FileKey = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    NewsId = table.Column<int>(type: "int", nullable: false)
+                    NewsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -804,14 +802,23 @@ namespace LMS_BACKEND_MAIN.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "Email", "EmailConfirmed", "EmailVerifyCode", "EmailVerifyCodeAge", "FullName", "Gender", "IsBanned", "IsDeleted", "IsVerified", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "UserRefreshToken", "UserRefreshTokenExpiryTime", "VerifiedBy" },
                 values: new object[,]
                 {
-                    { "1c5c3b44-7164-4232-a49a-10ab367d5102", 0, "3c3f851d-a22a-4094-bb14-4b8acb63b16b", new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(957), "gakkou123@gmail.com", true, null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(958), "Gakkou Atarashi", false, false, false, true, false, null, "GAKKOU123@GMAIL.COM", "GAKKOU", "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==", "0965795220", true, "fe9fbde3-ad1f-4cd9-ae5a-80fb8146740d", false, "gakkou", null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(959), null },
-                    { "603600b5-ca65-4fa7-817e-4583ef22b330", 0, "5b7819b9-517b-4e45-bb67-77b571f840c4", new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(872), "cuongndhe163098@fpt.edu.vn", true, null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(873), "Nguyen Duc Cuong", true, false, false, true, false, null, "CUONGNDHE163098@FPT.EDU.VN", "CUONGNDHE163098", "AQAAAAIAAYagAAAAENVZ95qV36S0GH4gzip/nSmI9JKDA1CAGuL2+t1ysccrtPgGLrSZ6k9v/tS37ojoSw==", "0975465220", true, "9057eab6-16c5-46ce-a6fd-2b69091028aa", false, "cuongndhe163098", null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(874), null },
-                    { "68fdf17c-7cbe-4a4c-a674-c530ffc77667", 0, "7feca6ac-b71f-4f64-9243-e7d9063894b1", new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(889), "hoangnmhe163884@fpt.edu.vn", true, null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(891), null, false, false, false, true, false, null, "HOANGNMHE163884@FPT.EDU.VN", "HOANGNMHE163884", "AQAAAAIAAYagAAAAEBSeWGYcWJzo0jTXDBqXgYkMmzdQCRKsLrFMaaqieAdCHchkvB2oa1eRy3gsuvWyVw==", "0975765220", true, "16d24e82-3b5f-43e4-b2e5-30c64042af7c", false, "hoangnmhe163884", null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(891), null },
-                    { "6ad0a020-e6a6-4e66-8f4a-d815594ba862", 0, "b946cd8d-a447-443a-8f01-4b252a4c6dd8", new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(926), "kenshiyonezu123@gmail.com", true, null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(927), "Kenshi Yonezu", true, false, false, true, false, null, "KENSHIYONEZU123@GMAIL.COM", "KENSHIYONEZU", "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==", "0965765120", true, "0f62becb-ff6d-4219-a76e-111cafcb041b", false, "kenshiyonezu", null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(928), null },
-                    { "6c6abe62-f811-4a8b-96eb-ed326c47d209", 0, "1f1a2ee2-4884-49c0-a815-732ccbe6fb59", new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(833), "thailshe160614@fpt.edu.vn", true, null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(835), "Le Sy Thai", true, false, false, true, false, null, "THAILSHE160614@FPT.EDU.VN", "THAILSHE160614", "AQAAAAIAAYagAAAAEO5SGANyOkCieJN+MspCJeIbBLjDruXYD5omO5+7u9NVKctIo979jEts1uoDaalzTw==", "0497461220", true, "d5870138-331a-4da4-b028-4a6f3e21ea9d", false, "thailshe160614", null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(835), null },
-                    { "7397c854-194b-4749-9205-f46e4f2fccf8", 0, "1fc39864-bc3a-4a73-bb1d-4030ce7f286b", new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(909), "littlejohn123@gmail.com", true, null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(910), "John", true, false, false, true, false, null, "LITTLEJOHN123@GMAIL.COM", "LITTLEJOHN", "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==", "0965765228", true, "894cfb8c-7028-4a5d-b921-429fbbc12073", false, "littlejohn", null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(911), null },
-                    { "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", 0, "8ae013ac-6e5f-4ef9-b6df-57374304abe8", new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(803), "minhtche161354@fpt.edu.vn", true, null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(815), "Tran Cong Minh", false, false, false, true, false, null, "MINHTCHE161354@FPT.EDU.VN", "MINHTCHE161354", "AQAAAAIAAYagAAAAELgUn5wJH9empSyZm7MdUy84spVESi+LvNCV8nDY9PMgoY0fOBYhfZO/MPZHjSZimA==", "0963661093", true, "5344f081-1e79-4390-93a8-d7db2788a34e", false, "minhtche161354", null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(816), null },
-                    { "a687bb04-4f19-49d5-a60f-2db52044767c", 0, "4414701e-8618-48bd-8038-f1f1a786cf5f", new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(854), "hungmvhe163655@fpt.edu.vn", true, null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(856), "Mai Viet Hung", true, false, false, true, false, null, "HUNGMVHE163655@FPT.EDU.VN", "HUNGMVHE163655", "AQAAAAIAAYagAAAAEHaY3BZO2ooRDvclwsiVvksAaPExz0GAXkEHlfwAtwfVBfRcw9gQTR02USItL9NrSg==", "0975461220", true, "e150867e-6474-43d7-ba9e-8ad0139d3c93", false, "hungmvhe163655", null, new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(856), null }
+                    { "1c5c3b44-7164-4232-a49a-10ab367d5102", 0, "0cf9fa9a-79fd-4898-b423-3e5bb12b1cba", new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1887), "gakkou123@gmail.com", true, null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1888), "Gakkou Atarashi", false, false, false, true, false, null, "GAKKOU123@GMAIL.COM", "GAKKOU", "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==", "0965795220", true, "cd3bf9d5-622b-4cda-abb7-11bdb3b9e08b", false, "gakkou", null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1888), null },
+                    { "603600b5-ca65-4fa7-817e-4583ef22b330", 0, "ec88f415-808e-4da5-8de9-9d776a959f0f", new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1815), "cuongndhe163098@fpt.edu.vn", true, null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1817), "Nguyen Duc Cuong", true, false, false, true, false, null, "CUONGNDHE163098@FPT.EDU.VN", "CUONGNDHE163098", "AQAAAAIAAYagAAAAENVZ95qV36S0GH4gzip/nSmI9JKDA1CAGuL2+t1ysccrtPgGLrSZ6k9v/tS37ojoSw==", "0975465220", true, "368304ee-f974-4a84-a5c4-cd656a0e0da5", false, "cuongndhe163098", null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1818), null },
+                    { "68fdf17c-7cbe-4a4c-a674-c530ffc77667", 0, "49b7714e-a407-4e2c-8fac-10bac031ecc4", new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1836), "hoangnmhe163884@fpt.edu.vn", true, null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1837), null, false, false, false, true, false, null, "HOANGNMHE163884@FPT.EDU.VN", "HOANGNMHE163884", "AQAAAAIAAYagAAAAEBSeWGYcWJzo0jTXDBqXgYkMmzdQCRKsLrFMaaqieAdCHchkvB2oa1eRy3gsuvWyVw==", "0975765220", true, "ce6c9524-20a0-481f-8b19-39eaafa41bb7", false, "hoangnmhe163884", null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1837), null },
+                    { "6ad0a020-e6a6-4e66-8f4a-d815594ba862", 0, "7a61fbaa-d45e-4cbe-b608-723b99863478", new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1869), "kenshiyonezu123@gmail.com", true, null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1870), "Kenshi Yonezu", true, false, false, true, false, null, "KENSHIYONEZU123@GMAIL.COM", "KENSHIYONEZU", "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==", "0965765120", true, "25d7f0e1-052a-41b2-899c-0a9b15462082", false, "kenshiyonezu", null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1870), null },
+                    { "6c6abe62-f811-4a8b-96eb-ed326c47d209", 0, "62f84eb7-178a-4a17-a307-743c8b2c2c5d", new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1769), "thailshe160614@fpt.edu.vn", true, null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1770), "Le Sy Thai", true, false, false, true, false, null, "THAILSHE160614@FPT.EDU.VN", "THAILSHE160614", "AQAAAAIAAYagAAAAEO5SGANyOkCieJN+MspCJeIbBLjDruXYD5omO5+7u9NVKctIo979jEts1uoDaalzTw==", "0497461220", true, "94d000c9-f127-4cfb-89b3-3b1783fffe92", false, "thailshe160614", null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1771), null },
+                    { "7397c854-194b-4749-9205-f46e4f2fccf8", 0, "15a0616f-dc27-40da-b1d5-171ed5313c09", new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1853), "littlejohn123@gmail.com", true, null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1854), "John", true, false, false, true, false, null, "LITTLEJOHN123@GMAIL.COM", "LITTLEJOHN", "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==", "0965765228", true, "fb20698f-5428-4697-b71d-ff273fa00ef4", false, "littlejohn", null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1855), null },
+                    { "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", 0, "2225d0ec-64c8-43dc-bcf7-b269667b0708", new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1733), "minhtche161354@fpt.edu.vn", true, null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1747), "Tran Cong Minh", false, false, false, true, false, null, "MINHTCHE161354@FPT.EDU.VN", "MINHTCHE161354", "AQAAAAIAAYagAAAAELgUn5wJH9empSyZm7MdUy84spVESi+LvNCV8nDY9PMgoY0fOBYhfZO/MPZHjSZimA==", "0963661093", true, "7e89fcc2-8643-44dd-941e-d35aa12313cb", false, "minhtche161354", null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1749), null },
+                    { "a687bb04-4f19-49d5-a60f-2db52044767c", 0, "b96cfa86-b473-43db-959e-8bb80558d826", new DateTime(2024, 6, 27, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(1786), "hungmvhe163655@fpt.edu.vn", true, null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1787), "Mai Viet Hung", true, false, false, true, false, null, "HUNGMVHE163655@FPT.EDU.VN", "HUNGMVHE163655", "AQAAAAIAAYagAAAAEHaY3BZO2ooRDvclwsiVvksAaPExz0GAXkEHlfwAtwfVBfRcw9gQTR02USItL9NrSg==", "0975461220", true, "b3d7064e-6009-41e6-a2d0-c82725ce8735", false, "hungmvhe163655", null, new DateTime(2024, 6, 27, 15, 57, 34, 427, DateTimeKind.Utc).AddTicks(1788), null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "NotificationTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "System" },
+                    { 2, "Project" }
                 });
 
             migrationBuilder.InsertData(
@@ -840,6 +847,50 @@ namespace LMS_BACKEND_MAIN.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "News",
+                columns: new[] { "Id", "Content", "CreatedBy", "CreatedDate", "Title" },
+                values: new object[,]
+                {
+                    { new Guid("049d2c9c-f550-4e21-8911-efc5789106ec"), "This is the content of news item 5.", "a687bb04-4f19-49d5-a60f-2db52044767c", new DateTime(2024, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 5" },
+                    { new Guid("0985634f-496f-4480-83f0-14ff0c30b002"), "This is the content of news item 16.", "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new DateTime(2024, 5, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 16" },
+                    { new Guid("0da0b088-1b08-404b-9696-eb539d31c9e5"), "This is the content of news item 14.", "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new DateTime(2024, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 14" },
+                    { new Guid("14764db6-10f1-48e6-a4e8-3ae063814acf"), "This is the content of news item 12.", "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new DateTime(2024, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 12" },
+                    { new Guid("245b3c4d-ba95-4040-818d-23da69f08e9b"), "This is the content of news item 17.", "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new DateTime(2024, 5, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 17" },
+                    { new Guid("5d0bfb1c-d68d-450e-8fe9-e7d94be4eaac"), "This is the content of news item 15.", "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new DateTime(2024, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 15" },
+                    { new Guid("650204d7-0be6-4f91-89f7-d80572d4f76a"), "This is the content of news item 4.", "a687bb04-4f19-49d5-a60f-2db52044767c", new DateTime(2024, 5, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 4" },
+                    { new Guid("663c5d19-d3ed-4d6a-aff6-3997dd0c43c4"), "This is the content of news item 10.", "6c6abe62-f811-4a8b-96eb-ed326c47d209", new DateTime(2024, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 10" },
+                    { new Guid("6798cf4d-8399-4572-955e-595ddf13f292"), "This is the content of news item 6.", "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new DateTime(2024, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 6" },
+                    { new Guid("6e08720f-d73a-4ae1-be83-559dbb96a344"), "This is the content of news item 11.", "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new DateTime(2024, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 11" },
+                    { new Guid("7c712eff-f7d8-41af-a36c-9d7ce1439e3b"), "This is the content of news item 2.", "6c6abe62-f811-4a8b-96eb-ed326c47d209", new DateTime(2024, 5, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 2" },
+                    { new Guid("97755739-5cc9-49f7-bcf7-a66765be0571"), "This is the content of news item 20.", "a687bb04-4f19-49d5-a60f-2db52044767c", new DateTime(2024, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 20" },
+                    { new Guid("a491e3db-344e-4f16-a051-1ed491901340"), "This is the content of news item 7.", "6c6abe62-f811-4a8b-96eb-ed326c47d209", new DateTime(2024, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 7" },
+                    { new Guid("c0268d79-cfd7-44c3-9b13-709869ae00e2"), "This is the content of news item 8.", "a687bb04-4f19-49d5-a60f-2db52044767c", new DateTime(2024, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 8" },
+                    { new Guid("cfc8a241-628f-4fab-acaf-60ffd42f97cd"), "This is the content of news item 3.", "a687bb04-4f19-49d5-a60f-2db52044767c", new DateTime(2024, 5, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 3" },
+                    { new Guid("e277ec7f-14cf-47a2-a234-1265920647a4"), "This is the content of news item 18.", "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new DateTime(2024, 5, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 18" },
+                    { new Guid("efb06517-4673-4b44-bf11-ee12198c26a7"), "This is the content of news item 1.", "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 1" },
+                    { new Guid("f0c49374-4c7d-464a-9f38-e6f59b20344d"), "This is the content of news item 13.", "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new DateTime(2024, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 13" },
+                    { new Guid("f3e39c12-df43-4e2a-b84e-92374739e0e9"), "This is the content of news item 9.", "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new DateTime(2024, 5, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 9" },
+                    { new Guid("fb4d071c-c460-4a01-8ee4-9247a97214a6"), "This is the content of news item 19.", "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new DateTime(2024, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "News Title 19" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Notifications",
+                columns: new[] { "Id", "Content", "CreatedBy", "CreatedDate", "NotificationTypeId", "Title", "Url" },
+                values: new object[,]
+                {
+                    { new Guid("4f517076-e6c7-43ce-93b6-9aeae4857760"), "Don't miss out on our latest promotions!", "HungMV", new DateTime(2024, 6, 20, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2082), 2, "Promotion Alert", "" },
+                    { new Guid("5754541e-7c1e-4839-8021-963e90f6e4e0"), "Your account details have been updated.", "MinhTC", new DateTime(2024, 6, 18, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2087), 1, "Account Notice", "" },
+                    { new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"), "We are excited to announce a new feature in our application.", "Admin", new DateTime(2024, 6, 24, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2064), 1, "New Feature Release", "" },
+                    { new Guid("931129a9-986f-4560-99f1-a06b692c71a1"), "Please take a moment to complete our user survey.", "ThaiLS", new DateTime(2024, 6, 19, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2084), 2, "Survey Request", "" },
+                    { new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"), "Don't forget about the event tomorrow!", "MinhTC", new DateTime(2024, 6, 17, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2089), 1, "Event Reminder", "" },
+                    { new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"), "Please update your password to enhance security.", "ThaiLS", new DateTime(2024, 6, 23, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2067), 1, "Security Alert", "" },
+                    { new Guid("d6dedee7-ab6d-4bfd-bdf7-b3665679cc50"), "The system will be down for maintenance tonight.", "HungMV", new DateTime(2024, 6, 22, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2075), 1, "Downtime Notification", "" },
+                    { new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"), "Scheduled maintenance will occur this weekend.", "MinhTC", new DateTime(2024, 6, 25, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2061), 1, "Maintenance Notice", "" },
+                    { new Guid("e331de18-289c-403d-8028-26c4b595587a"), "A new system update will be available tomorrow.", "MinhTC", new DateTime(2024, 6, 26, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2050), 1, "System Update", "" },
+                    { new Guid("e4455de4-ff95-4957-85a1-b03b8b97f9c3"), "Join weekly meeting.", "HungMV", new DateTime(2024, 6, 21, 22, 57, 34, 427, DateTimeKind.Local).AddTicks(2079), 2, "Weekly Meeting", "" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "StudentDetails",
                 columns: new[] { "AccountId", "Major", "RollNumber", "Specialized" },
                 values: new object[,]
@@ -849,6 +900,69 @@ namespace LMS_BACKEND_MAIN.Migrations
                     { "68fdf17c-7cbe-4a4c-a674-c530ffc77667", "Data Engineer", "HE163884", "Data Analyst" },
                     { "6ad0a020-e6a6-4e66-8f4a-d815594ba862", "Iot", "HE145689", "Python" },
                     { "7397c854-194b-4749-9205-f46e4f2fccf8", "Artifact Intelligent", "HE163956", "C" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "NotificationAccounts",
+                columns: new[] { "AccountId", "NotificationId", "IsRead" },
+                values: new object[,]
+                {
+                    { "1c5c3b44-7164-4232-a49a-10ab367d5102", new Guid("4f517076-e6c7-43ce-93b6-9aeae4857760"), true },
+                    { "6c6abe62-f811-4a8b-96eb-ed326c47d209", new Guid("4f517076-e6c7-43ce-93b6-9aeae4857760"), true },
+                    { "7397c854-194b-4749-9205-f46e4f2fccf8", new Guid("4f517076-e6c7-43ce-93b6-9aeae4857760"), true },
+                    { "a687bb04-4f19-49d5-a60f-2db52044767c", new Guid("4f517076-e6c7-43ce-93b6-9aeae4857760"), true },
+                    { "68fdf17c-7cbe-4a4c-a674-c530ffc77667", new Guid("5754541e-7c1e-4839-8021-963e90f6e4e0"), true },
+                    { "6ad0a020-e6a6-4e66-8f4a-d815594ba862", new Guid("5754541e-7c1e-4839-8021-963e90f6e4e0"), true },
+                    { "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new Guid("5754541e-7c1e-4839-8021-963e90f6e4e0"), true },
+                    { "a687bb04-4f19-49d5-a60f-2db52044767c", new Guid("5754541e-7c1e-4839-8021-963e90f6e4e0"), true },
+                    { "1c5c3b44-7164-4232-a49a-10ab367d5102", new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"), true },
+                    { "603600b5-ca65-4fa7-817e-4583ef22b330", new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"), true },
+                    { "6ad0a020-e6a6-4e66-8f4a-d815594ba862", new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"), true },
+                    { "7397c854-194b-4749-9205-f46e4f2fccf8", new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"), true },
+                    { "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"), true },
+                    { "a687bb04-4f19-49d5-a60f-2db52044767c", new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"), true },
+                    { "1c5c3b44-7164-4232-a49a-10ab367d5102", new Guid("931129a9-986f-4560-99f1-a06b692c71a1"), true },
+                    { "68fdf17c-7cbe-4a4c-a674-c530ffc77667", new Guid("931129a9-986f-4560-99f1-a06b692c71a1"), true },
+                    { "6ad0a020-e6a6-4e66-8f4a-d815594ba862", new Guid("931129a9-986f-4560-99f1-a06b692c71a1"), true },
+                    { "7397c854-194b-4749-9205-f46e4f2fccf8", new Guid("931129a9-986f-4560-99f1-a06b692c71a1"), true },
+                    { "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new Guid("931129a9-986f-4560-99f1-a06b692c71a1"), true },
+                    { "a687bb04-4f19-49d5-a60f-2db52044767c", new Guid("931129a9-986f-4560-99f1-a06b692c71a1"), true },
+                    { "1c5c3b44-7164-4232-a49a-10ab367d5102", new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"), true },
+                    { "603600b5-ca65-4fa7-817e-4583ef22b330", new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"), true },
+                    { "68fdf17c-7cbe-4a4c-a674-c530ffc77667", new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"), true },
+                    { "6ad0a020-e6a6-4e66-8f4a-d815594ba862", new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"), true },
+                    { "6c6abe62-f811-4a8b-96eb-ed326c47d209", new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"), true },
+                    { "7397c854-194b-4749-9205-f46e4f2fccf8", new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"), true },
+                    { "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"), true },
+                    { "a687bb04-4f19-49d5-a60f-2db52044767c", new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"), true },
+                    { "1c5c3b44-7164-4232-a49a-10ab367d5102", new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"), true },
+                    { "603600b5-ca65-4fa7-817e-4583ef22b330", new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"), true },
+                    { "68fdf17c-7cbe-4a4c-a674-c530ffc77667", new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"), true },
+                    { "6ad0a020-e6a6-4e66-8f4a-d815594ba862", new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"), true },
+                    { "6c6abe62-f811-4a8b-96eb-ed326c47d209", new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"), true },
+                    { "7397c854-194b-4749-9205-f46e4f2fccf8", new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"), true },
+                    { "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"), true },
+                    { "a687bb04-4f19-49d5-a60f-2db52044767c", new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"), true },
+                    { "6c6abe62-f811-4a8b-96eb-ed326c47d209", new Guid("d6dedee7-ab6d-4bfd-bdf7-b3665679cc50"), true },
+                    { "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new Guid("d6dedee7-ab6d-4bfd-bdf7-b3665679cc50"), true },
+                    { "a687bb04-4f19-49d5-a60f-2db52044767c", new Guid("d6dedee7-ab6d-4bfd-bdf7-b3665679cc50"), true },
+                    { "68fdf17c-7cbe-4a4c-a674-c530ffc77667", new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"), true },
+                    { "6c6abe62-f811-4a8b-96eb-ed326c47d209", new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"), true },
+                    { "7397c854-194b-4749-9205-f46e4f2fccf8", new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"), true },
+                    { "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"), true },
+                    { "a687bb04-4f19-49d5-a60f-2db52044767c", new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"), true },
+                    { "1c5c3b44-7164-4232-a49a-10ab367d5102", new Guid("e331de18-289c-403d-8028-26c4b595587a"), true },
+                    { "603600b5-ca65-4fa7-817e-4583ef22b330", new Guid("e331de18-289c-403d-8028-26c4b595587a"), true },
+                    { "68fdf17c-7cbe-4a4c-a674-c530ffc77667", new Guid("e331de18-289c-403d-8028-26c4b595587a"), true },
+                    { "6ad0a020-e6a6-4e66-8f4a-d815594ba862", new Guid("e331de18-289c-403d-8028-26c4b595587a"), true },
+                    { "6c6abe62-f811-4a8b-96eb-ed326c47d209", new Guid("e331de18-289c-403d-8028-26c4b595587a"), true },
+                    { "7397c854-194b-4749-9205-f46e4f2fccf8", new Guid("e331de18-289c-403d-8028-26c4b595587a"), true },
+                    { "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new Guid("e331de18-289c-403d-8028-26c4b595587a"), true },
+                    { "a687bb04-4f19-49d5-a60f-2db52044767c", new Guid("e331de18-289c-403d-8028-26c4b595587a"), true },
+                    { "603600b5-ca65-4fa7-817e-4583ef22b330", new Guid("e4455de4-ff95-4957-85a1-b03b8b97f9c3"), true },
+                    { "6c6abe62-f811-4a8b-96eb-ed326c47d209", new Guid("e4455de4-ff95-4957-85a1-b03b8b97f9c3"), true },
+                    { "97571dcc-079e-4c3a-ba9b-bbde3d03a03d", new Guid("e4455de4-ff95-4957-85a1-b03b8b97f9c3"), true },
+                    { "a687bb04-4f19-49d5-a60f-2db52044767c", new Guid("e4455de4-ff95-4957-85a1-b03b8b97f9c3"), true }
                 });
 
             migrationBuilder.CreateIndex(
