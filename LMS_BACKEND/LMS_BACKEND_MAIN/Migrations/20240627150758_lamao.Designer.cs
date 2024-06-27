@@ -12,8 +12,8 @@ using Repository;
 namespace LMS_BACKEND_MAIN.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240625025017_InitialDb")]
-    partial class InitialDb
+    [Migration("20240627150758_lamao")]
+    partial class lamao
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -142,11 +142,11 @@ namespace LMS_BACKEND_MAIN.Migrations
                         {
                             Id = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dd22e9fb-9cf3-4cba-9987-a3706c497436",
-                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(7928),
+                            ConcurrencyStamp = "8ae013ac-6e5f-4ef9-b6df-57374304abe8",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(803),
                             Email = "minhtche161354@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(7948),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(815),
                             FullName = "Tran Cong Minh",
                             Gender = false,
                             IsBanned = false,
@@ -158,20 +158,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAELgUn5wJH9empSyZm7MdUy84spVESi+LvNCV8nDY9PMgoY0fOBYhfZO/MPZHjSZimA==",
                             PhoneNumber = "0963661093",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "18ba47a6-84e1-4e32-92f8-f27ef7dff936",
+                            SecurityStamp = "5344f081-1e79-4390-93a8-d7db2788a34e",
                             TwoFactorEnabled = false,
                             UserName = "minhtche161354",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(7949)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(816)
                         },
                         new
                         {
                             Id = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "469301ff-a174-4a1b-9930-a2bafee66372",
-                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(7974),
+                            ConcurrencyStamp = "1f1a2ee2-4884-49c0-a815-732ccbe6fb59",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(833),
                             Email = "thailshe160614@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(7975),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(835),
                             FullName = "Le Sy Thai",
                             Gender = true,
                             IsBanned = false,
@@ -183,20 +183,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEO5SGANyOkCieJN+MspCJeIbBLjDruXYD5omO5+7u9NVKctIo979jEts1uoDaalzTw==",
                             PhoneNumber = "0497461220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "304dacee-6d82-43e9-b280-3a07182f9fcd",
+                            SecurityStamp = "d5870138-331a-4da4-b028-4a6f3e21ea9d",
                             TwoFactorEnabled = false,
                             UserName = "thailshe160614",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(7976)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(835)
                         },
                         new
                         {
                             Id = "a687bb04-4f19-49d5-a60f-2db52044767c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dfbae132-dfea-4e79-b88b-5afc27dcbfd8",
-                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(7988),
+                            ConcurrencyStamp = "4414701e-8618-48bd-8038-f1f1a786cf5f",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(854),
                             Email = "hungmvhe163655@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(7990),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(856),
                             FullName = "Mai Viet Hung",
                             Gender = true,
                             IsBanned = false,
@@ -208,20 +208,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHaY3BZO2ooRDvclwsiVvksAaPExz0GAXkEHlfwAtwfVBfRcw9gQTR02USItL9NrSg==",
                             PhoneNumber = "0975461220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "585e1b41-c664-4be9-b427-f6d9bf726f73",
+                            SecurityStamp = "e150867e-6474-43d7-ba9e-8ad0139d3c93",
                             TwoFactorEnabled = false,
                             UserName = "hungmvhe163655",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(7991)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(856)
                         },
                         new
                         {
                             Id = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fc4267e1-c2e7-4adc-bdc5-ba1941cbc5d6",
-                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(8006),
+                            ConcurrencyStamp = "5b7819b9-517b-4e45-bb67-77b571f840c4",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(872),
                             Email = "cuongndhe163098@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8007),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(873),
                             FullName = "Nguyen Duc Cuong",
                             Gender = true,
                             IsBanned = false,
@@ -233,20 +233,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAENVZ95qV36S0GH4gzip/nSmI9JKDA1CAGuL2+t1ysccrtPgGLrSZ6k9v/tS37ojoSw==",
                             PhoneNumber = "0975465220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "b020e31c-d328-4406-9970-0d75e0921bff",
+                            SecurityStamp = "9057eab6-16c5-46ce-a6fd-2b69091028aa",
                             TwoFactorEnabled = false,
                             UserName = "cuongndhe163098",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8007)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(874)
                         },
                         new
                         {
                             Id = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1dc4e382-89e8-4cba-8cb9-adbf95505e10",
-                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(8022),
+                            ConcurrencyStamp = "7feca6ac-b71f-4f64-9243-e7d9063894b1",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(889),
                             Email = "hoangnmhe163884@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8023),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(891),
                             Gender = false,
                             IsBanned = false,
                             IsDeleted = false,
@@ -257,20 +257,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEBSeWGYcWJzo0jTXDBqXgYkMmzdQCRKsLrFMaaqieAdCHchkvB2oa1eRy3gsuvWyVw==",
                             PhoneNumber = "0975765220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "e121efcb-d5f0-466a-8130-902ab2a6d194",
+                            SecurityStamp = "16d24e82-3b5f-43e4-b2e5-30c64042af7c",
                             TwoFactorEnabled = false,
                             UserName = "hoangnmhe163884",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8023)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(891)
                         },
                         new
                         {
                             Id = "7397c854-194b-4749-9205-f46e4f2fccf8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "32b61da4-08c3-4218-9784-6da8606a219e",
-                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(8052),
+                            ConcurrencyStamp = "1fc39864-bc3a-4a73-bb1d-4030ce7f286b",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(909),
                             Email = "littlejohn123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8053),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(910),
                             FullName = "John",
                             Gender = true,
                             IsBanned = false,
@@ -282,20 +282,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965765228",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "7cd516ee-97b2-40d9-8f1a-48448bde8718",
+                            SecurityStamp = "894cfb8c-7028-4a5d-b921-429fbbc12073",
                             TwoFactorEnabled = false,
                             UserName = "littlejohn",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8053)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(911)
                         },
                         new
                         {
                             Id = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5d1fb404-6a71-486c-a2ab-b30f13fac430",
-                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(8064),
+                            ConcurrencyStamp = "b946cd8d-a447-443a-8f01-4b252a4c6dd8",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(926),
                             Email = "kenshiyonezu123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8065),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(927),
                             FullName = "Kenshi Yonezu",
                             Gender = true,
                             IsBanned = false,
@@ -307,20 +307,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965765120",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "d9800449-ae67-4c67-8c53-1c60971c6720",
+                            SecurityStamp = "0f62becb-ff6d-4219-a76e-111cafcb041b",
                             TwoFactorEnabled = false,
                             UserName = "kenshiyonezu",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8065)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(928)
                         },
                         new
                         {
                             Id = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "12cfac18-4082-4535-8318-dff260d2298a",
-                            CreatedDate = new DateTime(2024, 6, 25, 9, 50, 16, 892, DateTimeKind.Local).AddTicks(8078),
+                            ConcurrencyStamp = "3c3f851d-a22a-4094-bb14-4b8acb63b16b",
+                            CreatedDate = new DateTime(2024, 6, 27, 22, 7, 58, 568, DateTimeKind.Local).AddTicks(957),
                             Email = "gakkou123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8080),
+                            EmailVerifyCodeAge = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(958),
                             FullName = "Gakkou Atarashi",
                             Gender = false,
                             IsBanned = false,
@@ -332,10 +332,10 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965795220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "6e94869a-0630-4749-8f84-e37a477084e4",
+                            SecurityStamp = "fe9fbde3-ad1f-4cd9-ae5a-80fb8146740d",
                             TwoFactorEnabled = false,
                             UserName = "gakkou",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 25, 2, 50, 16, 892, DateTimeKind.Utc).AddTicks(8080)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 27, 15, 7, 58, 568, DateTimeKind.Utc).AddTicks(959)
                         });
                 });
 
@@ -1459,12 +1459,14 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasOne("Entities.Models.Folder", "AncestorNavigation")
                         .WithMany("FolderClosureAncestor")
                         .HasForeignKey("AncestorID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_FolderClosures_Folders");
 
                     b.HasOne("Entities.Models.Folder", "DescendantNavigation")
                         .WithMany("FolderClosureDescendant")
                         .HasForeignKey("DescendantID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_FolderClosures_Folders1");
 

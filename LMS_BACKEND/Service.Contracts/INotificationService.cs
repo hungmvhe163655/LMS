@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Entities.Models;
+using Shared.DataTransferObjects.RequestParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Service.Contracts
     public interface INotificationService
     {
 
-        Task<PageModel<Notification>> GetAllNotifications(int page,int pagesize);  
+        Task<IEnumerable<Notification>> GetAllNotifications(RequestParameters model);
         Task<Notification> GetNotification(string id);
         Task<Notification> CreateNotification(string title, string content, int type, string createUserId, string group);
     }

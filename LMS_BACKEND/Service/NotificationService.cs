@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Servive.Hubs;
+using Shared.DataTransferObjects.RequestParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,9 +33,9 @@ namespace Service
             return hold;
         }
 
-        public async Task<PageModel<Notification>> GetAllNotifications(int page, int pagesize)
+        public async Task<IEnumerable<Notification>> GetAllNotifications(RequestParameters model)
         {
-            return await _repositoryManager.notification.GetPagedAsync(page, pagesize, false);
+            return await _repositoryManager.notification.GetPagedAsync(model, false);
         }
 
         public async Task<Notification> GetNotification(string id)
