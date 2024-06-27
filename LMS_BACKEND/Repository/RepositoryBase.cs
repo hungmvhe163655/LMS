@@ -1,6 +1,7 @@
 ﻿using Contracts.Interfaces;
 using Entities;
 using Microsoft.EntityFrameworkCore;
+using Shared.DataTransferObjects.RequestParameters;
 using System.Linq.Expressions;
 
 namespace Repository
@@ -71,20 +72,14 @@ namespace Repository
             await _context.Set<T>().AddAsync(entity);
         }
 
-        public async Task<PageModel<T>> GetPagedAsync(int page, int pageSize, bool Trackable)
+        public async Task<IEnumerable<T>> GetPagedAsync(RequestParameters lamao, bool Trackable)
         {
             var query = !Trackable ? _context.Set<T>().AsNoTracking() : _context.Set<T>();
 
             var totalRecords = await query.CountAsync();
-            var data = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var data = await query.Skip((lamao.PageNumber - 1) * lamao.PageSize).Take(lamao.PageSize).ToListAsync();
 
-            return new PageModel<T>
-            {
-                Page = page,
-                PageSize = pageSize,
-                TotalRecords = totalRecords,
-                Data = data
-            };
+            return data;
 
         }
     }
