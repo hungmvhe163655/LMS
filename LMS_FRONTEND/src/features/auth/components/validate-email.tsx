@@ -64,12 +64,12 @@ const ValidateEmail: React.FC = () => {
 
   return (
     <div>
-      <Card className='card'>
+      <Card>
         <CardHeader>
           <CardTitle>Login</CardTitle>
           <CardDescription>Welcome to SAP Lab Management System</CardDescription>
         </CardHeader>
-        <CardContent className='card-content'>
+        <CardContent>
           <Form {...form}>
             <form
               // onSubmit={form.handleSubmit(onSubmit)}
