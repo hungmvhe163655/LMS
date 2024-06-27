@@ -291,7 +291,7 @@ namespace Repository.Configuration
                 CreatedDate = DateTime.Now.AddDays(-1),
                 Url = "",
                 NotificationTypeId = 1,
-                CreatedBy = "MinhTC"
+                CreatedBy = user1.Id,
             };
 
             Notification noti2 = new Notification
@@ -302,7 +302,7 @@ namespace Repository.Configuration
                 CreatedDate = DateTime.Now.AddDays(-2),
                 Url = "",
                 NotificationTypeId = 1,
-                CreatedBy = "MinhTC"
+                CreatedBy = user1.Id,
             };
 
             Notification noti3 = new Notification
@@ -313,7 +313,7 @@ namespace Repository.Configuration
                 CreatedDate = DateTime.Now.AddDays(-3),
                 Url = "",
                 NotificationTypeId = 1,
-                CreatedBy = "Admin"
+                CreatedBy = user1.Id,
             };
 
             Notification noti4 = new Notification
@@ -324,7 +324,7 @@ namespace Repository.Configuration
                 CreatedDate = DateTime.Now.AddDays(-4),
                 Url = "",
                 NotificationTypeId = 1,
-                CreatedBy = "ThaiLS"
+                CreatedBy = user2.Id,
             };
 
             Notification noti5 = new Notification
@@ -335,7 +335,7 @@ namespace Repository.Configuration
                 CreatedDate = DateTime.Now.AddDays(-5),
                 Url = "",
                 NotificationTypeId = 1,
-                CreatedBy = "HungMV"
+                CreatedBy = user3.Id,
             };
 
             Notification noti6 = new Notification
@@ -346,7 +346,7 @@ namespace Repository.Configuration
                 CreatedDate = DateTime.Now.AddDays(-6),
                 Url = "",
                 NotificationTypeId = 2,
-                CreatedBy = "HungMV"
+                CreatedBy = user3.Id,
             };
 
             Notification noti7 = new Notification
@@ -357,7 +357,7 @@ namespace Repository.Configuration
                 CreatedDate = DateTime.Now.AddDays(-7),
                 Url = "",
                 NotificationTypeId = 2,
-                CreatedBy = "HungMV"
+                CreatedBy = user3.Id,
             };
 
             Notification noti8 = new Notification
@@ -368,7 +368,7 @@ namespace Repository.Configuration
                 CreatedDate = DateTime.Now.AddDays(-8),
                 Url = "",
                 NotificationTypeId = 2,
-                CreatedBy = "ThaiLS"
+                CreatedBy = user2.Id,
             };
 
             Notification noti9 = new Notification
@@ -379,7 +379,7 @@ namespace Repository.Configuration
                 CreatedDate = DateTime.Now.AddDays(-9),
                 Url = "",
                 NotificationTypeId = 1,
-                CreatedBy = "MinhTC"
+                CreatedBy = user1.Id,
             };
 
             Notification noti10 = new Notification
@@ -390,7 +390,7 @@ namespace Repository.Configuration
                 CreatedDate = DateTime.Now.AddDays(-10),
                 Url = "",
                 NotificationTypeId = 1,
-                CreatedBy = "MinhTC"
+                CreatedBy = user1.Id,
             };
 
             builder.Entity<Notification>().HasData(noti1, noti2, noti3, noti4, noti5, noti6, noti7, noti8, noti9, noti10);
