@@ -92,7 +92,7 @@ const StudentRegisterForm: React.FC = () => {
                 <FormItem>
                   <FormLabel>Fullname</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} placeholder='Full Name' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -107,7 +107,7 @@ const StudentRegisterForm: React.FC = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} placeholder='Email' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -152,7 +152,7 @@ const StudentRegisterForm: React.FC = () => {
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className='p-0 w-96'>
+                    <PopoverContent className='w-96 p-0'>
                       <Command>
                         <CommandInput placeholder='Search Supervisor...' className='h-9' />
                         <CommandEmpty>No Supervisor found.</CommandEmpty>

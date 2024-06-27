@@ -19,7 +19,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { registerInputSchema, useRegister } from '@/lib/auth';
 
-// LoginForm component
 function SupervisorRegisterForm() {
   const registering = useRegister();
   const [searchParams] = useSearchParams();
@@ -41,7 +40,6 @@ function SupervisorRegisterForm() {
     registering.mutate(data);
   }
 
-  // HTML?
   return (
     <Card>
       <CardContent className='p-6'>
