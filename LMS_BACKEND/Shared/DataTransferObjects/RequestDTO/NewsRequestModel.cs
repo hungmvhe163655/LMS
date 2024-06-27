@@ -1,25 +1,12 @@
 ﻿namespace Shared.DataTransferObjects.RequestDTO
 {
-    public class NewsRequestCreateModel
+    public class NewsRequestModel
     {
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string? CreatedBy { get; set; }
         public string? Content { get; set; }
-        public string? Title { get; set; } = null!;
+        public DateTime CreatedDate { get; set; }
+        public string Title { get; set; } = null!;
 
-        public int? AccountCreatedId { get; set; }
-
-        List<string>? FileKeys { get; set; }
-    }
-
-    public class NewsRequestUpdateModel
-    {
-        public int Id { get; set; }
-        public string? CreatedBy { get; set; }
-        public string? Content { get; set; }
-        public string? Title { get; set; } = null!;
-
-        public int? AccountCreatedId { get; set; }
-
-        List<string>? FileKeys { get; set; }
     }
 }

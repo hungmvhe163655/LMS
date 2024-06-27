@@ -33,9 +33,9 @@ namespace Service
             return hold;
         }
 
-        public async Task<IEnumerable<Notification>> GetAllNotifications(RequestParameters model)
+        public async Task<IEnumerable<Notification>> GetAllNotifications(RequestParameters request)
         {
-            return await _repositoryManager.notification.GetPagedAsync(model, false);
+            return await _repositoryManager.notification.GetPagedAsync(request, false);
         }
 
         public async Task<Notification> GetNotification(string id)
