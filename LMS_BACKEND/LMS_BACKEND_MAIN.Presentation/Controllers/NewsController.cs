@@ -5,7 +5,7 @@ using Shared.DataTransferObjects.RequestDTO;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
-    [Route("api/[Controller]")]
+    [Route("api/news")]
     [ApiController]
     public class NewsController : ControllerBase
     {
@@ -16,80 +16,52 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = service;
         }
 
-        [HttpGet("Gets")]
+        //[HttpGet("news")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        //public IActionResult Gets(string? title)
+        //{
+        //    try
+        //    {
+        //        var data = _service.NewsService.GetNewsByTitle(title);
+        //        return Ok(new { Status = "success", Value = data });
+        //    }
+        //    catch
+        //    {
+        //        return StatusCode(500, "Internal server error");
+        //    }
+        //}
+
+        [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Gets(string? title)
+        public IActionResult GetNewsById(string id)
         {
-            try
-            {
-                var data = _service.NewsService.GetNewsByTitle(title);
+                var data = _service.NewsService.GetNewsById(id);
                 return Ok(new { Status = "success", Value = data });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
         }
 
-        [HttpGet("GetDetails")]
+        [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult GetDetails(int id)
+        public IActionResult CreateNews(NewsRequestModel model)
         {
-            try
-            {
-                var data = _service.NewsService.GetNewsDetail(id);
+                var data = _service.NewsService.CreateNewsAsync(model);
                 return Ok(new { Status = "success", Value = data });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
         }
 
-        [HttpGet("Create")]
+        [HttpPut("{id}")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Create(NewsRequestCreateModel newsRequestCreateModel)
+        public IActionResult Update(NewsRequestModel model)
         {
-            try
-            {
-                var data = _service.NewsService.CreateNews(newsRequestCreateModel);
+                var data = _service.NewsService.UpdateNewsAsync(model);
                 return Ok(new { Status = "success", Value = data });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        [HttpGet("Update")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Update(NewsRequestUpdateModel newsRequestUpdateModel)
-        {
-            try
-            {
-                var data = _service.NewsService.UpdateNews(newsRequestUpdateModel);
-                return Ok(new { Status = "success", Value = data });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
         }
 
 
-        [HttpGet("Delete")]
+        [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult Delete(int id)
         {
-            try
-            {
-                var data = _service.NewsService.DeleteNews(id);
+                var data = _service.NewsService.DeleteNewsAsync(id);
                 return Ok(new { Status = "success", Value = data });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
         }
 
     }

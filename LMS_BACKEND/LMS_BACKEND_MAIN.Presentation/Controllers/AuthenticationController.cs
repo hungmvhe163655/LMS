@@ -29,7 +29,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = serviceManager;
         }
 
-        [HttpPut("ReSendVerifyEmail")]
+        [HttpPut("resend-verify-email")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ReSendVerifyEmail([FromBody] MailRequestModel model)
         {
@@ -43,7 +43,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Wrong request" });
         }
-        [HttpPut("VerifyEmail")]
+        [HttpPut("verify-email")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> VerifyEmail([FromBody] MailRequestModel model)
         {
@@ -59,7 +59,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Invalid Token" });
         }
-        [HttpPost("RegisterSupervisor")]
+        [HttpPost("register-supervisor")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterSupervisor([FromBody] RegisterRequestModel model)
         {
@@ -86,7 +86,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = new { Message = $"Internal error at {nameof(RegisterSupervisor)}" + ex } });
             }
         }
-        [HttpPost("RegisterStudent")]
+        [HttpPost("register")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterStudent([FromBody] RegisterRequestModel model)
         {
@@ -114,7 +114,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = new { Message = $"Internal error at {nameof(RegisterStudent)}" + ex } });
             }
         }
-        [HttpPost("Login-2factor")]
+        [HttpPost("login-2factor")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate2Factor([FromBody] LoginRequestModel model)
         {
@@ -161,7 +161,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = new { Message = $"Internal error at {nameof(LoginProcess)}" + ex } });
             }
         }
-        [HttpPost("Login")]
+        [HttpPost("login")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestModel model)
         {
@@ -183,7 +183,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             }
         }
-        [HttpPost("Logout")]
+        [HttpPost("logout")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Logout([FromBody] TokenDTORequestModel model)
@@ -195,7 +195,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             return Ok(new ResponseObjectModel { Code = "200", Value = "", Status = "Logout Success" });
         }
-        [HttpPost("ForgotPassword")]
+        [HttpPost("forgot-password")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestModel model)
         {
@@ -205,7 +205,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Invalid email/phonenumber" });
         }
-        [HttpPost("ForgotPasswordOtp")]
+        [HttpPost("forgot-password-otp")]
         public async Task<IActionResult> ForgotPasswordOtp([FromBody] ForgotPasswordRequestModel model)
         {
             if (string.IsNullOrEmpty(model.VerifyCode) || string.IsNullOrEmpty(model.Email))
