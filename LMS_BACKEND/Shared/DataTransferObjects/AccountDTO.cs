@@ -10,4 +10,5 @@ namespace Shared.DataTransferObjects
 
 
     public record AccountVerifyUpdateDTO(string VerifiedBy,bool isVerified );
+    public record AccountDTOforReturn(string Id,string email,string phone );
 }
