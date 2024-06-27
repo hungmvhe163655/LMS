@@ -284,6 +284,121 @@ namespace Repository.Configuration
                     RollNumber = "HE156894"
                 }
             );
+
+            builder.Entity<Notification>().HasData(
+                new Notification
+                {
+                    Id = new Guid("b0e8e8d5-9c1a-4d15-a2e8-7e2c9e31e06a"),
+                    Title = "System Update",
+                    Content = "A new system update will be available tomorrow.",
+                    CreatedDate = DateTime.Now.AddDays(-1),
+                    Url = "",
+                    NotificationTypeId = 1,
+                    CreatedBy = "MinhTC"
+                },
+                new Notification
+                {
+                    Id = new Guid("c9e9b9d6-1c2b-4d26-b3f9-8f3d9f42f07b"),
+                    Title = "Maintenance Notice",
+                    Content = "Scheduled maintenance will occur this weekend.",
+                    CreatedDate = DateTime.Now.AddDays(-2),
+                    Url = "",
+                    NotificationTypeId = 1,
+                    CreatedBy = "MinhTC"
+                },
+                new Notification
+                {
+                    Id = new Guid("d0e0c0d7-2d3c-4e37-c4fa-9g4e0g53g08c"),
+                    Title = "New Feature Release",
+                    Content = "We are excited to announce a new feature in our application.",
+                    CreatedDate = DateTime.Now.AddDays(-3),
+                    Url = "",
+                    NotificationTypeId = 1,
+                    CreatedBy = "Admin"
+                },
+                new Notification
+                {
+                    Id = new Guid("e1f1d1e8-3e4d-4f48-d5fb-a5h5h64h19d"),
+                    Title = "Security Alert",
+                    Content = "Please update your password to enhance security.",
+                    CreatedDate = DateTime.Now.AddDays(-4),
+                    Url = "",
+                    NotificationTypeId = 1,
+                    CreatedBy = "ThaiLS"
+                },
+                new Notification
+                {
+                    Id = new Guid("f2g2e2f9-4f5e-5g59-e6gc-b6i6i75i20e"),
+                    Title = "Downtime Notification",
+                    Content = "The system will be down for maintenance tonight.",
+                    CreatedDate = DateTime.Now.AddDays(-5),
+                    Url = "",
+                    NotificationTypeId = 1,
+                    CreatedBy = "HungMV"
+                },
+                new Notification
+                {
+                    Id = new Guid("a3h3f3g1-5g6f-6h60-f7hd-c7j7j86j31f"),
+                    Title = "Weekly Meeting",
+                    Content = "Join weekly meeting.",
+                    CreatedDate = DateTime.Now.AddDays(-6),
+                    Url = "",
+                    NotificationTypeId = 2,
+                    CreatedBy = "HungMV"
+                },
+                new Notification
+                {
+                    Id = new Guid("b4i4g4h2-6h7g-7i71-g8ie-d8k8k97k42g"),
+                    Title = "Promotion Alert",
+                    Content = "Don't miss out on our latest promotions!",
+                    CreatedDate = DateTime.Now.AddDays(-7),
+                    Url = "",
+                    NotificationTypeId = 2,
+                    CreatedBy = "HungMV"
+                },
+                new Notification
+                {
+                    Id = new Guid("c5j5h5i3-7i8h-8j82-h9jf-e9l9l08l53h"),
+                    Title = "Survey Request",
+                    Content = "Please take a moment to complete our user survey.",
+                    CreatedDate = DateTime.Now.AddDays(-8),
+                    Url = "",
+                    NotificationTypeId = 2,
+                    CreatedBy = "ThaiLS"
+                },
+                new Notification
+                {
+                    Id = new Guid("d6k6i6j4-8j9i-9k93-iakg-fam0m19m64i"),
+                    Title = "Account Notice",
+                    Content = "Your account details have been updated.",
+                    CreatedDate = DateTime.Now.AddDays(-9),
+                    Url = "",
+                    NotificationTypeId = 1,
+                    CreatedBy = "MinhTC"
+                },
+                new Notification
+                {
+                    Id = new Guid("e7l7j7k5-9kal-ak04-jblh-gbn1n20n75j"),
+                    Title = "Event Reminder",
+                    Content = "Don't forget about the event tomorrow!",
+                    CreatedDate = DateTime.Now.AddDays(-10),
+                    Url = "",
+                    NotificationTypeId = 1,
+                    CreatedBy = "MinhTC"
+                }
+            );
+            builder.Entity<NotificationType>().HasData(
+                new NotificationType
+                {
+                    Id= 1,
+                    Name = "System",
+                },
+                new NotificationType
+                {
+                    Id = 2,
+                    Name = "Project",
+                }
+            );
         }
     }
 }
