@@ -31,6 +31,7 @@ namespace LMS_BACKEND_MAIN
             CreateMap<Files, FileUploadRequestModel>().ReverseMap();
             CreateMap<Files, FileResponseModel>()
                 .ForMember(dest => dest.FolderPath, otp => otp.Ignore()).ReverseMap();
+            CreateMap<Files, FileEditRequestModel>().ReverseMap();
         }
     }
 }

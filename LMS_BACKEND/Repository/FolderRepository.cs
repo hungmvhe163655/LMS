@@ -22,5 +22,10 @@ namespace Repository
             await CreateAsync(folder);
             return true;
         }
+        public bool UpdateFolder(Folder folder)
+        {
+            Update(folder);
+            return true;
+        }
     }
 }
