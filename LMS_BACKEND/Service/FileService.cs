@@ -120,5 +120,9 @@ namespace Service
 
             return true;
         }
+        public  async Task<bool> AttachFilesToNews()
+        {
+            return true;
+        }
     }
 }

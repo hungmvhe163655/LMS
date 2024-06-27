@@ -136,23 +136,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         private async Task<IActionResult> LoginProcess(string outcome, bool twofactor, AccountDTOforReturn model)
         {
             try
-            {
-                if (outcome.Split("|")[0].Equals("BADLOGIN"))
-                {
-                    return Unauthorized(new ResponseObjectModel { Code = "401", Status = "Failed", Value = "Wrong password or email" });
-                }
-                if (outcome.Split("|")[0].Equals("UNVERIFIED"))
-                {
-                    return Unauthorized(new ResponseObjectModel { Code = "401", Status = "Failed", Value = "Account NeedVerify|" + outcome.Split("|")[1] });
-                }
-                if (outcome.Split("|")[0].Equals("UNVERIFIEDEMAIL"))
-                {
-                    return Unauthorized(new ResponseObjectModel { Code = "401", Status = "Failed", Value = "Email Need Verify|" + outcome.Split("|")[1] });
-                }
-                if (outcome.Split("|")[0].Equals("ISBANNED"))
-                {
-                    return Unauthorized(new ResponseObjectModel { Code = "401", Status = "Failed" Value = "" });
-                }
+            {   
                 if (outcome.Split("|")[0].Equals("SUCCESS"))
                 {
                     if (twofactor)
@@ -167,7 +151,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
                     return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = Tokendto });
                 }
-                return NotFound(new ResponseObjectModel { Code = "404", Status = "Not found", Value = "email or password was wrong" });
+                else
+                {
+                    return Unauthorized(new ResponseObjectModel { Code = "401", Status = "Failed", Value = outcome });
+                }
             }
             catch (Exception ex)
             {
