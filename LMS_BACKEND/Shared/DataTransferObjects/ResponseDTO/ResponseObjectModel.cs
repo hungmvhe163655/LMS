@@ -10,7 +10,6 @@ namespace Shared.DataTransferObjects.ResponseDTO
     {
         public string? Status { get; set; }
         public string? Code { get; set; }
-        public string? Message { get; set; }
         public Object? Value { get; set; }
     }
 }

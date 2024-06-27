@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Shared.DataTransferObjects.RequestParameters;
 using System.Linq.Expressions;
 
 namespace Contracts.Interfaces
@@ -13,9 +14,7 @@ namespace Contracts.Interfaces
         Task CreateAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
-        Task<PageModel<T>> GetPagedAsync(int page, int pageSize, bool Trackable);
-        public T Find(int id);
-        public IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includes);
+        Task<IEnumerable<T>> GetPagedAsync(RequestParameters request ,bool Trackable);
     }
 
 }

@@ -2,6 +2,7 @@
 using Entities.Models;
 using LMS_BACKEND_MAIN.Presentation.ActionFilters;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
@@ -17,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/accounts")]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -27,7 +28,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = service;
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "LabAdmin")]
-        [HttpPost("CreateAccount")]
+        [HttpPost("accounts")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [Authorize]
         public async Task<IActionResult> RegisterLabLead([FromBody] RegisterRequestModel model)
@@ -53,7 +54,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterLabLead)}", Value = ex });
             }
         }
-        [HttpGet("GetUser")]
+        [HttpGet("accounts/{role}")]
         public async Task<IActionResult> GetUsers(string role)
         {
             try
@@ -72,23 +73,16 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Supervisor")]
-        [HttpGet("GetVerifierAccount")]
+        [HttpGet("need-verified")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult Get(string email)
         {
-            try
-            {
                 var user =
                 _service.AccountService.GetVerifierAccounts(email);
                 return Ok(new { Status = "success", Value = user });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Supervisor")]
-        [HttpPost("UpdateVerifierAccount")]
+        [HttpPost("verify-account")]
         // [Authorize(AuthenticationSchemes = "Bearer")]
         [Authorize(Roles = "labadmin")]
         public async Task<IActionResult> UpdateAccountVerifyStatus([FromBody] UpdateVerifyStatusRequestModel model)
@@ -121,7 +115,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPost("ChangePassword")]
+        [HttpPost("change-password")]
         //[Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestModel model)
         {
@@ -143,7 +137,31 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             return BadRequest();
         }
-        [HttpPost("UpdateProfile")]
+
+        [HttpPut("change-phone-number")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> ChangeEmail([FromBody] ChangePhoneNumberRequestModel model)
+        {
+            if (model.UserID == null || model.PhoneNumber == null || model.VerifyCode == null)
+            {
+                ModelState.AddModelError("BadRequest", "Username can't be empty");
+                return BadRequest();
+            }
+            try
+            {
+                //if (await _service.AccountService.ChangePasswordAsync(model.UserID, model.OldPassword, model.NewPassword))
+                //{
+                //    return Ok(new ResponseObjectModel { Status = "success", Code = "200", Value = "Change Password Successully" });
+                //}
+            }
+            catch
+            {
+                return StatusCode(500, "Internal server error");
+            }
+            return BadRequest();
+        }
+
+        [HttpPut("update-profile")]
         //[Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileRequestModel model)
         {
