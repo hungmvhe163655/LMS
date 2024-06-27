@@ -81,6 +81,21 @@ namespace Service
 
             return (hold, hold_return_model);
         }
+        public async Task EditFile(FileEditRequestModel model)
+        {
+            var hold = _mappers.Map<Files>(model);
+
+            _repositoryManager.file.Update(hold);
+
+            await _repositoryManager.Save();
+
+        }
+        public async Task EditFolder(FolderEditRequestModel model)
+        {
+            var hold = _mappers.Map<Folder>(model);
+            _repositoryManager.folder.UpdateFolder(hold);
+            await _repositoryManager.Save();
+        }
         public async Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID)
         {
             var hold_file = await _repositoryManager.file.GetFiles(false);

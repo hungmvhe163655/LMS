@@ -11,5 +11,6 @@ namespace Contracts.Interfaces
     {
         public Folder GetFolder(Guid id, bool track);
         Task<bool> AddFolder(Folder folder);
+        bool UpdateFolder(Folder folder);
     }
 }
