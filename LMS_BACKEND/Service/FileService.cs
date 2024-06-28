@@ -2,6 +2,7 @@
 using Amazon.S3.Model;
 using AutoMapper;
 using Contracts.Interfaces;
+using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.Extensions.Configuration;
 using Service.Contracts;
@@ -73,6 +74,8 @@ namespace Service
 
             var end = hold_FileDB.Where(x => x.Id.Equals(fileID)).First();
 
+            if (end == null) throw new BadRequestException("No File With that Id was found");
+
             var hold = await GetFileFromS3Async(end.FileKey ?? throw new Exception("Not found File key"));
 
             var hold_return_model = _mappers.Map<FileResponseModel>(hold_FileDB);
@@ -80,6 +83,12 @@ namespace Service
             hold_return_model.FolderPath = _repositoryManager.folderClosure.GetBranch(end.FolderId, false).ToString() ?? "";
 
             return (hold, hold_return_model);
+        }
+        public async Task<Stream> DownloadFile(string fileKey)
+        {
+            var hold = await GetFileFromS3Async(fileKey ?? throw new BadRequestException("Not found File key"));
+
+            return hold;
         }
         public async Task EditFile(FileEditRequestModel model)
         {
@@ -93,7 +102,9 @@ namespace Service
         public async Task EditFolder(FolderEditRequestModel model)
         {
             var hold = _mappers.Map<Folder>(model);
+
             _repositoryManager.folder.UpdateFolder(hold);
+
             await _repositoryManager.Save();
         }
         public async Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID)
@@ -133,10 +144,6 @@ namespace Service
 
             await _repositoryManager.Save();
 
-            return true;
-        }
-        public  async Task<bool> AttachFilesToNews()
-        {
             return true;
         }
     }
