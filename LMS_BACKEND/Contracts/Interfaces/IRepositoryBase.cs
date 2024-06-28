@@ -15,8 +15,6 @@ namespace Contracts.Interfaces
         void Update(T entity);
         void Delete(T entity);
         Task<IEnumerable<T>> GetPagedAsync(RequestParameters lamao, bool Trackable);
-        public T Find(int id);
-        public IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includes);
     }
 
 }

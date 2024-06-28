@@ -27,10 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\LMS_BACKEND_MAIN.Presentation\LMS_BACKEND_MAIN.Presentation.csproj" />
     <ProjectReference Include="..\LoggerServices\LoggerServices.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
@@ -44,6 +40,10 @@
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
