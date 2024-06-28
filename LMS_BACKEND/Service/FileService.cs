@@ -29,7 +29,7 @@ namespace Service
             _mappers = mapper;
             _repositoryManager = repository;
         }
-        private async Task UploadFileToS3Async(string key, Stream inputStream)
+        private async Task<PutObjectResponse> UploadFileToS3Async(string key, Stream inputStream)
         {
             var putRequest = new PutObjectRequest
             {
@@ -40,6 +40,7 @@ namespace Service
             };
 
             var response = await _s3Client.PutObjectAsync(putRequest);
+            return response;
         }
 
         private async Task<Stream> GetFileFromS3Async(string key)
@@ -54,19 +55,18 @@ namespace Service
 
             return response.ResponseStream;
         }
-        public async Task<bool> CreateFile(FileUploadRequestModel model, Stream inputStream)
+        public async Task CreateFile(FileUploadRequestModel model, Stream inputStream)
         {
             var fileKey = Guid.NewGuid().ToString();
 
             model.FileKey = fileKey;
 
-            await UploadFileToS3Async(fileKey, inputStream);
+            var result = await UploadFileToS3Async(fileKey, inputStream);
+            if (result != null) { throw new NotFoundException("NOT FOUND FILE"); }
 
             await _repositoryManager.file.CreateFile(_mappers.Map<Files>(model));
 
             await _repositoryManager.Save();
-
-            return true;
         }
         public async Task<(Stream, FileResponseModel)> GetFile(string fileID)
         {
@@ -130,7 +130,7 @@ namespace Service
 
             await _repositoryManager.folder.AddFolder(hold_folder);
 
-            if(model.AncestorId != Guid.Empty)
+            if (model.AncestorId != Guid.Empty)
             {
                 var hold_ancs = _repositoryManager.folderClosure.FindAncestors(model.AncestorId, false);
 
@@ -156,6 +156,24 @@ namespace Service
             await _repositoryManager.Save();
 
             return true;
+        }
+        public async Task DeleteFolder(Guid folderID)
+        {
+            var hold_files = _repositoryManager.file.FindAll(false).Where(x => x.FolderId.Equals(folderID));
+
+            var hold_folderClosure_descendant = _repositoryManager.folderClosure.FindDescendants(folderID, false);
+
+            var descendants_ancestors = new List<FolderClosure>();
+
+            foreach (var item in hold_folderClosure_descendant)
+            {
+                descendants_ancestors.AddRange(_repositoryManager.folderClosure.FindAncestors(item.DescendantID, false));
+            }
+            _repositoryManager.folderClosure.DeleteListFolder(descendants_ancestors);
+
+            _repositoryManager.file.DeleteRange(hold_files);
+
+            await _repositoryManager.Save();
         }
     }
 }

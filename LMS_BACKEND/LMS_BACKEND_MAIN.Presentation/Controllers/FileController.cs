@@ -41,16 +41,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
                 memoryStream.Position = 0;
 
-                var result = await _serviceManager.FileService.CreateFile(metadata, memoryStream);
+                await _serviceManager.FileService.CreateFile(metadata, memoryStream);
 
-                if (result)
-                {
-                    return Ok(new ResponseObjectModel { Code = 200, Status = "Success", Value = "File uploaded successfully." });
-                }
-                else
-                {
-                    return StatusCode(500, new ResponseObjectModel { Code = 500, Status = "Failed", Value = "An error occurred while uploading the file." });
-                }
+                return Ok(new ResponseObjectModel { Code = 200, Status = "Success", Value = "File uploaded successfully." });
             }
         }
         [HttpGet]
