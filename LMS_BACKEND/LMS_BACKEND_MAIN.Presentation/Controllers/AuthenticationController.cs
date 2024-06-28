@@ -54,15 +54,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var result = await _service.AuthenticationService.Register(model);
 
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.TryAddModelError(error.Code, error.Description);
-                }
-                return BadRequest(new ResponseMessage { Message = "Model " + ModelState.Errors });
-            }
-
             await _service.MailService.SendVerifyOtp(model.Email);
 
             return StatusCode(201, model);
@@ -155,7 +146,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             var hold = new TokenDTO(model.AccessToken , model.RefreshToken);
             if (!await _service.AuthenticationService.InvalidateToken(hold))
             {
-                return Unauthorized(new ResponseMessage { Message = "Something went wrong, can't logout!");
+                return Unauthorized(new ResponseMessage { Message = "Something went wrong, can't logout!" });
             }
             return Ok(new ResponseMessage { Message = "Logout Success" });
         }

@@ -10,10 +10,10 @@ namespace Shared.DataTransferObjects.RequestDTO
     public class UpdateProfileRequestModel
     {
         [Required(ErrorMessage = "User ID is required!")]
-        public string? UserID { get; set; }
-        public string? FullName { get; set; }
-        public string? RollNumber { get; set; }
-        public string? Major { get; set; }
-        public string? Specialized { get; set; }
+        public string UserID { get; set; } = null!;
+        public string FullName { get; set; } = null!;
+        public string RollNumber { get; set; } = null!;
+        public string Major { get; set; } = null!;
+        public string Specialized { get; set; } = null!;
     }
 }

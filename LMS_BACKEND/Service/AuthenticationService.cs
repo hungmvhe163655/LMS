@@ -328,14 +328,14 @@ namespace Service
         public async Task<string> ValidateUser(LoginRequestModel userForAuth)
         {
             /// Tim nguoi dung trong he thong khong nhap ten thi authen loi log vao 
-            if (string.IsNullOrEmpty(userForAuth.Email) || string.IsNullOrEmpty(userForAuth.PassWord))
+            if (string.IsNullOrEmpty(userForAuth.Email) || string.IsNullOrEmpty(userForAuth.Password))
             {
                 _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Empty Email or password");
                 return "BADLOGIN|";
             }
             _account = await _userManager.FindByEmailAsync(userForAuth.Email);
             if(_account == null) return "BADLOGIN | INVALID EMAIL";
-            var result = (await _userManager.CheckPasswordAsync(_account, userForAuth.PassWord));
+            var result = (await _userManager.CheckPasswordAsync(_account, userForAuth.Password));
             if (!result)
             {
                 _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");

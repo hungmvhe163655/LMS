@@ -13,6 +13,6 @@ namespace Shared.DataTransferObjects.RequestDTO
         public string Email { get; set; } = null!;
         [Required(ErrorMessage = "Password is Required")]
         public string Password { get; set; } = null!;
-        public string AuCode { get;set; } = null!;
+        public string? AuCode { get;set; } = null!;
     }
 }
