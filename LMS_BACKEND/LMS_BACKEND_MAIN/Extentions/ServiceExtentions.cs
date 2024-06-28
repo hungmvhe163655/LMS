@@ -37,7 +37,8 @@ namespace LMS_BACKEND_MAIN.Extentions
                 builder.WithOrigins(corsConfig.Origins??throw new NullReferenceException("Not found corsConfig"))
                 .AllowCredentials()
                 .AllowAnyMethod()
-                .AllowAnyHeader())
+                .AllowAnyHeader()
+                .WithExposedHeaders("X-Pagination"))
                 );
         }
         public static void ConfigureIISIntegration(this IServiceCollection services)
