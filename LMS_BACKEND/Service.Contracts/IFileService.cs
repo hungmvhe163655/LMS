@@ -17,6 +17,7 @@ namespace Service.Contracts
         Task EditFolder(FolderEditRequestModel model);
         Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID);
         Task<bool> CreateFolder(CreateFolderRequestModel model);
+        Task DeleteFolder(Guid folderID);
     }
 
 }

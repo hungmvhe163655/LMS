@@ -16,7 +16,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
     public class FolderController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
-        public FolderController(IServiceManager serviceManager) 
+        public FolderController(IServiceManager serviceManager)
         {
             _serviceManager = serviceManager;
         }
@@ -31,6 +31,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             var result = await _serviceManager.FileService.CreateFolder(model);
             if (result) return Ok(new ResponseObjectModel { Code = StatusCodes.Status200OK, Status = "Success", Value = model });
             return BadRequest(new ResponseObjectModel { Code = StatusCodes.Status400BadRequest, Status = "Failed", Value = new { Message = ModelState.ErrorCount } });
+        }
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteFolder(Guid FolderID)
+        {
+            await _serviceManager.FileService.DeleteFolder(FolderID);
+
+            return StatusCode(StatusCodes.Status201Created, new ResponseObjectModel { Code = StatusCodes.Status201Created, Status = "Success" });
         }
     }
 }
