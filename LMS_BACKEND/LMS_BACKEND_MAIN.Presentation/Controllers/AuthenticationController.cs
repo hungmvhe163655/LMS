@@ -35,13 +35,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             if (model.Email == null)
             {
-                return BadRequest(new ResponseObjectModel { Code = 400, Status = "Failed", Value = "Email can't be empty" });
+                return BadRequest(new ResponseObjectModel { Code = 400, Status = "Failed", Value = new {Message = "Email can't be empty"} });
             }
             if (await _service.MailService.SendVerifyOtp(model.Email))
             {
                 return Ok(new ResponseObjectModel { Code = 200, Status = "Success", Value = "New Verify code Has been sent to your email" });
             }
-            return BadRequest(new ResponseObjectModel { Code = 400, Status = "Failed", Value = "Wrong request" });
+            return BadRequest(new ResponseObjectModel { Code = 400, Status = "Failed", Value = new {Message = "Bad Email request"} });
         }
         [HttpPut("verify-email")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
@@ -151,7 +151,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 }
                 else
                 {
-                    return Unauthorized(new ResponseObjectModel { Code = 401, Status = "Failed", Value = outcome });
+                    return Unauthorized(new ResponseObjectModel { Code = 401, Status = "Failed", Value = new {Message = outcome });
                 }
             }
             catch (Exception ex)

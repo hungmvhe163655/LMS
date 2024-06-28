@@ -334,11 +334,12 @@ namespace Service
                 return "BADLOGIN|";
             }
             _account = await _userManager.FindByEmailAsync(userForAuth.Email);
-            var result = (_account != null && await _userManager.CheckPasswordAsync(_account, userForAuth.PassWord));
+            if(_account == null) return "BADLOGIN | INVALID EMAIL";
+            var result = (await _userManager.CheckPasswordAsync(_account, userForAuth.PassWord));
             if (!result)
             {
                 _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");
-                return "BADLOGIN|";
+                return "BADLOGIN | INCORRECT PASSWORD";
             }
             if (result && _account != null)
             {
