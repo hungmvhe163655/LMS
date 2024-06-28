@@ -66,7 +66,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     return NotFound(new ResponseObjectModel { Code = "404", Status = "Failed", Value = "File not found" });
                 }
 
-                string mimeType = fileStream.Item2.MimeType;
+                string mimeType = MIME.GetMimeType(fileStream.Item2.MimeType);
 
                 var contentType = "application/octet-stream";
 
