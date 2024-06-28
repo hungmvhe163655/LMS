@@ -125,7 +125,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 return Ok(Tokendto);
             }
 
-            return Unauthorized(outcome);
+            return Unauthorized(new ResponseMessage { Message = outcome }) ;
 
 
         }
