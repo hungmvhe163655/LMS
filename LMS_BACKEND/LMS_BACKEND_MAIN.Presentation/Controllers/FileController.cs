@@ -28,11 +28,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             if (file == null || file.Length == 0)
             {
-                return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "FILE IS NULL OR EMPTY" });
+                return BadRequest(new ResponseObjectModel { Code = 400, Status = "Failed", Value = "FILE IS NULL OR EMPTY" });
             }
             if (metadata == null)
             {
-                return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Metadata is required" });
+                return BadRequest(new ResponseObjectModel { Code = 400, Status = "Failed", Value = "Metadata is required" });
             }
 
             using (var memoryStream = new MemoryStream())
@@ -45,11 +45,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
                 if (result)
                 {
-                    return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = "File uploaded successfully." });
+                    return Ok(new ResponseObjectModel { Code = 200, Status = "Success", Value = "File uploaded successfully." });
                 }
                 else
                 {
-                    return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Failed", Value = "An error occurred while uploading the file." });
+                    return StatusCode(500, new ResponseObjectModel { Code = 500, Status = "Failed", Value = "An error occurred while uploading the file." });
                 }
             }
         }
@@ -63,18 +63,18 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
                 if (fileStream.Item1 == null || fileStream.Item2 == null)
                 {
-                    return NotFound(new ResponseObjectModel { Code = "404", Status = "Failed", Value = "File not found" });
+                    return NotFound(new ResponseObjectModel { Code = 404, Status = "Failed", Value = "File not found" });
                 }
 
                 string mimeType = MIME.GetMimeType(fileStream.Item2.MimeType);
 
                 var contentType = "application/octet-stream";
 
-                return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = new { FileResult = File(fileStream.Item1, contentType), FileDetail = fileStream.Item2 } });
+                return Ok(new ResponseObjectModel { Code = 200, Status = "Success", Value = new { FileResult = File(fileStream.Item1, contentType), FileDetail = fileStream.Item2 } });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Failed", Value = $"An error occurred while Dowloading the file.{ex.Message}" });
+                return StatusCode(500, new ResponseObjectModel { Code = 500, Status = "Failed", Value = $"An error occurred while Dowloading the file.{ex.Message}" });
             }
         }
     }

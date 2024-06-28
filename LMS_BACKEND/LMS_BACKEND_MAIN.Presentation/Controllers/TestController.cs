@@ -27,11 +27,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             try
             {
                 var hold = await _service.NotificationService.CreateNotification(model.Title, model.Content, model.Type, model.CreateUserId,"lmao");
-                return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = hold });
+                return StatusCode(200, new ResponseObjectModel { Code = 200, Status = "OK", Value = hold });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = ex });
+                return StatusCode(500, new ResponseObjectModel { Code = 500, Status = "Internal Error", Value = ex });
             }
 
         }
