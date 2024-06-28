@@ -1,5 +1,6 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Configuration
 {
@@ -417,19 +418,19 @@ namespace Repository.Configuration
                 {
                     AccountId = user2.Id,
                     NotificationId = noti1.Id,
-                    IsRead = true,
+                    IsRead = false,
                 },
                 new NotificationAccount
                 {
                     AccountId = user3.Id,
                     NotificationId = noti1.Id,
-                    IsRead = true,
+                    IsRead = false,
                 },
                 new NotificationAccount
                 {
                     AccountId = user4.Id,
                     NotificationId = noti1.Id,
-                    IsRead = true,
+                    IsRead = false,
                 },
                 new NotificationAccount
                 {
@@ -475,9 +476,15 @@ namespace Repository.Configuration
                 },
                 new NotificationAccount
                 {
+                    AccountId = user4.Id,
+                    NotificationId = noti2.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
                     AccountId = user5.Id,
                     NotificationId = noti2.Id,
-                    IsRead = true,
+                    IsRead = false,
                 },
                 new NotificationAccount
                 {
@@ -487,21 +494,45 @@ namespace Repository.Configuration
                 },
                 new NotificationAccount
                 {
+                    AccountId = user7.Id,
+                    NotificationId = noti2.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user8.Id,
+                    NotificationId = noti2.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
                     AccountId = user1.Id,
                     NotificationId = noti3.Id,
                     IsRead = true,
                 },
                 new NotificationAccount
                 {
+                    AccountId = user2.Id,
+                    NotificationId = noti3.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
                     AccountId = user3.Id,
                     NotificationId = noti3.Id,
-                    IsRead = true,
+                    IsRead = false,
                 },
                 new NotificationAccount
                 {
                     AccountId = user4.Id,
                     NotificationId = noti3.Id,
                     IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user5.Id,
+                    NotificationId = noti3.Id,
+                    IsRead = false,
                 },
                 new NotificationAccount
                 {
@@ -589,6 +620,36 @@ namespace Repository.Configuration
                 },
                 new NotificationAccount
                 {
+                    AccountId = user4.Id,
+                    NotificationId = noti5.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user5.Id,
+                    NotificationId = noti5.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user6.Id,
+                    NotificationId = noti5.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user7.Id,
+                    NotificationId = noti5.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user8.Id,
+                    NotificationId = noti5.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
                     AccountId = user1.Id,
                     NotificationId = noti6.Id,
                     IsRead = true,
@@ -609,6 +670,36 @@ namespace Repository.Configuration
                 {
                     AccountId = user4.Id,
                     NotificationId = noti6.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user5.Id,
+                    NotificationId = noti6.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user6.Id,
+                    NotificationId = noti6.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user7.Id,
+                    NotificationId = noti6.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user8.Id,
+                    NotificationId = noti6.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user1.Id,
+                    NotificationId = noti7.Id,
                     IsRead = true,
                 },
                 new NotificationAccount
@@ -625,7 +716,25 @@ namespace Repository.Configuration
                 },
                 new NotificationAccount
                 {
+                    AccountId = user4.Id,
+                    NotificationId = noti7.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user5.Id,
+                    NotificationId = noti7.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
                     AccountId = user6.Id,
+                    NotificationId = noti7.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user7.Id,
                     NotificationId = noti7.Id,
                     IsRead = true,
                 },
@@ -643,7 +752,19 @@ namespace Repository.Configuration
                 },
                 new NotificationAccount
                 {
+                    AccountId = user2.Id,
+                    NotificationId = noti8.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
                     AccountId = user3.Id,
+                    NotificationId = noti8.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user4.Id,
                     NotificationId = noti8.Id,
                     IsRead = true,
                 },
@@ -679,7 +800,19 @@ namespace Repository.Configuration
                 },
                 new NotificationAccount
                 {
+                    AccountId = user2.Id,
+                    NotificationId = noti9.Id,
+                    IsRead = false,
+                },
+                new NotificationAccount
+                {
                     AccountId = user3.Id,
+                    NotificationId = noti9.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user4.Id,
                     NotificationId = noti9.Id,
                     IsRead = true,
                 },
@@ -691,9 +824,21 @@ namespace Repository.Configuration
                 },
                 new NotificationAccount
                 {
+                    AccountId = user6.Id,
+                    NotificationId = noti9.Id,
+                    IsRead = true,
+                },
+                new NotificationAccount
+                {
                     AccountId = user7.Id,
                     NotificationId = noti9.Id,
                     IsRead = true,
+                },
+                new NotificationAccount
+                {
+                    AccountId = user8.Id,
+                    NotificationId = noti9.Id,
+                    IsRead = false,
                 },
                 new NotificationAccount
                 {
@@ -711,7 +856,7 @@ namespace Repository.Configuration
                 {
                     AccountId = user3.Id,
                     NotificationId = noti10.Id,
-                    IsRead = true,
+                    IsRead = false,
                 },
                 new NotificationAccount
                 {
@@ -926,6 +1071,503 @@ namespace Repository.Configuration
             };
 
             builder.Entity<News>().HasData(news1, news2, news10, news11, news12, news13, news14, news15, news16, news17, news18, news19, news20, news3, news4, news5, news6, news7, news8, news9);
+
+            builder.Entity<DeviceStatus>().HasData(
+                new DeviceStatus { Id = 1, Name = "Available" },
+                new DeviceStatus { Id = 2, Name = "In Use" },
+                new DeviceStatus { Id = 3, Name = "Disable" }
+            );
+
+            Device device1 = new Device
+            {
+                Id = new Guid("9eae03ad-745d-47c0-baef-ae4657964e6a"),
+                DeviceStatusId = 1,
+                OwnedBy = user1.Id,
+                Name = "Server",
+                Description = "Primary server",
+                LastUsed = DateTime.Now.AddDays(-1),
+                IsDeleted = false
+            };
+
+            Device device2 = new Device
+            {
+                Id = new Guid("0104f1af-a314-4c64-8b8d-92c72caa97df"),
+                DeviceStatusId = 2,
+                OwnedBy = user2.Id,
+                Name = "Screen",
+                Description = "Dell UltraSharp U2723QE 27 inch",
+                LastUsed = DateTime.Now.AddDays(-2),
+                IsDeleted = false
+            };
+
+            Device device3 = new Device
+            {
+                Id = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
+                DeviceStatusId = 1,
+                OwnedBy = user3.Id,
+                Name = "PC",
+                Description = "Thai's PC",
+                LastUsed = DateTime.Now.AddDays(-3),
+                IsDeleted = false
+            };
+
+            Device device4 = new Device
+            {
+                Id = new Guid("11d331b4-136c-4844-a686-ffc38c103268"),
+                DeviceStatusId = 3,
+                OwnedBy = user1.Id,
+                Name = "Router",
+                Description = "Main office router",
+                LastUsed = DateTime.Now.AddDays(-10),
+                IsDeleted = false
+            };
+
+            Device device5 = new Device
+            {
+                Id = new Guid("b4dc2d48-482a-48a2-bad6-7a1e0e3139b7"),
+                DeviceStatusId = 1,
+                OwnedBy = user3.Id,
+                Name = "Desktop",
+                Description = "Development desktop",
+                LastUsed = DateTime.Now.AddDays(-1),
+                IsDeleted = false
+            };
+
+            Device device6 = new Device
+            {
+                Id = new Guid("0a395b72-ae0d-4a49-b7f8-1763de733068"),
+                DeviceStatusId = 2,
+                OwnedBy = user2.Id,
+                Name = "Monitor",
+                Description = "High resolution monitor",
+                LastUsed = DateTime.Now.AddDays(-5),
+                IsDeleted = false
+            };
+
+            Device device7 = new Device
+            {
+                Id = new Guid("5947a22f-0191-419c-873b-4324b5b95e84"),
+                DeviceStatusId = 1,
+                OwnedBy = user1.Id,
+                Name = "Printer",
+                Description = "Office printer",
+                LastUsed = DateTime.Now.AddDays(-7),
+                IsDeleted = false
+            };
+
+            Device device8 = new Device
+            {
+                Id = new Guid("a1d65f8a-f7fd-4995-940f-6ab254523f90"),
+                DeviceStatusId = 2,
+                OwnedBy = user3.Id,
+                Name = "Tablet",
+                Description = "Designer's tablet",
+                LastUsed = DateTime.Now.AddDays(-2),
+                IsDeleted = false
+            };
+
+            Device device9 = new Device
+            {
+                Id = new Guid("eb934470-4e73-41a8-8304-3bcb1ea18502"),
+                DeviceStatusId = 1,
+                OwnedBy = user1.Id,
+                Name = "Projector",
+                Description = "Conference room projector",
+                LastUsed = DateTime.Now.AddDays(-4),
+                IsDeleted = false
+            };
+
+            Device device10 = new Device
+            {
+                Id = new Guid("51e6edb8-0a1f-4c26-afb7-fcf95ea0965f"),
+                DeviceStatusId = 3,
+                OwnedBy = user1.Id,
+                Name = "Switch",
+                Description = "Network switch",
+                LastUsed = DateTime.Now.AddDays(-15),
+                IsDeleted = false
+            };
+
+            builder.Entity<Device>().HasData(device1, device10, device2, device3, device4, device5, device6, device7, device8, device9);
+
+            Schedule schedule1 = new Schedule
+            {
+                Id = new Guid("44efa2a7-4f64-4fc6-bbbe-869099817d4f"),
+                DeviceId = device1.Id,
+                AccountId = user4.Id,
+                ScheduledDate = DateTime.Now,
+                StartDate = DateTime.Now.AddHours(1),
+                EndDate = DateTime.Now.AddHours(2),
+                Purpose = "Testing"
+            };
+
+            Schedule schedule2 = new Schedule
+            {
+                Id = new Guid("e377b750-0b20-4943-9e5d-6909d4810f13"),
+                DeviceId = device1.Id,
+                AccountId = user5.Id,
+                ScheduledDate = DateTime.Now,
+                StartDate = DateTime.Now.AddHours(3),
+                EndDate = DateTime.Now.AddHours(4),
+                Purpose = "Development"
+            };
+
+            Schedule schedule3 = new Schedule
+            {
+                Id = new Guid("37d2c7b3-7406-418d-9062-e81dfff02d9a"),
+                DeviceId = device2.Id,
+                AccountId = user5.Id,
+                ScheduledDate = DateTime.Now.AddDays(-1),
+                StartDate = DateTime.Now.AddDays(-1).AddHours(1),
+                EndDate = DateTime.Now.AddDays(-1).AddHours(2),
+                Purpose = "Testing"
+            };
+
+            Schedule schedule4 = new Schedule
+            {
+                Id = new Guid("e0fa81b1-9eea-4b4b-93a7-b7a34aae4014"),
+                DeviceId = device2.Id,
+                AccountId = user6.Id,
+                ScheduledDate = DateTime.Now.AddDays(-1),
+                StartDate = DateTime.Now.AddDays(-1).AddHours(3),
+                EndDate = DateTime.Now.AddDays(-1).AddHours(4),
+                Purpose = "Development"
+            };
+
+            Schedule schedule5 = new Schedule
+            {
+                Id = new Guid("db1fcaa0-e934-4429-a567-2ac802d0b453"),
+                DeviceId = device2.Id,
+                AccountId = user7.Id,
+                ScheduledDate = DateTime.Now.AddDays(-1),
+                StartDate = DateTime.Now.AddDays(-1).AddHours(5),
+                EndDate = DateTime.Now.AddDays(-1).AddHours(6),
+                Purpose = "Testing"
+            };
+
+            Schedule schedule6 = new Schedule
+            {
+                Id = new Guid("27f1b969-1b68-4cf8-8a51-c8be5356f7f8"),
+                DeviceId = device3.Id,
+                AccountId = user8.Id,
+                ScheduledDate = DateTime.Now.AddDays(-2),
+                StartDate = DateTime.Now.AddDays(-2).AddHours(3),
+                EndDate = DateTime.Now.AddDays(-2).AddHours(4),
+                Purpose = "Development"
+            };
+
+            Schedule schedule7 = new Schedule
+            {
+                Id = new Guid("4da0b3f8-95aa-40cd-ab32-75876ca13900"),
+                DeviceId = device3.Id,
+                AccountId = user4.Id,
+                ScheduledDate = DateTime.Now.AddDays(-2),
+                StartDate = DateTime.Now.AddDays(-2).AddHours(5),
+                EndDate = DateTime.Now.AddDays(-2).AddHours(6),
+                Purpose = "Development"
+            };
+
+            Schedule schedule8 = new Schedule
+            {
+                Id = new Guid("80d34442-7c14-4060-ae8f-24cda38e63f9"),
+                DeviceId = device3.Id,
+                AccountId = user8.Id,
+                ScheduledDate = DateTime.Now.AddDays(-1),
+                StartDate = DateTime.Now.AddDays(-1).AddHours(1),
+                EndDate = DateTime.Now.AddDays(-1).AddHours(2),
+                Purpose = "Development"
+            };
+
+            Schedule schedule9 = new Schedule
+            {
+                Id = new Guid("5dc94e7f-845b-480b-8c81-f1d50c359491"),
+                DeviceId = device3.Id,
+                AccountId = user5.Id,
+                ScheduledDate = DateTime.Now.AddDays(-3),
+                StartDate = DateTime.Now.AddDays(-3).AddHours(3),
+                EndDate = DateTime.Now.AddDays(-3).AddHours(4),
+                Purpose = "Development"
+            };
+
+            Schedule schedule10 = new Schedule
+            {
+                Id = new Guid("70f625f4-33f5-4c62-9718-d3e2c420e703"),
+                DeviceId = device3.Id,
+                AccountId = user6.Id,
+                ScheduledDate = DateTime.Now.AddDays(-3),
+                StartDate = DateTime.Now.AddDays(-3).AddHours(5),
+                EndDate = DateTime.Now.AddDays(-3).AddHours(6),
+                Purpose = "Development"
+            };
+            Schedule schedule11 = new Schedule
+            {
+                Id = new Guid("77153502-8631-4b5f-b05d-76d4796c06d4"),
+                DeviceId = device3.Id,
+                AccountId = user8.Id,
+                ScheduledDate = DateTime.Now.AddDays(-4),
+                StartDate = DateTime.Now.AddDays(-4).AddHours(3),
+                EndDate = DateTime.Now.AddDays(-4).AddHours(4),
+                Purpose = "Development"
+            };
+            Schedule schedule12 = new Schedule
+            {
+                Id = new Guid("8bb44d07-f470-4434-a023-6bdffb4311cc"),
+                DeviceId = device3.Id,
+                AccountId = user4.Id,
+                ScheduledDate = DateTime.Now.AddDays(-5),
+                StartDate = DateTime.Now.AddDays(-5).AddHours(5),
+                EndDate = DateTime.Now.AddDays(-5).AddHours(6),
+                Purpose = "Development"
+            };
+            Schedule schedule13 = new Schedule
+            {
+                Id = new Guid("4fa30f09-e82a-4375-a28f-8190a8667a09"),
+                DeviceId = device3.Id,
+                AccountId = user6.Id,
+                ScheduledDate = DateTime.Now.AddDays(-6),
+                StartDate = DateTime.Now.AddDays(-6).AddHours(3),
+                EndDate = DateTime.Now.AddDays(-6).AddHours(6),
+                Purpose = "Development"
+            };
+            Schedule schedule14 = new Schedule
+            {
+                Id = new Guid("77790ba9-1f3c-4943-9e39-097000fc6fa2"),
+                DeviceId = device3.Id,
+                AccountId = user8.Id,
+                ScheduledDate = DateTime.Now.AddDays(-7),
+                StartDate = DateTime.Now.AddDays(-7).AddHours(3),
+                EndDate = DateTime.Now.AddDays(-7).AddHours(4),
+                Purpose = "Development"
+            };
+
+            Schedule schedule15 = new Schedule
+            {
+                Id = new Guid("5b1615a6-b870-456a-a483-e99a3f9122dc"),
+                DeviceId = device4.Id,
+                AccountId = user4.Id,
+                ScheduledDate = DateTime.Now.AddDays(-2),
+                StartDate = DateTime.Now.AddDays(-2).AddHours(3),
+                EndDate = DateTime.Now.AddDays(-2).AddHours(4),
+                Purpose = "Development"
+            };
+            Schedule schedule16 = new Schedule
+            {
+                Id = new Guid("ff18bb51-3c4e-4fcb-a73e-39f60996be8c"),
+                DeviceId = device5.Id,
+                AccountId = user7.Id,
+                ScheduledDate = DateTime.Now.AddDays(-1),
+                StartDate = DateTime.Now.AddDays(-1).AddHours(3),
+                EndDate = DateTime.Now.AddDays(-1).AddHours(4),
+                Purpose = "Development"
+            };
+            Schedule schedule17 = new Schedule
+            {
+                Id = new Guid("eb607a7a-2572-4a16-bbbd-99f3db25d40b"),
+                DeviceId = device6.Id,
+                AccountId = user5.Id,
+                ScheduledDate = DateTime.Now,
+                StartDate = DateTime.Now.AddHours(3),
+                EndDate = DateTime.Now.AddHours(4),
+                Purpose = "Development"
+            };
+            Schedule schedule18 = new Schedule
+            {
+                Id = new Guid("5547314b-521a-47e9-ad60-5e376e686636"),
+                DeviceId = device7.Id,
+                AccountId = user5.Id,
+                ScheduledDate = DateTime.Now,
+                StartDate = DateTime.Now.AddHours(3),
+                EndDate = DateTime.Now.AddHours(4),
+                Purpose = "Development"
+            };
+
+            Schedule schedule19 = new Schedule
+            {
+                Id = new Guid("9bfeb5df-03a4-4ae5-904e-1779c19a5313"),
+                DeviceId = device8.Id,
+                AccountId = user8.Id,
+                ScheduledDate = DateTime.Now.AddDays(-1),
+                StartDate = DateTime.Now.AddDays(-1).AddHours(3),
+                EndDate = DateTime.Now.AddDays(-1).AddHours(4),
+                Purpose = "Development"
+            };
+
+            Schedule schedule20 = new Schedule
+            {
+                Id = new Guid("6500363e-6574-42e7-8577-6dc87a55ce15"),
+                DeviceId = device9.Id,
+                AccountId = user5.Id,
+                ScheduledDate = DateTime.Now.AddDays(-2),
+                StartDate = DateTime.Now.AddDays(-2).AddHours(3),
+                EndDate = DateTime.Now.AddDays(-2).AddHours(4),
+                Purpose = "Development"
+            };
+
+            builder.Entity<Schedule>().HasData(schedule1, schedule10, schedule11, schedule12, schedule13, schedule14, schedule15, schedule16, schedule17, schedule18, schedule19, schedule2, schedule20, schedule3, schedule4, schedule5, schedule6, schedule7, schedule8, schedule9);
+
+            Report rp1 = new Report
+            {
+                Id = new Guid("75fb870f-e344-40c9-ab85-101631f22505"),
+                ScheduleId = schedule1.Id,
+                DeviceStatusId = 1,
+                Description = "Device was used for setting up a new development environment."
+            };
+
+            Report rp2 = new Report
+            {
+                Id = new Guid("d3b039bd-813c-4b33-af98-2264dcb440c0"),
+                ScheduleId = schedule2.Id,
+                DeviceStatusId = 2,
+                Description = "The laptop was utilized for testing the latest software build."
+            };
+
+            Report rp3 = new Report
+            {
+                Id = new Guid("c8fb056c-cff8-4db2-b951-01859431a35e"),
+                ScheduleId = schedule3.Id,
+                DeviceStatusId = 1,
+                Description = "Router firmware was updated and tested."
+            };
+
+            Report rp4 = new Report
+            {
+                Id = new Guid("8455c9b0-c2ca-4de4-bdee-3070dc8af954"),
+                ScheduleId = schedule4.Id,
+                DeviceStatusId = 1,
+                Description = "The desktop was used for backend development tasks."
+            };
+
+            Report rp5 = new Report
+            {
+                Id = new Guid("426c57ce-68aa-498b-b603-16cf1e7a238d"),
+                ScheduleId = schedule5.Id,
+                DeviceStatusId = 1,
+                Description = "Monitor calibrated for color accuracy."
+            };
+
+            Report rp6 = new Report
+            {
+                Id = new Guid("285ce1fd-470c-4474-ad1b-ba273c0e8653"),
+                ScheduleId = schedule6.Id,
+                DeviceStatusId = 1,
+                Description = "Printer serviced and toner replaced."
+            };
+
+            Report rp7 = new Report
+            {
+                Id = new Guid("dd8ac1ac-0f4f-45af-825e-e74e531b66dc"),
+                ScheduleId = schedule7.Id,
+                DeviceStatusId = 1,
+                Description = "Tablet used for sketching new UI designs."
+            };
+
+
+            Report rp8 = new Report
+            {
+                Id = new Guid("f1dcaea6-1670-47d7-b8cb-398b89ca09d0"),
+                ScheduleId = schedule8.Id,
+                DeviceStatusId = 1,
+                Description = "Projector used in a client presentation."
+            };
+
+            Report rp9 = new Report
+            {
+                Id = new Guid("0e287e15-6c9f-44ab-9fb3-dc183f5e5e92"),
+                ScheduleId = schedule9.Id,
+                DeviceStatusId = 1,
+                Description = "Network switch configuration updated."
+            };
+
+            Report rp10 = new Report
+            {
+                Id = new Guid("78d4e5bd-d685-49b5-8b12-e71df921ec65"),
+                ScheduleId = schedule10.Id,
+                DeviceStatusId = 1,
+                Description = "Server performance was monitored during load testing."
+            };
+
+            Report rp11 = new Report
+            {
+                Id = new Guid("b9d04c5f-2ec0-4da1-92ab-7ef9bdcd82e4"),
+                ScheduleId = schedule11.Id,
+                DeviceStatusId = 2,
+                Description = "Developer's laptop used for bug fixing."
+            };
+
+            Report rp12 = new Report
+            {
+                Id = new Guid("5faf118e-4687-47c2-9b83-ecb389b8b6d5"),
+                ScheduleId = schedule12.Id,
+                DeviceStatusId = 1,
+                Description = "Router settings optimized for network traffic."
+            };
+
+            Report rp13 = new Report
+            {
+                Id = new Guid("76199946-58bd-473a-95a7-9da8afcb9fc7"),
+                ScheduleId = schedule13.Id,
+                DeviceStatusId = 1,
+                Description = "Desktop setup for new project development."
+            };
+
+            Report rp14 = new Report
+            {
+                Id = new Guid("e4880a12-6d1d-4e9b-8832-89c5982b1346"),
+                ScheduleId = schedule14.Id,
+                DeviceStatusId = 2,
+                Description = "High-resolution monitor tested with graphic design software."
+            };
+
+            Report rp15 = new Report
+            {
+                Id = new Guid("06a6fcd7-eb30-4728-9856-ee8d00f84810"),
+                ScheduleId = schedule15.Id,
+                DeviceStatusId = 1,
+                Description = "Designer's tablet updated with latest design apps."
+            };
+
+            Report rp16 = new Report
+            {
+                Id = new Guid("cf4dfffd-74e9-46dd-b9b5-2a9d09001564"),
+                ScheduleId = schedule16.Id,
+                DeviceStatusId = 1,
+                Description = "Projector used for team meeting presentations."
+            };
+
+            Report rp17 = new Report
+            {
+                Id = new Guid("19f6bcc1-2a8d-4c5d-ab3b-d5d3b21da159"),
+                ScheduleId = schedule17.Id,
+                DeviceStatusId = 2,
+                Description = "Network switch maintenance and inspection."
+            };
+
+            Report rp18 = new Report
+            {
+                Id = new Guid("697817b7-9d65-47dd-a39b-909f89e25bce"),
+                ScheduleId = schedule18.Id,
+                DeviceStatusId = 1,
+                Description = "The desktop was used for backend development tasks."
+            };
+
+            Report rp19 = new Report
+            {
+                Id = new Guid("b774e795-3469-4b58-afe0-5f6e9e0a6aec"),
+                ScheduleId = schedule19.Id,
+                DeviceStatusId = 2,
+                Description = "The desktop was used for backend development tasks."
+            };
+
+            Report rp20 = new Report
+            {
+                Id = new Guid("5e2385b4-08f6-4e9e-888b-5d94c4b7fb78"),
+                ScheduleId = schedule20.Id,
+                DeviceStatusId = 2,
+                Description = "The desktop was used for backend development tasks."
+            };
+
+            builder.Entity<Report>().HasData(rp1, rp2, rp3, rp4, rp5, rp6, rp7, rp8, rp9, rp10, rp11, rp12, rp13, rp14, rp15, rp16, rp17, rp18, rp19, rp20);
+
         }
     }
 }
