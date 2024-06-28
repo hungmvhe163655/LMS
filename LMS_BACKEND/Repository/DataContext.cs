@@ -34,6 +34,7 @@ namespace Repository
         public DbSet<TaskHistory> TaskHistories { get; set; }
         public DbSet<TaskList> TaskLists { get; set; }
         public DbSet<Tasks> Tasks { get; set; }
+        public DbSet<TaskClosure> TaskClosure { get; set; }
         public DbSet<NewsFile> NewsFiles { get; set; }
         public DbSet<TaskPriorities> TaskPriorities { get; set; }
         public DbSet<TasksStatus> TaskStatus { get; set; }
@@ -41,13 +42,6 @@ namespace Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            /*
-            modelBuilder.Entity<IdentityUser>(entity =>
-            {
-                entity.ToTable("Account");
-                entity.Property(e => e.Id).HasColumnName("Id");
-            });
-            */
 
             modelBuilder.Entity<IdentityUserRole<string>>(entity =>
             {
@@ -486,7 +480,7 @@ namespace Repository
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.DueDate).HasColumnName("DueDate");
-                entity.Property(e => e.PredecessorTaskId).HasColumnName("PredecessorTaskId");
+               // entity.Property(e => e.PredecessorTaskId).HasColumnName("PredecessorTaskId");
                 entity.Property(e => e.RequiredValidation).HasColumnName("RequiresValidation");
                 entity.Property(e => e.StartDate).HasColumnName("StartDate");
                 entity.Property(e => e.TaskListId).HasColumnName("TaskListId");
@@ -499,11 +493,11 @@ namespace Repository
                 entity.HasOne(d => d.AssignedToUser).WithMany(p => p.Tasks)
                     .HasForeignKey(d => d.AssignedTo)
                     .HasConstraintName("FK_Tasks_Accounts");
-
+                /*
                 entity.HasOne(d => d.PredecessorTask).WithMany(p => p.InversePredecessorTask)
                     .HasForeignKey(d => d.PredecessorTaskId)
                     .HasConstraintName("FK_Tasks_Tasks");
-
+                */
                 entity.HasOne(d => d.TaskList).WithMany(p => p.Tasks)
                     .HasForeignKey(d => d.TaskListId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -518,7 +512,6 @@ namespace Repository
                     .HasForeignKey(d => d.TaskStatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Tasks_TaskStatus");
-                //////////////////////////////////////////////
                 entity.HasMany(d => d.Accounts).WithMany(p => p.TasksCurrent)
                     .UsingEntity<Dictionary<string, object>>(
                         "TasksAccount",
@@ -539,7 +532,6 @@ namespace Repository
                             j.IndexerProperty<Guid>("TaskId").HasColumnName("TaskId");
                             j.IndexerProperty<string>("AccountId").HasColumnName("AccountId");
                         });
-                ////////////////////////////////////////////////
                 entity.HasMany(d => d.Files).WithMany(p => p.Tasks)
                     .UsingEntity<Dictionary<string, object>>(
                         "TasksFile",
@@ -577,6 +569,24 @@ namespace Repository
                             j.IndexerProperty<Guid>("TaskId").HasColumnName("TaskId");
                             j.IndexerProperty<Guid>("LabelId").HasColumnName("LabelId");
                         });
+            });
+            modelBuilder.Entity<TaskClosure>(entity =>
+            {
+                entity.HasKey(e => new { e.AncestorID, e.DescendantID });
+
+                entity.Property(e => e.AncestorID).HasColumnName("Ancestor");
+                entity.Property(e => e.DescendantID).HasColumnName("Descendant");
+                entity.Property(e => e.Depth).HasColumnName("Depth");
+
+                entity.HasOne(d => d.AncestorTaskNavigation).WithMany(p => p.TaskClosuresAncestor)
+                    .HasForeignKey(d => d.AncestorID)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TaskClosures_Task");
+
+                entity.HasOne(d => d.DescendantTaskNavigation).WithMany(p => p.TaskClosuresDescendant)
+                    .HasForeignKey(d => d.DescendantID)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TaskClosures_Task1");
             });
             modelBuilder.Entity<TaskHistory>(entity =>
             {
