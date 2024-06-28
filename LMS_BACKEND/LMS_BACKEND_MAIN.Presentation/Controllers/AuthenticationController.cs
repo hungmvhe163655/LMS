@@ -153,7 +153,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 }
                 else
                 {
-                    return Unauthorized(new ResponseObjectModel { Code = 401, Status = "Failed", Value = outcome });
+                    return Unauthorized(new ResponseObjectModel { Code = 401, Status = "Failed", Value = new {Message = outcome });
                 }
             }
             catch (Exception ex)
