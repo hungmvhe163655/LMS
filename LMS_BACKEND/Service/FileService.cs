@@ -124,23 +124,34 @@ namespace Service
 
             return new GetFolderContentResponseModel { Files = end, Folders = folders };
         }
-        public async Task<bool> CreateFolder(Guid ancs_id, CreateFolderRequestModel model)
+        public async Task<bool> CreateFolder(CreateFolderRequestModel model)
         {
-            var hold_folder = new Folder { Id = Guid.NewGuid(), CreatedBy = model.CreatedBy, CreatedDate = DateTime.Now, Name = model.Name };
-
-            var hold_ancs = _repositoryManager.folderClosure.FindAncestors(ancs_id, false);
-
-            var hold = new List<FolderClosure>();
-
-            foreach (var item in hold_ancs)
-            {
-                hold.Add(new FolderClosure { AncestorID = item.AncestorID, DescendantID = hold_folder.Id, Depth = item.Depth + 1 });
-            }
-            hold.Add(new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 });
+            var hold_folder = new Folder { Id = Guid.NewGuid(), CreatedBy = model.CreatedBy, CreatedDate = DateTime.Now, LastModifiedDate = DateTime.Now, Name = model.Name };
 
             await _repositoryManager.folder.AddFolder(hold_folder);
 
-            await _repositoryManager.folderClosure.AddLeaf(hold);
+            if(model.AncestorId != Guid.Empty)
+            {
+                var hold_ancs = _repositoryManager.folderClosure.FindAncestors(model.AncestorId, false);
+
+                var hold = new List<FolderClosure>();
+
+                foreach (var item in hold_ancs)
+                {
+                    hold.Add(new FolderClosure { AncestorID = item.AncestorID, DescendantID = hold_folder.Id, Depth = item.Depth + 1 });
+                }
+                hold.Add(new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 });
+
+                await _repositoryManager.folderClosure.AddLeaf(hold);
+            }
+            else
+            {
+                var hold = new List<FolderClosure>();
+
+                hold.Add(new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 });
+
+                await _repositoryManager.folderClosure.AddLeaf(hold);
+            }
 
             await _repositoryManager.Save();
 

@@ -9,7 +9,7 @@ namespace Shared.DataTransferObjects.ResponseDTO
     public class ResponseObjectModel
     {
         public string? Status { get; set; }
-        public string? Code { get; set; }
+        public int? Code { get; set; }
         public Object? Value { get; set; }
     }
 }

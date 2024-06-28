@@ -192,6 +192,7 @@ namespace Repository
                     .HasColumnName("Id");
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
+                entity.Property(e => e.LastModifiedDate).HasColumnName("LastModifiedDate");
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .HasColumnName("Name");

@@ -43,15 +43,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                     {
                         ModelState.TryAddModelError(error.Code, error.Description);
                     }
-                    return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = ModelState });
+                    return BadRequest(new ResponseObjectModel { Code = 400, Status = "Failed", Value = ModelState });
                 }
                 await _service.MailService.SendVerifyOtp(model.Email ?? "");
 
-                return StatusCode(201, new ResponseObjectModel { Code = "201", Status = "Success", Value = result });
+                return StatusCode(201, new ResponseObjectModel { Code = 201, Status = "Success", Value = result });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = $"Internal error at {nameof(RegisterLabLead)}", Value = ex });
+                return StatusCode(500, new ResponseObjectModel { Code = 500, Status = $"Internal error at {nameof(RegisterLabLead)}", Value = ex });
             }
         }
         [HttpGet("accounts/{role}")]
@@ -62,13 +62,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 var hold = await _service.AccountService.GetUserByRole(role.ToUpper());
                 if (hold != null)
                 {
-                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = hold.Where(x => x.IsVerified = true) });
+                    return StatusCode(200, new ResponseObjectModel { Code = 200, Status = "OK", Value = hold.Where(x => x.IsVerified = true) });
                 }
-                return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "EMPTY", Value = hold });
+                return StatusCode(200, new ResponseObjectModel { Code = 200, Status = "EMPTY", Value = hold });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = ex });
+                return StatusCode(500, new ResponseObjectModel { Code = 500, Status = "Internal Error", Value = ex });
             }
 
         }
@@ -77,9 +77,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult Get(string email)
         {
-                var user =
-                _service.AccountService.GetVerifierAccounts(email);
-                return Ok(new { Status = "success", Value = user });
+            var user =
+            _service.AccountService.GetVerifierAccounts(email);
+            return Ok(new { Status = "success", Value = user });
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Supervisor")]
         [HttpPost("verify-account")]
@@ -97,7 +97,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 var user = await _service.AccountService.GetUserById(model.UserID);
                 if (user == null)
                 {
-                    return BadRequest(new ResponseObjectModel { Code = "401", Status = "BadRequest", Value = user });
+                    return BadRequest(new ResponseObjectModel { Code = 401, Status = "BadRequest", Value = user });
                 }
                 var hold = new List<string>
                 {
@@ -105,7 +105,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 };
                 if (await _service.AccountService.UpdateAccountVerifyStatus(hold, model.verifierID))
                 {
-                    return Ok(new ResponseObjectModel { Status = "success", Code = "200", Value = "Update User " + user.FullName + " Status Successully" });
+                    return Ok(new ResponseObjectModel { Status = "success", Code = 200, Value = "Update User " + user.FullName + " Status Successully" });
                 }
             }
             catch
@@ -128,7 +128,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             {
                 if (await _service.AccountService.ChangePasswordAsync(model.UserID, model.OldPassword, model.NewPassword))
                 {
-                    return Ok(new ResponseObjectModel { Status = "success", Code = "200", Value = "Change Password Successully" });
+                    return Ok(new ResponseObjectModel
+                    {
+                        Status = "success",
+                        Code = 200,
+                        Value = "Change Password Successully"
+                    });
                 }
             }
             catch
@@ -151,7 +156,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             {
                 //if (await _service.AccountService.ChangePasswordAsync(model.UserID, model.OldPassword, model.NewPassword))
                 //{
-                //    return Ok(new ResponseObjectModel { Status = "success", Code = "200", Value = "Change Password Successully" });
+                //    return Ok(new ResponseObjectModel { Status = "success", Code = 200", Value = "Change Password Successully" });
                 //}
             }
             catch
@@ -173,7 +178,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             try
             {
                 if (await _service.AccountService.UpdateProfileAsync(model.UserID, model.FullName, model.RollNumber, model.Major, model.Specialized))
-                    return Ok(new ResponseObjectModel { Status = "success", Code = "200", Value = "Update Profile Successully" });
+                    return Ok(new ResponseObjectModel
+                    {
+                        Status = "success",
+                        Code = 200,
+                        Value = "Update Profile Successully"
+                    });
             }
             catch
             {
