@@ -21,6 +21,7 @@ namespace Service
         private readonly Lazy<INewsService> _newsService;
         private readonly Lazy<IFileService> _fileService;
         private readonly Lazy<INotificationService> _notificationService;
+        private readonly Lazy<IFolderService> _folderService;
         //
         public ServiceManager(
             IRepositoryManager repositoryManager,
@@ -40,6 +41,7 @@ namespace Service
             _newsService = new Lazy<INewsService>(() => new NewsService(logger, repositoryManager, mapper));
             _fileService = new Lazy<IFileService>(() => new FileService(clients3, configuration,mapper,repositoryManager));
             _notificationService = new Lazy<INotificationService>(()=> new NotificationService(repositoryManager,notiHub));
+            _folderService = new Lazy<IFolderService>(() => new FolderService());
         }
         public IAccountService AccountService => _accountService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;

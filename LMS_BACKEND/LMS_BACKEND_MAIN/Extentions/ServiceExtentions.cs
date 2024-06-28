@@ -34,11 +34,12 @@ namespace LMS_BACKEND_MAIN.Extentions
 
             services.AddCors(
                 options => options.AddPolicy("CorsPolicy", builder =>
-                builder.WithOrigins(corsConfig.Origins ?? throw new NullReferenceException("Not found corsConfig"))
-                           .AllowAnyHeader()
-                           .AllowAnyMethod()
-                           .AllowCredentials()
-                ));
+                builder.WithOrigins(corsConfig.Origins??throw new NullReferenceException("Not found corsConfig"))
+                .AllowCredentials()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithExposedHeaders("X-Pagination"))
+                );
         }
         public static void ConfigureIISIntegration(this IServiceCollection services)
         {
