@@ -30,14 +30,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 try
                 {
                     var tokenDtoEnd = await _service.AuthenticationService.RefreshTokens(model);
-                    return Ok(new ResponseObjectModel { Code = "200", Status = "Success", Value = tokenDtoEnd });
+                    return Ok(new ResponseObjectModel { Code = 200, Status = "Success", Value = tokenDtoEnd });
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = ex });
+                    return StatusCode(500, new ResponseObjectModel { Code = 500, Status = "Internal Error", Value = ex });
                 }
             }
-            return BadRequest(new ResponseObjectModel { Code = "400", Status = "Failed", Value = "Invalid Token" });
+            return BadRequest(new ResponseObjectModel { Code = 400, Status = "Failed", Value = "Invalid Token" });
         }
     }
 }

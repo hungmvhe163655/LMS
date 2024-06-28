@@ -75,12 +75,7 @@ namespace Repository
         public async Task<IEnumerable<T>> GetPagedAsync(RequestParameters lamao, bool Trackable)
         {
             var query = !Trackable ? _context.Set<T>().AsNoTracking() : _context.Set<T>();
-
-            var totalRecords = await query.CountAsync();
-            var data = await query.Skip((lamao.PageNumber - 1) * lamao.PageSize).Take(lamao.PageSize).ToListAsync();
-
-            return data;
-
+            return PagedList<T>.ToPagedList(await query.ToListAsync(), lamao.PageNumber, lamao.PageSize);
         }
     }
 }
