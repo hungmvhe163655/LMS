@@ -5,6 +5,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 
 namespace Service
@@ -48,18 +49,6 @@ namespace Service
             {
                 throw;
             }
-            //try
-            //{
-            //    News news = _mapper.Map<News>(newsModel);
-
-            //    await _repository.news.CreateAsync(news);
-
-            //    return true;
-            //}
-            //catch
-            //{
-            //    throw;
-            //}
         }
 
         public async Task<bool> DeleteNewsAsync(int id)
@@ -81,38 +70,26 @@ namespace Service
             }
         }
 
-        public async Task<NewsReponse> GetNewsById(string? id)
+        public async Task<IEnumerable<NewsReponseModel>> GetNewsAsync(NewsRequestParameters newsParameter, bool trackChanges)
+        {
+            var newsFromDb= await _repository.news.GetNewsAsync(newsParameter, trackChanges);
+            var newsDto= _mapper.Map<IEnumerable<NewsReponseModel>>(newsFromDb);
+            return newsDto;
+        }
+
+        public async Task<NewsReponseModel> GetNewsById(string? id)
         {
             try
             {
                 var news = await _repository.news.GetByConditionAsync(news => news.Id.Equals(id), false);
                 if (news == null) throw new BadRequestException("Can't found news with id " + id);
-                return _mapper.Map<NewsReponse>(news.First());
+                return _mapper.Map<NewsReponseModel>(news.First());
             }
             catch
             {
                 throw;
             }
         }
-
-        //public async Task<NewsReponse> GetNewsDetail(int newsId)
-        //{
-        //    try
-        //    {
-        //        var news = await _repository.news.GetByConditionAsync(entity => entity.Id.Equals(newsId), true);
-        //        if (news != null)
-        //        {
-        //            NewsReponse newsReponse = _mapper.Map<NewsReponse>(news);
-
-        //            return newsReponse;
-        //        }
-        //        return null;
-        //    }
-        //    catch
-        //    {
-        //        throw;
-        //    }
-        //}
 
         public async Task UpdateNewsAsync(NewsRequestModel model)
         {
