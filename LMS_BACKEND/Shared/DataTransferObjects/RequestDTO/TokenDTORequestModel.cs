@@ -8,7 +8,7 @@ namespace Shared.DataTransferObjects.RequestDTO
 {
     public class TokenDTORequestModel
     {
-        public string? AccessToken { get; set; }
-        public string? RefreshToken { get; set; }
+        public string AccessToken { get; set; } = null!;
+        public string RefreshToken { get; set; } = null!;
     }
 }

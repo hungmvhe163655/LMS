@@ -16,21 +16,28 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
     public class FolderController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
-        public FolderController(IServiceManager serviceManager) 
+        public FolderController(IServiceManager serviceManager)
         {
             _serviceManager = serviceManager;
         }
+
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetFolder(Guid FolderID)
         {
-            return Ok(new ResponseObjectModel { Code = StatusCodes.Status200OK, Status = "Success", Value = await _serviceManager.FileService.GetFolderContent(FolderID) });
+            return Ok(await _serviceManager.FileService.GetFolderContent(FolderID));
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateFolder(CreateFolderRequestModel model)
         {
             var result = await _serviceManager.FileService.CreateFolder(model);
-            if (result) return Ok(new ResponseObjectModel { Code = StatusCodes.Status200OK, Status = "Success", Value = model });
-            return BadRequest(new ResponseObjectModel { Code = StatusCodes.Status400BadRequest, Status = "Failed", Value = new { Message = ModelState.ErrorCount } });
+
+            if (!result)
+            {
+                return BadRequest(new ResponseMessage { Message = "Failed Create Folder" });
+            }
+
+            return Ok(model);
         }
     }
 }
