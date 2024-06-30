@@ -13,5 +13,7 @@ namespace Shared.DataTransferObjects.RequestParameters
 
         public bool ValidCreatedDateRange => DateTime.Compare(minCreatedDate, maxCreatedDate)<0;
         public string? SearchTerm { get; set; }
+        public bool SearchByContent { get; set; } = false;
+
     }
 }

@@ -7,9 +7,9 @@ namespace Service.Contracts
     public interface INewsService
     {
         Task<IEnumerable<NewsReponseModel>> GetNewsAsync(NewsRequestParameters newsParameter, bool trackChanges);
-        Task<NewsReponseModel> GetNewsById(string id);
+        Task<NewsReponseModel> GetNewsById(Guid id);
         Task<bool> CreateNewsAsync(NewsRequestModel model);
         Task UpdateNewsAsync(NewsRequestModel model);
-        Task<bool> DeleteNewsAsync(int id);
+        Task<bool> DeleteNewsAsync(Guid id);
     }
 }

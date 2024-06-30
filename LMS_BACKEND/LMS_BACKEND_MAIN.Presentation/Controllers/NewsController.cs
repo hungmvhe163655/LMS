@@ -28,10 +28,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult GetNewsById(string id)
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetNewsById(Guid id)
         {
-                var data = _service.NewsService.GetNewsById(id);
+                var data = await _service.NewsService.GetNewsById(id);
                 return Ok(new { Status = "success", Value = data });
         }
 
@@ -54,7 +54,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(Guid id)
         {
                 var data = _service.NewsService.DeleteNewsAsync(id);
                 return Ok(new { Status = "success", Value = data });

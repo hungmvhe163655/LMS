@@ -42,15 +42,10 @@ namespace Service
         public async Task<Account> GetUserById(string id) => await _repository.account.GetByCondition(entity => entity.Id.Equals(id), false).FirstAsync();
         public async Task<Account> GetUserByName(string userName)
         {
-            try
-            {
-                var user = await _repository.account.FindByNameAsync(userName, false);
-                return user;
-            }
-            catch
-            {
-                throw;
-            }
+
+            var user = await _repository.account.FindByNameAsync(userName, false);
+            if (user == null) throw new BadRequestException("No user with username: " + userName);
+            return user;
         }
         public async Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> UserIDList, string verifier)
         {
@@ -77,43 +72,31 @@ namespace Service
         }
         public async Task<IEnumerable<Account>> GetVerifierAccounts(string email)
         {
-                var user = await _repository.account.GetByConditionAsync(entity => entity.Email.Equals(email), false);
-                var end = user.First();
-                if (end == null) throw new UnauthorizedException("Invalid User");
-                return _repository.account.GetByCondition(entity => entity.VerifiedBy.Equals(end.Id), false).ToList();
+            var user = await _repository.account.GetByConditionAsync(entity => entity.Email != null && entity.Email.Equals(email), false);
+            var end = user.First();
+            if (end == null) throw new UnauthorizedException("Invalid User");
+            return _repository.account.GetByCondition(entity => entity.VerifiedBy != null && entity.VerifiedBy.Equals(end.Id), false).ToList();
         }
 
         public async Task<IEnumerable<Account>> GetUserByRole(string role)
         {
-            try
-            {
+
                 var hold = await _roleManager.FindByNameAsync(role);
-                if (hold != null) return await _userManager.GetUsersInRoleAsync(hold.Name);
-            }
-            catch
-            {
-                throw;
-            }
-            return null;
+                if (hold != null) 
+                return await _userManager.GetUsersInRoleAsync(hold.Name);
+                else throw new BadRequestException("Can not find user with role name: " + role);
         }
 
         public async Task<bool> ChangePasswordAsync(string userId, string oldPassword, string newPassword)
         {
-            try
+            var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), true);
+            var account = user.FirstOrDefault();
+            if (account != null)
             {
-                var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), true);
-                var account = user.FirstOrDefault();
-                if (account != null)
-                {
-                    var result = await _userManager.ChangePasswordAsync(account, oldPassword, newPassword);
-                    return result.Succeeded;
-                }
+                var result = await _userManager.ChangePasswordAsync(account, oldPassword, newPassword);
+                return result.Succeeded;
             }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Exceptions Occur at service {nameof(ChangePasswordAsync)} with the message\" + {ex.Message}");
-            }
-            return false;
+            else throw new BadRequestException("User with id: " + userId + " is not exist");
         }
 
         public async Task<bool> UpdateProfileAsync(string userId, string name, string rollNumber, string major, string specialized)
@@ -124,7 +107,7 @@ namespace Service
 
                 var account = user.FirstOrDefault();
 
-                if (account == null) return false;
+                if (account == null) throw new BadRequestException("User with id: " + userId + " is not exist");
 
                 account.FullName = name;
 

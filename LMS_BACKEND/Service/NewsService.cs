@@ -51,7 +51,7 @@ namespace Service
             }
         }
 
-        public async Task<bool> DeleteNewsAsync(int id)
+        public async Task<bool> DeleteNewsAsync(Guid id)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace Service
             return newsDto;
         }
 
-        public async Task<NewsReponseModel> GetNewsById(string? id)
+        public async Task<NewsReponseModel> GetNewsById(Guid id)
         {
             try
             {
