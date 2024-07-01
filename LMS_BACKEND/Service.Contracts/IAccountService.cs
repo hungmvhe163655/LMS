@@ -1,5 +1,6 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Shared.DataTransferObjects.RequestDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,6 @@ namespace Service.Contracts
         Task<IEnumerable<Account>> GetVerifierAccounts(string userName);
         Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> userIdList,string verifier);
         Task<bool> ChangePasswordAsync(string userId, string oldPassword, string newPassword);
-        Task<bool> UpdateProfileAsync(string userId, string name, string rollNumber, string major, string specialized);
+        Task UpdateProfileAsync(string userId, UpdateProfileRequestModel model);
     }
 }

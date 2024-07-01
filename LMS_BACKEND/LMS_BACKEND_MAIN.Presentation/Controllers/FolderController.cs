@@ -39,5 +39,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return Ok(model);
         }
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteFolder(Guid FolderID)
+        {
+            await _serviceManager.FileService.DeleteFolder(FolderID);
+
+            return StatusCode(StatusCodes.Status201Created, new ResponseMessage { Message = "DELETEFILE" });
+        }
     }
 }

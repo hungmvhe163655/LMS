@@ -71,12 +71,13 @@ namespace Service
 
                         user.EmailConfirmed = true;
 
-                       var result = await _userManager.UpdateAsync(user);
+                        var result = await _userManager.UpdateAsync(user);
                         if (!result.Succeeded) throw new Exception("Internal Error");
 
                         return true;
                     }
                 }
+                else throw new BadRequestException("User with email: " + email + " is not exist!");
             }
             catch
             {
