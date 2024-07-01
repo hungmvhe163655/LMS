@@ -77,9 +77,5 @@ namespace Repository
             var query = !Trackable ? _context.Set<T>().AsNoTracking() : _context.Set<T>();
             return PagedList<T>.ToPagedList(await query.ToListAsync(), lamao.PageNumber, lamao.PageSize);
         }
-        public void DeleteRange(IEnumerable<T> entities)
-        {
-            _context.Set<T>().RemoveRange(entities);
-        }
     }
 }
