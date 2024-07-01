@@ -1,4 +1,4 @@
-import { Link } from '../ui/link';
+import { Link } from '../app/link';
 
 import { Logo } from './logo';
 
@@ -10,12 +10,12 @@ export function Footer() {
           <Logo />
           <ul className='mb-6 flex flex-wrap items-center text-sm font-medium text-gray-500 dark:text-gray-400 sm:mb-0'>
             <li>
-              <Link to='#' className='me-4 md:me-6'>
+              <Link to='#' className='me-4 text-lg font-light md:me-6'>
                 About
               </Link>
             </li>
             <li>
-              <Link to='#' className='me-4 md:me-6'>
+              <Link to='#' className='me-4 text-lg font-light md:me-6'>
                 Regulation
               </Link>
             </li>

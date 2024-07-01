@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -16,26 +18,20 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = service;
         }
 
-        //[HttpGet("news")]
+        [HttpGet]
         //[Authorize(AuthenticationSchemes = "Bearer")]
-        //public IActionResult Gets(string? title)
-        //{
-        //    try
-        //    {
-        //        var data = _service.NewsService.GetNewsByTitle(title);
-        //        return Ok(new { Status = "success", Value = data });
-        //    }
-        //    catch
-        //    {
-        //        return StatusCode(500, "Internal server error");
-        //    }
-        //}
+        public async Task<IActionResult> GetNewsAsync([FromQuery] NewsRequestParameters newsParameters)
+        {
+            var news = await _service.NewsService.GetNewsAsync(newsParameters, trackChanges: false);
+
+            return Ok(new { Status = "success", Value = news });
+        }
 
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult GetNewsById(string id)
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetNewsById(Guid id)
         {
-                var data = _service.NewsService.GetNewsById(id);
+                var data = await _service.NewsService.GetNewsById(id);
                 return Ok(new { Status = "success", Value = data });
         }
 
@@ -58,7 +54,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(Guid id)
         {
                 var data = _service.NewsService.DeleteNewsAsync(id);
                 return Ok(new { Status = "success", Value = data });

@@ -38,5 +38,12 @@ export const createRouter = (queryClient: QueryClient) =>
     {
       path: '/profile',
       children: [OverallRoute, EmailRoute, PasswordRoute, PhoneNumberRoute, TwoFactorRoute]
+    },
+    {
+      path: '*',
+      lazy: async () => {
+        const { NotFoundRoute } = await import('./not-found');
+        return { Component: NotFoundRoute };
+      }
     }
   ]);
