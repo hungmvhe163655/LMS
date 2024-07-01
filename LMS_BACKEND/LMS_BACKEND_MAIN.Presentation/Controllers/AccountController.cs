@@ -102,9 +102,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }           
         }*/
 
-        [HttpPut("{id}")]
+        [HttpPut("{userid:guid}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> UpdateProfile(string userId, [FromBody] UpdateProfileRequestModel model)
         {
             if(model is null) return BadRequest("Update Profile is null");
