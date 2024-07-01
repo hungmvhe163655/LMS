@@ -5,6 +5,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
+using Shared.DataTransferObjects.RequestDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,7 +100,7 @@ namespace Service
             else throw new BadRequestException("User with id: " + userId + " is not exist");
         }
 
-        public async Task<bool> UpdateProfileAsync(string userId, string name, string rollNumber, string major, string specialized)
+        public async Task UpdateProfileAsync(string userId, UpdateProfileRequestModel model)
         {
             try
             {
@@ -109,33 +110,30 @@ namespace Service
 
                 if (account == null) throw new BadRequestException("User with id: " + userId + " is not exist");
 
-                account.FullName = name;
+                account.FullName = model.FullName;
 
-                var listStudentDetail = await _repository.studentDetail.GetByConditionAsync(entity => entity.AccountId.Equals(userId), true);
-                var studentDetail = listStudentDetail.FirstOrDefault();
+                var hold = await _repository.studentDetail.GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), true);
+                var studentDetail = hold.FirstOrDefault();
 
                 if (studentDetail == null)
                 {
-                    var newStudentDetail = new StudentDetail() { AccountId = userId, RollNumber = rollNumber, Major = major, Specialized = specialized };
+                    var newStudentDetail = new StudentDetail() { AccountId = userId, RollNumber = model.RollNumber, Major = model.Major, Specialized = model.Specialized };
                     await _repository.studentDetail.CreateAsync(newStudentDetail);
                 }
                 else
                 {
-                    studentDetail.RollNumber = rollNumber;
-                    studentDetail.Major = major;
-                    studentDetail.Specialized = specialized;
+                    studentDetail.RollNumber = model.RollNumber;
+                    studentDetail.Major = model.Major;
+                    studentDetail.Specialized = model.Specialized;
                     _repository.studentDetail.Update(studentDetail);
                 }
                 _repository.account.Update(account);
                 await _repository.Save();
-
-                return true;
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exceptions Occur at service {nameof(ChangePasswordAsync)} with the message\" + ex.messeage");
+                _logger.LogError($"Exceptions Occur at service {nameof(UpdateProfileAsync)} with the message\" + ex.messeage");
             }
-            return false;
         }
 
         //public async Task<bool> ChangePhoneNumberAsync(string userId, string phoneNumber, string verifyCode)
