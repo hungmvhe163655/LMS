@@ -9,11 +9,9 @@ namespace Repository
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
         protected DataContext _context;
-        //protected DbSet<T> entities;//Ignore this
         public RepositoryBase(DataContext context)
         {
             _context = context;
-            //entities = this._context.Set<T>();//Ignore this
         }
 
         public IQueryable<T> FindAll(bool Trackable) => !Trackable ?
@@ -36,33 +34,7 @@ namespace Repository
         public async Task<IEnumerable<T>> FindAllAsync(bool Trackable) => !Trackable ?
           await _context.Set<T>().AsNoTracking().ToListAsync()
           : await _context.Set<T>().ToListAsync();
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Ignore these methods
-        //public T Find(int id)
-        //{
-        //    try
-        //    {
-        //        return entities.Find(id);
-        //    }
-        //    catch (Exception)
-        //    {
 
-        //        return null;
-
-        //    }
-
-        //}
-        //public IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includes)
-        //{
-        //    IQueryable<T> query = entities;
-
-        //    foreach (var include in includes)
-        //    {
-        //        query = query.Include(include);
-        //    }
-
-        //    return query.ToList();
-        //}
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public async Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression, bool Trackable) => !Trackable ?
             await _context.Set<T>().Where(expression).AsNoTracking().ToListAsync()
             : await _context.Set<T>().Where(expression).ToListAsync();
