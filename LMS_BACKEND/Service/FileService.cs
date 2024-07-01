@@ -4,6 +4,7 @@ using AutoMapper;
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
@@ -11,6 +12,7 @@ using Shared.DataTransferObjects.ResponseDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,31 +31,108 @@ namespace Service
             _mappers = mapper;
             _repositoryManager = repository;
         }
-        private async Task<PutObjectResponse> UploadFileToS3Async(string key, Stream inputStream)
+        private async Task DeleteFileFromS3Async(string key)
+        {
+            DeleteObjectRequest request = new DeleteObjectRequest
+            {
+                BucketName = _bucketName,
+                Key = key
+            };
+            await _s3Client.DeleteObjectAsync(request);
+        }
+        private bool IsFileExists(string key)
+        {
+            try
+            {
+                GetObjectMetadataRequest request = new GetObjectMetadataRequest()
+                {
+                    BucketName = _bucketName,
+                    Key = key
+                };
+
+                var response = _s3Client.GetObjectMetadataAsync(request).Result;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null && ex.InnerException is AmazonS3Exception awsEx)
+                {
+                    if (string.Equals(awsEx.ErrorCode, "NoSuchBucket"))
+                        return false;
+
+                    else if (string.Equals(awsEx.ErrorCode, "NotFound"))
+                        return false;
+                }
+
+                throw;
+            }
+        }
+        private async Task<PutObjectResponse> UploadFileToS3Async(string Key, string contentType, Stream inputStream)
         {
             var putRequest = new PutObjectRequest
             {
                 BucketName = _bucketName,
-                Key = key,
+                Key = Key,
                 InputStream = inputStream,
-                ContentType = "application/octet-stream"
+                ContentType = contentType,
+                DisablePayloadSigning = true
             };
 
             var response = await _s3Client.PutObjectAsync(putRequest);
             return response;
         }
 
-        private async Task<Stream> GetFileFromS3Async(string key)
+        private async Task<byte[]> GetFileFromS3Async(string key)
         {
-            var request = new GetObjectRequest
+            MemoryStream ms;
+
+            GetObjectRequest getObjectRequest = new GetObjectRequest
             {
                 BucketName = _bucketName,
                 Key = key
             };
 
-            var response = await _s3Client.GetObjectAsync(request);
+            using (var response = await _s3Client.GetObjectAsync(getObjectRequest))
+            {
+                if (response.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    using (ms = new MemoryStream())
+                    {
+                        await response.ResponseStream.CopyToAsync(ms);
+                    }
+                    if (ms == null || ms.ToArray().Length < 1) throw new BadRequestException(string.Format("The document '{0}' is not found", key));
 
-            return response.ResponseStream;
+                    return ms.ToArray();
+                }
+            }
+            throw new BadRequestException("Error while getting file from R2");
+
+
+        }
+        private async Task<(IEnumerable<Files>, Files)> FindFileById(Guid id){
+            var hold_FileDB = await _repositoryManager.file.GetFiles(false);
+
+            var end = hold_FileDB.Where(x => x.Id.Equals(id)).ToList();
+
+            if (!end.Any()) throw new BadRequestException("No File With that Id was found");
+
+            var hold_file = end.First();
+
+            if (!IsFileExists(hold_file.FileKey)) throw new BadRequestException("File with such key doesn't exist");
+
+            return (hold_FileDB, hold_file);
+        }
+
+        public async Task DeleteFile(Guid id)
+        {
+            var (_, hold_file) = await FindFileById(id);
+
+            await DeleteFileFromS3Async(hold_file.FileKey);
+
+            _repositoryManager.file.Delete(hold_file);
+          
+            await _repositoryManager.Save();
         }
         public async Task CreateFile(FileUploadRequestModel model, Stream inputStream)
         {
@@ -61,30 +140,31 @@ namespace Service
 
             model.FileKey = fileKey;
 
-            var result = await UploadFileToS3Async(fileKey, inputStream);
-            if (result != null) { throw new NotFoundException("NOT FOUND FILE"); }
+            var hold = _mappers.Map<Files>(model);
 
-            await _repositoryManager.file.CreateFile(_mappers.Map<Files>(model));
+            hold.Id = Guid.NewGuid();
+
+            var result = await UploadFileToS3Async(fileKey, model.MimeType, inputStream);
+
+            if (result.HttpStatusCode != System.Net.HttpStatusCode.OK) { throw new Exception("Add File Failed due to AWS: " + result.HttpStatusCode); }
+
+            await _repositoryManager.file.CreateFile(hold);
 
             await _repositoryManager.Save();
         }
-        public async Task<(Stream, FileResponseModel)> GetFile(string fileID)
+        public async Task<(byte[], FileResponseModel)> GetFile(Guid fileID)
         {
-            var hold_FileDB = await _repositoryManager.file.GetFiles(false);
+            var (hold_FileDB, hold_file) = await FindFileById(fileID);
 
-            var end = hold_FileDB.Where(x => x.Id.Equals(fileID)).First();
+            var hold = await GetFileFromS3Async(hold_file.FileKey ?? throw new Exception("Not found File key"));
 
-            if (end == null) throw new BadRequestException("No File With that Id was found");
+            var hold_return_model = _mappers.Map<FileResponseModel>(hold_file);
 
-            var hold = await GetFileFromS3Async(end.FileKey ?? throw new Exception("Not found File key"));
-
-            var hold_return_model = _mappers.Map<FileResponseModel>(hold_FileDB);
-
-            hold_return_model.FolderPath = _repositoryManager.folderClosure.GetBranch(end.FolderId, false).ToString() ?? "";
+            hold_return_model.FolderPath = _repositoryManager.folderClosure.GetBranch(hold_file.FolderId, false).ToString() ?? "";
 
             return (hold, hold_return_model);
         }
-        public async Task<Stream> DownloadFile(string fileKey)
+        public async Task<byte[]> DownloadFile(string fileKey)
         {
             var hold = await GetFileFromS3Async(fileKey ?? throw new BadRequestException("Not found File key"));
 

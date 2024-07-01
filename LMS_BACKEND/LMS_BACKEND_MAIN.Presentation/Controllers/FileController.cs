@@ -1,20 +1,21 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/file")]
     [ApiController]
-    [Authorize]
     public class FileController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
@@ -23,13 +24,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _serviceManager = serviceManager;
         }
-        [HttpPost]
-        public async Task<IActionResult> UploadFile([FromForm] IFormFile file, [FromBody] FileUploadRequestModel metadata)
+        [HttpPost("upload/{folderid:guid}")]
+        public async Task<IActionResult> UploadFile(Guid folderid, [FromForm] IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
                 return BadRequest(new ResponseObjectModel { Code = 400, Status = "Failed", Value = "FILE IS NULL OR EMPTY" });
             }
+            var metadata = new FileUploadRequestModel { FolderId = folderid, MimeType = file.ContentType, Size = file.Length, Name = file.Name };
+
             if (metadata == null)
             {
                 return BadRequest(new ResponseObjectModel { Code = 400, Status = "Failed", Value = "Metadata is required" });
@@ -47,28 +50,33 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
         }
         [HttpGet]
-        [Route("download/{key}")]
-        public async Task<IActionResult> DownloadFile(string key)
+        [Route("download/{id:guid}")]
+        public async Task<IActionResult> DownloadFile(Guid id)
         {
             try
             {
-                var fileStream = await _serviceManager.FileService.GetFile(key);
+                var (fileStream, fileDetail) = await _serviceManager.FileService.GetFile(id);
 
-                if (fileStream.Item1 == null || fileStream.Item2 == null)
+                if (fileStream == null || fileDetail == null)
                 {
-                    return NotFound(new ResponseObjectModel { Code = 404, Status = "Failed", Value = "File not found" });
+                    return NotFound(new { Code = 404, Status = "Failed", Value = "File not found" });
                 }
 
-                string mimeType = MIME.GetMimeType(fileStream.Item2.MimeType);
+                var fileDetailJson = JsonConvert.SerializeObject(new { Code = 200, Status = "Success", Value = fileDetail });
 
-                var contentType = "application/octet-stream";
-
-                return Ok(new ResponseObjectModel { Code = 200, Status = "Success", Value = new { FileResult = File(fileStream.Item1, contentType), FileDetail = fileStream.Item2 } });
+                //Response.Headers.Add("X-File-Details", fileDetailJson);
+                return File(fileStream, fileDetail.MimeType, fileDetail.Name);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new ResponseObjectModel { Code = 500, Status = "Failed", Value = $"An error occurred while Dowloading the file.{ex.Message}" });
             }
+        }
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteFile(Guid id)
+        {
+           await _serviceManager.FileService.DeleteFile(id);
+            return Ok(new ResponseObjectModel { Code = StatusCodes.Status200OK, Status = "Success"});
         }
     }
 }
