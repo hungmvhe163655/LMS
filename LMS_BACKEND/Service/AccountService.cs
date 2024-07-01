@@ -132,7 +132,7 @@ namespace Service
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exceptions Occur at service {nameof(UpdateProfileAsync)} with the message\" + ex.messeage");
+                _logger.LogError($"Exceptions Occur at service {nameof(UpdateProfileAsync)} with the message" + ex.Message);
             }
         }
 
