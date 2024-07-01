@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using LMS_BACKEND_MAIN.Presentation.ActionFilters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -23,52 +24,48 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _serviceManager = serviceManager;
         }
+
         [HttpPost]
         public async Task<IActionResult> UploadFile([FromForm] IFormFile file, [FromBody] FileUploadRequestModel metadata)
         {
-            if (file == null || file.Length == 0)
+            if (file.Length == 0)
             {
-                return BadRequest(new ResponseObjectModel { Code = 400, Status = "Failed", Value = "FILE IS NULL OR EMPTY" });
+                return BadRequest(new ResponseMessage { Message = "File Is Null Or Empty" });
             }
             if (metadata == null)
             {
-                return BadRequest(new ResponseObjectModel { Code = 400, Status = "Failed", Value = "Metadata is required" });
+                return BadRequest(new ResponseMessage { Message = "Metadata is required" });
             }
 
-            using (var memoryStream = new MemoryStream())
-            {
-                await file.CopyToAsync(memoryStream);
+            using var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream);
 
-                memoryStream.Position = 0;
+            memoryStream.Position = 0;
 
-                await _serviceManager.FileService.CreateFile(metadata, memoryStream);
 
-                return Ok(new ResponseObjectModel { Code = 200, Status = "Success", Value = "File uploaded successfully." });
-            }
+            var result = await _serviceManager.FileService.CreateFile(metadata, memoryStream);
+
+            return Ok(new ResponseMessage { Message = "File uploaded successfully." });
         }
+
         [HttpGet]
         [Route("download/{key}")]
         public async Task<IActionResult> DownloadFile(string key)
         {
-            try
+
+            var fileStream = await _serviceManager.FileService.GetFile(key);
+
+            if (fileStream.Item1 == null || fileStream.Item2 == null)
             {
-                var fileStream = await _serviceManager.FileService.GetFile(key);
-
-                if (fileStream.Item1 == null || fileStream.Item2 == null)
-                {
-                    return NotFound(new ResponseObjectModel { Code = 404, Status = "Failed", Value = "File not found" });
-                }
-
-                string mimeType = MIME.GetMimeType(fileStream.Item2.MimeType);
-
-                var contentType = "application/octet-stream";
-
-                return Ok(new ResponseObjectModel { Code = 200, Status = "Success", Value = new { FileResult = File(fileStream.Item1, contentType), FileDetail = fileStream.Item2 } });
+                return NotFound(new ResponseMessage { Message = "File not found" });
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new ResponseObjectModel { Code = 500, Status = "Failed", Value = $"An error occurred while Dowloading the file.{ex.Message}" });
-            }
+
+            string mimeType = MIME.GetMimeType(fileStream.Item2.MimeType);
+
+            var contentType = "application/octet-stream";
+
+            return Ok(new { FileResult = File(fileStream.Item1, contentType), FileDetail = fileStream.Item2 });
+
         }
     }
 }
