@@ -10,10 +10,12 @@ namespace Service.Contracts
 {
     public interface IFileService
     {
-        Task<bool> CreateFile(FileUploadRequestModel model, Stream inputStream);
-        Task<(Stream, FileResponseModel)> GetFile(string fileID);
-        Task<Stream> DownloadFile(string fileKey);
+
+        Task CreateFile(FileUploadRequestModel model, Stream inputStream);
+        Task<(byte[], FileResponseModel)> GetFile(Guid fileID);
+        Task<byte[]> DownloadFile(string fileKey);
         Task EditFile(FileEditRequestModel model);
+        Task DeleteFile(Guid id);
         Task EditFolder(FolderEditRequestModel model);
         Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID);
         Task<bool> CreateFolder(CreateFolderRequestModel model);
