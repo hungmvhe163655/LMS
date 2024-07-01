@@ -44,7 +44,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             await _serviceManager.FileService.DeleteFolder(FolderID);
 
-            return StatusCode(StatusCodes.Status201Created, new ResponseObjectModel { Code = StatusCodes.Status201Created, Status = "Success" });
+            return StatusCode(StatusCodes.Status201Created, new ResponseMessage { Message = "DELETEFILE" });
         }
     }
 }

@@ -64,7 +64,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
                 var fileDetailJson = JsonConvert.SerializeObject(new { Code = 200, Status = "Success", Value = fileDetail });
 
-                //Response.Headers.Add("X-File-Details", fileDetailJson);
+                Response.Headers.Add("X-File-Details", fileDetailJson);
+
                 return File(fileStream, fileDetail.MimeType, fileDetail.Name);
 
         }
