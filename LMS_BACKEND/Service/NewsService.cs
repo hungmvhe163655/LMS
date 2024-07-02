@@ -70,11 +70,11 @@ namespace Service
             }
         }
 
-        public async Task<IEnumerable<NewsReponseModel>> GetNewsAsync(NewsRequestParameters newsParameter, bool trackChanges)
+        public async Task<(IEnumerable<NewsReponseModel> news, MetaData metaData)> GetNewsAsync(NewsRequestParameters newsParameter, bool trackChanges)
         {
             var newsFromDb= await _repository.news.GetNewsAsync(newsParameter, trackChanges);
             var newsDto= _mapper.Map<IEnumerable<NewsReponseModel>>(newsFromDb);
-            return newsDto;
+            return (news: newsDto, metaData: newsFromDb.MetaData);
         }
 
         public async Task<NewsReponseModel> GetNewsById(Guid id)
@@ -91,14 +91,15 @@ namespace Service
             }
         }
 
-        public async Task UpdateNewsAsync(Guid newsId,UpdateNewsRequestModel model)
+        public void UpdateNews(Guid newsId,UpdateNewsRequestModel model)
         {
-            var hold = await _repository.news.GetByConditionAsync(n => n.Id.Equals(newsId), true);
-            var updateNews = hold.FirstOrDefault();
-            if (updateNews == null) throw new BadRequestException("News with id: "+ newsId + " is not exist");
-            updateNews.Content = model.Content;
-            updateNews.Title = model.Title;
-            await _repository.Save();
+            var hold = _repository.news.GetNewsById(newsId, true);
+            if (hold == null) throw new BadRequestException("News with id: "+ newsId + " is not exist");
+            //updateNews.Content = model.Content;
+            //updateNews.Title = model.Title;
+
+            _mapper.Map(model, hold);
+            _repository.Save();
         }
 
     }

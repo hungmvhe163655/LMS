@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
+using System.Text.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
@@ -24,6 +25,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var news = await _service.NewsService.GetNewsAsync(newsParameters, trackChanges: false);
 
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(news.metaData));
             return Ok(new { Status = "success", Value = news });
         }
 
@@ -47,16 +49,16 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         //[Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult Update(Guid newsId, UpdateNewsRequestModel model)
         {
-                var data = _service.NewsService.UpdateNewsAsync(newsId, model);
-                return Ok(new { Status = "success", Value = data });
+                _service.NewsService.UpdateNews(newsId, model);
+                return Ok(new { Status = "success", Value = "Update successfully" });
         }
 
 
-        [HttpDelete("{id:guid}")]
+        [HttpDelete("{newsid:guid}")]
         //[Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Delete(Guid id)
+        public IActionResult Delete(Guid newsId)
         {
-                var data = _service.NewsService.DeleteNewsAsync(id);
+                var data = _service.NewsService.DeleteNewsAsync(newsId);
                 return Ok(new { Status = "success", Value = data });
         }
 
