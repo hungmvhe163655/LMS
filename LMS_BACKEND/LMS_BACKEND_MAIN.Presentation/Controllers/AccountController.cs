@@ -104,11 +104,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpPut("{id}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> UpdateProfile(string userId, [FromBody] UpdateProfileRequestModel model)
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> UpdateProfile(string id, [FromBody] UpdateProfileRequestModel model)
         {
             if(model is null) return BadRequest("Update Profile is null");
-            await _service.AccountService.UpdateProfileAsync(userId, model);
+            await _service.AccountService.UpdateProfileAsync(id, model);
             return Ok(new ResponseMessage { Message = "Update Profile Successully" });
 
         }
