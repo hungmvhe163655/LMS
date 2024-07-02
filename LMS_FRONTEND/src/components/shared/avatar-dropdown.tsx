@@ -1,4 +1,4 @@
-import { LogOut, User } from 'lucide-react';
+import { Bell, LogOut, User } from 'lucide-react';
 
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import {
@@ -16,16 +16,20 @@ export function AvatarDropdown() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar>
-          <AvatarFallback className='text-sm'>VH</AvatarFallback>
+          <AvatarFallback className='cursor-pointer text-lg font-bold'>VH</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-56'>
+      <DropdownMenuContent className='mr-8 w-56'>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <User className='mr-2 size-4' />
             <span>Profile</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Bell className='mr-2 size-4' />
+            <span>Notification</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

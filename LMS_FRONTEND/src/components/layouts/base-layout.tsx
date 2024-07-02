@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { Footer } from '../app/footer';
-import { Header } from '../app/header';
+import { Footer } from '../shared/footer';
+import { Header } from '../shared/header';
 
 type LayoutProps = {
   children: React.ReactNode;

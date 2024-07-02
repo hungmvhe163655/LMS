@@ -1,7 +1,7 @@
-import { BaseLayout } from './base-layout';
-
 import { SidebarNav } from '@/features/profile/components/sidebar';
 import { SidebarNavItem } from '@/features/profile/types/type';
+
+import { BaseLayout } from './base-layout';
 
 type LayoutProps = {
   children: React.ReactNode;

@@ -24,13 +24,14 @@ namespace LMS_BACKEND_MAIN
                   .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
                   .ForMember(dest => dest.VerifiedBy, opt => opt.MapFrom(src => src.VerifiedByUserID))
                   .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
-            CreateMap<NewsRequestCreateModel, News>();
-            CreateMap<NewsRequestUpdateModel, News>();
-            CreateMap<NewsReponse, News>();
+            CreateMap<CreateNewsRequestModel, News>().ReverseMap();
+            CreateMap<UpdateNewsRequestModel, News>().ReverseMap();
+            CreateMap<NewsReponseModel, News>().ReverseMap();
             CreateMap<AccountVerifyUpdateDTO, Account>().ReverseMap();
             CreateMap<Files, FileUploadRequestModel>().ReverseMap();
             CreateMap<Files, FileResponseModel>()
                 .ForMember(dest => dest.FolderPath, otp => otp.Ignore()).ReverseMap();
+            CreateMap<Files, FileEditRequestModel>().ReverseMap();
         }
     }
 }

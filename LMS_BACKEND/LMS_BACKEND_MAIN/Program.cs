@@ -7,6 +7,7 @@ using NLog;
 using Repository;
 using Servive.Hubs;
 using LMS_BACKEND_MAIN.Configurations;
+using Contracts.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,7 @@ builder.Services.ConfigureAwsS3(builder.Configuration);
 
 builder.Services.ConfigureServiceManager();
 
-builder.Services.ConfigureCor();
+builder.Services.ConfigureCor(builder.Configuration);
 
 builder.Services.AddMemoryCache();
 
@@ -71,6 +72,10 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
+var log = app.Services.GetRequiredService<ILoggerManager>();
+
+app.ConfigureExceptionHandler(log);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -81,6 +86,7 @@ else
 {
     app.UseHsts();
 }
+
 app.UseStaticFiles();
 
 app.UseCors("CorsPolicy");

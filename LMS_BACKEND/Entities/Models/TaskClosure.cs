@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Entities.Models
+{
+    public class TaskClosure
+    {
+        public Guid AncestorID { get; set; }
+        public Guid DescendantID { get; set; }
+        public int Depth { get; set; }
+        public virtual Tasks AncestorTaskNavigation { get; set; } = null!;
+        public virtual Tasks DescendantTaskNavigation { get; set; } = null!;
+    }
+}

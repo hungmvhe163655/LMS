@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces;
+using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
+using Shared.DataTransferObjects.RequestDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,15 +43,10 @@ namespace Service
         public async Task<Account> GetUserById(string id) => await _repository.account.GetByCondition(entity => entity.Id.Equals(id), false).FirstAsync();
         public async Task<Account> GetUserByName(string userName)
         {
-            try
-            {
-                var user = await _repository.account.FindByNameAsync(userName, false);
-                return user;
-            }
-            catch
-            {
-                throw;
-            }
+
+            var user = await _repository.account.FindByNameAsync(userName, false);
+            if (user == null) throw new BadRequestException("No user with username: " + userName);
+            return user;
         }
         public async Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> UserIDList, string verifier)
         {
@@ -76,49 +73,34 @@ namespace Service
         }
         public async Task<IEnumerable<Account>> GetVerifierAccounts(string email)
         {
-            try
-            {
-                var user = await _repository.account.GetByConditionAsync(entity => entity.Email.Equals(email), false);
-                var end = user.First();
-                return _repository.account.GetByCondition(entity => entity.VerifiedBy.Equals(end.Id), false).ToList();
-            }
-            catch { throw; }
+            var user = await _repository.account.GetByConditionAsync(entity => entity.Email != null && entity.Email.Equals(email), false);
+            var end = user.First();
+            if (end == null) throw new UnauthorizedException("Invalid User");
+            return _repository.account.GetByCondition(entity => entity.VerifiedBy != null && entity.VerifiedBy.Equals(end.Id), false).ToList();
         }
 
         public async Task<IEnumerable<Account>> GetUserByRole(string role)
         {
-            try
-            {
+
                 var hold = await _roleManager.FindByNameAsync(role);
-                if (hold != null) return await _userManager.GetUsersInRoleAsync(hold.Name);
-            }
-            catch
-            {
-                throw;
-            }
-            return null;
+                if (hold != null) 
+                return await _userManager.GetUsersInRoleAsync(hold.Name);
+                else throw new BadRequestException("Can not find user with role name: " + role);
         }
 
         public async Task<bool> ChangePasswordAsync(string userId, string oldPassword, string newPassword)
         {
-            try
+            var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), true);
+            var account = user.FirstOrDefault();
+            if (account != null)
             {
-                var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), true);
-                var account = user.FirstOrDefault();
-                if (account != null)
-                {
-                    var result = await _userManager.ChangePasswordAsync(account, oldPassword, newPassword);
-                    return result.Succeeded;
-                }
+                var result = await _userManager.ChangePasswordAsync(account, oldPassword, newPassword);
+                return result.Succeeded;
             }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Exceptions Occur at service {nameof(ChangePasswordAsync)} with the message\" + {ex.Message}");
-            }
-            return false;
+            else throw new BadRequestException("User with id: " + userId + " is not exist");
         }
 
-        public async Task<bool> UpdateProfileAsync(string userId, string name, string rollNumber, string major, string specialized)
+        public async Task UpdateProfileAsync(string userId, UpdateProfileRequestModel model)
         {
             try
             {
@@ -126,35 +108,32 @@ namespace Service
 
                 var account = user.FirstOrDefault();
 
-                if (account == null) return false;
+                if (account == null) throw new BadRequestException("User with id: " + userId + " is not exist");
 
-                account.FullName = name;
+                account.FullName = model.FullName;
 
-                var listStudentDetail = await _repository.studentDetail.GetByConditionAsync(entity => entity.AccountId.Equals(userId), true);
-                var studentDetail = listStudentDetail.FirstOrDefault();
+                var hold = await _repository.studentDetail.GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), true);
+                var studentDetail = hold.FirstOrDefault();
 
                 if (studentDetail == null)
                 {
-                    var newStudentDetail = new StudentDetail() { AccountId = userId, RollNumber = rollNumber, Major = major, Specialized = specialized };
+                    var newStudentDetail = new StudentDetail() { AccountId = userId, RollNumber = model.RollNumber, Major = model.Major, Specialized = model.Specialized };
                     await _repository.studentDetail.CreateAsync(newStudentDetail);
                 }
                 else
                 {
-                    studentDetail.RollNumber = rollNumber;
-                    studentDetail.Major = major;
-                    studentDetail.Specialized = specialized;
+                    studentDetail.RollNumber = model.RollNumber;
+                    studentDetail.Major = model.Major;
+                    studentDetail.Specialized = model.Specialized;
                     _repository.studentDetail.Update(studentDetail);
                 }
                 _repository.account.Update(account);
                 await _repository.Save();
-
-                return true;
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exceptions Occur at service {nameof(ChangePasswordAsync)} with the message\" + ex.messeage");
+                _logger.LogError($"Exceptions Occur at service {nameof(UpdateProfileAsync)} with the message" + ex.Message);
             }
-            return false;
         }
 
         //public async Task<bool> ChangePhoneNumberAsync(string userId, string phoneNumber, string verifyCode)

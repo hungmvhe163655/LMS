@@ -1,7 +1,6 @@
 import CreateNewsRoute from './create';
 
 const ListNewsRoute = {
-  path: 'list',
   children: [
     {
       index: true,
