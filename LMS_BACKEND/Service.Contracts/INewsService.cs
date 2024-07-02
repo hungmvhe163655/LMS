@@ -8,8 +8,8 @@ namespace Service.Contracts
     {
         Task<IEnumerable<NewsReponseModel>> GetNewsAsync(NewsRequestParameters newsParameter, bool trackChanges);
         Task<NewsReponseModel> GetNewsById(Guid id);
-        Task<bool> CreateNewsAsync(NewsRequestModel model);
-        Task UpdateNewsAsync(NewsRequestModel model);
+        Task<bool> CreateNewsAsync(CreateNewsRequestModel model);
+        Task UpdateNewsAsync(Guid newsId, UpdateNewsRequestModel model);
         Task<bool> DeleteNewsAsync(Guid id);
     }
 }

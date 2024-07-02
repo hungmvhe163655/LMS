@@ -36,24 +36,24 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult CreateNews(NewsRequestModel model)
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public IActionResult CreateNews(CreateNewsRequestModel model)
         {
                 var data = _service.NewsService.CreateNewsAsync(model);
                 return Ok(new { Status = "success", Value = data });
         }
 
-        [HttpPut("{id}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Update(NewsRequestModel model)
+        [HttpPut("{newsid:guid}")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public IActionResult Update(Guid newsId, UpdateNewsRequestModel model)
         {
-                var data = _service.NewsService.UpdateNewsAsync(model);
+                var data = _service.NewsService.UpdateNewsAsync(newsId, model);
                 return Ok(new { Status = "success", Value = data });
         }
 
 
-        [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpDelete("{id:guid}")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult Delete(Guid id)
         {
                 var data = _service.NewsService.DeleteNewsAsync(id);

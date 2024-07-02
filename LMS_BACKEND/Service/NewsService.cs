@@ -24,7 +24,7 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateNewsAsync(NewsRequestModel model)
+        public async Task<bool> CreateNewsAsync(CreateNewsRequestModel model)
         {
             try
             {
@@ -91,11 +91,13 @@ namespace Service
             }
         }
 
-        public async Task UpdateNewsAsync(NewsRequestModel model)
+        public async Task UpdateNewsAsync(Guid newsId,UpdateNewsRequestModel model)
         {
-            var hold = _mapper.Map<News>(model);
-
-            _repository.news.Update(hold);
+            var hold = await _repository.news.GetByConditionAsync(n => n.Id.Equals(newsId), true);
+            var updateNews = hold.FirstOrDefault();
+            if (updateNews == null) throw new BadRequestException("News with id: "+ newsId + " is not exist");
+            updateNews.Content = model.Content;
+            updateNews.Title = model.Title;
             await _repository.Save();
         }
 
