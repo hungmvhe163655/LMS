@@ -151,30 +151,32 @@ public static void ConfigureAwsS3(this IServiceCollection services, IConfigurati
             //Comment dong code nay lai truoc khi build app
 
             // tu day
-            var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
+            
+            //var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
 
-            var iv = Environment.GetEnvironmentVariable("ivKey");
 
-            var awsOptions = configuration.GetAWSOptions("AWS");
+            //var iv = Environment.GetEnvironmentVariable("ivKey");
 
-            var url = Environment.GetEnvironmentVariable("SERVICE_URL");
+            //var awsOptions = configuration.GetAWSOptions("AWS");
 
-            awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
+            //var url = Environment.GetEnvironmentVariable("SERVICE_URL");
 
-            var holdAccess = Environment.GetEnvironmentVariable("ENCRYPTED_ACCESS_KEY");
+            //awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
 
-            var holdSecret = Environment.GetEnvironmentVariable("ENCRYPTED_SECRET_KEY");
+            //var holdAccess = Environment.GetEnvironmentVariable("ENCRYPTED_ACCESS_KEY");
 
-            if (holdAccess == null || holdSecret == null || encryptionKey == null || iv == null || url == null)
-                throw new InvalidOperationException("environment variable not set.");
+            //var holdSecret = Environment.GetEnvironmentVariable("ENCRYPTED_SECRET_KEY");
 
-            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
-                Decrypter.DecryptString(holdAccess, encryptionKey, iv),
-                Decrypter.DecryptString(holdSecret, encryptionKey, iv)
-            );
-            awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
+            //if (holdAccess == null || holdSecret == null || encryptionKey == null || iv == null || url == null)
+            //    throw new InvalidOperationException("environment variable not set.");
 
-            services.AddDefaultAWSOptions(awsOptions);
+            //awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
+            //    Decrypter.DecryptString(holdAccess, encryptionKey, iv),
+            //    Decrypter.DecryptString(holdSecret, encryptionKey, iv)
+            //);
+            //awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
+
+            //services.AddDefaultAWSOptions(awsOptions);
 
             //Den day
 
