@@ -23,10 +23,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         //[Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetNewsAsync([FromQuery] NewsRequestParameters newsParameters)
         {
-            var news = await _service.NewsService.GetNewsAsync(newsParameters, trackChanges: false);
+            var pageResult = await _service.NewsService.GetNewsAsync(newsParameters, trackChanges: false);
 
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(news.metaData));
-            return Ok(new { Status = "success", Value = news });
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
+            return Ok(pageResult.news);
         }
 
         [HttpGet("{id}")]
