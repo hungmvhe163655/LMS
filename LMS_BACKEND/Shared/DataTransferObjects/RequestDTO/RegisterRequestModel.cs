@@ -10,7 +10,7 @@ namespace Shared.DataTransferObjects.RequestDTO
     public class RegisterRequestModel
     {
         public string FullName { get; set; } = null!;
-        public string UserName { get; set; } = null!;
+        public string? UserName { get; set; }
         [Required(ErrorMessage = "Email is required")]
         public string Email { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;

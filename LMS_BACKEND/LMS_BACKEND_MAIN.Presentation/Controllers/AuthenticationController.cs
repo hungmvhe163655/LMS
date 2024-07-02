@@ -39,10 +39,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> VerifyEmail([FromBody] MailRequestModel model)
         {
-            var email = model.Email;
-            var token = model.AuCode;
-
-            if (await _service.AuthenticationService.VerifyEmail(email, token))
+            if (await _service.AuthenticationService.VerifyEmail(model.Email, model.AuCode))
             {
                 return Ok(model.Email);
             }
@@ -54,22 +51,26 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterSupervisor([FromBody] RegisterRequestModel model)
         {
-            var result = await _service.AuthenticationService.Register(model);
+            _ = await _service.AuthenticationService.Register(model);
 
             await _service.MailService.SendVerifyOtp(model.Email);
 
-            return StatusCode(201, result);
+            var user = await _service.AccountService.GetUserByEmail(model.Email);
+
+            return StatusCode(201, user);
         }
 
         [HttpPost(RoutesAPI.RegisterStudent)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterStudent([FromBody] RegisterRequestModel model)
         {
-            var result = await _service.AuthenticationService.Register(model);
+            _ = await _service.AuthenticationService.Register(model);
 
             await _service.MailService.SendVerifyOtp(model.Email);
 
-            return StatusCode(201, result);
+            var user = await _service.AccountService.GetUserByEmail(model.Email);
+
+            return StatusCode(201, user);
         }
 
         [HttpPost(RoutesAPI.Authenticate2Factor)]
@@ -77,7 +78,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> Authenticate2Factor([FromBody] LoginRequestModel model)
         {
 
-            if (await _service.MailService.VerifyTwoFactorOtp(model.Email, model.AuCode??throw new BadRequestException("Aucode is null")))
+            if (await _service.MailService.VerifyTwoFactorOtp(model.Email, model.AuCode ?? throw new BadRequestException("Aucode is null")))
             {
                 _ = await _service.AuthenticationService.ValidateUser(model);
 
@@ -93,7 +94,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
         private async Task<IActionResult> LoginProcess(string outcome, bool twofactor, AccountReturnModel model)
         {
-
             if (outcome.Split("|")[0].Equals("SUCCESS"))
             {
                 if (twofactor)
@@ -106,12 +106,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 }
                 var Tokendto = await _service.AuthenticationService.CreateToken(true);
 
-                return Ok(new {TOKEN = Tokendto, User = model});
+                return Ok(new { TOKEN = Tokendto, User = model });
             }
-
-            return Unauthorized(new ResponseMessage { Message = outcome }) ;
-
-
+            return Unauthorized(new ResponseMessage { Message = outcome });
         }
 
         [HttpPost(RoutesAPI.Authenticate)]
@@ -129,11 +126,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpPost(RoutesAPI.Logout)]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Logout([FromBody] TokenDTORequestModel model)
         {
-            var hold = new TokenDTO(model.AccessToken , model.RefreshToken);
+            var hold = new TokenDTO(model.AccessToken, model.RefreshToken);
+
             if (!await _service.AuthenticationService.InvalidateToken(hold))
             {
                 return Unauthorized(new ResponseMessage { Message = "Something went wrong, can't logout!" });
@@ -163,22 +161,26 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpGet(RoutesAPI.GetCurrentLoggedInUser)]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         public async Task<IActionResult> GetCurrentLoggedInUser()
         {
             var userClaims = User.Claims;
+
             var userId = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
             var email = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
 
             if (userId != null)
             {
                 var result = await _service.AccountService.GetUserById(userId);
+
                 return Ok(result);
             }
 
             if (email != null)
             {
                 var result = await _service.AccountService.GetUserByName(email);
+
                 return Ok(result);
             }
 
