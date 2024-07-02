@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
+using System.Text.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
@@ -22,9 +23,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         //[Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetNewsAsync([FromQuery] NewsRequestParameters newsParameters)
         {
-            var news = await _service.NewsService.GetNewsAsync(newsParameters, trackChanges: false);
+            var pageResult = await _service.NewsService.GetNewsAsync(newsParameters, trackChanges: false);
 
-            return Ok(new { Status = "success", Value = news });
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
+            return Ok(pageResult.news);
         }
 
         [HttpGet("{id}")]
@@ -36,27 +38,27 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult CreateNews(NewsRequestModel model)
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public IActionResult CreateNews(CreateNewsRequestModel model)
         {
                 var data = _service.NewsService.CreateNewsAsync(model);
                 return Ok(new { Status = "success", Value = data });
         }
 
-        [HttpPut("{id}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Update(NewsRequestModel model)
+        [HttpPut("{newsid:guid}")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public IActionResult Update(Guid newsId, UpdateNewsRequestModel model)
         {
-                var data = _service.NewsService.UpdateNewsAsync(model);
-                return Ok(new { Status = "success", Value = data });
+                _service.NewsService.UpdateNews(newsId, model);
+                return Ok(new { Status = "success", Value = "Update successfully" });
         }
 
 
-        [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Delete(Guid id)
+        [HttpDelete("{newsid:guid}")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public IActionResult Delete(Guid newsId)
         {
-                var data = _service.NewsService.DeleteNewsAsync(id);
+                var data = _service.NewsService.DeleteNewsAsync(newsId);
                 return Ok(new { Status = "success", Value = data });
         }
 
