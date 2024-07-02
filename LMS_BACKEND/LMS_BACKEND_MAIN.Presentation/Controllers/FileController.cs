@@ -45,9 +45,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             memoryStream.Position = 0;
 
+
             await _serviceManager.FileService.CreateFile(metadata, memoryStream);
 
+
             return Ok(new ResponseMessage { Message = "File uploaded successfully." });
+
         }
 
         [HttpGet]
