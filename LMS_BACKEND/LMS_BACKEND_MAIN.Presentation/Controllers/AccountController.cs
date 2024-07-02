@@ -1,6 +1,7 @@
 
 using Entities.Models;
 using LMS_BACKEND_MAIN.Presentation.Attributes;
+using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
-    [Route("api/accounts")]
+    [Route(APIs.AccountAPI)]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -28,10 +29,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = service;
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "LabAdmin")]
-        [HttpPost]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
+        [HttpPost(RoutesAPI.CreateAdmin)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> RegisterLabLead([FromBody] RegisterRequestModel model)
+        public async Task<IActionResult> CreateAdmin([FromBody] RegisterRequestModel model)
         {
             var result = await _service.AuthenticationService.RegisterLabLead(model);
 
@@ -41,8 +42,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
 
-        [HttpGet("accounts/{role}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "LabAdmin")]
+        [HttpGet(RoutesAPI.GetUsers)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
         public async Task<IActionResult> GetUsers(string role)
         {
             var hold = await _service.AccountService.GetUserByRole(role.ToUpper());
@@ -50,8 +51,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(hold);
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Supervisor")]
-        [HttpGet("need-verified")]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
+        [HttpGet(RoutesAPI.GetAccountNeedVerified)]
         public IActionResult GetAccountNeedVerified(string email)
         {
             var user =
@@ -59,8 +60,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new { Status = "success", Value = user });
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Supervisor")]
-        [HttpPost("verify-account")]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        [HttpPost(RoutesAPI.UpdateAccountVerifyStatus)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateAccountVerifyStatus([FromBody] UpdateVerifyStatusRequestModel model)
         {
@@ -77,8 +78,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "Update User " + user.FullName + " Status Successully" });
         }
 
-        [HttpPost("change-password")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpPost(RoutesAPI.ChangePassword)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestModel model)
         {
@@ -98,14 +99,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpPut("{id}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [ResponseCache(Duration=60)]
-        //[Authorize(AuthenticationSchemes = "Bearer")]
+        [ResponseCache(Duration = 60)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         public async Task<IActionResult> UpdateProfile(string id, [FromBody] UpdateProfileRequestModel model)
         {
-            if(model is null) return BadRequest("Update Profile is null");
             await _service.AccountService.UpdateProfileAsync(id, model);
-            return Ok(new ResponseMessage { Message = "Update Profile Successully" });
 
+            return Ok(new ResponseMessage { Message = "Update Profile Successully" });
         }
     }
 }

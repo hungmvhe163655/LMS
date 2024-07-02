@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
-    [Route("api/folder")]
+    [Route(APIs.FolderAPI)]
     [ApiController]
     public class FolderController : ControllerBase
     {
@@ -36,7 +37,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             {
                 return BadRequest(new ResponseMessage { Message = "Failed Create Folder" });
             }
-
             return Ok(model);
         }
         [HttpDelete("{id:guid}")]
