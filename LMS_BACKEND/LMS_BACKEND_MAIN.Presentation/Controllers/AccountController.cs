@@ -1,6 +1,6 @@
 
 using Entities.Models;
-using LMS_BACKEND_MAIN.Presentation.ActionFilters;
+using LMS_BACKEND_MAIN.Presentation.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -45,15 +45,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "LabAdmin")]
         public async Task<IActionResult> GetUsers(string role)
         {
-
             var hold = await _service.AccountService.GetUserByRole(role.ToUpper());
 
-            if (hold != null)
-            {
-                return Ok(hold.Where(x => x.IsVerified = true));
-            }
-
-            return NotFound(new ResponseMessage { Message = "Not found any user!" });
+            return Ok(hold);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Supervisor")]
@@ -104,6 +98,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpPut("{id}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ResponseCache(Duration=60)]
         //[Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> UpdateProfile(string id, [FromBody] UpdateProfileRequestModel model)
         {

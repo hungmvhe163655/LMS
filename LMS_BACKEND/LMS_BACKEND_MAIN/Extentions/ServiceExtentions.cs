@@ -16,6 +16,10 @@ using Amazon;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Diagnostics;
 using Shared.DataTransferObjects.ResponseDTO;
+using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc;
+using LMS_BACKEND_MAIN.Presentation.Controllers;
+using Marvin.Cache.Headers;
 
 namespace LMS_BACKEND_MAIN.Extentions
 {
@@ -25,7 +29,6 @@ namespace LMS_BACKEND_MAIN.Extentions
     }
     public static class ServiceExtentions
     {
-        /*
        public static void ConfigureVersioning(this IServiceCollection services)
         {
          services.AddApiVersioning(opt =>
@@ -34,15 +37,8 @@ namespace LMS_BACKEND_MAIN.Extentions
              opt.AssumeDefaultVersionWhenUnspecified = true;
              opt.DefaultApiVersion = new ApiVersion(1, 0);
              opt.ApiVersionReader = new HeaderApiVersionReader("api-version");
-
-         opt.Conventions.Controller<ControllerV1>()
-        .HasApiVersion(new ApiVersion(1, 0));
-        opt.Conventions.Controller<ControllerV2>()
-        .HasDeprecatedApiVersion(new ApiVersion(2, 0));
-
          });
         }
-        */
         public static void ConfigureCor(this IServiceCollection services, IConfiguration configuration)
         {
             var corsConfig = new CorsConfig();
@@ -136,9 +132,25 @@ namespace LMS_BACKEND_MAIN.Extentions
             services.AddScoped<IServiceManager, ServiceManager>();
         public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration) =>
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
-        public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureResponseCaching(this IServiceCollection services) =>
+            services.AddResponseCaching();
+        public static void ConfigureHttpCacheHeaders(this IServiceCollection services) =>
+            services.AddHttpCacheHeaders(
+                (expirationOpt) =>
+                    {
+                    expirationOpt.MaxAge = 120;
+                            expirationOpt.CacheLocation = CacheLocation.Private;
+                    },
+                    (validationOpt) =>
+                    {
+                    validationOpt.MustRevalidate = true;
+                    });
+public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
         {//nho chay app setup truoc khi release phai sua phan encryptionkey vaf iv nay
-            
+
+            //Comment dong code nay lai truoc khi build app
+
+            // tu day
             var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
 
             var iv = Environment.GetEnvironmentVariable("ivKey");
@@ -163,6 +175,8 @@ namespace LMS_BACKEND_MAIN.Extentions
             awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
 
             services.AddDefaultAWSOptions(awsOptions);
+
+            //Den day
 
             services.AddAWSService<IAmazonS3>();
 

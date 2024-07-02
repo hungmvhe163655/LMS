@@ -11,6 +11,7 @@ using Service.Contracts;
 using Shared;
 using Shared.DataTransferObjects;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.ResponseDTO;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -55,276 +56,110 @@ namespace Service
 
         public async Task<bool> VerifyEmail(string email, string token)
         {
-            try
+            var user = await _userManager.FindByEmailAsync(email);
+
+            var hold = (user != null && user.EmailVerifyCodeAge > DateTime.Now && !user.EmailConfirmed) ? user.EmailVerifyCode : null;
+
+            if (hold != null)
             {
-                var user = await _userManager.FindByEmailAsync(email);
-
-                var hold = (user != null && user.EmailVerifyCodeAge > DateTime.Now && !user.EmailConfirmed) ? user.EmailVerifyCode : null;
-
-                if (hold != null)
+                if (hold.Equals(token) && user != null)
                 {
-                    if (hold.Equals(token) && user != null)
-                    {
-                        user.EmailVerifyCode = null;
+                    user.EmailVerifyCode = null;
 
-                        user.EmailVerifyCodeAge = DateTime.MinValue;
+                    user.EmailVerifyCodeAge = DateTime.MinValue;
 
-                        user.EmailConfirmed = true;
+                    user.EmailConfirmed = true;
 
-                        var result = await _userManager.UpdateAsync(user);
-                        if (!result.Succeeded) throw new Exception("Internal Error");
+                    var result = await _userManager.UpdateAsync(user);
+                    if (!result.Succeeded) throw new Exception("Internal Error");
 
-                        return true;
-                    }
+                    return true;
                 }
-                else throw new BadRequestException("User with email: " + email + " is not exist!");
             }
-            catch
-            {
-            }
+            else throw new BadRequestException("User with email: " + email + " is not exist!");
+
             return false;
         }
-        public async Task<IdentityResult> Register(RegisterRequestModel model)
+        public async Task<AccountReturnModel> Register(RegisterRequestModel model)
         {
+            var user = _mapper.Map<Account>(model);
+
+            var verifier = await _userManager.FindByIdAsync(model.VerifiedByUserID);
+
+            if (verifier == null) throw new BadRequestException("Invalid Verifier id");
+
+            var verifierRole = _userManager.GetRolesAsync(verifier).Result.FirstOrDefault();
+
+            if (verifierRole == null || !(verifierRole.ToLower().Equals("labadmin") || verifierRole.ToLower().Equals("supervisor"))) throw new BadRequestException("Verifier's not authorized");
+
+            var rolesToAdd = model.Roles;
+
+            var validRoles = new List<string>();
+
+            if (rolesToAdd != null && rolesToAdd.Any()) foreach (var role in model.Roles)
+                {
+                    if (await _roleManager.RoleExistsAsync(role))
+                    {
+                        validRoles.Add(role);
+                    }
+                    else
+                    {
+                        _logger.LogWarning($"{nameof(Register)}Role '{role}' does not exist.");
+                    }
+                }
+            if (validRoles.Any())
             {
-                try
-                {
-                    var user = _mapper.Map<Account>(model);
 
-                    if (string.IsNullOrEmpty(model.VerifiedByUserID))
-                    {
-                        return IdentityResult.Failed();
-                    }
-                    var verifier = _userManager.FindByIdAsync(model.VerifiedByUserID);
+                user.VerifiedBy = verifier.Id;
 
-                    if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
+                user.UserName = user.Id.ToString();
 
-                    var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
+                var result = await _userManager.CreateAsync(user, model.Password);
 
-                    if (verifierRole == null || !(verifierRole.ToLower().Equals("labadmin") || verifierRole.ToLower().Equals("supervisor"))) { return IdentityResult.Failed(); }// sua pham vi role o day
+                var result2 = await _userManager.AddToRolesAsync(user, validRoles);
 
-                    if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
+                user = await _userManager.FindByEmailAsync(model.Email);
 
-                    var rolesToAdd = model.Roles ?? null;
-
-                    var validRoles = new List<string>();
-
-                    if (rolesToAdd != null && rolesToAdd.Any()) foreach (var role in rolesToAdd)
-                        {
-                            if (await _roleManager.RoleExistsAsync(role))
-                            {
-                                validRoles.Add(role);
-                            }
-                            else
-                            {
-                                _logger.LogWarning($"{nameof(Register)}Role '{role}' does not exist.");
-                            }
-                        }
-                    if (validRoles.Any())
-                    {
-
-                        user.VerifiedBy = verifier.Result.Id;
-
-                        user.UserName = user.Id.ToString();
-
-                        var result = await _userManager.CreateAsync(user, model.Password);
-
-                        await _userManager.AddToRolesAsync(user, validRoles);
-
-                        return result;
-                    }
-                    return IdentityResult.Failed();
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"{nameof(Register)}Error During Authentication Process has Occured");
-
-                    _logger.LogError(ex.Message);
-
-                    return IdentityResult.Failed();
-                }
+                return _mapper.Map<AccountReturnModel>(user);
             }
+            throw new BadRequestException("Not valid roles");
         }
-        public async Task<IdentityResult> RegisterLabLead(RegisterRequestModel model)
+        public async Task<AccountReturnModel> RegisterLabLead(RegisterRequestModel model)
         {
-            try
-            {
-                var user = _mapper.Map<Account>(model);
+            var user = _mapper.Map<Account>(model);
 
-                /*
-                if (string.IsNullOrEmpty(model.VerifiedByUserName))
+            var rolesToAdd = model.Roles;
+
+            var validRoles = new List<string>();
+
+            if (rolesToAdd != null && rolesToAdd.Any()) foreach (var role in rolesToAdd)
                 {
-                    return IdentityResult.Failed();
-                }
-                */
-                // var verifier = _userManager.FindByIdAsync(model.VerifiedByUserName);
-
-                // if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
-
-                // var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
-
-                // if (verifierRole == null || !verifierRole.Equals("Teacher")) { return IdentityResult.Failed(); }
-
-                if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
-
-                var rolesToAdd = model.Roles ?? null;
-
-                var validRoles = new List<string>();
-
-                if (rolesToAdd != null && rolesToAdd.Any()) foreach (var role in rolesToAdd)
+                    if (await _roleManager.RoleExistsAsync(role))
                     {
-                        if (await _roleManager.RoleExistsAsync(role))
-                        {
-                            validRoles.Add(role);
-                        }
-                        else
-                        {
-                            _logger.LogWarning($"{nameof(RegisterLabLead)}Role '{role}' does not exist.");
-                        }
+                        validRoles.Add(role);
                     }
-                if (validRoles.Any())
-                {
-                    user.VerifiedBy = null;
-
-                    user.UserName = model.Email;
-
-                    var result = await _userManager.CreateAsync(user, model.Password);
-
-                    if (result.Errors.Any()) return result;
-
-                    await _userManager.AddToRolesAsync(user, validRoles);
-
-                    return result;
-                }
-                return IdentityResult.Failed();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{nameof(RegisterLabLead)}Error During Authentication Process has Occur for LabLead");
-
-                _logger.LogError(ex.Message);
-
-                return IdentityResult.Failed();
-            }
-        }
-        public async Task<IdentityResult> RegisterSupervisor(RegisterRequestModel model)
-        {
-            try
-            {
-                var user = _mapper.Map<Account>(model);
-
-                if (string.IsNullOrEmpty(model.VerifiedByUserID))
-                {
-                    return IdentityResult.Failed();
-                }
-                var verifier = _userManager.FindByIdAsync(model.VerifiedByUserID);
-
-                if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
-
-                var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
-
-                if (verifierRole == null || !(verifierRole.ToLower().Equals("labadmin") || verifierRole.ToLower().Equals("supervisor"))) { return IdentityResult.Failed(); }// sua pham vi role o day
-
-                if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
-
-                var rolesToAdd = model.Roles ?? null;
-
-                var validRoles = new List<string>();
-
-                if (rolesToAdd != null && rolesToAdd.Any()) foreach (var role in rolesToAdd)
+                    else
                     {
-                        if (await _roleManager.RoleExistsAsync(role))
-                        {
-                            validRoles.Add(role);
-                        }
-                        else
-                        {
-                            _logger.LogWarning($"{nameof(RegisterSupervisor)}Role '{role}' does not exist.");
-                        }
+                        _logger.LogWarning($"{nameof(RegisterLabLead)}Role '{role}' does not exist.");
                     }
-                if (validRoles.Any())
-                {
-
-                    user.VerifiedBy = verifier.Result.Id;
-
-                    user.UserName = user.Id.ToString();
-
-                    var result = await _userManager.CreateAsync(user, model.Password);
-
-                    await _userManager.AddToRolesAsync(user, validRoles);
-
-                    return result;
                 }
-                return IdentityResult.Failed();
-            }
-            catch (Exception ex)
+            if (validRoles.Any())
             {
-                _logger.LogError($"{nameof(RegisterSupervisor)}Error During Authentication Process has Occur for Teacher");
+                user.VerifiedBy = null;
 
-                _logger.LogError(ex.Message);
+                user.UserName = model.Email;
 
-                return IdentityResult.Failed();
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                await _userManager.AddToRolesAsync(user, validRoles);
+
+                user = await _userManager.FindByEmailAsync(model.Email);
+
+                return _mapper.Map<AccountReturnModel>(user);
             }
+            throw new BadRequestException("Not valid roles");
         }
-        public async Task<IdentityResult> RegisterStudent(RegisterRequestModel model)
-        {
-            try
-            {
-                var user = _mapper.Map<Account>(model);
 
-                if (string.IsNullOrEmpty(model.VerifiedByUserID))
-                {
-                    return IdentityResult.Failed();
-                }
-                var verifier = _userManager.FindByIdAsync(model.VerifiedByUserID);
-
-                if (verifier == null || verifier.Result == null) { return IdentityResult.Failed(); }
-
-                var verifierRole = _userManager.GetRolesAsync(verifier.Result).Result.FirstOrDefault();
-
-                if (verifierRole == null || !verifierRole.ToLower().Equals("labadmin") || verifierRole.ToLower().Equals("supervisor")) { return IdentityResult.Failed(); }
-
-                if (string.IsNullOrEmpty(model.Password)) { return IdentityResult.Failed(); }
-
-                var rolesToAdd = model.Roles ?? null;
-
-                var validRoles = new List<string>();
-
-                if (rolesToAdd != null && rolesToAdd.Any()) foreach (var role in rolesToAdd)
-                    {
-                        if (await _roleManager.RoleExistsAsync(role))
-                        {
-                            validRoles.Add(role);
-                        }
-                        else
-                        {
-                            _logger.LogWarning($"{nameof(RegisterStudent)}Role '{role}' does not exist.");
-                        }
-                    }
-                if (validRoles.Any())
-                {
-
-                    user.VerifiedBy = verifier.Result.Id;
-
-                    user.UserName = user.Id.ToString();
-
-                    var result = await _userManager.CreateAsync(user, model.Password);
-
-                    await _userManager.AddToRolesAsync(user, validRoles);
-
-                    return result;
-                }
-                return IdentityResult.Failed();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{nameof(RegisterStudent)}Error During Authentication Process has Occur for Student");
-
-                _logger.LogError(ex.Message);
-
-                return IdentityResult.Failed();
-            }
-        }
         //////////////////////////////////////// TOKEN AREA  -  DO NOT TOUCH  ///////////////////////////////////////////////////
         public async Task<string> ValidateUser(LoginRequestModel userForAuth)
         {
@@ -335,7 +170,7 @@ namespace Service
                 return "BADLOGIN|";
             }
             _account = await _userManager.FindByEmailAsync(userForAuth.Email);
-            if(_account == null) return "BADLOGIN | INVALID EMAIL";
+            if (_account == null) return "BADLOGIN | INVALID EMAIL";
             var result = (await _userManager.CheckPasswordAsync(_account, userForAuth.Password));
             if (!result)
             {
@@ -357,7 +192,7 @@ namespace Service
                     return "UNVERIFIED|" + _account.UserName;
                 }
             }
-            return "SUCCESS|";
+            return "SUCCESS|"+(_account!=null && _account.TwoFactorEnabled ? "TWOFACTOR" : "ONEFACTOR");
         }
         public async Task<string> CreateToken()//onetime short token (khong gui ve refresh token)
         {

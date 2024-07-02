@@ -22,9 +22,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetFolder(Guid FolderID)
+        public async Task<IActionResult> GetFolder(Guid id)
         {
-            return Ok(await _serviceManager.FileService.GetFolderContent(FolderID));
+            return Ok(await _serviceManager.FileService.GetFolderContent(id));
         }
 
         [HttpPost]
