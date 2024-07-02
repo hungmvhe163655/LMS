@@ -25,7 +25,15 @@ namespace LMS_BACKEND_MAIN.Extentions
     }
     public static class ServiceExtentions
     {
-       
+       public static void ConfigureVersioning(this IServiceCollection services)
+        {
+         services.AddApiVersioning(opt =>
+         {
+         opt.ReportApiVersions = true;
+         opt.AssumeDefaultVersionWhenUnspecified = true;
+         opt.DefaultApiVersion = new ApiVersion(1, 0);
+         });
+        }
         public static void ConfigureCor(this IServiceCollection services, IConfiguration configuration)
         {
             var corsConfig = new CorsConfig();
