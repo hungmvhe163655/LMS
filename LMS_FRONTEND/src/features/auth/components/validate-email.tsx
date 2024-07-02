@@ -1,7 +1,7 @@
+// import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
@@ -22,14 +22,7 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot
-} from '@/components/ui/input-otp';
-
-import { verifyEmail, resendVerifyEmail } from '../api/auth';
+// import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 
 // FormSchema and Validation
 const FormSchema = z.object({
@@ -39,64 +32,56 @@ const FormSchema = z.object({
 });
 
 const ValidateEmail: React.FC = () => {
-  const [searchParams] = useSearchParams();
-  const [otp, setOtp] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  // const [isOTPSent, setIsOTPSent] = useState(false);
+  // const [otp, setOtp] = useState(Array(6).fill(''));
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: searchParams.get('email') || ''
+      email: ''
     }
   });
 
-  const handleOtpChange = async (value: string) => {
-    setOtp(value);
+  // function onSubmit(data: z.infer<typeof FormSchema>) {
+  //   console.log(data);
+  //   setIsOTPSent(true);
+  // }
 
-    if (value.length === 6) {
-      try {
-        const _response = await verifyEmail(form.getValues('email'), value);
-        alert('Success');
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError('An unknown error occurred');
-        }
-      }
-    }
-  };
+  // function handleOTPChange(index: number, value: string) {
+  //   const newOtp = [...otp];
+  //   newOtp[index] = value;
+  //   setOtp(newOtp);
+  // }
 
-  const handleResendEmail = async () => {
-    try {
-      const _response = await resendVerifyEmail(form.getValues('email'));
-      alert('New Verify code has been sent to your email');
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('An unknown error occurred');
-      }
-    }
-  };
+  // function handleOTPSubmit() {
+  //   const enteredCode = otp.join('');
+  //   if (enteredCode === validCode) {
+  //     alert('OTP is correct');
+  //   } else {
+  //     alert('OTP is incorrect');
+  //   }
+  // }
 
   return (
     <div>
-      <Card className='card'>
+      <Card>
         <CardHeader>
           <CardTitle>Login</CardTitle>
           <CardDescription>Welcome to SAP Lab Management System</CardDescription>
         </CardHeader>
-        <CardContent className='card-content'>
+        <CardContent>
           <Form {...form}>
-            <form className='w-2/3 space-y-6'>
-              {/* Email Input Field */}
+            <form
+              // onSubmit={form.handleSubmit(onSubmit)}
+              className='w-2/3 space-y-6'
+            >
+              {/* Email or Phone Number Input Field */}
               <FormField
                 control={form.control}
                 name='email'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Email Or Phone Number</FormLabel>
                     <FormControl>
                       <Input placeholder='example@gmail.com' {...field} />
                     </FormControl>
@@ -104,32 +89,25 @@ const ValidateEmail: React.FC = () => {
                   </FormItem>
                 )}
               />
-              {/* OTP Input Field */}
-              <FormItem>
-                <FormLabel>OTP</FormLabel>
-                <FormControl>
-                  <InputOTP maxLength={6} value={otp} onChange={handleOtpChange}>
-                    <InputOTPGroup>
-                      <InputOTPSlot index={0} />
-                      <InputOTPSlot index={1} />
-                      <InputOTPSlot index={2} />
-                    </InputOTPGroup>
-                    <InputOTPSeparator />
-                    <InputOTPGroup>
-                      <InputOTPSlot index={3} />
-                      <InputOTPSlot index={4} />
-                      <InputOTPSlot index={5} />
-                    </InputOTPGroup>
-                  </InputOTP>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-              {error && <div className='text-red-500'>{error}</div>}
-              <Button type='button' onClick={handleResendEmail}>
-                Send email
-              </Button>
+              <Button type='submit'>Send email</Button>
             </form>
           </Form>
+
+          {/* {isOTPSent && (
+            <div>
+              <InputOTP maxLength={6} onChange={(value, index) => handleOTPChange(index, value)}>
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
+              <Button onClick={handleOTPSubmit}>Verify OTP</Button>
+            </div>
+          )} */}
         </CardContent>
         <CardFooter></CardFooter>
       </Card>

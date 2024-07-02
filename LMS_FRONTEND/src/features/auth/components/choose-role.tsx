@@ -1,7 +1,7 @@
 import { GiTeacher } from 'react-icons/gi';
 import { PiStudent } from 'react-icons/pi';
 
-import { Link } from '@/components/ui/link';
+import { Link } from '@/components/app/link';
 
 function ChooseRoleRegister() {
   return (

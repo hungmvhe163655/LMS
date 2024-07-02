@@ -37,8 +37,6 @@ namespace Entities.Models
 
         public virtual ICollection<NotificationAccount> NotificationsAccounts { get; set; } = new List<NotificationAccount>();
 
-        public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
-
         public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
 
         public virtual StudentDetail? StudentDetail { get; set; }

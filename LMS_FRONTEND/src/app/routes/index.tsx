@@ -43,5 +43,12 @@ export const createRouter = (queryClient: QueryClient) =>
     {
       path: '/',
       children: [ListAllTasksRoute]
+    },
+    {
+      path: '*',
+      lazy: async () => {
+        const { NotFoundRoute } = await import('./not-found');
+        return { Component: NotFoundRoute };
+      }
     }
   ]);

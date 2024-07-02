@@ -15,6 +15,7 @@ const PasswordInput = forwardRef<HTMLInputElement, InputProps>(({ className, ...
         type={showPassword ? 'text' : 'password'}
         className={cn('hide-password-toggle pr-10', className)}
         ref={ref}
+        autoComplete='current-password'
         {...props}
       />
       <Button

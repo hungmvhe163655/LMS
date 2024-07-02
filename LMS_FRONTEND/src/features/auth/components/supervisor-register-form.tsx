@@ -1,7 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
-import { useNavigate } from 'react-router-dom';
+
+import { Link } from '@/components/app/link';
 import { PasswordInput } from '@/components/app/password';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -15,57 +17,27 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Link } from '@/components/ui/link';
-import { useState } from 'react';
-import { registerSupervisor } from '../api/auth';
-
-const FormSchema = z
-  .object({
-    email: z.string().email({ message: 'Invalid email address' }),
-    password: z.string().min(6, { message: 'Password must have more than 6 characters' }),
-    confirmPassword: z.string(),
-    fullname: z.string().min(3, { message: 'Fullname must have more than 3 characters' }),
-    phonenumber: z.string().min(9, { message: 'Phone number must have more than 9 characters' })
-  })
-  .superRefine(({ confirmPassword, password }, ctx) => {
-    if (confirmPassword !== password) {
-      ctx.addIssue({
-        code: 'custom',
-        message: 'The passwords did not match',
-        path: ['confirmPassword']
-      });
-    }
-  });
+import { registerInputSchema, useRegister } from '@/lib/auth';
 
 function SupervisorRegisterForm() {
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const registering = useRegister();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirectTo');
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof registerInputSchema>>({
+    resolver: zodResolver(registerInputSchema),
     defaultValues: {
       email: '',
       password: '',
       confirmPassword: '',
       fullname: '',
-      phonenumber: ''
+      phonenumber: '',
+      role: 'SUPERVISOR'
     }
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    setIsLoading(true);
-
-    try {
-      const result = await registerSupervisor(data); // Use the function
-      console.log('Success:', result);
-      navigate(`/auth/email?email=${data.email}`);
-      // Handle successful registration (e.g., show a success message or redirect to login)
-    } catch (error) {
-      console.error('Error:', error);
-      // Handle error (e.g., show an error message)
-    } finally {
-      setIsLoading(false);
-    }
+  function onSubmit(data: z.infer<typeof registerInputSchema>) {
+    registering.mutate(data);
   }
 
   return (
@@ -73,19 +45,22 @@ function SupervisorRegisterForm() {
       <CardContent className='p-6'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+            {/* Fullname input field */}
             <FormField
               control={form.control}
               name='fullname'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Fullname</FormLabel>
+                  <FormLabel>Full Name</FormLabel>
                   <FormControl>
-                    <Input placeholder='Nguyen Van A' {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+            {/* Email Input Field */}
             <FormField
               control={form.control}
               name='email'
@@ -93,12 +68,14 @@ function SupervisorRegisterForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='email@fpt.edu.vn' {...field} />
+                    <Input {...field} autoComplete='email' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+            {/* Phone Number Input Field */}
             <FormField
               control={form.control}
               name='phonenumber'
@@ -112,6 +89,8 @@ function SupervisorRegisterForm() {
                 </FormItem>
               )}
             />
+
+            {/* Password Input Field */}
             <FormField
               control={form.control}
               name='password'
@@ -119,7 +98,7 @@ function SupervisorRegisterForm() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <PasswordInput {...field} />
+                    <PasswordInput {...field} autoComplete='off' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -132,7 +111,7 @@ function SupervisorRegisterForm() {
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <PasswordInput {...field} />
+                    <PasswordInput {...field} autoComplete='off' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -151,8 +130,8 @@ function SupervisorRegisterForm() {
                 </Link>
               </label>
             </div>
-            <Button type='submit' className='w-full' disabled={isLoading}>
-              {isLoading ? 'Submitting...' : 'Submit'}
+            <Button type='submit' className='w-full'>
+              Submit
             </Button>
           </form>
         </Form>
@@ -160,7 +139,12 @@ function SupervisorRegisterForm() {
       <CardFooter>
         <p>
           Already have an account?
-          <Link to='/'> Login Here!</Link>
+          <Link
+            to={`/auth/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
+          >
+            {' '}
+            Login Here!
+          </Link>
         </p>
       </CardFooter>
     </Card>

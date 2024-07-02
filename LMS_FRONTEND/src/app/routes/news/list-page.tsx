@@ -1,5 +1,5 @@
 import { Layout } from '@/components/layouts/auth-layout';
-import ListNews from '@/features/news/components/list-news';
+import ListNews from '@/features/news/components/news';
 
 export function ListNewsPage() {
   return (

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects.ResponseDTO
 {
-    public class ResponseObjectModel
+    public class ResponseMessage
     {
-        public string? Status { get; set; }
-        public string? Code { get; set; }
-        public Object? Value { get; set; }
+        public string Message { get; set; } = null!;
     }
 }

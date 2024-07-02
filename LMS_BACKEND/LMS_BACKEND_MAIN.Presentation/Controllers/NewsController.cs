@@ -2,10 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
+using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
-    [Route("api/[Controller]")]
+    [Route("api/news")]
     [ApiController]
     public class NewsController : ControllerBase
     {
@@ -16,80 +19,47 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = service;
         }
 
-        [HttpGet("Gets")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Gets(string? title)
+        [HttpGet]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetNewsAsync([FromQuery] NewsRequestParameters newsParameters)
         {
-            try
-            {
-                var data = _service.NewsService.GetNewsByTitle(title);
-                return Ok(new { Status = "success", Value = data });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+            var news = await _service.NewsService.GetNewsAsync(newsParameters, trackChanges: false);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(news.metaData));
+            return Ok(new { Status = "success", Value = news });
         }
 
-        [HttpGet("GetDetails")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult GetDetails(int id)
+        [HttpGet("{id}")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetNewsById(Guid id)
         {
-            try
-            {
-                var data = _service.NewsService.GetNewsDetail(id);
+                var data = await _service.NewsService.GetNewsById(id);
                 return Ok(new { Status = "success", Value = data });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
         }
 
-        [HttpGet("Create")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Create(NewsRequestCreateModel newsRequestCreateModel)
+        [HttpPost]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public IActionResult CreateNews(CreateNewsRequestModel model)
         {
-            try
-            {
-                var data = _service.NewsService.CreateNews(newsRequestCreateModel);
+                var data = _service.NewsService.CreateNewsAsync(model);
                 return Ok(new { Status = "success", Value = data });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
         }
 
-        [HttpGet("Update")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Update(NewsRequestUpdateModel newsRequestUpdateModel)
+        [HttpPut("{newsid:guid}")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public IActionResult Update(Guid newsId, UpdateNewsRequestModel model)
         {
-            try
-            {
-                var data = _service.NewsService.UpdateNews(newsRequestUpdateModel);
-                return Ok(new { Status = "success", Value = data });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+                _service.NewsService.UpdateNews(newsId, model);
+                return Ok(new { Status = "success", Value = "Update successfully" });
         }
 
 
-        [HttpGet("Delete")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Delete(int id)
+        [HttpDelete("{newsid:guid}")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public IActionResult Delete(Guid newsId)
         {
-            try
-            {
-                var data = _service.NewsService.DeleteNews(id);
+                var data = _service.NewsService.DeleteNewsAsync(newsId);
                 return Ok(new { Status = "success", Value = data });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
         }
 
     }
