@@ -10,6 +10,7 @@ namespace Entities.Models
 {
     public class Account : IdentityUser
     {
+        //public override string Email { get; set; } = null!;
         public string? FullName { get; set; }
         public bool Gender { get; set; }
         public DateTime CreatedDate { get; set; }

@@ -1,6 +1,6 @@
 
 using Entities.Models;
-using LMS_BACKEND_MAIN.Presentation.ActionFilters;
+using LMS_BACKEND_MAIN.Presentation.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -45,15 +45,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "LabAdmin")]
         public async Task<IActionResult> GetUsers(string role)
         {
-
             var hold = await _service.AccountService.GetUserByRole(role.ToUpper());
 
-            if (hold != null)
-            {
-                return Ok(hold.Where(x => x.IsVerified = true));
-            }
-
-            return NotFound(new ResponseMessage { Message = "Not found any user!" });
+            return Ok(hold);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Supervisor")]
@@ -102,13 +96,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }           
         }*/
 
-        [HttpPut("{userid:guid}")]
+        [HttpPut("{id}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        //[Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> UpdateProfile(string userId, [FromBody] UpdateProfileRequestModel model)
+        public async Task<IActionResult> UpdateProfile(string id, [FromBody] UpdateProfileRequestModel model)
         {
             if(model is null) return BadRequest("Update Profile is null");
-            await _service.AccountService.UpdateProfileAsync(userId, model);
+            await _service.AccountService.UpdateProfileAsync(id, model);
             return Ok(new ResponseMessage { Message = "Update Profile Successully" });
 
         }

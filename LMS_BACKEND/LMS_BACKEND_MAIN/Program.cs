@@ -1,5 +1,5 @@
 using LMS_BACKEND_MAIN.Extentions;
-using LMS_BACKEND_MAIN.Presentation.ActionFilters;
+using LMS_BACKEND_MAIN.Presentation.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -39,11 +39,16 @@ builder.Services.ConfigureJWT(builder.Configuration);
 
 builder.Services.AddJwtConfiguration(builder.Configuration);
 
+builder.Services.ConfigureResponseCaching();
+
+builder.Services.ConfigureHttpCacheHeaders();
+
 builder.Services.AddControllers(
     config =>
         {
             config.RespectBrowserAcceptHeader = true;
             config.ReturnHttpNotAcceptable = true;
+            config.CacheProfiles.Add("2MinsDuration", new CacheProfile { Duration = 120 });
         }
     ).AddApplicationPart(typeof(LMS_BACKEND_MAIN.Presentation.AssemblyReference).Assembly);
 
@@ -88,6 +93,10 @@ else
 }
 
 app.UseStaticFiles();
+
+app.UseHttpCacheHeaders();
+
+app.UseResponseCaching();
 
 app.UseCors("CorsPolicy");
 

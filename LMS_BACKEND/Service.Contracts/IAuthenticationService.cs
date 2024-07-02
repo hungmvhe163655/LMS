@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Shared;
 using Shared.DataTransferObjects;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.ResponseDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,9 @@ namespace Service.Contracts
 {
     public interface IAuthenticationService
     {
-        Task<IdentityResult> Register(RegisterRequestModel model);
+        Task<AccountReturnModel> Register(RegisterRequestModel model);
         Task<bool> VerifyEmail(string email, string token);
-        Task<IdentityResult> RegisterSupervisor(RegisterRequestModel model);
-        Task<IdentityResult> RegisterLabLead(RegisterRequestModel model);
-        Task<IdentityResult> RegisterStudent(RegisterRequestModel studentRegisterRequestModel);
+        Task<AccountReturnModel> RegisterLabLead(RegisterRequestModel model);
         Task<string> ValidateUser(LoginRequestModel loginRequestModel);
         Task<string> CreateToken();
         Task<TokenDTO> CreateToken(bool populateExpiration);

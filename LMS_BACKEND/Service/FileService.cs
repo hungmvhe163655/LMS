@@ -33,7 +33,7 @@ namespace Service
         }
         private async Task DeleteFileFromS3Async(string key)
         {
-            DeleteObjectRequest request = new DeleteObjectRequest
+            DeleteObjectRequest request = new()
             {
                 BucketName = _bucketName,
                 Key = key
@@ -44,7 +44,7 @@ namespace Service
         {
             try
             {
-                GetObjectMetadataRequest request = new GetObjectMetadataRequest()
+                GetObjectMetadataRequest request = new()
                 {
                     BucketName = _bucketName,
                     Key = key
@@ -87,7 +87,7 @@ namespace Service
         {
             MemoryStream ms;
 
-            GetObjectRequest getObjectRequest = new GetObjectRequest
+            GetObjectRequest getObjectRequest = new()
             {
                 BucketName = _bucketName,
                 Key = key
@@ -154,7 +154,7 @@ namespace Service
         }
         public async Task<(byte[], FileResponseModel)> GetFile(Guid fileID)
         {
-            var (hold_FileDB, hold_file) = await FindFileById(fileID);
+            var (_, hold_file) = await FindFileById(fileID);
 
             var hold = await GetFileFromS3Async(hold_file.FileKey ?? throw new Exception("Not found File key"));
 
@@ -226,9 +226,10 @@ namespace Service
             }
             else
             {
-                var hold = new List<FolderClosure>();
-
-                hold.Add(new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 });
+                var hold = new List<FolderClosure>
+                {
+                    new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 }
+                };
 
                 await _repositoryManager.folderClosure.AddLeaf(hold);
             }
