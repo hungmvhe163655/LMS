@@ -21,15 +21,15 @@ export function NewsTable() {
   const { table } = useDataTable({
     data: data?.data || [],
     pageCount: data?.pagination.TotalPages || 1,
-    columns
+    columns,
+    enableRowSelection: false
   });
 
-  const pageIndex = table.getState().pagination.pageIndex + 1;
-  const pageSize = table.getState().pagination.pageSize;
+  const { pageIndex, pageSize } = table.getState().pagination;
 
   React.useEffect(() => {
     setPaginationParameter({
-      PageNumber: pageIndex,
+      PageNumber: pageIndex + 1,
       PageSize: pageSize
     });
   }, [pageIndex, pageSize]);

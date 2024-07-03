@@ -94,6 +94,13 @@ interface UseDataTableProps<TData, TValue> {
    * @type boolean
    */
   enableAdvancedFilter?: boolean;
+
+  /**
+   * Enable select row.
+   * @default true
+   * @type boolean
+   */
+  enableRowSelection?: boolean;
 }
 
 const schema = z.object({
@@ -108,6 +115,7 @@ export function useDataTable<TData, TValue>({
   pageCount,
   defaultPerPage = 10,
   defaultSort,
+  enableRowSelection = true,
   filterFields = [],
   enableAdvancedFilter = false
 }: UseDataTableProps<TData, TValue>) {
@@ -307,7 +315,7 @@ export function useDataTable<TData, TValue>({
       rowSelection,
       columnFilters
     },
-    enableRowSelection: true,
+    enableRowSelection,
     onRowSelectionChange: setRowSelection,
     onPaginationChange: setPagination,
     onSortingChange: setSorting,

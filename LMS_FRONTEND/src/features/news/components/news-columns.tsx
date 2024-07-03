@@ -21,7 +21,8 @@ export function getColumns(): ColumnDef<News>[] {
     {
       accessorKey: 'createdAt',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Created At' />,
-      cell: ({ cell }) => formatDate(cell.getValue() as Date)
+      cell: ({ cell }) => formatDate(cell.getValue() as Date),
+      enableHiding: false
     }
   ];
 }
