@@ -32,6 +32,13 @@ namespace LMS_BACKEND_MAIN
             CreateMap<Files, FileResponseModel>()
                 .ForMember(dest => dest.FolderPath, otp => otp.Ignore()).ReverseMap();
             CreateMap<Files, FileEditRequestModel>().ReverseMap();
+            CreateMap<Account, AccountReturnModel>()
+                .ForMember(dest => dest.Id,op => op.MapFrom(src => src.Id))
+                .ForMember(dest => dest.PhoneNumber, op => op.MapFrom(src => src.PhoneNumber))
+                .ForMember(dest => dest.UserName, op => op.MapFrom(src => src.UserName))
+                .ForMember(dest => dest.Email, op => op.MapFrom(src => src.Email))
+                .ReverseMap();
+
         }
     }
 }

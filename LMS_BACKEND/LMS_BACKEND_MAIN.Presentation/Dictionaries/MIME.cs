@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LMS_BACKEND_MAIN.Presentation
+namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 {
     public class MIME
     {
