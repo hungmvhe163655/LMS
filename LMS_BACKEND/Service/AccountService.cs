@@ -58,6 +58,27 @@ namespace Service
 
             return _mapper.Map<AccountReturnModel>(user);
         }
+        public async Task<AccountDetailResponseModel> GetAccountDetail(string userId)
+        {
+            var account= await _repository.account.GetByCondition(entity => entity.Id.Equals(userId), false).FirstAsync();
+            if(account == null) throw new BadRequestException($"{nameof(account)} is not valid");
+            var studentDetail = await _repository.studentDetail.
+                GetByCondition(entity => entity.AccountId != null && entity.AccountId.Equals(userId), false).FirstAsync();
+            var roleName= await _userManager.GetRolesAsync(account);
+            var hold =  new AccountDetailResponseModel
+            {
+                Id = account.Id,
+                FullName = account.FullName,
+                Role = roleName.First(),
+                Email = account.Email,
+                PhoneNumber = account.PhoneNumber != null ? account.PhoneNumber : "",
+                RollNumber = studentDetail.RollNumber != null ? studentDetail.RollNumber : "",
+                Major= studentDetail.Major != null ? studentDetail.Major : "",
+                Specialized = studentDetail.Specialized != null ? studentDetail.Specialized : "",
+            };
+            return hold;
+        }
+
         public async Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> UserIDList, string verifier)
         {
             List<Account> accountList = new List<Account>();
@@ -125,12 +146,11 @@ namespace Service
 
                 if (studentDetail == null)
                 {
-                    var newStudentDetail = new StudentDetail() { AccountId = userId, RollNumber = model.RollNumber, Major = model.Major, Specialized = model.Specialized };
+                    var newStudentDetail = new StudentDetail() { AccountId = userId, RollNumber = account.UserName, Major = model.Major, Specialized = model.Specialized };
                     await _repository.studentDetail.CreateAsync(newStudentDetail);
                 }
                 else
                 {
-                    studentDetail.RollNumber = model.RollNumber;
                     studentDetail.Major = model.Major;
                     studentDetail.Specialized = model.Specialized;
                     _repository.studentDetail.Update(studentDetail);
@@ -142,6 +162,24 @@ namespace Service
             {
                 _logger.LogError($"Exceptions Occur at service {nameof(UpdateProfileAsync)} with the message" + ex.Message);
             }
+        }
+
+        public async Task ChangeEmailAsync(string id, ChangeEmailRequestModel model)
+        {
+            var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(id), true);
+            var account = user.FirstOrDefault();
+            //if (account != null)
+            //{
+            //    var result = await _userManager.ChangeEmailAsync(account, oldPassword, newPassword);
+            //    return result.Succeeded;
+            //}
+            //else throw new BadRequestException("User with id: " + userId + " is not exist");
+            if (account == null) throw new BadRequestException($"Can't find user with id: ${id}");
+            await _userManager.SetEmailAsync(account, model.Email);
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(account);
+
+            await _userManager.ConfirmEmailAsync(account, token);
         }
 
         //public async Task<bool> ChangePhoneNumberAsync(string userId, string phoneNumber, string verifyCode)

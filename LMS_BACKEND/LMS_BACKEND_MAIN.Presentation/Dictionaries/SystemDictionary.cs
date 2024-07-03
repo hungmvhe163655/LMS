@@ -64,6 +64,10 @@
 
         public const string ChangePassword = "change-password";
 
+        public const string ChangeEmailOtp = "change-email-otp";
+
+        public const string ChangeEmail = "change-email/{id}";
+
         #endregion
 
         #region FilesAPIs
