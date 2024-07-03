@@ -1,11 +1,13 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
+import { News, NewsQueryParams } from '../types/api';
+
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
-import { News, Pagination, PaginationParameters } from '@/types/api';
+import { Pagination } from '@/types/api';
 
 export const getNews = async (
-  params?: PaginationParameters
+  params?: NewsQueryParams
 ): Promise<{ data: News[]; pagination: Pagination }> => {
   const response = await api.get(`/news`, { params });
   const pagination = JSON.parse(response.headers['x-pagination']);
@@ -15,7 +17,7 @@ export const getNews = async (
   };
 };
 
-export const getNewsQueryOptions = (params?: PaginationParameters) => {
+export const getNewsQueryOptions = (params?: NewsQueryParams) => {
   return queryOptions({
     queryKey: ['news', params],
     queryFn: () => getNews(params)
@@ -23,13 +25,13 @@ export const getNewsQueryOptions = (params?: PaginationParameters) => {
 };
 
 type UseNewsOptions = {
-  paginationParameter?: PaginationParameters;
+  newsQueryParameter?: NewsQueryParams;
   queryConfig?: QueryConfig<typeof getNewsQueryOptions>;
 };
 
-export const useNews = ({ paginationParameter, queryConfig }: UseNewsOptions = {}) => {
+export const useNews = ({ newsQueryParameter, queryConfig }: UseNewsOptions = {}) => {
   return useQuery({
-    ...getNewsQueryOptions(paginationParameter),
+    ...getNewsQueryOptions(newsQueryParameter),
     ...queryConfig
   });
 };

@@ -97,7 +97,7 @@ interface UseDataTableProps<TData, TValue> {
 
   /**
    * Enable select row.
-   * @default true
+   * @default false
    * @type boolean
    */
   enableRowSelection?: boolean;
@@ -115,7 +115,7 @@ export function useDataTable<TData, TValue>({
   pageCount,
   defaultPerPage = 10,
   defaultSort,
-  enableRowSelection = true,
+  enableRowSelection = false,
   filterFields = [],
   enableAdvancedFilter = false
 }: UseDataTableProps<TData, TValue>) {
@@ -307,7 +307,7 @@ export function useDataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
-    pageCount: pageCount ?? -1,
+    pageCount: pageCount,
     state: {
       pagination,
       sorting,

@@ -1,7 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table';
 
+import { News } from '../types/api';
+
 import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
-import { News } from '@/types/api';
 import { formatDate } from '@/utils/format';
 
 export function getColumns(): ColumnDef<News>[] {
@@ -19,8 +20,8 @@ export function getColumns(): ColumnDef<News>[] {
       enableHiding: false
     },
     {
-      accessorKey: 'createdAt',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Created At' />,
+      accessorKey: 'createdDate',
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Created Date' />,
       cell: ({ cell }) => formatDate(cell.getValue() as Date),
       enableHiding: false
     }

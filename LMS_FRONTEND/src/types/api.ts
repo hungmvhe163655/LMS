@@ -26,16 +26,10 @@ export type Pagination = {
   HasNext: boolean;
 };
 
-export type PaginationParameters = {
+export type QueryParams = {
   PageNumber?: number;
   PageSize?: number;
 };
-
-export type News = Entity<{
-  content: string;
-  title: string;
-  createdBy: string;
-}>;
 
 export type AuthResponse = {
   accessToken: string;

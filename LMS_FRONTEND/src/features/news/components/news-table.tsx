@@ -1,38 +1,18 @@
-import * as React from 'react';
-
-import { useNews } from '../api/get-news';
-
-import { getColumns } from './news-columns';
+import { useNewsTable } from '../hooks/use-news-table';
 
 import { DataTable } from '@/components/ui/data-table/data-table';
-import { useDataTable } from '@/hooks/use-data-table';
+import { DataTableSkeleton } from '@/components/ui/data-table/data-table-skeleton';
 
 export function NewsTable() {
-  const [paginationParameter, setPaginationParameter] = React.useState({
-    PageNumber: 1,
-    PageSize: 10
-  });
+  const { isLoading, error, table } = useNewsTable();
 
-  const { data } = useNews({ paginationParameter });
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
-  // Memoize the columns so they don't re-render on every render
-  const columns = React.useMemo(() => getColumns(), []);
-
-  const { table } = useDataTable({
-    data: data?.data || [],
-    pageCount: data?.pagination.TotalPages || 1,
-    columns,
-    enableRowSelection: false
-  });
-
-  const { pageIndex, pageSize } = table.getState().pagination;
-
-  React.useEffect(() => {
-    setPaginationParameter({
-      PageNumber: pageIndex + 1,
-      PageSize: pageSize
-    });
-  }, [pageIndex, pageSize]);
+  if (isLoading) {
+    return <DataTableSkeleton columnCount={3} />;
+  }
 
   return <DataTable table={table} />;
 }
