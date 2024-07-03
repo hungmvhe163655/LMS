@@ -1,6 +1,6 @@
 export type BaseEntity = {
   id: string;
-  createdDate: number;
+  createdDate: Date;
 };
 
 export type Entity<T> = {
@@ -11,10 +11,30 @@ export type User = Entity<{
   fullname: string;
   email: string;
   gender: boolean;
-  verifiedBy: string;
+  verifiedBy: string | null;
   isDeleted: boolean;
   isBanned: boolean;
-  role: 'SUPERVISOR' | 'STUDENT' | 'LAB_DIRECTOR';
+  roles: ('SUPERVISOR' | 'STUDENT' | 'LAB_DIRECTOR')[];
+}>;
+
+export type Pagination = {
+  CurrentPage: number;
+  TotalPages: number;
+  PageSize: number;
+  TotalCount: number;
+  HasPrevious: boolean;
+  HasNext: boolean;
+};
+
+export type PaginationParameters = {
+  PageNumber?: number;
+  PageSize?: number;
+};
+
+export type News = Entity<{
+  content: string;
+  title: string;
+  createdBy: string;
 }>;
 
 export type AuthResponse = {
