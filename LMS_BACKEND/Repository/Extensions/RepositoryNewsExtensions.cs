@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Dynamic.Core;
 
 namespace Repository.Extensions
 {
@@ -53,8 +54,7 @@ namespace Repository.Extensions
             if (string.IsNullOrWhiteSpace(orderQuery))
                 return news.OrderBy(n => n.CreatedDate);
 
-            //return news.OrderBy(orderQuery);
-            return news;
+            return news.OrderBy(orderQuery);
         }
     }
 }
