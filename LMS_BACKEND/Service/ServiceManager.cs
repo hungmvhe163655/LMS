@@ -36,7 +36,7 @@ namespace Service
             )
         {
             _accountService = new Lazy<IAccountService>(() => new AccountService(repositoryManager, logger, mapper,userManager,roleManager));
-            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration, roleManager));
+            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration, roleManager, repositoryManager));
             _mailService = new Lazy<IMailService>(() => new MailService(logger, client, userManager, memoryCache, repositoryManager));
             _newsService = new Lazy<INewsService>(() => new NewsService(logger, repositoryManager, mapper));
             _fileService = new Lazy<IFileService>(() => new FileService(clients3, configuration,mapper,repositoryManager));
