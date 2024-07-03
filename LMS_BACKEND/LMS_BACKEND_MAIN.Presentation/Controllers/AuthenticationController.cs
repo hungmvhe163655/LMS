@@ -1,4 +1,5 @@
-﻿using LMS_BACKEND_MAIN.Presentation.ActionFilters;
+﻿using Entities.Exceptions;
+using LMS_BACKEND_MAIN.Presentation.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -7,10 +8,11 @@ using Shared.DataTransferObjects;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
 using System.Security.Claims;
+using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
-    [Route("api/auth")]
+    [Route(APIs.AuthenticationAPI)]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -21,7 +23,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = serviceManager;
         }
 
-        [HttpPut("resend-verify-email")]
+        [HttpPut(RoutesAPI.ReSendVerifyEmail)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ReSendVerifyEmail([FromBody] MailRequestModel model)
         {
@@ -33,14 +35,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return BadRequest(new ResponseMessage { Message = "Something Went Wrong!" });
         }
 
-        [HttpPut("verify-email")]
+        [HttpPut(RoutesAPI.VerifyEmail)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> VerifyEmail([FromBody] MailRequestModel model)
         {
-            var email = model.Email;
-            var token = model.AuCode;
-
-            if (await _service.AuthenticationService.VerifyEmail(email, token))
+            if (await _service.AuthenticationService.VerifyEmail(model.Email, model.AuCode))
             {
                 return Ok(model.Email);
             }
@@ -48,64 +47,58 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return BadRequest(new ResponseMessage { Message = "Invalid Token" });
         }
 
-        [HttpPost("register/supervisor")]
+        [HttpPost(RoutesAPI.RegisterSupervisor)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterSupervisor([FromBody] RegisterRequestModel model)
         {
-            var result = await _service.AuthenticationService.Register(model);
+            _ = await _service.AuthenticationService.Register(model);
 
             await _service.MailService.SendVerifyOtp(model.Email);
 
-            return StatusCode(201, model);
+            var user = await _service.AccountService.GetUserByEmail(model.Email);
 
+            return StatusCode(201, user);
         }
 
-        [HttpPost("register/student")]
+        [HttpPost(RoutesAPI.RegisterStudent)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterStudent([FromBody] RegisterRequestModel model)
         {
-
-            var result = await _service.AuthenticationService.Register(model);
-
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.TryAddModelError(error.Code, error.Description);
-                }
-                return BadRequest(new ResponseMessage { Message = "Bad User Detail" });
-            }
+            _ = await _service.AuthenticationService.Register(model);
 
             await _service.MailService.SendVerifyOtp(model.Email);
 
-            return StatusCode(201, model);
+            var user = await _service.AccountService.GetUserByEmail(model.Email);
 
-
+            return StatusCode(201, user);
         }
 
-        [HttpPost("login-2factor")]
+        [HttpPost(RoutesAPI.Authenticate2Factor)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate2Factor([FromBody] LoginRequestModel model)
         {
 
-            if (await _service.MailService.VerifyTwoFactorOtp(model.Email, model.AuCode))
+            if (await _service.MailService.VerifyTwoFactorOtp(model.Email, model.AuCode ?? throw new BadRequestException("Aucode is null")))
             {
-                string outcome = await _service.AuthenticationService.ValidateUser(model);
+                _ = await _service.AuthenticationService.ValidateUser(model);
+
                 var Tokendto = await _service.AuthenticationService.CreateToken(true);
-                return Ok(Tokendto);
+
+                var user = await _service.AccountService.GetUserByEmail(model.Email);
+
+                return Ok(new { TOKEN = Tokendto, User = user });
             }
 
             return BadRequest(new ResponseMessage { Message = "Wrong code" });
 
         }
-        private async Task<IActionResult> LoginProcess(string outcome, bool twofactor, AccountDTOforReturn model)
+        private async Task<IActionResult> LoginProcess(string outcome, bool twofactor, AccountReturnModel model)
         {
-
             if (outcome.Split("|")[0].Equals("SUCCESS"))
             {
                 if (twofactor)
                 {
-                    if (await _service.MailService.SendTwoFactorOtp(model.email ?? ""))
+                    if (await _service.MailService.SendTwoFactorOtp(model.Email ?? ""))
                     {
                         return Ok(new ResponseMessage { Message = "2 Factor code was sent" });
                     }
@@ -113,37 +106,32 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 }
                 var Tokendto = await _service.AuthenticationService.CreateToken(true);
 
-                return Ok(Tokendto);
+                return Ok(new { TOKEN = Tokendto, User = model });
             }
-
-            return Unauthorized(new ResponseMessage { Message = outcome }) ;
-
-
+            return Unauthorized(new ResponseMessage { Message = outcome });
         }
 
-        [HttpPost("login")]
+        [HttpPost(RoutesAPI.Authenticate)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestModel model)
         {
-
-            if (model.Email == null) return BadRequest(new ResponseMessage { Message = "Email can't be null" });
-
             string outcome = await _service.AuthenticationService.ValidateUser(model);
+
+            var hold_2Factor = outcome.Split("|")[1].Equals("TWOFACTOR");
 
             var user = await _service.AccountService.GetUserByEmail(model.Email);
 
-            if (user.Any()) return await LoginProcess(outcome, user.First().TwoFactorEnabled, new AccountDTOforReturn(user.First().Id, model.Email, ""));
-
-            return await LoginProcess(outcome, false, new AccountDTOforReturn("", "", ""));
+            return await LoginProcess(outcome, hold_2Factor, user);
 
         }
 
-        [HttpPost("logout")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpPost(RoutesAPI.Logout)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Logout([FromBody] TokenDTORequestModel model)
         {
-            var hold = new TokenDTO(model.AccessToken , model.RefreshToken);
+            var hold = new TokenDTO(model.AccessToken, model.RefreshToken);
+
             if (!await _service.AuthenticationService.InvalidateToken(hold))
             {
                 return Unauthorized(new ResponseMessage { Message = "Something went wrong, can't logout!" });
@@ -151,7 +139,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "Logout Success" });
         }
 
-        [HttpPost("forgot-password")]
+        [HttpPost(RoutesAPI.ForgotPassword)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestModel model)
         {
@@ -162,7 +150,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return BadRequest(new ResponseMessage { Message = "Invalid email/phonenumber" });
         }
 
-        [HttpPost("forgot-password-otp")]
+        [HttpPost(RoutesAPI.ForgotPasswordOtp)]
         public async Task<IActionResult> ForgotPasswordOtp([FromBody] ForgotPasswordRequestModel model)
         {
             if (await _service.MailService.VerifyOtp(model.Email, model.VerifyCode, "ForgotPasswordKey"))
@@ -172,23 +160,27 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return BadRequest(new ResponseMessage { Message = "User not found or wrong verify code" });
         }
 
-        [HttpGet("me")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpGet(RoutesAPI.GetCurrentLoggedInUser)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         public async Task<IActionResult> GetCurrentLoggedInUser()
         {
             var userClaims = User.Claims;
+
             var userId = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
             var email = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
 
             if (userId != null)
             {
                 var result = await _service.AccountService.GetUserById(userId);
+
                 return Ok(result);
             }
 
             if (email != null)
             {
                 var result = await _service.AccountService.GetUserByName(email);
+
                 return Ok(result);
             }
 

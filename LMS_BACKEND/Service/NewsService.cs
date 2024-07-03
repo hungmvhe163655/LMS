@@ -45,7 +45,7 @@ namespace Service
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
