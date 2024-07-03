@@ -31,27 +31,43 @@ namespace Service
         /// Validate and Manage user token and user's account
         /// </summary>
         private readonly ILoggerManager _logger;
+
         private readonly IMapper _mapper;
+
         private readonly IConfiguration _configuration;
+
         private readonly JwtConfiguration _jwtConfiguration;
+
         private readonly UserManager<Account> _userManager;
+
         private readonly RoleManager<IdentityRole> _roleManager;
+
+        private readonly IRepositoryManager _repositoryManager;
 
 
         private readonly string _Secret;
         private Account? _account;
-        public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<Account> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager)
+        public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<Account> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IRepositoryManager repositoryManager)
         {
             _logger = logger;
+
             _mapper = mapper;
+
             _userManager = userManager;
+
             _configuration = configuration;
+
             _roleManager = roleManager;
+
             _jwtConfiguration = new JwtConfiguration();
+
             _configuration.Bind(_jwtConfiguration.Section, _jwtConfiguration);
+
             var hold = Environment.GetEnvironmentVariable("SECRET");
+
             _Secret = hold ?? "#";
 
+            _repositoryManager = repositoryManager;
         }
 
         public async Task<bool> VerifyEmail(string email, string token)
@@ -90,35 +106,42 @@ namespace Service
 
             var verifierRole = _userManager.GetRolesAsync(verifier).Result.FirstOrDefault();
 
-            if (verifierRole == null || !(verifierRole.ToLower().Equals("labadmin") || verifierRole.ToLower().Equals("supervisor"))) throw new BadRequestException("Verifier's not authorized");
+            if (verifierRole == null || !(verifierRole.ToLower().Equals("labadmin") || verifierRole.ToLower().Equals("supervisor"))) 
+                
+                throw new BadRequestException("Verifier's not authorized");
 
             var rolesToAdd = model.Roles;
 
             var validRoles = new List<string>();
 
-            if (rolesToAdd != null && rolesToAdd.Any()) foreach (var role in model.Roles)
-                {
-                    if (await _roleManager.RoleExistsAsync(role))
-                    {
-                        validRoles.Add(role);
-                    }
-                    else
-                    {
-                        _logger.LogWarning($"{nameof(Register)}Role '{role}' does not exist.");
-                    }
-                }
+            if (rolesToAdd != null && rolesToAdd.Any()) 
+
+                foreach (var role in model.Roles) 
+
+                    if (await _roleManager.RoleExistsAsync(role)) validRoles.Add(role);          
+                
             if (validRoles.Any())
             {
-
                 user.VerifiedBy = verifier.Id;
 
-                user.UserName = user.Id.ToString();
+                user.UserName = model.RollID ?? user.Id.ToString();
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 var result2 = await _userManager.AddToRolesAsync(user, validRoles);
 
                 user = await _userManager.FindByEmailAsync(model.Email);
+
+                if (user == null) throw new Exception("Errors occurs during the registing process");
+
+                var hold = model.Roles.Contains("Student") ? new StudentDetail { AccountId = user.Id } : null;
+
+                if (hold != null)
+                {
+                    _repositoryManager.studentDetail.Create(hold);
+
+                    await _repositoryManager.Save();
+                }
 
                 return _mapper.Map<AccountReturnModel>(user);
             }
@@ -167,14 +190,19 @@ namespace Service
             if (string.IsNullOrEmpty(userForAuth.Email) || string.IsNullOrEmpty(userForAuth.Password))
             {
                 _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Empty Email or password");
+
                 return "BADLOGIN|";
             }
             _account = await _userManager.FindByEmailAsync(userForAuth.Email);
+
             if (_account == null) return "BADLOGIN | INVALID EMAIL";
+
             var result = (await _userManager.CheckPasswordAsync(_account, userForAuth.Password));
+
             if (!result)
             {
                 _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");
+
                 return "BADLOGIN | INCORRECT PASSWORD";
             }
             if (result && _account != null)
@@ -198,19 +226,24 @@ namespace Service
         {
             /// phai setup secret truoc khi thuc hien Open CMD (as admin) => example setx SECRET "MINTCHE SUPER LONG KEY FOR JWT" /M
             var signingCredentials = GetSigningCredentials();
+
             if (signingCredentials.Key == null)
             {
                 _logger.LogError($"{nameof(CreateToken)} Failed to find any valid Credential");
+
                 return "NOT FOUND CREDENTIALS";
             }
             var claims = await GetClaims();
+
             var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
+
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
         private SigningCredentials GetSigningCredentials()
         {
             /// phai setup secret truoc khi thuc hien Open CMD (as admin) => setx SECRET "MinhTC" /M
             var hold = _Secret;
+
             if (!hold.Equals("#"))
             {
                 var key = Encoding.UTF8.GetBytes(hold);
@@ -234,6 +267,7 @@ namespace Service
                      new Claim(ClaimTypes.Name, _account.UserName)
                      };
                     var roles = await _userManager.GetRolesAsync(_account);
+
                     foreach (var role in roles)
                     {
                         claims.Add(new Claim(ClaimTypes.Role, role));
