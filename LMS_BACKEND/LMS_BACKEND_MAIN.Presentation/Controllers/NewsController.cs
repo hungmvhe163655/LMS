@@ -47,19 +47,19 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpPut("{newsid:guid}")]
         //[Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Update(Guid newsId, UpdateNewsRequestModel model)
+        public async Task<IActionResult> Update(Guid newsId, UpdateNewsRequestModel model)
         {
-                _service.NewsService.UpdateNews(newsId, model);
+                await _service.NewsService.UpdateNews(newsId, model);
                 return Ok(new { Status = "success", Value = "Update successfully" });
         }
 
 
         [HttpDelete("{newsid:guid}")]
         //[Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Delete(Guid newsId)
+        public async Task<IActionResult> Delete(Guid newsId)
         {
-                var data = _service.NewsService.DeleteNewsAsync(newsId);
-                return Ok(new { Status = "success", Value = data });
+                await _service.NewsService.DeleteNews(newsId);
+                return Ok(new { Status = "success", Value = "Delete successfully" });
         }
 
     }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.ResponseDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,27 @@ namespace Service
             if (user == null) throw new BadRequestException("No user with username: " + userName);
             return user;
         }
+        public async Task<AccountDetailResponseModel> GetAccountDetail(string userId)
+        {
+            var account= await _repository.account.GetByCondition(entity => entity.Id.Equals(userId), false).FirstAsync();
+            if(account == null) throw new BadRequestException($"{nameof(account)} is not valid");
+            var studentDetail = await _repository.studentDetail.
+                GetByCondition(entity => entity.AccountId != null && entity.AccountId.Equals(userId), false).FirstAsync();
+            var roleName= await _userManager.GetRolesAsync(account);
+            var hold =  new AccountDetailResponseModel
+            {
+                Id = account.Id,
+                FullName = account.FullName,
+                Role = roleName.First(),
+                Email = account.Email,
+                PhoneNumber = account.PhoneNumber != null ? account.PhoneNumber : "",
+                RollNumber = studentDetail.RollNumber != null ? studentDetail.RollNumber : "",
+                Major= studentDetail.Major != null ? studentDetail.Major : "",
+                Specialized = studentDetail.Specialized != null ? studentDetail.Specialized : "",
+            };
+            return hold;
+        }
+
         public async Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> UserIDList, string verifier)
         {
             List<Account> accountList = new List<Account>();
@@ -117,12 +139,11 @@ namespace Service
 
                 if (studentDetail == null)
                 {
-                    var newStudentDetail = new StudentDetail() { AccountId = userId, RollNumber = model.RollNumber, Major = model.Major, Specialized = model.Specialized };
+                    var newStudentDetail = new StudentDetail() { AccountId = userId, RollNumber = account.UserName, Major = model.Major, Specialized = model.Specialized };
                     await _repository.studentDetail.CreateAsync(newStudentDetail);
                 }
                 else
                 {
-                    studentDetail.RollNumber = model.RollNumber;
                     studentDetail.Major = model.Major;
                     studentDetail.Specialized = model.Specialized;
                     _repository.studentDetail.Update(studentDetail);

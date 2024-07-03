@@ -41,7 +41,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
 
-        [HttpGet("accounts/{role}")]
+        [HttpGet("roles/{role}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "LabAdmin")]
         public async Task<IActionResult> GetUsers(string role)
         {
@@ -82,6 +82,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             await _service.AccountService.UpdateAccountVerifyStatus(hold, model.verifierID);
             return Ok(new ResponseMessage { Message = "Update User " + user.FullName + " Status Successully" });
         }
+        [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> GetAccountDetail(string id)
+        {
+            var data = await _service.AccountService.GetAccountDetail(id);
+            return Ok(new { Status = "success", Value = data });
+        }
+
 
         [HttpPost("change-password")]
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -102,7 +111,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }           
         }*/
 
-        [HttpPut("{userid:guid}")]
+        [HttpPut("{userid}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         //[Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> UpdateProfile(string userId, [FromBody] UpdateProfileRequestModel model)
