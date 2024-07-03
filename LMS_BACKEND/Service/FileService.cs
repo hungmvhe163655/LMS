@@ -110,7 +110,8 @@ namespace Service
 
 
         }
-        private async Task<(IEnumerable<Files>, Files)> FindFileById(Guid id){
+        private async Task<(IEnumerable<Files>, Files)> FindFileById(Guid id)
+        {
             var hold_FileDB = await _repositoryManager.file.GetFiles(false);
 
             var end = hold_FileDB.Where(x => x.Id.Equals(id)).ToList();
