@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects.RequestDTO
 {
-    public class ChangePhoneNumberRequestModel
+    public class ChangeEmailRequestModel
     {
-        [Required(ErrorMessage = "Phone Number is required")]
-        public string? PhoneNumber { get; set; }
+        [Required(ErrorMessage = "Email is required")]
+        public string? Email { get; set; }
         [Required(ErrorMessage = "Verify Code is required")]
         public string? VerifyCode { get; set; }
     }
