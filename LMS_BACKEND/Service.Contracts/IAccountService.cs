@@ -21,5 +21,6 @@ namespace Service.Contracts
         Task<bool> ChangePasswordAsync(string userId, string oldPassword, string newPassword);
         Task UpdateProfileAsync(string userId, UpdateProfileRequestModel model);
         Task<AccountDetailResponseModel> GetAccountDetail(string userId);
+        Task ChangeEmailAsync(string id, ChangeEmailRequestModel model);
     }
 }

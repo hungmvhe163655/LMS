@@ -96,16 +96,36 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "Change Password Successully" });
         }
 
-        /*[HttpPut("change-phone-number")]
-        //[Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> ChangeEmail([FromBody] ChangePhoneNumberRequestModel model)
+        [HttpPost(RoutesAPI.ChangeEmail)]
+        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> ChangeEmail(string id, [FromBody] ChangeEmailRequestModel model)
         {
-            if (await _service.AccountService.ChangePasswordAsync(model.UserID, model.OldPassword, model.NewPassword))
-            {
-                return Ok(new ResponseObjectModel { Status = "success", Code = 200", Value = "Change Password Successully" });
-            }           
-        }*/
+            //var hold = await _service.AccountService.GetUserById(id);
+            //var email = hold.Email;
+            //if (await _service.MailService.SendOTP(email, "ChangeEmailKey"))
+            //{
+            //    return Ok(new ResponseMessage { Message = "OTP SENT TO USER EMAIL" });
+            //}
+            //return BadRequest(new ResponseMessage { Message = "Invalid email" });
+            await _service.AccountService.ChangeEmailAsync(id, model);
+            return Ok(new ResponseMessage { Message = "Change email Successully" });
+        }
 
+        //[HttpPost(RoutesAPI.ChangeEmailOtp)]
+        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        //[ServiceFilter(typeof(ValidationFilterAttribute))]
+        //public async Task<IActionResult> ChangeEmailOtp(string id, [FromBody] ChangeEmailRequestModel model)
+        //{
+        //    var hold = await _service.AccountService.GetUserById(id);
+        //    var email = hold.Email;
+        //    if (await _service.MailService.VerifyOtp(email, model.VerifyCode, "ChangeEmailKey"))
+        //    {
+
+        //        return Ok(new ResponseMessage { Message = "Change email successfully" });
+        //    }
+        //    return BadRequest(new ResponseMessage { Message = "User not found or wrong verify code" });
+        //}
 
         [HttpPut("{id}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
