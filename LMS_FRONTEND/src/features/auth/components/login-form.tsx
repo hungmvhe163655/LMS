@@ -16,11 +16,15 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { loginInputSchema, useLogin } from '@/lib/auth';
+import { User } from '@/types/api';
 
 // FormSchema and Validation
+type LoginFormProps = {
+  onSuccess: (data: User | undefined) => void;
+};
 
-function LoginForm() {
-  const login = useLogin();
+export const LoginForm = ({ onSuccess }: LoginFormProps) => {
+  const login = useLogin({ onSuccess });
 
   const form = useForm<z.infer<typeof loginInputSchema>>({
     resolver: zodResolver(loginInputSchema),
@@ -87,6 +91,6 @@ function LoginForm() {
       </CardFooter>
     </Card>
   );
-}
+};
 
 export default LoginForm;

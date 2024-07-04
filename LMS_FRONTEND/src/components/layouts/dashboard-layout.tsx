@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { BaseLayout } from './base-layout';
+
 import { Head } from '@/components/seo';
 
 type DashboardLayoutProps = {
@@ -9,7 +11,7 @@ type DashboardLayoutProps = {
 
 export function DashboardLayout({ children, title }: DashboardLayoutProps) {
   return (
-    <>
+    <BaseLayout>
       <Head title={title} />
       <div className='flex min-h-screen flex-col bg-gray-50'>
         <header className='bg-white shadow'>
@@ -23,6 +25,6 @@ export function DashboardLayout({ children, title }: DashboardLayoutProps) {
           </div>
         </main>
       </div>
-    </>
+    </BaseLayout>
   );
 }

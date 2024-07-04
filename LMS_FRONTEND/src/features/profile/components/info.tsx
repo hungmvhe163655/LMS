@@ -1,5 +1,7 @@
 import { FaEdit } from 'react-icons/fa';
 
+import { EditProfileForm } from './edit-profile-form';
+
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   Dialog,
@@ -9,8 +11,6 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
-
-import { EditProfileForm } from './edit-profile-form';
 
 export function Info() {
   return (

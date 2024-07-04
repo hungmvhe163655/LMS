@@ -1,4 +1,5 @@
 import { Bell, LogOut, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import {
@@ -11,19 +12,28 @@ import {
   DropdownMenuTrigger
 } from '../ui/dropdown-menu';
 
-export function AvatarDropdown() {
+import { useLogout } from '@/lib/auth';
+
+interface AvatarDropdownProps {
+  avatarName: string;
+}
+
+export function AvatarDropdown({ avatarName }: AvatarDropdownProps) {
+  const navigate = useNavigate();
+  const logout = useLogout();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar>
-          <AvatarFallback className='cursor-pointer text-lg font-bold'>VH</AvatarFallback>
+          <AvatarFallback className='cursor-pointer text-lg font-bold'>{avatarName}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='mr-8 w-56'>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => navigate('/profile')}>
             <User className='mr-2 size-4' />
             <span>Profile</span>
           </DropdownMenuItem>
@@ -34,7 +44,7 @@ export function AvatarDropdown() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => logout.mutate({})}>
           <LogOut className='mr-2 size-4' />
           <span>Log out</span>
         </DropdownMenuItem>

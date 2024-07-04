@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import { configureAuth } from 'react-query-auth';
 import { useLocation, Navigate } from 'react-router-dom';
 import { z } from 'zod';
@@ -5,16 +6,22 @@ import { z } from 'zod';
 import { api } from './api-client';
 
 import { AuthResponse, User } from '@/types/api';
+// import { cookieStorage } from '@/utils/cookie-storage';
 
 // api call definitions for auth (types, schemas, requests):
 // these are not part of features as this is a module shared across features
 
+export async function handleApiResponse(response: AxiosResponse) {
+  return await response.data;
+}
+
 const getUser = (): Promise<User | undefined> => {
-  return api.get('/auth/me') ?? null;
+  return api.get('/auth/me').then(handleApiResponse) ?? null;
 };
 
-const logout = (): Promise<void> => {
-  return api.post('/auth/logout');
+const logout = async (): Promise<void> => {
+  const response = await api.post('/auth/logout');
+  return handleApiResponse(response);
 };
 
 export const loginInputSchema = z.object({
@@ -23,8 +30,10 @@ export const loginInputSchema = z.object({
 });
 
 export type LoginInput = z.infer<typeof loginInputSchema>;
-const loginWithEmailAndPassword = (data: LoginInput): Promise<AuthResponse> => {
-  return api.post('/auth/login', data);
+
+const loginWithEmailAndPassword = async (data: LoginInput): Promise<AuthResponse> => {
+  const response = await api.post('/auth/login', data);
+  return handleApiResponse(response);
 };
 
 export const registerInputSchema = z
@@ -58,7 +67,7 @@ export type RegisterInput = z.infer<typeof registerInputSchema>;
 
 const registerWithEmailAndPassword = async (data: RegisterInput): Promise<AuthResponse> => {
   const endpoint = data.role === 'STUDENT' ? '/auth/register/student' : '/auth/register/supervisor';
-  return api.post(endpoint, data);
+  return api.post(endpoint, data).then(handleApiResponse);
 };
 const authConfig = {
   userFn: getUser,

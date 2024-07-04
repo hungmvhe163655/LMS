@@ -8,13 +8,15 @@ export type Entity<T> = {
 } & BaseEntity;
 
 export type User = Entity<{
-  fullname: string;
   email: string;
-  gender: boolean;
-  verifiedBy: string | null;
+  phoneNumber: string;
+  userName: string;
+  fullName: string;
+  gender: string;
   isDeleted: boolean;
   isBanned: boolean;
-  roles: ('SUPERVISOR' | 'STUDENT' | 'LAB_DIRECTOR')[];
+  verifiedBy: string | null;
+  roles: ('Supervisor' | 'Student' | 'Lab Director')[];
 }>;
 
 export type Pagination = {
@@ -32,7 +34,9 @@ export type QueryParams = {
 };
 
 export type AuthResponse = {
-  accessToken: string;
-  refreshToken: string;
+  token: {
+    accessToken: string;
+    refreshToken: string;
+  };
   user: User;
 };
