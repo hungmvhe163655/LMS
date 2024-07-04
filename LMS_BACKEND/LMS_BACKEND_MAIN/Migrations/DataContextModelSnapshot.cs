@@ -139,11 +139,11 @@ namespace LMS_BACKEND_MAIN.Migrations
                         {
                             Id = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "be58bdba-25e0-4dfd-9785-b9fe45395f68",
-                            CreatedDate = new DateTime(2024, 6, 28, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2595),
+                            ConcurrencyStamp = "a0b6831e-4283-4e98-b062-91642f25548d",
+                            CreatedDate = new DateTime(2024, 7, 4, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(4874),
                             Email = "minhtche161354@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2608),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4885),
                             FullName = "Tran Cong Minh",
                             Gender = false,
                             IsBanned = false,
@@ -155,20 +155,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAELgUn5wJH9empSyZm7MdUy84spVESi+LvNCV8nDY9PMgoY0fOBYhfZO/MPZHjSZimA==",
                             PhoneNumber = "0963661093",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "a9bcf969-ecc2-450e-9b32-23465f4cc52b",
+                            SecurityStamp = "8157f0e9-a72f-4a7c-a2ba-7f27dec729b9",
                             TwoFactorEnabled = false,
                             UserName = "minhtche161354",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2609)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4886)
                         },
                         new
                         {
                             Id = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7397062d-ef7a-4185-84da-5d0742b36094",
-                            CreatedDate = new DateTime(2024, 6, 28, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2623),
+                            ConcurrencyStamp = "d528fdf6-8728-4b64-9fdb-c55f188e2edc",
+                            CreatedDate = new DateTime(2024, 7, 4, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(4905),
                             Email = "thailshe160614@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2624),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4906),
                             FullName = "Le Sy Thai",
                             Gender = true,
                             IsBanned = false,
@@ -180,20 +180,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEO5SGANyOkCieJN+MspCJeIbBLjDruXYD5omO5+7u9NVKctIo979jEts1uoDaalzTw==",
                             PhoneNumber = "0497461220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "bfd22495-97a0-4c1b-a0df-824603324670",
+                            SecurityStamp = "276abb99-4f80-4a50-bc06-fc268829339b",
                             TwoFactorEnabled = false,
                             UserName = "thailshe160614",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2625)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4907)
                         },
                         new
                         {
                             Id = "a687bb04-4f19-49d5-a60f-2db52044767c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5783f3e9-743d-4a2c-b805-4e2b182f6109",
-                            CreatedDate = new DateTime(2024, 6, 28, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2638),
+                            ConcurrencyStamp = "d6dd2830-2939-4821-b234-40f161140646",
+                            CreatedDate = new DateTime(2024, 7, 4, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(4916),
                             Email = "hungmvhe163655@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2639),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4917),
                             FullName = "Mai Viet Hung",
                             Gender = true,
                             IsBanned = false,
@@ -205,20 +205,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHaY3BZO2ooRDvclwsiVvksAaPExz0GAXkEHlfwAtwfVBfRcw9gQTR02USItL9NrSg==",
                             PhoneNumber = "0975461220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "4afc67b3-828b-4d54-9731-f700dddf0fe9",
+                            SecurityStamp = "35757015-2798-4000-9772-406f6fea3a07",
                             TwoFactorEnabled = false,
                             UserName = "hungmvhe163655",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2640)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4918)
                         },
                         new
                         {
                             Id = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e5ae25d9-d6a9-4c5b-86f4-7279cc65c7cc",
-                            CreatedDate = new DateTime(2024, 6, 28, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2657),
+                            ConcurrencyStamp = "43af0b47-6b84-4309-a7d7-9aec61abf76c",
+                            CreatedDate = new DateTime(2024, 7, 4, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(4934),
                             Email = "cuongndhe163098@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2659),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4935),
                             FullName = "Nguyen Duc Cuong",
                             Gender = true,
                             IsBanned = false,
@@ -230,20 +230,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAENVZ95qV36S0GH4gzip/nSmI9JKDA1CAGuL2+t1ysccrtPgGLrSZ6k9v/tS37ojoSw==",
                             PhoneNumber = "0975465220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "6a09e963-2a9f-4692-a85d-39374b89fcd3",
+                            SecurityStamp = "b6a02f5c-8e62-4d67-b5cf-a86c34e7f608",
                             TwoFactorEnabled = false,
                             UserName = "cuongndhe163098",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2659)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4936)
                         },
                         new
                         {
                             Id = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d4c94049-92c4-4d98-bdea-e95beeb93377",
-                            CreatedDate = new DateTime(2024, 6, 28, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2677),
+                            ConcurrencyStamp = "99471613-7989-4be3-959a-38b097e3e9b3",
+                            CreatedDate = new DateTime(2024, 7, 4, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(4945),
                             Email = "hoangnmhe163884@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2678),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4946),
                             Gender = false,
                             IsBanned = false,
                             IsDeleted = false,
@@ -254,20 +254,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEBSeWGYcWJzo0jTXDBqXgYkMmzdQCRKsLrFMaaqieAdCHchkvB2oa1eRy3gsuvWyVw==",
                             PhoneNumber = "0975765220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "a496ef3d-5ceb-4fc1-aa64-76b9e8d241af",
+                            SecurityStamp = "1e24e97c-7357-40cd-b397-c2f62b572e41",
                             TwoFactorEnabled = false,
                             UserName = "hoangnmhe163884",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2678)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4946)
                         },
                         new
                         {
                             Id = "7397c854-194b-4749-9205-f46e4f2fccf8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b567533e-273c-49b9-ae23-baa4b1a773a6",
-                            CreatedDate = new DateTime(2024, 6, 28, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2691),
+                            ConcurrencyStamp = "ea3b402a-29b4-4187-ae39-bddccffee4b9",
+                            CreatedDate = new DateTime(2024, 7, 4, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(4956),
                             Email = "littlejohn123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2693),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4957),
                             FullName = "John",
                             Gender = true,
                             IsBanned = false,
@@ -279,20 +279,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965765228",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "346b4031-37d7-43fc-aac2-b2265230f7d6",
+                            SecurityStamp = "c4ce07f0-6893-4749-b3f6-f6b4dd380017",
                             TwoFactorEnabled = false,
                             UserName = "littlejohn",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2693)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4958)
                         },
                         new
                         {
                             Id = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7b5e76cb-20e5-4638-83dc-07c9e8865aef",
-                            CreatedDate = new DateTime(2024, 6, 28, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2708),
+                            ConcurrencyStamp = "1de0eb0a-9aed-412e-847c-220c9950d47c",
+                            CreatedDate = new DateTime(2024, 7, 4, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(4970),
                             Email = "kenshiyonezu123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2710),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4971),
                             FullName = "Kenshi Yonezu",
                             Gender = true,
                             IsBanned = false,
@@ -304,20 +304,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965765120",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "0f247ba1-94c1-4522-a19d-c562c160ac8f",
+                            SecurityStamp = "70e3ba29-e3ad-42e0-b186-c32f15d5d614",
                             TwoFactorEnabled = false,
                             UserName = "kenshiyonezu",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2710)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4972)
                         },
                         new
                         {
                             Id = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bef1b1c7-de9b-4647-85c2-6ad650d4937a",
-                            CreatedDate = new DateTime(2024, 6, 28, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2731),
+                            ConcurrencyStamp = "aec29a5d-ea27-4c3c-a33b-1ee476f26dfa",
+                            CreatedDate = new DateTime(2024, 7, 4, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(4982),
                             Email = "gakkou123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2732),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4982),
                             FullName = "Gakkou Atarashi",
                             Gender = false,
                             IsBanned = false,
@@ -329,10 +329,10 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965795220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "07f795e0-a846-4526-bed1-9e4200a64a0a",
+                            SecurityStamp = "edfc9dd9-54f4-4681-b18c-55051a9751db",
                             TwoFactorEnabled = false,
                             UserName = "gakkou",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 6, 28, 9, 9, 41, 135, DateTimeKind.Utc).AddTicks(2733)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 4, 10, 31, 45, 610, DateTimeKind.Utc).AddTicks(4983)
                         });
                 });
 
@@ -421,7 +421,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Primary server",
                             DeviceStatusId = 1,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 6, 27, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3241),
+                            LastUsed = new DateTime(2024, 7, 3, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5464),
                             Name = "Server",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
@@ -431,7 +431,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Network switch",
                             DeviceStatusId = 3,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 6, 13, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3268),
+                            LastUsed = new DateTime(2024, 6, 19, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5493),
                             Name = "Switch",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
@@ -441,7 +441,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Dell UltraSharp U2723QE 27 inch",
                             DeviceStatusId = 2,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 6, 26, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3244),
+                            LastUsed = new DateTime(2024, 7, 2, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5468),
                             Name = "Screen",
                             OwnedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209"
                         },
@@ -451,7 +451,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Thai's PC",
                             DeviceStatusId = 1,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 6, 25, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3248),
+                            LastUsed = new DateTime(2024, 7, 1, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5471),
                             Name = "PC",
                             OwnedBy = "a687bb04-4f19-49d5-a60f-2db52044767c"
                         },
@@ -461,7 +461,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Main office router",
                             DeviceStatusId = 3,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 6, 18, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3251),
+                            LastUsed = new DateTime(2024, 6, 24, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5473),
                             Name = "Router",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
@@ -471,7 +471,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Development desktop",
                             DeviceStatusId = 1,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 6, 27, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3254),
+                            LastUsed = new DateTime(2024, 7, 3, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5475),
                             Name = "Desktop",
                             OwnedBy = "a687bb04-4f19-49d5-a60f-2db52044767c"
                         },
@@ -481,7 +481,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "High resolution monitor",
                             DeviceStatusId = 2,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 6, 23, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3257),
+                            LastUsed = new DateTime(2024, 6, 29, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5478),
                             Name = "Monitor",
                             OwnedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209"
                         },
@@ -491,7 +491,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Office printer",
                             DeviceStatusId = 1,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 6, 21, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3260),
+                            LastUsed = new DateTime(2024, 6, 27, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5480),
                             Name = "Printer",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
@@ -501,7 +501,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Designer's tablet",
                             DeviceStatusId = 2,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 6, 26, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3262),
+                            LastUsed = new DateTime(2024, 7, 2, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5488),
                             Name = "Tablet",
                             OwnedBy = "a687bb04-4f19-49d5-a60f-2db52044767c"
                         },
@@ -511,7 +511,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Conference room projector",
                             DeviceStatusId = 1,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 6, 24, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3265),
+                            LastUsed = new DateTime(2024, 6, 30, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5491),
                             Name = "Projector",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         });
@@ -558,6 +558,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasColumnName("Id");
 
                     b.Property<string>("FileKey")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
                         .HasColumnName("FileKey");
@@ -723,162 +724,162 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("efb06517-4673-4b44-bf11-ee12198c26a7"),
-                            Content = "This is the content of news item 1.",
+                            Content = "Phòng khảo thí thông báo đã có điểm thi lần 2 các môn ENT104, TRS401, TRS501, TRS601, VOV114, VOV124, VOV134 Part 1 HK Summer2024. Các em đăng nhập FAP để xem điểm chi tiết.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 1"
+                            CreatedDate = new DateTime(2024, 6, 29, 21, 39, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Thông báo điểm thi lần 2 các môn ENT104, TRS401, TRS501, TRS601 HK Summer2024."
                         },
                         new
                         {
                             Id = new Guid("7c712eff-f7d8-41af-a36c-9d7ce1439e3b"),
-                            Content = "This is the content of news item 2.",
+                            Content = "Phòng Dịch vụ sinh viên xin thông báo sẽ ngừng làm việc trong thời gian nghỉ hè kéo dài từ 01/07 đến hết ngày 05/07/2024.\r\n\r\nThời gian quay trở lại làm việc bình thường: 08/07/2024\r\n\r\nMọi yêu cầu hỗ trợ, giải đáp thắc mắc vui lòng gửi tới email: dichvusinhvien@fe.edu.vn\r\n\r\nTrân trọng thông báo,",
                             CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
                             CreatedDate = new DateTime(2024, 5, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 2"
+                            Title = "Thông báo về việc phòng Dịch vụ sinh viên ngừng làm việc trong thời gian nghỉ hè"
                         },
                         new
                         {
                             Id = new Guid("663c5d19-d3ed-4d6a-aff6-3997dd0c43c4"),
-                            Content = "This is the content of news item 10.",
+                            Content = "Theo kế hoạch của phòng Quản lý Đào tạo, học kỳ SUMMER 2024 H2 sẽ bắt đầu vào ngày 08/07/2024:\r\n\r\nBan Kế toán gửi tới các bạn sinh viên thông tin về học phí kỳ SUMMER 2024 H2, chi tiết như sau:\r\n\r\nHạn nộp tiền (ngày nhà trường nhận được tiền): 26/06/2024\r\n \r\n\r\nSố tiền cần nộp: SV đăng nhập vào fap.fpt.edu.vn, số tiền học phí phải nộp kỳ tới sẽ hiển thị trên màn chính. Ban Kế toán cập nhật hóa đơn học phí lên hệ thống từ ngày 12/06/2024. \r\nĐối tượng loại trừ: - Sinh viên có học bổng 100%\r\n\r\n                                            - Sinh viên đã hoàn thành thủ tục tạm ngưng học phần Tiếng Anh hoặc bảo lưu kỳ.\r\n\r\n \r\n\r\nHướng dẫn thanh toán học phí:\r\nSinh viên đăng nhập vào fap.fpt.edu.vn → Choose paid items → Học phí và phụ trội KTX đã được mặc định tick chọn → nhấn Add to Card → nhấn Submit Order → Sinh viên thực hiện thanh toán theo nguyên tắc sau\r\n\r\nNếu ví FAP đủ số dư → Hệ thống tự động trừ tiền.\r\nNếu ví FAP có số dư bằng 0 → Tạo khoản thanh toán → Sinh viên quét QRCode để thanh toán\r\nNếu ví FAP có số dư lớn hơn 0 nhưng không đủ số tiền thanh toán học phí, phụ trội KTX → Sinh viên quét QRCode thanh toán số tiền còn thiếu.\r\nLưu ý: Sau khi SV nộp đủ học phí, hệ thống sẽ tự động quét trừ học phí kỳ này ngay lập tức.\r\n\r\nSinh viên không thấy xuất hiện học phí phải nộp trên FAP nếu rơi vào các trường hợp sau: Sinh viên bảo lưu kỳ, tạm ngưng học phần, sinh viên đã nộp đủ học phí kỳ SU24H2, chờ lớp.",
                             CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
-                            CreatedDate = new DateTime(2024, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 10"
+                            CreatedDate = new DateTime(2024, 6, 12, 9, 26, 0, 0, DateTimeKind.Unspecified),
+                            Title = "THÔNG BÁO NỘP HỌC PHÍ KỲ SUMMER 2024 H2"
                         },
                         new
                         {
                             Id = new Guid("6e08720f-d73a-4ae1-be83-559dbb96a344"),
-                            Content = "This is the content of news item 11.",
+                            Content = "Chương trình Thạc sĩ Quản trị kinh doanh Cao cấp (SeMBA) và Chương trình Thạc sĩ Kỹ thuật phần mềm gửi chính sách đặc biệt dành riêng cho Cựu sinh viên Đại học FPT như sau:\r\n\r\nĐối tượng hưởng ưu đãi: Sinh viên tốt nghiệp Đại học FPT các chuyên ngành.\r\nMức ưu đãi đặc biệt: \r\nƯu đãi giảm 20% học phí khi đăng ký các khóa học\r\nMiễn chứng chỉ ngoại ngữ đầu vào\r\nVới kinh nghiệm hơn 20 năm đào tạo quản trị kinh doanh và công nghệ, top 3 Trường đào tạo kinh doanh tốt nhất Việt Nam, top 25 chương trình MBA tốt nhất Đông Á, Viện Quản trị & Công nghệ FSB (Đại học FPT) đã nghiên cứu và triển khai 2 chương trình đào tạo ưu việt, cập nhật xu hướng mới nhất nhằm đáp ứng những nhu cầu của Doanh nghiệp như sau:\r\n\r\nThạc sĩ Quản trị kinh doanh (SeMBA): được thiết kế theo mô hình STEM MBA đang là xu hướng trên toàn cầu, chương trình hướng đến mục tiêu đào tạo những nhà quản lý có tư duy nhạy bén và khả năng ứng dụng công nghệ, phân tích dữ liệu vào quản trị để đưa ra các quyết định kinh doanh mang tính đột phá.\r\nThạc sĩ Kỹ thuật phần mềm (MSE): chương trình trang bị cho học viên kiến thức chuyên sâu về AI và phân tích dữ liệu lớn, cùng các kỹ năng cần thiết để nhanh chóng nắm bắt, làm chủ những xu hướng công nghệ mới. Từ đó, học viên có thể vận dụng kiến thức về công nghệ vào xây dựng các hệ thống phần mềm thông minh, phù hợp với thời đại kinh doanh số.\r\nThời gian đào tạo: 18 tháng\r\nLịch học: Tối 2-4-6 | Từ 18h00 – 21h00\r\nĐịa điểm học: Nhà C, tòa nhà Việt Úc, KĐT Mỹ Đình 1, Nam Từ Liêm, Hà Nội.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 11"
+                            CreatedDate = new DateTime(2024, 6, 6, 14, 10, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Chương trình Thạc sĩ Quản trị kinh doanh Cao cấp (SeMBA) và Chương trình Thạc sĩ Kỹ thuật phần mềm dành tặng ưu đãi cho Cựu sinh viên FPT"
                         },
                         new
                         {
                             Id = new Guid("14764db6-10f1-48e6-a4e8-3ae063814acf"),
-                            Content = "This is the content of news item 12.",
+                            Content = "Phòng Tổ chức và Quản lý đào tạo mời các em sinh viên ngành Công nghệ thông tin, ngành Kỹ thuật phần mềm đang làm đồ án tốt nghiệp học kỳ Summer 2024 tham dự Seminar “Điệu nhảy của các con số trong thiết kế phần mềm của đồ án tốt nghiệp​”. Thông tin chi tiết như sau:\r\n\r\n·       Thời gian:  20:30 – 22:00 - Thứ 3 ngày 28/05/2024.\r\n\r\n·       Địa điểm (Online qua link): https://zoom.us/j/9836098489 - ID cuộc họp: 983 609 8489, Passcode: 1\r\n\r\n·       Diễn giả: Giảng viên Nguyễn Tất Trung\r\n\r\nLưu ý: Đây là một trong năm buổi chia sẻ mà nhà trường và bộ môn sẽ trang bị thêm kiến thức, kĩ năng giúp các em có thể hoàn thành tốt đồ án tốt nghiệp. Phòng TC&QLDT không recording lại buổi seminar để gửi sinh viên, đề nghị sinh viên các nhóm có mặt đầy đủ và đúng giờ.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 12"
+                            CreatedDate = new DateTime(2024, 5, 27, 16, 11, 0, 0, DateTimeKind.Unspecified),
+                            Title = "V/v: Tham dự Seminar “Điệu nhảy của các con số trong thiết kế phần mềm của đồ án tốt nghiệp​”"
                         },
                         new
                         {
                             Id = new Guid("f0c49374-4c7d-464a-9f38-e6f59b20344d"),
-                            Content = "This is the content of news item 13.",
+                            Content = "Nhằm khắc phục sự cố và bảo trì trạm biến áp số 1 Trường Đại học FPT.\r\n\r\nPhòng hành chính tổng hợp - Trường Đại học FPT cơ sở Hà Nội thông báo lịch tạm ngưng cấp điện như sau:\r\n\r\nThời gian dự kiến từ: Từ 08 giờ 00 phút đến 10 giờ 00 phút ngày 25/5/2024. \r\n\r\nKhu vực ảnh hưởng: Dom A, B, C, D, Nhà Dịch 1, Tòa Beta.\r\n\r\n Sinh viên lưu ý về thời gian tạm ngừng cắt điện để chủ động trong công việc của mình. \r\n\r\nRất mong các bạn thông cảm vì sự bất tiện này. ",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 13"
+                            CreatedDate = new DateTime(2024, 5, 24, 23, 15, 0, 0, DateTimeKind.Unspecified),
+                            Title = "TB. V/v cắt điện ngày 25/05/2024"
                         },
                         new
                         {
                             Id = new Guid("0da0b088-1b08-404b-9696-eb539d31c9e5"),
-                            Content = "This is the content of news item 14.",
+                            Content = "Phòng Dịch vụ sinh viên thông báo hướng dẫn đăng ký mua BHYT hiệu lực trong năm 2024 đợt bổ sung dành cho sinh viên, cụ thể như sau:\r\n\r\n1/ Đối tượng áp dụng: tất cả sinh viên chưa mua BHYT năm 2024\r\n\r\n(Nếu không biết mình đã có thẻ BHYT năm 2024 hay chưa, sinh viên có thể tra cứu tại đây: tracuuhieulucthe)\r\n\r\n2/ Hiệu lực thẻ: 7 tháng (Từ tháng 20/06/2024 – 31/12/2024) – Mức phí: 397,000 VNĐ",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 14"
+                            CreatedDate = new DateTime(2024, 5, 29, 14, 58, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Thông báo về việc đăng ký mua BHYT đợt bổ sung"
                         },
                         new
                         {
                             Id = new Guid("5d0bfb1c-d68d-450e-8fe9-e7d94be4eaac"),
-                            Content = "This is the content of news item 15.",
+                            Content = "Phòng Tổ chức và Quản lý đào tạo mời các em sinh viên ngành Công nghệ thông tin, ngành Kỹ thuật phần mềm đang làm đồ án tốt nghiệp học kỳ Summer 2024 tham dự Seminar “Hướng dẫn lập kế hoạch và đặc tả yêu cầu dự án Đồ án tốt nghiệp ( ~ Report 2&3 )​”. Thông tin chi tiết như sau:\r\n\r\n·       Thời gian:  20:30 – 22:00 - Thứ 3 ngày 21/05/2024.\r\n\r\n·       Địa điểm (Online qua link): https://zoom.us/j/9836098489 - ID cuộc họp: 983 609 8489, Passcode: 1\r\n\r\n·       Diễn giả: Giảng viên Nguyễn Trung Kiên\r\n\r\nLưu ý: Đây là một trong năm buổi chia sẻ mà nhà trường và bộ môn sẽ trang bị thêm kiến thức, kĩ năng giúp các em có thể hoàn thành tốt đồ án tốt nghiệp. Đề nghị sinh viên có mặt đầy đủ và đúng giờ.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 15"
+                            CreatedDate = new DateTime(2024, 5, 20, 22, 23, 0, 0, DateTimeKind.Unspecified),
+                            Title = "V/v: Tham dự Seminar “Hướng dẫn lập kế hoạch và đặc tả yêu cầu dự án Đồ án tốt nghiệp”"
                         },
                         new
                         {
                             Id = new Guid("0985634f-496f-4480-83f0-14ff0c30b002"),
-                            Content = "This is the content of news item 16.",
+                            Content = "Từ ngày 14/8/2023, phòng Đào tạo bổ sung chức năng cho sinh viên tự đăng ký lớp/ hủy các môn đã đăng ký trong danh sách chờ trên fap.fpt.edu.vn. Các bước thực hiện như sau:\r\n\r\nSinh viên đăng nhập vào trang Fap.fpt.edu.vn\r\nVào Academic Information/ Registration/Application(Thủ tục/đơn từ)/ Wishlist Course (Danh các môn học chờ xếp lớp)",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 5, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 16"
+                            CreatedDate = new DateTime(2024, 5, 25, 11, 34, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Hướng dẫn sinh viên các bước tự đăng ký/ hủy các môn đã đăng ký trong danh sách chờ"
                         },
                         new
                         {
                             Id = new Guid("245b3c4d-ba95-4040-818d-23da69f08e9b"),
-                            Content = "This is the content of news item 17.",
+                            Content = "Phòng tổ chức và Quản lý đào tạo mời các em sinh viên ngành Công nghệ thông tin, ngành Kỹ thuật phần mềm đang làm đồ án tốt nghiệp học kỳ Summer 2024 tham dự Seminar “Cách thức đặt vấn đề khi xác định bài toán của đồ án”. Thông tin chi tiết như sau:\r\n\r\n·       Thời gian:  20:30 – 22:00 - Thứ 3 ngày 14/05/2024.\r\n\r\n·       Địa điểm (Online qua link): https://zoom.us/j/9836098489 - ID cuộc họp: 983 609 8489, Passcode: 1\r\n\r\n·       Diễn giả: Tiến sĩ Ngô Tùng Sơn - Chủ nhiệm bộ môn An toàn thông tin.\r\n\r\nLưu ý: Đây là một trong năm buổi chia sẻ mà nhà trường và bộ môn sẽ trang bị thêm kiến thức, kĩ năng giúp các em có thể hoàn thành tốt đồ án tốt nghiệp. Đề nghị sinh viên có mặt đầy đủ và đúng giờ.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 5, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 17"
+                            CreatedDate = new DateTime(2024, 5, 14, 14, 5, 0, 0, DateTimeKind.Unspecified),
+                            Title = "V/v: Tham dự Seminar “Cách thức đặt vấn đề khi xác định bài toán của đồ án”"
                         },
                         new
                         {
                             Id = new Guid("e277ec7f-14cf-47a2-a234-1265920647a4"),
-                            Content = "This is the content of news item 18.",
+                            Content = "Gửi các bạn,\r\n\r\nPhòng HCTH xin gửi thông báo tới bạn thủ tục đăng ký/hủy phòng cho kỳ Summer 2024 như sau:\r\n\r\nĐăng ký ở tiếp:\r\nØ Thời gian giữ chỗ: Từ ngày 11/4 – 21/4/2024. Gia hạn 22/4/2024.\r\n\r\n Ø Thời gian đăng ký phòng mới: Từ ngày 23/4 đến ngày 27/4/2024.\r\n\r\n(Trường hợp không đăng ký giữ chỗ được hiểu là bạn không còn nhu cầu sử dụng và bạn khác có thể đăng ký)  \r\n\r\n         Ø Đối tượng ưu tiên đăng ký KTX\r\n\r\n- Sinh viên học tập tại cơ sở Hòa Lạc trước kỳ OJT (xét tại thời điểm đăng ký phòng)\r\n\r\n- Các đối tượng sinh viên sinh viên khác có nhu cầu đăng ký phòng, Nhà trường sẽ hỗ trợ giải quyết đặt phòng qua hòm thư ktx@fpt.edu.vn.\r\n\r\n   Phương thức nộp phí và đăng ký phòng KTX qua Hệ thống OCD http://ocd.fpt.edu.vn/\r\n\r\nBước 1: Đặt phòng\r\n\r\n- Sinh viên truy cập http://ocd.fpt.edu.vn/  thực hiện đặt phòng tại chức năng  Booking Bed.\r\n\r\n- Lựa chọn đặt phòng Giữ chỗ cũ hoặc đăng ký mới theo nhu cầu.\r\n\r\nSinh viên chuyển phòng/đăng ký mới cần thao tác chọn chính xác thông tin tại các mục: Loại phòng/Dom/Tầng.\r\n\r\nBước 2: Thanh toán\r\n\r\nSau khi hoàn tất chọn phòng, sinh viên tiến hành thanh toán bằng một trong 2 hình thức sau:\r\n\r\n- Booking with FAP (nếu trên ví FAP còn đủ tiền)\r\n\r\n- Booking with DNG (Sinh viên vào App ngân hàng quét QR code để thanh toán).\r\n\r\nà Đặt phòng thành công.\r\n\r\nLưu ý: KTX sẽ gửi thư xác nhận và thông báo số phòng sau 48 giờ kể từ khi nhận booking.\r\n\r\nThời gian giữ chỗ cho SV thanh toán DNG là 10 phút. Nếu thanh toán chậm sau 10 phút thì OCD hủy giữ chỗ và tiền SV đã nộp sẽ trả về FAP. Sinh viên truy cập Hệ thống OCD đăng ký lại với hình thức sử dụng tiền dư trong ví FAP (Booking with FAP).",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 5, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 18"
+                            CreatedDate = new DateTime(2024, 4, 25, 20, 21, 0, 0, DateTimeKind.Unspecified),
+                            Title = "THÔNG BÁO V/V ĐĂNG KÝ/HỦY PHÒNG KTX KỲ SU24"
                         },
                         new
                         {
                             Id = new Guid("fb4d071c-c460-4a01-8ee4-9247a97214a6"),
-                            Content = "This is the content of news item 19.",
+                            Content = "Chào các em,\r\n\r\nĐiều kiện để được miễn điểm danh kỳ SU24 như sau:\r\n\r\nSV đã hoàn thành kỳ OJT và đang học ở 1 trong số các kỳ sau: 7,8,9,10 (kỳ 10: hoàn thành các môn học còn thiếu)\r\nYêu cầu chung cho tất cả các loại HĐ làm việc hợp lệ.\r\n=>Thời gian làm việc: fulltime 8h/ngày (không nhận HĐ bán thời gian, part time) – Hợp đồng làm việc full kỳ SU2024 (từ tháng 5=>tháng 8/2024)\r\n=>Làm việc có lương và chịu sự quản lý, giám sát của nhà tuyển dụng.\r\n=>HĐ có đủ con dấu & chữ ký tươi/chữ ký số nhà tuyển dụng.\r\nThời gian mở đơn miễn điểm danh : 2 tuần trước khi vào kỳ SU24  (16/4 – 30/04/2024)  - đơn đã được gia hạn đến 20/5/2024\r\n\r\nSau thời gian trên phòng TC&QLĐT sẽ không nhận hỗ trợ bất kỳ trường hợp nào.\r\n\r\nThời gian mở đơn Block 5 : Tuần 12 của kỳ SU2024\r\n\r\nKhi làm đơn xin miễn điểm danh SV lưu ý cần làm theo chỉ dẫn sau:\r\n\r\n- SV đăng nhập FAP, vào phần HOME -> GỬI ĐƠN\r\n\r\n =>Application type: chọn Đơn miễn điểm danh\r\n\r\n=> Reason: Ghi rõ lý do làm đơn (ví dụ: Đã hoàn thành kỳ OJT – đang học kỳ … được ký HĐ làm việc fulltime với công ty…)\r\n\r\nFile Attach bao gồm:      \r\n\r\nGửi full file HĐ làm việc & giấy xác nhận nhân viên\r\nKhi gửi file nếu dung lượng file HĐLĐ nặng >2MB các em cần giảm dung lượng , nén file <2MB  hoặc các em có thể gửi HĐ qua link google drive…\r\n   LƯU Ý: \r\n\r\nPhòng TC&QLĐT chỉ nhận hỗ trợ những SV có HĐ làm việc (thời gian làm việc full kỳ SU2024). Trong trường hợp HĐ có thời gian làm việc chỉ còn 1 đến 2 tháng; HĐ thử việc ngắn hạn trong đơn cần ghi rõ thời gian sẽ bổ sung HĐ làm việc mới, HĐ làm việc chính thức để phòng Đào tạo xem xét. Những HĐ không đủ thời gian làm việc full kỳ SU24, không cam kết thời gian nộp HĐ mới sẽ bị từ chối không hỗ trợ.\r\nCác HĐ làm việc cũ nhưng còn thời gian làm việc full kỳ SU2024: SV gửi nộp file HĐ và Giấy xác nhận nhân viên (giấy xác nhận nhân viên phải được cấp quản lý ký và đóng dấu xác nhận trước khi nộp đơn miễn điểm danh kỳ SU24 khoảng 1 tuần làm việc)\r\nThư mời làm việc không phải là HĐLĐ do vậy không đủ ĐK để làm đơn miễn điểm danh, SV có thể làm đơn và phòng ĐT sẽ note vào danh sách chờ, phải bổ sung HĐ chính thức trước ngày 20/5/2024.\r\nCác loại Hợp đồng khoán gọn, Hợp đồng dịch vụ, Hợp đồng hợp tác, Hợp đồng với các công ty nhà đất, chứng khoán...: cần nộp file HĐ và giấy xác nhận nhân viên, trong giấy xác nhận nhân viên cần ghi rõ SV đang làm việc fulltime (8h/ngày) - có hưởng lương tại doanh nghiệp\r\nĐƠN MIỄN ĐIỂM DANH sẽ bị hủy NẾU PHÒNG TC&QLĐT phát hiện SV đã được duyệt miễn điểm danh trong kỳ SU24 nhưng nghỉ làm giữa chừng, không hoàn thành thời gian làm việc ghi trên HĐ làm việc đã nộp (sẽ chuyển trạng thái từ miễn điểm danh => chỉ được phép nghỉ 20% theo quy định của SV)\r\nThời gian duyệt đơn miễn điểm danh từ 5 ngày làm việc tùy thuộc vào số lượng đơn phòng TC&QLĐT nhận được. (không tính thứ 7 và CN)\r\nCHÚ Ý:\r\n\r\n- Các em chỉ gửi đơn Miễn điểm danh 1 lần và vui lòng chờ kết quả trả lời ở phần Xem đơn – KHÔNG GỬI TRÙNG ĐƠN  để tránh làm loãng thông tin. (Bạn nào gửi từ 2 lần đơn trở lên thời gian chờ duyệt đơn sẽ tăng theo số lần gửi đơn )\r\n\r\n- Đơn miễn điểm danh kỳ SU2024 được duyệt, SV sẽ được miễn điểm danh full cả 2 block ( block1-4 và block5) do vậy những SV đã được duyệt đơn miễn điểm danh đầu kỳ SU24 nếu học block 5 không cần làm đơn xin miễn điểm danh block5-SU2024.\r\n\r\n- Đơn miễn điểm danh này chỉ có giá trị trong kỳ SU2024\r\n\r\n- Phòng TC&QLĐT chỉ nhận ĐƠN MIỄN ĐIỂM DANH ONLINE – KHÔNG NHẬN ĐƠN MIỄN ĐIỂM DANH GỬI QUA MAIL\r\n\r\n- SV miễn điểm danh được phép vắng mặt >20% (không giới hạn %) và phòng TC&QLĐT quản lý SV miễn điểm danh độc lập do vậy SV không gửi mail thắc mắc khi chưa thấy chữ Attendance Exemption\r\n\r\n- Trường hợp hiếm gặp: Nếu các em làm đơn miễn điểm danh đã được duyệt nhưng vẫn có tên trong DSSV không đủ điều kiện dự thi, các em cần gửi mail tới phòng TC&QLĐT (acad.hl@fpt.edu.vn ) để được hỗ trợ.\r\n\r\n. Do các em bận đi làm, ít đến lớp nên điểm chuyên cần sẽ giảm tùy theo cách đánh giá của giảng viên.\r\n\r\n- Không được miễn điểm danh các môn GDQP và khóa luận tốt nghiệp.\r\n\r\nCác em đọc kỹ thông báo này và làm theo hướng dẫn để được hỗ trợ chính xác nhất.\r\n\r\nTrân trọng thông báo\r\n\r\nPhòng TC&QL Đào tạo",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 19"
+                            CreatedDate = new DateTime(2024, 5, 9, 23, 37, 0, 0, DateTimeKind.Unspecified),
+                            Title = "HƯỚNG DẪN LÀM VÀ GỬI ĐƠN MIỄN ĐIỂM DANH KỲ SU2024"
                         },
                         new
                         {
                             Id = new Guid("97755739-5cc9-49f7-bcf7-a66765be0571"),
-                            Content = "This is the content of news item 20.",
+                            Content = "Phòng Khảo thi thông báo đã có điểm thi kết thúc học phần lần 1 các môn AIG201c, ASR301c, BDI302c, CHN132c, CMC201c, ECC301c, ENM211c, ENM221c, FIM302c, FRS401c, HOM301c, IAO201c, IAR401c, ITE303c, LAB221c, MKT205c, SEO201c, SSC302c, AIG202c, CRY303c, DWP301c, EBC301c, EDT202c, ENG302c, HRM201c, IFT201c, ITA203c, ITB301c, ITE302c, LAW201c, NWC203c, OBE102c, PMG201c, PMG202c, PRC391c, PRC392c, PRE201c, PRN292c, SSL101c, WDU203c, WDU202c, PRO192c học kỳ Spring 2024, các em đăng nhập FAP để xem chi tiết điểm.\r\n\r\n",
                             CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
-                            CreatedDate = new DateTime(2024, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 20"
+                            CreatedDate = new DateTime(2024, 4, 18, 23, 37, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Thông báo điểm thi kết thúc học phần lần 1 các môn học online trên Coursera học kỳ Spring 2024"
                         },
                         new
                         {
                             Id = new Guid("cfc8a241-628f-4fab-acaf-60ffd42f97cd"),
                             Content = "This is the content of news item 3.",
                             CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
-                            CreatedDate = new DateTime(2024, 5, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2024, 6, 27, 16, 25, 0, 0, DateTimeKind.Unspecified),
                             Title = "News Title 3"
                         },
                         new
                         {
                             Id = new Guid("650204d7-0be6-4f91-89f7-d80572d4f76a"),
-                            Content = "This is the content of news item 4.",
+                            Content = "Phòng Khảo thí thông báo đã có điểm thi kết thúc học phần lần 2 môn SSL101c học kỳ Spring 2024. Môn COV111, COV121, AET102, MLN111, HCM202, IOT102, MLN131 học kỳ Summer 2024, các em đăng nhập FAP để xem chi tiết..",
                             CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
-                            CreatedDate = new DateTime(2024, 5, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 4"
+                            CreatedDate = new DateTime(2024, 6, 26, 22, 7, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Thông báo điểm thi kết thúc học phần lần 2 môn SSL101c học kỳ Spring 2024."
                         },
                         new
                         {
                             Id = new Guid("049d2c9c-f550-4e21-8911-efc5789106ec"),
-                            Content = "This is the content of news item 5.",
+                            Content = "Thân gửi các bạn sinh viên,\r\n\r\nPhòng Phát triển bền vững trường Đại học FPT (FSDG) sẽ tiến hành khảo sát với sinh viên trên cổng thông tin đào tạo FAP.\r\n\r\nKhảo sát về các hành động thúc đẩy 17 mục tiêu phát triển bền vững toàn cầu của sinh viên đã thực hiện trong thời gian một năm qua.\r\n\r\nKhảo sát sẽ bắt đầu từ ngày 25/06/2024, sinh viên vui lòng truy cập vào địa chỉ FAP (https://fap.fpt.edu.vn/) và tham gia khảo sát đầy đủ. Sau khi hoàn thành khảo sát, sinh viên sẽ tiếp tục vào FAP bình thường.\r\n\r\nThân mến!.",
                             CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
-                            CreatedDate = new DateTime(2024, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 5"
+                            CreatedDate = new DateTime(2024, 6, 24, 15, 16, 0, 0, DateTimeKind.Unspecified),
+                            Title = "[Phòng Phát triển bền vững] Chuẩn bị khảo sát SV toàn trường về PTBV"
                         },
                         new
                         {
                             Id = new Guid("6798cf4d-8399-4572-955e-595ddf13f292"),
-                            Content = "This is the content of news item 6.",
+                            Content = "\r\nThông báo về việc thay đổi tem kiểm soát ô tô ra/vào cổng Trường tại Hòa Lạc\r\nPost by hangntt6 on 18/06/24 09:45\r\nTrường Đại học FPT cơ sở Hà Nội thông báo về việc thay đổi tem kiểm soát ô tô ra/vào cổng trường, cụ thể:\r\n\r\nI. Đối tượng: Chỉ áp dụng ô tô đăng ký ra vào trường với 2 trường hợp:\r\n\r\nXe chính chủ của sinh viên, CBGV\r\nXe của người thân trong gia đình sinh viên, CBGV\r\nII. Hình thức triển khai:\r\n\r\nĐối với các trường hợp đã đăng ký từ ngày 15/06/2024 trở về trước:\r\nBổ sung thông tin theo link: https://forms.gle/HSjMfrJwSJH8t4Wi8\r\nMang theo biển cũ đổi lấy tem mới tại phòng Dịch vụ sinh viên từ ngày 18.06 đến 21.06/2024\r\nĐối với các trường hợp đăng ký mới:\r\nĐăng ký thông tin qua link: https://forms.gle/HSjMfrJwSJH8t4Wi8\r\nDự kiến nhận tem sau 07 ngày làm việc kể từ thời điểm đăng ký\r\n*Thời gian áp dụng kiểm soát xe ra/vào bằng Tem từ ngày 01/7/2024.\r\n\r\nSau thời gian bổ sung thêm, tất cả các xe chưa dán tem sẽ bắt buộc phải đăng ký tại cổng bảo vệ trước khi vào Trường.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 6"
+                            CreatedDate = new DateTime(2024, 6, 18, 9, 45, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Thông báo về việc thay đổi tem kiểm soát ô tô ra/vào cổng Trường tại Hòa Lạc"
                         },
                         new
                         {
                             Id = new Guid("a491e3db-344e-4f16-a051-1ed491901340"),
-                            Content = "This is the content of news item 7.",
+                            Content = "Phòng Tổ chức và Quản lý Đào tạo thông báo kế hoạch học tập Half 2 - Học kỳ Summer 2024 đối với sinh viên giai đoạn Tiếng Anh chuẩn bị tại cơ sở Hà Nội như sau:\r\n\r\n \r\n\r\nTHỜI GIAN HỌC:\r\n \r\n\r\nSinh viên học chương trình Little UK và Transition bắt đầu học Half 2 từ ngày 08/7/2024.",
                             CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
-                            CreatedDate = new DateTime(2024, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 7"
+                            CreatedDate = new DateTime(2024, 6, 12, 16, 1, 0, 0, DateTimeKind.Unspecified),
+                            Title = "KẾ HOẠCH HỌC TẬP HALF 2 KỲ SUMMER 2024 DÀNH CHO SINH VIÊN GIAI ĐOẠN TIẾNG ANH CHUẨN BỊ TẠI ĐH FPT HÀ NỘI"
                         },
                         new
                         {
                             Id = new Guid("c0268d79-cfd7-44c3-9b13-709869ae00e2"),
-                            Content = "This is the content of news item 8.",
+                            Content = "Phòng Công tác sinh viên thông báo:\r\n\r\nBảng điểm phong trào tháng 1-2-3-4 và điểm Tổng kết học kỳ Spring 2024 (final): Tại đây\r\n\r\nMọi thắc mắc vui lòng gửi về hòm mail sro.hn@fpt.edu.vn trước 14h ngày 13/06/2024\r\n\r\nTrân trọng thông báo,",
                             CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
-                            CreatedDate = new DateTime(2024, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 8"
+                            CreatedDate = new DateTime(2024, 6, 12, 12, 40, 0, 0, DateTimeKind.Unspecified),
+                            Title = "[CTSV] - Thông báo Điểm Rèn Luyện Học Kỳ Spring 2024"
                         },
                         new
                         {
                             Id = new Guid("f3e39c12-df43-4e2a-b84e-92374739e0e9"),
-                            Content = "This is the content of news item 9.",
+                            Content = "Phòng Tổ chức và Quản lý đào tạo mời các em sinh viên ngành Công nghệ thông tin, ngành Kỹ thuật phần mềm đang làm đồ án tốt nghiệp học kỳ Summer 2024 tham dự Super Sunday Workshop “Chia sẻ về Testing”.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 5, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "News Title 9"
+                            CreatedDate = new DateTime(2024, 6, 8, 21, 29, 0, 0, DateTimeKind.Unspecified),
+                            Title = "V/v: Tham dự Super Sunday Workshop “Chia sẻ về Testing”"
                         });
                 });
 
@@ -954,7 +955,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("e331de18-289c-403d-8028-26c4b595587a"),
                             Content = "A new system update will be available tomorrow.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 6, 27, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2877),
+                            CreatedDate = new DateTime(2024, 7, 3, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5180),
                             NotificationTypeId = 1,
                             Title = "System Update",
                             Url = ""
@@ -964,7 +965,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"),
                             Content = "Scheduled maintenance will occur this weekend.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 6, 26, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2886),
+                            CreatedDate = new DateTime(2024, 7, 2, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5190),
                             NotificationTypeId = 1,
                             Title = "Maintenance Notice",
                             Url = ""
@@ -974,7 +975,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"),
                             Content = "We are excited to announce a new feature in our application.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 6, 25, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2890),
+                            CreatedDate = new DateTime(2024, 7, 1, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5193),
                             NotificationTypeId = 1,
                             Title = "New Feature Release",
                             Url = ""
@@ -984,7 +985,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"),
                             Content = "Please update your password to enhance security.",
                             CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
-                            CreatedDate = new DateTime(2024, 6, 24, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2894),
+                            CreatedDate = new DateTime(2024, 6, 30, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5195),
                             NotificationTypeId = 1,
                             Title = "Security Alert",
                             Url = ""
@@ -994,7 +995,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("d6dedee7-ab6d-4bfd-bdf7-b3665679cc50"),
                             Content = "The system will be down for maintenance tonight.",
                             CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
-                            CreatedDate = new DateTime(2024, 6, 23, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2898),
+                            CreatedDate = new DateTime(2024, 6, 29, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5198),
                             NotificationTypeId = 1,
                             Title = "Downtime Notification",
                             Url = ""
@@ -1004,7 +1005,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("e4455de4-ff95-4957-85a1-b03b8b97f9c3"),
                             Content = "Join weekly meeting.",
                             CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
-                            CreatedDate = new DateTime(2024, 6, 22, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2902),
+                            CreatedDate = new DateTime(2024, 6, 28, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5200),
                             NotificationTypeId = 2,
                             Title = "Weekly Meeting",
                             Url = ""
@@ -1014,7 +1015,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("4f517076-e6c7-43ce-93b6-9aeae4857760"),
                             Content = "Don't miss out on our latest promotions!",
                             CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
-                            CreatedDate = new DateTime(2024, 6, 21, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2908),
+                            CreatedDate = new DateTime(2024, 6, 27, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5202),
                             NotificationTypeId = 2,
                             Title = "Promotion Alert",
                             Url = ""
@@ -1024,7 +1025,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("931129a9-986f-4560-99f1-a06b692c71a1"),
                             Content = "Please take a moment to complete our user survey.",
                             CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
-                            CreatedDate = new DateTime(2024, 6, 20, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2912),
+                            CreatedDate = new DateTime(2024, 6, 26, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5206),
                             NotificationTypeId = 2,
                             Title = "Survey Request",
                             Url = ""
@@ -1034,7 +1035,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("5754541e-7c1e-4839-8021-963e90f6e4e0"),
                             Content = "Your account details have been updated.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 6, 19, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2915),
+                            CreatedDate = new DateTime(2024, 6, 25, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5209),
                             NotificationTypeId = 1,
                             Title = "Account Notice",
                             Url = ""
@@ -1044,7 +1045,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"),
                             Content = "Don't forget about the event tomorrow!",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 6, 18, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(2919),
+                            CreatedDate = new DateTime(2024, 6, 24, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5212),
                             NotificationTypeId = 1,
                             Title = "Event Reminder",
                             Url = ""
@@ -1876,200 +1877,200 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("44efa2a7-4f64-4fc6-bbbe-869099817d4f"),
                             AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             DeviceId = new Guid("9eae03ad-745d-47c0-baef-ae4657964e6a"),
-                            EndDate = new DateTime(2024, 6, 28, 18, 9, 41, 135, DateTimeKind.Local).AddTicks(3303),
+                            EndDate = new DateTime(2024, 7, 4, 19, 31, 45, 610, DateTimeKind.Local).AddTicks(5519),
                             Purpose = "Testing",
-                            ScheduledDate = new DateTime(2024, 6, 28, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3301),
-                            StartDate = new DateTime(2024, 6, 28, 17, 9, 41, 135, DateTimeKind.Local).AddTicks(3302)
+                            ScheduledDate = new DateTime(2024, 7, 4, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5517),
+                            StartDate = new DateTime(2024, 7, 4, 18, 31, 45, 610, DateTimeKind.Local).AddTicks(5518)
                         },
                         new
                         {
                             Id = new Guid("70f625f4-33f5-4c62-9718-d3e2c420e703"),
                             AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 6, 25, 22, 9, 41, 135, DateTimeKind.Local).AddTicks(3349),
+                            EndDate = new DateTime(2024, 7, 1, 23, 31, 45, 610, DateTimeKind.Local).AddTicks(5553),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 25, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3347),
-                            StartDate = new DateTime(2024, 6, 25, 21, 9, 41, 135, DateTimeKind.Local).AddTicks(3348)
+                            ScheduledDate = new DateTime(2024, 7, 1, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5551),
+                            StartDate = new DateTime(2024, 7, 1, 22, 31, 45, 610, DateTimeKind.Local).AddTicks(5552)
                         },
                         new
                         {
                             Id = new Guid("77153502-8631-4b5f-b05d-76d4796c06d4"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 6, 24, 20, 9, 41, 135, DateTimeKind.Local).AddTicks(3354),
+                            EndDate = new DateTime(2024, 6, 30, 21, 31, 45, 610, DateTimeKind.Local).AddTicks(5556),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 24, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3352),
-                            StartDate = new DateTime(2024, 6, 24, 19, 9, 41, 135, DateTimeKind.Local).AddTicks(3353)
+                            ScheduledDate = new DateTime(2024, 6, 30, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5555),
+                            StartDate = new DateTime(2024, 6, 30, 20, 31, 45, 610, DateTimeKind.Local).AddTicks(5556)
                         },
                         new
                         {
                             Id = new Guid("8bb44d07-f470-4434-a023-6bdffb4311cc"),
                             AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 6, 23, 22, 9, 41, 135, DateTimeKind.Local).AddTicks(3358),
+                            EndDate = new DateTime(2024, 6, 29, 23, 31, 45, 610, DateTimeKind.Local).AddTicks(5560),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 23, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3357),
-                            StartDate = new DateTime(2024, 6, 23, 21, 9, 41, 135, DateTimeKind.Local).AddTicks(3357)
+                            ScheduledDate = new DateTime(2024, 6, 29, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5558),
+                            StartDate = new DateTime(2024, 6, 29, 22, 31, 45, 610, DateTimeKind.Local).AddTicks(5559)
                         },
                         new
                         {
                             Id = new Guid("4fa30f09-e82a-4375-a28f-8190a8667a09"),
                             AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 6, 22, 22, 9, 41, 135, DateTimeKind.Local).AddTicks(3363),
+                            EndDate = new DateTime(2024, 6, 28, 23, 31, 45, 610, DateTimeKind.Local).AddTicks(5563),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 22, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3361),
-                            StartDate = new DateTime(2024, 6, 22, 19, 9, 41, 135, DateTimeKind.Local).AddTicks(3362)
+                            ScheduledDate = new DateTime(2024, 6, 28, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5562),
+                            StartDate = new DateTime(2024, 6, 28, 20, 31, 45, 610, DateTimeKind.Local).AddTicks(5562)
                         },
                         new
                         {
                             Id = new Guid("77790ba9-1f3c-4943-9e39-097000fc6fa2"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 6, 21, 20, 9, 41, 135, DateTimeKind.Local).AddTicks(3368),
+                            EndDate = new DateTime(2024, 6, 27, 21, 31, 45, 610, DateTimeKind.Local).AddTicks(5566),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 21, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3366),
-                            StartDate = new DateTime(2024, 6, 21, 19, 9, 41, 135, DateTimeKind.Local).AddTicks(3367)
+                            ScheduledDate = new DateTime(2024, 6, 27, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5565),
+                            StartDate = new DateTime(2024, 6, 27, 20, 31, 45, 610, DateTimeKind.Local).AddTicks(5566)
                         },
                         new
                         {
                             Id = new Guid("5b1615a6-b870-456a-a483-e99a3f9122dc"),
                             AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             DeviceId = new Guid("11d331b4-136c-4844-a686-ffc38c103268"),
-                            EndDate = new DateTime(2024, 6, 26, 20, 9, 41, 135, DateTimeKind.Local).AddTicks(3372),
+                            EndDate = new DateTime(2024, 7, 2, 21, 31, 45, 610, DateTimeKind.Local).AddTicks(5570),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 26, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3371),
-                            StartDate = new DateTime(2024, 6, 26, 19, 9, 41, 135, DateTimeKind.Local).AddTicks(3371)
+                            ScheduledDate = new DateTime(2024, 7, 2, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5569),
+                            StartDate = new DateTime(2024, 7, 2, 20, 31, 45, 610, DateTimeKind.Local).AddTicks(5569)
                         },
                         new
                         {
                             Id = new Guid("ff18bb51-3c4e-4fcb-a73e-39f60996be8c"),
                             AccountId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
                             DeviceId = new Guid("b4dc2d48-482a-48a2-bad6-7a1e0e3139b7"),
-                            EndDate = new DateTime(2024, 6, 27, 20, 9, 41, 135, DateTimeKind.Local).AddTicks(3377),
+                            EndDate = new DateTime(2024, 7, 3, 21, 31, 45, 610, DateTimeKind.Local).AddTicks(5575),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 27, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3375),
-                            StartDate = new DateTime(2024, 6, 27, 19, 9, 41, 135, DateTimeKind.Local).AddTicks(3376)
+                            ScheduledDate = new DateTime(2024, 7, 3, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5573),
+                            StartDate = new DateTime(2024, 7, 3, 20, 31, 45, 610, DateTimeKind.Local).AddTicks(5574)
                         },
                         new
                         {
                             Id = new Guid("eb607a7a-2572-4a16-bbbd-99f3db25d40b"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("0a395b72-ae0d-4a49-b7f8-1763de733068"),
-                            EndDate = new DateTime(2024, 6, 28, 20, 9, 41, 135, DateTimeKind.Local).AddTicks(3381),
+                            EndDate = new DateTime(2024, 7, 4, 21, 31, 45, 610, DateTimeKind.Local).AddTicks(5579),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 28, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3380),
-                            StartDate = new DateTime(2024, 6, 28, 19, 9, 41, 135, DateTimeKind.Local).AddTicks(3380)
+                            ScheduledDate = new DateTime(2024, 7, 4, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5578),
+                            StartDate = new DateTime(2024, 7, 4, 20, 31, 45, 610, DateTimeKind.Local).AddTicks(5578)
                         },
                         new
                         {
                             Id = new Guid("5547314b-521a-47e9-ad60-5e376e686636"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("5947a22f-0191-419c-873b-4324b5b95e84"),
-                            EndDate = new DateTime(2024, 6, 28, 20, 9, 41, 135, DateTimeKind.Local).AddTicks(3386),
+                            EndDate = new DateTime(2024, 7, 4, 21, 31, 45, 610, DateTimeKind.Local).AddTicks(5582),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 28, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3384),
-                            StartDate = new DateTime(2024, 6, 28, 19, 9, 41, 135, DateTimeKind.Local).AddTicks(3385)
+                            ScheduledDate = new DateTime(2024, 7, 4, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5581),
+                            StartDate = new DateTime(2024, 7, 4, 20, 31, 45, 610, DateTimeKind.Local).AddTicks(5581)
                         },
                         new
                         {
                             Id = new Guid("9bfeb5df-03a4-4ae5-904e-1779c19a5313"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("a1d65f8a-f7fd-4995-940f-6ab254523f90"),
-                            EndDate = new DateTime(2024, 6, 27, 20, 9, 41, 135, DateTimeKind.Local).AddTicks(3390),
+                            EndDate = new DateTime(2024, 7, 3, 21, 31, 45, 610, DateTimeKind.Local).AddTicks(5586),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 27, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3388),
-                            StartDate = new DateTime(2024, 6, 27, 19, 9, 41, 135, DateTimeKind.Local).AddTicks(3389)
+                            ScheduledDate = new DateTime(2024, 7, 3, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5585),
+                            StartDate = new DateTime(2024, 7, 3, 20, 31, 45, 610, DateTimeKind.Local).AddTicks(5585)
                         },
                         new
                         {
                             Id = new Guid("e377b750-0b20-4943-9e5d-6909d4810f13"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("9eae03ad-745d-47c0-baef-ae4657964e6a"),
-                            EndDate = new DateTime(2024, 6, 28, 20, 9, 41, 135, DateTimeKind.Local).AddTicks(3309),
+                            EndDate = new DateTime(2024, 7, 4, 21, 31, 45, 610, DateTimeKind.Local).AddTicks(5523),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 28, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3307),
-                            StartDate = new DateTime(2024, 6, 28, 19, 9, 41, 135, DateTimeKind.Local).AddTicks(3308)
+                            ScheduledDate = new DateTime(2024, 7, 4, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5522),
+                            StartDate = new DateTime(2024, 7, 4, 20, 31, 45, 610, DateTimeKind.Local).AddTicks(5522)
                         },
                         new
                         {
                             Id = new Guid("6500363e-6574-42e7-8577-6dc87a55ce15"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("eb934470-4e73-41a8-8304-3bcb1ea18502"),
-                            EndDate = new DateTime(2024, 6, 26, 20, 9, 41, 135, DateTimeKind.Local).AddTicks(3395),
+                            EndDate = new DateTime(2024, 7, 2, 21, 31, 45, 610, DateTimeKind.Local).AddTicks(5589),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 26, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3393),
-                            StartDate = new DateTime(2024, 6, 26, 19, 9, 41, 135, DateTimeKind.Local).AddTicks(3394)
+                            ScheduledDate = new DateTime(2024, 7, 2, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5588),
+                            StartDate = new DateTime(2024, 7, 2, 20, 31, 45, 610, DateTimeKind.Local).AddTicks(5589)
                         },
                         new
                         {
                             Id = new Guid("37d2c7b3-7406-418d-9062-e81dfff02d9a"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("0104f1af-a314-4c64-8b8d-92c72caa97df"),
-                            EndDate = new DateTime(2024, 6, 27, 18, 9, 41, 135, DateTimeKind.Local).AddTicks(3314),
+                            EndDate = new DateTime(2024, 7, 3, 19, 31, 45, 610, DateTimeKind.Local).AddTicks(5527),
                             Purpose = "Testing",
-                            ScheduledDate = new DateTime(2024, 6, 27, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3312),
-                            StartDate = new DateTime(2024, 6, 27, 17, 9, 41, 135, DateTimeKind.Local).AddTicks(3313)
+                            ScheduledDate = new DateTime(2024, 7, 3, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5525),
+                            StartDate = new DateTime(2024, 7, 3, 18, 31, 45, 610, DateTimeKind.Local).AddTicks(5526)
                         },
                         new
                         {
                             Id = new Guid("e0fa81b1-9eea-4b4b-93a7-b7a34aae4014"),
                             AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
                             DeviceId = new Guid("0104f1af-a314-4c64-8b8d-92c72caa97df"),
-                            EndDate = new DateTime(2024, 6, 27, 20, 9, 41, 135, DateTimeKind.Local).AddTicks(3321),
+                            EndDate = new DateTime(2024, 7, 3, 21, 31, 45, 610, DateTimeKind.Local).AddTicks(5530),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 27, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3319),
-                            StartDate = new DateTime(2024, 6, 27, 19, 9, 41, 135, DateTimeKind.Local).AddTicks(3320)
+                            ScheduledDate = new DateTime(2024, 7, 3, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5529),
+                            StartDate = new DateTime(2024, 7, 3, 20, 31, 45, 610, DateTimeKind.Local).AddTicks(5530)
                         },
                         new
                         {
                             Id = new Guid("db1fcaa0-e934-4429-a567-2ac802d0b453"),
                             AccountId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
                             DeviceId = new Guid("0104f1af-a314-4c64-8b8d-92c72caa97df"),
-                            EndDate = new DateTime(2024, 6, 27, 22, 9, 41, 135, DateTimeKind.Local).AddTicks(3325),
+                            EndDate = new DateTime(2024, 7, 3, 23, 31, 45, 610, DateTimeKind.Local).AddTicks(5534),
                             Purpose = "Testing",
-                            ScheduledDate = new DateTime(2024, 6, 27, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3323),
-                            StartDate = new DateTime(2024, 6, 27, 21, 9, 41, 135, DateTimeKind.Local).AddTicks(3324)
+                            ScheduledDate = new DateTime(2024, 7, 3, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5532),
+                            StartDate = new DateTime(2024, 7, 3, 22, 31, 45, 610, DateTimeKind.Local).AddTicks(5533)
                         },
                         new
                         {
                             Id = new Guid("27f1b969-1b68-4cf8-8a51-c8be5356f7f8"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 6, 26, 20, 9, 41, 135, DateTimeKind.Local).AddTicks(3330),
+                            EndDate = new DateTime(2024, 7, 2, 21, 31, 45, 610, DateTimeKind.Local).AddTicks(5538),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 26, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3328),
-                            StartDate = new DateTime(2024, 6, 26, 19, 9, 41, 135, DateTimeKind.Local).AddTicks(3329)
+                            ScheduledDate = new DateTime(2024, 7, 2, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5536),
+                            StartDate = new DateTime(2024, 7, 2, 20, 31, 45, 610, DateTimeKind.Local).AddTicks(5537)
                         },
                         new
                         {
                             Id = new Guid("4da0b3f8-95aa-40cd-ab32-75876ca13900"),
                             AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 6, 26, 22, 9, 41, 135, DateTimeKind.Local).AddTicks(3335),
+                            EndDate = new DateTime(2024, 7, 2, 23, 31, 45, 610, DateTimeKind.Local).AddTicks(5541),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 26, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3333),
-                            StartDate = new DateTime(2024, 6, 26, 21, 9, 41, 135, DateTimeKind.Local).AddTicks(3333)
+                            ScheduledDate = new DateTime(2024, 7, 2, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5540),
+                            StartDate = new DateTime(2024, 7, 2, 22, 31, 45, 610, DateTimeKind.Local).AddTicks(5541)
                         },
                         new
                         {
                             Id = new Guid("80d34442-7c14-4060-ae8f-24cda38e63f9"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 6, 27, 18, 9, 41, 135, DateTimeKind.Local).AddTicks(3340),
+                            EndDate = new DateTime(2024, 7, 3, 19, 31, 45, 610, DateTimeKind.Local).AddTicks(5545),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 27, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3338),
-                            StartDate = new DateTime(2024, 6, 27, 17, 9, 41, 135, DateTimeKind.Local).AddTicks(3339)
+                            ScheduledDate = new DateTime(2024, 7, 3, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5543),
+                            StartDate = new DateTime(2024, 7, 3, 18, 31, 45, 610, DateTimeKind.Local).AddTicks(5544)
                         },
                         new
                         {
                             Id = new Guid("5dc94e7f-845b-480b-8c81-f1d50c359491"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 6, 25, 20, 9, 41, 135, DateTimeKind.Local).AddTicks(3344),
+                            EndDate = new DateTime(2024, 7, 1, 21, 31, 45, 610, DateTimeKind.Local).AddTicks(5549),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 25, 16, 9, 41, 135, DateTimeKind.Local).AddTicks(3343),
-                            StartDate = new DateTime(2024, 6, 25, 19, 9, 41, 135, DateTimeKind.Local).AddTicks(3343)
+                            ScheduledDate = new DateTime(2024, 7, 1, 17, 31, 45, 610, DateTimeKind.Local).AddTicks(5548),
+                            StartDate = new DateTime(2024, 7, 1, 20, 31, 45, 610, DateTimeKind.Local).AddTicks(5548)
                         });
                 });
 
@@ -2488,6 +2489,11 @@ namespace LMS_BACKEND_MAIN.Migrations
                         {
                             UserId = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
                             RoleId = "c55924f5-4cf4-4a29-9820-b5d0d9bdf3c5"
+                        },
+                        new
+                        {
+                            UserId = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2"
                         },
                         new
                         {
