@@ -8,6 +8,7 @@ namespace Shared.DataTransferObjects.RequestParameters
 {
     public class NewsRequestParameters : RequestParameters
     {
+        public NewsRequestParameters() => OrderBy = "CreatedDate";
         public DateTime minCreatedDate { get; set; }
         public DateTime maxCreatedDate { get; set; } = DateTime.MaxValue;
 

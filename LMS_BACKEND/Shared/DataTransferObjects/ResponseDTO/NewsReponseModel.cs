@@ -8,13 +8,6 @@
         public string? CreatedBy { get; set; }
         public DateTime CreatedDate { get; set;}
 
-
-        //public virtual ICollection<NewsFileReponse>? NewsFiles { get; set; } = new List<NewsFileReponse>();
     }
 
-    //public class NewsFileReponse
-    //{
-    //    public int Id { get; set; }
-    //    public string? FileKey { get; set; }
-    //}
 }
