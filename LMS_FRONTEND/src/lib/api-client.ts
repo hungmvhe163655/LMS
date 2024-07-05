@@ -2,7 +2,7 @@ import Axios, { InternalAxiosRequestConfig } from 'axios';
 
 import { refreshToken } from './refresh-token';
 
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from '@/components/ui/use-toast';
 import { env } from '@/config/env';
 import { getAccessToken } from '@/utils/storage';
 
@@ -31,6 +31,12 @@ api.interceptors.response.use(
   },
 
   async (error) => {
+    const message = error.response?.data?.message || error.message;
+    toast({
+      variant: 'destructive',
+      description: message
+    });
+
     // Chưa đăng nhập
     if (error.response?.status === 401) {
       const originalRequest = error.config;
@@ -44,17 +50,11 @@ api.interceptors.response.use(
 
       const searchParams = new URLSearchParams();
       const redirectTo = searchParams.get('redirectTo');
-      window.location.href = `/auth/login?redirectTo=${redirectTo}`;
+      if (redirectTo) {
+        window.location.href = `/auth/login?redirectTo=${redirectTo}`;
+      }
       return Promise.reject(error);
     }
-
-    const message = error.response?.data?.message || error.message;
-    const { toast } = useToast();
-
-    toast({
-      variant: 'destructive',
-      description: message
-    });
 
     // Không có quyền truy cập
     if (error.response?.status === 403) {

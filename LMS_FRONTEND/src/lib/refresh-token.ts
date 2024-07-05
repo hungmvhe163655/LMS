@@ -8,6 +8,10 @@ export const refreshToken = async () => {
     refreshToken: getRefreshToken()
   };
 
+  if (token) {
+    return null;
+  }
+
   const response = await axios.post('/token/refresh-token', token);
 
   const newToken = response.data;

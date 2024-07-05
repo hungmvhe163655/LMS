@@ -21,8 +21,10 @@ export async function handleApiResponse(response: AxiosResponse) {
   return await response.data;
 }
 
-const getUser = (): Promise<User | undefined> => {
-  return api.get('/auth/me').then(handleApiResponse) ?? null;
+const getUser = async (): Promise<User | undefined> => {
+  const response = await api.get('/auth/me');
+  if (response.status === 401) return undefined;
+  return handleApiResponse(response);
 };
 
 const logout = async (): Promise<void> => {
