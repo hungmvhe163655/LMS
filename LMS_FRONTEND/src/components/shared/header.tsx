@@ -4,8 +4,10 @@ import { AvatarDropdown } from './avatar-dropdown';
 import { Logo } from './logo';
 import { NotificationDropdown } from './notification-dropdown';
 
+import { useUser } from '@/lib/auth';
+
 export function Header() {
-  const isLogin = true;
+  const user = useUser();
 
   return (
     <header className='flex items-center justify-between bg-gray-800 p-4'>
@@ -13,13 +15,13 @@ export function Header() {
         <Logo />
       </div>
 
-      {isLogin ? (
+      {user.data ? (
         <ul className='flex space-x-4'>
           <li className='my-auto mr-5'>
             <NotificationDropdown />
           </li>
           <li>
-            <AvatarDropdown />
+            <AvatarDropdown avatarName={user.data.fullName} />
           </li>
         </ul>
       ) : (

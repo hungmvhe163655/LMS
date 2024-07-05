@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { BaseLayout } from './base-layout';
+
 import { Head } from '@/components/seo';
 
 import CollapsibleSidebar from '../app/project-workspace-sidebar';
@@ -11,7 +13,7 @@ type DashboardLayoutProps = {
 
 export function DashboardLayout({ children, title }: DashboardLayoutProps) {
   return (
-    <>
+    <BaseLayout>
       <Head title={title} />
       <div className='flex min-h-screen flex-col bg-gray-50'>
         <CollapsibleSidebar />
@@ -21,6 +23,6 @@ export function DashboardLayout({ children, title }: DashboardLayoutProps) {
           </div>
         </main>
       </div>
-    </>
+    </BaseLayout>
   );
 }
