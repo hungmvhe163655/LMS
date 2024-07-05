@@ -12,6 +12,7 @@ import OverallRoute from './profile/overall';
 import PasswordRoute from './profile/password';
 import PhoneNumberRoute from './profile/phone-number';
 import TwoFactorRoute from './profile/two-factor';
+import ListAllTasksRoute from './project-workspace/list-all-task';
 
 export const createRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
@@ -38,6 +39,10 @@ export const createRouter = (queryClient: QueryClient) =>
     {
       path: '/profile',
       children: [OverallRoute, EmailRoute, PasswordRoute, PhoneNumberRoute, TwoFactorRoute]
+    },
+    {
+      path: '/',
+      children: [ListAllTasksRoute]
     },
     {
       path: '*',
