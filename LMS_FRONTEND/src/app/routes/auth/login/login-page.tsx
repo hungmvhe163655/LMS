@@ -10,7 +10,6 @@ export function LoginPage() {
   const redirectTo = searchParams.get('redirectTo');
 
   const handleSuccess = (data: User | undefined) => {
-    console.log(data);
     if (data) {
       const { roles } = data;
 

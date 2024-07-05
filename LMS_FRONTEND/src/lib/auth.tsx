@@ -6,7 +6,13 @@ import { z } from 'zod';
 import { api } from './api-client';
 
 import { AuthResponse, User } from '@/types/api';
-// import { cookieStorage } from '@/utils/cookie-storage';
+import {
+  clearTokens,
+  getAccessToken,
+  getRefreshToken,
+  setAccessToken,
+  setRefreshToken
+} from '@/utils/storage';
 
 // api call definitions for auth (types, schemas, requests):
 // these are not part of features as this is a module shared across features
@@ -20,7 +26,12 @@ const getUser = (): Promise<User | undefined> => {
 };
 
 const logout = async (): Promise<void> => {
-  const response = await api.post('/auth/logout');
+  const tokens = {
+    accessToken: getAccessToken(),
+    refreshToken: getRefreshToken()
+  };
+  const response = await api.post('/auth/logout', tokens);
+  clearTokens();
   return handleApiResponse(response);
 };
 
@@ -73,10 +84,14 @@ const authConfig = {
   userFn: getUser,
   loginFn: async (data: LoginInput) => {
     const response = await loginWithEmailAndPassword(data);
+    setAccessToken(response.token.accessToken);
+    setRefreshToken(response.token.refreshToken);
     return response.user;
   },
   registerFn: async (data: RegisterInput) => {
     const response = await registerWithEmailAndPassword(data);
+    setAccessToken(response.token.accessToken);
+    setRefreshToken(response.token.refreshToken);
     return response.user;
   },
   logoutFn: logout

@@ -74,8 +74,8 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
                 </FormItem>
               )}
             />
-            <Button type='submit' className='w-full'>
-              Login
+            <Button type='submit' className='w-full' disabled={login.isPending}>
+              {login.isPending ? 'Logging in...' : 'Login'}
             </Button>
           </form>
         </Form>
