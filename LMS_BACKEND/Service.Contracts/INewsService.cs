@@ -1,14 +1,15 @@
 ﻿using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 
 namespace Service.Contracts
 {
     public interface INewsService
     {
-        Task<IEnumerable<NewsReponse>> GetNews(NewsRequestGetListsModel newsRequestGetLists);
-        Task<NewsReponse> GetNewsDetail(int id);
-        Task<bool> CreateNews(NewsRequestCreateModel news);
-        Task<bool> UpdateNews(NewsRequestUpdateModel news);
-        Task<bool> DeleteNews(int id);
+        Task<(IEnumerable<NewsReponseModel> news, MetaData metaData)> GetNewsAsync(NewsRequestParameters newsParameter, bool trackChanges);
+        Task<NewsReponseModel> GetNewsById(Guid id);
+        Task<bool> CreateNewsAsync(CreateNewsRequestModel model);
+        Task UpdateNews(Guid newsId, UpdateNewsRequestModel model);
+        Task DeleteNews(Guid id);
     }
 }

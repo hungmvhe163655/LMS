@@ -10,9 +10,9 @@ namespace Entities.Models
     public class Tasks
     {
         public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string CreatedBy { get; set; }
-        public Guid? PredecessorTaskId { get; set; }
+        public string? Title { get; set; }
+        public string? CreatedBy { get; set; }
+        //public Guid? PredecessorTaskId { get; set; }
         public bool? RequiredValidation { get; set; }
         public string? Description { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -27,9 +27,9 @@ namespace Entities.Models
 
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-        public virtual ICollection<Tasks> InversePredecessorTask { get; set; } = new List<Tasks>();
+       // public virtual ICollection<Tasks> InversePredecessorTask { get; set; } = new List<Tasks>();
 
-        public virtual Tasks? PredecessorTask { get; set; }
+        //public virtual Tasks? PredecessorTask { get; set; }
 
         public virtual ICollection<TaskHistory> TaskHistories { get; set; } = new List<TaskHistory>();
 
@@ -44,6 +44,9 @@ namespace Entities.Models
         public virtual ICollection<Files> Files { get; set; } = new List<Files>();
 
         public virtual ICollection<Label> Labels { get; set; } = new List<Label>();
+
+        public virtual ICollection<TaskClosure> TaskClosuresAncestor { get; set; } = new List<TaskClosure>();
+        public virtual ICollection<TaskClosure> TaskClosuresDescendant { get; set; } = new List<TaskClosure>();
     }
 
 }

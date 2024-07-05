@@ -8,7 +8,7 @@ namespace Shared.DataTransferObjects.RequestDTO
 {
     public class MailRequestModel
     {
-        public string? Email { get; set; }
-        public string? AuCode { get; set; }
+        public string Email { get; set; } = null!;
+        public string AuCode { get; set; } = null!;
     }
 }

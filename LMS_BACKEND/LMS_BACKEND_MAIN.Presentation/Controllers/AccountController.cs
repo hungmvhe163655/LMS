@@ -1,6 +1,9 @@
 
 using Entities.Models;
+using LMS_BACKEND_MAIN.Presentation.Attributes;
+using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
@@ -8,6 +11,7 @@ using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -15,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route(APIs.AccountAPI)]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -24,115 +28,114 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = service;
         }
-        [HttpGet("GetUser")]
+
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
+        [HttpPost(RoutesAPI.CreateAdmin)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> CreateAdmin([FromBody] RegisterRequestModel model)
+        {
+            var result = await _service.AuthenticationService.RegisterLabLead(model);
+
+            await _service.MailService.SendVerifyOtp(model.Email ?? "");
+
+            return StatusCode(201, result);
+        }
+
+
+        [HttpGet(RoutesAPI.GetUsers)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
         public async Task<IActionResult> GetUsers(string role)
         {
-            try
-            {
-                var hold = await _service.AccountService.GetUserByRole(role.ToUpper());
-                if (hold != null)
-                {
-                    return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "OK", Value = hold.Where(x => x.isVerified = true) });
-                }
-                return StatusCode(200, new ResponseObjectModel { Code = "200", Status = "EMPTY", Value = hold });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new ResponseObjectModel { Code = "500", Status = "Internal Error", Value = ex });
-            }
+            var hold = await _service.AccountService.GetUserByRole(role.ToUpper());
 
+            return Ok(hold);
         }
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Supervisor")]
-        [HttpGet("GetVerifierAccount")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Get(string email)
+
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
+        [HttpGet(RoutesAPI.GetAccountNeedVerified)]
+        public IActionResult GetAccountNeedVerified(string email)
         {
-            try
-            {
-                var user =
-                _service.AccountService.GetVerifierAccounts(email);
-                return Ok(new { Status = "success", Value = user });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+            var user =
+            _service.AccountService.GetVerifierAccounts(email);
+            return Ok(new { Status = "success", Value = user });
         }
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Supervisor")]
-        [HttpPost("UpdateVerifierAccount")]
-        // [Authorize(AuthenticationSchemes = "Bearer")]
-        [Authorize(Roles = "labadmin")]
+
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        [HttpPost(RoutesAPI.UpdateAccountVerifyStatus)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateAccountVerifyStatus([FromBody] UpdateVerifyStatusRequestModel model)
         {
-            if (model.UserID == null || model.verifierID == null)
-            {
-                ModelState.AddModelError("BadRequest", "Username can't be empty");
-                return BadRequest();
-            }
-            try
-            {
-                var user = await _service.AccountService.GetUserById(model.UserID);
-                if (user == null)
-                {
-                    return BadRequest(new ResponseObjectModel { Code = "401", Status = "BadRequest", Value = user });
-                }
-                var hold = new List<string>
-                {
-                    model.UserID
-                };
-                if (await _service.AccountService.UpdateAccountVerifyStatus(hold, model.verifierID))
-                {
-                    return Ok(new ResponseObjectModel { Status = "success", Code = "200", Value = "Update User " + user.FullName + " Status Successully" });
-                }
-            }
-            catch
-            {
 
+            var user = await _service.AccountService.GetUserById(model.UserID);
+
+            if (user == null)
+            {
+                return NotFound(new ResponseMessage { Message = "User Not Found" });
             }
-            return BadRequest(ModelState);
+
+            var hold = new List<string> { model.UserID };
+            await _service.AccountService.UpdateAccountVerifyStatus(hold, model.verifierID);
+            return Ok(new ResponseMessage { Message = "Update User " + user.FullName + " Status Successully" });
+        }
+        [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> GetAccountDetail(string id)
+        {
+            var data = await _service.AccountService.GetAccountDetail(id);
+            return Ok(new { Status = "success", Value = data });
         }
 
-        [HttpPost("ChangePassword")]
-        //[Authorize(AuthenticationSchemes = "Bearer")]
+
+        [HttpPost(RoutesAPI.ChangePassword)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestModel model)
         {
-            if (model.UserID == null || model.OldPassword == null || model.NewPassword == null)
-            {
-                ModelState.AddModelError("BadRequest", "Username can't be empty");
-                return BadRequest();
-            }
-            try
-            {
-                if (await _service.AccountService.ChangePasswordAsync(model.UserID, model.OldPassword, model.NewPassword))
-                {
-                    return Ok(new ResponseObjectModel { Status = "success", Code = "200", Value = "Change Password Successully" });
-                }
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
-            return BadRequest();
+            await _service.AccountService.ChangePasswordAsync(model.UserID, model.OldPassword, model.NewPassword);
+            return Ok(new ResponseMessage { Message = "Change Password Successully" });
         }
-        [HttpPost("UpdateProfile")]
-        //[Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileRequestModel model)
+
+        [HttpPost(RoutesAPI.ChangeEmail)]
+        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> ChangeEmail(string id, [FromBody] ChangeEmailRequestModel model)
         {
-            if (model.UserID == null || model.FullName == null || model.RollNumber == null || model.Major == null || model.Specialized == null)
-            {
-                ModelState.AddModelError("BadRequest", "Username can't be empty");
-                return BadRequest();
-            }
-            try
-            {
-                if (await _service.AccountService.UpdateProfileAsync(model.UserID, model.FullName, model.RollNumber, model.Major, model.Specialized))
-                    return Ok(new ResponseObjectModel { Status = "success", Code = "200", Value = "Update Profile Successully" });
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
-            return BadRequest();
+            //var hold = await _service.AccountService.GetUserById(id);
+            //var email = hold.Email;
+            //if (await _service.MailService.SendOTP(email, "ChangeEmailKey"))
+            //{
+            //    return Ok(new ResponseMessage { Message = "OTP SENT TO USER EMAIL" });
+            //}
+            //return BadRequest(new ResponseMessage { Message = "Invalid email" });
+            await _service.AccountService.ChangeEmailAsync(id, model);
+            return Ok(new ResponseMessage { Message = "Change email Successully" });
+        }
+
+        //[HttpPost(RoutesAPI.ChangeEmailOtp)]
+        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        //[ServiceFilter(typeof(ValidationFilterAttribute))]
+        //public async Task<IActionResult> ChangeEmailOtp(string id, [FromBody] ChangeEmailRequestModel model)
+        //{
+        //    var hold = await _service.AccountService.GetUserById(id);
+        //    var email = hold.Email;
+        //    if (await _service.MailService.VerifyOtp(email, model.VerifyCode, "ChangeEmailKey"))
+        //    {
+
+        //        return Ok(new ResponseMessage { Message = "Change email successfully" });
+        //    }
+        //    return BadRequest(new ResponseMessage { Message = "User not found or wrong verify code" });
+        //}
+
+        [HttpPut("{id}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ResponseCache(Duration = 60)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        public async Task<IActionResult> UpdateProfile(string id, [FromBody] UpdateProfileRequestModel model)
+        {
+            await _service.AccountService.UpdateProfileAsync(id, model);
+
+            return Ok(new ResponseMessage { Message = "Update Profile Successully" });
         }
     }
 }

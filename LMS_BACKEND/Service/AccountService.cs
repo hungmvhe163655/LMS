@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces;
+using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
+using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.ResponseDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,27 +36,53 @@ namespace Service
             _roleManager = roleManager;
         }
         // public async Task<Account> GetUserByEmail(string email) =>  _repository.account.GetByCondition(entity => entity.Email.Equals(email), false).FirstOrDefault();
-        public async Task<Account> GetUserByEmail(string email)
+        public async Task<AccountReturnModel> GetUserByEmail(string email)
         {
-            var end = await _repository.account.GetByConditionAsync(entity => entity.Email.Equals(email), false);
-            return end.First();
+            var end = await _repository.account.GetByConditionAsync(entity => entity.Email.Equals(email) && entity.IsVerified, false);
+
+            var hold = await _userManager.GetRolesAsync(end.First());
+
+            var result = _mapper.Map<AccountReturnModel>(end.First());
+
+            foreach (var role in hold) result.Roles.Add(role);
+            
+            return result;
         }
-        public async Task<Account> GetUserById(string id) => await _repository.account.GetByCondition(entity => entity.Id.Equals(id), false).FirstAsync();
-        public async Task<Account> GetUserByName(string userName)
+        public async Task<AccountReturnModel> GetUserById(string id) => _mapper.Map<AccountReturnModel>(await _repository.account.GetByCondition(entity => entity.Id.Equals(id) && entity.IsVerified, false).FirstAsync());
+        public async Task<AccountReturnModel> GetUserByName(string userName)
         {
-            try
-            {
-                var user = await _repository.account.FindByNameAsync(userName, false);
-                return user;
-            }
-            catch
-            {
-                throw;
-            }
+
+            var user = await _repository.account.FindByNameAsync(userName, false);
+
+            if (user == null) throw new BadRequestException("No user with username: " + userName);
+
+            return _mapper.Map<AccountReturnModel>(user);
         }
+        public async Task<AccountDetailResponseModel> GetAccountDetail(string userId)
+        {
+            var account= await _repository.account.GetByCondition(entity => entity.Id.Equals(userId), false).FirstAsync();
+            if(account == null) throw new BadRequestException($"{nameof(account)} is not valid");
+            var studentDetail = await _repository.studentDetail.
+                GetByCondition(entity => entity.AccountId != null && entity.AccountId.Equals(userId), false).FirstAsync();
+            var roleName= await _userManager.GetRolesAsync(account);
+            var hold =  new AccountDetailResponseModel
+            {
+                Id = account.Id,
+                FullName = account.FullName,
+                Role = roleName.First(),
+                Email = account.Email,
+                PhoneNumber = account.PhoneNumber != null ? account.PhoneNumber : "",
+                RollNumber = studentDetail.RollNumber != null ? studentDetail.RollNumber : "",
+                Major= studentDetail.Major != null ? studentDetail.Major : "",
+                Specialized = studentDetail.Specialized != null ? studentDetail.Specialized : "",
+            };
+            return hold;
+        }
+
         public async Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> UserIDList, string verifier)
         {
             List<Account> accountList = new List<Account>();
+
             if (UserIDList.Any())
             {
                 foreach (var ID in UserIDList)
@@ -64,9 +93,12 @@ namespace Service
                 {
                     foreach (var account in accountList)
                     {
-                        account.isVerified = true;
+                        account.IsVerified = true;
+
                         account.VerifiedBy = verifier;
+
                         _repository.account.Update(account);
+
                         await _repository.Save();
                     }
                     return true;
@@ -74,51 +106,30 @@ namespace Service
             }
             return false;
         }
-        public async Task<IEnumerable<Account>> GetVerifierAccounts(string email)
+        public async Task<IEnumerable<AccountReturnModel>> GetVerifierAccounts(string email)
         {
-            try
-            {
-                var user = await _repository.account.GetByConditionAsync(entity => entity.Email.Equals(email), false);
-                var end = user.First();
-                return _repository.account.GetByCondition(entity => entity.VerifiedBy.Equals(end.Id), false).ToList();
-            }
-            catch { throw; }
+            var user = await _repository.account.GetByConditionAsync(entity => entity.Email != null && entity.Email.Equals(email), false);
+            var end = user.First();
+            if (end == null) throw new UnauthorizedException("Invalid User");
+            return _mapper.Map<IEnumerable<AccountReturnModel>>(_repository.account.GetByCondition(entity => entity.VerifiedBy != null && entity.VerifiedBy.Equals(end.Id), false).ToList());
         }
 
-        public async Task<IEnumerable<Account>> GetUserByRole(string role)
-        {
-            try
-            {
-                var hold = await _roleManager.FindByNameAsync(role);
-                if (hold != null) return await _userManager.GetUsersInRoleAsync(hold.Name);
-            }
-            catch
-            {
-                throw;
-            }
-            return null;
-        }
+        public async Task<IEnumerable<AccountReturnModel>> GetUserByRole(string role) => _mapper.Map<IEnumerable<AccountReturnModel>>((await _userManager.GetUsersInRoleAsync(role)).Where(x => x.IsVerified));
+
 
         public async Task<bool> ChangePasswordAsync(string userId, string oldPassword, string newPassword)
         {
-            try
+            var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), true);
+            var account = user.FirstOrDefault();
+            if (account != null)
             {
-                var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), true);
-                var account = user.FirstOrDefault();
-                if (account != null)
-                {
-                    var result = await _userManager.ChangePasswordAsync(account, oldPassword, newPassword);
-                    return result.Succeeded;
-                }
+                var result = await _userManager.ChangePasswordAsync(account, oldPassword, newPassword);
+                return result.Succeeded;
             }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Exceptions Occur at service {nameof(ChangePasswordAsync)} with the message\" + ex.messeage");
-            }
-            return false;
+            else throw new BadRequestException("User with id: " + userId + " is not exist");
         }
 
-        public async Task<bool> UpdateProfileAsync(string userId, string name, string rollNumber, string major, string specialized)
+        public async Task UpdateProfileAsync(string userId, UpdateProfileRequestModel model)
         {
             try
             {
@@ -126,41 +137,94 @@ namespace Service
 
                 var account = user.FirstOrDefault();
 
-                if (account != null)
+                if (account == null) throw new BadRequestException("User with id: " + userId + " is not exist");
+
+                account.FullName = model.FullName;
+
+                var hold = await _repository.studentDetail.GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), true);
+                var studentDetail = hold.FirstOrDefault();
+
+                if (studentDetail == null)
                 {
-                    if (account.StudentDetail == null)
-                    {
-                        account.StudentDetail = new StudentDetail();
-                    }
-
-                    if (name != null)
-                    {
-                        account.FullName = name;
-                    }
-
-                    if (rollNumber != null)
-                    {
-                        account.StudentDetail.RollNumber = rollNumber;
-                    }
-                    if (major != null)
-                    {
-                        account.StudentDetail.Major = major;
-                    }
-                    if (specialized != null)
-                    {
-                        account.StudentDetail.Specialized = specialized;
-                    }
-
-                    _repository.account.Update(account);
-                    await _repository.Save();
-                    return true;
+                    var newStudentDetail = new StudentDetail() { AccountId = userId, RollNumber = account.UserName, Major = model.Major, Specialized = model.Specialized };
+                    await _repository.studentDetail.CreateAsync(newStudentDetail);
                 }
+                else
+                {
+                    studentDetail.Major = model.Major;
+                    studentDetail.Specialized = model.Specialized;
+                    _repository.studentDetail.Update(studentDetail);
+                }
+                _repository.account.Update(account);
+                await _repository.Save();
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exceptions Occur at service {nameof(ChangePasswordAsync)} with the message\" + ex.messeage");
+                _logger.LogError($"Exceptions Occur at service {nameof(UpdateProfileAsync)} with the message" + ex.Message);
             }
-            return false;
         }
+
+        public async Task ChangeEmailAsync(string id, ChangeEmailRequestModel model)
+        {
+            var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(id), true);
+            var account = user.FirstOrDefault();
+            //if (account != null)
+            //{
+            //    var result = await _userManager.ChangeEmailAsync(account, oldPassword, newPassword);
+            //    return result.Succeeded;
+            //}
+            //else throw new BadRequestException("User with id: " + userId + " is not exist");
+            if (account == null) throw new BadRequestException($"Can't find user with id: ${id}");
+            await _userManager.SetEmailAsync(account, model.Email);
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(account);
+
+            await _userManager.ConfirmEmailAsync(account, token);
+        }
+
+        //public async Task<bool> ChangePhoneNumberAsync(string userId, string phoneNumber, string verifyCode)
+        //{
+        //    try
+        //    {
+        //        var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), true);
+
+        //        var account = user.FirstOrDefault();
+
+        //        if (account != null)
+        //        {
+        //            if (account.StudentDetail == null)
+        //            {
+        //                account.StudentDetail = new StudentDetail() { AccountId = userId };
+        //            }
+
+        //            if (name != null)
+        //            {
+        //                account.FullName = name;
+        //            }
+
+        //            if (rollNumber != null)
+        //            {
+        //                account.StudentDetail.RollNumber = rollNumber;
+        //            }
+        //            if (major != null)
+        //            {
+        //                account.StudentDetail.Major = major;
+        //            }
+        //            if (specialized != null)
+        //            {
+        //                account.StudentDetail.Specialized = specialized;
+        //            }
+
+        //            await _repository.account.UpdateAsync(account);
+        //            return true;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError($"Exceptions Occur at service {nameof(ChangePasswordAsync)} with the message\" + ex.messeage");
+        //    }
+        //    return false;
+        //}
     }
+
 }

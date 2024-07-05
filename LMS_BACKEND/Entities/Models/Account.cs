@@ -10,13 +10,14 @@ namespace Entities.Models
 {
     public class Account : IdentityUser
     {
+        //public override string Email { get; set; } = null!;
         public string? FullName { get; set; }
         public bool Gender { get; set; }
         public DateTime CreatedDate { get; set; }
         public string? VerifiedBy { get; set; }
-        public bool isDeleted { get; set; }
-        public bool isVerified { get;set; }
-        public bool isBanned { get; set; }
+        public bool IsDeleted { get; set; }
+        public bool IsVerified { get;set; }
+        public bool IsBanned { get; set; }
         public string? EmailVerifyCode { get; set; }
         public DateTime EmailVerifyCodeAge { get; set; }
         public string? UserRefreshToken { get; set; }
@@ -36,8 +37,6 @@ namespace Entities.Models
         public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 
         public virtual ICollection<NotificationAccount> NotificationsAccounts { get; set; } = new List<NotificationAccount>();
-
-        public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
 
         public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
 

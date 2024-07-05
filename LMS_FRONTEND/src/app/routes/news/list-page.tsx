@@ -1,10 +1,10 @@
-import { Layout } from '@/components/layouts/auth-layout';
-import ListNews from '@/features/news/list-news';
+import { Layout } from '@/components/layouts/default-layout';
+import { NewsTable } from '@/features/news/components/news-table';
 
 export function ListNewsPage() {
   return (
-    <Layout title='News List'>
-      <ListNews />
+    <Layout>
+      <NewsTable />
     </Layout>
   );
 }

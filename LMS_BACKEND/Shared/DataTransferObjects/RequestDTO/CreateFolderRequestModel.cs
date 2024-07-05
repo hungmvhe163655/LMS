@@ -12,6 +12,6 @@ namespace Shared.DataTransferObjects.RequestDTO
         public string? Name { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string ? AncestorId { get; set; }
+        public Guid AncestorId { get; set; }
     }
 }

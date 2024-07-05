@@ -13,22 +13,45 @@ using System.Net;
 using System.Text;
 using Amazon.S3;
 using Amazon;
-using Microsoft.Extensions.DependencyInjection;
-
-using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Diagnostics;
+using Shared.DataTransferObjects.ResponseDTO;
+using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc;
+using LMS_BACKEND_MAIN.Presentation.Controllers;
+using Marvin.Cache.Headers;
 
 namespace LMS_BACKEND_MAIN.Extentions
 {
+    public class CorsConfig
+    {
+        public string[]? Origins { get; set; }
+    }
     public static class ServiceExtentions
     {
-        public static void ConfigureCor(this IServiceCollection services)
+       public static void ConfigureVersioning(this IServiceCollection services)
         {
+         services.AddApiVersioning(opt =>
+         {
+             opt.ReportApiVersions = true;
+             opt.AssumeDefaultVersionWhenUnspecified = true;
+             opt.DefaultApiVersion = new ApiVersion(1, 0);
+             opt.ApiVersionReader = new HeaderApiVersionReader("api-version");
+         });
+        }
+        public static void ConfigureCor(this IServiceCollection services, IConfiguration configuration)
+        {
+            var corsConfig = new CorsConfig();
+
+            configuration.GetSection("CorsConfig").Bind(corsConfig);
+
             services.AddCors(
                 options => options.AddPolicy("CorsPolicy", builder =>
-                builder.AllowAnyOrigin()
+                builder.WithOrigins(corsConfig.Origins??throw new NullReferenceException("Not found corsConfig"))
+                .AllowCredentials()
                 .AllowAnyMethod()
-                .AllowAnyHeader())
+                .AllowAnyHeader()
+                .WithExposedHeaders("X-Pagination"))
                 );
         }
         public static void ConfigureIISIntegration(this IServiceCollection services)
@@ -80,12 +103,7 @@ namespace LMS_BACKEND_MAIN.Extentions
         {
             services.AddTransient<SmtpClient>(serviceProvider =>
             {
-                var hold = Environment.GetEnvironmentVariable("EMAILADMIN");
-                if (hold == null)
-                {
-                    throw new InvalidOperationException("EMAILADMIN environment variable not set.");
-                }
-
+                var hold = Environment.GetEnvironmentVariable("EMAILADMIN") ?? throw new InvalidOperationException("EMAILADMIN environment variable not set.");
                 string[] parts = hold.Split('/');
                 if (parts.Length != 4)
                 {
@@ -114,32 +132,53 @@ namespace LMS_BACKEND_MAIN.Extentions
             services.AddScoped<IServiceManager, ServiceManager>();
         public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration) =>
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
-        public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureResponseCaching(this IServiceCollection services) =>
+            services.AddResponseCaching();
+        public static void ConfigureHttpCacheHeaders(this IServiceCollection services) =>
+            services.AddHttpCacheHeaders(
+                (expirationOpt) =>
+                    {
+                    expirationOpt.MaxAge = 120;
+                            expirationOpt.CacheLocation = CacheLocation.Private;
+                    },
+                    (validationOpt) =>
+                    {
+                    validationOpt.MustRevalidate = true;
+                    });
+public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
         {//nho chay app setup truoc khi release phai sua phan encryptionkey vaf iv nay
-            var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
 
-            var iv = Environment.GetEnvironmentVariable("ivKey");
+            //Comment dong code nay lai truoc khi build app
 
-            var awsOptions = configuration.GetAWSOptions("AWS");
+            // tu day
+            
+            //var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
 
-            var url = Environment.GetEnvironmentVariable("SERVICE_URL");
 
-            awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
+            //var iv = Environment.GetEnvironmentVariable("ivKey");
 
-            var holdAccess = Environment.GetEnvironmentVariable("ENCRYPTED_ACCESS_KEY");
+            //var awsOptions = configuration.GetAWSOptions("AWS");
 
-            var holdSecret = Environment.GetEnvironmentVariable("ENCRYPTED_SECRET_KEY");
+            //var url = Environment.GetEnvironmentVariable("SERVICE_URL");
 
-            if (holdAccess == null || holdSecret == null || encryptionKey == null || iv == null || url == null)
-                throw new InvalidOperationException("environment variable not set.");
+            //awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
 
-            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
-                Decrypter.DecryptString(holdAccess, encryptionKey, iv),
-                Decrypter.DecryptString(holdSecret, encryptionKey, iv)
-            );
+            //var holdAccess = Environment.GetEnvironmentVariable("ENCRYPTED_ACCESS_KEY");
+
+            //var holdSecret = Environment.GetEnvironmentVariable("ENCRYPTED_SECRET_KEY");
+
+            //if (holdAccess == null || holdSecret == null || encryptionKey == null || iv == null || url == null)
+            //    throw new InvalidOperationException("environment variable not set.");
+
+            //awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
+            //    Decrypter.DecryptString(holdAccess, encryptionKey, iv),
+            //    Decrypter.DecryptString(holdSecret, encryptionKey, iv)
+            //);
             //awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
 
-            services.AddDefaultAWSOptions(awsOptions);
+            //services.AddDefaultAWSOptions(awsOptions);
+
+            //Den day
 
             services.AddAWSService<IAmazonS3>();
 

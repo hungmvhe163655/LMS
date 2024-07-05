@@ -9,10 +9,10 @@ namespace Entities.Models
     public class Member
     {
         public Guid ProjectId { get; set; }
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         public bool IsLeader { get; set; }
-        public virtual Project Project { get; set; }
-        public virtual Account User { get; set; }
+        public virtual Project? Project { get; set; }
+        public virtual Account? User { get; set; }
     }
 
 }

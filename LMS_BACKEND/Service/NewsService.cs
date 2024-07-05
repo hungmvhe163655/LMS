@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces;
+using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 
 namespace Service
@@ -21,30 +24,23 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateNews(NewsRequestCreateModel newsModel)
+        public async Task<bool> CreateNewsAsync(CreateNewsRequestModel model)
         {
             try
             {
-                News news = _mapper.Map<News>(newsModel);
-
-                await _repository.news.CreateAsync(news);
-
-                return true;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public async Task<bool> DeleteNews(int id)
-        {
-            try
-            {
-                News news = _repository.news.GetByCondition(x => x.Id.Equals(id), false).First();
-                if (news != null)
+                var users = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(model.CreatedBy), true);
+                var user = users.FirstOrDefault();
+                if (user != null && model.Title != null)
                 {
-                    _repository.news.Delete(news);
+                    await _repository.news.CreateAsync(new News
+                    {
+                        Id = Guid.NewGuid(),
+                        Content = model.Content,
+                        Title = model.Title,
+                        CreatedDate = model.CreatedDate,
+                        CreatedBy = user.Id ?? ""
+                    });
+                    await _repository.Save();
                     return true;
                 }
                 return false;
@@ -55,18 +51,37 @@ namespace Service
             }
         }
 
-        public async Task<IEnumerable<NewsReponse>> GetNews(NewsRequestGetListsModel newsRequestGetLists)
+        public async Task DeleteNews(Guid id)
+        {
+            var newses = _repository.news.GetByCondition(entity => entity.Id.Equals(id), false);
+            var news = newses.First();
+            if (news == null) 
+                throw new BadRequestException("News wth id: "+ id + "doesn't exist");
+            _repository.news.Delete(news);
+            await _repository.Save();
+        }
+
+        public async Task<(IEnumerable<NewsReponseModel> news, MetaData metaData)> GetNewsAsync(NewsRequestParameters newsParameter, bool trackChanges)
+        {
+            var newsFromDb = await _repository.news.GetNewsAsync(newsParameter, trackChanges);
+            foreach (var news in newsFromDb)
+            {
+                var hold = await _repository.account.GetByConditionAsync(a => a.Id.Equals(news.CreatedBy), false);
+                var account = hold.FirstOrDefault();
+                if (account == null) throw new BadRequestException("");
+                news.CreatedBy = account.FullName != null ? account.FullName : account.Email;
+            }
+            var newsDto = _mapper.Map<IEnumerable<NewsReponseModel>>(newsFromDb);
+            return (news: newsDto, metaData: newsFromDb.MetaData);
+        }
+
+        public async Task<NewsReponseModel> GetNewsById(Guid id)
         {
             try
             {
-                IEnumerable<News> news = (IEnumerable<News>)_repository.news.FindAllAsync(true);
-                if (!String.IsNullOrEmpty(newsRequestGetLists.title))
-                {
-                    news = news.Where(x => x.Title.ToLower().Trim() == newsRequestGetLists.title.ToLower().Trim());
-                }
-                IEnumerable<NewsReponse> newsReponses = _mapper.Map<IEnumerable<NewsReponse>>(news);
-
-                return newsReponses.Skip((newsRequestGetLists.pageIndex - 1) * newsRequestGetLists.pageSize).Take(newsRequestGetLists.pageSize).ToList();
+                var news = await _repository.news.GetByConditionAsync(news => news.Id.Equals(id), false);
+                if (news == null) throw new BadRequestException("Can't found news with id " + id);
+                return _mapper.Map<NewsReponseModel>(news.First());
             }
             catch
             {
@@ -74,45 +89,16 @@ namespace Service
             }
         }
 
-        public async Task<NewsReponse> GetNewsDetail(int id)
+        public async Task UpdateNews(Guid newsId, UpdateNewsRequestModel model)
         {
-            try
-            {
-                News news = _repository.news.GetByCondition(x => x.Id.Equals(id), false).First();
-                if (news != null)
-                {
-                    NewsReponse newsReponse = _mapper.Map<NewsReponse>(news);
+            var hold = _repository.news.GetNews(newsId, true);
+            if (hold == null) throw new BadRequestException("News with id: " + newsId + " is not exist");
+            //updateNews.Content = model.Content;
+            //updateNews.Title = model.Title;
 
-                    return newsReponse;
-                }
-                return null;
-            }
-            catch
-            {
-                throw;
-            }
+            _mapper.Map(model, hold);
+            await _repository.Save();
         }
 
-        public async Task<bool> UpdateNews(NewsRequestUpdateModel news)
-        {
-            try
-            {
-                News newsUpdate = _repository.news.GetByCondition(x => x.Id.Equals(news.Id), false).First();
-                if (news != null)
-                {
-                    newsUpdate.Title = news.Title;
-                    newsUpdate.Content = news.Content;
-
-                    _repository.news.Update(newsUpdate);
-
-                    return true;
-                }
-                return false;
-            }
-            catch
-            {
-                throw;
-            }
-        }
     }
 }

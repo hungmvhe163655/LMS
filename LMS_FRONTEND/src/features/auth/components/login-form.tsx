@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { Link } from '@/components/app/link';
 import { PasswordInput } from '@/components/app/password';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/card';
@@ -14,33 +15,25 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Link } from '@/components/ui/link';
+import { loginInputSchema, useLogin } from '@/lib/auth';
 
 // FormSchema and Validation
-const FormSchema = z.object({
-  emailOrRoll: z.string().min(6, {
-    message: 'Email or roll number must have more than 6 characters' // This will be shown using FormMessage
-  }),
-  password: z.string().min(6, { message: 'Password must have more than 6 characters' })
-});
 
-// LoginForm component
 function LoginForm() {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const login = useLogin();
+
+  const form = useForm<z.infer<typeof loginInputSchema>>({
+    resolver: zodResolver(loginInputSchema),
     defaultValues: {
-      emailOrRoll: '',
+      email: '',
       password: ''
     }
   });
 
-  // onSubmit
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-    // Submit Logic
+  function onSubmit(data: z.infer<typeof loginInputSchema>) {
+    login.mutate(data);
   }
 
-  // HTML?
   return (
     <Card>
       <CardHeader className='px-6 py-4'>
@@ -52,16 +45,12 @@ function LoginForm() {
             {/* Email or Roll Number Input Field */}
             <FormField
               control={form.control}
-              name='emailOrRoll'
+              name='email'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email Or Roll Number</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder='yourname@fpt.edu.vn or HE123456'
-                      {...field}
-                      autoComplete='email'
-                    />
+                    <Input placeholder='Email' {...field} autoComplete='email' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -75,7 +64,7 @@ function LoginForm() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <PasswordInput {...field} />
+                    <PasswordInput {...field} placeholder='Password' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
