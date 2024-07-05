@@ -12,8 +12,10 @@ namespace Repository
         {
         }
 
-        public News GetNewsById(Guid id, bool trackChanges) => GetByCondition(n => n.Id.Equals(id), trackChanges)
-            .SingleOrDefault();
+        public News GetNews(Guid id, bool trackChanges)
+        {
+            return FindAll(trackChanges).Where(n => n.Id.Equals(id)).First();
+        }
 
         public async Task<PagedList<News>> GetNewsAsync(NewsRequestParameters parameters, bool trackChanges)
         {

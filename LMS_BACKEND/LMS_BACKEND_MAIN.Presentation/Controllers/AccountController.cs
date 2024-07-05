@@ -1,6 +1,7 @@
 
 using Entities.Models;
-using LMS_BACKEND_MAIN.Presentation.ActionFilters;
+using LMS_BACKEND_MAIN.Presentation.Attributes;
+using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
-    [Route("api/accounts")]
+    [Route(APIs.AccountAPI)]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -28,10 +29,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = service;
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "LabAdmin")]
-        [HttpPost]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
+        [HttpPost(RoutesAPI.CreateAdmin)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> RegisterLabLead([FromBody] RegisterRequestModel model)
+        public async Task<IActionResult> CreateAdmin([FromBody] RegisterRequestModel model)
         {
             var result = await _service.AuthenticationService.RegisterLabLead(model);
 
@@ -41,23 +42,17 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
 
-        [HttpGet("accounts/{role}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "LabAdmin")]
+        [HttpGet(RoutesAPI.GetUsers)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
         public async Task<IActionResult> GetUsers(string role)
         {
-
             var hold = await _service.AccountService.GetUserByRole(role.ToUpper());
 
-            if (hold != null)
-            {
-                return Ok(hold.Where(x => x.IsVerified = true));
-            }
-
-            return NotFound(new ResponseMessage { Message = "Not found any user!" });
+            return Ok(hold);
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Supervisor")]
-        [HttpGet("need-verified")]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
+        [HttpGet(RoutesAPI.GetAccountNeedVerified)]
         public IActionResult GetAccountNeedVerified(string email)
         {
             var user =
@@ -65,8 +60,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new { Status = "success", Value = user });
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Supervisor")]
-        [HttpPost("verify-account")]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        [HttpPost(RoutesAPI.UpdateAccountVerifyStatus)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateAccountVerifyStatus([FromBody] UpdateVerifyStatusRequestModel model)
         {
@@ -82,9 +77,18 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             await _service.AccountService.UpdateAccountVerifyStatus(hold, model.verifierID);
             return Ok(new ResponseMessage { Message = "Update User " + user.FullName + " Status Successully" });
         }
-
-        [HttpPost("change-password")]
+        [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = "Bearer")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> GetAccountDetail(string id)
+        {
+            var data = await _service.AccountService.GetAccountDetail(id);
+            return Ok(new { Status = "success", Value = data });
+        }
+
+
+        [HttpPost(RoutesAPI.ChangePassword)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestModel model)
         {
@@ -92,25 +96,46 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "Change Password Successully" });
         }
 
-        /*[HttpPut("change-phone-number")]
-        //[Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> ChangeEmail([FromBody] ChangePhoneNumberRequestModel model)
-        {
-            if (await _service.AccountService.ChangePasswordAsync(model.UserID, model.OldPassword, model.NewPassword))
-            {
-                return Ok(new ResponseObjectModel { Status = "success", Code = 200", Value = "Change Password Successully" });
-            }           
-        }*/
-
-        [HttpPut("{userid:guid}")]
+        [HttpPost(RoutesAPI.ChangeEmail)]
+        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        //[Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> UpdateProfile(string userId, [FromBody] UpdateProfileRequestModel model)
+        public async Task<IActionResult> ChangeEmail(string id, [FromBody] ChangeEmailRequestModel model)
         {
-            if(model is null) return BadRequest("Update Profile is null");
-            await _service.AccountService.UpdateProfileAsync(userId, model);
-            return Ok(new ResponseMessage { Message = "Update Profile Successully" });
+            //var hold = await _service.AccountService.GetUserById(id);
+            //var email = hold.Email;
+            //if (await _service.MailService.SendOTP(email, "ChangeEmailKey"))
+            //{
+            //    return Ok(new ResponseMessage { Message = "OTP SENT TO USER EMAIL" });
+            //}
+            //return BadRequest(new ResponseMessage { Message = "Invalid email" });
+            await _service.AccountService.ChangeEmailAsync(id, model);
+            return Ok(new ResponseMessage { Message = "Change email Successully" });
+        }
 
+        //[HttpPost(RoutesAPI.ChangeEmailOtp)]
+        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        //[ServiceFilter(typeof(ValidationFilterAttribute))]
+        //public async Task<IActionResult> ChangeEmailOtp(string id, [FromBody] ChangeEmailRequestModel model)
+        //{
+        //    var hold = await _service.AccountService.GetUserById(id);
+        //    var email = hold.Email;
+        //    if (await _service.MailService.VerifyOtp(email, model.VerifyCode, "ChangeEmailKey"))
+        //    {
+
+        //        return Ok(new ResponseMessage { Message = "Change email successfully" });
+        //    }
+        //    return BadRequest(new ResponseMessage { Message = "User not found or wrong verify code" });
+        //}
+
+        [HttpPut("{id}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ResponseCache(Duration = 60)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        public async Task<IActionResult> UpdateProfile(string id, [FromBody] UpdateProfileRequestModel model)
+        {
+            await _service.AccountService.UpdateProfileAsync(id, model);
+
+            return Ok(new ResponseMessage { Message = "Update Profile Successully" });
         }
     }
 }

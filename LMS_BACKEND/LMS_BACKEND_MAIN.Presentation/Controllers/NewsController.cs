@@ -23,10 +23,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         //[Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetNewsAsync([FromQuery] NewsRequestParameters newsParameters)
         {
-            var news = await _service.NewsService.GetNewsAsync(newsParameters, trackChanges: false);
+            var pageResult = await _service.NewsService.GetNewsAsync(newsParameters, trackChanges: false);
 
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(news.metaData));
-            return Ok(new { Status = "success", Value = news });
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
+            return Ok(pageResult.news);
         }
 
         [HttpGet("{id}")]
@@ -47,19 +47,19 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpPut("{newsid:guid}")]
         //[Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Update(Guid newsId, UpdateNewsRequestModel model)
+        public async Task<IActionResult> Update(Guid newsId, UpdateNewsRequestModel model)
         {
-                _service.NewsService.UpdateNews(newsId, model);
+                await _service.NewsService.UpdateNews(newsId, model);
                 return Ok(new { Status = "success", Value = "Update successfully" });
         }
 
 
         [HttpDelete("{newsid:guid}")]
         //[Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Delete(Guid newsId)
+        public async Task<IActionResult> Delete(Guid newsId)
         {
-                var data = _service.NewsService.DeleteNewsAsync(newsId);
-                return Ok(new { Status = "success", Value = data });
+                await _service.NewsService.DeleteNews(newsId);
+                return Ok(new { Status = "success", Value = "Delete successfully" });
         }
 
     }

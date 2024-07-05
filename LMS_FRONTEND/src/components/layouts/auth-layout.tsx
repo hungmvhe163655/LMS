@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { Head } from '@/components/seo';
-
 import { BaseLayout } from './base-layout';
+
+import { Head } from '@/components/seo';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ export function Layout({ children, title }: LayoutProps) {
           <h2 className='mt-1 text-center text-3xl font-extrabold text-gray-900'>{title}</h2>
         </div>
 
-        <div className='mt-5 sm:mx-auto sm:w-full sm:max-w-md'>{children}</div>
+        <div className='mt-5 w-full sm:mx-auto sm:max-w-md'>{children}</div>
       </div>
     </BaseLayout>
   );
