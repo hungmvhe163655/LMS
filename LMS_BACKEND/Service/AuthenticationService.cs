@@ -87,6 +87,7 @@ namespace Service
                     user.EmailConfirmed = true;
 
                     var result = await _userManager.UpdateAsync(user);
+
                     if (!result.Succeeded) throw new Exception("Internal Error");
 
                     return true;
@@ -365,9 +366,9 @@ namespace Service
             {
                 var user = await _userManager.FindByNameAsync(principal.Identity.Name);
 
-                if (user == null || user.UserRefreshToken != tokenDto.RefreshToken ||
-                user.UserRefreshTokenExpiryTime <= DateTime.Now)
+                if (user == null || user.UserRefreshToken != tokenDto.RefreshToken || user.UserRefreshTokenExpiryTime <= DateTime.Now)
                     return new TokenDTO("Not Found", "Not Found");
+
                 _account = user;
 
                 return await CreateToken(false);
@@ -385,6 +386,7 @@ namespace Service
                 var user = await _userManager.FindByNameAsync(principal.Identity.Name);
 
                 if (user == null) { return false; }
+
                 user.UserRefreshToken = null;
 
                 user.UserRefreshTokenExpiryTime = DateTime.MinValue;
