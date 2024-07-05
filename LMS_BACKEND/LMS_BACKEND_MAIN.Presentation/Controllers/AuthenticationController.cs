@@ -108,6 +108,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
                 return Ok(new { TOKEN = Tokendto, User = model });
             }
+            if(outcome.Split("|")[0].Equals("ISBANNED"))
+            {
+                return StatusCode(406, new ResponseMessage { Message = outcome });
+            }
             return Unauthorized(new ResponseMessage { Message = outcome });
         }
 
