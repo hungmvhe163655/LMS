@@ -10,10 +10,10 @@ type LayoutProps = {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <BaseLayout>
-      <ProtectedRoute>
+    <ProtectedRoute>
+      <BaseLayout>
         <div className='mt-5 w-full p-10'>{children}</div>
-      </ProtectedRoute>
-    </BaseLayout>
+      </BaseLayout>
+    </ProtectedRoute>
   );
 }

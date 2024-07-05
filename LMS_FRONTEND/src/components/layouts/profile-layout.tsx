@@ -33,15 +33,15 @@ const sidebarItems: SidebarNavItem[] = [
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <BaseLayout>
-      <ProtectedRoute>
+    <ProtectedRoute>
+      <BaseLayout>
         <div className='flex min-h-screen bg-gray-50'>
           <div className='w-64 bg-white p-4 shadow'>
             <SidebarNav items={sidebarItems} />
           </div>
           <div className='mt-8 w-full'>{children}</div>
         </div>
-      </ProtectedRoute>
-    </BaseLayout>
+      </BaseLayout>
+    </ProtectedRoute>
   );
 }

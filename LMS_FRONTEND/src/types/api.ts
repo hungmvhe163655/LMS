@@ -33,10 +33,12 @@ export type QueryParams = {
   PageSize?: number;
 };
 
+export type Token = {
+  accessToken: string;
+  refreshToken: string;
+};
+
 export type AuthResponse = {
-  token: {
-    accessToken: string;
-    refreshToken: string;
-  };
+  token: Token;
   user: User;
 };

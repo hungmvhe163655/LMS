@@ -1,5 +1,7 @@
 import Axios, { InternalAxiosRequestConfig } from 'axios';
 
+import { refreshToken } from './refresh-token';
+
 import { useToast } from '@/components/ui/use-toast';
 import { env } from '@/config/env';
 import { getAccessToken } from '@/utils/storage';
@@ -28,20 +30,42 @@ api.interceptors.response.use(
     return response;
   },
 
-  (error) => {
+  async (error) => {
+    // Chưa đăng nhập
+    if (error.response?.status === 401) {
+      const originalRequest = error.config;
+      const newAccessToken = await refreshToken();
+
+      // Nếu token được làm mới lại thì gửi lại Request
+      if (newAccessToken) {
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return api(originalRequest);
+      }
+
+      const searchParams = new URLSearchParams();
+      const redirectTo = searchParams.get('redirectTo');
+      window.location.href = `/auth/login?redirectTo=${redirectTo}`;
+      return Promise.reject(error);
+    }
+
     const message = error.response?.data?.message || error.message;
     const { toast } = useToast();
+
     toast({
       variant: 'destructive',
       description: message
     });
 
-    if (error.response?.status === 401) {
-      const searchParams = new URLSearchParams();
-      const redirectTo = searchParams.get('redirectTo');
-      window.location.href = `/auth/login?redirectTo=${redirectTo}`;
+    // Không có quyền truy cập
+    if (error.response?.status === 403) {
+      window.location.href = `/error/forbidden`;
+      return Promise.reject(error);
     }
 
-    return Promise.reject(error);
+    // Tài khoản bị khóa
+    if (error.response?.status === 406) {
+      window.location.href = `/error/ban-account`;
+      return Promise.reject(error);
+    }
   }
 );
