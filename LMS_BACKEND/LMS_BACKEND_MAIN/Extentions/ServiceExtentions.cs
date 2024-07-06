@@ -145,7 +145,7 @@ namespace LMS_BACKEND_MAIN.Extentions
                     {
                     validationOpt.MustRevalidate = true;
                     });
-public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
         {//nho chay app setup truoc khi release phai sua phan encryptionkey vaf iv nay
 
             //Comment dong code nay lai truoc khi build app

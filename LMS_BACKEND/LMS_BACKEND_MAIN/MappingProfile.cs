@@ -42,6 +42,13 @@ namespace LMS_BACKEND_MAIN
                 .ForMember(dest => dest.IsBanned, op => op.MapFrom(src => src.IsBanned))
                 .ForMember(dest => dest.IsDeleted, op => op.MapFrom(src => src.IsDeleted))
                 .ReverseMap();
+            CreateMap<Device, DeviceReturnModel>().ReverseMap();
+            CreateMap<Schedule, ScheduleRequestModel>()
+                .ReverseMap();
+            CreateMap<Schedule, ScheduleResponseModel>()
+                .ForMember(dest => dest.Account, op => op.MapFrom(src => src.Account))
+                .ForMember(dest => dest.Device, op => op.MapFrom(src => src.Device));
+            CreateMap<Schedule, ScheduleCreateRequestModel>().ReverseMap();
 
         }
     }
