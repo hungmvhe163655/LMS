@@ -262,7 +262,8 @@ namespace Repository
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
                     .HasColumnName("Id");
-                entity.Property(e => e.Content).HasColumnName("Content");
+                entity.Property(e => e.Content).HasColumnName("Content")
+                .IsUnicode();
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.Title)
