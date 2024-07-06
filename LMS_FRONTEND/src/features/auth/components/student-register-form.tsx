@@ -6,6 +6,9 @@ import { FaChalkboardTeacher } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 
+import { useRegister } from '../utils/register';
+import { registerInputSchema } from '../utils/schema';
+
 import { Link } from '@/components/app/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -29,7 +32,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { registerInputSchema, useRegister } from '@/lib/auth';
 import { cn } from '@/lib/utils';
 
 // Waiting for  API
@@ -49,7 +51,7 @@ const supervisors = [
 ] as const;
 
 const StudentRegisterForm: React.FC = () => {
-  const registering = useRegister();
+  const { isLoading, register } = useRegister();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
 
@@ -76,7 +78,7 @@ const StudentRegisterForm: React.FC = () => {
   });
 
   function onSubmit(data: z.infer<typeof registerSchema>) {
-    registering.mutate(data);
+    register(data);
   }
 
   return (
@@ -231,8 +233,8 @@ const StudentRegisterForm: React.FC = () => {
                 </Link>
               </label>
             </div>
-            <Button type='submit' className='w-full'>
-              Register
+            <Button type='submit' className='w-full' disabled={isLoading}>
+              {isLoading ? 'Registering...' : 'Register'}
             </Button>
           </form>
         </Form>

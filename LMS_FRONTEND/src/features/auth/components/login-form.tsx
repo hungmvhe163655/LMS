@@ -2,6 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { useLogin } from '../utils/login';
+import { loginInputSchema } from '../utils/schema';
+
 import { Link } from '@/components/app/link';
 import { PasswordInput } from '@/components/app/password';
 import { Button } from '@/components/ui/button';
@@ -15,16 +18,9 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { loginInputSchema, useLogin } from '@/lib/auth';
-import { User } from '@/types/api';
 
-// FormSchema and Validation
-type LoginFormProps = {
-  onSuccess: (data: User | undefined) => void;
-};
-
-export const LoginForm = ({ onSuccess }: LoginFormProps) => {
-  const login = useLogin({ onSuccess });
+export const LoginForm = () => {
+  const { isLoading, login } = useLogin();
 
   const form = useForm<z.infer<typeof loginInputSchema>>({
     resolver: zodResolver(loginInputSchema),
@@ -35,7 +31,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   });
 
   function onSubmit(data: z.infer<typeof loginInputSchema>) {
-    login.mutate(data);
+    login(data);
   }
 
   return (
@@ -74,8 +70,8 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
                 </FormItem>
               )}
             />
-            <Button type='submit' className='w-full' disabled={login.isPending}>
-              {login.isPending ? 'Logging in...' : 'Login'}
+            <Button type='submit' className='w-full' disabled={isLoading}>
+              {isLoading ? 'Logging in...' : 'Login'}
             </Button>
           </form>
         </Form>

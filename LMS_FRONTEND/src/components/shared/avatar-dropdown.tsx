@@ -12,21 +12,17 @@ import {
   DropdownMenuTrigger
 } from '../ui/dropdown-menu';
 
-import { useLogout } from '@/lib/auth';
+import { useLogout } from '@/utils/logout';
 
-interface AvatarDropdownProps {
-  avatarName: string;
-}
-
-export function AvatarDropdown({ avatarName }: AvatarDropdownProps) {
+export function AvatarDropdown() {
   const navigate = useNavigate();
-  const logout = useLogout();
+  const { isLoading, logout } = useLogout();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar>
-          <AvatarFallback className='cursor-pointer text-lg font-bold'>{avatarName}</AvatarFallback>
+          <AvatarFallback className='cursor-pointer text-lg font-bold'>VH</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='mr-8 w-56'>
@@ -44,7 +40,13 @@ export function AvatarDropdown({ avatarName }: AvatarDropdownProps) {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem onSelect={() => logout.mutate({})}>
+        <DropdownMenuItem
+          onSelect={() => {
+            if (!isLoading) {
+              logout();
+            }
+          }}
+        >
           <LogOut className='mr-2 size-4' />
           <span>Log out</span>
         </DropdownMenuItem>
