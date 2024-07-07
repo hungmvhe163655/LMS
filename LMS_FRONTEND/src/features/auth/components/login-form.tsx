@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { useLogin } from '../utils/login';
+import { useLogin } from '../api/use-login';
 import { loginInputSchema } from '../utils/schema';
 
 import { Link } from '@/components/app/link';

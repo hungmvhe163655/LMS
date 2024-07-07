@@ -6,7 +6,7 @@ import { FaChalkboardTeacher } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 
-import { useRegister } from '../utils/register';
+import { useRegister } from '../api/use-register';
 import { registerInputSchema } from '../utils/schema';
 
 import { Link } from '@/components/app/link';

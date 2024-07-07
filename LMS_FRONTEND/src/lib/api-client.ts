@@ -31,7 +31,7 @@ api.interceptors.response.use(
   },
 
   async (error) => {
-    const message = error.response?.data?.message || error.message;
+    const message = error.response?.data?.Message || error.message;
     toast({
       variant: 'destructive',
       description: message
@@ -53,19 +53,18 @@ api.interceptors.response.use(
       if (redirectTo) {
         window.location.href = `/auth/login?redirectTo=${redirectTo}`;
       }
-      return Promise.reject(error);
     }
 
     // Không có quyền truy cập
     if (error.response?.status === 403) {
       window.location.href = `/error/forbidden`;
-      return Promise.reject(error);
     }
 
     // Tài khoản bị khóa
     if (error.response?.status === 406) {
       window.location.href = `/error/ban-account`;
-      return Promise.reject(error);
     }
+
+    return Promise.reject(error);
   }
 );

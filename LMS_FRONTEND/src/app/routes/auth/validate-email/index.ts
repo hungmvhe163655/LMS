@@ -1,5 +1,5 @@
 const ValidateEmailRoute = {
-  path: 'email',
+  path: 'validate-email',
   lazy: async () => {
     const { ValidateEmailPage: ValidateEmailPage } = await import('./validate-email-page');
     return { Component: ValidateEmailPage };

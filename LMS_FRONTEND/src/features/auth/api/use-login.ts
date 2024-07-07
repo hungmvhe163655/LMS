@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { LoginInput } from './schema';
+import { LoginInput } from '../utils/schema';
 
 import { api } from '@/lib/api-client';
 import { AuthResponse } from '@/types/api';
