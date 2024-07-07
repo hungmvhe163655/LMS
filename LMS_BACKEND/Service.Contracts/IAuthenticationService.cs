@@ -15,7 +15,7 @@ namespace Service.Contracts
     public interface IAuthenticationService
     {
         Task<AccountReturnModel> Register(RegisterRequestModel model);
-        Task<bool> VerifyEmail(string email, string token);
+        //Task<bool> VerifyEmail(string email, string token);
         Task<AccountReturnModel> RegisterLabLead(RegisterRequestModel model);
         Task<string> ValidateUser(LoginRequestModel loginRequestModel);
         Task<string> CreateToken();
