@@ -55,6 +55,21 @@ namespace Service
         {
             return $"{email}_verifyEmail";
         }
+        private bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                var mailAddress = new MailAddress(email);
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
         public async Task<bool> SendOTP(string email, string keymode)
         {
             try
@@ -79,7 +94,8 @@ namespace Service
         public async Task<bool> VerifyOtp(string email, string token, string keymode)
         {
 
-            if (email == null) throw new ArgumentNullException(nameof(Account));
+            if (email == null||!IsValidEmail(email)) throw new ArgumentNullException(nameof(Account));
+
             if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
             try
             {
@@ -103,7 +119,8 @@ namespace Service
         public async Task<bool> VerifyTwoFactorOtp(string email, string token)
         {
 
-            if (email == null) throw new ArgumentNullException(nameof(Account));
+            if (email == null || !IsValidEmail(email)) throw new ArgumentNullException(nameof(Account));
+
             if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
             try
             {
@@ -143,6 +160,8 @@ namespace Service
         }
         public async Task<bool> SendVerifyEmailOtp(string email)
         {
+            if (email == null || !IsValidEmail(email)) throw new ArgumentNullException(nameof(Account));
+
             var hold_user = await _userManager.FindByEmailAsync(email);
 
             if (hold_user != null) throw new BadRequestException("Email is already existed");
@@ -155,7 +174,7 @@ namespace Service
         }
         public bool VerifyEmailOtp(string email, string AuCode)
         {
-            if (email == null) throw new ArgumentNullException(nameof(Account));
+            if (email == null || !IsValidEmail(email)) throw new ArgumentNullException(nameof(Account));
 
             if (string.IsNullOrWhiteSpace(AuCode)) throw new ArgumentNullException(nameof(AuCode));
 
