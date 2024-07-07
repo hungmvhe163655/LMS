@@ -23,37 +23,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = serviceManager;
         }
 
-        [HttpPut(RoutesAPI.ReSendVerifyEmail)]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> ReSendVerifyEmail([FromBody] MailRequestModel model)
-        {
-            if (await _service.MailService.SendVerifyOtp(model.Email))
-            {
-                return Ok(new ResponseMessage { Message = "A Verify Code Has Been Sent to Your Email" });
-            }
-
-            return BadRequest(new ResponseMessage { Message = "Something Went Wrong!" });
-        }
-
-        [HttpPut(RoutesAPI.VerifyEmail)]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> VerifyEmail([FromBody] MailRequestModel model)
-        {
-            if (await _service.AuthenticationService.VerifyEmail(model.Email, model.AuCode))
-            {
-                return Ok(model.Email);
-            }
-
-            return BadRequest(new ResponseMessage { Message = "Invalid Token" });
-        }
-
         [HttpPost(RoutesAPI.RegisterSupervisor)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterSupervisor([FromBody] RegisterRequestModel model)
         {
             _ = await _service.AuthenticationService.Register(model);
-
-            await _service.MailService.SendVerifyOtp(model.Email);
 
             var user = await _service.AccountService.GetUserByEmail(model.Email);
 
@@ -65,8 +39,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> RegisterStudent([FromBody] RegisterRequestModel model)
         {
             _ = await _service.AuthenticationService.Register(model);
-
-            await _service.MailService.SendVerifyOtp(model.Email);
 
             var user = await _service.AccountService.GetUserByEmail(model.Email);
 
@@ -108,7 +80,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
                 return Ok(new { TOKEN = Tokendto, User = model });
             }
-            if(outcome.Split("|")[0].Equals("ISBANNED"))
+            if (outcome.Split("|")[0].Equals("ISBANNED"))
             {
                 return StatusCode(406, new ResponseMessage { Message = outcome });
             }
@@ -162,6 +134,43 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 return Ok(model.Email);
             }
             return BadRequest(new ResponseMessage { Message = "User not found or wrong verify code" });
+        }
+
+        [HttpPost(RoutesAPI.VerifyEmailSend)]
+        public async Task<IActionResult> VerifyEmailSend(string email)
+        {
+            var hold = await _service.AccountService.GetUserByEmail(email);
+
+            if (hold != null) throw new BadRequestException("Email is already existed");
+
+            return Ok(hold);
+
+        }
+        /*
+        [HttpPut(RoutesAPI.ReSendVerifyEmail)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> ReSendVerifyEmail([FromBody] MailRequestModel model)
+        {
+            if (await _service.MailService.SendVerifyOtp(model.Email))
+            {
+                return Ok(new ResponseMessage { Message = "A Verify Code Has Been Sent to Your Email" });
+            }
+
+            return BadRequest(new ResponseMessage { Message = "Something Went Wrong!" });
+        }
+        */
+        [HttpPut(RoutesAPI.VerifyEmail)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> VerifyEmail([FromBody] MailRequestModel model)
+        {
+            if (await _service.AccountService.GetUserByEmail(model.Email) != null) throw new BadRequestException("User is already existed");
+
+            if (_service.MailService.VerifyEmailOtp(model.Email, model.AuCode))
+            {
+                return Ok(model.Email);
+            }
+
+            return BadRequest(new ResponseMessage { Message = "Invalid Token" });
         }
 
         [HttpGet(RoutesAPI.GetCurrentLoggedInUser)]

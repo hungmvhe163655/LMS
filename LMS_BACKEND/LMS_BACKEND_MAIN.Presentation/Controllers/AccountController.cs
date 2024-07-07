@@ -36,8 +36,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var result = await _service.AuthenticationService.RegisterLabLead(model);
 
-            await _service.MailService.SendVerifyOtp(model.Email ?? "");
-
             return StatusCode(201, result);
         }
 

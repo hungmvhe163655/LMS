@@ -32,6 +32,8 @@
     {
         #region AuthenticationAPIs
 
+        public const string VerifyEmailSend = "verify-email-send/{email}";
+
         public const string GetCurrentLoggedInUser = "me";
 
         public const string ForgotPasswordOtp = "forgot-password-otp";
