@@ -55,7 +55,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var user =
             _service.AccountService.GetVerifierAccounts(email);
-            return Ok(new { Status = "success", Value = user });
+            return Ok(user);
         }
 
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
@@ -76,8 +76,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "Update User " + user.FullName + " Status Successully" });
         }
         [HttpGet("{id}")]
-        //[Authorize(AuthenticationSchemes = "Bearer")]
-        //[ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> GetAccountDetail(string id)
         {
             var data = await _service.AccountService.GetAccountDetail(id);
