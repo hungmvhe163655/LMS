@@ -60,36 +60,29 @@ namespace Service
         }
         public async Task<AccountDetailResponseModel> GetAccountDetail(string userId)
         {
-            var hold = new AccountDetailResponseModel();
             var account = await _repository.account.GetByCondition(entity => entity.Id.Equals(userId), false).FirstAsync();
             if (account == null) throw new BadRequestException($"{nameof(account)} is not valid");
             if (account.Email == null) throw new BadRequestException($"{nameof(account.Email)} is not valid");
+
             var checkRole = await _userManager.GetRolesAsync(account);
             var roleName = checkRole.FirstOrDefault();
             if (roleName == null) throw new BadRequestException($"{roleName} is not valid");
+
+            var hold = _mapper.Map<AccountDetailResponseModel>(account);
+            hold.Role = roleName;
+
             if (roleName.ToUpper().Equals("STUDENT"))
             {
-                var studentDetail = await _repository.studentDetail.
-                    GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), false);
+                var studentDetail = await _repository.studentDetail
+                    .GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), false);
                 var detail = studentDetail.FirstOrDefault();
 
-                hold.Id = account.Id;
-                hold.FullName = account.FullName;
-                hold.Role = roleName;
-                hold.Email = account.Email;
-                hold.PhoneNumber = account.PhoneNumber ?? "";
-                hold.RollNumber = detail.RollNumber ?? "";
-                hold.Major = detail.Major ?? "";
-                hold.Specialized = detail.Specialized ?? "";
+                if (detail != null)
+                {
+                    _mapper.Map(detail, hold);
+                }
             }
-            else 
-            {
-                hold.Id = account.Id;
-                hold.FullName = account.FullName;
-                hold.Role = roleName;
-                hold.Email = account.Email;
-                hold.PhoneNumber = account.PhoneNumber ?? "";
-            }      
+
             return hold;
         }
 
@@ -173,6 +166,7 @@ namespace Service
                     studentDetail.Specialized = model.Specialized;
                     _repository.studentDetail.Update(studentDetail);
                 }
+                account.Gender = model.Gender.Equals("Male") ? true : false ;
                 account.FullName = model.FullName;
                 _repository.account.Update(account);
                 await _repository.Save();
