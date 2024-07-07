@@ -137,11 +137,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpPost(RoutesAPI.VerifyEmailSend)]
-        public async Task<IActionResult> VerifyEmailSend(string email)
+        public async Task<IActionResult> VerifyEmailSend([FromBody]MailVerifyRequestModel model)
         {
-            await _service.MailService.SendVerifyEmailOtp(email);
+            var hold = await _service.AccountService.GetUserByEmail(model.Email);
+
+            if (hold != null) throw new BadRequestException("Email is already existed");
 
             return Ok(new ResponseMessage { Message = "A Verify Code Has Been Sent to Your Email" });
+
         }
         /*
         [HttpPut(RoutesAPI.ReSendVerifyEmail)]
