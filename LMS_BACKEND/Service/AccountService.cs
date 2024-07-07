@@ -4,6 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
@@ -39,6 +40,8 @@ namespace Service
         public async Task<AccountReturnModel> GetUserByEmail(string email)
         {
             var end = await _repository.account.GetByConditionAsync(entity => entity.Email.Equals(email) && entity.IsVerified, false);
+
+            if (end.IsNullOrEmpty()) return _mapper.Map<AccountReturnModel>(end.FirstOrDefault()); 
 
             var hold = await _userManager.GetRolesAsync(end.First());
 

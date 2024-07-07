@@ -36,8 +36,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var result = await _service.AuthenticationService.RegisterLabLead(model);
 
-            await _service.MailService.SendVerifyOtp(model.Email ?? "");
-
             return StatusCode(201, result);
         }
 
@@ -82,8 +80,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         //[ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> GetAccountDetail(string id)
         {
-            var data = await _service.AccountService.GetAccountDetail(id);
-            return Ok(new { Status = "success", Value = data });
+            return Ok(new { Status = "success", Value = await _service.AccountService.GetAccountDetail(id)});
         }
 
 

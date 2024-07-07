@@ -69,7 +69,7 @@ namespace Service
 
             _repositoryManager = repositoryManager;
         }
-
+        /*
         public async Task<bool> VerifyEmail(string email, string token)
         {
             var user = await _userManager.FindByEmailAsync(email);
@@ -97,6 +97,7 @@ namespace Service
 
             return false;
         }
+        */
         public async Task<AccountReturnModel> Register(RegisterRequestModel model)
         {
             var user = _mapper.Map<Account>(model);
@@ -123,6 +124,8 @@ namespace Service
                 
             if (validRoles.Any())
             {
+                user.EmailConfirmed = true;
+
                 user.VerifiedBy = verifier.Id;
 
                 user.UserName = model.RollID ?? user.Id.ToString();
