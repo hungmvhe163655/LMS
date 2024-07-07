@@ -83,7 +83,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> GetAccountDetail(string id)
         {
             var data = await _service.AccountService.GetAccountDetail(id);
-            return Ok(new { Status = "success", Value = data });
+            return Ok(data);
         }
 
 

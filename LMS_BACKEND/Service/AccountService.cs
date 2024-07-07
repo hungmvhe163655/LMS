@@ -63,9 +63,10 @@ namespace Service
             var hold = new AccountDetailResponseModel();
             var account = await _repository.account.GetByCondition(entity => entity.Id.Equals(userId), false).FirstAsync();
             if (account == null) throw new BadRequestException($"{nameof(account)} is not valid");
+            if (account.Email == null) throw new BadRequestException($"{nameof(account.Email)} is not valid");
             var checkRole = await _userManager.GetRolesAsync(account);
-            if (checkRole == null) throw new BadRequestException($"{checkRole} is not valid");
             var roleName = checkRole.FirstOrDefault();
+            if (roleName == null) throw new BadRequestException($"{roleName} is not valid");
             if (roleName.ToUpper().Equals("STUDENT"))
             {
                 var studentDetail = await _repository.studentDetail.
@@ -76,10 +77,10 @@ namespace Service
                 hold.FullName = account.FullName;
                 hold.Role = roleName;
                 hold.Email = account.Email;
-                hold.PhoneNumber = account.PhoneNumber != null ? account.PhoneNumber : "";
-                hold.RollNumber = detail.RollNumber != null ? detail.RollNumber : "";
-                hold.Major = detail.Major != null ? detail.Major : "";
-                hold.Specialized = detail.Specialized != null ? detail.Specialized : "";
+                hold.PhoneNumber = account.PhoneNumber ?? "";
+                hold.RollNumber = detail.RollNumber ?? "";
+                hold.Major = detail.Major ?? "";
+                hold.Specialized = detail.Specialized ?? "";
             }
             else 
             {
@@ -87,7 +88,7 @@ namespace Service
                 hold.FullName = account.FullName;
                 hold.Role = roleName;
                 hold.Email = account.Email;
-                hold.PhoneNumber = account.PhoneNumber != null ? account.PhoneNumber : "";
+                hold.PhoneNumber = account.PhoneNumber ?? "";
             }      
             return hold;
         }
@@ -154,6 +155,10 @@ namespace Service
 
                 account.FullName = model.FullName;
 
+                var checkRole = await _userManager.GetRolesAsync(account);
+                var roleName = checkRole.FirstOrDefault();
+                if (roleName == null) throw new BadRequestException($"{roleName} is not valid");
+
                 var hold = await _repository.studentDetail.GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), true);
                 var studentDetail = hold.FirstOrDefault();
 
@@ -168,6 +173,7 @@ namespace Service
                     studentDetail.Specialized = model.Specialized;
                     _repository.studentDetail.Update(studentDetail);
                 }
+                account.FullName = model.FullName;
                 _repository.account.Update(account);
                 await _repository.Save();
             }
