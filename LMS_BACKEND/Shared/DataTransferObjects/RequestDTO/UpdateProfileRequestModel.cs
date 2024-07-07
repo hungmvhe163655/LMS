@@ -10,7 +10,7 @@ namespace Shared.DataTransferObjects.RequestDTO
     public class UpdateProfileRequestModel
     {
         public string FullName { get; set; } = null!;
-        //public string RollNumber { get; set; } = null!;
+        public bool Gender { get; set; } = true;
         public string Major { get; set; } = null!;
         public string Specialized { get; set; } = null!;
     }

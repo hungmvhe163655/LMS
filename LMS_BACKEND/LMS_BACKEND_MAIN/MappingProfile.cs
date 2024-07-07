@@ -35,6 +35,21 @@ namespace LMS_BACKEND_MAIN
             CreateMap<Files, FileResponseModel>()
                 .ForMember(dest => dest.FolderPath, otp => otp.Ignore()).ReverseMap();
             CreateMap<Files, FileEditRequestModel>().ReverseMap();
+            CreateMap<Account, AccountDetailResponseModel>()
+                .ForMember(dest => dest.RollNumber, opt => opt.Ignore())
+                .ForMember(dest => dest.Major, opt => opt.Ignore())
+                .ForMember(dest => dest.Specialized, opt => opt.Ignore())
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender ? "Male" : "Female"))
+                .ReverseMap()
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.Equals("Male", StringComparison.OrdinalIgnoreCase)));
+            CreateMap<StudentDetail, AccountDetailResponseModel>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.FullName, opt => opt.Ignore())
+                .ForMember(dest => dest.Gender, opt => opt.Ignore())
+                .ForMember(dest => dest.Role, opt => opt.Ignore())
+                .ForMember(dest => dest.Email, opt => opt.Ignore())
+                .ForMember(dest => dest.PhoneNumber, opt => opt.Ignore())
+                .ReverseMap();
             CreateMap<Account, AccountReturnModel>()
                 .ForMember(dest => dest.Id, op => op.MapFrom(src => src.Id))
                 .ForMember(dest => dest.PhoneNumber, op => op.MapFrom(src => src.PhoneNumber))
