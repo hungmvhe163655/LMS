@@ -32,7 +32,7 @@
     {
         #region AuthenticationAPIs
 
-        public const string VerifyEmailSend = "verify-email-send/{email}";
+        public const string VerifyEmailSend = "verify-email-send";
 
         public const string GetCurrentLoggedInUser = "me";
 
