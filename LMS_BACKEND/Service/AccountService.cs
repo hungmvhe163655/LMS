@@ -38,7 +38,7 @@ namespace Service
         // public async Task<Account> GetUserByEmail(string email) =>  _repository.account.GetByCondition(entity => entity.Email.Equals(email), false).FirstOrDefault();
         public async Task<AccountReturnModel> GetUserByEmail(string email)
         {
-            var end = await _repository.account.GetByConditionAsync(entity => entity.Email.Equals(email) && entity.IsVerified, false);
+            var end = await _repository.account.GetByConditionAsync(entity => entity.Email != null && entity.Email.Equals(email) && entity.IsVerified, false);
 
             var hold = await _userManager.GetRolesAsync(end.First());
 
