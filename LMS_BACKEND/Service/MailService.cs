@@ -94,7 +94,7 @@ namespace Service
         public async Task<bool> VerifyOtp(string email, string token, string keymode)
         {
 
-            if (email == null||!IsValidEmail(email)) throw new ArgumentNullException(nameof(Account));
+            if (email == null || !IsValidEmail(email)) throw new BadRequestException("Email is not valid");
 
             if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
             try
@@ -119,7 +119,7 @@ namespace Service
         public async Task<bool> VerifyTwoFactorOtp(string email, string token)
         {
 
-            if (email == null || !IsValidEmail(email)) throw new ArgumentNullException(nameof(Account));
+            if (email == null || !IsValidEmail(email)) throw new BadRequestException("Email is not valid");
 
             if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
             try
@@ -160,7 +160,7 @@ namespace Service
         }
         public async Task<bool> SendVerifyEmailOtp(string email)
         {
-            if (email == null || !IsValidEmail(email)) throw new ArgumentNullException(nameof(Account));
+            if (email == null || !IsValidEmail(email)) throw new BadRequestException("Email is not valid");
 
             var hold_user = await _userManager.FindByEmailAsync(email);
 

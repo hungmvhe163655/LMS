@@ -39,7 +39,7 @@ namespace Service
         // public async Task<Account> GetUserByEmail(string email) =>  _repository.account.GetByCondition(entity => entity.Email.Equals(email), false).FirstOrDefault();
         public async Task<AccountReturnModel> GetUserByEmail(string email)
         {
-            var end = await _repository.account.GetByConditionAsync(entity => entity.Email.Equals(email) && entity.IsVerified, false);
+            var end = await _repository.account.GetByConditionAsync(entity => entity.Email != null && entity.Email.Equals(email) && entity.IsVerified, false);
 
             if (end.IsNullOrEmpty()) return _mapper.Map<AccountReturnModel>(end.FirstOrDefault()); 
 
@@ -63,35 +63,29 @@ namespace Service
         }
         public async Task<AccountDetailResponseModel> GetAccountDetail(string userId)
         {
-            var hold = new AccountDetailResponseModel();
             var account = await _repository.account.GetByCondition(entity => entity.Id.Equals(userId), false).FirstAsync();
             if (account == null) throw new BadRequestException($"{nameof(account)} is not valid");
+            if (account.Email == null) throw new BadRequestException($"{nameof(account.Email)} is not valid");
+
             var checkRole = await _userManager.GetRolesAsync(account);
-            if (checkRole == null) throw new BadRequestException($"{checkRole} is not valid");
             var roleName = checkRole.FirstOrDefault();
+            if (roleName == null) throw new BadRequestException($"{roleName} is not valid");
+
+            var hold = _mapper.Map<AccountDetailResponseModel>(account);
+            hold.Role = roleName;
+
             if (roleName.ToUpper().Equals("STUDENT"))
             {
-                var studentDetail = await _repository.studentDetail.
-                    GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), false);
+                var studentDetail = await _repository.studentDetail
+                    .GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), false);
                 var detail = studentDetail.FirstOrDefault();
 
-                hold.Id = account.Id;
-                hold.FullName = account.FullName;
-                hold.Role = roleName;
-                hold.Email = account.Email;
-                hold.PhoneNumber = account.PhoneNumber != null ? account.PhoneNumber : "";
-                hold.RollNumber = detail.RollNumber != null ? detail.RollNumber : "";
-                hold.Major = detail.Major != null ? detail.Major : "";
-                hold.Specialized = detail.Specialized != null ? detail.Specialized : "";
+                if (detail != null)
+                {
+                    _mapper.Map(detail, hold);
+                }
             }
-            else 
-            {
-                hold.Id = account.Id;
-                hold.FullName = account.FullName;
-                hold.Role = roleName;
-                hold.Email = account.Email;
-                hold.PhoneNumber = account.PhoneNumber != null ? account.PhoneNumber : "";
-            }      
+
             return hold;
         }
 
@@ -157,6 +151,10 @@ namespace Service
 
                 account.FullName = model.FullName;
 
+                var checkRole = await _userManager.GetRolesAsync(account);
+                var roleName = checkRole.FirstOrDefault();
+                if (roleName == null) throw new BadRequestException($"{roleName} is not valid");
+
                 var hold = await _repository.studentDetail.GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), true);
                 var studentDetail = hold.FirstOrDefault();
 
@@ -171,6 +169,8 @@ namespace Service
                     studentDetail.Specialized = model.Specialized;
                     _repository.studentDetail.Update(studentDetail);
                 }
+                account.Gender = model.Gender.Equals("Male") ? true : false ;
+                account.FullName = model.FullName;
                 _repository.account.Update(account);
                 await _repository.Save();
             }
