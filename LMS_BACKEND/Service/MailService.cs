@@ -170,7 +170,7 @@ namespace Service
 
             _cache.Set(GetVerifyEmailKey(email), token, TimeSpan.FromMinutes(2));
 
-            return await SendMailGmailSmtp(_Mail.Split("/")[0], email, "LMS - EMAIL VERIFY", "Your Email Verify Code: " + token);
+            return await SendMailGmailSmtp(_Mail.Split("/")[0], email, "LMS - EMAIL VERIFY", "Your email verification code: " + token + "\nThis code will be valid for 2 minutes");
         }
         public bool VerifyEmailOtp(string email, string AuCode)
         {
