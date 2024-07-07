@@ -13,6 +13,8 @@
         public const string NewsAPI = "api/news";
 
         public const string TOKEN = "api/token";
+
+        public const string ScheduleAPI = "api/schedule";
     }
     public static class AuthorizeScheme
     {

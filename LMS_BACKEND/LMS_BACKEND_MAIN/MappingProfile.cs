@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Amazon.Auth.AccessControlPolicy;
+using AutoMapper;
 using Entities.Models;
 using Shared.DataTransferObjects;
 using Shared.DataTransferObjects.RequestDTO;
@@ -33,11 +34,21 @@ namespace LMS_BACKEND_MAIN
                 .ForMember(dest => dest.FolderPath, otp => otp.Ignore()).ReverseMap();
             CreateMap<Files, FileEditRequestModel>().ReverseMap();
             CreateMap<Account, AccountReturnModel>()
-                .ForMember(dest => dest.Id,op => op.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Id, op => op.MapFrom(src => src.Id))
                 .ForMember(dest => dest.PhoneNumber, op => op.MapFrom(src => src.PhoneNumber))
                 .ForMember(dest => dest.UserName, op => op.MapFrom(src => src.UserName))
                 .ForMember(dest => dest.Email, op => op.MapFrom(src => src.Email))
+                .ForMember(dest => dest.Gender, op => op.MapFrom(src => src.Gender ? "Male" : "Female"))
+                .ForMember(dest => dest.IsBanned, op => op.MapFrom(src => src.IsBanned))
+                .ForMember(dest => dest.IsDeleted, op => op.MapFrom(src => src.IsDeleted))
                 .ReverseMap();
+            CreateMap<Device, DeviceReturnModel>().ReverseMap();
+            CreateMap<Schedule, ScheduleRequestModel>()
+                .ReverseMap();
+            CreateMap<Schedule, ScheduleResponseModel>()
+                .ForMember(dest => dest.Account, op => op.MapFrom(src => src.Account))
+                .ForMember(dest => dest.Device, op => op.MapFrom(src => src.Device));
+            CreateMap<Schedule, ScheduleCreateRequestModel>().ReverseMap();
 
         }
     }

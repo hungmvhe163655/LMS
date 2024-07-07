@@ -8,5 +8,6 @@
         IFileService FileService { get; }
         INewsService NewsService { get; }
         INotificationService NotificationService { get; }
+        IScheduleService ScheduleService { get; }
     }
 }
