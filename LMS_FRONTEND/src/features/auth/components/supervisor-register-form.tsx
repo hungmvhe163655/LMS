@@ -3,6 +3,9 @@ import { useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 
+import { useRegister } from '../utils/register';
+import { registerInputSchema } from '../utils/schema';
+
 import { Link } from '@/components/app/link';
 import { PasswordInput } from '@/components/app/password';
 import { Button } from '@/components/ui/button';
@@ -17,10 +20,9 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { registerInputSchema, useRegister } from '@/lib/auth';
 
 function SupervisorRegisterForm() {
-  const registering = useRegister();
+  const { isLoading, register } = useRegister();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
 
@@ -37,7 +39,7 @@ function SupervisorRegisterForm() {
   });
 
   function onSubmit(data: z.infer<typeof registerInputSchema>) {
-    registering.mutate(data);
+    register(data);
   }
 
   return (
@@ -130,8 +132,8 @@ function SupervisorRegisterForm() {
                 </Link>
               </label>
             </div>
-            <Button type='submit' className='w-full'>
-              Submit
+            <Button type='submit' className='w-full' disabled={isLoading}>
+              {isLoading ? 'Registering...' : 'Register'}
             </Button>
           </form>
         </Form>

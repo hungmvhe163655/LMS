@@ -28,7 +28,6 @@ export const useRegister = () => {
             token: authResponse.token.accessToken,
             type: 'Bearer'
           },
-          refresh: authResponse.token.refreshToken,
           userState: authResponse.user
         });
 
