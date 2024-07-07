@@ -14,6 +14,7 @@ namespace Shared.DataTransferObjects.RequestDTO
         public string? UserName { get; set; }
         [Required(ErrorMessage = "Email is required")]
         public string Email { get; set; } = null!;
+        public bool Gender { get; set; } = true;
         public string PhoneNumber { get; set; } = null!;
         public string VerifiedByUserID { get; set; } = null!;
         [Required(ErrorMessage = "Password is required")]
