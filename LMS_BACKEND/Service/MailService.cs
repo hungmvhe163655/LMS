@@ -1,9 +1,11 @@
 ﻿using Contracts.Interfaces;
 using Entities;
+using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using Service.Contracts;
 using System;
 using System.Collections.Generic;
@@ -49,6 +51,25 @@ namespace Service
         {
             return $"{keymode}_{user.Id}";
         }
+        private string GetVerifyEmailKey(string email)
+        {
+            return $"{email}_verifyEmail";
+        }
+        private bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                var mailAddress = new MailAddress(email);
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
         public async Task<bool> SendOTP(string email, string keymode)
         {
             try
@@ -73,7 +94,8 @@ namespace Service
         public async Task<bool> VerifyOtp(string email, string token, string keymode)
         {
 
-            if (email == null) throw new ArgumentNullException(nameof(Account));
+            if (email == null || !IsValidEmail(email)) throw new BadRequestException("Email is not valid");
+
             if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
             try
             {
@@ -97,7 +119,8 @@ namespace Service
         public async Task<bool> VerifyTwoFactorOtp(string email, string token)
         {
 
-            if (email == null) throw new ArgumentNullException(nameof(Account));
+            if (email == null || !IsValidEmail(email)) throw new BadRequestException("Email is not valid");
+
             if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
             try
             {
@@ -135,22 +158,31 @@ namespace Service
             }
             return false;
         }
-        public async Task<bool> SendVerifyOtp(string email)
+        public async Task<bool> SendVerifyEmailOtp(string email)
         {
-            try
+            if (email == null || !IsValidEmail(email)) throw new BadRequestException("Email is not valid");
+
+            var hold_user = await _userManager.FindByEmailAsync(email);
+
+            if (hold_user != null) throw new BadRequestException("Email is already existed");
+
+            var token = GenerateOtp();
+
+            _cache.Set(GetVerifyEmailKey(email), token, TimeSpan.FromMinutes(2));
+
+            return await SendMailGmailSmtp(_Mail.Split("/")[0], email, "LMS - EMAIL VERIFY", "Your Email Verify Code: " + token);
+        }
+        public bool VerifyEmailOtp(string email, string AuCode)
+        {
+            if (email == null || !IsValidEmail(email)) throw new ArgumentNullException(nameof(Account));
+
+            if (string.IsNullOrWhiteSpace(AuCode)) throw new ArgumentNullException(nameof(AuCode));
+
+            var cacheKey = GetVerifyEmailKey(email);
+
+            if (_cache.TryGetValue(cacheKey, out string? storedToken))
             {
-                var hold_user = await _userManager.FindByEmailAsync(email);
-                if (hold_user != null && hold_user.Email != null && !hold_user.EmailConfirmed)
-                {
-                    hold_user.EmailVerifyCode = GenerateOtp();
-                    hold_user.EmailVerifyCodeAge = DateTime.Now.AddDays(1);
-                    await _userManager.UpdateAsync(hold_user);
-                    return await SendMailGmailSmtp(_Mail.Split("/")[0], hold_user.Email, "LMS - EMAIL VERIFY", "Your Email Verify Code: " + hold_user.EmailVerifyCode);
-                }
-            }
-            catch
-            {
-                return false;
+                return !string.IsNullOrEmpty(storedToken) ? storedToken.Equals(AuCode) : false;
             }
             return false;
         }

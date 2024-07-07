@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Entities.Exceptions;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
@@ -14,6 +16,7 @@ namespace Service.Contracts
         Task<bool> VerifyTwoFactorOtp(string email,string token);
         Task<bool> SendTwoFactorOtp(string email);
         Task<bool> SendMailToUser(string email);
-        Task<bool> SendVerifyOtp(string email);
+        Task<bool> SendVerifyEmailOtp(string email);
+        public bool VerifyEmailOtp(string email, string AuCode);
     }
 }
