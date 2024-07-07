@@ -344,7 +344,7 @@ namespace Service
                 _account.UserRefreshToken = refreshToken;
 
                 if (populateExp)
-                    _account.UserRefreshTokenExpiryTime = DateTime.Now.AddDays(7);// them thoi gian cho refreshToken neu muon tuy
+                    _account.UserRefreshTokenExpiryTime = DateTime.Now.AddDays(1);// them thoi gian cho refreshToken neu muon tuy
 
                 await _userManager.UpdateAsync(_account);
 
