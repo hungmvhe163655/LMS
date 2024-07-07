@@ -143,7 +143,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             if (hold != null) throw new BadRequestException("Email is already existed");
 
-            return Ok(hold);
+            return Ok(new ResponseMessage { Message = "A Verify Code Has Been Sent to Your Email" });
 
         }
         /*
