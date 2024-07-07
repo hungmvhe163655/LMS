@@ -210,42 +210,42 @@ namespace Repository.Configuration
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
+                    RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
                     UserId = user1.Id,
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
+                    RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
                     UserId = user2.Id,
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
+                    RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
                     UserId = user3.Id,
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
+                    RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
                     UserId = user4.Id,
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
+                    RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
                     UserId = user5.Id,
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
+                    RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
                     UserId = user6.Id,
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
+                    RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
                     UserId = user7.Id,
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d",
+                    RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
                     UserId = user8.Id,
                 }
 
