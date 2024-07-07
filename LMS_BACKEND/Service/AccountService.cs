@@ -45,7 +45,7 @@ namespace Service
             var result = _mapper.Map<AccountReturnModel>(end.First());
 
             foreach (var role in hold) result.Roles.Add(role);
-            
+
             return result;
         }
         public async Task<AccountReturnModel> GetUserById(string id) => _mapper.Map<AccountReturnModel>(await _repository.account.GetByCondition(entity => entity.Id.Equals(id) && entity.IsVerified, false).FirstAsync());
@@ -60,22 +60,35 @@ namespace Service
         }
         public async Task<AccountDetailResponseModel> GetAccountDetail(string userId)
         {
-            var account= await _repository.account.GetByCondition(entity => entity.Id.Equals(userId), false).FirstAsync();
-            if(account == null) throw new BadRequestException($"{nameof(account)} is not valid");
-            var studentDetail = await _repository.studentDetail.
-                GetByCondition(entity => entity.AccountId != null && entity.AccountId.Equals(userId), false).FirstAsync();
-            var roleName= await _userManager.GetRolesAsync(account);
-            var hold =  new AccountDetailResponseModel
+            var hold = new AccountDetailResponseModel();
+            var account = await _repository.account.GetByCondition(entity => entity.Id.Equals(userId), false).FirstAsync();
+            if (account == null) throw new BadRequestException($"{nameof(account)} is not valid");
+            var checkRole = await _userManager.GetRolesAsync(account);
+            if (checkRole == null) throw new BadRequestException($"{checkRole} is not valid");
+            var roleName = checkRole.FirstOrDefault();
+            if (roleName.ToUpper().Equals("STUDENT"))
             {
-                Id = account.Id,
-                FullName = account.FullName,
-                Role = roleName.First(),
-                Email = account.Email,
-                PhoneNumber = account.PhoneNumber != null ? account.PhoneNumber : "",
-                RollNumber = studentDetail.RollNumber != null ? studentDetail.RollNumber : "",
-                Major= studentDetail.Major != null ? studentDetail.Major : "",
-                Specialized = studentDetail.Specialized != null ? studentDetail.Specialized : "",
-            };
+                var studentDetail = await _repository.studentDetail.
+                    GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), false);
+                var detail = studentDetail.FirstOrDefault();
+
+                hold.Id = account.Id;
+                hold.FullName = account.FullName;
+                hold.Role = roleName;
+                hold.Email = account.Email;
+                hold.PhoneNumber = account.PhoneNumber != null ? account.PhoneNumber : "";
+                hold.RollNumber = detail.RollNumber != null ? detail.RollNumber : "";
+                hold.Major = detail.Major != null ? detail.Major : "";
+                hold.Specialized = detail.Specialized != null ? detail.Specialized : "";
+            }
+            else 
+            {
+                hold.Id = account.Id;
+                hold.FullName = account.FullName;
+                hold.Role = roleName;
+                hold.Email = account.Email;
+                hold.PhoneNumber = account.PhoneNumber != null ? account.PhoneNumber : "";
+            }      
             return hold;
         }
 
