@@ -3,7 +3,7 @@ import * as React from 'react';
 import { BaseLayout } from './base-layout';
 
 import { Head } from '@/components/seo';
-import { ProtectedRoute } from '@/lib/auth';
+import { ProtectedRoute } from '@/lib/protected-route';
 
 type DashboardLayoutProps = {
   children: React.ReactNode;

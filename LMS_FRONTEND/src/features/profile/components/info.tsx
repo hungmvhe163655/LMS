@@ -1,6 +1,8 @@
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { FaEdit } from 'react-icons/fa';
 
 import { EditProfileForm } from './edit-profile-form';
+import { StudentDetail } from './student-detail';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
@@ -11,8 +13,13 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
+import { User } from '@/types/api';
 
 export function Info() {
+  const user = useAuthUser<User>() as User;
+  const role = user.roles[0];
+  const isStudent = user.roles.includes('Student');
+
   return (
     <div className='mx-auto flex max-w-4xl rounded-lg bg-white p-10 shadow-md'>
       <div className='w-full lg:flex lg:justify-between'>
@@ -20,31 +27,19 @@ export function Info() {
           {/* First Column */}
           <div className='lg:w-1/2'>
             <div className='flex flex-col space-y-4 lg:flex-row'>
-              <Avatar className='mr-4 size-32 text-4xl font-bold'>
+              <Avatar className='my-auto mr-4 size-32 text-4xl font-bold'>
                 <AvatarFallback>VH</AvatarFallback>
               </Avatar>
               <div className='my-auto flex flex-col space-y-1'>
-                <span className='text-xl font-bold'>Mai Viet Hung</span>
-                <span className='text-gray-600'>Student | Male</span>
-                <span className='text-gray-600'>HE163644</span>
+                <span className='text-xl font-bold'>{user.fullName}</span>
+                <span className='italic text-gray-600'>{role}</span>
+                <span className='text-sm text-gray-500 '>{user.gender}</span>
               </div>
             </div>
           </div>
 
           {/* Second Column */}
-          <div className='my-auto lg:w-1/2'>
-            <div className='flex space-y-2'>
-              <div className='flex flex-col space-y-0 lg:space-y-4'>
-                <span className='text-gray-600'>
-                  <span className='font-bold'> Major:</span> Computer Science
-                </span>
-                <span></span>
-                <span className='text-gray-600'>
-                  <span className='font-bold'>Specialized:</span> AI & Machine Learning
-                </span>
-              </div>
-            </div>
-          </div>
+          <div className='my-auto lg:w-1/2'>{isStudent && <StudentDetail id={user.id} />}</div>
         </div>
         <div className='mt-2'>
           <Dialog>

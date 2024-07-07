@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { BaseLayout } from './base-layout';
 
-import { ProtectedRoute } from '@/lib/auth';
+import { ProtectedRoute } from '@/lib/protected-route';
 
 type LayoutProps = {
   children: React.ReactNode;

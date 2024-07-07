@@ -2,7 +2,7 @@ import { BaseLayout } from './base-layout';
 
 import { SidebarNav } from '@/features/profile/components/sidebar';
 import { SidebarNavItem } from '@/features/profile/types/type';
-import { ProtectedRoute } from '@/lib/auth';
+import { ProtectedRoute } from '@/lib/protected-route';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -11,7 +11,7 @@ type LayoutProps = {
 const sidebarItems: SidebarNavItem[] = [
   {
     title: 'Overall',
-    href: '/profile/overall'
+    href: '/profile'
   },
   {
     title: 'Change Password',

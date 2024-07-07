@@ -6,12 +6,8 @@ import LoginRoute from './auth/login';
 import RegisterRoute from './auth/register';
 import ValidateEmailRoute from './auth/validate-email';
 import StudentDashboardRoute from './dashboard/student';
-import ListNewsRoute from './news';
-import EmailRoute from './profile/email';
-import OverallRoute from './profile/overall';
-import PasswordRoute from './profile/password';
-import PhoneNumberRoute from './profile/phone-number';
-import TwoFactorRoute from './profile/two-factor';
+import NewsRoute from './news';
+import ProfileRoute from './profile';
 
 export const createRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
@@ -25,7 +21,7 @@ export const createRouter = (queryClient: QueryClient) =>
     },
     {
       path: '/news',
-      children: [ListNewsRoute]
+      children: [NewsRoute]
     },
     {
       path: '/dashboard',
@@ -37,7 +33,7 @@ export const createRouter = (queryClient: QueryClient) =>
     },
     {
       path: '/profile',
-      children: [OverallRoute, EmailRoute, PasswordRoute, PhoneNumberRoute, TwoFactorRoute]
+      children: [ProfileRoute]
     },
     {
       path: '*',
