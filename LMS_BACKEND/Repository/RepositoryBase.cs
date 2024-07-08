@@ -53,5 +53,56 @@ namespace Repository
         {
             _context.Set<T>().RemoveRange(entities);
         }
+        public async Task<bool> UpdateWithConcurrencyAsync(T entity)
+        {
+            try
+            {
+                _context.Set<T>().Update(entity);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                var entry = ex.Entries.Single();
+                var databaseEntry = await entry.GetDatabaseValuesAsync();
+                if (databaseEntry == null)
+                {
+                    //bi xoa boi nguoi dung khac
+                    return false;
+                }
+                else
+                {
+                    // bi update boi nguoidung khac
+                    var databaseValues = (T)databaseEntry.ToObject();
+                    entry.OriginalValues.SetValues(databaseValues);
+                    return false;
+                }
+            }
+        }
+        public async Task<bool> DeleteWithConcurrencyAsync(T entity)
+        {
+            try
+            {
+                _context.Set<T>().Remove(entity);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                var entry = ex.Entries.Single();
+                var databaseEntry = await entry.GetDatabaseValuesAsync();
+                if (databaseEntry == null)
+                {
+                    //bi xoa boi nguoi dung khac
+                    return false;
+                }
+                else
+                {
+                    //bi update boi nguoi dung khac
+                    entry.OriginalValues.SetValues(databaseEntry);
+                    return false;
+                }
+            }
+        }
     }
 }

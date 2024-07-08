@@ -16,13 +16,22 @@ namespace Service
     {
         //add more here
         private readonly Lazy<IAccountService> _accountService;
+
         private readonly Lazy<IAuthenticationService> _authenticationService;
+
         private readonly Lazy<IMailService> _mailService;
+
         private readonly Lazy<INewsService> _newsService;
+
         private readonly Lazy<IFileService> _fileService;
+
         private readonly Lazy<INotificationService> _notificationService;
+
         private readonly Lazy<IFolderService> _folderService;
+
         private readonly Lazy<IScheduleService> _scheduleService;
+
+        private readonly Lazy<ITaskService> _taskService;
         //
         public ServiceManager(
             IRepositoryManager repositoryManager,
@@ -45,6 +54,7 @@ namespace Service
             _notificationService = new Lazy<INotificationService>(()=> new NotificationService(repositoryManager,notiHub));
             _folderService = new Lazy<IFolderService>(() => new FolderService());
             _scheduleService = new Lazy<IScheduleService>(() => new ScheduleService(repositoryManager,mapper));
+            _taskService = new Lazy<ITaskService>(() => new TaskService(repositoryManager,mapper));
         }
         public IAccountService AccountService => _accountService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
