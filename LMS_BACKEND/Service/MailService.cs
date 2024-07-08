@@ -186,18 +186,13 @@ namespace Service
             }
             return false;
         }
-        public async Task<bool> SendMailToUser(string email)
+        public async Task<bool> SendMailToUser(string email,string content,string header)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            if (user == null)
-            {
-                return false;
-            }
-            if (string.IsNullOrEmpty(user.EmailVerifyCode))
-            {
 
-            }
-            return false;
+            if (user == null) throw new BadRequestException("Email is not valid");
+
+            return await SendMailGmailSmtp(_Mail.Split("/")[0], email, header, content);
         }
         private async Task<bool> SendMail(string _from, string _to, string _subject, string _body, SmtpClient client)
         {

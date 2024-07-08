@@ -22,5 +22,6 @@ namespace Service.Contracts
         Task<TokenDTO> CreateToken(bool populateExpiration);
         Task<TokenDTO> RefreshTokens(TokenDTO tokenDTO);
         Task<bool> InvalidateToken(TokenDTO tokenDTO);
+        Task<string> ForgotPassword(string email);
     }
 }

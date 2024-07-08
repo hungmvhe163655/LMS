@@ -108,20 +108,20 @@ namespace Service
 
             var verifierRole = _userManager.GetRolesAsync(verifier).Result.FirstOrDefault();
 
-            if (verifierRole == null || !(verifierRole.ToLower().Equals("labadmin") || verifierRole.ToLower().Equals("supervisor"))) 
-                
+            if (verifierRole == null || !(verifierRole.ToLower().Equals("labadmin") || verifierRole.ToLower().Equals("supervisor")))
+
                 throw new BadRequestException("Verifier's not authorized");
 
             var rolesToAdd = model.Roles;
 
             var validRoles = new List<string>();
 
-            if (rolesToAdd != null && rolesToAdd.Any()) 
+            if (rolesToAdd != null && rolesToAdd.Any())
 
-                foreach (var role in model.Roles) 
+                foreach (var role in model.Roles)
 
-                    if (await _roleManager.RoleExistsAsync(role)) validRoles.Add(role);          
-                
+                    if (await _roleManager.RoleExistsAsync(role)) validRoles.Add(role);
+
             if (validRoles.Any())
             {
                 user.EmailConfirmed = true;
@@ -186,7 +186,51 @@ namespace Service
             }
             throw new BadRequestException("Not valid roles");
         }
+        public async Task<string> ForgotPassword(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
 
+            if (user == null) throw new BadRequestException("Invalid Email");
+
+            string password = GeneratePassword(12);
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            await _userManager.ResetPasswordAsync(user, token, password);
+
+            return password;
+        }
+        private string GeneratePassword(int length)
+        {
+            Random random = new Random();
+
+            const string UpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            const string LowerCase = "abcdefghijklmnopqrstuvwxyz";
+
+            const string Digits = "0123456789";
+
+            const string NonAlphanumeric = "!@#$%^&*()-_=+[]{}|;:'\",.<>?";
+
+            if (length < 12) throw new ArgumentException("Password length must be at least 12 characters.");
+
+            var password = new StringBuilder();
+
+            password.Append(UpperCase[random.Next(UpperCase.Length)]);
+
+            password.Append(LowerCase[random.Next(LowerCase.Length)]);
+
+            password.Append(Digits[random.Next(Digits.Length)]);
+
+            password.Append(NonAlphanumeric[random.Next(NonAlphanumeric.Length)]);
+
+            var allCharacters = UpperCase + LowerCase + Digits + NonAlphanumeric;
+
+            for (int i = 4; i < length; i++) password.Append(allCharacters[random.Next(allCharacters.Length)]);
+
+            return new string(password.ToString().OrderBy(c => random.Next()).ToArray());
+
+        }
         //////////////////////////////////////// TOKEN AREA  -  DO NOT TOUCH  ///////////////////////////////////////////////////
         public async Task<string> ValidateUser(LoginRequestModel userForAuth)
         {
@@ -224,7 +268,7 @@ namespace Service
                     return "UNVERIFIED|" + _account.UserName;
                 }
             }
-            return "SUCCESS|"+(_account!=null && _account.TwoFactorEnabled ? "TWOFACTOR" : "ONEFACTOR");
+            return "SUCCESS|" + (_account != null && _account.TwoFactorEnabled ? "TWOFACTOR" : "ONEFACTOR");
         }
         public async Task<string> CreateToken()//onetime short token (khong gui ve refresh token)
         {
