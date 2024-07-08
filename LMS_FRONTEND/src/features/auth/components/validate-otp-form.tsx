@@ -62,7 +62,7 @@ export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const dataObject = {
       email,
-      pin: data.pin
+      auCode: data.pin
     };
     validateOtp(dataObject);
   }
@@ -95,7 +95,7 @@ export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack 
         />
         <div className='flex w-full'>
           <Button className='mr-5 mt-0' type='submit' disabled={isPending}>
-            {isPending ? 'Sending...' : 'Send email'}
+            {isPending ? 'Sending...' : 'Submit'}
           </Button>
           <Button type='button' onClick={handleResendOtp} disabled={isCounting && seconds > 0}>
             {isCounting && seconds > 0 ? `Resend OTP in ${seconds}s` : 'Resend OTP'}

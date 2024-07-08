@@ -6,11 +6,11 @@ import { MutationConfig } from '@/lib/react-query';
 
 export type ValidateOtp = {
   email: string;
-  pin: string;
+  auCode: string;
 };
 
 export const validateOtp = async (data: ValidateOtp): Promise<void> => {
-  const res = await api.post('/auth/verify-email', data);
+  const res = await api.put('/auth/verify-email', data);
   if (res.status !== 200) {
     const message = res.data?.Message || 'Failed to validate OTP';
     throw new Error(message);
