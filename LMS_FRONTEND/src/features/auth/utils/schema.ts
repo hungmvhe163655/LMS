@@ -6,10 +6,13 @@ export const loginInputSchema = z.object({
 });
 export type LoginInput = z.infer<typeof loginInputSchema>;
 
+export const RoleEnum = z.enum(['STUDENT', 'SUPERVISOR']);
+export type Role = z.infer<typeof RoleEnum>;
+
 export const registerInputSchema = z
   .object({
     email: z.string().min(1, 'Required'),
-    role: z.enum(['STUDENT', 'SUPERVISOR']),
+    role: RoleEnum,
     fullname: z.string().min(1, 'Required'),
     password: z.string().min(1, 'Required'),
     confirmPassword: z.string().min(1, 'Required'),

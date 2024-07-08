@@ -2,8 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { useValidateEmail } from '../api/use-validate-email';
-
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -14,6 +12,8 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+
+import { useValidateEmail } from '../api/use-validate-email';
 
 const FormSchema = z.object({
   email: z.string().min(6, {

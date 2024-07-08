@@ -2,9 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { useLogin } from '../api/use-login';
-import { loginInputSchema } from '../utils/schema';
-
 import { Link } from '@/components/app/link';
 import { PasswordInput } from '@/components/app/password';
 import { Button } from '@/components/ui/button';
@@ -18,6 +15,9 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+
+import { useLogin } from '../api/use-login';
+import { loginInputSchema } from '../utils/schema';
 
 export const LoginForm = () => {
   const { mutate: login, isPending } = useLogin();
@@ -78,7 +78,7 @@ export const LoginForm = () => {
       </CardContent>
       <CardFooter className='flex-col space-y-2'>
         <p>
-          Don&apos;t have an account? <Link to='/auth/register/choose-role'>Register now!</Link>
+          Don&apos;t have an account? <Link to='/auth/register'>Register now!</Link>
         </p>
         <p>
           Don&apos;t remember your password?{' '}

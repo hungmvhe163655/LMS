@@ -4,7 +4,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import ForgotPasswordRoute from './auth/forget-password';
 import LoginRoute from './auth/login';
 import RegisterRoute from './auth/register';
-import ValidateEmailRoute from './auth/validate-email';
 import StudentDashboardRoute from './dashboard/student';
 import NewsRoute from './news';
 import ProfileRoute from './profile';
@@ -29,7 +28,7 @@ export const createRouter = (queryClient: QueryClient) =>
     },
     {
       path: '/auth',
-      children: [RegisterRoute, LoginRoute, ForgotPasswordRoute, ValidateEmailRoute]
+      children: [RegisterRoute, LoginRoute, ForgotPasswordRoute]
     },
     {
       path: '/profile',

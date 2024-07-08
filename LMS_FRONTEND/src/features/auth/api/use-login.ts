@@ -2,12 +2,12 @@ import { useMutation } from '@tanstack/react-query';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { LoginInput } from '../utils/schema';
-
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { AuthResponse } from '@/types/api';
 import { setAccessToken, setRefreshToken } from '@/utils/storage';
+
+import { LoginInput } from '../utils/schema';
 
 export const login = async (formData: LoginInput): Promise<AuthResponse> => {
   const res = await api.post('/auth/login', formData);

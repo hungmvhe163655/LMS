@@ -3,9 +3,6 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { useValidateEmail } from '../api/use-validate-email';
-import { useValidateOtp } from '../api/use-validate-otp';
-
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -18,6 +15,9 @@ import {
 } from '@/components/ui/form';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 
+import { useValidateEmail } from '../api/use-validate-email';
+import { useValidateOtp } from '../api/use-validate-otp';
+
 const FormSchema = z.object({
   pin: z.string().min(6, {
     message: 'Invalid Code'
@@ -27,11 +27,12 @@ const FormSchema = z.object({
 interface ValidateOtpFormProps {
   email: string;
   onBack: () => void;
+  onValidate: () => void;
 }
 
-export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack }) => {
-  const { mutate: validateOtp, isPending, error } = useValidateOtp();
-  const { mutate: validateEmail } = useValidateEmail();
+export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack, onValidate }) => {
+  const { mutateAsync: validateOtp, isPending, error, isError } = useValidateOtp();
+  const { mutate: validateEmail, isPending: isPendingResend } = useValidateEmail();
   const [seconds, setSeconds] = useState<number>(60);
   const [isCounting, setIsCounting] = useState<boolean>(true);
 
@@ -59,12 +60,15 @@ export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack 
     }
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     const dataObject = {
       email,
       auCode: data.pin
     };
-    validateOtp(dataObject);
+    await validateOtp(dataObject);
+    if (!isError) {
+      onValidate();
+    }
   }
 
   return (
@@ -88,7 +92,9 @@ export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack 
                   </InputOTPGroup>
                 </InputOTP>
               </FormControl>
-              <FormDescription>We have send a code to your mail, please enter it!</FormDescription>
+              <FormDescription>
+                We have send a code to <span className='font-bold'>{email}</span>
+              </FormDescription>
               <FormMessage>{error?.message || form.formState.errors.pin?.message}</FormMessage>
             </FormItem>
           )}
@@ -97,7 +103,11 @@ export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack 
           <Button className='mr-5 mt-0' type='submit' disabled={isPending}>
             {isPending ? 'Sending...' : 'Submit'}
           </Button>
-          <Button type='button' onClick={handleResendOtp} disabled={isCounting && seconds > 0}>
+          <Button
+            type='button'
+            onClick={handleResendOtp}
+            disabled={(isCounting && seconds > 0) || isPendingResend}
+          >
             {isCounting && seconds > 0 ? `Resend OTP in ${seconds}s` : 'Resend OTP'}
           </Button>
         </div>
@@ -105,7 +115,7 @@ export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack 
           className='w-full bg-blue-600 hover:bg-blue-800'
           type='button'
           onClick={onBack}
-          disabled={isPending}
+          disabled={isPending || isPendingResend}
         >
           Return
         </Button>
