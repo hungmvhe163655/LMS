@@ -30,8 +30,8 @@ interface ValidateOtpFormProps {
 }
 
 export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack }) => {
-  const { validateOtp, isLoading, error } = useValidateOtp();
-  const { validateEmail } = useValidateEmail();
+  const { mutate: validateOtp, isPending, error } = useValidateOtp();
+  const { mutate: validateEmail } = useValidateEmail();
   const [seconds, setSeconds] = useState<number>(60);
   const [isCounting, setIsCounting] = useState<boolean>(true);
 
@@ -89,13 +89,13 @@ export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack 
                 </InputOTP>
               </FormControl>
               <FormDescription>We have send a code to your mail, please enter it!</FormDescription>
-              <FormMessage>{error || form.formState.errors.pin?.message}</FormMessage>
+              <FormMessage>{error?.message || form.formState.errors.pin?.message}</FormMessage>
             </FormItem>
           )}
         />
         <div className='flex w-full'>
-          <Button className='mr-5 mt-0' type='submit' disabled={isLoading}>
-            {isLoading ? 'Sending...' : 'Send email'}
+          <Button className='mr-5 mt-0' type='submit' disabled={isPending}>
+            {isPending ? 'Sending...' : 'Send email'}
           </Button>
           <Button type='button' onClick={handleResendOtp} disabled={isCounting && seconds > 0}>
             {isCounting && seconds > 0 ? `Resend OTP in ${seconds}s` : 'Resend OTP'}
@@ -105,7 +105,7 @@ export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack 
           className='w-full bg-blue-600 hover:bg-blue-800'
           type='button'
           onClick={onBack}
-          disabled={isLoading}
+          disabled={isPending}
         >
           Return
         </Button>

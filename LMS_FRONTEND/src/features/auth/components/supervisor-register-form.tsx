@@ -22,7 +22,7 @@ import {
 import { Input } from '@/components/ui/input';
 
 function SupervisorRegisterForm() {
-  const { isLoading, register } = useRegister();
+  const { mutate: register, isPending } = useRegister();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
 
@@ -132,8 +132,8 @@ function SupervisorRegisterForm() {
                 </Link>
               </label>
             </div>
-            <Button type='submit' className='w-full' disabled={isLoading}>
-              {isLoading ? 'Registering...' : 'Register'}
+            <Button type='submit' className='w-full' disabled={isPending}>
+              {isPending ? 'Registering...' : 'Register'}
             </Button>
           </form>
         </Form>

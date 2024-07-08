@@ -1,31 +1,32 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
+import { MutationConfig } from '@/lib/react-query';
 
 export type ValidateEmail = {
   email: string;
 };
 
-export const useValidateEmail = () => {
-  const navigate = useNavigate();
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+export const validateEmail = async (data: ValidateEmail): Promise<void> => {
+  const res = await api.post('/auth/verify-email-send', data);
+  if (res.status !== 200) {
+    const message = res.data?.Message || 'Failed to validate email';
+    throw new Error(message);
+  }
+};
 
-  const validateEmail = async (validateEmail: ValidateEmail) => {
-    setLoading(true);
-    try {
-      const res = await api.post('/auth/verify-email-send', validateEmail);
+type UseValidateEmailOptions = {
+  mutationConfig?: MutationConfig<typeof validateEmail>;
+};
 
-      if (res?.status === 200) {
-        navigate('/auth/validate-email/otp');
-      }
-    } catch (error: any) {
-      setError(error.response?.data?.Message || error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+export const useValidateEmail = ({ mutationConfig }: UseValidateEmailOptions = {}) => {
+  const { onSuccess, ...restConfig } = mutationConfig || {};
 
-  return { validateEmail, isLoading, error };
+  return useMutation({
+    mutationFn: validateEmail,
+    onSuccess: (data, variables, context) => {
+      onSuccess?.(data, variables, context);
+    },
+    ...restConfig
+  });
 };

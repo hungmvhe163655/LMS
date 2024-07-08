@@ -51,7 +51,7 @@ const supervisors = [
 ] as const;
 
 const StudentRegisterForm: React.FC = () => {
-  const { isLoading, register } = useRegister();
+  const { mutate: register, isPending } = useRegister();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
 
@@ -233,8 +233,8 @@ const StudentRegisterForm: React.FC = () => {
                 </Link>
               </label>
             </div>
-            <Button type='submit' className='w-full' disabled={isLoading}>
-              {isLoading ? 'Registering...' : 'Register'}
+            <Button type='submit' className='w-full' disabled={isPending}>
+              {isPending ? 'Registering...' : 'Register'}
             </Button>
           </form>
         </Form>

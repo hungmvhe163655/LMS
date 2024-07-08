@@ -1,44 +1,51 @@
-import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { useNavigate } from 'react-router-dom';
 
 import { RegisterInput } from '../utils/schema';
 
 import { api } from '@/lib/api-client';
+import { MutationConfig } from '@/lib/react-query';
 import { AuthResponse } from '@/types/api';
 import { setAccessToken, setRefreshToken } from '@/utils/storage';
 
-export const useRegister = () => {
+export const register = async (formData: RegisterInput): Promise<AuthResponse> => {
+  const res = await api.post(`/auth/register/${formData.role.toLowerCase()}`, formData);
+  if (res.status === 200) {
+    const authResponse = res.data as AuthResponse;
+    return authResponse;
+  }
+  throw new Error('Registration failed');
+};
+
+type UseRegisterOptions = {
+  mutationConfig?: MutationConfig<typeof register>;
+};
+
+export const useRegister = ({ mutationConfig }: UseRegisterOptions = {}) => {
   const navigate = useNavigate();
   const signIn = useSignIn();
-  const [isLoading, setLoading] = useState(false);
 
-  const register = async (formData: RegisterInput) => {
-    setLoading(true);
-    try {
-      const res = await api.post(`/auth/register/${formData.role.toLowerCase()}`, formData);
+  const { onSuccess, ...restConfig } = mutationConfig || {};
 
-      if (res.status === 200) {
-        const authResponse = res.data as AuthResponse;
-        setAccessToken(authResponse.token.accessToken);
-        setRefreshToken(authResponse.token.refreshToken);
+  return useMutation({
+    mutationFn: register,
+    onSuccess: (data: AuthResponse, variables, context) => {
+      const { token, user } = data;
+      setAccessToken(token.accessToken);
+      setRefreshToken(token.refreshToken);
 
-        signIn({
-          auth: {
-            token: authResponse.token.accessToken,
-            type: 'Bearer'
-          },
-          userState: authResponse.user
-        });
+      signIn({
+        auth: {
+          token: token.accessToken,
+          type: 'Bearer'
+        },
+        userState: user
+      });
 
-        navigate('/auth/validate-email');
-      }
-    } catch (error) {
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return { register, isLoading };
+      navigate('/auth/validate-email');
+      onSuccess?.(data, variables, context);
+    },
+    ...restConfig
+  });
 };

@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -27,8 +26,7 @@ interface ValidateEmailFormProps {
 }
 
 const ValidateEmailForm: React.FC<ValidateEmailFormProps> = ({ onSubmit }) => {
-  const { validateEmail, isLoading, error } = useValidateEmail();
-
+  const { mutateAsync: validateEmail, isPending, isError, error } = useValidateEmail();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -36,9 +34,9 @@ const ValidateEmailForm: React.FC<ValidateEmailFormProps> = ({ onSubmit }) => {
     }
   });
 
-  function handleSubmit(data: z.infer<typeof FormSchema>) {
-    validateEmail(data);
-    if (!error) {
+  async function handleSubmit(data: z.infer<typeof FormSchema>) {
+    await validateEmail(data);
+    if (!isError) {
       onSubmit(data.email);
     }
   }
@@ -57,12 +55,12 @@ const ValidateEmailForm: React.FC<ValidateEmailFormProps> = ({ onSubmit }) => {
                 <FormControl>
                   <Input placeholder='example@gmail.com' {...field} />
                 </FormControl>
-                <FormMessage>{error || form.formState.errors.email?.message}</FormMessage>
+                <FormMessage>{error?.message || form.formState.errors.email?.message}</FormMessage>
               </FormItem>
             )}
           />
-          <Button className='mt-0' type='submit' disabled={isLoading}>
-            {isLoading ? 'Sending...' : 'Send email'}
+          <Button className='mt-0' type='submit' disabled={isPending}>
+            {isPending ? 'Sending...' : 'Send email'}
           </Button>
         </form>
       </Form>

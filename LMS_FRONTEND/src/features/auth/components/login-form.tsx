@@ -20,7 +20,7 @@ import {
 import { Input } from '@/components/ui/input';
 
 export const LoginForm = () => {
-  const { isLoading, login } = useLogin();
+  const { mutate: login, isPending } = useLogin();
 
   const form = useForm<z.infer<typeof loginInputSchema>>({
     resolver: zodResolver(loginInputSchema),
@@ -70,8 +70,8 @@ export const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <Button type='submit' className='w-full' disabled={isLoading}>
-              {isLoading ? 'Logging in...' : 'Login'}
+            <Button type='submit' className='w-full' disabled={isPending}>
+              {isPending ? 'Logging in...' : 'Login'}
             </Button>
           </form>
         </Form>

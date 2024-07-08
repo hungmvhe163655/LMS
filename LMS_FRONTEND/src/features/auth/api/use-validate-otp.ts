@@ -1,33 +1,37 @@
-import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { api } from '@/lib/api-client';
+import { MutationConfig } from '@/lib/react-query';
 
 export type ValidateOtp = {
   email: string;
   pin: string;
 };
 
-export const useValidateOtp = () => {
+export const validateOtp = async (data: ValidateOtp): Promise<void> => {
+  const res = await api.post('/auth/verify-email', data);
+  if (res.status !== 200) {
+    const message = res.data?.Message || 'Failed to validate OTP';
+    throw new Error(message);
+  }
+};
+
+type UseValidateOtpOptions = {
+  mutationConfig?: MutationConfig<typeof validateOtp>;
+};
+
+export const useValidateOtp = ({ mutationConfig }: UseValidateOtpOptions = {}) => {
   const navigate = useNavigate();
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
-  const validateOtp = async (validateOtp: ValidateOtp) => {
-    setLoading(true);
-    try {
-      const res = await api.post('/auth/verify-email', validateOtp);
+  const { onSuccess, ...restConfig } = mutationConfig || {};
 
-      if (res?.status === 200) {
-        navigate('/auth/register');
-      }
-    } catch (error: any) {
-      setError(error.response?.data?.Message || error.message);
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return { validateOtp, isLoading, error };
+  return useMutation({
+    mutationFn: validateOtp,
+    onSuccess: (data, variables, context) => {
+      navigate('/auth/register');
+      onSuccess?.(data, variables, context);
+    },
+    ...restConfig
+  });
 };
