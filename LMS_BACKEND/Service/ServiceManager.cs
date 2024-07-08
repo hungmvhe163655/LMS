@@ -63,6 +63,7 @@ namespace Service
         public IFileService FileService => _fileService.Value;
         public INotificationService NotificationService => _notificationService.Value;
         public IScheduleService ScheduleService => _scheduleService.Value;
+        public ITaskService TaskService => _taskService.Value;
 
 
     }

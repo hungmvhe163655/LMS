@@ -20,7 +20,7 @@ namespace Service
         public TaskService(IRepositoryManager repositoryManager, IMapper mapper)
         {
             _repository = repositoryManager;
-
+                
             _mapper = mapper;
         }
         public async Task CreateTask(TaskCreateRequestModel model)
