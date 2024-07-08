@@ -9,5 +9,6 @@
         INewsService NewsService { get; }
         INotificationService NotificationService { get; }
         IScheduleService ScheduleService { get; }
+        ITaskService TaskService { get; }
     }
 }

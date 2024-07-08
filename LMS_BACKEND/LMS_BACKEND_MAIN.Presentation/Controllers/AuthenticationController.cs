@@ -119,13 +119,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestModel model)
         {
-            if (await _service.MailService.SendOTP(model.Email, "ForgotPasswordKey"))
+            var hold = await _service.AuthenticationService.ForgotPassword(model.Email);
+
+            if (await _service.MailService.SendMailToUser(model.Email,$"Your new password is here: {hold} remember to login and change it soon !","LMS - YOUR NEW PASSWORD"))
             {
-                return Ok(new ResponseMessage { Message = "OTP SENT TO USER EMAIL/PHONE" });
+                return Ok(new ResponseMessage { Message = "NEWPASSWORD WAS SENT TO USER EMAIL/PHONE" });
             }
             return BadRequest(new ResponseMessage { Message = "Invalid email/phonenumber" });
         }
-
+        /*
         [HttpPost(RoutesAPI.ForgotPasswordOtp)]
         public async Task<IActionResult> ForgotPasswordOtp([FromBody] ForgotPasswordRequestModel model)
         {
@@ -135,7 +137,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             return BadRequest(new ResponseMessage { Message = "User not found or wrong verify code" });
         }
-
+        */
         [HttpPost(RoutesAPI.VerifyEmailSend)]
         public async Task<IActionResult> VerifyEmailSend([FromBody]MailVerifyRequestModel model)
         {

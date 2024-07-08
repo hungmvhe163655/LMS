@@ -21,6 +21,10 @@ namespace Repository
         private readonly Lazy<IFolderRepository> _folderRepository;
 
         private readonly Lazy<IScheduleRepository> _scheduleRepository;
+
+        private readonly Lazy<ITaskRepository> _taskRepository;
+
+        private readonly Lazy<ITaskHistoryRepository> _taskHistoryRepository;
         public RepositoryManager(DataContext context)
         {
             _context = context;
@@ -42,6 +46,10 @@ namespace Repository
             _folderClosureRepository = new Lazy<IFolderClosureRepository>(() => new FolderClosureRepository(context));
 
             _scheduleRepository = new Lazy<IScheduleRepository>(() => new ScheduleRepository(context));
+
+            _taskRepository = new Lazy<ITaskRepository>(() => new TaskRepository(context));
+
+            _taskHistoryRepository = new Lazy<ITaskHistoryRepository>(() => new TaskHistoryRepository(context));
             //khoi tao newsRepo
         }
         public IAccountRepository account => _accountRepository.Value;
@@ -52,6 +60,8 @@ namespace Repository
         public IFolderClosureRepository folderClosure => _folderClosureRepository.Value;
         public IFolderRepository folder => _folderRepository.Value;
         public IScheduleRepository schedule => _scheduleRepository.Value;
+        public ITaskRepository task => _taskRepository.Value;
+        public ITaskHistoryRepository taskHistory => _taskHistoryRepository.Value;
 
         public async Task Save() => await _context.SaveChangesAsync();
     }

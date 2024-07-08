@@ -66,6 +66,13 @@ namespace LMS_BACKEND_MAIN
                 .ForMember(dest => dest.Account, op => op.MapFrom(src => src.Account))
                 .ForMember(dest => dest.Device, op => op.MapFrom(src => src.Device));
             CreateMap<Schedule, ScheduleCreateRequestModel>().ReverseMap();
+            CreateMap<Tasks, TaskHistory>()
+                .ForMember(dest => dest.TaskGuid, op => op.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Id, op => op.Ignore())
+                .ForMember(dest => dest.EditDate, op => op.Ignore())
+                .ForMember(dest => dest.AssignedToUser, op => op.MapFrom(src => src.AssignedToUser));
+            CreateMap<TaskCreateRequestModel, Tasks>().ReverseMap();
+            CreateMap<TaskUpdateRequestModel, Tasks>().ReverseMap();
 
         }
     }
