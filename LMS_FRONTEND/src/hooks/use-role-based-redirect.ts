@@ -1,29 +1,30 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
 
 import { User } from '@/types/api';
 
-const useRoleBasedRedirect = (user: User) => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get('redirectTo');
+const useRoleBasedRedirect = (initialUser: User | null) => {
+  const [user, setUser] = useState<User | null>(initialUser);
 
-  const redirectBasedOnRoles = () => {
+  const getRedirectBasedOnRoles = (): string => {
+    if (!user) return '/';
     if (user.isBanned) {
-      navigate('error/ban');
+      return 'auth/ban';
     } else if (user.isDeleted) {
-      navigate('error/deleted');
-    } else if (redirectTo) {
-      navigate(redirectTo, { replace: true });
+      return 'auth/deleted';
+    } else if (!user.isVerified) {
+      return 'auth/verified';
     } else if (user.roles.includes('Supervisor')) {
-      navigate('/dashboard/supervisor');
+      return '/dashboard/supervisor';
     } else if (user.roles.includes('Student')) {
-      navigate('/dashboard/student');
+      return '/dashboard/student';
     } else if (user.roles.includes('LabDirector')) {
-      navigate('/dashboard/lab-director');
+      return '/dashboard/lab-director';
+    } else {
+      return '/';
     }
   };
 
-  return { redirectBasedOnRoles };
+  return { setUser, getRedirectBasedOnRoles };
 };
 
 export default useRoleBasedRedirect;

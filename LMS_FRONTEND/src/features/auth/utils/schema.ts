@@ -36,4 +36,4 @@ export const registerInputSchema = z
 
 export type RegisterInput = z.infer<typeof registerInputSchema>;
 
-export type Supervisor = { id: string; userName: string };
+export type Supervisor = { id: string; fullName: string };

@@ -76,14 +76,14 @@ export const LoginForm = () => {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className='flex-col space-y-2'>
-        <p>
+      <CardFooter className='flex flex-col items-start space-y-1'>
+        <div>
           Don&apos;t have an account? <Link to='/auth/register'>Register now!</Link>
-        </p>
-        <p>
+        </div>
+        <div>
           Don&apos;t remember your password?{' '}
           <Link to='/auth/forget-password'> Forget Password</Link>
-        </p>
+        </div>
       </CardFooter>
     </Card>
   );

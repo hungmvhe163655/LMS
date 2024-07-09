@@ -81,7 +81,7 @@ export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack,
             <FormItem>
               <FormLabel>Verify Code</FormLabel>
               <FormControl>
-                <InputOTP maxLength={6} {...field}>
+                <InputOTP className='justify-center' maxLength={6} {...field}>
                   <InputOTPGroup>
                     <InputOTPSlot index={0} />
                     <InputOTPSlot index={1} />
@@ -99,7 +99,7 @@ export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack,
             </FormItem>
           )}
         />
-        <div className='flex w-full'>
+        <div className='flex w-full justify-between'>
           <Button className='mr-5 mt-0' type='submit' disabled={isPending}>
             {isPending ? 'Sending...' : 'Submit'}
           </Button>

@@ -32,7 +32,7 @@ const SupervisorSelect: React.FC<SupervisorSelectProps> = ({ form, field }) => {
     if (data) {
       const mappedSupervisors = data.map((supervisor: Supervisor) => ({
         value: supervisor.id,
-        label: supervisor.userName
+        label: supervisor.fullName
       }));
       setSupervisors(mappedSupervisors);
     }

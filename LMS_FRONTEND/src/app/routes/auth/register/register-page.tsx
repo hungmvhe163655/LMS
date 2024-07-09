@@ -35,10 +35,14 @@ export function RegisterPage() {
     setStep('email');
   };
 
+  const handleBackToChooseRole = () => {
+    setStep('role');
+  };
+
   return (
     <Layout title='Register'>
-      <Card className='pt-6'>
-        <CardContent className='pr-10'>
+      <Card>
+        <CardContent className='p-6'>
           {step === 'email' && <ValidateEmailForm onSubmit={handleEmailSubmit} />}
           {step === 'otp' && (
             <ValidateOtpForm
@@ -48,7 +52,9 @@ export function RegisterPage() {
             />
           )}
           {step === 'role' && <ChooseRoleRegister onSelectRole={handleRoleSelection} />}
-          {step === 'register' && <RegisterForm email={email} role={selectedRole} />}
+          {step === 'register' && (
+            <RegisterForm email={email} role={selectedRole} onBack={handleBackToChooseRole} />
+          )}
         </CardContent>
         <CardFooter>
           <p>

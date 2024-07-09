@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import { useNavigate } from 'react-router-dom';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
@@ -10,7 +11,7 @@ import { RegisterInput } from '../utils/schema';
 
 export const register = async (formData: RegisterInput): Promise<AuthResponse> => {
   const res = await api.post(`/auth/register/${formData.role.toLowerCase()}`, formData);
-  if (res.status === 200) {
+  if (res.status === 201) {
     const authResponse = res.data as AuthResponse;
     return authResponse;
   }
@@ -23,7 +24,7 @@ type UseRegisterOptions = {
 
 export const useRegister = ({ mutationConfig }: UseRegisterOptions = {}) => {
   const signIn = useSignIn();
-
+  const navigate = useNavigate();
   const { onSuccess, ...restConfig } = mutationConfig || {};
 
   return useMutation({
@@ -40,6 +41,8 @@ export const useRegister = ({ mutationConfig }: UseRegisterOptions = {}) => {
         },
         userState: user
       });
+
+      navigate('auth/verified');
 
       onSuccess?.(data, variables, context);
     },

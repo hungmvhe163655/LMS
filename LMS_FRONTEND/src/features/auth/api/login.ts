@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
+import useRoleBasedRedirect from '@/hooks/use-role-based-redirect';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { AuthResponse } from '@/types/api';
@@ -27,6 +28,7 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
+  const { getRedirectBasedOnRoles, setUser } = useRoleBasedRedirect(null);
 
   const { onSuccess, ...restConfig } = mutationConfig || {};
 
@@ -46,16 +48,11 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
       });
 
       if (signInSuccess) {
-        const roles = user.roles;
-
         if (redirectTo) {
           navigate(redirectTo, { replace: true });
-        } else if (roles.includes('Supervisor')) {
-          navigate('/dashboard/supervisor');
-        } else if (roles.includes('Student')) {
-          navigate('/dashboard/student');
-        } else if (roles.includes('LabDirector')) {
-          navigate('/dashboard/lab-director');
+        } else {
+          setUser(user);
+          navigate(getRedirectBasedOnRoles());
         }
       }
 

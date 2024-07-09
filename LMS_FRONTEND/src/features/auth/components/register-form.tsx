@@ -27,9 +27,10 @@ import SupervisorSelect from './supervisor-select';
 interface RegisterFormProps {
   email: string;
   role: Role;
+  onBack: () => void;
 }
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ email, role }) => {
+const RegisterForm: React.FC<RegisterFormProps> = ({ email, role, onBack }) => {
   const { mutateAsync: register, isPending } = useRegister();
 
   const registerSchema = registerInputSchema.and(
@@ -71,7 +72,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6 py-4'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 py-4'>
         {/* Email Input Field */}
         <FormField
           control={form.control}
@@ -80,7 +81,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role }) => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input disabled {...field} placeholder='Email' />
+                <Input autoComplete='off' disabled {...field} placeholder='Email' />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -222,6 +223,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role }) => {
         </div>
         <Button type='submit' className='w-full' disabled={isPending}>
           {isPending ? 'Registering...' : 'Register'}
+        </Button>
+        <Button className='w-full bg-blue-600 hover:bg-blue-800' type='button' onClick={onBack}>
+          Return To Choose Role
         </Button>
       </form>
     </Form>
