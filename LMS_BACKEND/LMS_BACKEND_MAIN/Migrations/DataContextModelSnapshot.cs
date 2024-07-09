@@ -139,11 +139,11 @@ namespace LMS_BACKEND_MAIN.Migrations
                         {
                             Id = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0f5140e8-0d55-4329-ad22-4f7451fd8533",
-                            CreatedDate = new DateTime(2024, 7, 7, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6419),
+                            ConcurrencyStamp = "66979df0-5e69-49f9-a09e-a402af179295",
+                            CreatedDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(434),
                             Email = "minhtche161354@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6433),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(446),
                             FullName = "Tran Cong Minh",
                             Gender = false,
                             IsBanned = false,
@@ -155,20 +155,21 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAELgUn5wJH9empSyZm7MdUy84spVESi+LvNCV8nDY9PMgoY0fOBYhfZO/MPZHjSZimA==",
                             PhoneNumber = "0963661093",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "d9a686ac-222a-4d4c-bfa3-5cfd14baa939",
+                            SecurityStamp = "8c1f4836-29ea-4fc4-bf9d-212d16a861c7",
                             TwoFactorEnabled = false,
                             UserName = "minhtche161354",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6433)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(447),
+                            VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6e6118fb-0909-424d-ae4e-2f430d25128d",
-                            CreatedDate = new DateTime(2024, 7, 7, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6447),
+                            ConcurrencyStamp = "711a9446-1059-495f-9f07-130a67f5541b",
+                            CreatedDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(457),
                             Email = "thailshe160614@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6448),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(458),
                             FullName = "Le Sy Thai",
                             Gender = true,
                             IsBanned = false,
@@ -180,20 +181,21 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEO5SGANyOkCieJN+MspCJeIbBLjDruXYD5omO5+7u9NVKctIo979jEts1uoDaalzTw==",
                             PhoneNumber = "0497461220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "aebbce8d-fb38-4974-a7cf-55ada9e8c948",
+                            SecurityStamp = "2bf8d117-646c-48c7-bf9b-8cbd8a968076",
                             TwoFactorEnabled = false,
                             UserName = "thailshe160614",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6448)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(459),
+                            VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "a687bb04-4f19-49d5-a60f-2db52044767c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "43c8ea7b-d1bf-4443-9c07-2446361f9f16",
-                            CreatedDate = new DateTime(2024, 7, 7, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6458),
+                            ConcurrencyStamp = "d2d8e79c-6ce7-440a-be5a-ca673ea0a075",
+                            CreatedDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(473),
                             Email = "hungmvhe163655@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6459),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(474),
                             FullName = "Mai Viet Hung",
                             Gender = true,
                             IsBanned = false,
@@ -205,20 +207,21 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHaY3BZO2ooRDvclwsiVvksAaPExz0GAXkEHlfwAtwfVBfRcw9gQTR02USItL9NrSg==",
                             PhoneNumber = "0975461220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "f3bc9784-7818-4fc1-84e0-a6ae78448438",
+                            SecurityStamp = "188a50be-d990-4d89-92c7-064e4c41e5e1",
                             TwoFactorEnabled = false,
                             UserName = "hungmvhe163655",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6460)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(474),
+                            VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "af397c89-33fb-404d-8c80-47c7b111ac76",
-                            CreatedDate = new DateTime(2024, 7, 7, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6469),
+                            ConcurrencyStamp = "f9965a3a-0dd8-4771-98df-d8715e7a5698",
+                            CreatedDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(485),
                             Email = "cuongndhe163098@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6470),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(486),
                             FullName = "Nguyen Duc Cuong",
                             Gender = true,
                             IsBanned = false,
@@ -230,20 +233,22 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAENVZ95qV36S0GH4gzip/nSmI9JKDA1CAGuL2+t1ysccrtPgGLrSZ6k9v/tS37ojoSw==",
                             PhoneNumber = "0975465220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "484ea294-42bb-429d-a2c6-596fe5c68c45",
+                            SecurityStamp = "1fc0cd0e-1a01-4688-a254-b91a4099388f",
                             TwoFactorEnabled = false,
                             UserName = "cuongndhe163098",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6471)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(486),
+                            VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6ae044ab-365b-4f35-a4a2-b9f96961a619",
-                            CreatedDate = new DateTime(2024, 7, 7, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6482),
+                            ConcurrencyStamp = "0de11a80-1705-42e8-85aa-28f0ecdd868d",
+                            CreatedDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(496),
                             Email = "hoangnmhe163884@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6483),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(497),
+                            FullName = "Nguyen Minh Hoang",
                             Gender = false,
                             IsBanned = false,
                             IsDeleted = false,
@@ -254,20 +259,21 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEBSeWGYcWJzo0jTXDBqXgYkMmzdQCRKsLrFMaaqieAdCHchkvB2oa1eRy3gsuvWyVw==",
                             PhoneNumber = "0975765220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "d6752959-8b54-4573-acf8-972b206c81da",
+                            SecurityStamp = "a68f30f1-3e67-4a56-b673-df74aff9e74f",
                             TwoFactorEnabled = false,
                             UserName = "hoangnmhe163884",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6484)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(497),
+                            VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "7397c854-194b-4749-9205-f46e4f2fccf8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5c745d75-a365-4963-a2f2-32bf2d965f1d",
-                            CreatedDate = new DateTime(2024, 7, 7, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6506),
+                            ConcurrencyStamp = "f917e8da-5c94-4639-a9c0-09c685822e4c",
+                            CreatedDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(510),
                             Email = "littlejohn123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6507),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(511),
                             FullName = "John",
                             Gender = true,
                             IsBanned = false,
@@ -279,20 +285,21 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965765228",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "2ee51613-7922-4cb6-b251-b661179f0b03",
+                            SecurityStamp = "cc0dd11c-2ae5-483b-9005-a9e2ff910d8b",
                             TwoFactorEnabled = false,
                             UserName = "littlejohn",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6508)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(511),
+                            VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f0d4e661-7e4a-41ef-9dc3-857b809176a5",
-                            CreatedDate = new DateTime(2024, 7, 7, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6518),
+                            ConcurrencyStamp = "7e68a3b9-0eee-4c26-874f-6b5a4e684bf2",
+                            CreatedDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(523),
                             Email = "kenshiyonezu123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6519),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(524),
                             FullName = "Kenshi Yonezu",
                             Gender = true,
                             IsBanned = false,
@@ -304,20 +311,21 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965765120",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "4ba5db37-d0c6-4d23-8aeb-3e2657dfa9d9",
+                            SecurityStamp = "dc8fa6bf-3ca3-4be6-83a2-9c6e8bb33cc3",
                             TwoFactorEnabled = false,
                             UserName = "kenshiyonezu",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6519)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(524),
+                            VerifiedBy = "a687bb04-4f19-49d5-a60f-2db52044767c"
                         },
                         new
                         {
                             Id = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "db77875e-5231-45cf-87be-ee27b09d4cf4",
-                            CreatedDate = new DateTime(2024, 7, 7, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6532),
+                            ConcurrencyStamp = "c3d1ce42-dd6b-41a3-b11a-2594b005fe50",
+                            CreatedDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(544),
                             Email = "gakkou123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6533),
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(545),
                             FullName = "Gakkou Atarashi",
                             Gender = false,
                             IsBanned = false,
@@ -329,10 +337,88 @@ namespace LMS_BACKEND_MAIN.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965795220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "0921111e-c130-40d3-b48f-75e9cbeee580",
+                            SecurityStamp = "4fb2d554-d967-49ee-851d-e76dccadebad",
                             TwoFactorEnabled = false,
                             UserName = "gakkou",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 7, 13, 41, 45, 933, DateTimeKind.Utc).AddTicks(6533)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(545),
+                            VerifiedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209"
+                        },
+                        new
+                        {
+                            Id = "d4325be4-cb11-4f2f-b29e-dc52024d6c65",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "15e9d80f-d282-4723-bc50-220df66f134d",
+                            CreatedDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(555),
+                            Email = "nguyentrunghieu123@gmail.com",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(556),
+                            FullName = "Nguyen Trung Hieu",
+                            Gender = false,
+                            IsBanned = true,
+                            IsDeleted = false,
+                            IsVerified = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "NGUYENTRUNGHIEU123@GMAIL.COM",
+                            NormalizedUserName = "HIEUNTHE168975",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0965795220",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "41d25b1c-b58e-44d6-8f2f-0545d6f698e7",
+                            TwoFactorEnabled = false,
+                            UserName = "hieunthe168975",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(557),
+                            VerifiedBy = "a687bb04-4f19-49d5-a60f-2db52044767c"
+                        },
+                        new
+                        {
+                            Id = "b745d464-f213-487c-8469-1f0d10d32224",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ffc0df70-c361-4be6-85cf-a0f50cf013fe",
+                            CreatedDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(566),
+                            Email = "caohoanganh123@gmail.com",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(567),
+                            FullName = "Cao Hoang Anh",
+                            Gender = false,
+                            IsBanned = false,
+                            IsDeleted = true,
+                            IsVerified = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "CAOHOANGANH123@GMAIL.COM",
+                            NormalizedUserName = "ANHCHHE161236",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0965795220",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "1a7c9371-e506-4219-b3b3-d003013d641d",
+                            TwoFactorEnabled = false,
+                            UserName = "anhchhe161236",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(567),
+                            VerifiedBy = "a687bb04-4f19-49d5-a60f-2db52044767c"
+                        },
+                        new
+                        {
+                            Id = "d7d2f268-eea4-4299-9342-800564cc6411",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "8a499b4e-0547-41bb-a8e4-232b0f3dc062",
+                            CreatedDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(579),
+                            Email = "doantrungnam123@gmail.com",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(580),
+                            FullName = "Doan Trung Nam",
+                            Gender = false,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DOANTRUNGNAM123@GMAIL.COM",
+                            NormalizedUserName = "NAMDTHE159865",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0965795220",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "1ae01feb-93bb-4072-9d58-8ac2c344058f",
+                            TwoFactorEnabled = false,
+                            UserName = "namdthe159865",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 9, 7, 31, 56, 677, DateTimeKind.Utc).AddTicks(580)
                         });
                 });
 
@@ -421,7 +507,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Primary server",
                             DeviceStatusId = 1,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 6, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6969),
+                            LastUsed = new DateTime(2024, 7, 8, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(988),
                             Name = "Server",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
@@ -431,7 +517,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Network switch",
                             DeviceStatusId = 3,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 6, 22, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6993),
+                            LastUsed = new DateTime(2024, 6, 24, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1009),
                             Name = "Switch",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
@@ -441,7 +527,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Dell UltraSharp U2723QE 27 inch",
                             DeviceStatusId = 2,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 5, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6974),
+                            LastUsed = new DateTime(2024, 7, 7, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(993),
                             Name = "Screen",
                             OwnedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209"
                         },
@@ -451,7 +537,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Thai's PC",
                             DeviceStatusId = 1,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 4, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6976),
+                            LastUsed = new DateTime(2024, 7, 6, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(995),
                             Name = "PC",
                             OwnedBy = "a687bb04-4f19-49d5-a60f-2db52044767c"
                         },
@@ -461,7 +547,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Main office router",
                             DeviceStatusId = 3,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 6, 27, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6979),
+                            LastUsed = new DateTime(2024, 6, 29, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(997),
                             Name = "Router",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
@@ -471,7 +557,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Development desktop",
                             DeviceStatusId = 1,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 6, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6981),
+                            LastUsed = new DateTime(2024, 7, 8, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(999),
                             Name = "Desktop",
                             OwnedBy = "a687bb04-4f19-49d5-a60f-2db52044767c"
                         },
@@ -481,7 +567,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "High resolution monitor",
                             DeviceStatusId = 2,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 2, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6983),
+                            LastUsed = new DateTime(2024, 7, 4, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1001),
                             Name = "Monitor",
                             OwnedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209"
                         },
@@ -491,7 +577,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Office printer",
                             DeviceStatusId = 1,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 6, 30, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6986),
+                            LastUsed = new DateTime(2024, 7, 2, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1003),
                             Name = "Printer",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
@@ -501,7 +587,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Designer's tablet",
                             DeviceStatusId = 2,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 5, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6989),
+                            LastUsed = new DateTime(2024, 7, 7, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1005),
                             Name = "Tablet",
                             OwnedBy = "a687bb04-4f19-49d5-a60f-2db52044767c"
                         },
@@ -511,7 +597,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Conference room projector",
                             DeviceStatusId = 1,
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 3, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6991),
+                            LastUsed = new DateTime(2024, 7, 5, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1007),
                             Name = "Projector",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         });
@@ -956,7 +1042,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("e331de18-289c-403d-8028-26c4b595587a"),
                             Content = "A new system update will be available tomorrow.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 7, 6, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6650),
+                            CreatedDate = new DateTime(2024, 7, 8, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(695),
                             NotificationTypeId = 1,
                             Title = "System Update",
                             Url = ""
@@ -966,7 +1052,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"),
                             Content = "Scheduled maintenance will occur this weekend.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 7, 5, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6661),
+                            CreatedDate = new DateTime(2024, 7, 7, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(703),
                             NotificationTypeId = 1,
                             Title = "Maintenance Notice",
                             Url = ""
@@ -976,7 +1062,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"),
                             Content = "We are excited to announce a new feature in our application.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 7, 4, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6663),
+                            CreatedDate = new DateTime(2024, 7, 6, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(705),
                             NotificationTypeId = 1,
                             Title = "New Feature Release",
                             Url = ""
@@ -986,7 +1072,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"),
                             Content = "Please update your password to enhance security.",
                             CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
-                            CreatedDate = new DateTime(2024, 7, 3, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6666),
+                            CreatedDate = new DateTime(2024, 7, 5, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(707),
                             NotificationTypeId = 1,
                             Title = "Security Alert",
                             Url = ""
@@ -996,7 +1082,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("d6dedee7-ab6d-4bfd-bdf7-b3665679cc50"),
                             Content = "The system will be down for maintenance tonight.",
                             CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
-                            CreatedDate = new DateTime(2024, 7, 2, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6670),
+                            CreatedDate = new DateTime(2024, 7, 4, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(709),
                             NotificationTypeId = 1,
                             Title = "Downtime Notification",
                             Url = ""
@@ -1006,7 +1092,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("e4455de4-ff95-4957-85a1-b03b8b97f9c3"),
                             Content = "Join weekly meeting.",
                             CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
-                            CreatedDate = new DateTime(2024, 7, 1, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6672),
+                            CreatedDate = new DateTime(2024, 7, 3, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(711),
                             NotificationTypeId = 2,
                             Title = "Weekly Meeting",
                             Url = ""
@@ -1016,7 +1102,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("4f517076-e6c7-43ce-93b6-9aeae4857760"),
                             Content = "Don't miss out on our latest promotions!",
                             CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
-                            CreatedDate = new DateTime(2024, 6, 30, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6674),
+                            CreatedDate = new DateTime(2024, 7, 2, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(713),
                             NotificationTypeId = 2,
                             Title = "Promotion Alert",
                             Url = ""
@@ -1026,7 +1112,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("931129a9-986f-4560-99f1-a06b692c71a1"),
                             Content = "Please take a moment to complete our user survey.",
                             CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
-                            CreatedDate = new DateTime(2024, 6, 29, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6676),
+                            CreatedDate = new DateTime(2024, 7, 1, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(715),
                             NotificationTypeId = 2,
                             Title = "Survey Request",
                             Url = ""
@@ -1036,7 +1122,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("5754541e-7c1e-4839-8021-963e90f6e4e0"),
                             Content = "Your account details have been updated.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 6, 28, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6679),
+                            CreatedDate = new DateTime(2024, 6, 30, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(719),
                             NotificationTypeId = 1,
                             Title = "Account Notice",
                             Url = ""
@@ -1046,7 +1132,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"),
                             Content = "Don't forget about the event tomorrow!",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 6, 27, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(6681),
+                            CreatedDate = new DateTime(2024, 6, 29, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(721),
                             NotificationTypeId = 1,
                             Title = "Event Reminder",
                             Url = ""
@@ -1878,200 +1964,200 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("44efa2a7-4f64-4fc6-bbbe-869099817d4f"),
                             AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             DeviceId = new Guid("9eae03ad-745d-47c0-baef-ae4657964e6a"),
-                            EndDate = new DateTime(2024, 7, 7, 22, 41, 45, 933, DateTimeKind.Local).AddTicks(7024),
+                            EndDate = new DateTime(2024, 7, 9, 16, 31, 56, 677, DateTimeKind.Local).AddTicks(1035),
                             Purpose = "Testing",
-                            ScheduledDate = new DateTime(2024, 7, 7, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7022),
-                            StartDate = new DateTime(2024, 7, 7, 21, 41, 45, 933, DateTimeKind.Local).AddTicks(7022)
+                            ScheduledDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1033),
+                            StartDate = new DateTime(2024, 7, 9, 15, 31, 56, 677, DateTimeKind.Local).AddTicks(1035)
                         },
                         new
                         {
                             Id = new Guid("70f625f4-33f5-4c62-9718-d3e2c420e703"),
                             AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 5, 2, 41, 45, 933, DateTimeKind.Local).AddTicks(7057),
+                            EndDate = new DateTime(2024, 7, 6, 20, 31, 56, 677, DateTimeKind.Local).AddTicks(1068),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 4, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7055),
-                            StartDate = new DateTime(2024, 7, 5, 1, 41, 45, 933, DateTimeKind.Local).AddTicks(7056)
+                            ScheduledDate = new DateTime(2024, 7, 6, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1067),
+                            StartDate = new DateTime(2024, 7, 6, 19, 31, 56, 677, DateTimeKind.Local).AddTicks(1068)
                         },
                         new
                         {
                             Id = new Guid("77153502-8631-4b5f-b05d-76d4796c06d4"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 4, 0, 41, 45, 933, DateTimeKind.Local).AddTicks(7060),
+                            EndDate = new DateTime(2024, 7, 5, 18, 31, 56, 677, DateTimeKind.Local).AddTicks(1072),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 3, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7059),
-                            StartDate = new DateTime(2024, 7, 3, 23, 41, 45, 933, DateTimeKind.Local).AddTicks(7059)
+                            ScheduledDate = new DateTime(2024, 7, 5, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1071),
+                            StartDate = new DateTime(2024, 7, 5, 17, 31, 56, 677, DateTimeKind.Local).AddTicks(1071)
                         },
                         new
                         {
                             Id = new Guid("8bb44d07-f470-4434-a023-6bdffb4311cc"),
                             AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 3, 2, 41, 45, 933, DateTimeKind.Local).AddTicks(7063),
+                            EndDate = new DateTime(2024, 7, 4, 20, 31, 56, 677, DateTimeKind.Local).AddTicks(1075),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 2, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7062),
-                            StartDate = new DateTime(2024, 7, 3, 1, 41, 45, 933, DateTimeKind.Local).AddTicks(7063)
+                            ScheduledDate = new DateTime(2024, 7, 4, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1074),
+                            StartDate = new DateTime(2024, 7, 4, 19, 31, 56, 677, DateTimeKind.Local).AddTicks(1074)
                         },
                         new
                         {
                             Id = new Guid("4fa30f09-e82a-4375-a28f-8190a8667a09"),
                             AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 2, 2, 41, 45, 933, DateTimeKind.Local).AddTicks(7067),
+                            EndDate = new DateTime(2024, 7, 3, 20, 31, 56, 677, DateTimeKind.Local).AddTicks(1078),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 1, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7066),
-                            StartDate = new DateTime(2024, 7, 1, 23, 41, 45, 933, DateTimeKind.Local).AddTicks(7066)
+                            ScheduledDate = new DateTime(2024, 7, 3, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1077),
+                            StartDate = new DateTime(2024, 7, 3, 17, 31, 56, 677, DateTimeKind.Local).AddTicks(1078)
                         },
                         new
                         {
                             Id = new Guid("77790ba9-1f3c-4943-9e39-097000fc6fa2"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 1, 0, 41, 45, 933, DateTimeKind.Local).AddTicks(7070),
+                            EndDate = new DateTime(2024, 7, 2, 18, 31, 56, 677, DateTimeKind.Local).AddTicks(1082),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 6, 30, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7069),
-                            StartDate = new DateTime(2024, 6, 30, 23, 41, 45, 933, DateTimeKind.Local).AddTicks(7069)
+                            ScheduledDate = new DateTime(2024, 7, 2, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1081),
+                            StartDate = new DateTime(2024, 7, 2, 17, 31, 56, 677, DateTimeKind.Local).AddTicks(1082)
                         },
                         new
                         {
                             Id = new Guid("5b1615a6-b870-456a-a483-e99a3f9122dc"),
                             AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             DeviceId = new Guid("11d331b4-136c-4844-a686-ffc38c103268"),
-                            EndDate = new DateTime(2024, 7, 6, 0, 41, 45, 933, DateTimeKind.Local).AddTicks(7074),
+                            EndDate = new DateTime(2024, 7, 7, 18, 31, 56, 677, DateTimeKind.Local).AddTicks(1087),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 5, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7072),
-                            StartDate = new DateTime(2024, 7, 5, 23, 41, 45, 933, DateTimeKind.Local).AddTicks(7073)
+                            ScheduledDate = new DateTime(2024, 7, 7, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1085),
+                            StartDate = new DateTime(2024, 7, 7, 17, 31, 56, 677, DateTimeKind.Local).AddTicks(1086)
                         },
                         new
                         {
                             Id = new Guid("ff18bb51-3c4e-4fcb-a73e-39f60996be8c"),
                             AccountId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
                             DeviceId = new Guid("b4dc2d48-482a-48a2-bad6-7a1e0e3139b7"),
-                            EndDate = new DateTime(2024, 7, 7, 0, 41, 45, 933, DateTimeKind.Local).AddTicks(7077),
+                            EndDate = new DateTime(2024, 7, 8, 18, 31, 56, 677, DateTimeKind.Local).AddTicks(1090),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 6, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7076),
-                            StartDate = new DateTime(2024, 7, 6, 23, 41, 45, 933, DateTimeKind.Local).AddTicks(7076)
+                            ScheduledDate = new DateTime(2024, 7, 8, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1089),
+                            StartDate = new DateTime(2024, 7, 8, 17, 31, 56, 677, DateTimeKind.Local).AddTicks(1089)
                         },
                         new
                         {
                             Id = new Guid("eb607a7a-2572-4a16-bbbd-99f3db25d40b"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("0a395b72-ae0d-4a49-b7f8-1763de733068"),
-                            EndDate = new DateTime(2024, 7, 8, 0, 41, 45, 933, DateTimeKind.Local).AddTicks(7081),
+                            EndDate = new DateTime(2024, 7, 9, 18, 31, 56, 677, DateTimeKind.Local).AddTicks(1093),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 7, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7080),
-                            StartDate = new DateTime(2024, 7, 7, 23, 41, 45, 933, DateTimeKind.Local).AddTicks(7080)
+                            ScheduledDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1092),
+                            StartDate = new DateTime(2024, 7, 9, 17, 31, 56, 677, DateTimeKind.Local).AddTicks(1092)
                         },
                         new
                         {
                             Id = new Guid("5547314b-521a-47e9-ad60-5e376e686636"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("5947a22f-0191-419c-873b-4324b5b95e84"),
-                            EndDate = new DateTime(2024, 7, 8, 0, 41, 45, 933, DateTimeKind.Local).AddTicks(7084),
+                            EndDate = new DateTime(2024, 7, 9, 18, 31, 56, 677, DateTimeKind.Local).AddTicks(1096),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 7, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7083),
-                            StartDate = new DateTime(2024, 7, 7, 23, 41, 45, 933, DateTimeKind.Local).AddTicks(7083)
+                            ScheduledDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1095),
+                            StartDate = new DateTime(2024, 7, 9, 17, 31, 56, 677, DateTimeKind.Local).AddTicks(1095)
                         },
                         new
                         {
                             Id = new Guid("9bfeb5df-03a4-4ae5-904e-1779c19a5313"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("a1d65f8a-f7fd-4995-940f-6ab254523f90"),
-                            EndDate = new DateTime(2024, 7, 7, 0, 41, 45, 933, DateTimeKind.Local).AddTicks(7087),
+                            EndDate = new DateTime(2024, 7, 8, 18, 31, 56, 677, DateTimeKind.Local).AddTicks(1099),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 6, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7086),
-                            StartDate = new DateTime(2024, 7, 6, 23, 41, 45, 933, DateTimeKind.Local).AddTicks(7086)
+                            ScheduledDate = new DateTime(2024, 7, 8, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1098),
+                            StartDate = new DateTime(2024, 7, 8, 17, 31, 56, 677, DateTimeKind.Local).AddTicks(1098)
                         },
                         new
                         {
                             Id = new Guid("e377b750-0b20-4943-9e5d-6909d4810f13"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("9eae03ad-745d-47c0-baef-ae4657964e6a"),
-                            EndDate = new DateTime(2024, 7, 8, 0, 41, 45, 933, DateTimeKind.Local).AddTicks(7028),
+                            EndDate = new DateTime(2024, 7, 9, 18, 31, 56, 677, DateTimeKind.Local).AddTicks(1039),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 7, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7027),
-                            StartDate = new DateTime(2024, 7, 7, 23, 41, 45, 933, DateTimeKind.Local).AddTicks(7027)
+                            ScheduledDate = new DateTime(2024, 7, 9, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1038),
+                            StartDate = new DateTime(2024, 7, 9, 17, 31, 56, 677, DateTimeKind.Local).AddTicks(1039)
                         },
                         new
                         {
                             Id = new Guid("6500363e-6574-42e7-8577-6dc87a55ce15"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("eb934470-4e73-41a8-8304-3bcb1ea18502"),
-                            EndDate = new DateTime(2024, 7, 6, 0, 41, 45, 933, DateTimeKind.Local).AddTicks(7090),
+                            EndDate = new DateTime(2024, 7, 7, 18, 31, 56, 677, DateTimeKind.Local).AddTicks(1102),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 5, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7089),
-                            StartDate = new DateTime(2024, 7, 5, 23, 41, 45, 933, DateTimeKind.Local).AddTicks(7090)
+                            ScheduledDate = new DateTime(2024, 7, 7, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1101),
+                            StartDate = new DateTime(2024, 7, 7, 17, 31, 56, 677, DateTimeKind.Local).AddTicks(1102)
                         },
                         new
                         {
                             Id = new Guid("37d2c7b3-7406-418d-9062-e81dfff02d9a"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("0104f1af-a314-4c64-8b8d-92c72caa97df"),
-                            EndDate = new DateTime(2024, 7, 6, 22, 41, 45, 933, DateTimeKind.Local).AddTicks(7032),
+                            EndDate = new DateTime(2024, 7, 8, 16, 31, 56, 677, DateTimeKind.Local).AddTicks(1043),
                             Purpose = "Testing",
-                            ScheduledDate = new DateTime(2024, 7, 6, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7031),
-                            StartDate = new DateTime(2024, 7, 6, 21, 41, 45, 933, DateTimeKind.Local).AddTicks(7031)
+                            ScheduledDate = new DateTime(2024, 7, 8, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1042),
+                            StartDate = new DateTime(2024, 7, 8, 15, 31, 56, 677, DateTimeKind.Local).AddTicks(1042)
                         },
                         new
                         {
                             Id = new Guid("e0fa81b1-9eea-4b4b-93a7-b7a34aae4014"),
                             AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
                             DeviceId = new Guid("0104f1af-a314-4c64-8b8d-92c72caa97df"),
-                            EndDate = new DateTime(2024, 7, 7, 0, 41, 45, 933, DateTimeKind.Local).AddTicks(7036),
+                            EndDate = new DateTime(2024, 7, 8, 18, 31, 56, 677, DateTimeKind.Local).AddTicks(1047),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 6, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7034),
-                            StartDate = new DateTime(2024, 7, 6, 23, 41, 45, 933, DateTimeKind.Local).AddTicks(7035)
+                            ScheduledDate = new DateTime(2024, 7, 8, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1046),
+                            StartDate = new DateTime(2024, 7, 8, 17, 31, 56, 677, DateTimeKind.Local).AddTicks(1047)
                         },
                         new
                         {
                             Id = new Guid("db1fcaa0-e934-4429-a567-2ac802d0b453"),
                             AccountId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
                             DeviceId = new Guid("0104f1af-a314-4c64-8b8d-92c72caa97df"),
-                            EndDate = new DateTime(2024, 7, 7, 2, 41, 45, 933, DateTimeKind.Local).AddTicks(7039),
+                            EndDate = new DateTime(2024, 7, 8, 20, 31, 56, 677, DateTimeKind.Local).AddTicks(1051),
                             Purpose = "Testing",
-                            ScheduledDate = new DateTime(2024, 7, 6, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7038),
-                            StartDate = new DateTime(2024, 7, 7, 1, 41, 45, 933, DateTimeKind.Local).AddTicks(7038)
+                            ScheduledDate = new DateTime(2024, 7, 8, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1050),
+                            StartDate = new DateTime(2024, 7, 8, 19, 31, 56, 677, DateTimeKind.Local).AddTicks(1050)
                         },
                         new
                         {
                             Id = new Guid("27f1b969-1b68-4cf8-8a51-c8be5356f7f8"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 6, 0, 41, 45, 933, DateTimeKind.Local).AddTicks(7042),
+                            EndDate = new DateTime(2024, 7, 7, 18, 31, 56, 677, DateTimeKind.Local).AddTicks(1054),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 5, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7041),
-                            StartDate = new DateTime(2024, 7, 5, 23, 41, 45, 933, DateTimeKind.Local).AddTicks(7042)
+                            ScheduledDate = new DateTime(2024, 7, 7, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1053),
+                            StartDate = new DateTime(2024, 7, 7, 17, 31, 56, 677, DateTimeKind.Local).AddTicks(1053)
                         },
                         new
                         {
                             Id = new Guid("4da0b3f8-95aa-40cd-ab32-75876ca13900"),
                             AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 6, 2, 41, 45, 933, DateTimeKind.Local).AddTicks(7046),
+                            EndDate = new DateTime(2024, 7, 7, 20, 31, 56, 677, DateTimeKind.Local).AddTicks(1058),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 5, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7045),
-                            StartDate = new DateTime(2024, 7, 6, 1, 41, 45, 933, DateTimeKind.Local).AddTicks(7045)
+                            ScheduledDate = new DateTime(2024, 7, 7, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1057),
+                            StartDate = new DateTime(2024, 7, 7, 19, 31, 56, 677, DateTimeKind.Local).AddTicks(1057)
                         },
                         new
                         {
                             Id = new Guid("80d34442-7c14-4060-ae8f-24cda38e63f9"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 6, 22, 41, 45, 933, DateTimeKind.Local).AddTicks(7049),
+                            EndDate = new DateTime(2024, 7, 8, 16, 31, 56, 677, DateTimeKind.Local).AddTicks(1061),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 6, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7048),
-                            StartDate = new DateTime(2024, 7, 6, 21, 41, 45, 933, DateTimeKind.Local).AddTicks(7049)
+                            ScheduledDate = new DateTime(2024, 7, 8, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1060),
+                            StartDate = new DateTime(2024, 7, 8, 15, 31, 56, 677, DateTimeKind.Local).AddTicks(1060)
                         },
                         new
                         {
                             Id = new Guid("5dc94e7f-845b-480b-8c81-f1d50c359491"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 5, 0, 41, 45, 933, DateTimeKind.Local).AddTicks(7053),
+                            EndDate = new DateTime(2024, 7, 6, 18, 31, 56, 677, DateTimeKind.Local).AddTicks(1065),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 4, 20, 41, 45, 933, DateTimeKind.Local).AddTicks(7052),
-                            StartDate = new DateTime(2024, 7, 4, 23, 41, 45, 933, DateTimeKind.Local).AddTicks(7052)
+                            ScheduledDate = new DateTime(2024, 7, 6, 14, 31, 56, 677, DateTimeKind.Local).AddTicks(1064),
+                            StartDate = new DateTime(2024, 7, 6, 17, 31, 56, 677, DateTimeKind.Local).AddTicks(1064)
                         });
                 });
 
@@ -2135,6 +2221,20 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
+                            Major = "Software Engineering",
+                            RollNumber = "HE156894",
+                            Specialized = "PHP"
+                        },
+                        new
+                        {
+                            AccountId = "d4325be4-cb11-4f2f-b29e-dc52024d6c65",
+                            Major = "Software Engineering",
+                            RollNumber = "HE156894",
+                            Specialized = "PHP"
+                        },
+                        new
+                        {
+                            AccountId = "b745d464-f213-487c-8469-1f0d10d32224",
                             Major = "Software Engineering",
                             RollNumber = "HE156894",
                             Specialized = "PHP"
@@ -2301,6 +2401,12 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.Property<bool?>("RequiredValidation")
                         .HasColumnType("bit")
                         .HasColumnName("RequiresValidation");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2")
@@ -2529,6 +2635,21 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             UserId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
+                            RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2"
+                        },
+                        new
+                        {
+                            UserId = "d4325be4-cb11-4f2f-b29e-dc52024d6c65",
+                            RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2"
+                        },
+                        new
+                        {
+                            UserId = "b745d464-f213-487c-8469-1f0d10d32224",
+                            RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2"
+                        },
+                        new
+                        {
+                            UserId = "d7d2f268-eea4-4299-9342-800564cc6411",
                             RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2"
                         });
                 });
