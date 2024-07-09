@@ -109,7 +109,7 @@ namespace Service
 
             var verifierRole = await _userManager.GetRolesAsync(verifier);
 
-            if (verifierRole == null || !(verifierRole.Contains("Labadmin") || verifierRole.Contains("Supervisor")))
+            if (verifierRole == null || !verifierRole.Contains("Supervisor")))
 
                 throw new BadRequestException("Verifier's not authorized");
 
