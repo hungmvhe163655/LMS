@@ -28,7 +28,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = service;
         }
-
+        /*
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
         [HttpPost(RoutesAPI.CreateAdmin)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
@@ -38,17 +38,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return StatusCode(201, result);
         }
-
-
-        [HttpGet(RoutesAPI.GetUsers)]
-        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
-        public async Task<IActionResult> GetUsers(string role)
-        {
-            var hold = await _service.AccountService.GetUserByRole(role.ToUpper());
-
-            return Ok(hold);
-        }
-
+        */
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
         [HttpGet(RoutesAPI.GetAccountNeedVerified)]
         public IActionResult GetAccountNeedVerified(string email)
@@ -95,17 +85,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpPost(RoutesAPI.ChangeEmail)]
-        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ChangeEmail(string id, [FromBody] ChangeEmailRequestModel model)
         {
-            //var hold = await _service.AccountService.GetUserById(id);
-            //var email = hold.Email;
-            //if (await _service.MailService.SendOTP(email, "ChangeEmailKey"))
-            //{
-            //    return Ok(new ResponseMessage { Message = "OTP SENT TO USER EMAIL" });
-            //}
-            //return BadRequest(new ResponseMessage { Message = "Invalid email" });
             await _service.AccountService.ChangeEmailAsync(id, model);
             return Ok(new ResponseMessage { Message = "Change email Successully" });
         }

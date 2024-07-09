@@ -32,6 +32,8 @@
     {
         #region AuthenticationAPIs
 
+        public const string GetUsers = "accounts-supervisor";
+
         public const string VerifyEmailSend = "verify-email-send";
 
         public const string GetCurrentLoggedInUser = "me";
@@ -58,9 +60,7 @@
 
         #region AccountAPIs
 
-        public const string CreateAdmin = "create-admin";
-
-        public const string GetUsers = "accounts/{role}";
+        public const string CreateAdmin = "create-admin";        
 
         public const string GetAccountNeedVerified = "need-verified";
 

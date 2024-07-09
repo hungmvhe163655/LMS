@@ -128,7 +128,7 @@ namespace Service
 
                 user.VerifiedBy = verifier.Id;
 
-                user.UserName = model.RollID ?? user.Id.ToString();
+                user.UserName = model.RollNumber ?? user.Id.ToString();
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -138,7 +138,7 @@ namespace Service
 
                 if (user == null) throw new Exception("Errors occurs during the registing process");
 
-                var hold = model.Roles.Contains("Student") ? new StudentDetail { AccountId = user.Id } : null;
+                var hold = model.Roles.Contains("Student") ? new StudentDetail { AccountId = user.Id ,RollNumber = model.RollNumber} : null;
 
                 if (hold != null)
                 {
