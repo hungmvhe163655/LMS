@@ -14,19 +14,15 @@ export default function WorkspaceLayout({ children }: { children: React.ReactNod
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <html lang='en'>
-      <body>
-        <div className='flex h-screen bg-gray-200'>
-          <div>
-            {/* Render the Sidenav component */}
-            <Sidenav sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-          </div>
-          <div className='relative flex flex-1 flex-col lg:overflow-y-auto lg:overflow-x-hidden'>
-            {/* Render the main content */}
-            <main>{children}</main>
-          </div>
-        </div>
-      </body>
-    </html>
+    <div className='flex h-screen bg-gray-200'>
+      <div>
+        {/* Render the Sidenav component */}
+        <Sidenav sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      </div>
+      <div className='relative flex flex-1 flex-col lg:overflow-y-auto lg:overflow-x-hidden'>
+        {/* Render the main content */}
+        <main>{children}</main>
+      </div>
+    </div>
   );
 }

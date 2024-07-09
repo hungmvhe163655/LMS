@@ -13,6 +13,8 @@ import PasswordRoute from './profile/password';
 import PhoneNumberRoute from './profile/phone-number';
 import TwoFactorRoute from './profile/two-factor';
 import ListAllTasksRoute from './project-workspace/list-all-task';
+import ProjectWorkspacePage from './project-workspace/project-workspace/project-workspace-page';
+import ProjectWorkspaceRoute from './project-workspace/project-workspace';
 
 export const createRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
@@ -42,7 +44,7 @@ export const createRouter = (queryClient: QueryClient) =>
     },
     {
       path: '/',
-      children: [ListAllTasksRoute]
+      children: [ListAllTasksRoute, ProjectWorkspaceRoute]
     },
     {
       path: '*',
