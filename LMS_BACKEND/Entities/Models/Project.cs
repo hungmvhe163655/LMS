@@ -19,7 +19,7 @@ namespace Entities.Models
 
         public int MaxMember { get; set; }
 
-        public string? IsRecruiting { get; set; } = null!;
+        public bool? IsRecruiting { get; set; } = null!;
 
         public int ProjectTypeId { get; set; }
 
