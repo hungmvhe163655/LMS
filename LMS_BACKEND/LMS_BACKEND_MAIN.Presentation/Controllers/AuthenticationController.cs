@@ -25,7 +25,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpGet(RoutesAPI.GetUsers)]
         public async Task<IActionResult> GetUsers()
         {
-            return Ok(await _service.AccountService.GetUserByRole("SUPERVISOR"));
+            return Ok(await _service.AccountService.GetAccountNameWithRole("SUPERVISOR"));
         }
 
         [HttpPost(RoutesAPI.RegisterSupervisor)]

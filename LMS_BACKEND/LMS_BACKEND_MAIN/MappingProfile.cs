@@ -73,6 +73,7 @@ namespace LMS_BACKEND_MAIN
                 .ForMember(dest => dest.AssignedToUser, op => op.MapFrom(src => src.AssignedToUser));
             CreateMap<TaskCreateRequestModel, Tasks>().ReverseMap();
             CreateMap<TaskUpdateRequestModel, Tasks>().ReverseMap();
+            CreateMap<Account, MinorAccountReturnModel>();
 
         }
     }
