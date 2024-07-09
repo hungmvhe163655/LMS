@@ -68,7 +68,7 @@ namespace LMS_BACKEND_MAIN.Extentions
                 option.Password.RequireDigit = true;
                 option.Password.RequireUppercase = true;
                 option.Password.RequireNonAlphanumeric = true;
-                option.Password.RequiredLength = 12;
+                option.Password.RequiredLength = 8;
                 option.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<DataContext>()

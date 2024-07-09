@@ -550,7 +550,6 @@ appsettings.Development.json
 LMS_BACKEND_MAIN/internal_logs/
 
 # Ignore Entity Framework migration files
-LMS_BACKEND_MAIN/Migrations/
 
 # Windows Installer files from build outputs
 
