@@ -49,12 +49,12 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
         const roles = user.roles;
 
         if (redirectTo) {
-          navigate(redirectTo ? redirectTo : '/', { replace: true });
+          navigate(redirectTo, { replace: true });
         } else if (roles.includes('Supervisor')) {
           navigate('/dashboard/supervisor');
         } else if (roles.includes('Student')) {
           navigate('/dashboard/student');
-        } else if (roles.includes('Lab Director')) {
+        } else if (roles.includes('LabDirector')) {
           navigate('/dashboard/lab-director');
         }
       }

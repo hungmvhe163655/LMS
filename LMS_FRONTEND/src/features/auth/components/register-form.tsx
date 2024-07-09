@@ -37,7 +37,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role }) => {
       verifiedBy: z.string({
         required_error: 'Please select a supervisor.'
       }),
-      rollNumber: z.string().min(6, 'Invalid Roll Number!').optional()
+      rollNumber: z.string().optional()
     })
   );
 
@@ -60,9 +60,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role }) => {
   async function onSubmit(data: z.infer<typeof registerSchema>) {
     const req = {
       ...data,
+      verifiedByUserID: data.verifiedBy,
+      userName: data.fullname,
       gender: data.selectGender === 'male',
       roles: [role.toLocaleLowerCase()]
     };
+    console.log(req);
     await register(req);
   }
 

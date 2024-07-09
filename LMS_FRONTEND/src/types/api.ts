@@ -15,8 +15,9 @@ export type User = Entity<{
   gender: string;
   isDeleted: boolean;
   isBanned: boolean;
+  isVerified: boolean;
   verifiedBy: string | null;
-  roles: ('Supervisor' | 'Student' | 'Lab Director')[];
+  roles: ('Supervisor' | 'Student' | 'LabDirector')[];
 }>;
 
 export type Pagination = {
