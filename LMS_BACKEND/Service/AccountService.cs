@@ -36,6 +36,14 @@ namespace Service
             _userManager = userManager;
             _roleManager = roleManager;
         }
+        public async Task ChangeVerifierForId(string id, string verifierId)
+        {
+            var hold = await _repository.account.GetByCondition(x => x.Id.Equals(id), true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid Account Id");
+
+            hold.VerifiedBy = verifierId;
+
+            await _repository.Save();
+        }
         // public async Task<Account> GetUserByEmail(string email) =>  _repository.account.GetByCondition(entity => entity.Email.Equals(email), false).FirstOrDefault();
         public async Task<AccountReturnModel> GetUserByEmail(string email, bool Verified)
         {

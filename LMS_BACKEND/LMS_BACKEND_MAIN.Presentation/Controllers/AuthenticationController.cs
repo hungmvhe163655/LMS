@@ -181,5 +181,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return Unauthorized(new ResponseMessage { Message = "User Not Found " });
         }
+        [HttpPut(RoutesAPI.ChangeVerifier)]
+        public async Task<IActionResult> ChangeVerifier([FromBody] ChangeVerifierRequestModel model)
+        {
+            await _service.AccountService.ChangeVerifierForId(model.Id, model.VerifierId);
+
+            return Ok(new ResponseMessage { Message = "Change Verifer for user success" });
+        }
     }
 }

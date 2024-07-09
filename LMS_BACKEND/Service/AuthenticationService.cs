@@ -272,15 +272,15 @@ namespace Service
             {
                 if (!_account.EmailConfirmed)
                 {
-                    return "UNVERIFIEDEMAIL|" + _account.UserName;
+                    return "UNVERIFIEDEMAIL|" + _account.Id;
                 }
                 if (_account.IsBanned)
                 {
-                    return "ISBANNED|";
+                    return "ISBANNED|" + _account.Id;
                 }
                 if (!_account.IsVerified)
                 {
-                    return "UNVERIFIED|" + _account.UserName;
+                    return "UNVERIFIED|" + _account.Id;
                 }
             }
             return "SUCCESS|" + (_account != null && _account.TwoFactorEnabled ? "TWOFACTOR" : "ONEFACTOR");
