@@ -16,9 +16,7 @@ export const registerInputSchema = z
     fullname: z.string().min(1, 'Required'),
     password: z.string().min(1, 'Required'),
     confirmPassword: z.string().min(1, 'Required'),
-    gender: z.boolean({
-      required_error: 'Required'
-    }),
+    selectGender: z.enum(['male', 'female']),
     phonenumber: z
       .string()
       .min(1, 'Required')
@@ -35,4 +33,7 @@ export const registerInputSchema = z
       });
     }
   });
+
 export type RegisterInput = z.infer<typeof registerInputSchema>;
+
+export type Supervisor = { id: string; userName: string };

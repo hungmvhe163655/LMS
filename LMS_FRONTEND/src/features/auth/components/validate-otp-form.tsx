@@ -15,8 +15,8 @@ import {
 } from '@/components/ui/form';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 
-import { useValidateEmail } from '../api/use-validate-email';
-import { useValidateOtp } from '../api/use-validate-otp';
+import { useValidateEmail } from '../api/validate-email';
+import { useValidateOtp } from '../api/validate-otp';
 
 const FormSchema = z.object({
   pin: z.string().min(6, {

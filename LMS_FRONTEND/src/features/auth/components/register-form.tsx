@@ -10,6 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,7 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
-import { useRegister } from '../api/use-register';
+import { useRegister } from '../api/register';
 import { registerInputSchema, Role } from '../utils/schema';
 
 import SupervisorSelect from './supervisor-select';
@@ -36,8 +37,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role }) => {
       verifiedBy: z.string({
         required_error: 'Please select a supervisor.'
       }),
-      rollNumber: z.string().min(1, 'Required'),
-      selectGender: z.enum(['male', 'female'])
+      rollNumber: z.string().min(6, 'Invalid Roll Number!').optional()
     })
   );
 
@@ -58,8 +58,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role }) => {
   console.log(form.formState.errors);
 
   async function onSubmit(data: z.infer<typeof registerSchema>) {
-    data.gender = data.selectGender === 'male';
-    await register(data);
+    const req = {
+      ...data,
+      gender: data.selectGender === 'male',
+      roles: [role.toLocaleLowerCase()]
+    };
+    await register(req);
   }
 
   return (
@@ -94,6 +98,23 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role }) => {
             </FormItem>
           )}
         />
+
+        {/* Roll Number input field */}
+        {role === 'STUDENT' && (
+          <FormField
+            control={form.control}
+            name='rollNumber'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Roll Number</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder='Roll Number' />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
         <FormField
           control={form.control}
@@ -138,9 +159,20 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role }) => {
         />
 
         {/* Supervisor Input Field */}
-        {role === 'STUDENT' && (
-          <SupervisorSelect control={form.control} name='verifiedBy' form={form} />
-        )}
+        <FormField
+          control={form.control}
+          name='verifiedBy'
+          render={({ field }) => (
+            <FormItem className='flex flex-col'>
+              <FormLabel>Supervisor</FormLabel>
+              <SupervisorSelect form={form} field={field} />
+              <FormDescription>
+                This is the Supervisor that will verify your account.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         {/* Password Input Field */}
         <FormField

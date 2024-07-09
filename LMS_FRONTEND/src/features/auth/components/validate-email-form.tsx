@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { useValidateEmail } from '../api/use-validate-email';
+import { useValidateEmail } from '../api/validate-email';
 
 const FormSchema = z.object({
   email: z.string().min(6, {

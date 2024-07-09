@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { useLogin } from '../api/use-login';
+import { useLogin } from '../api/login';
 import { loginInputSchema } from '../utils/schema';
 
 export const LoginForm = () => {
