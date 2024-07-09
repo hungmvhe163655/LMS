@@ -34,7 +34,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _ = await _service.AuthenticationService.Register(model);
 
-            var user = await _service.AccountService.GetUserByEmail(model.Email, false);
+            var user = await _service.AccountService.GetUserByEmail(model.Email);
 
             return StatusCode(201, user);
         }
@@ -45,7 +45,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _ = await _service.AuthenticationService.Register(model);
 
-            var user = await _service.AccountService.GetUserByEmail(model.Email, false);
+            var user = await _service.AccountService.GetUserByEmail(model.Email);
 
             return StatusCode(201, user);
         }
@@ -61,7 +61,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
                 var Tokendto = await _service.AuthenticationService.CreateToken(true);
 
-                var user = await _service.AccountService.GetUserByEmail(model.Email, true);
+                var user = await _service.AccountService.GetUserByEmail(model.Email);
 
                 return Ok(new { TOKEN = Tokendto, User = user });
             }
@@ -100,7 +100,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             var hold_2Factor = outcome.Split("|")[1].Equals("TWOFACTOR");
 
-            var user = await _service.AccountService.GetUserByEmail(model.Email, true);
+            var user = await _service.AccountService.GetUserByEmail(model.Email);
 
             return await LoginProcess(outcome, hold_2Factor, user);
 
@@ -145,7 +145,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> VerifyEmail([FromBody] MailRequestModel model)
         {
-            if (await _service.AccountService.GetUserByEmail(model.Email, false) != null) throw new BadRequestException("User is already existed");
+            if (await _service.AccountService.GetUserByEmail(model.Email) != null) throw new BadRequestException("User is already existed");
 
             if (_service.MailService.VerifyEmailOtp(model.Email, model.AuCode))
             {

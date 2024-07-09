@@ -58,7 +58,6 @@ namespace LMS_BACKEND_MAIN
                 .ForMember(dest => dest.Gender, op => op.MapFrom(src => src.Gender ? "Male" : "Female"))
                 .ForMember(dest => dest.IsBanned, op => op.MapFrom(src => src.IsBanned))
                 .ForMember(dest => dest.IsDeleted, op => op.MapFrom(src => src.IsDeleted))
-                .ForMember(dest => dest.IsVerified, op => op.MapFrom(src => src.IsVerified))
                 .ReverseMap();
             CreateMap<Device, DeviceReturnModel>().ReverseMap();
             CreateMap<Schedule, ScheduleRequestModel>()
