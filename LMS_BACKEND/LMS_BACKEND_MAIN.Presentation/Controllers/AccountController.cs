@@ -39,16 +39,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return StatusCode(201, result);
         }
 
-
-        [HttpGet(RoutesAPI.GetUsers)]
-        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
-        public async Task<IActionResult> GetUsers(string role)
-        {
-            var hold = await _service.AccountService.GetUserByRole(role.ToUpper());
-
-            return Ok(hold);
-        }
-
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
         [HttpGet(RoutesAPI.GetAccountNeedVerified)]
         public IActionResult GetAccountNeedVerified(string email)
