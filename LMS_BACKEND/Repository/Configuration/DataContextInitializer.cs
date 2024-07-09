@@ -27,6 +27,7 @@ namespace Repository.Configuration
                 IsDeleted = false,
                 IsBanned = false,
                 IsVerified = true,
+                VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
                 PasswordHash = "AQAAAAIAAYagAAAAELgUn5wJH9empSyZm7MdUy84spVESi+LvNCV8nDY9PMgoY0fOBYhfZO/MPZHjSZimA==",
@@ -51,6 +52,7 @@ namespace Repository.Configuration
                 IsDeleted = false,
                 IsBanned = false,
                 IsVerified = true,
+                VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
                 PasswordHash = "AQAAAAIAAYagAAAAEO5SGANyOkCieJN+MspCJeIbBLjDruXYD5omO5+7u9NVKctIo979jEts1uoDaalzTw==",
@@ -75,6 +77,7 @@ namespace Repository.Configuration
                 IsDeleted = false,
                 IsBanned = false,
                 IsVerified = true,
+                VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
                 PasswordHash = "AQAAAAIAAYagAAAAEHaY3BZO2ooRDvclwsiVvksAaPExz0GAXkEHlfwAtwfVBfRcw9gQTR02USItL9NrSg==",
@@ -100,6 +103,7 @@ namespace Repository.Configuration
                 IsDeleted = false,
                 IsBanned = false,
                 IsVerified = true,
+                VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
                 PasswordHash = "AQAAAAIAAYagAAAAENVZ95qV36S0GH4gzip/nSmI9JKDA1CAGuL2+t1ysccrtPgGLrSZ6k9v/tS37ojoSw==",
@@ -110,6 +114,7 @@ namespace Repository.Configuration
                 Id = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                 UserName = "hoangnmhe163884",
                 NormalizedUserName = ("hoangnmhe163884").ToUpper(),
+                FullName= "Nguyen Minh Hoang",
                 Email = "hoangnmhe163884@fpt.edu.vn",
                 NormalizedEmail = ("hoangnmhe163884@fpt.edu.vn").ToUpper(),
                 EmailConfirmed = true,
@@ -123,6 +128,7 @@ namespace Repository.Configuration
                 IsDeleted = false,
                 IsBanned = false,
                 IsVerified = true,
+                VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
                 PasswordHash = "AQAAAAIAAYagAAAAEBSeWGYcWJzo0jTXDBqXgYkMmzdQCRKsLrFMaaqieAdCHchkvB2oa1eRy3gsuvWyVw==",
@@ -147,6 +153,7 @@ namespace Repository.Configuration
                 IsDeleted = false,
                 IsBanned = false,
                 IsVerified = true,
+                VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
                 PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
@@ -171,6 +178,7 @@ namespace Repository.Configuration
                 IsDeleted = false,
                 IsBanned = false,
                 IsVerified = true,
+                VerifiedBy= "a687bb04-4f19-49d5-a60f-2db52044767c",
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
                 PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
@@ -195,12 +203,84 @@ namespace Repository.Configuration
                 IsDeleted = false,
                 IsBanned = false,
                 IsVerified = true,
+                VerifiedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                EmailVerifyCodeAge = DateTime.UtcNow,
+                UserRefreshTokenExpiryTime = DateTime.UtcNow,
+                PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+            };
+            Account user9 = new Account()
+            {
+                Id = "d4325be4-cb11-4f2f-b29e-dc52024d6c65",
+                UserName = "hieunthe168975",
+                FullName = "Nguyen Trung Hieu",
+                NormalizedUserName = ("hieunthe168975").ToUpper(),
+                Email = "nguyentrunghieu123@gmail.com",
+                NormalizedEmail = ("nguyentrunghieu123@gmail.com").ToUpper(),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PhoneNumber = "0965795220",
+                CreatedDate = DateTime.Now,
+                Gender = false,
+                IsDeleted = false,
+                IsBanned = true,
+                IsVerified = true,
+                VerifiedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                EmailVerifyCodeAge = DateTime.UtcNow,
+                UserRefreshTokenExpiryTime = DateTime.UtcNow,
+                PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+            };
+            Account user10 = new Account()
+            {
+                Id = "b745d464-f213-487c-8469-1f0d10d32224",
+                UserName = "anhchhe161236",
+                FullName = "Cao Hoang Anh",
+                NormalizedUserName = ("anhchhe161236").ToUpper(),
+                Email = "caohoanganh123@gmail.com",
+                NormalizedEmail = ("caohoanganh123@gmail.com").ToUpper(),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PhoneNumber = "0965795220",
+                CreatedDate = DateTime.Now,
+                Gender = false,
+                IsDeleted = true,
+                IsBanned = false,
+                IsVerified = true,
+                VerifiedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
+                EmailVerifyCodeAge = DateTime.UtcNow,
+                UserRefreshTokenExpiryTime = DateTime.UtcNow,
+                PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+            };
+            Account user11 = new Account()
+            {
+                Id = "d7d2f268-eea4-4299-9342-800564cc6411",
+                UserName = "namdthe159865",
+                FullName = "Doan Trung Nam",
+                NormalizedUserName = ("namdthe159865").ToUpper(),
+                Email = "doantrungnam123@gmail.com",
+                NormalizedEmail = ("doantrungnam123@gmail.com").ToUpper(),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PhoneNumber = "0965795220",
+                CreatedDate = DateTime.Now,
+                Gender = false,
+                IsDeleted = false,
+                IsBanned = false,
+                IsVerified = false,
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
                 PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
             };
 
-            builder.Entity<Account>().HasData(user1, user2, user3, user4, user5, user6, user7, user8);
+            builder.Entity<Account>().HasData(user1, user2, user3, user4, user5, user6, user7, user8, user9, user10, user11);
 
             builder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>
@@ -247,6 +327,21 @@ namespace Repository.Configuration
                 {
                     RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
                     UserId = user8.Id,
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
+                    UserId = user9.Id,
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
+                    UserId = user10.Id,
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2",
+                    UserId = user11.Id,
                 }
 
             );
@@ -283,6 +378,20 @@ namespace Repository.Configuration
                 new StudentDetail()
                 {
                     AccountId = user8.Id,
+                    Major = "Software Engineering",
+                    Specialized = "PHP",
+                    RollNumber = "HE156894"
+                },
+                new StudentDetail()
+                {
+                    AccountId = user9.Id,
+                    Major = "Software Engineering",
+                    Specialized = "PHP",
+                    RollNumber = "HE156894"
+                },
+                new StudentDetail()
+                {
+                    AccountId = user10.Id,
                     Major = "Software Engineering",
                     Specialized = "PHP",
                     RollNumber = "HE156894"
@@ -1572,6 +1681,8 @@ namespace Repository.Configuration
             };
 
             builder.Entity<Report>().HasData(rp1, rp2, rp3, rp4, rp5, rp6, rp7, rp8, rp9, rp10, rp11, rp12, rp13, rp14, rp15, rp16, rp17, rp18, rp19, rp20);
+
+
 
         }
     }
