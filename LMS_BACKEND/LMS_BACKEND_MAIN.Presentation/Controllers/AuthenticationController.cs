@@ -22,6 +22,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = serviceManager;
         }
+        [HttpGet(RoutesAPI.GetUsers)]
+        public async Task<IActionResult> GetUsers()
+        {
+            return Ok(await _service.AccountService.GetAccountNameWithRole("SUPERVISOR"));
+        }
 
         [HttpPost(RoutesAPI.RegisterSupervisor)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
@@ -121,43 +126,21 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var hold = await _service.AuthenticationService.ForgotPassword(model.Email);
 
-            if (await _service.MailService.SendMailToUser(model.Email,$"Your new password is here: {hold} remember to login and change it soon !","LMS - YOUR NEW PASSWORD"))
+            if (await _service.MailService.SendMailToUser(model.Email, $"Your new password is here: {hold} remember to login and change it soon !", "LMS - YOUR NEW PASSWORD"))
             {
                 return Ok(new ResponseMessage { Message = "NEWPASSWORD WAS SENT TO USER EMAIL/PHONE" });
             }
             return BadRequest(new ResponseMessage { Message = "Invalid email/phonenumber" });
         }
-        /*
-        [HttpPost(RoutesAPI.ForgotPasswordOtp)]
-        public async Task<IActionResult> ForgotPasswordOtp([FromBody] ForgotPasswordRequestModel model)
-        {
-            if (await _service.MailService.VerifyOtp(model.Email, model.VerifyCode, "ForgotPasswordKey"))
-            {
-                return Ok(model.Email);
-            }
-            return BadRequest(new ResponseMessage { Message = "User not found or wrong verify code" });
-        }
-        */
+
         [HttpPost(RoutesAPI.VerifyEmailSend)]
-        public async Task<IActionResult> VerifyEmailSend([FromBody]MailVerifyRequestModel model)
+        public async Task<IActionResult> VerifyEmailSend([FromBody] MailVerifyRequestModel model)
         {
             await _service.MailService.SendVerifyEmailOtp(model.Email);
 
             return Ok(new ResponseMessage { Message = "A Verify Code Has Been Sent to Your Email" });
         }
-        /*
-        [HttpPut(RoutesAPI.ReSendVerifyEmail)]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> ReSendVerifyEmail([FromBody] MailRequestModel model)
-        {
-            if (await _service.MailService.SendVerifyOtp(model.Email))
-            {
-                return Ok(new ResponseMessage { Message = "A Verify Code Has Been Sent to Your Email" });
-            }
 
-            return BadRequest(new ResponseMessage { Message = "Something Went Wrong!" });
-        }
-        */
         [HttpPut(RoutesAPI.VerifyEmail)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> VerifyEmail([FromBody] MailRequestModel model)
@@ -166,7 +149,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             if (_service.MailService.VerifyEmailOtp(model.Email, model.AuCode))
             {
-                return Ok(new ResponseMessage { Message = "Email Verified Successfully"});
+                return Ok(new ResponseMessage { Message = "Email Verified Successfully" });
             }
 
             return BadRequest(new ResponseMessage { Message = "Invalid Token" });
