@@ -40,7 +40,9 @@ namespace Service
         {
             var hold = await _repository.account.GetByCondition(x => x.Id.Equals(id), true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid Account Id");
 
-            hold.VerifiedBy = verifierId;
+            var hold_verifier = _userManager.GetUsersInRoleAsync("Supervisor").Result.Where(x => x.Id.Equals(verifierId)).FirstOrDefault() ?? throw new BadRequestException("Invalid verifier Id");
+
+            hold.VerifiedBy = hold_verifier.Id;
 
             await _repository.Save();
         }
