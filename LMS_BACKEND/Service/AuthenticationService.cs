@@ -133,8 +133,6 @@ namespace Service
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
-
-
                 if (!result.Succeeded)
                 {
                     var errors = string.Join(", ", result.Errors.Select(e => e.Description));
