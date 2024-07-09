@@ -125,8 +125,7 @@ namespace Service
         }
 
         public async Task<IEnumerable<AccountReturnModel>> GetUserByRole(string role) => _mapper.Map<IEnumerable<AccountReturnModel>>((await _userManager.GetUsersInRoleAsync(role)).Where(x => x.IsVerified));
-
-
+        public async Task<IEnumerable<MinorAccountReturnModel>> GetAccountNameWithRole(string role) => _mapper.Map<IEnumerable<MinorAccountReturnModel>>((await _userManager.GetUsersInRoleAsync(role)).Where(x => x.IsVerified));
         public async Task<bool> ChangePasswordAsync(string userId, string oldPassword, string newPassword)
         {
             var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), true);

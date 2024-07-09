@@ -12,6 +12,7 @@ namespace Service.Contracts
 {
     public interface IAccountService
     {
+        Task<IEnumerable<MinorAccountReturnModel>> GetAccountNameWithRole(string role);
         Task<IEnumerable<AccountReturnModel>> GetUserByRole(string role);
         Task<AccountReturnModel> GetUserByName(string userName);
         Task<AccountReturnModel> GetUserByEmail(string email);
