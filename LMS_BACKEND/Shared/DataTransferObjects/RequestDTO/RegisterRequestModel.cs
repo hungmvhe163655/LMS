@@ -9,7 +9,7 @@ namespace Shared.DataTransferObjects.RequestDTO
 {
     public class RegisterRequestModel
     {
-        public string? RollID { get; set; } = null!;
+        public string? RollNumber { get; set; } = null!;
         public string FullName { get; set; } = null!;
         public string? UserName { get; set; }
         [Required(ErrorMessage = "Email is required")]
