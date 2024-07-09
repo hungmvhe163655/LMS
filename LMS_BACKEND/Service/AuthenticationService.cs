@@ -132,13 +132,17 @@ namespace Service
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
+                if (!result.Succeeded) throw new BadRequestException("Add user failed" + result.Errors);
+
                 var result2 = await _userManager.AddToRolesAsync(user, validRoles);
+
+                if (!result2.Succeeded) throw new BadRequestException("Add roles failed" + result2.Errors);
 
                 user = await _userManager.FindByEmailAsync(model.Email);
 
                 if (user == null) throw new Exception("Errors occurs during the registing process");
 
-                var hold = model.Roles.Contains("Student") ? new StudentDetail { AccountId = user.Id ,RollNumber = model.RollNumber} : null;
+                var hold = model.Roles.Contains("Student") ? new StudentDetail { AccountId = user.Id, RollNumber = model.RollNumber } : null;
 
                 if (hold != null)
                 {
