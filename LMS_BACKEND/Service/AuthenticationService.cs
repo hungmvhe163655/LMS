@@ -22,6 +22,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Service
 {
@@ -106,9 +107,9 @@ namespace Service
 
             if (verifier == null) throw new BadRequestException("Invalid Verifier id");
 
-            var verifierRole = _userManager.GetRolesAsync(verifier).Result.FirstOrDefault();
+            var verifierRole = await _userManager.GetRolesAsync(verifier);
 
-            if (verifierRole == null || !(verifierRole.ToLower().Equals("labadmin") || verifierRole.ToLower().Equals("supervisor")))
+            if (verifierRole == null || !(verifierRole.Contains("Labadmin") || verifierRole.Contains("Supervisor")))
 
                 throw new BadRequestException("Verifier's not authorized");
 
@@ -132,13 +133,29 @@ namespace Service
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
+                
+
+                if (!result.Succeeded)
+                {
+                    var errors = string.Join(", ", result.Errors.Select(e => e.Description));               
+
+                    throw new BadRequestException($"Add user failed: {errors}");
+                }
+
                 var result2 = await _userManager.AddToRolesAsync(user, validRoles);
+
+                if (!result2.Succeeded)
+                {
+                    var errors2 = string.Join(", ", result2.Errors.Select(e => e.Description));
+
+                    throw new BadRequestException($"Add user failed: {errors2}");
+                }
 
                 user = await _userManager.FindByEmailAsync(model.Email);
 
                 if (user == null) throw new Exception("Errors occurs during the registing process");
 
-                var hold = model.Roles.Contains("Student") ? new StudentDetail { AccountId = user.Id ,RollNumber = model.RollNumber} : null;
+                var hold = model.Roles.Contains("Student") ? new StudentDetail { AccountId = user.Id, RollNumber = model.RollNumber } : null;
 
                 if (hold != null)
                 {
