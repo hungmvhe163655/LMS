@@ -49,6 +49,6 @@ namespace Entities.Models
         public virtual ICollection<Tasks> TasksCurrent { get; set; } = new List<Tasks>();
 
         public virtual ICollection<TaskHistory> TaskHistories { get; set; } = new List<TaskHistory>();
-        //public virtual ICollection<Tasks> TasksCreated { get; set; } = new List<Tasks>();
+        //  public virtual ICollection<Tasks> TasksCreated { get; set; } = new List<Tasks>();
     }
 }

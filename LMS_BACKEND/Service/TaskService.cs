@@ -22,12 +22,8 @@ namespace Service
 
         private readonly IMapper _mapper;
 
-        private readonly UserManager<Account> _userManager;
-
-        public TaskService(IRepositoryManager repositoryManager, IMapper mapper, UserManager<Account> userManager)
+        public TaskService(IRepositoryManager repositoryManager, IMapper mapper)
         {
-            _userManager = userManager;
-
             _repository = repositoryManager;
 
             _mapper = mapper;
@@ -98,6 +94,8 @@ namespace Service
         public async Task DeleteTask(Guid id)
         {
             var hold = _repository.task.GetTaskWithId(id, false).First();
+
+            _repository.taskHistory.DeleteTaskHistory(id);
 
             await _repository.task.DeleteTask(hold);
 
