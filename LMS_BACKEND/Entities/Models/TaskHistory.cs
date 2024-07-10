@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Entities.Models
@@ -19,11 +20,11 @@ namespace Entities.Models
         public DateTime DueDate { get; set; }
         public int TaskPriorityId { get; set; }
         public int TaskStatusId { get; set; }
-        //public string AssignedTo { get; set; }
+        public string? AssignedTo { get; set; }
+        [JsonIgnore]
         public virtual Account AssignedToUser { get; set; } = null!;
         public virtual TaskPriorities TaskPriority { get; set; } = null!;
         public virtual TasksStatus TaskStatus { get; set; } = null!;
-        //public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
         public virtual ICollection<Label> Labels { get; set; } = new List<Label>();
         public virtual Tasks TaskVersion { get; set; } = null!;
     }

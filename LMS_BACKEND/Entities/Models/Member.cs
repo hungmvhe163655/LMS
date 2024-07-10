@@ -9,7 +9,7 @@ namespace Entities.Models
     public class Member
     {
         public Guid ProjectId { get; set; }
-        public string? UserId { get; set; }
+        public string UserId { get; set; } = null!;
         public bool IsLeader { get; set; }
         public DateTime JoinDate { get; set; }
         public virtual Project? Project { get; set; }

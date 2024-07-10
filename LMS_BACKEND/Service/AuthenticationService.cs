@@ -70,35 +70,6 @@ namespace Service
 
             _repositoryManager = repositoryManager;
         }
-        /*
-        public async Task<bool> VerifyEmail(string email, string token)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            var hold = (user != null && user.EmailVerifyCodeAge > DateTime.Now && !user.EmailConfirmed) ? user.EmailVerifyCode : null;
-
-            if (hold != null)
-            {
-                if (hold.Equals(token) && user != null)
-                {
-                    user.EmailVerifyCode = null;
-
-                    user.EmailVerifyCodeAge = DateTime.MinValue;
-
-                    user.EmailConfirmed = true;
-
-                    var result = await _userManager.UpdateAsync(user);
-
-                    if (!result.Succeeded) throw new Exception("Internal Error");
-
-                    return true;
-                }
-            }
-            else throw new BadRequestException("User with email: " + email + " is not exist!");
-
-            return false;
-        }
-        */
         public async Task<AccountReturnModel> Register(RegisterRequestModel model)
         {
             var user = _mapper.Map<Account>(model);
