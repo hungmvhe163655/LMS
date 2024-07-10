@@ -31,7 +31,7 @@ interface ValidateOtpFormProps {
 }
 
 export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack, onValidate }) => {
-  const { mutateAsync: validateOtp, isPending, error } = useValidateOtp();
+  const { mutate: validateOtp, isPending, error } = useValidateOtp();
   const { mutate: validateEmail, isPending: isPendingResend } = useValidateEmail();
   const [seconds, setSeconds] = useState<number>(60);
   const [isCounting, setIsCounting] = useState<boolean>(true);
@@ -60,7 +60,7 @@ export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack,
     }
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onSubmit(data: z.infer<typeof FormSchema>) {
     const dataObject = {
       email,
       auCode: data.pin

@@ -1,10 +1,10 @@
 import Axios, { InternalAxiosRequestConfig } from 'axios';
 
-import { refreshToken } from './refresh-token';
-
 import { toast } from '@/components/ui/use-toast';
 import { env } from '@/config/env';
 import { getAccessToken } from '@/utils/storage';
+
+import { refreshToken } from './refresh-token';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   if (config.headers) {
@@ -31,7 +31,7 @@ api.interceptors.response.use(
   },
 
   async (error) => {
-    const message = error.response?.data?.Message || error.message;
+    const message = error.response?.data?.Message || error.response?.data?.message || error.message;
     toast({
       variant: 'destructive',
       description: message

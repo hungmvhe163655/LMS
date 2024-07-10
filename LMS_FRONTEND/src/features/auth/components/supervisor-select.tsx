@@ -21,9 +21,10 @@ import { Supervisor } from '../utils/schema';
 interface SupervisorSelectProps {
   form: any;
   field: any;
+  name: string;
 }
 
-const SupervisorSelect: React.FC<SupervisorSelectProps> = ({ form, field }) => {
+const SupervisorSelect: React.FC<SupervisorSelectProps> = ({ form, field, name }) => {
   const { data, isLoading } = useSupervisors();
   const [open, setOpen] = React.useState(false);
   const [supervisors, setSupervisors] = useState<{ value: string; label: string }[]>([]);
@@ -76,7 +77,7 @@ const SupervisorSelect: React.FC<SupervisorSelectProps> = ({ form, field }) => {
                   key={supervisor.value}
                   keywords={[supervisor.label]}
                   onSelect={() => {
-                    form.setValue('verifiedBy', supervisor.value);
+                    form.setValue(name, supervisor.value);
                     setOpen(false);
                   }}
                 >

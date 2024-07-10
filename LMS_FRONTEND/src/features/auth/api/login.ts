@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -57,6 +58,12 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
       }
 
       onSuccess?.(data, variables, context);
+    },
+    onError: (error: AxiosError) => {
+      const data = error.response?.data as { message: string };
+      if (data?.message?.includes('UNVERIFIED')) {
+        navigate('auth/not-verified');
+      }
     },
     ...restConfig
   });

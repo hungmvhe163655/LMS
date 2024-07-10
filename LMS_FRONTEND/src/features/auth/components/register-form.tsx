@@ -31,7 +31,7 @@ interface RegisterFormProps {
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ email, role, onBack }) => {
-  const { mutateAsync: register, isPending } = useRegister();
+  const { mutate: register, isPending } = useRegister();
 
   const registerSchema = registerInputSchema.and(
     z.object({
@@ -56,9 +56,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role, onBack }) => {
     }
   });
 
-  console.log(form.formState.errors);
-
-  async function onSubmit(data: z.infer<typeof registerSchema>) {
+  function onSubmit(data: z.infer<typeof registerSchema>) {
     const req = {
       ...data,
       verifiedByUserID: data.verifiedBy,
@@ -66,7 +64,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role, onBack }) => {
       gender: data.selectGender === 'male',
       roles: [role.toLocaleLowerCase()]
     };
-    await register(req);
+    register(req);
   }
 
   return (
@@ -168,7 +166,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role, onBack }) => {
           render={({ field }) => (
             <FormItem className='flex flex-col'>
               <FormLabel>Supervisor</FormLabel>
-              <SupervisorSelect form={form} field={field} />
+              <SupervisorSelect form={form} field={field} name='verifiedBy' />
               <FormDescription>
                 This is the Supervisor that will verify your account.
               </FormDescription>

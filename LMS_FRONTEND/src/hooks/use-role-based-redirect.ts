@@ -8,11 +8,11 @@ const useRoleBasedRedirect = (initialUser: User | null) => {
   const getRedirectBasedOnRoles = (): string => {
     if (!user) return '/';
     if (user.isBanned) {
-      return 'auth/ban';
+      return 'auth/is-banned';
     } else if (user.isDeleted) {
-      return 'auth/deleted';
+      return 'auth/is-deleted';
     } else if (!user.isVerified) {
-      return 'auth/verified';
+      return 'auth/not-verified';
     } else if (user.roles.includes('Supervisor')) {
       return '/dashboard/supervisor';
     } else if (user.roles.includes('Student')) {
