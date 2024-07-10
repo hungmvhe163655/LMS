@@ -1,0 +1,61 @@
+@startuml
+interface IServiceManager {
+  +AccountService: IAccountService
+  +AuthenticationService: IAuthenticationService
+  +MailService: IMailService
+  +FileService: IFileService
+  +NewsService: INewsService
+  +NotificationService: INotificationService
+  +ScheduleService: IScheduleService
+  +TaskService: ITaskService
+  +TaskListService: ITaskListService
+  +ProjectService: IProjectService
+}
+
+interface IRepositoryManager {
+  +account: IAccountRepository
+  +news: INewsRepository
+  +Save(): Task
+}
+
+interface IAccountRepository {
+  +GetByConditionAsync(predicate: Expression<Func<Account, bool>>, trackChanges: bool): Task<IEnumerable<Account>>
+}
+
+interface INewsRepository {
+  +CreateAsync(news: News): Task
+}
+
+class NewsController {
+  -_service: IServiceManager
+  +CreateNews(model: CreateNewsRequestModel): IActionResult
+}
+
+class NewsService {
+  -_repository: IRepositoryManager
+  +CreateNewsAsync(model: CreateNewsRequestModel): Task<bool>
+}
+
+class CreateNewsRequestModel {
+  +CreatedBy: string
+  +Title: string
+  +Content: string
+  +CreatedDate: DateTime
+}
+
+class News {
+  +Id: Guid
+  +Content: string
+  +Title: string
+  +CreatedDate: DateTime
+  +CreatedBy: string
+}
+
+NewsController --> IServiceManager
+NewsService --> IRepositoryManager
+NewsService ..> CreateNewsRequestModel : uses
+NewsService ..> News : creates
+IRepositoryManager --> IAccountRepository
+IRepositoryManager --> INewsRepository
+
+@enduml

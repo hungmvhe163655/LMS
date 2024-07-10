@@ -1,0 +1,71 @@
+@startuml
+actor Client
+participant "NewsController" as Controller
+participant "IServiceManager" as ServiceManager
+participant "INewsService" as NewsService
+participant "IRepositoryManager" as RepositoryManager
+participant "INewsRepository" as NewsRepo
+database "Database" as DB
+
+Client -> Controller : DELETE /News/{newsId}
+activate Controller
+
+Controller -> ServiceManager : NewsService.DeleteNews(newsId)
+activate ServiceManager
+
+ServiceManager -> NewsService : DeleteNews(newsId)
+activate NewsService
+
+NewsService -> RepositoryManager : news.GetByCondition(entity => entity.Id.Equals(id), false)
+activate RepositoryManager
+
+RepositoryManager -> NewsRepo : GetByCondition()
+activate NewsRepo
+
+NewsRepo -> DB : Query
+activate DB
+DB --> NewsRepo : News Data
+deactivate DB
+
+NewsRepo --> RepositoryManager : IEnumerable<News>
+deactivate NewsRepo
+
+RepositoryManager --> NewsService : IEnumerable<News>
+deactivate RepositoryManager
+
+NewsService -> NewsService : news.First()
+
+alt News not found
+    NewsService -> Controller : throw BadRequestException
+else News found
+    NewsService -> RepositoryManager : news.Delete(news)
+    activate RepositoryManager
+    
+    RepositoryManager -> NewsRepo : Delete(news)
+    activate NewsRepo
+    NewsRepo --> RepositoryManager : void
+    deactivate NewsRepo
+    
+    RepositoryManager --> NewsService : void
+    deactivate RepositoryManager
+
+    NewsService -> RepositoryManager : Save()
+    activate RepositoryManager
+    RepositoryManager -> DB : Delete and Commit
+    activate DB
+    DB --> RepositoryManager : Confirmation
+    deactivate DB
+    RepositoryManager --> NewsService : void
+    deactivate RepositoryManager
+end
+
+NewsService --> ServiceManager : void
+deactivate NewsService
+
+ServiceManager --> Controller : void
+deactivate ServiceManager
+
+Controller --> Client : 200 OK with ResponseMessage
+deactivate Controller
+
+@enduml

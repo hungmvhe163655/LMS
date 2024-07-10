@@ -1,0 +1,81 @@
+@startuml Sequence Diagram
+
+actor Client
+participant "NewsController" as Controller
+participant "ValidationFilterAttribute" as ValidationFilter
+participant "AccountService" as AccountService
+participant "Repository" as Repository
+participant "UserManager" as UserManager
+participant "EmailStore" as EmailStore
+
+Client -> Controller : POST /api/changeEmail
+activate Controller
+
+Controller -> ValidationFilter : Validate request
+activate ValidationFilter
+ValidationFilter --> Controller : Validation result
+deactivate ValidationFilter
+
+Controller -> AccountService : ChangeEmailAsync(id, model)
+activate AccountService
+
+AccountService -> Repository : GetByConditionAsync(id)
+activate Repository
+Repository --> AccountService : User
+deactivate Repository
+
+AccountService -> UserManager : SetEmailAsync(user, newEmail)
+activate UserManager
+
+UserManager -> EmailStore : SetEmailAsync(user, newEmail)
+activate EmailStore
+EmailStore --> UserManager : Result
+deactivate EmailStore
+
+UserManager -> EmailStore : SetEmailConfirmedAsync(user, false)
+activate EmailStore
+EmailStore --> UserManager : Result
+deactivate EmailStore
+
+UserManager -> UserManager : UpdateSecurityStampInternal(user)
+activate UserManager
+deactivate UserManager
+
+UserManager -> UserManager : UpdateUserAsync(user)
+activate UserManager
+deactivate UserManager
+
+UserManager --> AccountService : IdentityResult
+deactivate UserManager
+
+AccountService -> UserManager : GenerateEmailConfirmationTokenAsync(user)
+activate UserManager
+UserManager --> AccountService : Confirmation token
+deactivate UserManager
+
+AccountService -> UserManager : ConfirmEmailAsync(user, token)
+activate UserManager
+
+UserManager -> UserManager : VerifyUserTokenAsync()
+activate UserManager
+deactivate UserManager
+
+UserManager -> EmailStore : SetEmailConfirmedAsync(user, true)
+activate EmailStore
+EmailStore --> UserManager : Result
+deactivate EmailStore
+
+UserManager -> UserManager : UpdateUserAsync(user)
+activate UserManager
+deactivate UserManager
+
+UserManager --> AccountService : IdentityResult
+deactivate UserManager
+
+AccountService --> Controller : Change email result
+deactivate AccountService
+
+Controller --> Client : 200 OK (Success message)
+deactivate Controller
+
+@enduml

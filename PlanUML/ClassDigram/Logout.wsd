@@ -1,0 +1,66 @@
+@startuml
+interface IServiceManager {
+  +AccountService: IAccountService
+  +AuthenticationService: IAuthenticationService
+  +MailService: IMailService
+  +FileService: IFileService
+  +NewsService: INewsService
+  +NotificationService: INotificationService
+  +ScheduleService: IScheduleService
+  +TaskService: ITaskService
+  +TaskListService: ITaskListService
+  +ProjectService: IProjectService
+}
+
+interface IAuthenticationService {
+  +InvalidateToken(tokenDTO: TokenDTO): Task<bool>
+}
+
+class AuthController {
+  -_service: IServiceManager
+  +Logout(model: TokenDTORequestModel): Task<IActionResult>
+}
+
+class AuthenticationService {
+  -_userManager: UserManager<TUser>
+  -_logger: ILogger<AuthenticationService>
+  -_jwtConfiguration: JwtConfiguration
+  -_Secret: string
+  +InvalidateToken(tokenDTO: TokenDTO): Task<bool>
+  -GetPrincipalFromExpiredToken(token: string): ClaimsPrincipal
+}
+
+class UserManager<TUser> {
+  +FindByNameAsync(userName: string): Task<TUser?>
+  +UpdateAsync(user: TUser): Task<IdentityResult>
+}
+
+class TokenDTO {
+  +AccessToken: string
+  +RefreshToken: string
+}
+
+class TokenDTORequestModel {
+  +AccessToken: string
+  +RefreshToken: string
+}
+
+class ResponseMessage {
+  +Message: string
+}
+
+class TUser {
+  +UserRefreshToken: string?
+  +UserRefreshTokenExpiryTime: DateTime
+}
+
+IAuthenticationService <|.. AuthenticationService
+
+AuthController --> IServiceManager
+AuthenticationService --> UserManager
+AuthenticationService ..> TokenDTO : uses
+AuthController ..> TokenDTORequestModel : uses
+AuthController ..> ResponseMessage : creates
+UserManager ..> TUser : manages
+
+@enduml

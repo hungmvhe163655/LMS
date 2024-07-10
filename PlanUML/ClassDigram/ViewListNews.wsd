@@ -1,0 +1,59 @@
+@startuml Class Diagram
+
+interface IServiceManager {
+    +AccountService: IAccountService
+    +AuthenticationService: IAuthenticationService
+    +MailService: IMailService
+    +FileService: IFileService
+    +NewsService: INewsService
+    +NotificationService: INotificationService
+    +ScheduleService: IScheduleService
+    +TaskService: ITaskService
+}
+
+interface IAccountService {
+    +ChangeEmailAsync(id: string, model: ChangeEmailRequestModel): Task
+}
+
+class AccountService {
+    -_repository: IRepositoryManager
+    -_userManager: UserManager<TUser>
+    +ChangeEmailAsync(id: string, model: ChangeEmailRequestModel): Task
+}
+
+class UserManager<TUser> {
+    -Store: IUserStore<TUser>
+    +SetEmailAsync(user: TUser, email: string): Task<IdentityResult>
+    +GenerateEmailConfirmationTokenAsync(user: TUser): Task<string>
+    +ConfirmEmailAsync(user: TUser, token: string): Task<IdentityResult>
+    -GetEmailStore(): IUserEmailStore<TUser>
+    -UpdateSecurityStampInternal(user: TUser): Task
+    -UpdateUserAsync(user: TUser): Task<IdentityResult>
+}
+
+interface IUserEmailStore<TUser> {
+    +SetEmailAsync(user: TUser, email: string, cancellationToken: CancellationToken): Task
+    +SetEmailConfirmedAsync(user: TUser, confirmed: bool, cancellationToken: CancellationToken): Task
+}
+
+class NewsController {
+    -_service: IServiceManager
+    +ChangeEmail(id: string, model: ChangeEmailRequestModel): Task<IActionResult>
+}
+
+ 
+interface IRepositoryManager {
+    +account: IAccountRepository
+}
+
+IServiceManager <|.. ServiceManager
+IAccountService <|.. AccountService
+
+NewsController --> IServiceManager
+
+AccountService --> IRepositoryManager
+AccountService --> UserManager
+
+UserManager --> IUserEmailStore
+
+@enduml

@@ -1,0 +1,76 @@
+@startuml
+actor Client
+participant "NewsController" as Controller
+participant "IServiceManager" as ServiceManager
+participant "INewsService" as NewsService
+participant "IRepositoryManager" as RepositoryManager
+participant "IAccountRepository" as AccountRepo
+participant "INewsRepository" as NewsRepo
+database "Database" as DB
+
+Client -> Controller : POST /News
+activate Controller
+
+Controller -> ServiceManager : NewsService.CreateNewsAsync(model)
+activate ServiceManager
+
+ServiceManager -> NewsService : CreateNewsAsync(model)
+activate NewsService
+
+NewsService -> RepositoryManager : account.GetByConditionAsync(entity => entity.Id.Equals(model.CreatedBy), true)
+activate RepositoryManager
+
+RepositoryManager -> AccountRepo : GetByConditionAsync()
+activate AccountRepo
+
+AccountRepo -> DB : Query
+activate DB
+DB --> AccountRepo : User Data
+deactivate DB
+
+AccountRepo --> RepositoryManager : User Entity
+deactivate AccountRepo
+
+RepositoryManager --> NewsService : User Entity
+deactivate RepositoryManager
+
+alt User found and model.Title is not null
+    NewsService -> RepositoryManager : news.CreateAsync(new News {...})
+    activate RepositoryManager
+    
+    RepositoryManager -> NewsRepo : CreateAsync(news)
+    activate NewsRepo
+    
+    NewsRepo -> DB : Insert
+    activate DB
+    DB --> NewsRepo : Confirmation
+    deactivate DB
+    
+    NewsRepo --> RepositoryManager : Confirmation
+    deactivate NewsRepo
+    
+    RepositoryManager --> NewsService : Confirmation
+    deactivate RepositoryManager
+    
+    NewsService -> RepositoryManager : Save()
+    activate RepositoryManager
+    RepositoryManager -> DB : Commit Transaction
+    activate DB
+    DB --> RepositoryManager : Confirmation
+    deactivate DB
+    RepositoryManager --> NewsService : Confirmation
+    deactivate RepositoryManager
+    
+    NewsService --> ServiceManager : true
+else User not found or model.Title is null
+    NewsService --> ServiceManager : false
+end
+
+ServiceManager --> Controller : Result
+deactivate NewsService
+deactivate ServiceManager
+
+Controller --> Client : 200 OK with Result
+deactivate Controller
+
+@enduml

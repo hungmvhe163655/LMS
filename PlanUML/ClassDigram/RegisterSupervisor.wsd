@@ -1,0 +1,77 @@
+@startuml Class Diagram
+
+interface IServiceManager {
+    +AccountService: IAccountService
+    +AuthenticationService: IAuthenticationService
+    +MailService: IMailService
+    +FileService: IFileService
+    +NewsService: INewsService
+    +NotificationService: INotificationService
+    +ScheduleService: IScheduleService
+    +TaskService: ITaskService
+}
+
+interface IAuthenticationService {
+    +Register(model: RegisterRequestModel): Task<AccountReturnModel>
+}
+
+class AuthenticationService {
+    -_mapper: IMapper
+    -_userManager: UserManager<Account>
+    -_roleManager: RoleManager<IdentityRole>
+    -_repositoryManager: IRepositoryManager
+    +Register(model: RegisterRequestModel): Task<AccountReturnModel>
+}
+
+interface IAccountService {
+    +GetUserByEmail(email: string, verified: bool): Task<AccountReturnModel>
+}
+
+class AccountService {
+    -_repository: IRepositoryManager
+    -_mapper: IMapper
+    -_userManager: UserManager<Account>
+    +GetUserByEmail(email: string, verified: bool): Task<AccountReturnModel>
+}
+
+class UserManager<TUser> {
+    +FindByIdAsync(userId: string): Task<TUser>
+    +GetRolesAsync(user: TUser): Task<IList<string>>
+    +CreateAsync(user: TUser, password: string): Task<IdentityResult>
+    +AddToRolesAsync(user: TUser, roles: IEnumerable<string>): Task<IdentityResult>
+    +FindByEmailAsync(email: string): Task<TUser>
+}
+
+class RoleManager<TRole> {
+    +RoleExistsAsync(roleName: string): Task<bool>
+}
+
+class AuthenticationController {
+    -_service: IServiceManager
+    +RegisterSupervisor(model: RegisterRequestModel): Task<IActionResult>
+}
+
+class ValidationFilterAttribute {
+}
+
+interface IRepositoryManager {
+    +account: IAccountRepository
+    +studentDetail: IStudentDetailRepository
+    +Save(): Task
+}
+
+IServiceManager <|.. ServiceManager
+IAuthenticationService <|.. AuthenticationService
+IAccountService <|.. AccountService
+
+AuthenticationController --> IServiceManager
+AuthenticationController ..> ValidationFilterAttribute
+
+AuthenticationService --> UserManager
+AuthenticationService --> RoleManager
+AuthenticationService --> IRepositoryManager
+
+AccountService --> IRepositoryManager
+AccountService --> UserManager
+
+@enduml

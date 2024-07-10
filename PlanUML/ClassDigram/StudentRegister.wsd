@@ -1,0 +1,82 @@
+@startuml Class Diagram
+
+interface IServiceManager {
+    +AccountService: IAccountService
+    +AuthenticationService: IAuthenticationService
+    +MailService: IMailService
+    +FileService: IFileService
+    +NewsService: INewsService
+    +NotificationService: INotificationService
+    +ScheduleService: IScheduleService
+    +TaskService: ITaskService
+}
+
+interface IAccountService {
+    +GetUserByEmail(email: string, verified: bool): Task<AccountReturnModel>
+}
+
+interface IAuthenticationService {
+    +Register(model: RegisterRequestModel): Task<AccountReturnModel>
+}
+
+class ApiController {
+    -_service: IServiceManager
+    +RegisterStudent(model: RegisterRequestModel): Task<IActionResult>
+}
+
+class ValidationFilterAttribute {
+}
+
+class UserManager<TUser> {
+    +FindByIdAsync(userId: string): Task<TUser>
+    +GetRolesAsync(user: TUser): Task<IList<string>>
+    +CreateAsync(user: TUser, password: string): Task<IdentityResult>
+    +AddToRolesAsync(user: TUser, roles: IEnumerable<string>): Task<IdentityResult>
+    +FindByEmailAsync(email: string): Task<TUser>
+}
+
+class RoleManager<TRole> {
+    +RoleExistsAsync(roleName: string): Task<bool>
+}
+
+interface IMapper {
+    +Map<T>(source: object): T
+}
+
+interface IRepositoryManager {
+    +account: IAccountRepository
+    +studentDetail: IStudentDetailRepository
+    +Save(): Task
+}
+
+class Account {
+    +Id: string
+    +Email: string
+    +UserName: string
+    +EmailConfirmed: bool
+    +VerifiedBy: string
+}
+
+class StudentDetail {
+    +AccountId: string
+    +RollNumber: string
+}
+
+ApiController --> IServiceManager
+IServiceManager --> IAccountService
+IServiceManager --> IAuthenticationService
+ApiController ..> ValidationFilterAttribute
+
+IAuthenticationService --> UserManager
+IAuthenticationService --> RoleManager
+IAuthenticationService --> IMapper
+IAuthenticationService --> IRepositoryManager
+
+IAccountService --> IRepositoryManager
+IAccountService --> UserManager
+IAccountService --> IMapper
+
+UserManager --> Account
+IRepositoryManager --> StudentDetail
+
+@enduml

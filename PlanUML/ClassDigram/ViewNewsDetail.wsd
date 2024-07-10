@@ -1,0 +1,54 @@
+@startuml
+interface IServiceManager {
+  +AccountService: IAccountService
+  +AuthenticationService: IAuthenticationService
+  +MailService: IMailService
+  +FileService: IFileService
+  +NewsService: INewsService
+  +NotificationService: INotificationService
+  +ScheduleService: IScheduleService
+  +TaskService: ITaskService
+  +TaskListService: ITaskListService
+  +ProjectService: IProjectService
+}
+
+interface INewsService {
+  +GetNewsById(id: Guid): Task<NewsReponseModel>
+}
+
+class NewsService {
+  -_repository: IRepositoryManager
+  -_mapper: IMapper
+  +GetNewsById(id: Guid): Task<NewsReponseModel>
+}
+
+class NewsController {
+  -_service: IServiceManager
+  +GetNewsById(id: Guid): Task<IActionResult>
+}
+
+class NewsReponseModel {
+  +Id: Guid
+  +Content: string?
+  +Title: string
+  +CreatedBy: string?
+  +CreatedDate: DateTime
+}
+
+class News {
+  +Id: Guid
+  +CreatedBy: string?
+  +CreatedDate: DateTime
+  +Content: string?
+  +Title: string
+  +CreatedByNavigation: Account
+  +NewsFiles: ICollection<NewsFile>
+}
+
+
+INewsService <|.. NewsService
+NewsController --> IServiceManager
+NewsService ..> NewsReponseModel : creates
+NewsService ..> News : uses
+
+@enduml

@@ -1,0 +1,61 @@
+@startuml
+interface IServiceManager {
+  +AccountService: IAccountService
+  +AuthenticationService: IAuthenticationService
+  +MailService: IMailService
+  +FileService: IFileService
+  +NewsService: INewsService
+  +NotificationService: INotificationService
+  +ScheduleService: IScheduleService
+  +TaskService: ITaskService
+  +TaskListService: ITaskListService
+  +ProjectService: IProjectService
+}
+
+interface INewsService {
+  +DeleteNews(id: Guid): Task
+}
+
+interface IRepositoryManager {
+  +news: INewsRepository
+  +Save(): Task
+}
+
+interface INewsRepository {
+  +GetByCondition(expression: Expression<Func<News, bool>>, trackChanges: bool): IQueryable<News>
+  +Delete(entity: News): void
+}
+
+class NewsController {
+  -_service: IServiceManager
+  +Delete(newsId: Guid): Task<IActionResult>
+}
+
+class NewsService {
+  -_repository: IRepositoryManager
+  +DeleteNews(id: Guid): Task
+}
+
+class News {
+  +Id: Guid
+  +Content: string
+  +Title: string
+}
+
+class ResponseMessage {
+  +Message: string
+}
+
+class BadRequestException {
+  +Message: string
+}
+
+INewsService <|.. NewsService
+
+NewsController --> IServiceManager
+NewsService --> IRepositoryManager
+NewsService ..> News : deletes
+NewsController ..> ResponseMessage : creates
+NewsService ..> BadRequestException : throws
+
+@enduml

@@ -1,0 +1,44 @@
+@startuml
+actor Client
+participant "NewsController" as Controller
+participant "ServiceManager" as ServiceManager
+participant "NewsService" as NewsService
+participant "Repository" as Repository
+participant "Mapper" as Mapper
+database "Database" as DB
+
+Client -> Controller : GET /news/{id}
+activate Controller
+
+Controller -> ServiceManager : NewsService.GetNewsById(id)
+activate ServiceManager
+
+ServiceManager -> NewsService : GetNewsById(id)
+activate NewsService
+
+NewsService -> Repository : GetByConditionAsync(news => news.Id.Equals(id), false)
+activate Repository
+
+Repository -> DB : Query
+activate DB
+DB --> Repository : News Entity
+deactivate DB
+
+Repository --> NewsService : News Entity
+deactivate Repository
+
+NewsService -> Mapper : Map<NewsReponseModel>(news.First())
+activate Mapper
+Mapper --> NewsService : NewsReponseModel
+deactivate Mapper
+
+NewsService --> ServiceManager : NewsReponseModel
+deactivate NewsService
+
+ServiceManager --> Controller : NewsReponseModel
+deactivate ServiceManager
+
+Controller --> Client : 200 OK with NewsReponseModel
+deactivate Controller
+
+@enduml

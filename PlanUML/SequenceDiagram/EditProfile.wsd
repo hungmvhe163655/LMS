@@ -1,0 +1,78 @@
+@startuml
+actor Client
+participant "AccountController" as Controller
+participant "IServiceManager" as ServiceManager
+participant "IAccountService" as AccountService
+participant "IRepositoryManager" as RepositoryManager
+participant "IAccountRepository" as AccountRepo
+participant "UserManager<Account>" as UserManager
+participant "IMapper" as Mapper
+participant "IStudentDetailRepository" as StudentDetailRepo
+database "Database" as DB
+
+Client -> Controller : GET /account/{id}
+activate Controller
+
+Controller -> ServiceManager : AccountService.GetAccountDetail(id)
+activate ServiceManager
+
+ServiceManager -> AccountService : GetAccountDetail(userId)
+activate AccountService
+
+AccountService -> RepositoryManager : account.GetByCondition(entity => entity.Id.Equals(userId), false).FirstAsync()
+activate RepositoryManager
+RepositoryManager -> AccountRepo : GetByCondition()
+activate AccountRepo
+AccountRepo -> DB : Query
+activate DB
+DB --> AccountRepo : Account Data
+deactivate DB
+AccountRepo --> RepositoryManager : Account
+deactivate AccountRepo
+RepositoryManager --> AccountService : Account
+deactivate RepositoryManager
+
+alt Account not found
+    AccountService -> Controller : throw BadRequestException
+else Account found
+    AccountService -> UserManager : GetRolesAsync(account)
+    activate UserManager
+    UserManager --> AccountService : Roles
+    deactivate UserManager
+
+    AccountService -> Mapper : Map<AccountDetailResponseModel>(account)
+    activate Mapper
+    Mapper --> AccountService : AccountDetailResponseModel
+    deactivate Mapper
+
+    alt Role is STUDENT
+        AccountService -> RepositoryManager : studentDetail.GetByConditionAsync(...)
+        activate RepositoryManager
+        RepositoryManager -> StudentDetailRepo : GetByConditionAsync()
+        activate StudentDetailRepo
+        StudentDetailRepo -> DB : Query
+        activate DB
+        DB --> StudentDetailRepo : StudentDetail Data
+        deactivate DB
+        StudentDetailRepo --> RepositoryManager : StudentDetail
+        deactivate StudentDetailRepo
+        RepositoryManager --> AccountService : StudentDetail
+        deactivate RepositoryManager
+
+        AccountService -> Mapper : Map(studentDetail, accountDetailModel)
+        activate Mapper
+        Mapper --> AccountService : Updated AccountDetailResponseModel
+        deactivate Mapper
+    end
+end
+
+AccountService --> ServiceManager : AccountDetailResponseModel
+deactivate AccountService
+
+ServiceManager --> Controller : AccountDetailResponseModel
+deactivate ServiceManager
+
+Controller --> Client : 200 OK with AccountDetailResponseModel
+deactivate Controller
+
+@enduml

@@ -1,0 +1,76 @@
+@startuml
+interface IServiceManager {
+  +AccountService: IAccountService
+  +AuthenticationService: IAuthenticationService
+  +MailService: IMailService
+  +FileService: IFileService
+  +NewsService: INewsService
+  +NotificationService: INotificationService
+  +ScheduleService: IScheduleService
+  +TaskService: ITaskService
+  +TaskListService: ITaskListService
+  +ProjectService: IProjectService
+}
+
+interface IAccountService {
+  +UpdateProfileAsync(userId: string, model: UpdateProfileRequestModel): Task
+}
+
+interface IRepositoryManager {
+  +account: IAccountRepository
+  +studentDetail: IStudentDetailRepository
+  +Save(): Task
+}
+
+class AccountController {
+  -_service: IServiceManager
+  +UpdateProfile(id: string, model: UpdateProfileRequestModel): Task<IActionResult>
+}
+
+class AccountService {
+  -_repository: IRepositoryManager
+  -_userManager: UserManager<Account>
+  -_logger: ILogger<AccountService>
+  +UpdateProfileAsync(userId: string, model: UpdateProfileRequestModel): Task
+}
+
+class Account {
+  +Id: string
+  +FullName: string
+  +UserName: string
+  +Gender: bool
+}
+
+class StudentDetail {
+  +AccountId: string
+  +RollNumber: string
+  +Major: string
+  +Specialized: string
+}
+
+class UpdateProfileRequestModel {
+  +FullName: string
+  +Gender: string
+  +Major: string
+  +Specialized: string
+}
+
+class ResponseMessage {
+  +Message: string
+}
+
+class BadRequestException {
+  +Message: string
+}
+
+IAccountService <|.. AccountService
+
+AccountController --> IServiceManager
+AccountService --> IRepositoryManager
+AccountService ..> Account : uses
+AccountService ..> StudentDetail : uses
+AccountService ..> UpdateProfileRequestModel : uses
+AccountService ..> BadRequestException : throws
+AccountController ..> ResponseMessage : creates
+
+@enduml

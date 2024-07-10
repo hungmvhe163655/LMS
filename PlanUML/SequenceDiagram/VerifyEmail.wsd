@@ -1,0 +1,80 @@
+@startuml Sequence Diagram
+
+actor Client
+participant "AuthenticationController" as Controller
+participant "ValidationFilterAttribute" as ValidationFilter
+participant "ServiceManager" as ServiceManager
+participant "AccountService" as AccountService
+participant "MailService" as MailService
+participant "Repository" as Repository
+participant "UserManager" as UserManager
+participant "Mapper" as Mapper
+participant "Cache" as Cache
+
+Client -> Controller : PUT /api/verifyEmail
+activate Controller
+
+Controller -> ValidationFilter : Validate request
+activate ValidationFilter
+ValidationFilter --> Controller : Validation result
+deactivate ValidationFilter
+
+Controller -> ServiceManager : GetUserByEmail(email, false)
+activate ServiceManager
+
+ServiceManager -> AccountService : GetUserByEmail(email, false)
+activate AccountService
+
+AccountService -> Repository : GetByConditionAsync()
+activate Repository
+Repository --> AccountService : Account entity
+deactivate Repository
+
+alt Account exists
+    AccountService -> UserManager : GetRolesAsync()
+    activate UserManager
+    UserManager --> AccountService : User roles
+    deactivate UserManager
+
+    AccountService -> Mapper : Map to AccountReturnModel
+    activate Mapper
+    Mapper --> AccountService : AccountReturnModel
+    deactivate Mapper
+end
+
+AccountService --> ServiceManager : AccountReturnModel or null
+deactivate AccountService
+
+ServiceManager --> Controller : AccountReturnModel or null
+deactivate ServiceManager
+
+alt User already exists
+    Controller --> Client : BadRequestException
+else User does not exist
+    Controller -> ServiceManager : VerifyEmailOtp(email, auCode)
+    activate ServiceManager
+
+    ServiceManager -> MailService : VerifyEmailOtp(email, auCode)
+    activate MailService
+
+    MailService -> Cache : TryGetValue(cacheKey)
+    activate Cache
+    Cache --> MailService : Stored token
+    deactivate Cache
+
+    MailService --> ServiceManager : Verification result
+    deactivate MailService
+
+    ServiceManager --> Controller : Verification result
+    deactivate ServiceManager
+
+    alt Email verified successfully
+        Controller --> Client : 200 OK (Email Verified Successfully)
+    else Invalid token
+        Controller --> Client : 400 Bad Request (Invalid Token)
+    end
+end
+
+deactivate Controller
+
+@enduml

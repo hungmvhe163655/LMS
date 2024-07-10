@@ -1,0 +1,105 @@
+@startuml Sequence Diagram
+
+actor Client
+participant "AuthenticationController" as Controller
+participant "ValidationFilterAttribute" as ValidationFilter
+participant "AuthenticationService" as AuthService
+participant "AccountService" as AccountService
+participant "UserManager" as UserManager
+participant "RoleManager" as RoleManager
+participant "Mapper" as Mapper
+participant "Repository" as Repository
+
+Client -> Controller : POST /api/registerSupervisor
+activate Controller
+
+Controller -> ValidationFilter : Validate request
+activate ValidationFilter
+ValidationFilter --> Controller : Validation result
+deactivate ValidationFilter
+
+Controller -> AuthService : Register(model)
+activate AuthService
+
+AuthService -> Mapper : Map<Account>(model)
+activate Mapper
+Mapper --> AuthService : Account
+deactivate Mapper
+
+AuthService -> UserManager : FindByIdAsync(verifierId)
+activate UserManager
+UserManager --> AuthService : Verifier
+deactivate UserManager
+
+AuthService -> UserManager : GetRolesAsync(verifier)
+activate UserManager
+UserManager --> AuthService : Verifier roles
+deactivate UserManager
+
+loop for each role
+    AuthService -> RoleManager : RoleExistsAsync(role)
+    activate RoleManager
+    RoleManager --> AuthService : Role exists
+    deactivate RoleManager
+end
+
+AuthService -> UserManager : CreateAsync(user, password)
+activate UserManager
+UserManager --> AuthService : Create result
+deactivate UserManager
+
+AuthService -> UserManager : AddToRolesAsync(user, validRoles)
+activate UserManager
+UserManager --> AuthService : Add roles result
+deactivate UserManager
+
+AuthService -> UserManager : FindByEmailAsync(email)
+activate UserManager
+UserManager --> AuthService : Created user
+deactivate UserManager
+
+alt user is Student
+    AuthService -> Repository : Create(studentDetail)
+    activate Repository
+    Repository --> AuthService : Create result
+    deactivate Repository
+
+    AuthService -> Repository : Save()
+    activate Repository
+    Repository --> AuthService : Save result
+    deactivate Repository
+end
+
+AuthService -> Mapper : Map<AccountReturnModel>(user)
+activate Mapper
+Mapper --> AuthService : AccountReturnModel
+deactivate Mapper
+
+AuthService --> Controller : AccountReturnModel
+deactivate AuthService
+
+Controller -> AccountService : GetUserByEmail(email, false)
+activate AccountService
+
+AccountService -> Repository : GetByConditionAsync()
+activate Repository
+Repository --> AccountService : Account entities
+deactivate Repository
+
+AccountService -> UserManager : GetRolesAsync(account)
+activate UserManager
+UserManager --> AccountService : User roles
+deactivate UserManager
+
+AccountService -> Mapper : Map<AccountReturnModel>(account)
+activate Mapper
+Mapper --> AccountService : AccountReturnModel
+deactivate Mapper
+
+AccountService --> Controller : AccountReturnModel
+deactivate AccountService
+
+Controller --> Client : 201 Created (AccountReturnModel)
+deactivate Controller
+
+@enduml

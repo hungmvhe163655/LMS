@@ -1,0 +1,63 @@
+@startuml
+interface IServiceManager {
+  +AccountService: IAccountService
+  +AuthenticationService: IAuthenticationService
+  +MailService: IMailService
+  +FileService: IFileService
+  +NewsService: INewsService
+  +NotificationService: INotificationService
+  +ScheduleService: IScheduleService
+  +TaskService: ITaskService
+  +TaskListService: ITaskListService
+  +ProjectService: IProjectService
+}
+
+interface IAccountService {
+  +GetAccountDetail(userId: string): Task<AccountDetailResponseModel>
+}
+
+interface IRepositoryManager {
+  +account: IAccountRepository
+  +studentDetail: IStudentDetailRepository
+}
+ 
+
+class AccountController {
+  -_service: IServiceManager
+  +GetAccountDetail(id: string): Task<IActionResult>
+}
+
+class AccountService {
+  -_repository: IRepositoryManager
+  -_userManager: UserManager<Account>
+  -_mapper: IMapper
+  +GetAccountDetail(userId: string): Task<AccountDetailResponseModel>
+}
+
+class Account {
+  +Id: string
+  +Email: string
+}
+
+class StudentDetail {
+  +AccountId: string
+}
+
+class AccountDetailResponseModel {
+  +Role: string
+}
+
+class BadRequestException {
+  +Message: string
+}
+
+IAccountService <|.. AccountService
+
+AccountController --> IServiceManager
+AccountService --> IRepositoryManager
+AccountService ..> Account : uses
+AccountService ..> StudentDetail : uses
+AccountService ..> AccountDetailResponseModel : creates
+AccountService ..> BadRequestException : throws
+
+@enduml

@@ -1,0 +1,71 @@
+@startuml
+actor Client
+participant "Controller" as C
+participant "ValidationFilterAttribute" as VFA
+participant "AuthenticationService" as AS
+participant "AccountService" as ACS
+participant "UserManager" as UM
+participant "Repository" as R
+
+Client -> C : POST /Login (LoginRequestModel)
+activate C
+
+C -> VFA : Validate model
+activate VFA
+VFA --> C : Validation result
+deactivate VFA
+
+C -> C : Check if Email is null
+
+C -> AS : ValidateUser(model)
+activate AS
+
+AS -> AS : Check Email and Password
+
+alt Email or Password is empty
+    AS --> C : "BADLOGIN|"
+else Email and Password not empty
+    AS -> UM : FindByEmailAsync(Email)
+    activate UM
+    UM --> AS : User account
+    deactivate UM
+
+    AS -> UM : CheckPasswordAsync(account, Password)
+    activate UM
+    UM --> AS : Password check result
+    deactivate UM
+
+    alt Authentication failed
+        AS --> C : "BADLOGIN|"
+    else Authentication successful
+        alt Email not confirmed
+            AS --> C : "UNVERIFIEDEMAIL|" + Username
+        else Account is banned
+            AS --> C : "ISBANNED|"
+        else Account not verified
+            AS --> C : "UNVERIFIED|" + Username
+        else All checks passed
+            AS --> C : "SUCCESS|"
+        end
+    end
+end
+
+deactivate AS
+
+C -> ACS : GetUserByEmail(model.Email)
+activate ACS
+
+ACS -> R : GetByConditionAsync(email condition, false)
+activate R
+R --> ACS : List of matching accounts
+deactivate R
+
+ACS --> C : First matching account
+deactivate ACS
+
+C -> C : LoginProcess(outcome, user.TwoFactorEnabled, model)
+
+C --> Client : ResponseObjectModel (JSON)
+deactivate C
+
+@enduml

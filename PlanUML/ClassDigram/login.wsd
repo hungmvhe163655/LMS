@@ -1,0 +1,69 @@
+@startuml
+
+
+class Account {
+  +FullName: string
+  +Gender: bool
+  +CreatedDate: DateTime
+  +VerifiedBy: string
+  +IsDeleted: bool
+  +IsVerified: bool
+  +IsBanned: bool
+  +EmailVerifyCode: string
+  +EmailVerifyCodeAge: DateTime
+  +UserRefreshToken: string
+  +UserRefreshTokenExpiryTime: DateTime
+  +Comments: ICollection<Comment>
+  +Devices: ICollection<Device>
+  +Folders: ICollection<Folder>
+  +VerifiedAccounts: ICollection<Account>
+  +Members: ICollection<Member>
+  +News: ICollection<News>
+  +Notifications: ICollection<Notification>
+  +NotificationsAccounts: ICollection<NotificationAccount>
+  +Schedules: ICollection<Schedule>
+  +StudentDetail: StudentDetail
+  +Tasks: ICollection<Tasks>
+  +VerifiedByUser: Account
+  +TasksCurrent: ICollection<Tasks>
+}
+
+class AccountReturnModel {
+  +Id: string
+  +UserName: string
+  +PhoneNumber: string
+  +FullName: string
+  +Email: string
+  +CreatedDate: DateTime
+  +VerifiedBy: string
+  +Roles: IList<string>
+}
+
+class AuthenticationController {
+  -_service: IService
+  +Authenticate(model: LoginRequestModel): Task<IActionResult>
+  -LoginProcess(outcome: string, twofactor: bool, model: AccountReturnModel): Task<IActionResult>
+}
+
+class AuthenticationService {
+  +ValidateUser(userForAuth: LoginRequestModel): Task<string>
+  +CreateToken(login: bool): Task<TokenDto>
+}
+
+class AccountService {
+  +GetUserByEmail(email: string): Task<AccountReturnModel>
+}
+
+class MailService {
+  +SendTwoFactorOtp(email: string): Task<bool>
+}
+
+
+AuthenticationController --> AuthenticationService
+AuthenticationController --> AccountService
+AuthenticationController --> MailService
+AuthenticationService --> Account
+AccountService --> Account
+AccountService --> AccountReturnModel
+
+@enduml
