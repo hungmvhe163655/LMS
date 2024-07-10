@@ -16,16 +16,27 @@ namespace Service
     {
         //add more here
         private readonly Lazy<IAccountService> _accountService;
+
         private readonly Lazy<IAuthenticationService> _authenticationService;
+
         private readonly Lazy<IMailService> _mailService;
+
         private readonly Lazy<INewsService> _newsService;
+
         private readonly Lazy<IFileService> _fileService;
+
         private readonly Lazy<INotificationService> _notificationService;
+
         private readonly Lazy<IFolderService> _folderService;
+
+        private readonly Lazy<IScheduleService> _scheduleService;
+
+        private readonly Lazy<ITaskService> _taskService;
         //
         public ServiceManager(
             IRepositoryManager repositoryManager,
-            ILoggerManager logger, IMapper mapper,
+            ILoggerManager logger,
+            IMapper mapper,
             UserManager<Account> userManager,
             RoleManager<IdentityRole> roleManager,
             SmtpClient client,
@@ -42,6 +53,8 @@ namespace Service
             _fileService = new Lazy<IFileService>(() => new FileService(clients3, configuration,mapper,repositoryManager));
             _notificationService = new Lazy<INotificationService>(()=> new NotificationService(repositoryManager,notiHub));
             _folderService = new Lazy<IFolderService>(() => new FolderService());
+            _scheduleService = new Lazy<IScheduleService>(() => new ScheduleService(repositoryManager,mapper));
+            _taskService = new Lazy<ITaskService>(() => new TaskService(repositoryManager,mapper));
         }
         public IAccountService AccountService => _accountService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
@@ -49,6 +62,8 @@ namespace Service
         public INewsService NewsService => _newsService.Value;
         public IFileService FileService => _fileService.Value;
         public INotificationService NotificationService => _notificationService.Value;
+        public IScheduleService ScheduleService => _scheduleService.Value;
+        public ITaskService TaskService => _taskService.Value;
 
 
     }

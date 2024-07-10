@@ -22,6 +22,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Service
 {
@@ -69,7 +70,7 @@ namespace Service
 
             _repositoryManager = repositoryManager;
         }
-
+        /*
         public async Task<bool> VerifyEmail(string email, string token)
         {
             var user = await _userManager.FindByEmailAsync(email);
@@ -87,6 +88,7 @@ namespace Service
                     user.EmailConfirmed = true;
 
                     var result = await _userManager.UpdateAsync(user);
+
                     if (!result.Succeeded) throw new Exception("Internal Error");
 
                     return true;
@@ -96,6 +98,7 @@ namespace Service
 
             return false;
         }
+        */
         public async Task<AccountReturnModel> Register(RegisterRequestModel model)
         {
             var user = _mapper.Map<Account>(model);
@@ -104,37 +107,53 @@ namespace Service
 
             if (verifier == null) throw new BadRequestException("Invalid Verifier id");
 
-            var verifierRole = _userManager.GetRolesAsync(verifier).Result.FirstOrDefault();
+            var verifierRole = await _userManager.GetRolesAsync(verifier);
 
-            if (verifierRole == null || !(verifierRole.ToLower().Equals("labadmin") || verifierRole.ToLower().Equals("supervisor"))) 
-                
+            if (verifierRole == null || !(verifierRole.Contains("Supervisor") || (verifierRole.Contains("Labadmin"))))
+
                 throw new BadRequestException("Verifier's not authorized");
 
             var rolesToAdd = model.Roles;
 
             var validRoles = new List<string>();
 
-            if (rolesToAdd != null && rolesToAdd.Any()) 
+            if (rolesToAdd != null && rolesToAdd.Any())
 
-                foreach (var role in model.Roles) 
+                foreach (var role in model.Roles)
 
-                    if (await _roleManager.RoleExistsAsync(role)) validRoles.Add(role);          
-                
+                    if (await _roleManager.RoleExistsAsync(role)) validRoles.Add(role);
+
             if (validRoles.Any())
             {
+                user.EmailConfirmed = true;
+
                 user.VerifiedBy = verifier.Id;
 
-                user.UserName = model.RollID ?? user.Id.ToString();
+                user.UserName = model.RollNumber ?? user.Id.ToString();
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
+                if (!result.Succeeded)
+                {
+                    var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+
+                    throw new BadRequestException($"Add user failed: {errors}");
+                }
+
                 var result2 = await _userManager.AddToRolesAsync(user, validRoles);
+
+                if (!result2.Succeeded)
+                {
+                    var errors2 = string.Join(", ", result2.Errors.Select(e => e.Description));
+
+                    throw new BadRequestException($"Add user failed: {errors2}");
+                }
 
                 user = await _userManager.FindByEmailAsync(model.Email);
 
                 if (user == null) throw new Exception("Errors occurs during the registing process");
 
-                var hold = model.Roles.Contains("Student") ? new StudentDetail { AccountId = user.Id } : null;
+                var hold = model.Roles.Contains("Student") ? new StudentDetail { AccountId = user.Id, RollNumber = model.RollNumber } : null;
 
                 if (hold != null)
                 {
@@ -182,7 +201,51 @@ namespace Service
             }
             throw new BadRequestException("Not valid roles");
         }
+        public async Task<string> ForgotPassword(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
 
+            if (user == null) throw new BadRequestException("Invalid Email");
+
+            string password = GeneratePassword(12);
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            await _userManager.ResetPasswordAsync(user, token, password);
+
+            return password;
+        }
+        private string GeneratePassword(int length)
+        {
+            Random random = new Random();
+
+            const string UpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            const string LowerCase = "abcdefghijklmnopqrstuvwxyz";
+
+            const string Digits = "0123456789";
+
+            const string NonAlphanumeric = "!@#$%^&*()-_=+[]{}|;:'\",.<>?";
+
+            if (length < 12) throw new ArgumentException("Password length must be at least 12 characters.");
+
+            var password = new StringBuilder();
+
+            password.Append(UpperCase[random.Next(UpperCase.Length)]);
+
+            password.Append(LowerCase[random.Next(LowerCase.Length)]);
+
+            password.Append(Digits[random.Next(Digits.Length)]);
+
+            password.Append(NonAlphanumeric[random.Next(NonAlphanumeric.Length)]);
+
+            var allCharacters = UpperCase + LowerCase + Digits + NonAlphanumeric;
+
+            for (int i = 4; i < length; i++) password.Append(allCharacters[random.Next(allCharacters.Length)]);
+
+            return new string(password.ToString().OrderBy(c => random.Next()).ToArray());
+
+        }
         //////////////////////////////////////// TOKEN AREA  -  DO NOT TOUCH  ///////////////////////////////////////////////////
         public async Task<string> ValidateUser(LoginRequestModel userForAuth)
         {
@@ -209,18 +272,18 @@ namespace Service
             {
                 if (!_account.EmailConfirmed)
                 {
-                    return "UNVERIFIEDEMAIL|" + _account.UserName;
+                    return $"UNVERIFIEDEMAIL|{_account.Id}|{_account.VerifiedBy ?? ""}";
                 }
                 if (_account.IsBanned)
                 {
-                    return "ISBANNED|";
+                    return $"ISBANNED|{_account.Id}|{_account.VerifiedBy ?? ""}";
                 }
                 if (!_account.IsVerified)
                 {
-                    return "UNVERIFIED|" + _account.UserName;
+                    return $"UNVERIFIED|{_account.Id}|{_account.VerifiedBy ?? ""}";
                 }
             }
-            return "SUCCESS|"+(_account!=null && _account.TwoFactorEnabled ? "TWOFACTOR" : "ONEFACTOR");
+            return "SUCCESS|" + (_account != null && _account.TwoFactorEnabled ? "TWOFACTOR" : "ONEFACTOR");
         }
         public async Task<string> CreateToken()//onetime short token (khong gui ve refresh token)
         {
@@ -343,7 +406,7 @@ namespace Service
                 _account.UserRefreshToken = refreshToken;
 
                 if (populateExp)
-                    _account.UserRefreshTokenExpiryTime = DateTime.Now.AddDays(7);// them thoi gian cho refreshToken neu muon tuy
+                    _account.UserRefreshTokenExpiryTime = DateTime.Now.AddDays(1);// them thoi gian cho refreshToken neu muon tuy
 
                 await _userManager.UpdateAsync(_account);
 
@@ -365,9 +428,9 @@ namespace Service
             {
                 var user = await _userManager.FindByNameAsync(principal.Identity.Name);
 
-                if (user == null || user.UserRefreshToken != tokenDto.RefreshToken ||
-                user.UserRefreshTokenExpiryTime <= DateTime.Now)
+                if (user == null || user.UserRefreshToken != tokenDto.RefreshToken || user.UserRefreshTokenExpiryTime <= DateTime.Now)
                     return new TokenDTO("Not Found", "Not Found");
+
                 _account = user;
 
                 return await CreateToken(false);
@@ -385,6 +448,7 @@ namespace Service
                 var user = await _userManager.FindByNameAsync(principal.Identity.Name);
 
                 if (user == null) { return false; }
+
                 user.UserRefreshToken = null;
 
                 user.UserRefreshTokenExpiryTime = DateTime.MinValue;
@@ -402,4 +466,4 @@ namespace Service
         //////////////////////////////////////// TOKEN AREA  -  END OF AREA  ///////////////////////////////////////////////////
 
     }
-}
+}   

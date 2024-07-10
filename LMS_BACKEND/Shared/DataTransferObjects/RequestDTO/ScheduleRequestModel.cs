@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects.RequestDTO
 {
-    public class ForgotPasswordRequestModel
+    public class ScheduleRequestModel
     {
-        [EmailAddress]
-        public string Email { get; set; } = null!;
+        [Required(ErrorMessage = "DeviceID can't be null")]
+        public Guid DeviceId { get; set; }
+        public DateTime DateInput { get; set; } = DateTime.Now;
     }
 }

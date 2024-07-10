@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,6 @@ namespace Entities.Models
         public Guid Id { get; set; }
         public string? Title { get; set; }
         public string? CreatedBy { get; set; }
-        //public Guid? PredecessorTaskId { get; set; }
         public bool? RequiredValidation { get; set; }
         public string? Description { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -24,7 +24,8 @@ namespace Entities.Models
         public int TaskStatusId { get; set; }   
         public string? AssignedTo { get; set; }
         public virtual Account? AssignedToUser { get; set; }
-
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
        // public virtual ICollection<Tasks> InversePredecessorTask { get; set; } = new List<Tasks>();

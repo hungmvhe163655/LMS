@@ -9,6 +9,9 @@
         IFileRepository file { get; }
         IFolderRepository folder { get; }
         IFolderClosureRepository folderClosure { get; }
+        IScheduleRepository schedule { get; }
+        ITaskRepository task { get; }
+        ITaskHistoryRepository taskHistory { get; }
         Task Save();
     }
 }
