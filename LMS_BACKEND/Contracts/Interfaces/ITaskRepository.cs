@@ -13,5 +13,6 @@ namespace Contracts.Interfaces
         Task UpdateTask(Tasks task);
         Task AddNewTask(Tasks task);
         IQueryable<Tasks> GetTasksWithProjectId(Guid projectId, bool check);
+        IQueryable<Tasks> GetTaskWithId(Guid id, bool track);
     }
 }

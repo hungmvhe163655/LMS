@@ -15,6 +15,8 @@
         public const string TOKEN = "api/token";
 
         public const string ScheduleAPI = "api/schedule";
+
+        public const string TaskAPI = "api/task";
     }
     public static class AuthorizeScheme
     {

@@ -75,6 +75,7 @@ namespace LMS_BACKEND_MAIN
             CreateMap<TaskCreateRequestModel, Tasks>().ReverseMap();
             CreateMap<TaskUpdateRequestModel, Tasks>().ReverseMap();
             CreateMap<Account, MinorAccountReturnModel>();
+            CreateMap<Tasks, TaskResponseModel>().ReverseMap();
 
         }
     }
