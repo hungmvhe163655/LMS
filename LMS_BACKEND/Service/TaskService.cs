@@ -3,6 +3,7 @@ using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
@@ -36,6 +37,20 @@ namespace Service
         {
             var hold = _mapper.Map<Tasks>(model);
 
+            var hold_user = await
+                _repository
+                .account
+                .GetByCondition(x => x.Id.Equals(model.CreatedBy), true)
+                .Include(s => s.Members.Where(y => y.UserId.Equals(model.CreatedBy) && y.ProjectId.Equals(model.ProjectId)))
+                .ThenInclude(z => z.Project)
+                .FirstAsync() ?? throw new BadRequestException("Created by user id is not existed");
+
+            if (hold_user.Members.IsNullOrEmpty()) throw new Exception("User don't have any project");
+
+            var hold_project = hold_user.Members.First().Project;
+
+            if (hold_project == null || !hold_project.Id.Equals(model.ProjectId)) throw new Exception("User not in this project");
+
             hold.Id = Guid.NewGuid();
 
             hold.CreatedDate = DateTime.Now;
@@ -46,9 +61,9 @@ namespace Service
 
             hold_version.EditDate = DateTime.Now;
 
-            await _repository.task.AddNewTask(hold);
+            hold_user.TaskHistories.Add(hold_version);
 
-            await _repository.taskHistory.AddTaskHistory(hold_version);
+            await _repository.task.AddNewTask(hold);
 
             await _repository.Save();
         }

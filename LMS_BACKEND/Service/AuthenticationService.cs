@@ -66,39 +66,10 @@ namespace Service
 
             var hold = Environment.GetEnvironmentVariable("SECRET");
 
-            _Secret = hold ?? "#";
+            _Secret = hold ?? throw new Exception("Failed to find variable for Secret");
 
             _repositoryManager = repositoryManager;
         }
-        /*
-        public async Task<bool> VerifyEmail(string email, string token)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            var hold = (user != null && user.EmailVerifyCodeAge > DateTime.Now && !user.EmailConfirmed) ? user.EmailVerifyCode : null;
-
-            if (hold != null)
-            {
-                if (hold.Equals(token) && user != null)
-                {
-                    user.EmailVerifyCode = null;
-
-                    user.EmailVerifyCodeAge = DateTime.MinValue;
-
-                    user.EmailConfirmed = true;
-
-                    var result = await _userManager.UpdateAsync(user);
-
-                    if (!result.Succeeded) throw new Exception("Internal Error");
-
-                    return true;
-                }
-            }
-            else throw new BadRequestException("User with email: " + email + " is not exist!");
-
-            return false;
-        }
-        */
         public async Task<AccountReturnModel> Register(RegisterRequestModel model)
         {
             var user = _mapper.Map<Account>(model);
@@ -247,18 +218,18 @@ namespace Service
 
         }
         //////////////////////////////////////// TOKEN AREA  -  DO NOT TOUCH  ///////////////////////////////////////////////////
-        public async Task<string> ValidateUser(LoginRequestModel userForAuth)
+        public async Task<HiddenAccountResponseModel> ValidateUser(LoginRequestModel userForAuth)
         {
             /// Tim nguoi dung trong he thong khong nhap ten thi authen loi log vao 
             if (string.IsNullOrEmpty(userForAuth.Email) || string.IsNullOrEmpty(userForAuth.Password))
             {
                 _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Empty Email or password");
 
-                return "BADLOGIN|";
+                return new HiddenAccountResponseModel { Message = "BADLOGIN|Empty Email or password" };
             }
             _account = await _userManager.FindByEmailAsync(userForAuth.Email);
 
-            if (_account == null) return "BADLOGIN | INVALID EMAIL";
+            if (_account == null) return new HiddenAccountResponseModel { Message = "BADLOGIN|INVALID EMAIL" };
 
             var result = (await _userManager.CheckPasswordAsync(_account, userForAuth.Password));
 
@@ -266,24 +237,27 @@ namespace Service
             {
                 _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");
 
-                return "BADLOGIN | INCORRECT PASSWORD";
+                return new HiddenAccountResponseModel { Message = "BADLOGIN|INCORRECT PASSWORD" };
             }
             if (result && _account != null)
             {
                 if (!_account.EmailConfirmed)
                 {
-                    return $"UNVERIFIEDEMAIL|{_account.Id}|{_account.VerifiedBy ?? ""}";
+                    return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = $"UNVERIFIEDEMAIL|{_account.UserName}" };
                 }
-                if (_account.IsBanned)
-                {
-                    return $"ISBANNED|{_account.Id}|{_account.VerifiedBy ?? ""}";
-                }
+                else
                 if (!_account.IsVerified)
                 {
-                    return $"UNVERIFIED|{_account.Id}|{_account.VerifiedBy ?? ""}";
+                    return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = $"UNVERIFIED|{_account.UserName}" };
                 }
+                else
+                if (_account.IsBanned)
+                {
+                    return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = $"ISBANNED|{_account.UserName}" };
+                }
+                return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = "SUCCESS|" + (_account != null && _account.TwoFactorEnabled ? "TWOFACTOR" : "ONEFACTOR") };
             }
-            return "SUCCESS|" + (_account != null && _account.TwoFactorEnabled ? "TWOFACTOR" : "ONEFACTOR");
+            throw new BadRequestException("NOT FOUND ACCOUNT OR INCORRECT PASSWORD");
         }
         public async Task<string> CreateToken()//onetime short token (khong gui ve refresh token)
         {
@@ -294,7 +268,7 @@ namespace Service
             {
                 _logger.LogError($"{nameof(CreateToken)} Failed to find any valid Credential");
 
-                return "NOT FOUND CREDENTIALS";
+                throw new Exception("Failed to find variables");
             }
             var claims = await GetClaims();
 
@@ -307,16 +281,11 @@ namespace Service
             /// phai setup secret truoc khi thuc hien Open CMD (as admin) => setx SECRET "MinhTC" /M
             var hold = _Secret;
 
-            if (!hold.Equals("#"))
-            {
-                var key = Encoding.UTF8.GetBytes(hold);
+            var key = Encoding.UTF8.GetBytes(hold);
 
-                var secret = new SymmetricSecurityKey(key);
+            var secret = new SymmetricSecurityKey(key);
 
-                return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
-
-            }
-            return new SigningCredentials(null, SecurityAlgorithms.HmacSha256);
+            return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
         private async Task<List<Claim>> GetClaims()
         {
@@ -466,4 +435,4 @@ namespace Service
         //////////////////////////////////////// TOKEN AREA  -  END OF AREA  ///////////////////////////////////////////////////
 
     }
-}   
+}

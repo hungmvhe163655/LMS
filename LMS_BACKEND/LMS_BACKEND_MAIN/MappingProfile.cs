@@ -71,7 +71,8 @@ namespace LMS_BACKEND_MAIN
                 .ForMember(dest => dest.TaskGuid, op => op.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Id, op => op.Ignore())
                 .ForMember(dest => dest.EditDate, op => op.Ignore())
-                .ForMember(dest => dest.AssignedToUser, op => op.MapFrom(src => src.AssignedToUser));
+                //.ForMember(dest => dest.AssignedToUser, op => op.MapFrom(src => src.AssignedToUser))
+                ;
             CreateMap<TaskCreateRequestModel, Tasks>().ReverseMap();
             CreateMap<TaskUpdateRequestModel, Tasks>().ReverseMap();
             CreateMap<CreateTaskListRequestModel, TaskList>().ReverseMap();
