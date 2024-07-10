@@ -12,6 +12,7 @@ namespace Service.Contracts
 {
     public interface IAccountService
     {
+        Task ChangeVerifierForId(string id, string verifierId);
         Task<IEnumerable<MinorAccountReturnModel>> GetAccountNameWithRole(string role);
         Task<IEnumerable<AccountReturnModel>> GetUserByRole(string role);
         Task<AccountReturnModel> GetUserByName(string userName);
