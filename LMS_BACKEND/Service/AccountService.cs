@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
@@ -47,11 +47,12 @@ namespace Service
             await _repository.Save();
         }
         // public async Task<Account> GetUserByEmail(string email) =>  _repository.account.GetByCondition(entity => entity.Email.Equals(email), false).FirstOrDefault();
-        public async Task<AccountReturnModel> GetUserByEmail(string email)
+        public async Task<AccountReturnModel> GetUserByEmail(string email, bool Verified)
         {
-            var end = await _repository.account.GetByConditionAsync(entity => entity.Email != null && entity.Email.Equals(email) && entity.IsVerified, false);
+            var end = Verified ? await _repository.account.GetByConditionAsync(entity => entity.Email != null && entity.Email.Equals(email) && entity.IsVerified, false)
+                               : await _repository.account.GetByConditionAsync(entity => entity.Email != null && entity.Email.Equals(email), false);
 
-            if (end.IsNullOrEmpty()) return _mapper.Map<AccountReturnModel>(end.FirstOrDefault()); 
+            if (end.IsNullOrEmpty()) return _mapper.Map<AccountReturnModel>(end.FirstOrDefault());
 
             var hold = await _userManager.GetRolesAsync(end.First());
 
@@ -178,7 +179,7 @@ namespace Service
                     studentDetail.Specialized = model.Specialized;
                     _repository.studentDetail.Update(studentDetail);
                 }
-                account.Gender = model.Gender.Equals("Male") ? true : false ;
+                account.Gender = model.Gender.Equals("Male") ? true : false;
                 account.FullName = model.FullName;
                 _repository.account.Update(account);
                 await _repository.Save();
