@@ -14,6 +14,6 @@ namespace Service.Contracts
         Task<TaskResponseModel> GetTaskByID(Guid id);
         Task CreateTask(TaskCreateRequestModel model);
         Task EditTask(TaskUpdateRequestModel model);
-        Task DeleteTask(Guid id);
+        Task DeleteTask(Guid id, string userId);
     }
 }
