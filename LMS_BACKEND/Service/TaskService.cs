@@ -49,7 +49,7 @@ namespace Service
                 (_repository
                 .account
                 .GetByCondition(x => x.Id.Equals(model.CreatedBy), true)
-                .Include(y => y.Members.Where(z => z.ProjectId.Equals(model.ProjectId) && z.UserId.Equals(model.CreatedBy)))
+                .Include(y => y.Members.Where(z => z.ProjectId.Equals(model.ProjectId) && z.UserId.Equals(model.AssignedTo)))
                 ?? throw new BadRequestException("Assigned user id does not existed"))
                 .FirstAsync();
 
