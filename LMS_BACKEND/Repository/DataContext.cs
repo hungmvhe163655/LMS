@@ -21,7 +21,6 @@ namespace Repository
         public DbSet<Label> Labels { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<News> News { get; set; }
-        //public DbSet<NewsFile> NewsFiles { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<NotificationAccount> NotificationAccounts { get; set; }
         public DbSet<NotificationType> NotificationTypes { get; set; }
@@ -245,6 +244,7 @@ namespace Repository
                 entity.Property(e => e.ProjectId).HasColumnName("ProjectId");
                 entity.Property(e => e.UserId).HasColumnName("UserId");
                 entity.Property(e => e.IsLeader).HasColumnName("IsLeader");
+                entity.Property(e => e.JoinDate).HasColumnName("JoinDate");
 
                 entity.HasOne(d => d.Project).WithMany(p => p.Members)
                     .HasForeignKey(d => d.ProjectId)
@@ -262,7 +262,8 @@ namespace Repository
                 entity.Property(e => e.Id)
                     .ValueGeneratedNever()
                     .HasColumnName("Id");
-                entity.Property(e => e.Content).HasColumnName("Content");
+                entity.Property(e => e.Content).HasColumnName("Content")
+                .IsUnicode();
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.Title)
@@ -481,7 +482,7 @@ namespace Repository
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.DueDate).HasColumnName("DueDate");
-               // entity.Property(e => e.PredecessorTaskId).HasColumnName("PredecessorTaskId");
+                entity.Property(e => e.RowVersion).IsRowVersion();
                 entity.Property(e => e.RequiredValidation).HasColumnName("RequiresValidation");
                 entity.Property(e => e.StartDate).HasColumnName("StartDate");
                 entity.Property(e => e.TaskListId).HasColumnName("TaskListId");
@@ -494,11 +495,7 @@ namespace Repository
                 entity.HasOne(d => d.AssignedToUser).WithMany(p => p.Tasks)
                     .HasForeignKey(d => d.AssignedTo)
                     .HasConstraintName("FK_Tasks_Accounts");
-                /*
-                entity.HasOne(d => d.PredecessorTask).WithMany(p => p.InversePredecessorTask)
-                    .HasForeignKey(d => d.PredecessorTaskId)
-                    .HasConstraintName("FK_Tasks_Tasks");
-                */
+
                 entity.HasOne(d => d.TaskList).WithMany(p => p.Tasks)
                     .HasForeignKey(d => d.TaskListId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -660,6 +657,10 @@ namespace Repository
                     .HasForeignKey(d => d.TaskGuid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TaskHistories_Tasks");
+                
+                entity.HasOne(d => d.AssignedToUser).WithMany(p => p.TaskHistories)
+                    .HasForeignKey(d => d.AssignedTo)
+                    .HasConstraintName("FK_TasksHistory_Accounts");
             });
 
             modelBuilder.Entity<TaskList>(entity =>

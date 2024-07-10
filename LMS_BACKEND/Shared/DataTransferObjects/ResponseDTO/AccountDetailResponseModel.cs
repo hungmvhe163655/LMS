@@ -10,6 +10,7 @@ namespace Shared.DataTransferObjects.ResponseDTO
     {
         public string Id { get; set; } = null!;
         public string? FullName { get; set; }
+        public string Gender { get; set; } = null!;
         public string Role { get; set; } = null!;
         public string? RollNumber { get; set; }
         public string Email { get; set; } = null!;

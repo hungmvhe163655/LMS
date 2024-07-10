@@ -1,14 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
+using Shared.DataTransferObjects.ResponseDTO;
 using System.Text.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
-    [Route("api/news")]
+    [Route(APIs.NewsAPI)]
     [ApiController]
     public class NewsController : ControllerBase
     {
@@ -34,7 +36,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> GetNewsById(Guid id)
         {
                 var data = await _service.NewsService.GetNewsById(id);
-                return Ok(new { Status = "success", Value = data });
+                return Ok(data);
         }
 
         [HttpPost]
@@ -42,7 +44,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public IActionResult CreateNews(CreateNewsRequestModel model)
         {
                 var data = _service.NewsService.CreateNewsAsync(model);
-                return Ok(new { Status = "success", Value = data });
+                return Ok(data);
         }
 
         [HttpPut("{newsid:guid}")]
@@ -50,7 +52,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> Update(Guid newsId, UpdateNewsRequestModel model)
         {
                 await _service.NewsService.UpdateNews(newsId, model);
-                return Ok(new { Status = "success", Value = "Update successfully" });
+                return Ok(new ResponseMessage { Message = "Update successfully" });
         }
 
 
@@ -59,7 +61,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> Delete(Guid newsId)
         {
                 await _service.NewsService.DeleteNews(newsId);
-                return Ok(new { Status = "success", Value = "Delete successfully" });
+                return Ok(new ResponseMessage { Message = "Delete successfully" });
         }
 
     }

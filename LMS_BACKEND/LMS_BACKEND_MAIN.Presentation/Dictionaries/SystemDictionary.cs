@@ -13,6 +13,14 @@
         public const string NewsAPI = "api/news";
 
         public const string TOKEN = "api/token";
+
+        public const string ScheduleAPI = "api/schedule";
+
+        public const string TaskAPI = "api/task";
+
+        public const string ProjectAPI = "api/projects";
+
+        public const string TaskListAPI = "api/tasklists";
     }
     public static class AuthorizeScheme
     {
@@ -29,6 +37,12 @@
     public static class RoutesAPI
     {
         #region AuthenticationAPIs
+
+        public const string ChangeVerifier = "verifier-change";
+
+        public const string GetUsersSup = "accounts-supervisor";
+
+        public const string VerifyEmailSend = "verify-email-send";
 
         public const string GetCurrentLoggedInUser = "me";
 
@@ -54,9 +68,7 @@
 
         #region AccountAPIs
 
-        public const string CreateAdmin = "create-admin";
-
-        public const string GetUsers = "accounts/{role}";
+        public const string CreateAdmin = "create-admin";        
 
         public const string GetAccountNeedVerified = "need-verified";
 
@@ -81,6 +93,10 @@
 
         public const string TokenRefresh = "refresh-token";
 
+        #endregion
+
+        #region ProjectAPIs
+        public const string GetProjectWithMember = "member/{userId}";
         #endregion
 
     }

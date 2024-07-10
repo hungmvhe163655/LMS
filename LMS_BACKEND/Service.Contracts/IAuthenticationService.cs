@@ -15,12 +15,13 @@ namespace Service.Contracts
     public interface IAuthenticationService
     {
         Task<AccountReturnModel> Register(RegisterRequestModel model);
-        Task<bool> VerifyEmail(string email, string token);
+        //Task<bool> VerifyEmail(string email, string token);
         Task<AccountReturnModel> RegisterLabLead(RegisterRequestModel model);
-        Task<string> ValidateUser(LoginRequestModel loginRequestModel);
+        Task<HiddenAccountResponseModel> ValidateUser(LoginRequestModel userForAuth);
         Task<string> CreateToken();
         Task<TokenDTO> CreateToken(bool populateExpiration);
         Task<TokenDTO> RefreshTokens(TokenDTO tokenDTO);
         Task<bool> InvalidateToken(TokenDTO tokenDTO);
+        Task<string> ForgotPassword(string email);
     }
 }
