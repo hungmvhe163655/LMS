@@ -247,18 +247,18 @@ namespace Service
 
         }
         //////////////////////////////////////// TOKEN AREA  -  DO NOT TOUCH  ///////////////////////////////////////////////////
-        public async Task<string> ValidateUser(LoginRequestModel userForAuth)
+        public async Task<HiddenAccountResponseModel> ValidateUser(LoginRequestModel userForAuth)
         {
             /// Tim nguoi dung trong he thong khong nhap ten thi authen loi log vao 
             if (string.IsNullOrEmpty(userForAuth.Email) || string.IsNullOrEmpty(userForAuth.Password))
             {
                 _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Empty Email or password");
 
-                return "BADLOGIN|";
+                return new HiddenAccountResponseModel { Message = "BADLOGIN|Empty Email or password" };
             }
             _account = await _userManager.FindByEmailAsync(userForAuth.Email);
 
-            if (_account == null) return "BADLOGIN | INVALID EMAIL";
+            if (_account == null) return new HiddenAccountResponseModel { Message = "BADLOGIN|INVALID EMAIL" };
 
             var result = (await _userManager.CheckPasswordAsync(_account, userForAuth.Password));
 
@@ -266,24 +266,27 @@ namespace Service
             {
                 _logger.LogWarning($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");
 
-                return "BADLOGIN | INCORRECT PASSWORD";
+                return new HiddenAccountResponseModel { Message = "BADLOGIN|INCORRECT PASSWORD" };
             }
             if (result && _account != null)
             {
                 if (!_account.EmailConfirmed)
                 {
-                    return $"UNVERIFIEDEMAIL|{_account.Id}|{_account.VerifiedBy ?? ""}";
+                    return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = $"UNVERIFIEDEMAIL|{_account.UserName}" };
                 }
-                if (_account.IsBanned)
-                {
-                    return $"ISBANNED|{_account.Id}|{_account.VerifiedBy ?? ""}";
-                }
+                else
                 if (!_account.IsVerified)
                 {
-                    return $"UNVERIFIED|{_account.Id}|{_account.VerifiedBy ?? ""}";
+                    return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = $"UNVERIFIED|{_account.UserName}" };
                 }
+                else
+                if (_account.IsBanned)
+                {
+                    return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = $"ISBANNED|{_account.UserName}" };
+                }
+                return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = "SUCCESS|" + (_account != null && _account.TwoFactorEnabled ? "TWOFACTOR" : "ONEFACTOR") };
             }
-            return "SUCCESS|" + (_account != null && _account.TwoFactorEnabled ? "TWOFACTOR" : "ONEFACTOR");
+            throw new BadRequestException("NOT FOUND ACCOUNT OR INCORRECT PASSWORD");
         }
         public async Task<string> CreateToken()//onetime short token (khong gui ve refresh token)
         {
@@ -466,4 +469,4 @@ namespace Service
         //////////////////////////////////////// TOKEN AREA  -  END OF AREA  ///////////////////////////////////////////////////
 
     }
-}   
+}
