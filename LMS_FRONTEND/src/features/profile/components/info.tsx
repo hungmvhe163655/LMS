@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
 import { Navigate } from 'react-router-dom';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -16,9 +18,14 @@ import { EditProfileForm } from './edit-profile-form';
 import { StudentDetail } from './student-detail';
 
 export function Info() {
-  const { data: user } = useCurrentLoginUser();
+  const { data: user, isLoading } = useCurrentLoginUser();
+  const [open, setOpen] = useState(false);
   const role = user?.roles[0];
   const isStudent = user?.roles.includes('Student');
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   if (!user) {
     return <Navigate to={`/auth/login`} />;
@@ -43,21 +50,21 @@ export function Info() {
           </div>
 
           {/* Second Column */}
-          <div className='my-auto lg:w-1/2'>{isStudent && <StudentDetail id={user.id} />}</div>
+          <div className='my-auto lg:w-1/2'>{isStudent && <StudentDetail user={user} />}</div>
         </div>
         <div className='mt-2'>
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <button className='flex w-full items-center justify-center rounded-lg bg-blue-500 p-3 text-white hover:bg-blue-600 lg:w-auto'>
+              <Button className='flex w-full items-center justify-center rounded-lg bg-blue-500 p-3 text-white hover:bg-blue-600 lg:w-auto'>
                 Edit <FaEdit className='ml-2' />
-              </button>
+              </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Edit profile</DialogTitle>
                 <DialogDescription>Make changes to your profile here.</DialogDescription>
               </DialogHeader>
-              <EditProfileForm user={user} />
+              <EditProfileForm user={user} onSubmitForm={setOpen} />
             </DialogContent>
           </Dialog>
         </div>

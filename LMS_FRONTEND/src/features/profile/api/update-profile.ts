@@ -3,8 +3,9 @@ import { useMutation } from '@tanstack/react-query';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
-export const updateProfile = ({ data }: any) => {
-  return api.put(`/users/profile`, data);
+export const updateProfile = async (data: any) => {
+  const res = await api.put(`/accounts/${data.id}`, data);
+  return res.data;
 };
 
 type UseUpdateProfileOptions = {
@@ -12,12 +13,9 @@ type UseUpdateProfileOptions = {
 };
 
 export const useUpdateProfile = ({ mutationConfig }: UseUpdateProfileOptions = {}) => {
-  const { onSuccess, ...restConfig } = mutationConfig || {};
+  const { ...restConfig } = mutationConfig || {};
 
   return useMutation({
-    onSuccess: (...args) => {
-      onSuccess?.(...args);
-    },
     ...restConfig,
     mutationFn: updateProfile
   });
