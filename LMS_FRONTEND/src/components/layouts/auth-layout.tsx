@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { BaseLayout } from './base-layout';
-
 import { Head } from '@/components/seo';
+
+import { BaseLayout } from './base-layout';
 
 type LayoutProps = {
   children: React.ReactNode;

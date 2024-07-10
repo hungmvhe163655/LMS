@@ -1,5 +1,5 @@
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { FaEdit } from 'react-icons/fa';
+import { Navigate } from 'react-router-dom';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
@@ -10,15 +10,19 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
-import { User } from '@/types/api';
+import { useCurrentLoginUser } from '@/hooks/use-current-login-user';
 
 import { EditProfileForm } from './edit-profile-form';
 import { StudentDetail } from './student-detail';
 
 export function Info() {
-  const user = useAuthUser<User>() as User;
-  const role = user.roles[0];
-  const isStudent = user.roles.includes('Student');
+  const { data: user } = useCurrentLoginUser();
+  const role = user?.roles[0];
+  const isStudent = user?.roles.includes('Student');
+
+  if (!user) {
+    return <Navigate to={`/auth/login`} />;
+  }
 
   return (
     <div className='mx-auto flex max-w-4xl rounded-lg bg-white p-10 shadow-md'>
@@ -53,7 +57,7 @@ export function Info() {
                 <DialogTitle>Edit profile</DialogTitle>
                 <DialogDescription>Make changes to your profile here.</DialogDescription>
               </DialogHeader>
-              <EditProfileForm />
+              <EditProfileForm user={user} />
             </DialogContent>
           </Dialog>
         </div>

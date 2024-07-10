@@ -15,33 +15,26 @@ import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { User } from '@/types/api';
 
-import { StudentDetail } from '../types/api';
-
 const formSchema = z.object({
   fullName: z.string().min(3),
   gender: z.enum(['male', 'female']),
-  rollNumber: z
-    .string()
-    .min(8)
-    .regex(/^[A-Za-z]{2}\d{6}$/, {
-      message: 'Invalid Roll Number'
-    })
-    .optional()
-    .or(z.literal('')),
   major: z.string().min(6).optional().or(z.literal('')),
   specilized: z.string().min(6).optional().or(z.literal(''))
 });
 
-export function EditProfileForm(user: User, studetDetail: StudentDetail | null) {
+interface EditProfileFormProps {
+  user: User;
+}
+
+export function EditProfileForm({ user }: EditProfileFormProps) {
   const isStudent = user.roles.includes('Student');
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: user.fullName,
-      rollNumber: studetDetail?.rollNumber,
-      major: studetDetail?.major,
-      specilized: studetDetail?.specialized,
+      major: user?.major,
+      specilized: user?.specialized,
       gender: user.gender.toLowerCase() === 'male' ? 'male' : 'female'
     }
   });
@@ -96,23 +89,6 @@ export function EditProfileForm(user: User, studetDetail: StudentDetail | null) 
           )}
         />
 
-        {/* Roll Number */}
-        {isStudent && (
-          <FormField
-            control={form.control}
-            name='rollNumber'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Roll Number</FormLabel>
-                <FormControl>
-                  <Input type='text' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
-
         {/* Major */}
         {isStudent && (
           <FormField
@@ -130,6 +106,7 @@ export function EditProfileForm(user: User, studetDetail: StudentDetail | null) 
           />
         )}
 
+        {/* Specilized */}
         {isStudent && (
           <FormField
             control={form.control}

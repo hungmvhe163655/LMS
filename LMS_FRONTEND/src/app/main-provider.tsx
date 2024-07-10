@@ -9,14 +9,14 @@ import { Spinner } from '@/components/app/spinner';
 import { MainErrorFallback } from '@/components/errors/main';
 import { Toaster } from '@/components/ui/toaster';
 import { queryClient } from '@/lib/react-query';
-import { User } from '@/types/api';
+import { UserLogin } from '@/types/api';
 
 type AppProviderProps = {
   children: React.ReactNode;
 };
 
 export function AppProvider({ children }: AppProviderProps) {
-  const store = createStore<User>({
+  const store = createStore<UserLogin>({
     authName: '_auth',
     authType: 'cookie',
     cookieDomain: window.location.hostname,

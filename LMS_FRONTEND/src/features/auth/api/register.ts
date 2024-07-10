@@ -39,7 +39,10 @@ export const useRegister = ({ mutationConfig }: UseRegisterOptions = {}) => {
           token: token.accessToken,
           type: 'Bearer'
         },
-        userState: user
+        userState: {
+          id: user.id,
+          roles: user.roles
+        }
       });
 
       navigate('auth/verified');

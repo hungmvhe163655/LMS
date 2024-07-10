@@ -38,7 +38,14 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role, onBack }) => {
       verifiedBy: z.string({
         required_error: 'Please select a supervisor.'
       }),
-      rollNumber: z.string().optional()
+      rollNumber: z
+        .string()
+        .min(8)
+        .regex(/^[A-Za-z]{2}\d{6}$/, {
+          message: 'Invalid Roll Number'
+        })
+        .optional()
+        .or(z.literal(''))
     })
   );
 

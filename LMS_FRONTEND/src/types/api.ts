@@ -20,6 +20,13 @@ export type User = Entity<{
   isVerified: boolean;
   verifiedBy: string | null;
   roles: Roles;
+  rollNumber?: string;
+  major?: string;
+  specialized?: string;
+}>;
+
+export type UserLogin = Entity<{
+  roles: Roles;
 }>;
 
 export type Pagination = {

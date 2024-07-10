@@ -44,7 +44,10 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
           token: token.accessToken,
           type: 'Bearer'
         },
-        userState: user
+        userState: {
+          id: user.id,
+          roles: user.roles
+        }
       });
 
       if (signInSuccess) {

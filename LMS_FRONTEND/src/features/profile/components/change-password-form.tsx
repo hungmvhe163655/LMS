@@ -14,7 +14,7 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
-import { User } from '@/types/api';
+import { UserLogin } from '@/types/api';
 
 import { useChangePassword } from '../api/change-password';
 
@@ -37,7 +37,7 @@ const formSchema = z
 export function ChangePasswordForm() {
   const { mutate: changePassword, isPending } = useChangePassword();
   const { toast } = useToast();
-  const auth = useAuthUser<User>() as User;
+  const auth = useAuthUser<UserLogin>() as UserLogin;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
