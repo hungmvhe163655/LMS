@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace Contracts.Interfaces
 {
-    public interface ITaskHistoryRepository
+    public interface IProjectTypeRepository: IRepositoryBase<ProjectType>
     {
-        Task AddTaskHistory(TaskHistory task);
-        void DeleteTaskHistory(Guid taskId);
     }
 }

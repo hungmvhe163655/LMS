@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
@@ -35,6 +35,16 @@ namespace Service
             _mapper = mapper;
             _userManager = userManager;
             _roleManager = roleManager;
+        }
+        public async Task ChangeVerifierForId(string id, string verifierId)
+        {
+            var hold = await _repository.account.GetByCondition(x => x.Id.Equals(id), true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid Account Id");
+
+            var hold_verifier = _userManager.GetUsersInRoleAsync("Supervisor").Result.Where(x => x.Id.Equals(verifierId)).FirstOrDefault() ?? throw new BadRequestException("Invalid verifier Id");
+
+            hold.VerifiedBy = hold_verifier.Id;
+
+            await _repository.Save();
         }
         // public async Task<Account> GetUserByEmail(string email) =>  _repository.account.GetByCondition(entity => entity.Email.Equals(email), false).FirstOrDefault();
         public async Task<AccountReturnModel> GetUserByEmail(string email, bool Verified)

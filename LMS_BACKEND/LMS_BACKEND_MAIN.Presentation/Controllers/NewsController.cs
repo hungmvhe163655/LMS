@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
@@ -9,7 +10,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
-    [Route("api/news")]
+    [Route(APIs.NewsAPI)]
     [ApiController]
     public class NewsController : ControllerBase
     {

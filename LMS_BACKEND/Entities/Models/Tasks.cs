@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Entities.Models
@@ -12,7 +13,7 @@ namespace Entities.Models
     {
         public Guid Id { get; set; }
         public string? Title { get; set; }
-        public string? CreatedBy { get; set; }
+        public string CreatedBy { get; set; } = null!;
         public bool? RequiredValidation { get; set; }
         public string? Description { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -21,14 +22,17 @@ namespace Entities.Models
         public int TaskPriorityId { get; set; }
         public Guid TaskListId { get; set; }
         public Guid ProjectId { get; set; }
-        public int TaskStatusId { get; set; }   
+        public int TaskStatusId { get; set; }
         public string? AssignedTo { get; set; }
+        [JsonIgnore]
         public virtual Account? AssignedToUser { get; set; }
+        //[JsonIgnore]
+        //public virtual Account? CreatedByUser { get; set; }
         [Timestamp]
         public byte[] RowVersion { get; set; }
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-       // public virtual ICollection<Tasks> InversePredecessorTask { get; set; } = new List<Tasks>();
+        // public virtual ICollection<Tasks> InversePredecessorTask { get; set; } = new List<Tasks>();
 
         //public virtual Tasks? PredecessorTask { get; set; }
 

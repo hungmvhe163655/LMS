@@ -244,6 +244,7 @@ namespace Repository
                 entity.Property(e => e.ProjectId).HasColumnName("ProjectId");
                 entity.Property(e => e.UserId).HasColumnName("UserId");
                 entity.Property(e => e.IsLeader).HasColumnName("IsLeader");
+                entity.Property(e => e.JoinDate).HasColumnName("JoinDate");
 
                 entity.HasOne(d => d.Project).WithMany(p => p.Members)
                     .HasForeignKey(d => d.ProjectId)
@@ -656,6 +657,10 @@ namespace Repository
                     .HasForeignKey(d => d.TaskGuid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TaskHistories_Tasks");
+                
+                entity.HasOne(d => d.AssignedToUser).WithMany(p => p.TaskHistories)
+                    .HasForeignKey(d => d.AssignedTo)
+                    .HasConstraintName("FK_TasksHistory_Accounts");
             });
 
             modelBuilder.Entity<TaskList>(entity =>

@@ -12,13 +12,14 @@ namespace Service.Contracts
 {
     public interface IAccountService
     {
+        Task ChangeVerifierForId(string id, string verifierId);
         Task<IEnumerable<MinorAccountReturnModel>> GetAccountNameWithRole(string role);
         Task<IEnumerable<AccountReturnModel>> GetUserByRole(string role);
         Task<AccountReturnModel> GetUserByName(string userName);
         Task<AccountReturnModel> GetUserByEmail(string email, bool Verified);
         Task<AccountReturnModel> GetUserById(string id);
         Task<IEnumerable<AccountReturnModel>> GetVerifierAccounts(string userName);
-        Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> userIdList,string verifier);
+        Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> userIdList, string verifier);
         Task<bool> ChangePasswordAsync(string userId, string oldPassword, string newPassword);
         Task UpdateProfileAsync(string userId, UpdateProfileRequestModel model);
         Task<AccountDetailResponseModel> GetAccountDetail(string userId);

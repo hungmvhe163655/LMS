@@ -29,15 +29,15 @@ namespace LMS_BACKEND_MAIN.Extentions
     }
     public static class ServiceExtentions
     {
-       public static void ConfigureVersioning(this IServiceCollection services)
+        public static void ConfigureVersioning(this IServiceCollection services)
         {
-         services.AddApiVersioning(opt =>
-         {
-             opt.ReportApiVersions = true;
-             opt.AssumeDefaultVersionWhenUnspecified = true;
-             opt.DefaultApiVersion = new ApiVersion(1, 0);
-             opt.ApiVersionReader = new HeaderApiVersionReader("api-version");
-         });
+            services.AddApiVersioning(opt =>
+            {
+                opt.ReportApiVersions = true;
+                opt.AssumeDefaultVersionWhenUnspecified = true;
+                opt.DefaultApiVersion = new ApiVersion(1, 0);
+                opt.ApiVersionReader = new HeaderApiVersionReader("api-version");
+            });
         }
         public static void ConfigureCor(this IServiceCollection services, IConfiguration configuration)
         {
@@ -47,7 +47,7 @@ namespace LMS_BACKEND_MAIN.Extentions
 
             services.AddCors(
                 options => options.AddPolicy("CorsPolicy", builder =>
-                builder.WithOrigins(corsConfig.Origins??throw new NullReferenceException("Not found corsConfig"))
+                builder.WithOrigins(corsConfig.Origins ?? throw new NullReferenceException("Not found corsConfig"))
                 .AllowCredentials()
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -137,13 +137,13 @@ namespace LMS_BACKEND_MAIN.Extentions
         public static void ConfigureHttpCacheHeaders(this IServiceCollection services) =>
             services.AddHttpCacheHeaders(
                 (expirationOpt) =>
-                    {
+                {
                     expirationOpt.MaxAge = 120;
-                            expirationOpt.CacheLocation = CacheLocation.Private;
-                    },
+                    expirationOpt.CacheLocation = CacheLocation.Private;
+                },
                     (validationOpt) =>
                     {
-                    validationOpt.MustRevalidate = true;
+                        validationOpt.MustRevalidate = true;
                     });
         public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
         {//nho chay app setup truoc khi release phai sua phan encryptionkey vaf iv nay
@@ -151,7 +151,7 @@ namespace LMS_BACKEND_MAIN.Extentions
             //Comment dong code nay lai truoc khi build app
 
             // tu day
-            
+
             //var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
 
 

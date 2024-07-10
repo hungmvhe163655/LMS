@@ -15,6 +15,12 @@
         public const string TOKEN = "api/token";
 
         public const string ScheduleAPI = "api/schedule";
+
+        public const string TaskAPI = "api/task";
+
+        public const string ProjectAPI = "api/projects";
+
+        public const string TaskListAPI = "api/tasklists";
     }
     public static class AuthorizeScheme
     {
@@ -32,7 +38,9 @@
     {
         #region AuthenticationAPIs
 
-        public const string GetUsers = "accounts-supervisor";
+        public const string ChangeVerifier = "verifier-change";
+
+        public const string GetUsersSup = "accounts-supervisor";
 
         public const string VerifyEmailSend = "verify-email-send";
 
@@ -85,6 +93,10 @@
 
         public const string TokenRefresh = "refresh-token";
 
+        #endregion
+
+        #region ProjectAPIs
+        public const string GetProjectWithMember = "member/{userId}";
         #endregion
 
     }
