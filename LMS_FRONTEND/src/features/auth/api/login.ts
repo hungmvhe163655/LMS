@@ -3,10 +3,10 @@ import { AxiosError } from 'axios';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import useRoleBasedRedirect from '@/hooks/use-role-based-redirect';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { AuthResponse } from '@/types/api';
+import getRedirectBasedOnRoles from '@/utils/role-based-redirect';
 import { setAccessToken, setRefreshToken } from '@/utils/storage';
 
 import { LoginInput } from '../utils/schema';
@@ -29,7 +29,6 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
-  const { getRedirectBasedOnRoles, setUser } = useRoleBasedRedirect(null);
 
   const { onSuccess, ...restConfig } = mutationConfig || {};
 
@@ -52,8 +51,7 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
         if (redirectTo) {
           navigate(redirectTo, { replace: true });
         } else {
-          setUser(user);
-          navigate(getRedirectBasedOnRoles());
+          navigate(getRedirectBasedOnRoles(user.roles));
         }
       }
 

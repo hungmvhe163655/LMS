@@ -1,6 +1,8 @@
 import { Bell, LogOut, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+import { useLogout } from '@/utils/logout';
+
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import {
   DropdownMenu,
@@ -11,8 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '../ui/dropdown-menu';
-
-import { useLogout } from '@/utils/logout';
 
 export function AvatarDropdown() {
   const navigate = useNavigate();

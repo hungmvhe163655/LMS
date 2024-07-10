@@ -7,6 +7,8 @@ export type Entity<T> = {
   [K in keyof T]: T[K];
 } & BaseEntity;
 
+export type Roles = ('Supervisor' | 'Student' | 'LabDirector')[];
+
 export type User = Entity<{
   email: string;
   phoneNumber: string;
@@ -17,7 +19,7 @@ export type User = Entity<{
   isBanned: boolean;
   isVerified: boolean;
   verifiedBy: string | null;
-  roles: ('Supervisor' | 'Student' | 'LabDirector')[];
+  roles: Roles;
 }>;
 
 export type Pagination = {

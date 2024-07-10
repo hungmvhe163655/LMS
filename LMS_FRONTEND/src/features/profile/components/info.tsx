@@ -1,9 +1,6 @@
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { FaEdit } from 'react-icons/fa';
 
-import { EditProfileForm } from './edit-profile-form';
-import { StudentDetail } from './student-detail';
-
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   Dialog,
@@ -14,6 +11,9 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import { User } from '@/types/api';
+
+import { EditProfileForm } from './edit-profile-form';
+import { StudentDetail } from './student-detail';
 
 export function Info() {
   const user = useAuthUser<User>() as User;

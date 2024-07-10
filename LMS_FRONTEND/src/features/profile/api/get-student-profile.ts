@@ -1,9 +1,9 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
-import { StudentDetail, StudentProfileParams } from '../types/api';
-
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
+
+import { StudentDetail, StudentProfileParams } from '../types/api';
 
 export const getStudentProfile = async (
   params: StudentProfileParams
