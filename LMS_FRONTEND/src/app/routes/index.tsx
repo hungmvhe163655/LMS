@@ -5,7 +5,9 @@ import ForgotPasswordRoute from './auth/forget-password';
 import LoginRoute from './auth/login';
 import RegisterRoute from './auth/register';
 import ValidateEmailRoute from './auth/validate-email';
+import LabDirectorDashboardRoute from './dashboard/lab-director';
 import StudentDashboardRoute from './dashboard/student';
+import SupervisorDashboardRoute from './dashboard/supervisor';
 import ListNewsRoute from './news';
 import EmailRoute from './profile/email';
 import OverallRoute from './profile/overall';
@@ -13,7 +15,6 @@ import PasswordRoute from './profile/password';
 import PhoneNumberRoute from './profile/phone-number';
 import TwoFactorRoute from './profile/two-factor';
 import ListAllTasksRoute from './project-workspace/list-all-task';
-import ProjectWorkspacePage from './project-workspace/project-workspace/project-workspace-page';
 import ProjectWorkspaceRoute from './project-workspace/project-workspace';
 
 export const createRouter = (queryClient: QueryClient) =>
@@ -32,7 +33,7 @@ export const createRouter = (queryClient: QueryClient) =>
     },
     {
       path: '/dashboard',
-      children: [StudentDashboardRoute]
+      children: [StudentDashboardRoute, SupervisorDashboardRoute, LabDirectorDashboardRoute]
     },
     {
       path: '/auth',
