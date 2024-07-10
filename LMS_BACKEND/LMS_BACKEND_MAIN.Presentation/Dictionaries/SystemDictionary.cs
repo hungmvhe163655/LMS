@@ -17,6 +17,10 @@
         public const string ScheduleAPI = "api/schedule";
 
         public const string TaskAPI = "api/task";
+
+        public const string ProjectAPI = "api/projects";
+
+        public const string TaskListAPI = "api/tasklists";
     }
     public static class AuthorizeScheme
     {
@@ -89,6 +93,10 @@
 
         public const string TokenRefresh = "refresh-token";
 
+        #endregion
+
+        #region ProjectAPIs
+        public const string GetProjectWithMember = "member/{userId}";
         #endregion
 
     }

@@ -32,6 +32,8 @@ namespace Service
         private readonly Lazy<IScheduleService> _scheduleService;
 
         private readonly Lazy<ITaskService> _taskService;
+        private readonly Lazy<ITaskListService> _taskListService;
+        private readonly Lazy<IProjectService> _projectService;
         //
         public ServiceManager(
             IRepositoryManager repositoryManager,
@@ -55,6 +57,8 @@ namespace Service
             _folderService = new Lazy<IFolderService>(() => new FolderService());
             _scheduleService = new Lazy<IScheduleService>(() => new ScheduleService(repositoryManager,mapper));
             _taskService = new Lazy<ITaskService>(() => new TaskService(repositoryManager,mapper));
+            _taskListService = new Lazy<ITaskListService>(() => new TaskListService(repositoryManager, mapper));
+            _projectService =  new Lazy<IProjectService>(() => new ProjectService(logger, repositoryManager, mapper));
         }
         public IAccountService AccountService => _accountService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
@@ -65,6 +69,8 @@ namespace Service
         public IScheduleService ScheduleService => _scheduleService.Value;
         public ITaskService TaskService => _taskService.Value;
 
+        public ITaskListService TaskListService => _taskListService.Value;
 
+        public IProjectService ProjectService => _projectService.Value;
     }
 }

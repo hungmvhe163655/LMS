@@ -25,6 +25,11 @@ namespace Repository
         private readonly Lazy<ITaskRepository> _taskRepository;
 
         private readonly Lazy<ITaskHistoryRepository> _taskHistoryRepository;
+        private readonly Lazy<ITaskListRepository> _taskListRepository;
+        private readonly Lazy<IProjectRepository> _projectRepository;
+        private readonly Lazy<IProjectStatusRepository> _projectStatusRepository;
+        private readonly Lazy<IProjectTypeRepository> _projectTypeRepository;
+        private readonly Lazy<IMemberRepository> _memberRepository;
         public RepositoryManager(DataContext context)
         {
             _context = context;
@@ -50,6 +55,16 @@ namespace Repository
             _taskRepository = new Lazy<ITaskRepository>(() => new TaskRepository(context));
 
             _taskHistoryRepository = new Lazy<ITaskHistoryRepository>(() => new TaskHistoryRepository(context));
+            
+            _taskListRepository = new Lazy<ITaskListRepository>(() => new TaskListRepository(context));
+
+            _projectRepository = new Lazy<IProjectRepository>(() => new ProjectRepository(context));
+            
+            _memberRepository = new Lazy<IMemberRepository>(() => new MemberRepository(context));
+            
+            _projectStatusRepository = new Lazy<IProjectStatusRepository>(() => new ProjectStatusRepository(context));
+            
+            _projectTypeRepository = new Lazy<IProjectTypeRepository>(() => new ProjectTypeRepository(context));
             //khoi tao newsRepo
         }
         public IAccountRepository account => _accountRepository.Value;
@@ -62,6 +77,16 @@ namespace Repository
         public IScheduleRepository schedule => _scheduleRepository.Value;
         public ITaskRepository task => _taskRepository.Value;
         public ITaskHistoryRepository taskHistory => _taskHistoryRepository.Value;
+
+        public ITaskListRepository taskList => _taskListRepository.Value;
+
+        public IProjectRepository project => _projectRepository.Value;
+
+        public IMemberRepository member => _memberRepository.Value;
+
+        public IProjectStatusRepository projectStatus => _projectStatusRepository.Value;
+
+        public IProjectTypeRepository projectType => _projectTypeRepository.Value;
 
         public async Task Save() => await _context.SaveChangesAsync();
     }
