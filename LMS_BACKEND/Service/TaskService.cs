@@ -43,19 +43,17 @@ namespace Service
                 .account
                 .GetByCondition(x => x.Id.Equals(model.CreatedBy), true)
                 .Include(y => y.Members.Where(z => z.IsLeader && z.ProjectId.Equals(model.ProjectId) && z.UserId.Equals(model.CreatedBy)))
-                .DefaultIfEmpty(null)
                 .FirstOrDefaultAsync();
             var hold_worker = await
                 _repository
                 .account
                 .GetByCondition(x => x.Id.Equals(model.AssignedTo), true)
                 .Include(y => y.Members.Where(z => z.ProjectId.Equals(model.ProjectId) && z.UserId.Equals(model.AssignedTo)))
-                .DefaultIfEmpty(null)
                 .FirstOrDefaultAsync();
 
-            if(hold_creator==null) throw new BadRequestException("Created by user id does not existed");
+            if (hold_creator == null) throw new BadRequestException("User Id does not existed or not in this project");
 
-            if (hold_worker == null) throw new BadRequestException("Assigned user id does not existed");
+            if (hold_worker == null) throw new BadRequestException("Assigned user id does not existed or not in this project");
 
             hold.Id = Guid.NewGuid();
 
