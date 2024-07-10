@@ -310,11 +310,11 @@ namespace Service
             /// phai setup secret truoc khi thuc hien Open CMD (as admin) => setx SECRET "MinhTC" /M
             var hold = _Secret;
 
-                var key = Encoding.UTF8.GetBytes(hold);
+            var key = Encoding.UTF8.GetBytes(hold);
 
-                var secret = new SymmetricSecurityKey(key);
+            var secret = new SymmetricSecurityKey(key);
 
-                return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+            return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
         private async Task<List<Claim>> GetClaims()
         {
