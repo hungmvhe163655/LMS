@@ -36,7 +36,7 @@
 
         public const string ChangeVerifier = "verifier-change";
 
-        public const string GetUsers = "accounts-supervisor";
+        public const string GetUsersSup = "accounts-supervisor";
 
         public const string VerifyEmailSend = "verify-email-send";
 

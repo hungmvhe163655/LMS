@@ -22,8 +22,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = serviceManager;
         }
-        [HttpGet(RoutesAPI.GetUsers)]
-        public async Task<IActionResult> GetUsers()
+        [HttpGet(RoutesAPI.GetUsersSup)]
+        public async Task<IActionResult> GetUsersSup()
         {
             return Ok(await _service.AccountService.GetAccountNameWithRole("SUPERVISOR"));
         }
@@ -69,9 +69,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return BadRequest(new ResponseMessage { Message = "Wrong code" });
 
         }
-        private async Task<IActionResult> LoginProcess(string outcome, bool twofactor, AccountReturnModel model)
+        private async Task<IActionResult> LoginProcess(HiddenAccountResponseModel outcome, bool twofactor, AccountReturnModel model)
         {
-            if (outcome.Split("|")[0].Equals("SUCCESS"))
+            if (outcome.Message.Split("|")[0].Equals("SUCCESS"))
             {
                 if (twofactor)
                 {
@@ -85,20 +85,20 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
                 return Ok(new { TOKEN = Tokendto, User = model });
             }
-            if (outcome.Split("|")[0].Equals("ISBANNED"))
+            if (outcome.Message.Split("|")[0].Equals("ISBANNED"))
             {
-                return StatusCode(406, new ResponseMessage { Message = outcome });
+                return StatusCode(406, outcome);
             }
-            return Unauthorized(new ResponseMessage { Message = outcome });
+            return Unauthorized(outcome);
         }
 
         [HttpPost(RoutesAPI.Authenticate)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestModel model)
         {
-            string outcome = await _service.AuthenticationService.ValidateUser(model);
+            var outcome = await _service.AuthenticationService.ValidateUser(model);
 
-            var hold_2Factor = outcome.Split("|")[1].Equals("TWOFACTOR");
+            var hold_2Factor = outcome.Message.Split("|")[1].Equals("TWOFACTOR");
 
             var user = await _service.AccountService.GetUserByEmail(model.Email, true);
 
