@@ -13,6 +13,7 @@ namespace Repository
         public TaskRepository(DataContext context) : base(context)
         {
         }
+        public IQueryable<Tasks> GetTaskWithId(Guid id, bool track) => GetByCondition(x => x.Id.Equals(id), track);
         public async Task DeleteTask(Tasks task) => await DeleteWithConcurrencyAsync(task);
 
         public async Task UpdateTask(Tasks task) => await UpdateWithConcurrencyAsync(task);
