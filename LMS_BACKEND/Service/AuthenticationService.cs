@@ -109,7 +109,7 @@ namespace Service
 
             var verifierRole = await _userManager.GetRolesAsync(verifier);
 
-            if (verifierRole == null || !(verifierRole.Contains("Labadmin") || verifierRole.Contains("Supervisor")))
+            if (verifierRole == null || !(verifierRole.Contains("Supervisor") || (verifierRole.Contains("Labadmin"))))
 
                 throw new BadRequestException("Verifier's not authorized");
 
@@ -133,11 +133,9 @@ namespace Service
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
-                
-
                 if (!result.Succeeded)
                 {
-                    var errors = string.Join(", ", result.Errors.Select(e => e.Description));               
+                    var errors = string.Join(", ", result.Errors.Select(e => e.Description));
 
                     throw new BadRequestException($"Add user failed: {errors}");
                 }

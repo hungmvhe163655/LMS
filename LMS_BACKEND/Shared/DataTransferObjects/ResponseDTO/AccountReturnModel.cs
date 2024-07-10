@@ -18,6 +18,7 @@ namespace Shared.DataTransferObjects.ResponseDTO
         public string? Gender { get; set; } = "male";
         public bool IsDeleted { get; set; }
         public bool IsBanned { get; set; }
+        public bool IsVerified { get; set; }
         public IList<string> Roles { get; set; } = new List<string>();
     }
 }
