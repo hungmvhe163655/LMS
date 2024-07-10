@@ -244,6 +244,7 @@ namespace Repository
                 entity.Property(e => e.ProjectId).HasColumnName("ProjectId");
                 entity.Property(e => e.UserId).HasColumnName("UserId");
                 entity.Property(e => e.IsLeader).HasColumnName("IsLeader");
+                entity.Property(e => e.JoinDate).HasColumnName("JoinDate");
 
                 entity.HasOne(d => d.Project).WithMany(p => p.Members)
                     .HasForeignKey(d => d.ProjectId)
