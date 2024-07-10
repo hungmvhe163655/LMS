@@ -45,9 +45,11 @@ namespace Service
                 .ThenInclude(z => z.Project)
                 .FirstAsync() ?? throw new BadRequestException("Created by user id is not existed");
 
-            if (hold_user.Members.IsNullOrEmpty()) throw new Exception("lamao");
+            if (hold_user.Members.IsNullOrEmpty()) throw new Exception("User don't have any project");
 
-            if (hold_user.Members.First().Project == null) throw new Exception("Lamao");
+            var hold_project = hold_user.Members.First().Project;
+
+            if (hold_project == null || !hold_project.Id.Equals(model.ProjectId)) throw new Exception("User not in this project");
 
             hold.Id = Guid.NewGuid();
 
