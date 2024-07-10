@@ -19,5 +19,7 @@ namespace Repository
 
         public async Task AddNewTask(Tasks task) => await CreateAsync(task);
 
+        public IQueryable<Tasks> GetTasksWithProjectId(Guid projectId, bool check) => FindAll(check).Where(x => x.ProjectId.Equals(projectId));
+
     }
 }
