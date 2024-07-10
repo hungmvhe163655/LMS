@@ -8,5 +8,9 @@
         IFileService FileService { get; }
         INewsService NewsService { get; }
         INotificationService NotificationService { get; }
+        IScheduleService ScheduleService { get; }
+        ITaskService TaskService { get; }
+        ITaskListService TaskListService { get; }
+        IProjectService ProjectService { get; }
     }
 }
