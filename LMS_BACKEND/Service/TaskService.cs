@@ -39,17 +39,19 @@ namespace Service
             var hold = _mapper.Map<Tasks>(model);
 
             var hold_creator = await
-                _repository
+                (_repository
                 .account
                 .GetByCondition(x => x.Id.Equals(model.CreatedBy), true)
                 .Include(y => y.Members.Where(z => z.IsLeader && z.ProjectId.Equals(model.ProjectId) && z.UserId.Equals(model.CreatedBy)))
-                .FirstAsync() ?? throw new BadRequestException("Created by user id does not existed");
+                ?? throw new BadRequestException("Created by user id does not existed"))
+                .FirstAsync();
             var hold_worker = await
-                _repository
+                (_repository
                 .account
-                .GetByCondition(x => x.Id.Equals(model.AssignedTo), true)
+                .GetByCondition(x => x.Id.Equals(model.CreatedBy), true)
                 .Include(y => y.Members.Where(z => z.ProjectId.Equals(model.ProjectId) && z.UserId.Equals(model.CreatedBy)))
-                .FirstAsync() ?? throw new BadRequestException("Assigned user does not existed");
+                ?? throw new BadRequestException("Assigned user id does not existed"))
+                .FirstAsync();
 
             hold.Id = Guid.NewGuid();
 
