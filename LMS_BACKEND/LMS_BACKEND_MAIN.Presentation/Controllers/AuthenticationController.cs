@@ -161,20 +161,20 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var userClaims = User.Claims;
 
-            var userId = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
             var email = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
 
-            if (userId != null)
+            if (username != null)
             {
-                var result = await _service.AccountService.GetUserById(userId);
+                var result = await _service.AccountService.GetUserByName(username);
 
                 return Ok(result);
             }
 
             if (email != null)
             {
-                var result = await _service.AccountService.GetUserByName(email);
+                var result = await _service.AccountService.GetUserByEmail(email, true);
 
                 return Ok(result);
             }
