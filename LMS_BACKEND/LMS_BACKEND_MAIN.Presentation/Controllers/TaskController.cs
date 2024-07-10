@@ -25,6 +25,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = serviceManager;
         }
 
+        [HttpGet(RoutesAPI.GetTaskByProjectId)]
+        public async Task<IActionResult> GetTaskByProjectId(Guid id)
+        {
+            return Ok(await _service.TaskService.GetTasksWithProjectId(id));
+        }
+
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetTaskById(Guid id)
         {

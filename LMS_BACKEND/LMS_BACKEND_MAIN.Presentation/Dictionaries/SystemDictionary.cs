@@ -96,7 +96,15 @@
         #endregion
 
         #region ProjectAPIs
+            
         public const string GetProjectWithMember = "member/{userId}";
+        
+        #endregion
+
+        #region TaskAPIs
+
+        public const string GetTaskByProjectId = "project/{id:guid}";
+            
         #endregion
 
     }
