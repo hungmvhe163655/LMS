@@ -16,7 +16,13 @@ namespace Repository
 
         public async Task AddTaskHistory(TaskHistory task)
         {
-           await CreateAsync(task);
+            await CreateAsync(task);
+        }
+        public void DeleteTaskHistory(Guid taskId)
+        {
+            var hold = GetByCondition(x => x.TaskGuid.Equals(taskId), false);
+
+            DeleteRange(hold);
         }
     }
 }
