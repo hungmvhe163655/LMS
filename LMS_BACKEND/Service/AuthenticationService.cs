@@ -66,7 +66,7 @@ namespace Service
 
             var hold = Environment.GetEnvironmentVariable("SECRET");
 
-            _Secret = hold ?? "#";
+            _Secret = hold ?? throw new Exception("Failed to find variable for Secret");
 
             _repositoryManager = repositoryManager;
         }
@@ -297,7 +297,7 @@ namespace Service
             {
                 _logger.LogError($"{nameof(CreateToken)} Failed to find any valid Credential");
 
-                return "NOT FOUND CREDENTIALS";
+                throw new Exception("Failed to find variables");
             }
             var claims = await GetClaims();
 
@@ -310,16 +310,11 @@ namespace Service
             /// phai setup secret truoc khi thuc hien Open CMD (as admin) => setx SECRET "MinhTC" /M
             var hold = _Secret;
 
-            if (!hold.Equals("#"))
-            {
                 var key = Encoding.UTF8.GetBytes(hold);
 
                 var secret = new SymmetricSecurityKey(key);
 
                 return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
-
-            }
-            return new SigningCredentials(null, SecurityAlgorithms.HmacSha256);
         }
         private async Task<List<Claim>> GetClaims()
         {
