@@ -20,13 +20,10 @@ type UseValidateEmailOptions = {
 };
 
 export const useValidateEmail = ({ mutationConfig }: UseValidateEmailOptions = {}) => {
-  const { onSuccess, ...restConfig } = mutationConfig || {};
+  const { ...restConfig } = mutationConfig || {};
 
   return useMutation({
     mutationFn: validateEmail,
-    onSuccess: (data, variables, context) => {
-      onSuccess?.(data, variables, context);
-    },
     ...restConfig
   });
 };

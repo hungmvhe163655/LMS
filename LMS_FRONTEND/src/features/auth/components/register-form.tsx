@@ -66,7 +66,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role, onBack }) => {
       gender: data.selectGender === 'male',
       roles: [role.toLocaleLowerCase()]
     };
-    console.log(req);
     await register(req);
   }
 

@@ -26,7 +26,7 @@ interface ValidateEmailFormProps {
 }
 
 const ValidateEmailForm: React.FC<ValidateEmailFormProps> = ({ onSubmit }) => {
-  const { mutateAsync: validateEmail, isPending, isError, error } = useValidateEmail();
+  const { mutateAsync: validateEmail, isPending, error } = useValidateEmail();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -35,10 +35,7 @@ const ValidateEmailForm: React.FC<ValidateEmailFormProps> = ({ onSubmit }) => {
   });
 
   async function handleSubmit(data: z.infer<typeof FormSchema>) {
-    await validateEmail(data);
-    if (!isError) {
-      onSubmit(data.email);
-    }
+    await validateEmail(data, { onSuccess: () => onSubmit(data.email) });
   }
 
   return (

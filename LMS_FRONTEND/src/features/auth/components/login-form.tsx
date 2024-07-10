@@ -20,7 +20,7 @@ import { useLogin } from '../api/login';
 import { loginInputSchema } from '../utils/schema';
 
 export const LoginForm = () => {
-  const { mutate: login, isPending } = useLogin();
+  const { mutateAsync: login, isPending } = useLogin();
 
   const form = useForm<z.infer<typeof loginInputSchema>>({
     resolver: zodResolver(loginInputSchema),
