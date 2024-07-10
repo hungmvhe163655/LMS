@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -14,6 +13,7 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
+import useCountdown from '@/hooks/use-count-down';
 
 import { useValidateEmail } from '../api/validate-email';
 import { useValidateOtp } from '../api/validate-otp';
@@ -33,24 +33,11 @@ interface ValidateOtpFormProps {
 export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack, onValidate }) => {
   const { mutate: validateOtp, isPending, error } = useValidateOtp();
   const { mutate: validateEmail, isPending: isPendingResend } = useValidateEmail();
-  const [seconds, setSeconds] = useState<number>(60);
-  const [isCounting, setIsCounting] = useState<boolean>(true);
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isCounting) {
-      timer = setInterval(() => {
-        setSeconds((prevSeconds) => (prevSeconds > 0 ? prevSeconds - 1 : 0));
-      }, 1000);
-    }
-
-    return () => clearInterval(timer);
-  }, [isCounting]);
+  const { seconds, reset } = useCountdown(60);
 
   const handleResendOtp = () => {
     validateEmail({ email });
-    setSeconds(60);
-    setIsCounting(true);
+    reset();
   };
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -100,12 +87,8 @@ export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack,
           <Button className='mr-5 mt-0' type='submit' disabled={isPending}>
             {isPending ? 'Sending...' : 'Submit'}
           </Button>
-          <Button
-            type='button'
-            onClick={handleResendOtp}
-            disabled={(isCounting && seconds > 0) || isPendingResend}
-          >
-            {isCounting && seconds > 0 ? `Resend OTP in ${seconds}s` : 'Resend OTP'}
+          <Button type='button' onClick={handleResendOtp} disabled={seconds > 0 || isPendingResend}>
+            {seconds > 0 ? `Resend OTP in ${seconds}s` : 'Resend OTP'}
           </Button>
         </div>
         <Button

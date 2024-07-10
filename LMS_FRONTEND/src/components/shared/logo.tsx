@@ -8,10 +8,7 @@ import { Link } from '../app/link';
 
 export function Logo() {
   const auth = useAuthUser<User>() as User;
-  let link = '/';
-  if (auth) {
-    link = getRedirectBasedOnRoles(auth.roles);
-  }
+  const link = auth ? getRedirectBasedOnRoles(auth.roles) : '/';
 
   return (
     <Link

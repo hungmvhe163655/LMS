@@ -1,4 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod';
+/* import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -13,12 +14,27 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
+import { useChangeEmail } from '../api/change-email';
+import { useToast } from '@/components/ui/use-toast';
+import { User } from '@/types/api';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import useCountdown from '@/hooks/use-count-down';
+import { useState } from 'react';
 
 const formSchema = z.object({
-  email: z.string().min(6).email('This is not a valid email.')
+  email: z.string().min(6).email('This is not a valid email.'),
+  verifyCode: z.string().min(6, {
+    message: 'Invalid Code'
+  })
 });
 
 export function ChangeEmailForm() {
+  const { mutate: changeEmail, isPending, error } = useChangeEmail();
+  const [isSendCode, setIsSendCode] = useState<boolean>(false);
+  const { toast } = useToast();
+  const auth = useAuthUser<User>() as User;
+  const { seconds, reset } = useCountdown(60);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -27,7 +43,11 @@ export function ChangeEmailForm() {
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
+    changeEmail({
+      email: data.email,
+      userID: auth.id,
+      verifyCode: data.verifyCode
+    });
   }
 
   return (
@@ -46,23 +66,42 @@ export function ChangeEmailForm() {
             </FormItem>
           )}
         />
-        <div className='space-y-3'>
-          <InputOTP maxLength={6}>
-            <InputOTPGroup>
-              <InputOTPSlot index={0} />
-              <InputOTPSlot index={1} />
-              <InputOTPSlot index={2} />
 
-              <InputOTPSlot index={3} />
-              <InputOTPSlot index={4} />
-              <InputOTPSlot index={5} />
-            </InputOTPGroup>
-          </InputOTP>
-          <div className='flex justify-end'>
-            <Button type='submit'>Confirm</Button>
-          </div>
+        <FormField
+          control={form.control}
+          name='verifyCode'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Verify Code</FormLabel>
+              <FormControl>
+                <InputOTP maxLength={6} {...field}>
+                  <InputOTPGroup>
+                    <InputOTPSlot index={0} />
+                    <InputOTPSlot index={1} />
+                    <InputOTPSlot index={2} />
+                    <InputOTPSlot index={3} />
+                    <InputOTPSlot index={4} />
+                    <InputOTPSlot index={5} />
+                  </InputOTPGroup>
+                </InputOTP>
+              </FormControl>
+              <FormDescription>
+                We have send a code to <span className='font-bold'>{form.formState}</span>
+              </FormDescription>
+              <FormMessage>
+                {error?.message || form.formState.errors.verifyCode?.message}
+              </FormMessage>
+            </FormItem>
+          )}
+        />
+
+        <div className='flex justify-end'>
+          <Button type='button' onClick={handleResendOtp} disabled={seconds > 0}>
+            {seconds > 0 ? `Resend OTP in ${seconds}s` : 'Send OTP'}
+          </Button>
         </div>
       </form>
     </Form>
   );
 }
+*/
