@@ -39,19 +39,21 @@ namespace Service
             var hold = _mapper.Map<Tasks>(model);
 
             var hold_creator = await
-                (_repository
+                _repository
                 .account
                 .GetByCondition(x => x.Id.Equals(model.CreatedBy), true)
                 .Include(y => y.Members.Where(z => z.IsLeader && z.ProjectId.Equals(model.ProjectId) && z.UserId.Equals(model.CreatedBy)))
-                ?? throw new BadRequestException("Created by user id does not existed"))
-                .FirstAsync();
+                .FirstOrDefaultAsync();
             var hold_worker = await
-                (_repository
+                _repository
                 .account
-                .GetByCondition(x => x.Id.Equals(model.CreatedBy), true)
-                .Include(y => y.Members.Where(z => z.ProjectId.Equals(model.ProjectId) && z.UserId.Equals(model.CreatedBy)))
-                ?? throw new BadRequestException("Assigned user id does not existed"))
-                .FirstAsync();
+                .GetByCondition(x => x.Id.Equals(model.AssignedTo), true)
+                .Include(y => y.Members.Where(z => z.ProjectId.Equals(model.ProjectId) && z.UserId.Equals(model.AssignedTo)))
+                .FirstOrDefaultAsync();
+
+            if (hold_creator == null) throw new BadRequestException("User Id does not existed or not in this project");
+
+            if (hold_worker == null) throw new BadRequestException("Assigned user id does not existed or not in this project");
 
             hold.Id = Guid.NewGuid();
 
@@ -78,8 +80,10 @@ namespace Service
                _repository
                .account
                .GetByCondition(x => x.Id.Equals(model.AssignedTo), true)
-               .Include(y => y.Members.Where(z => z.ProjectId.Equals(model.ProjectId) && z.UserId.Equals(model.CreatedBy)))
-               .FirstAsync() ?? throw new BadRequestException("Assigned user does not existed");
+               .Include(y => y.Members.Where(z => z.ProjectId.Equals(model.ProjectId) && z.UserId.Equals(model.AssignedTo)))
+               .FirstOrDefaultAsync();
+
+            if (hold_worker == null) throw new BadRequestException("Assigned user id does not existed or not in this project");
 
             var hold_version = _mapper.Map<TaskHistory>(hold);
 
@@ -93,9 +97,18 @@ namespace Service
 
             await _repository.Save();
         }
-        public async Task DeleteTask(Guid id)
+        public async Task DeleteTask(Guid id, string userId)
         {
             var hold = _repository.task.GetTaskWithId(id, false).First();
+
+            var hold_creator = await
+                _repository
+                .account
+                .GetByCondition(x => x.Id.Equals(userId), true)
+                .Include(y => y.Members.Where(z =>z.IsLeader && z.IsLeader && z.ProjectId.Equals(hold.ProjectId) && z.UserId.Equals(userId)))
+                .FirstOrDefaultAsync();
+
+            if (hold_creator == null) throw new BadRequestException("User is not allow to interract with this project");
 
             _repository.taskHistory.DeleteTaskHistory(id);
 
