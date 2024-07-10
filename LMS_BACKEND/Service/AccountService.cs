@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;

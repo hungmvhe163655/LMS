@@ -1,4 +1,4 @@
-﻿using Entities.Exceptions;
+using Entities.Exceptions;
 using LMS_BACKEND_MAIN.Presentation.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
