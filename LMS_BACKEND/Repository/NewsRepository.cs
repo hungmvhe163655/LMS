@@ -18,7 +18,7 @@ namespace Repository
         }
 
         public async Task<PagedList<News>> GetNewsAsync(NewsRequestParameters parameters, bool trackChanges)
-        { 
+        {
             var news = await FindAll(trackChanges).FilterNews(parameters.minCreatedDate, parameters.maxCreatedDate).Search(parameters)
                 .FilterNews(parameters.minCreatedDate, parameters.maxCreatedDate)
                 .Sort(parameters.OrderBy)

@@ -1,11 +1,7 @@
 ﻿using Entities.Models;
 using Shared.DataTransferObjects.RequestParameters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
+using System.Text;
 
 namespace Repository.Extensions
 {
@@ -19,7 +15,7 @@ namespace Repository.Extensions
 
             var lowerCaseTerm = parameters.SearchTerm == null ? "" : parameters.SearchTerm.Trim().ToLower();
 
-            if(parameters.SearchByContent) return news.Where(n => n.Content != null && n.Content.ToLower().Contains(lowerCaseTerm));
+            if (parameters.SearchByContent) return news.Where(n => n.Content != null && n.Content.ToLower().Contains(lowerCaseTerm));
 
             return news.Where(n => n.Title.ToLower().Contains(lowerCaseTerm));
         }
