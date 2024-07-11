@@ -81,7 +81,7 @@ namespace Service
                     {
                         var Token = GenerateOtp();
                         _cache.Set(GetCacheKey(hold_user, keymode), Token, TimeSpan.FromMinutes(2));
-                        return await SendMailGmailSmtp(_Mail.Split("/")[0], hold_user.Email, "LMS - FORGOT PASSWORD VERIFY", "Your Verify Code: " + Token);
+                        return await SendMailGmailSmtp(_Mail.Split("/")[0], hold_user.Email, "LMS - EMAIL VERIFY", "Your Verify Code: " + Token);
                     }
                 }
             }

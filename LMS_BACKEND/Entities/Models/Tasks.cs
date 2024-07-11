@@ -24,7 +24,6 @@ namespace Entities.Models
         public Guid ProjectId { get; set; }
         public int TaskStatusId { get; set; }
         public string? AssignedTo { get; set; }
-        [JsonIgnore]
         public virtual Account? AssignedToUser { get; set; }
         //[JsonIgnore]
         //public virtual Account? CreatedByUser { get; set; }

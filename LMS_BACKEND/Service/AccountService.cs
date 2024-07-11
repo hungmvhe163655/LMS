@@ -192,20 +192,13 @@ namespace Service
 
         public async Task ChangeEmailAsync(string id, ChangeEmailRequestModel model)
         {
-            var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(id), true);
-            var account = user.FirstOrDefault();
-            //if (account != null)
-            //{
-            //    var result = await _userManager.ChangeEmailAsync(account, oldPassword, newPassword);
-            //    return result.Succeeded;
-            //}
-            //else throw new BadRequestException("User with id: " + userId + " is not exist");
-            if (account == null) throw new BadRequestException($"Can't find user with id: ${id}");
-            await _userManager.SetEmailAsync(account, model.Email);
+            var user = await _repository.account.GetByCondition(entity => entity.Id.Equals(id), true).FirstOrDefaultAsync();
 
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(account);
+            if (user == null) throw new BadRequestException($"Can't find user with id: ${id}");
+            
+            user.Email = model.Email;
 
-            await _userManager.ConfirmEmailAsync(account, token);
+            await _repository.Save();
         }
 
         //public async Task<bool> ChangePhoneNumberAsync(string userId, string phoneNumber, string verifyCode)

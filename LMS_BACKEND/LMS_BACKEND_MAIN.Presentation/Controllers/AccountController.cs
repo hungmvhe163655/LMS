@@ -1,4 +1,5 @@
 
+using Entities.Exceptions;
 using Entities.Models;
 using LMS_BACKEND_MAIN.Presentation.Attributes;
 using LMS_BACKEND_MAIN.Presentation.Dictionaries;
@@ -14,6 +15,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -87,26 +89,34 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPost(RoutesAPI.ChangeEmail)]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> ChangeEmail(string id, [FromBody] ChangeEmailRequestModel model)
+        public async Task<IActionResult> ChangeEmail(string id)
         {
-            await _service.AccountService.ChangeEmailAsync(id, model);
-            return Ok(new ResponseMessage { Message = "Change email Successully" });
+            if (!CheckUser().Equals(id)) throw new BadRequestException("user don't have the right to function");
+            var hold = await _service.AccountService.GetUserById(id);
+            var email = hold.Email;
+            if (await _service.MailService.SendOTP(email, "ChangeEmailKey"))
+            {
+                return Ok(new ResponseMessage { Message = "Change email successfully" });
+            }
+            return BadRequest(new ResponseMessage { Message = "User not found or wrong verify code" });
         }
 
-        //[HttpPost(RoutesAPI.ChangeEmailOtp)]
-        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
-        //[ServiceFilter(typeof(ValidationFilterAttribute))]
-        //public async Task<IActionResult> ChangeEmailOtp(string id, [FromBody] ChangeEmailRequestModel model)
-        //{
-        //    var hold = await _service.AccountService.GetUserById(id);
-        //    var email = hold.Email;
-        //    if (await _service.MailService.VerifyOtp(email, model.VerifyCode, "ChangeEmailKey"))
-        //    {
+        [HttpPost(RoutesAPI.ChangeEmailOtp)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> ChangeEmailOtp(string id, ChangeEmailRequestModel model)
+        {
+            if (!CheckUser().Equals(id)) throw new BadRequestException("user don't have the right to function");
+            var hold = await _service.AccountService.GetUserById(id);
+            var email = hold.Email;
+            if (await _service.MailService.VerifyOtp(email, model.Token, "ChangeEmailKey"))
+            {
+                await _service.AccountService.ChangeEmailAsync(id, model);
 
-        //        return Ok(new ResponseMessage { Message = "Change email successfully" });
-        //    }
-        //    return BadRequest(new ResponseMessage { Message = "User not found or wrong verify code" });
-        //}
+                return Ok(new ResponseMessage { Message = "Change email successfully" });
+            }
+            return BadRequest(new ResponseMessage { Message = "User not found or wrong verify code" });
+        }
 
         [HttpPut("{id}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
@@ -117,6 +127,16 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             await _service.AccountService.UpdateProfileAsync(id, model);
 
             return Ok(new ResponseMessage { Message = "Update Profile Successully" });
+        }
+        private async Task<string> CheckUser()
+        {
+            var userClaims = User.Claims;
+
+            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
+
+            return hold.Id;
         }
     }
 }
