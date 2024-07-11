@@ -77,7 +77,6 @@ namespace Service
             var account = await _repository.account.GetByCondition(entity => entity.Id.Equals(userId), false).FirstAsync();
             if (account == null) throw new BadRequestException($"{nameof(account)} is not valid");
             if (account.Email == null) throw new BadRequestException($"{nameof(account.Email)} is not valid");
-
             var checkRole = await _userManager.GetRolesAsync(account);
             var roleName = checkRole.FirstOrDefault();
             if (roleName == null) throw new BadRequestException($"{roleName} is not valid");
@@ -149,15 +148,15 @@ namespace Service
             else throw new BadRequestException("User with id: " + userId + " is not exist");
         }
 
-        public async Task UpdateProfileAsync(string userId, UpdateProfileRequestModel model)
+        public async Task UpdateProfileAsync(UpdateProfileRequestModel model)
         {
             try
             {
-                var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), true);
+                var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(model.Id), true);
 
                 var account = user.FirstOrDefault();
 
-                if (account == null) throw new BadRequestException("User with id: " + userId + " is not exist");
+                if (account == null) throw new BadRequestException("User with id: " + model.Id + " is not exist");
 
                 account.FullName = model.FullName;
 
@@ -165,12 +164,12 @@ namespace Service
                 var roleName = checkRole.FirstOrDefault();
                 if (roleName == null) throw new BadRequestException($"{roleName} is not valid");
 
-                var hold = await _repository.studentDetail.GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), true);
+                var hold = await _repository.studentDetail.GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(model.Id), true);
                 var studentDetail = hold.FirstOrDefault();
 
                 if (studentDetail == null)
                 {
-                    var newStudentDetail = new StudentDetail() { AccountId = userId, RollNumber = account.UserName, Major = model.Major, Specialized = model.Specialized };
+                    var newStudentDetail = new StudentDetail() { AccountId = model.Id, RollNumber = account.UserName, Major = model.Major, Specialized = model.Specialized };
                     await _repository.studentDetail.CreateAsync(newStudentDetail);
                 }
                 else
@@ -192,20 +191,13 @@ namespace Service
 
         public async Task ChangeEmailAsync(string id, ChangeEmailRequestModel model)
         {
-            var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(id), true);
-            var account = user.FirstOrDefault();
-            //if (account != null)
-            //{
-            //    var result = await _userManager.ChangeEmailAsync(account, oldPassword, newPassword);
-            //    return result.Succeeded;
-            //}
-            //else throw new BadRequestException("User with id: " + userId + " is not exist");
-            if (account == null) throw new BadRequestException($"Can't find user with id: ${id}");
-            await _userManager.SetEmailAsync(account, model.Email);
+            var user = await _repository.account.GetByCondition(entity => entity.Id.Equals(id), true).FirstOrDefaultAsync();
 
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(account);
+            if (user == null) throw new BadRequestException($"Can't find user with id: ${id}");
+            
+            user.Email = model.Email;
 
-            await _userManager.ConfirmEmailAsync(account, token);
+            await _repository.Save();
         }
 
         //public async Task<bool> ChangePhoneNumberAsync(string userId, string phoneNumber, string verifyCode)

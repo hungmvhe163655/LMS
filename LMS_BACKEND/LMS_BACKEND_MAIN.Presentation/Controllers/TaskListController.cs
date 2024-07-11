@@ -1,4 +1,5 @@
 ﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
@@ -23,56 +24,37 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = service;
         }
 
-        [HttpGet("{projectId}")]
-        //[Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> GetTaskList(Guid projectId)
+        [HttpGet("{taskListId}")]
+        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        public async Task<IActionResult> GetTaskListById(Guid taskListId)
         {
-            var hold = await _service.TaskListService.GetTaskList(projectId);
+            var hold = await _service.TaskListService.GetTaskListById(taskListId);
             return Ok(hold);
         }
 
-        //[HttpGet]
-        ////[Authorize(AuthenticationSchemes = "Bearer")]
-        //public async Task<IActionResult> GetNewsAsync([FromQuery] NewsRequestParameters newsParameters)
-        //{
-        //    var pageResult = await _service.NewsService.GetNewsAsync(newsParameters, trackChanges: false);
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> CreateNewTaskList(CreateTaskListRequestModel model)
+        {
+            await _service.TaskListService.CreateTaskList(model);
+            return Ok(new ResponseMessage { Message = "Create Task list successfully" });
+        }
 
-        //    Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
-        //    return Ok(pageResult.news);
-        //}
+        [HttpPut("{tasklistId}")]
+        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> UpdateTaskList(Guid tasklistId, UpdateTaskListRequestModel model)
+        {
+            await _service.TaskListService.UpdateTaskList(tasklistId, model);
+            return Ok(new ResponseMessage { Message = "Update task list successfully" });
+        }
 
-        //[HttpGet("{id}")]
-        ////[Authorize(AuthenticationSchemes = "Bearer")]
-        //public async Task<IActionResult> GetNewsById(Guid id)
-        //{
-        //    var data = await _service.NewsService.GetNewsById(id);
-        //    return Ok(data);
-        //}
-
-        //[HttpPost]
-        ////[Authorize(AuthenticationSchemes = "Bearer")]
-        //public IActionResult CreateNews(CreateNewsRequestModel model)
-        //{
-        //    var data = _service.NewsService.CreateNewsAsync(model);
-        //    return Ok(data);
-        //}
-
-        //[HttpPut("{newsid:guid}")]
-        ////[Authorize(AuthenticationSchemes = "Bearer")]
-        //public async Task<IActionResult> Update(Guid newsId, UpdateNewsRequestModel model)
-        //{
-        //    await _service.NewsService.UpdateNews(newsId, model);
-        //    return Ok(new ResponseMessage { Message = "Update successfully" });
-        //}
-
-
-        //[HttpDelete("{newsid:guid}")]
-        ////[Authorize(AuthenticationSchemes = "Bearer")]
-        //public async Task<IActionResult> Delete(Guid newsId)
-        //{
-        //    await _service.NewsService.DeleteNews(newsId);
-        //    return Ok(new ResponseMessage { Message = "Delete successfully" });
-        //}
+        [HttpDelete("{tasklistId}")]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> DeleteTaskList(Guid tasklistId)
+        {
+            await _service.TaskListService.DeleteTaskList(tasklistId);
+            return Ok(new ResponseMessage { Message = "Delete task list successfully" });
+        }
 
     }
 }

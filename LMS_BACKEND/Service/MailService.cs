@@ -1,19 +1,11 @@
 ﻿using Contracts.Interfaces;
-using Entities;
 using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using Service.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -81,7 +73,7 @@ namespace Service
                     {
                         var Token = GenerateOtp();
                         _cache.Set(GetCacheKey(hold_user, keymode), Token, TimeSpan.FromMinutes(2));
-                        return await SendMailGmailSmtp(_Mail.Split("/")[0], hold_user.Email, "LMS - FORGOT PASSWORD VERIFY", "Your Verify Code: " + Token);
+                        return await SendMailGmailSmtp(_Mail.Split("/")[0], hold_user.Email, "LMS - EMAIL VERIFY", "Your Verify Code: " + Token);
                     }
                 }
             }
@@ -186,7 +178,7 @@ namespace Service
             }
             return false;
         }
-        public async Task<bool> SendMailToUser(string email,string content,string header)
+        public async Task<bool> SendMailToUser(string email, string content, string header)
         {
             var user = await _userManager.FindByEmailAsync(email);
 

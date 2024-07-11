@@ -2,17 +2,10 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -32,6 +25,11 @@ namespace Service
         public async Task<IEnumerable<TaskResponseModel>> GetTasksWithProjectId(Guid projectId)
         {
             return _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.task.GetTasksWithProjectId(projectId, false).ToListAsync());
+        }
+
+        public async Task<IEnumerable<TaskResponseModel>> GetTasksWithTaskListId(Guid taskListId)
+        {
+            return _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.task.GetTasksWithTaskListId(taskListId, false).ToListAsync());
         }
 
         public async Task CreateTask(TaskCreateRequestModel model)
@@ -105,7 +103,7 @@ namespace Service
                 _repository
                 .account
                 .GetByCondition(x => x.Id.Equals(userId), true)
-                .Include(y => y.Members.Where(z =>z.IsLeader && z.IsLeader && z.ProjectId.Equals(hold.ProjectId) && z.UserId.Equals(userId)))
+                .Include(y => y.Members.Where(z => z.IsLeader && z.IsLeader && z.ProjectId.Equals(hold.ProjectId) && z.UserId.Equals(userId)))
                 .FirstOrDefaultAsync();
 
             if (hold_creator == null) throw new BadRequestException("User is not allow to interract with this project");

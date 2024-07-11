@@ -1,13 +1,6 @@
 ﻿using Contracts.Interfaces;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
-using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Repository
 {
@@ -19,7 +12,7 @@ namespace Repository
         public async Task<bool> CheckForOverlap(DateTime newStart, DateTime newEnd, Guid deviceId)
         {
             var overlappingSchedule = await FindAll(false)
-                .Where(s => s.DeviceId.Equals(deviceId)&&
+                .Where(s => s.DeviceId.Equals(deviceId) &&
                             s.EndDate > newStart &&
                             s.StartDate < newEnd)
                 .FirstOrDefaultAsync();
@@ -35,7 +28,7 @@ namespace Repository
             .ToListAsync();
         public async Task<IEnumerable<Schedule>> GetAllByDevice(Guid id, bool track) => await FindAll(track).ToListAsync();
         public async Task CreateScheduleForDevice(Schedule schedule) => await CreateAsync(schedule);
-        public void DeleteSchedule(Schedule schedule) =>  Delete(schedule);
+        public void DeleteSchedule(Schedule schedule) => Delete(schedule);
         public void UpdateScheduleForDevice(Schedule schedule) => Update(schedule);
         public async Task<Schedule?> GetSchedule(Guid ScheduleId, bool track) => await GetByCondition(c => c.Id.Equals(ScheduleId), track).SingleOrDefaultAsync();
     }

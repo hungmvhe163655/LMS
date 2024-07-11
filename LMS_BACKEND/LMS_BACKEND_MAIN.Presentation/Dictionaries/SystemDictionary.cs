@@ -20,7 +20,9 @@
 
         public const string ProjectAPI = "api/projects";
 
-        public const string TaskListAPI = "api/tasklists";
+        public const string TaskListAPI = "api/task-lists";
+
+        public const string ProfileAPI = "api/profile";
     }
     public static class AuthorizeScheme
     {
@@ -68,17 +70,11 @@
 
         #region AccountAPIs
 
-        public const string CreateAdmin = "create-admin";        
+        public const string CreateAdmin = "create-admin";
 
         public const string GetAccountNeedVerified = "need-verified";
 
         public const string UpdateAccountVerifyStatus = "verify-account";
-
-        public const string ChangePassword = "change-password";
-
-        public const string ChangeEmailOtp = "change-email-otp";
-
-        public const string ChangeEmail = "change-email/{id}";
 
         #endregion
 
@@ -95,17 +91,28 @@
 
         #endregion
 
-        #region ProjectAPIs
-            
-        public const string GetProjectWithMember = "member/{userId}";
-        
+        #region ProfileAPIs
+
+        public const string GetProjectWithMember = "{userId}/projects";
+
+        public const string ChangePassword = "change-password";
+
+        public const string ChangeEmailOtp = "change-email-otp/{id}";
+
+        public const string ChangeEmail = "change-email/{id}";
+
         #endregion
 
         #region TaskAPIs
 
         public const string GetTaskByProjectId = "project/{id:guid}";
-            
+
         #endregion
 
+        #region ProjectAPIs
+
+        public const string GetTaskListByProject = "{projectId}/task-lists";
+
+        #endregion
     }
 }
