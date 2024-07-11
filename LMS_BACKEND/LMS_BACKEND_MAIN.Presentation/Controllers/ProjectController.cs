@@ -21,12 +21,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = service;
         }
 
-        [HttpGet(RoutesAPI.GetProjectWithMember)]
+        [HttpGet(RoutesAPI.GetTaskListByProject)]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
-        public IActionResult GetProjectWithMember(string userId)
+        public async Task<IActionResult> GetTaskListByProject(Guid projectId)
         {
-            var data = _service.ProjectService.GetProjects(userId);
-            return Ok(data);
+            var hold = await _service.TaskListService.GetTaskListByProject(projectId);
+            return Ok(hold);
         }
 
         [HttpPost("{userId}")]

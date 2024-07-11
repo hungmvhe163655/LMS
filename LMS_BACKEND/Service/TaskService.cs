@@ -34,6 +34,11 @@ namespace Service
             return _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.task.GetTasksWithProjectId(projectId, false).ToListAsync());
         }
 
+        public async Task<IEnumerable<TaskResponseModel>> GetTasksWithTaskListId(Guid taskListId)
+        {
+            return _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.task.GetTasksWithTaskListId(taskListId, false).ToListAsync());
+        }
+
         public async Task CreateTask(TaskCreateRequestModel model)
         {
             var hold = _mapper.Map<Tasks>(model);

@@ -11,8 +11,10 @@ namespace Service.Contracts
 {
     public interface ITaskListService
     {
-        Task<IEnumerable<TaskListResponseModel>> GetTaskList(Guid projectId);
+        Task<IEnumerable<TaskListResponseModel>> GetTaskListByProject(Guid projectId);
+        Task<TaskListResponseModel> GetTaskListById(Guid taskListId);
         Task CreateTaskList(CreateTaskListRequestModel model);
-        Task UpdateTaskList(UpdateTaskListRequestModel model);
+        Task UpdateTaskList(Guid tasklistId, UpdateTaskListRequestModel model);
+        Task DeleteTaskList(Guid tasklistId);
     }
 }
