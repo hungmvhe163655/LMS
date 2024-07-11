@@ -72,7 +72,7 @@
 
         public const string CreateAdmin = "create-admin";
 
-        public const string GetAccountNeedVerified = "need-verified";
+        public const string GetAccountNeedVerified = "need-verified/{id}";
 
         public const string UpdateAccountVerifyStatus = "verify-account";
 

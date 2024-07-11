@@ -121,9 +121,9 @@ namespace Service
             }
             return false;
         }
-        public async Task<IEnumerable<AccountReturnModel>> GetVerifierAccounts(string email)
+        public async Task<IEnumerable<AccountReturnModel>> GetVerifierAccounts(string id)
         {
-            var user = await _repository.account.GetByConditionAsync(entity => entity.Email != null && entity.Email.Equals(email), false);
+            var user = await _repository.account.GetByConditionAsync(entity =>entity.Id.Equals(id), false);
             var end = user.First();
             if (end == null) throw new UnauthorizedException("Invalid User");
             return _mapper.Map<IEnumerable<AccountReturnModel>>(_repository.account.GetByCondition(entity => entity.VerifiedBy != null && entity.VerifiedBy.Equals(end.Id), false).ToList());

@@ -31,29 +31,29 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPost(RoutesAPI.ChangeEmail)]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> ChangeEmail(string id, ChangeEmailRequestModel model)
+        public async Task<IActionResult> ChangeEmail(string id, [FromBody] ChangeEmailRequestModel model)
         {
             if (!CheckUser().Equals(id)) throw new BadRequestException("user don't have the right to function");
 
             if (await _service.AccountService.GetUserByEmail(model.Email, false) != null) throw new BadRequestException("user with that email is already existed");
 
             if (await _service.MailService.SendOTP(model.Email, "ChangeEmailKey"))
-            
-            return Ok(new ResponseMessage { Message = "Change email successfully" });
-            
+
+                return Ok(new ResponseMessage { Message = "Change email successfully" });
+
             return BadRequest(new ResponseMessage { Message = "User not found or wrong verify code" });
         }
 
         [HttpPost(RoutesAPI.ChangeEmailOtp)]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> ChangeEmailOtp(string id, ChangeEmailRequestModel model)
+        public async Task<IActionResult> ChangeEmailOtp(string id, [FromBody] ChangeEmailRequestModel model)
         {
             if (!CheckUser().Equals(id)) throw new BadRequestException("user don't have the right to function");
 
             if (await _service.AccountService.GetUserByEmail(model.Email, false) != null) throw new BadRequestException("user with that email is already existed");
 
-            if (await _service.MailService.VerifyOtp(model.Email, model.Token??"-", "ChangeEmailKey"))
+            if (await _service.MailService.VerifyOtp(model.Email, model.Token ?? "-", "ChangeEmailKey"))
             {
                 await _service.AccountService.ChangeEmailAsync(id, model);
 

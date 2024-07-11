@@ -31,10 +31,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         */
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
         [HttpGet(RoutesAPI.GetAccountNeedVerified)]
-        public IActionResult GetAccountNeedVerified(string email)
+        public IActionResult GetAccountNeedVerified(string id)
         {
             var user =
-            _service.AccountService.GetVerifierAccounts(email);
+            _service.AccountService.GetVerifierAccounts(id);
             return Ok(user);
         }
 
