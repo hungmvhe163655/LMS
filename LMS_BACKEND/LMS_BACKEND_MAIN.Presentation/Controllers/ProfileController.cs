@@ -6,13 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
     [Route(APIs.ProfileAPI)]
