@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import AuthRoute from './auth';
 import StudentDashboardRoute from './dashboard/student';
+import ErrorRoute from './errors';
 import NewsRoute from './news';
 import ProfileRoute from './profile';
 
@@ -17,20 +18,24 @@ export const createRouter = (queryClient: QueryClient) =>
       }
     },
     {
-      path: '/news',
+      path: 'news',
       children: [NewsRoute]
     },
     {
-      path: '/dashboard',
+      path: 'dashboard',
       children: [StudentDashboardRoute]
     },
     {
-      path: '/auth',
+      path: 'auth',
       children: [AuthRoute]
     },
     {
-      path: '/profile',
+      path: 'profile',
       children: [ProfileRoute]
+    },
+    {
+      path: 'error',
+      children: [ErrorRoute]
     },
     {
       path: '*',

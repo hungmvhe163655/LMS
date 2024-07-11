@@ -9,11 +9,12 @@ import RegisterForm from '@/features/auth/components/register-form';
 import ValidateEmailForm from '@/features/auth/components/validate-email-form';
 import { ValidateOtpForm } from '@/features/auth/components/validate-otp-form';
 import { Role } from '@/features/auth/utils/schema';
+import { ROLES } from '@/types/constant';
 
 export function RegisterPage() {
   const [email, setEmail] = useState<string>('');
   const [step, setStep] = useState<'email' | 'otp' | 'role' | 'register'>('email');
-  const [selectedRole, setSelectedRole] = useState<Role>('STUDENT');
+  const [selectedRole, setSelectedRole] = useState<Role>(ROLES.STUDENT);
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
 

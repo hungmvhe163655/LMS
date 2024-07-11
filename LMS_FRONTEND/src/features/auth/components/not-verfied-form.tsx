@@ -34,8 +34,8 @@ export const NotVerifiedForm = () => {
 
   return (
     <Card>
-      <CardHeader>
-        <CardDescription className='font-bold italic text-red-700'>
+      <CardHeader className='space-y-6'>
+        <CardDescription className='font-bold italic text-red-500'>
           Your Account is Not Verified yet! Please Contact to The Supervisor to Approve.
         </CardDescription>
         {isChange || <Button onClick={() => setIsChange(true)}>Change Suppervisor?</Button>}

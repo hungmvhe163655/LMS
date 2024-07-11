@@ -46,7 +46,7 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
         },
         userState: {
           id: user.id,
-          roles: user.roles
+          roles: user.roles.map((role) => role.toUpperCase())
         }
       });
 

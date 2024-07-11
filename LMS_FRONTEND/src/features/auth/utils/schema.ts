@@ -1,12 +1,14 @@
 import { z } from 'zod';
 
+import { ROLES } from '@/types/constant';
+
 export const loginInputSchema = z.object({
   email: z.string().min(1, 'Required').email('Invalid email'),
   password: z.string().min(5, 'Required')
 });
 export type LoginInput = z.infer<typeof loginInputSchema>;
 
-export const RoleEnum = z.enum(['STUDENT', 'SUPERVISOR']);
+export const RoleEnum = z.enum([ROLES.STUDENT, ROLES.SUPERVISOR]);
 export type Role = z.infer<typeof RoleEnum>;
 
 export const registerInputSchema = z

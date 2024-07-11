@@ -3,7 +3,7 @@ import NotVerifiedForm from '@/features/auth/components/not-verfied-form';
 
 export function NotVerifiedPage() {
   return (
-    <Layout title='Your Account is Not Verfied Yet!'>
+    <Layout title='Not Verfied!'>
       <NotVerifiedForm />
     </Layout>
   );

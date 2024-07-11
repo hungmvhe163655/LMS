@@ -1,3 +1,5 @@
+import { ROLES } from '@/types/constant';
+
 export type BaseEntity = {
   id: string;
   createdDate: Date;
@@ -7,7 +9,7 @@ export type Entity<T> = {
   [K in keyof T]: T[K];
 } & BaseEntity;
 
-export type Roles = ('Supervisor' | 'Student' | 'LabDirector')[];
+export type Roles = (typeof ROLES)[keyof typeof ROLES][];
 
 export type User = Entity<{
   email: string;

@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 import { Link } from '@/components/app/link';
@@ -32,6 +33,7 @@ interface RegisterFormProps {
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ email, role, onBack }) => {
   const { mutate: register, isPending } = useRegister();
+  const navigate = useNavigate();
 
   const registerSchema = registerInputSchema.and(
     z.object({
@@ -69,13 +71,18 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role, onBack }) => {
       verifiedByUserID: data.verifiedBy,
       userName: data.fullname,
       gender: data.selectGender === 'male',
-      roles: [role.toLocaleLowerCase()]
+      roles: [role]
     };
-    register(req);
+    register(req, {
+      onSuccess: () => {
+        navigate('auth/not-verified');
+      }
+    });
   }
 
   return (
     <Form {...form}>
+      <p className='m-0 text-center text-2xl font-extrabold'>{role}</p>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 py-4'>
         {/* Email Input Field */}
         <FormField
