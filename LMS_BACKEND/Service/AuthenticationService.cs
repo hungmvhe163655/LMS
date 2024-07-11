@@ -241,7 +241,7 @@ namespace Service
             }
             if (result && _account != null)
             {
-                if (!_account.IsDeleted)
+                if (_account.IsDeleted)
                 {
                     return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = $"DELETED|{_account.UserName}" };
                 }
