@@ -30,9 +30,7 @@ namespace Repository
                 .Search(param)
                 .ToListAsync();
 
-            var num = end.Count();
-
-            return new PagedList<Account>(end, num, param.PageNumber, param.PageSize);
+            return new PagedList<Account>(end, end.Count, param.PageNumber, param.PageSize);
         }
     }
 }
