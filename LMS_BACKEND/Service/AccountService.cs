@@ -124,7 +124,7 @@ namespace Service
         }
         public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccounts(NeedVerifyParameters param)
         {
-            var user = await _repository.account.FindWithVerifierId(param)??throw new BadRequestException("bad param");
+            var user = await _repository.account.FindWithVerifierId(param) ?? throw new BadRequestException("bad param");
 
             return (_mapper.Map<IEnumerable<AccountNeedVerifyResponseModel>>(user), user.MetaData);
         }
