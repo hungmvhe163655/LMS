@@ -68,7 +68,7 @@
 
         #region AccountAPIs
 
-        public const string CreateAdmin = "create-admin";        
+        public const string CreateAdmin = "create-admin";
 
         public const string GetAccountNeedVerified = "need-verified";
 
@@ -76,7 +76,7 @@
 
         public const string ChangePassword = "change-password";
 
-        public const string ChangeEmailOtp = "change-email-otp";
+        public const string ChangeEmailOtp = "change-email-otp/{id}";
 
         public const string ChangeEmail = "change-email/{id}";
 
@@ -96,7 +96,15 @@
         #endregion
 
         #region ProjectAPIs
+
         public const string GetProjectWithMember = "member/{userId}";
+
+        #endregion
+
+        #region TaskAPIs
+
+        public const string GetTaskByProjectId = "project/{id:guid}";
+
         #endregion
 
     }
