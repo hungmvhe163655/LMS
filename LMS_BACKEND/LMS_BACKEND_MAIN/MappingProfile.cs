@@ -80,7 +80,9 @@ namespace LMS_BACKEND_MAIN
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.MaxTasks, opt => opt.MapFrom(src => src.MaxTasks))
                 .ReverseMap();
-            CreateMap<CreateProjectRequestModel, Project>().ReverseMap();
+            CreateMap<Project, CreateProjectRequestModel>()
+                .ForMember(dest => dest.CreatedBy, otp => otp.Ignore())
+                .ReverseMap();
             CreateMap<UpdateProjectRequestModel, Project>().ReverseMap();
             CreateMap<Project, ProjectResponseModel>().ReverseMap();
             CreateMap<Account, MinorAccountReturnModel>();

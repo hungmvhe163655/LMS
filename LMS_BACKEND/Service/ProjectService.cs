@@ -21,7 +21,7 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task CreatNewProject(string userId, CreateProjectRequestModel model)
+        public async Task CreatNewProject(CreateProjectRequestModel model)
         {
             var hold = _mapper.Map<Project>(model);
             hold.Id = Guid.NewGuid();
@@ -29,7 +29,7 @@ namespace Service
             hold.ProjectStatusId = 1;
             var member = new Member
             {
-                UserId = userId,
+                UserId = model.CreatedBy,
                 ProjectId = hold.Id,
                 IsLeader = true,
                 JoinDate = DateTime.Now,
