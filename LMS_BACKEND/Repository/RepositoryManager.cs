@@ -55,15 +55,15 @@ namespace Repository
             _taskRepository = new Lazy<ITaskRepository>(() => new TaskRepository(context));
 
             _taskHistoryRepository = new Lazy<ITaskHistoryRepository>(() => new TaskHistoryRepository(context));
-            
+
             _taskListRepository = new Lazy<ITaskListRepository>(() => new TaskListRepository(context));
 
             _projectRepository = new Lazy<IProjectRepository>(() => new ProjectRepository(context));
-            
+
             _memberRepository = new Lazy<IMemberRepository>(() => new MemberRepository(context));
-            
+
             _projectStatusRepository = new Lazy<IProjectStatusRepository>(() => new ProjectStatusRepository(context));
-            
+
             _projectTypeRepository = new Lazy<IProjectTypeRepository>(() => new ProjectTypeRepository(context));
             //khoi tao newsRepo
         }

@@ -4,17 +4,11 @@ using AutoMapper;
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -132,7 +126,7 @@ namespace Service
             await DeleteFileFromS3Async(hold_file.FileKey);
 
             _repositoryManager.file.Delete(hold_file);
-          
+
             await _repositoryManager.Save();
         }
         public async Task CreateFile(FileUploadRequestModel model, Stream inputStream)

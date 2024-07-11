@@ -66,12 +66,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return BadRequest(new ResponseMessage { Message = "User not found or wrong verify code" });
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
-        public async Task<IActionResult> UpdateProfile(string id, [FromBody] UpdateProfileRequestModel model)
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileRequestModel model)
         {
-            await _service.AccountService.UpdateProfileAsync(id, model);
+            await _service.AccountService.UpdateProfileAsync(model);
 
             return Ok(new ResponseMessage { Message = "Update Profile Successully" });
         }

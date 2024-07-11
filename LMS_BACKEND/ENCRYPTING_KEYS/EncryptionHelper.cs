@@ -42,7 +42,7 @@ public static class EncryptionHelper
 
         using (var process = Process.Start(psi))
         {
-            (process??throw new Exception("lamao")).WaitForExit();
+            (process ?? throw new Exception("lamao")).WaitForExit();
             var output = process.StandardOutput.ReadToEnd();
             var error = process.StandardError.ReadToEnd();
 

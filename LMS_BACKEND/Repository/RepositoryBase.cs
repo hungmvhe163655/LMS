@@ -1,5 +1,4 @@
 ﻿using Contracts.Interfaces;
-using Entities;
 using Microsoft.EntityFrameworkCore;
 using Shared.DataTransferObjects.RequestParameters;
 using System.Linq.Expressions;
