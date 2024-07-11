@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Service
 {
-    public class TaskListService: ITaskListService
+    public class TaskListService : ITaskListService
     {
         private readonly IRepositoryManager _repository;
 
@@ -49,13 +49,16 @@ namespace Service
         }
         public async Task<IEnumerable<TaskListResponseModel>> GetTaskList(Guid projectId)
         {
-            var hold = await 
+            var hold = await
                 _repository
                 .taskList
-                .GetByCondition(x => x.ProjectId.Equals(projectId),false)
+                .GetByCondition(x => x.ProjectId.Equals(projectId), false)
                 .Include(y => y.Tasks)
-                .ThenInclude(z=>z.Accounts)
+                .ThenInclude(z => z.AssignedToUser)
+                .Include(y => y.Tasks)
+                .ThenInclude(z => z.TaskStatus)
                 .ToListAsync();
+
             if (hold == null) throw new BadRequestException($"Project {projectId} have no task list");
             var result = _mapper.Map<IEnumerable<TaskListResponseModel>>(hold);
             return result;
