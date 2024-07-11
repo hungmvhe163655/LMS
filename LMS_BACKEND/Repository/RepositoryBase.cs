@@ -103,5 +103,10 @@ namespace Repository
                 }
             }
         }
+        public async Task<bool> Transaction(T entity)
+        {
+            _context.Database.BeginTransaction();
+            return true;
+        }
     }
 }
