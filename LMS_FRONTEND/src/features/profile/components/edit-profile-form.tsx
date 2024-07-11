@@ -47,7 +47,7 @@ export function EditProfileForm({ user, onSubmitForm }: EditProfileFormProps) {
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     updateProdfile(
-      { ...data, id: user.id },
+      { ...data, id: user.id, gender: data.gender.toLowerCase() === 'male' },
       {
         onSuccess: () => {
           onSubmitForm(false);
