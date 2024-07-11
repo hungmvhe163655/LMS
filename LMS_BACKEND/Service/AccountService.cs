@@ -149,15 +149,15 @@ namespace Service
             else throw new BadRequestException("User with id: " + userId + " is not exist");
         }
 
-        public async Task UpdateProfileAsync(string userId, UpdateProfileRequestModel model)
+        public async Task UpdateProfileAsync(UpdateProfileRequestModel model)
         {
             try
             {
-                var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), true);
+                var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(model.Id), true);
 
                 var account = user.FirstOrDefault();
 
-                if (account == null) throw new BadRequestException("User with id: " + userId + " is not exist");
+                if (account == null) throw new BadRequestException("User with id: " + model.Id + " is not exist");
 
                 account.FullName = model.FullName;
 
@@ -165,12 +165,12 @@ namespace Service
                 var roleName = checkRole.FirstOrDefault();
                 if (roleName == null) throw new BadRequestException($"{roleName} is not valid");
 
-                var hold = await _repository.studentDetail.GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), true);
+                var hold = await _repository.studentDetail.GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(model.Id), true);
                 var studentDetail = hold.FirstOrDefault();
 
                 if (studentDetail == null)
                 {
-                    var newStudentDetail = new StudentDetail() { AccountId = userId, RollNumber = account.UserName, Major = model.Major, Specialized = model.Specialized };
+                    var newStudentDetail = new StudentDetail() { AccountId = model.Id, RollNumber = account.UserName, Major = model.Major, Specialized = model.Specialized };
                     await _repository.studentDetail.CreateAsync(newStudentDetail);
                 }
                 else

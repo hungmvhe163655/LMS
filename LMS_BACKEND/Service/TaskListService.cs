@@ -27,6 +27,23 @@ namespace Service
             _mapper = mapper;
         }
 
+        public async Task<TaskListResponseModel> GetTaskListById(Guid taskListId)
+        {
+            var hold = await
+                _repository
+                .taskList
+                .GetByCondition(x => x.Id.Equals(taskListId), false)
+                .Include(y => y.Tasks)
+                .ThenInclude(z => z.AssignedToUser)
+                .Include(y => y.Tasks)
+                .ThenInclude(z => z.TaskStatus)
+                .ToListAsync();
+
+            if (hold == null) throw new BadRequestException($"Can not found task list with id {taskListId}");
+            var result = _mapper.Map<TaskListResponseModel>(hold.FirstOrDefault());
+            return result;
+        }
+
         public async Task CreateTaskList(CreateTaskListRequestModel model)
         {
             var hold = _mapper.Map<TaskList>(model);
@@ -39,15 +56,14 @@ namespace Service
         }
 
 
-        public async Task UpdateTaskList(UpdateTaskListRequestModel model)
+        public async Task UpdateTaskList(Guid tasklistId, UpdateTaskListRequestModel model)
         {
-            var hold = _mapper.Map<TaskList>(model);
-
-            await _repository.taskList.UpdateTaskList(hold);
-
+            var hold = _repository.taskList.GetByCondition(x => x.Id.Equals(tasklistId), true).FirstOrDefaultAsync();
+            if (hold == null) throw new BadRequestException($"Can not find task list with id {tasklistId}");
+            await _mapper.Map(model, hold);
             await _repository.Save();
         }
-        public async Task<IEnumerable<TaskListResponseModel>> GetTaskList(Guid projectId)
+        public async Task<IEnumerable<TaskListResponseModel>> GetTaskListByProject(Guid projectId)
         {
             var hold = await
                 _repository
@@ -62,6 +78,16 @@ namespace Service
             if (hold == null) throw new BadRequestException($"Project {projectId} have no task list");
             var result = _mapper.Map<IEnumerable<TaskListResponseModel>>(hold);
             return result;
+        }
+
+        public async Task DeleteTaskList(Guid taskListId)
+        {
+            var count = _repository.task.GetTasksWithTaskListId(taskListId, false).Count();
+            if (count > 0) throw new BadRequestException("Can not delete task list have tasks inside");
+            var hold = _repository.taskList.GetByCondition(x => x.Id.Equals(taskListId), false).FirstOrDefault();
+            if (hold == null) throw new BadRequestException($"Can not find task list with id {taskListId}");
+            _repository.taskList.Delete(hold);
+            await _repository.Save();
         }
 
     }

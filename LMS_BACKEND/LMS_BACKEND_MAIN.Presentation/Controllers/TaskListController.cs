@@ -1,4 +1,5 @@
 ﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
@@ -23,13 +24,37 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = service;
         }
 
-        [HttpGet("{projectId}")]
-        //[Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> GetTaskList(Guid projectId)
+        [HttpGet("{taskListId}")]
+        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        public async Task<IActionResult> GetTaskListById(Guid taskListId)
         {
-            var hold = await _service.TaskListService.GetTaskList(projectId);
+            var hold = await _service.TaskListService.GetTaskListById(taskListId);
             return Ok(hold);
         }
-        
+
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> CreateNewTaskList(CreateTaskListRequestModel model)
+        {
+            await _service.TaskListService.CreateTaskList(model);
+            return Ok(new ResponseMessage { Message = "Create Task list successfully" });
+        }
+
+        [HttpPut("{tasklistId}")]
+        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> UpdateTaskList(Guid tasklistId, UpdateTaskListRequestModel model)
+        {
+            await _service.TaskListService.UpdateTaskList(tasklistId, model);
+            return Ok(new ResponseMessage { Message = "Update task list successfully" });
+        }
+
+        [HttpDelete("{tasklistId}")]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> DeleteTaskList(Guid tasklistId)
+        {
+            await _service.TaskListService.DeleteTaskList(tasklistId);
+            return Ok(new ResponseMessage { Message = "Delete task list successfully" });
+        }
+
     }
 }
