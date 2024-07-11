@@ -21,7 +21,7 @@ namespace Service.Contracts
         Task<IEnumerable<AccountReturnModel>> GetVerifierAccounts(string userName);
         Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> userIdList, string verifier);
         Task<bool> ChangePasswordAsync(string userId, string oldPassword, string newPassword);
-        Task UpdateProfileAsync(string userId, UpdateProfileRequestModel model);
+        Task UpdateProfileAsync(UpdateProfileRequestModel model);
         Task<AccountDetailResponseModel> GetAccountDetail(string userId);
         Task ChangeEmailAsync(string id, ChangeEmailRequestModel model);
     }

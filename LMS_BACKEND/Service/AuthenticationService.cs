@@ -241,9 +241,9 @@ namespace Service
             }
             if (result && _account != null)
             {
-                if (!_account.EmailConfirmed)
+                if (_account.IsDeleted)
                 {
-                    return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = $"UNVERIFIEDEMAIL|{_account.UserName}" };
+                    return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = $"DELETED|{_account.UserName}" };
                 }
                 else
                 if (!_account.IsVerified)
