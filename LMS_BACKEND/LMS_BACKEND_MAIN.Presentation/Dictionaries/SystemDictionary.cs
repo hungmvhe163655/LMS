@@ -6,23 +6,23 @@
 
         public const string AccountAPI = "api/accounts";
 
-        public const string FileAPI = "api/file";
+        public const string FileAPI = "api/files";
 
-        public const string FolderAPI = "api/folder";
+        public const string FolderAPI = "api/folders";
 
         public const string NewsAPI = "api/news";
 
         public const string TOKEN = "api/token";
 
-        public const string ScheduleAPI = "api/schedule";
+        public const string ScheduleAPI = "api/schedules";
 
-        public const string TaskAPI = "api/task";
+        public const string TaskAPI = "api/tasks";
 
         public const string ProjectAPI = "api/projects";
 
         public const string TaskListAPI = "api/task-lists";
 
-        public const string ProfileAPI = "api/profile";
+        public const string ProfileAPI = "api/profiles";
     }
     public static class AuthorizeScheme
     {
