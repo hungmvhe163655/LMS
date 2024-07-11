@@ -6,7 +6,6 @@ import { MutationConfig } from '@/lib/react-query';
 interface ChangeEmailProps {
   userID: string;
   email: string;
-  verifyCode: string;
 }
 
 export const changeEmail = async (props: ChangeEmailProps) => {

@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
-import { AuthResponse } from '@/types/api';
+import { AuthResponse, Roles } from '@/types/api';
 import { ERROR } from '@/types/constant';
 import getRedirectBasedOnRoles from '@/utils/role-based-redirect';
 import { setAccessToken, setRefreshToken } from '@/utils/storage';
@@ -39,6 +39,7 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
       const { token, user } = data;
       setAccessToken(token.accessToken);
       setRefreshToken(token.refreshToken);
+      const roles = user.roles.map((role) => role.toUpperCase()) as Roles;
 
       const signInSuccess = signIn({
         auth: {
@@ -47,7 +48,7 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
         },
         userState: {
           id: user.id,
-          roles: user.roles.map((role) => role.toUpperCase())
+          roles
         }
       });
 
@@ -55,7 +56,7 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
         if (redirectTo) {
           navigate(redirectTo, { replace: true });
         } else {
-          navigate(getRedirectBasedOnRoles(user.roles));
+          navigate(getRedirectBasedOnRoles(roles));
         }
       }
 
