@@ -29,11 +29,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(hold);
         }
 
-        [HttpPost("{userId}")]
-        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
-        public async Task<IActionResult> CreateProjejct(string userId, CreateProjectRequestModel model)
+        [HttpPost]
+        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> CreateProjejct(CreateProjectRequestModel model)
         {
-            await _service.ProjectService.CreatNewProject(userId, model);
+            await _service.ProjectService.CreatNewProject(model);
             return Ok(new ResponseMessage { Message = "Create project successfully"});
         }
 

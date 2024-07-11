@@ -14,7 +14,7 @@ namespace Service.Contracts
         IEnumerable<ProjectResponseModel> GetProjects(string userId);
         Task<IEnumerable<Project>> GetAllProjects();
         IEnumerable<ProjectResponseModel> GetOnGoingProjects(string userId);
-        Task CreatNewProject(string userId, CreateProjectRequestModel model);
+        Task CreatNewProject(CreateProjectRequestModel model);
         Task UpdateProject(Guid projectId, UpdateProjectRequestModel model);
     }
 }
