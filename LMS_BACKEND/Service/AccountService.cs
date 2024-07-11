@@ -103,26 +103,21 @@ namespace Service
         {
             List<Account> accountList = new List<Account>();
 
-            if (UserIDList.Any())
+            accountList.AddRange(await _repository.account.GetByCondition(entity => UserIDList.Contains(entity.Id) && !entity.IsVerified, false).ToListAsync());
+  
+            if (accountList.Any())
             {
-                foreach (var ID in UserIDList)
+                foreach (var account in accountList)
                 {
-                    accountList.Add(_repository.account.GetByCondition(entity => entity.Id.Equals(ID), false).First());
+                    account.IsVerified = true;
+
+                    account.VerifiedBy = verifier;
+
+                    _repository.account.Update(account);
+
+                    await _repository.Save();
                 }
-                if (accountList.Any())
-                {
-                    foreach (var account in accountList)
-                    {
-                        account.IsVerified = true;
-
-                        account.VerifiedBy = verifier;
-
-                        _repository.account.Update(account);
-
-                        await _repository.Save();
-                    }
-                    return true;
-                }
+                return true;
             }
             return false;
         }
@@ -194,7 +189,7 @@ namespace Service
             var user = await _repository.account.GetByCondition(entity => entity.Id.Equals(id), true).FirstOrDefaultAsync();
 
             if (user == null) throw new BadRequestException($"Can't find user with id: ${id}");
-            
+
             user.Email = model.Email;
 
             await _repository.Save();
