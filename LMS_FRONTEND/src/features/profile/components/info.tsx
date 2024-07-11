@@ -13,6 +13,7 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import { useCurrentLoginUser } from '@/hooks/use-current-login-user';
+import { ROLES } from '@/types/constant';
 
 import { EditProfileForm } from './edit-profile-form';
 import { StudentDetail } from './student-detail';
@@ -21,7 +22,7 @@ export function Info() {
   const { data: user, isLoading } = useCurrentLoginUser();
   const [open, setOpen] = useState(false);
   const role = user?.roles[0];
-  const isStudent = user?.roles.includes('Student');
+  const isStudent = user?.roles.includes(ROLES.STUDENT);
 
   if (isLoading) {
     return <div>Loading...</div>;

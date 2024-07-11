@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from '@/components/ui/use-toast';
 import { User } from '@/types/api';
+import { ROLES } from '@/types/constant';
 
 import { useUpdateProfile } from '../api/update-profile';
 
@@ -31,7 +32,7 @@ interface EditProfileFormProps {
 }
 
 export function EditProfileForm({ user, onSubmitForm }: EditProfileFormProps) {
-  const isStudent = user.roles.includes('Student');
+  const isStudent = user.roles.includes(ROLES.STUDENT);
   const { mutate: updateProdfile } = useUpdateProfile();
 
   const form = useForm<z.infer<typeof formSchema>>({

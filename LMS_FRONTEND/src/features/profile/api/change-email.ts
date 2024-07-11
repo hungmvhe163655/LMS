@@ -10,7 +10,7 @@ interface ChangeEmailProps {
 }
 
 export const changeEmail = async (props: ChangeEmailProps) => {
-  return api.post(`/accounts/change-email/${props.userID}`, props);
+  return api.post(`/profile/change-email/`, props);
 };
 
 type UseChangeEmailOptions = {

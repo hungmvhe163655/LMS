@@ -35,20 +35,33 @@ api.interceptors.response.use(
     const message: string =
       error.response?.data?.Message || error.response?.data?.message || error.message;
 
+    // Bị Banned
     if (message.includes(ERROR.IS_BANNED)) {
-      window.location.href = `/error/ban-account`;
+      toast({
+        variant: 'destructive',
+        description: 'Your account is Banned!'
+      });
       return Promise.reject(error);
     }
 
+    // Chưa Verified
     if (message.includes(ERROR.UNVERIFIED)) {
-      window.location.href = `/auth/not-verified`;
+      toast({
+        variant: 'destructive',
+        description: 'Your account not Verified yet!'
+      });
       return Promise.reject(error);
     }
 
-    toast({
-      variant: 'destructive',
-      description: message
-    });
+    // Không có quyền truy cập
+    if (error.response?.status === 403) {
+      toast({
+        variant: 'destructive',
+        description: "You're not allowed!"
+      });
+      window.location.href = `/error/forbidden`;
+      return Promise.reject(error);
+    }
 
     // Chưa đăng nhập
     if (error.response?.status === 401) {
@@ -64,14 +77,19 @@ api.interceptors.response.use(
       const searchParams = new URLSearchParams();
       const redirectTo = searchParams.get('redirectTo');
       if (redirectTo) {
+        toast({
+          variant: 'destructive',
+          description: 'You must login first!'
+        });
         window.location.href = `/auth/login?redirectTo=${redirectTo}`;
+        return Promise.reject(error);
       }
     }
 
-    // Không có quyền truy cập
-    if (error.response?.status === 403) {
-      window.location.href = `/error/forbidden`;
-    }
+    toast({
+      variant: 'destructive',
+      description: message
+    });
 
     return Promise.reject(error);
   }

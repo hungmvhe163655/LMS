@@ -6,6 +6,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { AuthResponse } from '@/types/api';
+import { ERROR } from '@/types/constant';
 import getRedirectBasedOnRoles from '@/utils/role-based-redirect';
 import { setAccessToken, setRefreshToken } from '@/utils/storage';
 
@@ -30,7 +31,7 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
 
-  const { onSuccess, ...restConfig } = mutationConfig || {};
+  const { onSuccess, onError, ...restConfig } = mutationConfig || {};
 
   return useMutation({
     mutationFn: login,
@@ -60,11 +61,13 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
 
       onSuccess?.(data, variables, context);
     },
-    onError: (error: AxiosError) => {
-      const data = error.response?.data as { message: string };
-      if (data?.message?.includes('UNVERIFIED')) {
-        navigate('auth/not-verified');
+    onError: (error: AxiosError, ...rest) => {
+      const data: any = error.response?.data;
+      if (data?.message?.includes(ERROR.UNVERIFIED)) {
+        navigate('/auth/not-verified', { state: { errorData: data } });
       }
+
+      onError?.(error, ...rest);
     },
     ...restConfig
   });

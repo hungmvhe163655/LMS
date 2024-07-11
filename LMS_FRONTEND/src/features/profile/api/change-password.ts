@@ -10,7 +10,7 @@ interface ChangePasswordProps {
 }
 
 export const changePassword = async (props: ChangePasswordProps) => {
-  return api.post('/accounts/change-password', props);
+  return api.post('/profile/change-password', props);
 };
 
 type UseChangePasswordOptions = {

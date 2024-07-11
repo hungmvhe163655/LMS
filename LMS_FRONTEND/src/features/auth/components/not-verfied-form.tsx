@@ -1,12 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 import { Link } from '@/components/app/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/card';
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { toast } from '@/components/ui/use-toast';
 
 import { useChangeSupervisor } from '../api/change-supervisor';
 
@@ -17,19 +19,36 @@ const FormSchema = z.object({
   supervisorId: z.string()
 });
 
-export const NotVerifiedForm = () => {
+interface NotVerifiedFormProps {
+  accountId: string;
+  verifierId: string;
+}
+
+export const NotVerifiedForm = ({ accountId, verifierId }: NotVerifiedFormProps) => {
   const { mutate: changeSupervisor, isPending } = useChangeSupervisor();
+  const navigate = useNavigate();
   const [isChange, setIsChange] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      supervisorId: ''
+      supervisorId: verifierId
     }
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    changeSupervisor(data.supervisorId);
+    changeSupervisor(
+      { verifierId: data.supervisorId, id: accountId },
+      {
+        onSuccess: () => {
+          toast({
+            variant: 'success',
+            description: 'Change Successfully!'
+          });
+          navigate('/');
+        }
+      }
+    );
   }
 
   return (
