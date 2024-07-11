@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 using System;
 using System.Collections.Generic;
@@ -104,7 +105,7 @@ namespace Service
             List<Account> accountList = new List<Account>();
 
             accountList.AddRange(await _repository.account.GetByCondition(entity => UserIDList.Contains(entity.Id) && !entity.IsVerified, false).ToListAsync());
-  
+
             if (accountList.Any())
             {
                 foreach (var account in accountList)
@@ -121,12 +122,11 @@ namespace Service
             }
             return false;
         }
-        public async Task<IEnumerable<AccountReturnModel>> GetVerifierAccounts(string id)
+        public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccounts(NeedVerifyParameters param)
         {
-            var user = await _repository.account.GetByConditionAsync(entity =>entity.Id.Equals(id), false);
-            var end = user.First();
-            if (end == null) throw new UnauthorizedException("Invalid User");
-            return _mapper.Map<IEnumerable<AccountReturnModel>>(_repository.account.GetByCondition(entity => entity.VerifiedBy != null && entity.VerifiedBy.Equals(end.Id), false).ToList());
+            var user = await _repository.account.FindWithVerifierId(param)??throw new BadRequestException("bad param");
+
+            return (_mapper.Map<IEnumerable<AccountNeedVerifyResponseModel>>(user), user.MetaData);
         }
 
         public async Task<IEnumerable<AccountReturnModel>> GetUserByRole(string role) => _mapper.Map<IEnumerable<AccountReturnModel>>((await _userManager.GetUsersInRoleAsync(role)).Where(x => x.IsVerified));

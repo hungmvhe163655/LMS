@@ -3,9 +3,12 @@ using LMS_BACKEND_MAIN.Presentation.Attributes;
 using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using System.Text.Json;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -29,13 +32,16 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return StatusCode(201, result);
         }
         */
-        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
+        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
         [HttpGet(RoutesAPI.GetAccountNeedVerified)]
-        public IActionResult GetAccountNeedVerified(string id)
+        public async Task<IActionResult> GetAccountNeedVerified([FromQuery] NeedVerifyParameters param)
         {
-            var user =
-            _service.AccountService.GetVerifierAccounts(id);
-            return Ok(user);
+            var user = await
+            _service.AccountService.GetVerifierAccounts(param);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(user.meta));
+
+            return Ok(user.data);
         }
 
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
