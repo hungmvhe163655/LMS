@@ -1,19 +1,11 @@
 ﻿using Contracts.Interfaces;
-using Entities;
 using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using Service.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -186,7 +178,7 @@ namespace Service
             }
             return false;
         }
-        public async Task<bool> SendMailToUser(string email,string content,string header)
+        public async Task<bool> SendMailToUser(string email, string content, string header)
         {
             var user = await _userManager.FindByEmailAsync(email);
 

@@ -1,18 +1,10 @@
-﻿using LMS_BACKEND_MAIN.Presentation.Attributes;
-using LMS_BACKEND_MAIN.Presentation.Dictionaries;
-using Microsoft.AspNetCore.Authorization;
+﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {

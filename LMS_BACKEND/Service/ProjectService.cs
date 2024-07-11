@@ -2,15 +2,9 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {

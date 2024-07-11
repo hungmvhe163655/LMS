@@ -1,23 +1,10 @@
-
-using Entities.Exceptions;
-using Entities.Models;
 using LMS_BACKEND_MAIN.Presentation.Attributes;
 using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Net;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
