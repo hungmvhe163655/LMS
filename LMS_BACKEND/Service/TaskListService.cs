@@ -2,6 +2,7 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Service
 {
-    public class TaskListService: ITaskListService
+    public class TaskListService : ITaskListService
     {
         private readonly IRepositoryManager _repository;
 
@@ -48,9 +49,18 @@ namespace Service
         }
         public async Task<IEnumerable<TaskListResponseModel>> GetTaskList(Guid projectId)
         {
-            var hold = await _repository.taskList.GetTaskList(projectId, false);
+            var hold = await
+                _repository
+                .taskList
+                .GetByCondition(x => x.ProjectId.Equals(projectId), false)
+                .Include(y => y.Tasks)
+                .ThenInclude(z => z.AssignedToUser)
+                .Include(y => y.Tasks)
+                .ThenInclude(z => z.TaskStatus)
+                .ToListAsync();
+
             if (hold == null) throw new BadRequestException($"Project {projectId} have no task list");
-            var result = _mapper.Map<IEnumerable< TaskListResponseModel>>(hold);
+            var result = _mapper.Map<IEnumerable<TaskListResponseModel>>(hold);
             return result;
         }
 

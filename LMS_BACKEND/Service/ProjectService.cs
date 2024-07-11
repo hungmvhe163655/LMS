@@ -32,11 +32,13 @@ namespace Service
             var hold = _mapper.Map<Project>(model);
             hold.Id = Guid.NewGuid();
             hold.CreatedDate = DateTime.Now;
+            hold.ProjectStatusId = 1;
             var member = new Member
             {
                 UserId = userId,
                 ProjectId = hold.Id,
                 IsLeader = true,
+                JoinDate = DateTime.Now,
             };
             _repository.member.Create(member);
             _repository.project.Create(hold);
