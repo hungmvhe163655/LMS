@@ -77,7 +77,6 @@ namespace Service
             var account = await _repository.account.GetByCondition(entity => entity.Id.Equals(userId), false).FirstAsync();
             if (account == null) throw new BadRequestException($"{nameof(account)} is not valid");
             if (account.Email == null) throw new BadRequestException($"{nameof(account.Email)} is not valid");
-
             var checkRole = await _userManager.GetRolesAsync(account);
             var roleName = checkRole.FirstOrDefault();
             if (roleName == null) throw new BadRequestException($"{roleName} is not valid");
