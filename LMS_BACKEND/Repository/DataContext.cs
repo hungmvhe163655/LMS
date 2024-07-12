@@ -78,7 +78,7 @@ namespace Repository
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.FullName)
                     .HasMaxLength(255)
-                    .IsUnicode(false)
+                    .IsUnicode()
                     .HasColumnName("FullName");
                 entity.Property(e => e.EmailVerifyCode)
                     .HasMaxLength(6)
