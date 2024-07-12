@@ -173,7 +173,7 @@ namespace Service
                     studentDetail.Specialized = model.Specialized;
                     _repository.studentDetail.Update(studentDetail);
                 }
-                account.Gender = model.Gender.Equals("Male") ? true : false;
+                account.Gender = model.Gender;
                 account.FullName = model.FullName;
                 _repository.account.Update(account);
                 await _repository.Save();

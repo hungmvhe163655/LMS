@@ -56,11 +56,14 @@ namespace Service
         }
 
 
-        public async Task UpdateTaskList(Guid tasklistId, UpdateTaskListRequestModel model)
+        public async Task UpdateTaskList(UpdateTaskListRequestModel model)
         {
-            var hold = _repository.taskList.GetByCondition(x => x.Id.Equals(tasklistId), true).FirstOrDefaultAsync();
-            if (hold == null) throw new BadRequestException($"Can not find task list with id {tasklistId}");
-            await _mapper.Map(model, hold);
+            var hold = _repository.taskList.GetByCondition(x => x.Id.Equals(model.Id), true).FirstOrDefault();
+            if (hold == null) throw new BadRequestException($"Can not find task list with id {model.Id}");
+            var count = _repository.task.GetTasksWithTaskListId(hold.Id, false).Count();
+            if (count > model.MaxTasks) throw new BadRequestException($"Max task must greater than number current task on list");
+            
+            _mapper.Map(model, hold);
             await _repository.Save();
         }
         public async Task<IEnumerable<TaskListResponseModel>> GetTaskListByProject(Guid projectId)

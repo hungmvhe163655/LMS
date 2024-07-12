@@ -31,7 +31,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(pageResult.news);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetNewsById(Guid id)
         {
@@ -56,7 +56,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> Delete(Guid id)
         {
