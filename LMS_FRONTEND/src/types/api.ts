@@ -41,8 +41,9 @@ export type Pagination = {
 };
 
 export type QueryParams = {
-  PageNumber?: number;
-  PageSize?: number;
+  PageNumber: number;
+  PageSize: number;
+  OrderBy: string | null;
 };
 
 export type Token = {

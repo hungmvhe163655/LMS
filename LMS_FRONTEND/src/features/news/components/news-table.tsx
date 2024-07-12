@@ -1,18 +1,36 @@
-import { useNewsTable } from '../hooks/use-news-table';
+import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { DataTable } from '@/components/ui/data-table/data-table';
-import { DataTableSkeleton } from '@/components/ui/data-table/data-table-skeleton';
+import { useDataTable } from '@/hooks/use-data-table';
+
+import { useNews } from '../api/get-news';
+
+import { getColumns } from './news-columns';
 
 export function NewsTable() {
-  const { isLoading, error, table } = useNewsTable();
+  const [searchParams] = useSearchParams();
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+  const page = searchParams.get('page') || 1;
+  const perPage = searchParams.get('per_page') || 10;
+  const sort = searchParams.get('sort');
 
-  if (isLoading) {
-    return <DataTableSkeleton columnCount={3} />;
-  }
+  const { data } = useNews({
+    newsQueryParameter: {
+      PageNumber: Number(page),
+      PageSize: Number(perPage),
+      OrderBy: sort
+    }
+  });
+
+  // Memoize the columns so they don't re-render on every render
+  const columns = React.useMemo(() => getColumns(), []);
+
+  const { table } = useDataTable({
+    data: data?.data || [],
+    pageCount: data?.pagination.TotalPages || -1,
+    columns
+  });
 
   return <DataTable table={table} />;
 }
