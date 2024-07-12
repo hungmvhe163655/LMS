@@ -2,6 +2,7 @@ import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { DataTable } from '@/components/ui/data-table/data-table';
+import { DataTableSkeleton } from '@/components/ui/data-table/data-table-skeleton';
 import { useDataTable } from '@/hooks/use-data-table';
 
 import { useNews } from '../api/get-news';
@@ -15,7 +16,7 @@ export function NewsTable() {
   const perPage = searchParams.get('per_page') || 10;
   const sort = searchParams.get('sort');
 
-  const { data } = useNews({
+  const { data, isLoading } = useNews({
     newsQueryParameter: {
       PageNumber: Number(page),
       PageSize: Number(perPage),
@@ -31,6 +32,10 @@ export function NewsTable() {
     pageCount: data?.pagination.TotalPages || -1,
     columns
   });
+
+  if (isLoading) {
+    return <DataTableSkeleton columnCount={3} />;
+  }
 
   return <DataTable table={table} />;
 }
