@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 using System;
 using System.Collections.Generic;
@@ -103,35 +104,29 @@ namespace Service
         {
             List<Account> accountList = new List<Account>();
 
-            if (UserIDList.Any())
+            accountList.AddRange(await _repository.account.GetByCondition(entity => UserIDList.Contains(entity.Id) && !entity.IsVerified, false).ToListAsync());
+
+            if (accountList.Any())
             {
-                foreach (var ID in UserIDList)
+                foreach (var account in accountList)
                 {
-                    accountList.Add(_repository.account.GetByCondition(entity => entity.Id.Equals(ID), false).First());
+                    account.IsVerified = true;
+
+                    account.VerifiedBy = verifier;
+
+                    _repository.account.Update(account);
+
+                    await _repository.Save();
                 }
-                if (accountList.Any())
-                {
-                    foreach (var account in accountList)
-                    {
-                        account.IsVerified = true;
-
-                        account.VerifiedBy = verifier;
-
-                        _repository.account.Update(account);
-
-                        await _repository.Save();
-                    }
-                    return true;
-                }
+                return true;
             }
             return false;
         }
-        public async Task<IEnumerable<AccountReturnModel>> GetVerifierAccounts(string email)
+        public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccounts(NeedVerifyParameters param)
         {
-            var user = await _repository.account.GetByConditionAsync(entity => entity.Email != null && entity.Email.Equals(email), false);
-            var end = user.First();
-            if (end == null) throw new UnauthorizedException("Invalid User");
-            return _mapper.Map<IEnumerable<AccountReturnModel>>(_repository.account.GetByCondition(entity => entity.VerifiedBy != null && entity.VerifiedBy.Equals(end.Id), false).ToList());
+            var user = await _repository.account.FindWithVerifierId(param) ?? throw new BadRequestException("bad param");
+
+            return (_mapper.Map<IEnumerable<AccountNeedVerifyResponseModel>>(user), user.MetaData);
         }
 
         public async Task<IEnumerable<AccountReturnModel>> GetUserByRole(string role) => _mapper.Map<IEnumerable<AccountReturnModel>>((await _userManager.GetUsersInRoleAsync(role)).Where(x => x.IsVerified));
@@ -194,7 +189,7 @@ namespace Service
             var user = await _repository.account.GetByCondition(entity => entity.Id.Equals(id), true).FirstOrDefaultAsync();
 
             if (user == null) throw new BadRequestException($"Can't find user with id: ${id}");
-            
+
             user.Email = model.Email;
 
             await _repository.Save();

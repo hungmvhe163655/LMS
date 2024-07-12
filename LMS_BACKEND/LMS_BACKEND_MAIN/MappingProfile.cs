@@ -93,6 +93,7 @@ namespace LMS_BACKEND_MAIN
                .ForMember(dest => dest.AssignedToUser, opt => opt.MapFrom(src => src.AssignedToUser != null ? src.AssignedToUser.FullName : "NotFound"))
                .ForMember(dest => dest.TaskStatus, opt => opt.MapFrom(src => src.TaskStatus.Name))
                .ReverseMap();
+            CreateMap<Account, AccountNeedVerifyResponseModel>();
 
         }
     }

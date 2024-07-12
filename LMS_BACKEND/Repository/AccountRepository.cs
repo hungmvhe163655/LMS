@@ -2,6 +2,8 @@
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
+using Shared.DataTransferObjects.RequestParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,20 +18,19 @@ namespace Repository
         {
         }
 
-        public async Task<Account> FindByNameAsync(string userName, bool trackable)
+        public async Task<Account?> FindByNameAsync(string userName, bool trackable)
         {
-            var hold = await FindAllAsync(false);
-            if (hold != null)
-            {
-                var end = hold.Where(x => x.UserName.Equals(userName)).First();
-                return end != null ? end : null;
-            }
-            return null;
+            return await GetByCondition(x => x.UserName != null && x.UserName.Equals(userName), false).FirstOrDefaultAsync();
         }
 
-        public Task<IQueryable<Account>> FindByVerifierAsync(string userName, bool Trackable)
+        public async Task<PagedList<Account>> FindWithVerifierId(NeedVerifyParameters param)
         {
-            throw new NotImplementedException();
+            var end = await
+                GetByCondition(x => !x.IsVerified && !x.IsBanned && !x.IsDeleted, false)
+                .Search(param)
+                .ToListAsync();
+
+            return new PagedList<Account>(end, end.Count, param.PageNumber, param.PageSize);
         }
     }
 }
