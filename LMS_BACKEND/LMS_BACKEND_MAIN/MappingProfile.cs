@@ -76,10 +76,7 @@ namespace LMS_BACKEND_MAIN
             CreateMap<TaskCreateRequestModel, Tasks>().ReverseMap();
             CreateMap<TaskUpdateRequestModel, Tasks>().ReverseMap();
             CreateMap<CreateTaskListRequestModel, TaskList>().ReverseMap();
-            CreateMap<UpdateTaskListRequestModel, TaskList>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.MaxTasks, opt => opt.MapFrom(src => src.MaxTasks))
-                .ReverseMap();
+            CreateMap<UpdateTaskListRequestModel, TaskList>().ReverseMap();
             CreateMap<Project, CreateProjectRequestModel>()
                 .ForMember(dest => dest.CreatedBy, otp => otp.Ignore())
                 .ReverseMap();
@@ -96,6 +93,10 @@ namespace LMS_BACKEND_MAIN
                .ForMember(dest => dest.AssignedToUser, opt => opt.MapFrom(src => src.AssignedToUser != null ? src.AssignedToUser.FullName : "NotFound"))
                .ForMember(dest => dest.TaskStatus, opt => opt.MapFrom(src => src.TaskStatus.Name))
                .ReverseMap();
+            CreateMap<Account, AccountNeedVerifyResponseModel>();
+            CreateMap<MoveTaskRequestModel, Tasks>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.TaskListId, opt => opt.MapFrom(src => src.TaskListId));
 
         }
     }

@@ -22,7 +22,7 @@
 
         public const string TaskListAPI = "api/task-lists";
 
-        public const string ProfileAPI = "api/profiles";
+        public const string ProfileAPI = "api/profile";
     }
     public static class AuthorizeScheme
     {
@@ -111,7 +111,7 @@
 
         #region ProjectAPIs
 
-        public const string GetTaskListByProject = "{projectId}/task-lists";
+        public const string GetTaskListByProject = "{projectId:guid}/task-lists";
 
         #endregion
     }
