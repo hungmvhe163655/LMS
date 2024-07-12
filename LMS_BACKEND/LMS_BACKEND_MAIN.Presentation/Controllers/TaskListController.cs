@@ -40,11 +40,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "Create Task list successfully" });
         }
 
-        [HttpPut("{tasklistId}")]
+        [HttpPut]
         //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
-        public async Task<IActionResult> UpdateTaskList(Guid tasklistId, UpdateTaskListRequestModel model)
+        public async Task<IActionResult> UpdateTaskList(UpdateTaskListRequestModel model)
         {
-            await _service.TaskListService.UpdateTaskList(tasklistId, model);
+            await _service.TaskListService.UpdateTaskList(model);
             return Ok(new ResponseMessage { Message = "Update task list successfully" });
         }
 

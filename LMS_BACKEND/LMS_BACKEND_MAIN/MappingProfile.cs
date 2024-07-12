@@ -76,10 +76,7 @@ namespace LMS_BACKEND_MAIN
             CreateMap<TaskCreateRequestModel, Tasks>().ReverseMap();
             CreateMap<TaskUpdateRequestModel, Tasks>().ReverseMap();
             CreateMap<CreateTaskListRequestModel, TaskList>().ReverseMap();
-            CreateMap<UpdateTaskListRequestModel, TaskList>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.MaxTasks, opt => opt.MapFrom(src => src.MaxTasks))
-                .ReverseMap();
+            CreateMap<UpdateTaskListRequestModel, TaskList>().ReverseMap();
             CreateMap<Project, CreateProjectRequestModel>()
                 .ForMember(dest => dest.CreatedBy, otp => otp.Ignore())
                 .ReverseMap();
