@@ -268,7 +268,7 @@ namespace Repository
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.Title)
                     .HasMaxLength(255)
-                    .IsUnicode(false)
+                    .IsUnicode()
                     .HasColumnName("Title");
 
                 entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.News)
