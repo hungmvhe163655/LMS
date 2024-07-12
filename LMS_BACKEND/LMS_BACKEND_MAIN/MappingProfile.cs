@@ -94,6 +94,9 @@ namespace LMS_BACKEND_MAIN
                .ForMember(dest => dest.TaskStatus, opt => opt.MapFrom(src => src.TaskStatus.Name))
                .ReverseMap();
             CreateMap<Account, AccountNeedVerifyResponseModel>();
+            CreateMap<MoveTaskRequestModel, Tasks>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.TaskListId, opt => opt.MapFrom(src => src.TaskListId));
 
         }
     }

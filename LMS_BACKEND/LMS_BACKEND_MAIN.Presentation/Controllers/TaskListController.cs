@@ -25,7 +25,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpGet("{taskListId}")]
-        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         public async Task<IActionResult> GetTaskListById(Guid taskListId)
         {
             var hold = await _service.TaskListService.GetTaskListById(taskListId);
@@ -41,7 +41,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpPut]
-        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> UpdateTaskList(UpdateTaskListRequestModel model)
         {
             await _service.TaskListService.UpdateTaskList(model);
