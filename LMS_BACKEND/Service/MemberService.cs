@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces;
+using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
@@ -31,6 +32,14 @@ namespace Service
                 .ToListAsync();
             var memberDto = _mapper.Map<IEnumerable<MemberResponseModel>>(hold);
             return memberDto;
+        }
+
+        public async Task DeleteMember(Guid id, Guid projectId)
+        {
+            var hold = await _repository.member.GetByCondition(x => x.UserId.Equals(id) && x.ProjectId.Equals(projectId), true).FirstOrDefaultAsync();
+            if (hold == null) throw new BadRequestException($"Can't found member with id {id} in project {projectId}");
+            _repository.member.Delete(hold);
+            await _repository.Save();
         }
     }
 }

@@ -30,7 +30,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpGet(RoutesAPI.GetMemberInProject)]
-        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         public async Task<IActionResult> GetMemberInProject(Guid projectId)
         {
             var hold = await _service.MemberService.GetMembers(projectId);
@@ -38,7 +38,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpPost]
-        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateProjejct(CreateProjectRequestModel model)
         {
             await _service.ProjectService.CreatNewProject(model);
