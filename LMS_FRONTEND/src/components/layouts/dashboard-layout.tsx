@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { BaseLayout } from './base-layout';
-
 import { Head } from '@/components/seo';
 import { ProtectedRoute } from '@/lib/protected-route';
+
+import { BaseLayout } from './base-layout';
 
 type DashboardLayoutProps = {
   children: React.ReactNode;

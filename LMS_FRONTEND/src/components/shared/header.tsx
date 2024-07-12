@@ -1,5 +1,7 @@
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
 
+import { Link } from '../app/link';
+
 import { AvatarDropdown } from './avatar-dropdown';
 import { Logo } from './logo';
 import { NotificationDropdown } from './notification-dropdown';
@@ -14,7 +16,13 @@ export function Header() {
       </div>
 
       {isLogin && (
-        <ul className='flex space-x-4'>
+        <ul className='flex justify-center space-x-10 align-middle'>
+          <Link
+            to={'/news'}
+            className='my-auto font-serif text-2xl text-white hover:text-gray-400 hover:no-underline'
+          >
+            News{' '}
+          </Link>
           <li className='my-auto mr-5'>
             <NotificationDropdown />
           </li>
