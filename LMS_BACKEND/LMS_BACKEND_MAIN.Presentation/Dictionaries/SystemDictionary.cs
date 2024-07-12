@@ -113,6 +113,8 @@
 
         public const string GetTaskListByProject = "{projectId:guid}/task-lists";
 
+        public const string GetMemberInProject = "{projectId:guid}/members";
+
         #endregion
     }
 }

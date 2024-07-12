@@ -14,13 +14,11 @@ namespace Service
     {
 
         private readonly IRepositoryManager _repository;
-        private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
 
-        public NewsService(ILoggerManager logger, IRepositoryManager repository, IMapper mapper)
+        public NewsService(IRepositoryManager repository, IMapper mapper)
         {
             _repository = repository;
-            _logger = logger;
             _mapper = mapper;
         }
 
