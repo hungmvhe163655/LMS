@@ -1,11 +1,11 @@
 import CreateNewsRoute from './create';
 
-const ListNewsRoute = {
+const NewsRoute = {
   children: [
     {
       index: true,
       lazy: async () => {
-        const { ListNewsPage: ListNewsPage } = await import('./list-page');
+        const { ListNewsPage: ListNewsPage } = await import('./list/list-page');
         return { Component: ListNewsPage };
       }
     },
@@ -13,4 +13,4 @@ const ListNewsRoute = {
   ]
 };
 
-export default ListNewsRoute;
+export default NewsRoute;

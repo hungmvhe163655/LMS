@@ -1,8 +1,9 @@
-import ChooseRoleRoute from './choose-role';
-
 const RegisterRoute = {
   path: 'register',
-  children: [ChooseRoleRoute]
+  lazy: async () => {
+    const { RegisterPage: RegisterPage } = await import('./register-page');
+    return { Component: RegisterPage };
+  }
 };
 
 export default RegisterRoute;

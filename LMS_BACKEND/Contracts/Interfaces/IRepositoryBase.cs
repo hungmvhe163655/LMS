@@ -1,5 +1,4 @@
-﻿using Entities;
-using Shared.DataTransferObjects.RequestParameters;
+﻿using Shared.DataTransferObjects.RequestParameters;
 using System.Linq.Expressions;
 
 namespace Contracts.Interfaces

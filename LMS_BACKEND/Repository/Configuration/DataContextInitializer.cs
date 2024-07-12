@@ -1,6 +1,5 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Configuration
 {
@@ -2221,7 +2220,7 @@ namespace Repository.Configuration
                     ProjectId = prj3.Id,
                     UserId = user12.Id,
                     IsLeader = true,
-                    JoinDate= new DateTime(2024, 06, 30),
+                    JoinDate = new DateTime(2024, 06, 30),
                 },
                 new Member
                 {
@@ -2278,7 +2277,7 @@ namespace Repository.Configuration
                     ProjectId = prj5.Id,
                     UserId = user13.Id,
                     IsLeader = true,
-                    JoinDate= new DateTime(2024, 01, 16),
+                    JoinDate = new DateTime(2024, 01, 16),
                 },
                 new Member
                 {
@@ -2431,7 +2430,7 @@ namespace Repository.Configuration
                 MaxTasks = 3,
                 ProjectId = prj2.Id
             };
-            TaskList tl7= new TaskList
+            TaskList tl7 = new TaskList
             {
                 Id = new Guid("a88a1f4e-d3dd-42f0-a0e7-3a7f6affa301"),
                 Name = "Prototype Development",
@@ -2454,7 +2453,7 @@ namespace Repository.Configuration
             };
 
             // Task lists for Project "Research Paper on Quantum Computing"
-            TaskList tl10= new TaskList
+            TaskList tl10 = new TaskList
             {
                 Id = new Guid("84f2c617-35e0-4343-a7c8-35226cb4c6a1"),
                 Name = "Literature Review",
@@ -2468,14 +2467,14 @@ namespace Repository.Configuration
                 MaxTasks = 6,
                 ProjectId = prj3.Id
             };
-            TaskList tl12= new TaskList
+            TaskList tl12 = new TaskList
             {
                 Id = new Guid("67a4dd09-f119-4c82-921e-597279ef412d"),
                 Name = "Data Analysis",
                 MaxTasks = 5,
                 ProjectId = prj3.Id
             };
-            TaskList tl13= new TaskList
+            TaskList tl13 = new TaskList
             {
                 Id = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 Name = "Paper Writing",
@@ -2484,28 +2483,28 @@ namespace Repository.Configuration
             };
 
             // Task lists for Project "AI in Healthcare"
-            TaskList tl14= new TaskList
+            TaskList tl14 = new TaskList
             {
                 Id = new Guid("5b24898d-dddc-4c99-8c69-5e43a370e45c"),
                 Name = "Data Collection",
                 MaxTasks = 6,
                 ProjectId = prj4.Id
             };
-            TaskList tl15= new TaskList
+            TaskList tl15 = new TaskList
             {
                 Id = new Guid("f5840e34-49e8-435f-bbb4-e403c53642b1"),
                 Name = "Model Training",
                 MaxTasks = 7,
                 ProjectId = prj4.Id
             };
-            TaskList tl16= new TaskList
+            TaskList tl16 = new TaskList
             {
                 Id = new Guid("4c238c20-5106-4ca5-88a7-9980892a5455"),
                 Name = "Model Evaluation",
                 MaxTasks = 5,
                 ProjectId = prj4.Id
             };
-            TaskList tl17= new TaskList
+            TaskList tl17 = new TaskList
             {
                 Id = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 Name = "Deployment",
@@ -2514,28 +2513,28 @@ namespace Repository.Configuration
             };
 
             // Task lists for Project "Environmental Monitoring"
-            TaskList tl18= new TaskList
+            TaskList tl18 = new TaskList
             {
                 Id = new Guid("c07b395a-cbf6-49a4-aeaa-ef28de9517ff"),
                 Name = "Sensor Installation",
                 MaxTasks = 5,
                 ProjectId = prj5.Id
             };
-            TaskList tl19= new TaskList
+            TaskList tl19 = new TaskList
             {
                 Id = new Guid("24d9bd4f-d960-4081-87a8-6be032290863"),
                 Name = "Data Collection",
                 MaxTasks = 6,
                 ProjectId = prj5.Id
             };
-            TaskList tl20= new TaskList
+            TaskList tl20 = new TaskList
             {
                 Id = new Guid("455d5a96-2d52-4aa8-a98f-ac27f4f321c3"),
                 Name = "Data Analysis",
                 MaxTasks = 5,
                 ProjectId = prj5.Id
             };
-            TaskList tl21= new TaskList
+            TaskList tl21 = new TaskList
             {
                 Id = new Guid("a37790d5-0113-491b-98af-5060ff8aa26c"),
                 Name = "Reporting",
@@ -2544,35 +2543,35 @@ namespace Repository.Configuration
             };
 
             // Task lists for Project "Mobile Health App"
-            TaskList tl22= new TaskList
+            TaskList tl22 = new TaskList
             {
                 Id = new Guid("41640d60-1134-45c3-a7c4-2e7f306ec967"),
                 Name = "Requirement Gathering",
                 MaxTasks = 5,
                 ProjectId = prj6.Id
             };
-            TaskList tl23= new TaskList
+            TaskList tl23 = new TaskList
             {
                 Id = new Guid("5618a016-156a-449c-92e6-926eabe0cf8a"),
                 Name = "UI/UX Design",
                 MaxTasks = 4,
                 ProjectId = prj6.Id
             };
-            TaskList tl24= new TaskList
+            TaskList tl24 = new TaskList
             {
                 Id = new Guid("431dd63b-469e-4589-b1c6-4b4af20a7728"),
                 Name = "Development",
                 MaxTasks = 6,
                 ProjectId = prj6.Id
             };
-            TaskList tl25= new TaskList
+            TaskList tl25 = new TaskList
             {
                 Id = new Guid("60ac6a0a-2788-4326-ad31-fdd899d7b80f"),
                 Name = "Testing",
                 MaxTasks = 4,
                 ProjectId = prj6.Id
             };
-            TaskList tl26= new TaskList
+            TaskList tl26 = new TaskList
             {
                 Id = new Guid("75f606e3-f12a-4257-b486-a15ef2aad23b"),
                 Name = "Deployment",
@@ -2581,28 +2580,28 @@ namespace Repository.Configuration
             };
 
             // Task lists for Project "AI-based Image Recognition"
-            TaskList tl27= new TaskList
+            TaskList tl27 = new TaskList
             {
                 Id = new Guid("5f54b6b6-614e-46d2-a64e-10d91db2f516"),
                 Name = "Data Collection",
                 MaxTasks = 6,
                 ProjectId = prj7.Id
             };
-            TaskList tl28= new TaskList
+            TaskList tl28 = new TaskList
             {
                 Id = new Guid("b351e4b2-8b16-4c0c-b37b-630bcf661e4b"),
                 Name = "Model Development",
                 MaxTasks = 5,
                 ProjectId = prj7.Id
             };
-            TaskList tl29= new TaskList
+            TaskList tl29 = new TaskList
             {
                 Id = new Guid("0008056c-1d86-45f8-ae4e-b0512284472d"),
                 Name = "Model Training",
                 MaxTasks = 7,
                 ProjectId = prj7.Id
             };
-            TaskList tl30= new TaskList
+            TaskList tl30 = new TaskList
             {
                 Id = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 Name = "Model Testing",
@@ -2701,7 +2700,7 @@ namespace Repository.Configuration
                 StartDate = new DateTime(2024, 05, 13),
                 DueDate = new DateTime(2024, 05, 25),
                 TaskPriorityId = 3,
-                TaskListId = new Guid("8866bcb2-198a-4fcd-b0c0-8090444b8722" ),
+                TaskListId = new Guid("8866bcb2-198a-4fcd-b0c0-8090444b8722"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatusId = 1,
                 AssignedTo = user3.Id
@@ -3808,7 +3807,7 @@ namespace Repository.Configuration
                 AssignedTo = user4.Id
             };
 
-            builder.Entity<Tasks>().HasData(t1, t10, t11, t12,t13,t14,t15,t16,t17,t18,t19,t2,t20,t21,t22,t23,t24,t25,t26,t27,t28,t29,t3,t30,t31,t32,t33,t34,t35,t36,t37,t38,t39,t4,t40,t41,t42,t43,t44,t45,t46,t47,t48,t49,t5,t50,t51,t52,t53,t54,t55,t56,t57,t58,t59,t6,t60,t61,t62,t63,t64,t65,t66,t67,t68,t69,t7,t70,t71,t8,t9 );
+            builder.Entity<Tasks>().HasData(t1, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t2, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t3, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t4, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t5, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t6, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t7, t70, t71, t8, t9);
         }
     }
 }

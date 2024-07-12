@@ -1,9 +1,4 @@
 ﻿using Entities.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Contracts.Interfaces
 {
@@ -13,6 +8,7 @@ namespace Contracts.Interfaces
         Task UpdateTask(Tasks task);
         Task AddNewTask(Tasks task);
         IQueryable<Tasks> GetTasksWithProjectId(Guid projectId, bool check);
+        IQueryable<Tasks> GetTasksWithTaskListId(Guid taskListId, bool check);
         IQueryable<Tasks> GetTaskWithId(Guid id, bool track);
     }
 }

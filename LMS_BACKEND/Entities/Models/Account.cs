@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
 
 
 namespace Entities.Models
@@ -16,7 +11,7 @@ namespace Entities.Models
         public DateTime CreatedDate { get; set; }
         public string? VerifiedBy { get; set; }
         public bool IsDeleted { get; set; }
-        public bool IsVerified { get;set; }
+        public bool IsVerified { get; set; }
         public bool IsBanned { get; set; }
         public string? EmailVerifyCode { get; set; }
         public DateTime EmailVerifyCodeAge { get; set; }

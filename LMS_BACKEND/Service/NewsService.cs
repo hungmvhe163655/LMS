@@ -89,13 +89,10 @@ namespace Service
             }
         }
 
-        public async Task UpdateNews(Guid newsId, UpdateNewsRequestModel model)
+        public async Task UpdateNews(UpdateNewsRequestModel model)
         {
-            var hold = _repository.news.GetNews(newsId, true);
-            if (hold == null) throw new BadRequestException("News with id: " + newsId + " is not exist");
-            //updateNews.Content = model.Content;
-            //updateNews.Title = model.Title;
-
+            var hold = _repository.news.GetNews(model.Id, true);
+            if (hold == null) throw new BadRequestException("News with id: " + model.Id + " is not exist");
             _mapper.Map(model, hold);
             await _repository.Save();
         }

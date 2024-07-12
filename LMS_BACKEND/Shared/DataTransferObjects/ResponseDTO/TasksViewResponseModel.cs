@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Shared.DataTransferObjects.ResponseDTO
+﻿namespace Shared.DataTransferObjects.ResponseDTO
 {
     public class TasksViewResponseModel
     {
@@ -12,6 +6,7 @@ namespace Shared.DataTransferObjects.ResponseDTO
         public string Title { get; set; } = null!;
         public string? Description { get; set; }
         public string AssignedTo { get; set; } = null!;
+        public string AssignedToUser { get; set; } = null!;
         public string TaskStatus { get; set; } = null!;
     }
 }

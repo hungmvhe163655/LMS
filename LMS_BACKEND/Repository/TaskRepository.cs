@@ -1,10 +1,5 @@
 ﻿using Contracts.Interfaces;
 using Entities.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -21,6 +16,8 @@ namespace Repository
         public async Task AddNewTask(Tasks task) => await CreateAsync(task);
 
         public IQueryable<Tasks> GetTasksWithProjectId(Guid projectId, bool check) => FindAll(check).Where(x => x.ProjectId.Equals(projectId));
+
+        public IQueryable<Tasks> GetTasksWithTaskListId(Guid taskListId, bool check) => FindAll(check).Where(x => x.TaskListId.Equals(taskListId));
 
     }
 }

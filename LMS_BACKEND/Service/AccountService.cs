@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 using System;
 using System.Collections.Generic;
@@ -77,7 +78,6 @@ namespace Service
             var account = await _repository.account.GetByCondition(entity => entity.Id.Equals(userId), false).FirstAsync();
             if (account == null) throw new BadRequestException($"{nameof(account)} is not valid");
             if (account.Email == null) throw new BadRequestException($"{nameof(account.Email)} is not valid");
-
             var checkRole = await _userManager.GetRolesAsync(account);
             var roleName = checkRole.FirstOrDefault();
             if (roleName == null) throw new BadRequestException($"{roleName} is not valid");
@@ -104,35 +104,29 @@ namespace Service
         {
             List<Account> accountList = new List<Account>();
 
-            if (UserIDList.Any())
+            accountList.AddRange(await _repository.account.GetByCondition(entity => UserIDList.Contains(entity.Id) && !entity.IsVerified, false).ToListAsync());
+
+            if (accountList.Any())
             {
-                foreach (var ID in UserIDList)
+                foreach (var account in accountList)
                 {
-                    accountList.Add(_repository.account.GetByCondition(entity => entity.Id.Equals(ID), false).First());
+                    account.IsVerified = true;
+
+                    account.VerifiedBy = verifier;
+
+                    _repository.account.Update(account);
+
+                    await _repository.Save();
                 }
-                if (accountList.Any())
-                {
-                    foreach (var account in accountList)
-                    {
-                        account.IsVerified = true;
-
-                        account.VerifiedBy = verifier;
-
-                        _repository.account.Update(account);
-
-                        await _repository.Save();
-                    }
-                    return true;
-                }
+                return true;
             }
             return false;
         }
-        public async Task<IEnumerable<AccountReturnModel>> GetVerifierAccounts(string email)
+        public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccounts(NeedVerifyParameters param)
         {
-            var user = await _repository.account.GetByConditionAsync(entity => entity.Email != null && entity.Email.Equals(email), false);
-            var end = user.First();
-            if (end == null) throw new UnauthorizedException("Invalid User");
-            return _mapper.Map<IEnumerable<AccountReturnModel>>(_repository.account.GetByCondition(entity => entity.VerifiedBy != null && entity.VerifiedBy.Equals(end.Id), false).ToList());
+            var user = await _repository.account.FindWithVerifierId(param) ?? throw new BadRequestException("bad param");
+
+            return (_mapper.Map<IEnumerable<AccountNeedVerifyResponseModel>>(user), user.MetaData);
         }
 
         public async Task<IEnumerable<AccountReturnModel>> GetUserByRole(string role) => _mapper.Map<IEnumerable<AccountReturnModel>>((await _userManager.GetUsersInRoleAsync(role)).Where(x => x.IsVerified));
@@ -149,15 +143,15 @@ namespace Service
             else throw new BadRequestException("User with id: " + userId + " is not exist");
         }
 
-        public async Task UpdateProfileAsync(string userId, UpdateProfileRequestModel model)
+        public async Task UpdateProfileAsync(UpdateProfileRequestModel model)
         {
             try
             {
-                var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(userId), true);
+                var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(model.Id), true);
 
                 var account = user.FirstOrDefault();
 
-                if (account == null) throw new BadRequestException("User with id: " + userId + " is not exist");
+                if (account == null) throw new BadRequestException("User with id: " + model.Id + " is not exist");
 
                 account.FullName = model.FullName;
 
@@ -165,12 +159,12 @@ namespace Service
                 var roleName = checkRole.FirstOrDefault();
                 if (roleName == null) throw new BadRequestException($"{roleName} is not valid");
 
-                var hold = await _repository.studentDetail.GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), true);
+                var hold = await _repository.studentDetail.GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(model.Id), true);
                 var studentDetail = hold.FirstOrDefault();
 
                 if (studentDetail == null)
                 {
-                    var newStudentDetail = new StudentDetail() { AccountId = userId, RollNumber = account.UserName, Major = model.Major, Specialized = model.Specialized };
+                    var newStudentDetail = new StudentDetail() { AccountId = model.Id, RollNumber = account.UserName, Major = model.Major, Specialized = model.Specialized };
                     await _repository.studentDetail.CreateAsync(newStudentDetail);
                 }
                 else
@@ -179,7 +173,7 @@ namespace Service
                     studentDetail.Specialized = model.Specialized;
                     _repository.studentDetail.Update(studentDetail);
                 }
-                account.Gender = model.Gender.Equals("Male") ? true : false;
+                account.Gender = model.Gender;
                 account.FullName = model.FullName;
                 _repository.account.Update(account);
                 await _repository.Save();
@@ -192,20 +186,13 @@ namespace Service
 
         public async Task ChangeEmailAsync(string id, ChangeEmailRequestModel model)
         {
-            var user = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(id), true);
-            var account = user.FirstOrDefault();
-            //if (account != null)
-            //{
-            //    var result = await _userManager.ChangeEmailAsync(account, oldPassword, newPassword);
-            //    return result.Succeeded;
-            //}
-            //else throw new BadRequestException("User with id: " + userId + " is not exist");
-            if (account == null) throw new BadRequestException($"Can't find user with id: ${id}");
-            await _userManager.SetEmailAsync(account, model.Email);
+            var user = await _repository.account.GetByCondition(entity => entity.Id.Equals(id), true).FirstOrDefaultAsync();
 
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(account);
+            if (user == null) throw new BadRequestException($"Can't find user with id: ${id}");
 
-            await _userManager.ConfirmEmailAsync(account, token);
+            user.Email = model.Email;
+
+            await _repository.Save();
         }
 
         //public async Task<bool> ChangePhoneNumberAsync(string userId, string phoneNumber, string verifyCode)

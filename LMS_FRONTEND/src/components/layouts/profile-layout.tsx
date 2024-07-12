@@ -2,6 +2,7 @@ import { BaseLayout } from './base-layout';
 
 import { SidebarNav } from '@/features/profile/components/sidebar';
 import { SidebarNavItem } from '@/features/profile/types/type';
+import { ProtectedRoute } from '@/lib/protected-route';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -10,7 +11,7 @@ type LayoutProps = {
 const sidebarItems: SidebarNavItem[] = [
   {
     title: 'Overall',
-    href: '/profile/overall'
+    href: '/profile'
   },
   {
     title: 'Change Password',
@@ -32,13 +33,15 @@ const sidebarItems: SidebarNavItem[] = [
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <BaseLayout>
-      <div className='flex min-h-screen bg-gray-50'>
-        <div className='w-64 bg-white p-4 shadow'>
-          <SidebarNav items={sidebarItems} />
+    <ProtectedRoute>
+      <BaseLayout>
+        <div className='flex min-h-screen bg-gray-50'>
+          <div className='w-64 bg-white p-4 shadow'>
+            <SidebarNav items={sidebarItems} />
+          </div>
+          <div className='mt-8 w-full'>{children}</div>
         </div>
-        <div className='mt-8 w-full'>{children}</div>
-      </div>
-    </BaseLayout>
+      </BaseLayout>
+    </ProtectedRoute>
   );
 }

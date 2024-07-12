@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -12,6 +13,10 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form';
+import { useToast } from '@/components/ui/use-toast';
+import { UserLogin } from '@/types/api';
+
+import { useChangePassword } from '../api/change-password';
 
 const formSchema = z
   .object({
@@ -30,6 +35,10 @@ const formSchema = z
   });
 
 export function ChangePasswordForm() {
+  const { mutate: changePassword, isPending } = useChangePassword();
+  const { toast } = useToast();
+  const auth = useAuthUser<UserLogin>() as UserLogin;
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,7 +49,22 @@ export function ChangePasswordForm() {
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
+    changePassword(
+      {
+        userID: auth.id,
+        oldPassWord: data.oldPassword,
+        newPassWord: data.newPassword
+      },
+      {
+        onSuccess: () => {
+          form.reset();
+          toast({
+            variant: 'success',
+            description: 'Change Password Success!'
+          });
+        }
+      }
+    );
   }
 
   return (
@@ -53,7 +77,7 @@ export function ChangePasswordForm() {
             <FormItem>
               <FormLabel>Old Password</FormLabel>
               <FormControl>
-                <PasswordInput {...field} />
+                <PasswordInput disabled={isPending} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -66,7 +90,7 @@ export function ChangePasswordForm() {
             <FormItem>
               <FormLabel>New Password</FormLabel>
               <FormControl>
-                <PasswordInput {...field} />
+                <PasswordInput disabled={isPending} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -79,14 +103,16 @@ export function ChangePasswordForm() {
             <FormItem>
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
-                <PasswordInput {...field} />
+                <PasswordInput disabled={isPending} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <div className='flex justify-end'>
-          <Button type='submit'>Confirm</Button>
+          <Button type='submit' disabled={isPending}>
+            {isPending ? 'Changing...' : 'Confirm'}
+          </Button>
         </div>
       </form>
     </Form>

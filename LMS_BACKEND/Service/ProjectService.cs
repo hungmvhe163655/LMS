@@ -2,15 +2,9 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -27,16 +21,18 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task CreatNewProject(string userId, CreateProjectRequestModel model)
+        public async Task CreatNewProject(CreateProjectRequestModel model)
         {
             var hold = _mapper.Map<Project>(model);
             hold.Id = Guid.NewGuid();
             hold.CreatedDate = DateTime.Now;
+            hold.ProjectStatusId = 1;
             var member = new Member
             {
-                UserId = userId,
+                UserId = model.CreatedBy,
                 ProjectId = hold.Id,
                 IsLeader = true,
+                JoinDate = DateTime.Now,
             };
             _repository.member.Create(member);
             _repository.project.Create(hold);

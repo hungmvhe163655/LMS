@@ -1,10 +1,5 @@
 ﻿using Contracts.Interfaces;
 using Entities.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -15,7 +10,7 @@ namespace Repository
         }
         public Folder GetFolder(Guid id, bool track)
         {
-            return FindAll(track).Where(x=>x.Id.Equals(id)).ToList().First();
+            return FindAll(track).Where(x => x.Id.Equals(id)).ToList().First();
         }
         public async Task<bool> AddFolder(Folder folder)
         {

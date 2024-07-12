@@ -1,4 +1,7 @@
 import { Bell, LogOut, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
+import { useLogout } from '@/hooks/use-logout';
 
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import {
@@ -12,6 +15,9 @@ import {
 } from '../ui/dropdown-menu';
 
 export function AvatarDropdown() {
+  const navigate = useNavigate();
+  const { mutate: logout, isPending } = useLogout();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -23,7 +29,7 @@ export function AvatarDropdown() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => navigate('/profile')}>
             <User className='mr-2 size-4' />
             <span>Profile</span>
           </DropdownMenuItem>
@@ -34,9 +40,18 @@ export function AvatarDropdown() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          disabled={isPending}
+          onSelect={() =>
+            logout(undefined, {
+              onSuccess: () => {
+                navigate('/');
+              }
+            })
+          }
+        >
           <LogOut className='mr-2 size-4' />
-          <span>Log out</span>
+          <span>{isPending ? 'Logging out ...' : 'Log out'}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

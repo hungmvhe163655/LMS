@@ -1,5 +1,4 @@
 ﻿using Contracts.Interfaces;
-using Entities;
 using Microsoft.EntityFrameworkCore;
 using Shared.DataTransferObjects.RequestParameters;
 using System.Linq.Expressions;
@@ -103,6 +102,11 @@ namespace Repository
                     return false;
                 }
             }
+        }
+        public async Task<bool> Transaction(T entity)
+        {
+            _context.Database.BeginTransaction();
+            return true;
         }
     }
 }

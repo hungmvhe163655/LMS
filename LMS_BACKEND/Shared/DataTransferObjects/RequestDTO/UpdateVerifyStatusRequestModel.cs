@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Shared.DataTransferObjects.RequestDTO
 {
     public class UpdateVerifyStatusRequestModel
     {
         [Required(ErrorMessage = "UserId is required")]
-        public string UserID { get; set; } = null!;
+        public List<string> UserID { get; set; } = new List<string>();
         public string verifierID { get; set; } = null!;
     }
 }

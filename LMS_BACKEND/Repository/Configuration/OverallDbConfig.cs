@@ -1,12 +1,6 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository.Configuration
 {
@@ -170,9 +164,9 @@ namespace Repository.Configuration
                 new StudentDetail()
                 {
                     AccountId = user4.Id,
-                    Major= "Software Engineering",
-                    Specialized= "ASP.NET",
-                    RollNumber= "HE163098"
+                    Major = "Software Engineering",
+                    Specialized = "ASP.NET",
+                    RollNumber = "HE163098"
                 },
                 new StudentDetail()
                 {
