@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Repository.Extensions.Utility;
 using Shared.DataTransferObjects.RequestParameters;
 using System.Linq.Dynamic.Core;
 using System.Text;
@@ -25,27 +26,7 @@ namespace Repository.Extensions
             if (string.IsNullOrWhiteSpace(orderByQueryString))
                 return news.OrderBy(n => n.CreatedDate);
 
-            var orderParams = orderByQueryString.Trim().Split(',');
-            var propertyInfor = typeof(News).GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-            var orderQueryBuilder = new StringBuilder();
-
-            foreach (var param in orderParams)
-            {
-                if (string.IsNullOrWhiteSpace(param))
-                    continue;
-
-                var propertyFromQueryName = param.Split(" ")[0];
-                var objectProperty = propertyInfor.FirstOrDefault(ni =>
-                    ni.Name.Equals(propertyFromQueryName, StringComparison.InvariantCultureIgnoreCase));
-
-                if (objectProperty == null)
-                    continue;
-
-                var direction = param.EndsWith(".desc") ? "descending" : "ascending";
-
-                orderQueryBuilder.Append($"{objectProperty.Name.ToString()} {direction},");
-            }
-            var orderQuery = orderQueryBuilder.ToString().TrimEnd(',', ' ');
+            var orderQuery = OrderQueryBuilder.CreateOrderQuery<News>(orderByQueryString);
 
             if (string.IsNullOrWhiteSpace(orderQuery))
                 return news.OrderBy(n => n.CreatedDate);
