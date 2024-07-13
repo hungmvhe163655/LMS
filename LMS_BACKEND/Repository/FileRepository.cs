@@ -10,7 +10,11 @@ namespace Repository
         public FileRepository(DataContext context) : base(context)
         {
         }
-        public async Task<IEnumerable<Files>> GetFiles(bool track) => await FindAll(track).OrderBy(x => x.Name).ToListAsync();
+        public async Task<IEnumerable<Files>> GetFiles(bool track, Guid FolderId) =>
+            await
+            GetByCondition(x => x.FolderId.Equals(FolderId), track)
+            .OrderBy(x => x.Name)
+            .ToListAsync();
         public async Task<IEnumerable<Files>> GetFilesWithQuery(bool track, FileRequestParameters parameters)
         {
             if (parameters.SearchTerm != null)
@@ -25,9 +29,9 @@ namespace Repository
             }
 
         }
-        public Files GetFile(Guid id, bool track)
+        public IQueryable<Files> GetFile(Guid id, bool track)
         {
-            return FindAll(track).Where(x => x.Id.Equals(id)).ToList().First();
+            return FindAll(track).Where(x => x.Id.Equals(id));
         }
         public async Task<bool> CreateFile(Files hold)
         {

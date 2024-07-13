@@ -2,6 +2,7 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
@@ -24,9 +25,22 @@ namespace Service
         public async Task CreatNewProject(CreateProjectRequestModel model)
         {
             var hold = _mapper.Map<Project>(model);
+
             hold.Id = Guid.NewGuid();
             hold.CreatedDate = DateTime.Now;
             hold.ProjectStatusId = 1;
+            var rootid = Guid.NewGuid();
+            var root = new Folder
+            {
+                Id = rootid,
+                CreatedBy = model.CreatedBy,
+                CreatedDate = DateTime.Now,
+                IsRoot = true,
+                LastModifiedDate = DateTime.Now,
+                ProjectId = hold.Id,
+                Name = hold.Id + "Root",
+                FolderClosureAncestor = new List<FolderClosure> { new FolderClosure { AncestorID = rootid, DescendantID = rootid, Depth = 0 } }
+            };
             var member = new Member
             {
                 UserId = model.CreatedBy,
@@ -36,6 +50,7 @@ namespace Service
             };
             _repository.member.Create(member);
             _repository.project.Create(hold);
+            await _repository.folder.AddFolder(root);
             await _repository.Save();
         }
 
@@ -90,6 +105,24 @@ namespace Service
             model.Id = projectId;
             var hold = _mapper.Map<Project>(model);
             await _repository.Save();
+        }
+
+        public async Task<GetFolderContentResponseModel> GetProjectResources(Guid ProjectID)
+        {
+
+            var projectholder = await
+                _repository
+                .project
+                .GetByCondition(x => x.Id.Equals(ProjectID), false).Include(y => y.Folders.Where(z => z.IsRoot))
+                .FirstOrDefaultAsync() ?? throw new BadRequestException("Project with that ID does not exist");
+
+            var root = projectholder.Folders.FirstOrDefault() ?? throw new Exception("Folder does not have a root?");
+
+            var end = await _repository.file.GetFiles(false, root.Id);
+
+            var folders = new List<Folder>();
+
+            return new GetFolderContentResponseModel { Files = end.ToList(), Folders = folders };
         }
     }
 }

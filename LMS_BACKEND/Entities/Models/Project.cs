@@ -31,6 +31,8 @@ namespace Entities.Models
 
         public virtual ICollection<TaskList> TaskLists { get; set; } = new List<TaskList>();
 
+        public virtual ICollection<Folder> Folders { get; set; } = new List<Folder>();
+
         //public virtual ICollection<Permission> Permissions { get; set; } = new List<Permission>();
 
         //public virtual ICollection<Setting> Settings { get; set; } = new List<Setting>();
