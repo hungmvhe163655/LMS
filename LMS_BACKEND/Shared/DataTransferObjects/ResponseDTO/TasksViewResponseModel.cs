@@ -8,5 +8,6 @@
         public string AssignedTo { get; set; } = null!;
         public string AssignedToUser { get; set; } = null!;
         public string TaskStatus { get; set; } = null!;
+        public Guid TaskListId { get; set; }
     }
 }
