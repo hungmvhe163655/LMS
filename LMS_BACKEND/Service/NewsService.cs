@@ -2,7 +2,6 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
@@ -53,8 +52,8 @@ namespace Service
         {
             var newses = _repository.news.GetByCondition(entity => entity.Id.Equals(id), false);
             var news = newses.First();
-            if (news == null) 
-                throw new BadRequestException("News wth id: "+ id + "doesn't exist");
+            if (news == null)
+                throw new BadRequestException("News wth id: " + id + "doesn't exist");
             _repository.news.Delete(news);
             await _repository.Save();
         }

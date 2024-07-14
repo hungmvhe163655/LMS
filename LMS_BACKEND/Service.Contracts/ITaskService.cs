@@ -13,6 +13,6 @@ namespace Service.Contracts
         Task EditTask(TaskUpdateRequestModel model);
         Task DeleteTask(Guid id, string userId);
         (TaskUpdateRequestModel taskToPatch, Tasks taskEntity) MoveTaskForPatch(Guid taskListId, Guid id);
-         void SaveChangesForPatch(TaskUpdateRequestModel taskToPatch, Tasks taskEntity);
+        void SaveChangesForPatch(TaskUpdateRequestModel taskToPatch, Tasks taskEntity);
     }
 }

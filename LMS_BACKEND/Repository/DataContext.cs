@@ -663,7 +663,7 @@ namespace Repository
                     .HasForeignKey(d => d.TaskGuid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TaskHistories_Tasks");
-                
+
                 entity.HasOne(d => d.AssignedToUser).WithMany(p => p.TaskHistories)
                     .HasForeignKey(d => d.AssignedTo)
                     .HasConstraintName("FK_TasksHistory_Accounts");
