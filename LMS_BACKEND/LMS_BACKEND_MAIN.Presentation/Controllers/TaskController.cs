@@ -1,17 +1,11 @@
 ﻿using Entities.Exceptions;
 using LMS_BACKEND_MAIN.Presentation.Dictionaries;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -80,11 +74,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPatch("{id:guid}")]
         public IActionResult MoveTaskToTaskList(Guid taskListId, Guid id, [FromBody] JsonPatchDocument<TaskUpdateRequestModel> patchDoc)
         {
-            if(patchDoc is null) return BadRequest("patchDoc object sent from client is null.");
+            if (patchDoc is null) return BadRequest("patchDoc object sent from client is null.");
             var result = _service.TaskService.MoveTaskForPatch(taskListId, id);
             patchDoc.ApplyTo(result.taskToPatch);
             _service.TaskService.SaveChangesForPatch(result.taskToPatch, result.taskEntity);
-            return Ok(new ResponseMessage { Message = $"Move task {id} to task list {taskListId} successfully "});
+            return Ok(new ResponseMessage { Message = $"Move task {id} to task list {taskListId} successfully " });
         }
     }
 }
