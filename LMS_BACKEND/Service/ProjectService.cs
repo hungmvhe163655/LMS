@@ -110,13 +110,7 @@ namespace Service
         public async Task<GetFolderContentResponseModel> GetProjectResources(Guid ProjectID)
         {
 
-            var projectholder = await
-                _repository
-                .project
-                .GetByCondition(x => x.Id.Equals(ProjectID), false).Include(y => y.Folders.Where(z => z.IsRoot))
-                .FirstOrDefaultAsync() ?? throw new BadRequestException("Project with that ID does not exist");
-
-            var root = projectholder.Folders.FirstOrDefault() ?? throw new Exception("Folder does not have a root?");
+            var root = await _repository.folder.GetRootByProjectId(ProjectID).FirstOrDefaultAsync() ?? throw new Exception("Project associated with that ID currently doesn't have a root");
 
             var end = await _repository.file.GetFiles(false, root.Id);
 

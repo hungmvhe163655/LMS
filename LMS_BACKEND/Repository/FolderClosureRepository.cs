@@ -1,6 +1,7 @@
 ﻿using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -8,6 +9,10 @@ namespace Repository
     {
         public FolderClosureRepository(DataContext context) : base(context)
         {
+        }
+        public async Task<IEnumerable<FolderClosure>> GetProjectFoldersByRoot(Guid rootId, bool track)
+        {
+            return await GetByCondition(x => x.AncestorID.Equals(rootId), false).ToListAsync();
         }
         public IEnumerable<FolderClosure> FindAncestors(Guid Ancs_Id, bool track)
         {
@@ -36,6 +41,7 @@ namespace Repository
         public void DeleteListFolder(IEnumerable<FolderClosure> folderClosures)
         {
             if (!folderClosures.Any()) throw new BadRequestException("Folder branch List can not be null");
+
             DeleteRange(folderClosures);
         }
     }

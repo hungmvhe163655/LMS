@@ -97,6 +97,10 @@ namespace LMS_BACKEND_MAIN
             CreateMap<MoveTaskRequestModel, Tasks>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.TaskListId, opt => opt.MapFrom(src => src.TaskListId));
+            CreateMap<Folder, FolderBranchDisplayResponseModel>()
+            .ForMember(c => c.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(c => c.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(c => c.Depth, opt => opt.Ignore());
 
         }
     }

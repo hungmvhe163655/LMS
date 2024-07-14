@@ -47,6 +47,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "Create Task success" });
         }
 
+        [HttpPut(RoutesAPI.AttachFileToTask)]
+        public async Task<IActionResult> AttachFileToTask(Guid id, Guid fileid)
+        {
+            await _service.FileService.AttachToTask(id, fileid);
+
+            return Ok(new ResponseMessage { Message = "Attach success" });
+        }
+
         [HttpPut]
         public async Task<IActionResult> UpdateTask([FromBody] TaskUpdateRequestModel model)
         {
