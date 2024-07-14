@@ -63,5 +63,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             var data = await _service.AccountService.GetAccountDetail(id);
             return Ok(data);
         }
+        
     }
 }

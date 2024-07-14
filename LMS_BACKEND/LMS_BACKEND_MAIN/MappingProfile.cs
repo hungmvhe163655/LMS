@@ -101,6 +101,7 @@ namespace LMS_BACKEND_MAIN
             .ForMember(c => c.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(c => c.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(c => c.Depth, opt => opt.Ignore());
+            CreateMap<Account, AccountRequestJoinResponseModel>();
 
         }
     }

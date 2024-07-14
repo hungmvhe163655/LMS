@@ -30,12 +30,24 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpPost]
-        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateProjejct(CreateProjectRequestModel model)
         {
             await _service.ProjectService.CreatNewProject(model);
-            return Ok(new ResponseMessage { Message = "Create project successfully"});
+            return Ok(new ResponseMessage { Message = "Create project successfully" });
         }
-
+        [HttpGet(RoutesAPI.GetJoinRequest)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> GetJoinRequest(Guid id)
+        {
+            return Ok(await _service.ProjectService.GetJoinRequest(id));
+        }
+        [HttpPost(RoutesAPI.ValidateJoinRequest)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> ValidateJoinRequest(Guid id,[FromBody] IEnumerable<UpdateStudentJoinRequestModel> modellist)
+        {
+            await _service.ProjectService.ValidateJoinRequest(modellist,id);
+            return Ok(new ResponseMessage { Message = "Update success" });
+        }
     }
 }

@@ -122,6 +122,10 @@
 
         public const string GetTaskListByProject = "{projectId:guid}/task-lists";
 
+        public const string GetJoinRequest = "{id:guid}/join-request";
+
+        public const string ValidateJoinRequest = "{id:guid}/join-request/validate";
+
         #endregion
     }
 }

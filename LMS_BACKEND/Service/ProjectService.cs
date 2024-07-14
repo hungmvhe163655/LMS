@@ -118,5 +118,31 @@ namespace Service
 
             return new GetFolderContentResponseModel { Files = end.ToList(), Folders = folders };
         }
+        public async Task<IEnumerable<AccountRequestJoinResponseModel>> GetJoinRequest(Guid projectId)
+        {
+            var hold = await _repository.member.GetByCondition(x => x.ProjectId.Equals(projectId) && !x.IsValidTeamMember, false).Include(y => y.User).ToListAsync();
+            List<Account> end = new List<Account>();
+            foreach (var item in hold)
+            {
+                if (item.User != null) end.Add(item.User);
+            }
+            return _mapper.Map<List<AccountRequestJoinResponseModel>>(end);
+        }
+        public async Task ValidateJoinRequest(IEnumerable<UpdateStudentJoinRequestModel> Listmodel, Guid id)
+        {
+            foreach (var item in Listmodel)
+            {
+                var hold = await
+                    _repository
+                    .member
+                    .GetByCondition(x => x.UserId.Equals(item.Id) && x.ProjectId.Equals(id) && x.ProjectId.Equals(item.ProjectID), false)
+                    .FirstOrDefaultAsync() ?? throw new Exception("Error due to database logic");
+
+                if (item.Accepted) _repository.member.Delete(hold);
+
+                else hold.IsValidTeamMember = true;
+            }
+            await _repository.Save();
+        }
     }
 }

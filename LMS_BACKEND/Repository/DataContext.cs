@@ -38,6 +38,9 @@ namespace Repository
         public DbSet<TaskPriorities> TaskPriorities { get; set; }
         public DbSet<TasksStatus> TaskStatus { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -251,6 +254,7 @@ namespace Repository
                 entity.Property(e => e.UserId).HasColumnName("UserId");
                 entity.Property(e => e.IsLeader).HasColumnName("IsLeader");
                 entity.Property(e => e.JoinDate).HasColumnName("JoinDate");
+                entity.Property(e => e.IsValidTeamMember).HasColumnName("IsValid");
 
                 entity.HasOne(d => d.Project).WithMany(p => p.Members)
                     .HasForeignKey(d => d.ProjectId)
@@ -261,6 +265,8 @@ namespace Repository
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Members_Accounts");
+
+                entity.HasQueryFilter(d => d.IsDeleted == false);
             });
 
             modelBuilder.Entity<News>(entity =>
@@ -663,7 +669,7 @@ namespace Repository
                     .HasForeignKey(d => d.TaskGuid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TaskHistories_Tasks");
-                
+
                 entity.HasOne(d => d.AssignedToUser).WithMany(p => p.TaskHistories)
                     .HasForeignKey(d => d.AssignedTo)
                     .HasConstraintName("FK_TasksHistory_Accounts");
