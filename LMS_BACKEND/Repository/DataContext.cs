@@ -192,6 +192,7 @@ namespace Repository
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.LastModifiedDate).HasColumnName("LastModifiedDate");
+                entity.Property(e => e.IsRoot).HasColumnName("IsRoot");
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .HasColumnName("Name");
@@ -200,6 +201,11 @@ namespace Repository
                     .HasForeignKey(d => d.CreatedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Folders_Accounts");
+
+                entity.HasOne(d => d.Project).WithMany(p => p.Folders)
+                    .HasForeignKey(d => d.ProjectId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_Folders_Projects");
             });
 
             modelBuilder.Entity<FolderClosure>(entity =>
