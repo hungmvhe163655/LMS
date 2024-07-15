@@ -1,4 +1,4 @@
-import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
+import { useAccessData } from '@/lib/auth-store';
 
 import { Link } from '../app/link';
 
@@ -7,7 +7,7 @@ import { Logo } from './logo';
 import { NotificationDropdown } from './notification-dropdown';
 
 export function Header() {
-  const isLogin = useIsAuthenticated();
+  const auth = useAccessData();
 
   return (
     <header className='flex items-center justify-between bg-gray-800 p-4'>
@@ -15,7 +15,7 @@ export function Header() {
         <Logo />
       </div>
 
-      {isLogin && (
+      {auth && (
         <ul className='flex justify-center space-x-10 align-middle'>
           <Link
             to={'/news'}

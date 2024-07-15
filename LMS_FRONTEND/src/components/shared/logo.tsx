@@ -1,13 +1,11 @@
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-
+import { useAccessData } from '@/lib/auth-store';
 import { cn } from '@/lib/utils';
-import { UserLogin } from '@/types/api';
 import getRedirectBasedOnRoles from '@/utils/role-based-redirect';
 
 import { Link } from '../app/link';
 
 export function Logo() {
-  const auth = useAuthUser<UserLogin>();
+  const auth = useAccessData();
   const link = auth ? getRedirectBasedOnRoles(auth.roles) : '/';
 
   return (

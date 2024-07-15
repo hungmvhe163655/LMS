@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
-import { Navigate } from 'react-router-dom';
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -14,6 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import useAvatar from '@/hooks/use-avatar';
 import { useCurrentLoginUser } from '@/hooks/use-current-login-user';
+import { User } from '@/types/api';
 import { ROLES } from '@/types/constant';
 
 import { EditProfileForm } from './edit-profile-form';
@@ -25,10 +25,6 @@ export function Info() {
   const role = user?.roles[0];
   const isStudent = user?.roles.includes(ROLES.STUDENT);
   const url = useAvatar(user?.id as string);
-
-  if (!user) {
-    return <Navigate to={`/auth/login`} />;
-  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -45,9 +41,9 @@ export function Info() {
                 <AvatarImage src={url} />
               </Avatar>
               <div className='my-auto flex flex-col space-y-1'>
-                <span className='text-xl font-bold'>{user.fullName}</span>
+                <span className='text-xl font-bold'>{user?.fullName}</span>
                 <span className='italic text-gray-600'>{role}</span>
-                <span className='text-sm text-gray-500 '>{user.gender}</span>
+                <span className='text-sm text-gray-500 '>{user?.gender}</span>
               </div>
             </div>
           </div>
@@ -67,7 +63,7 @@ export function Info() {
                 <DialogTitle>Edit profile</DialogTitle>
                 <DialogDescription>Make changes to your profile here.</DialogDescription>
               </DialogHeader>
-              <EditProfileForm user={user} onSubmitForm={setOpen} />
+              <EditProfileForm user={user as User} onSubmitForm={setOpen} />
             </DialogContent>
           </Dialog>
         </div>

@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-import { getAccessToken, getRefreshToken, setAccessToken, setRefreshToken } from '@/utils/storage';
+import { StorageService } from '@/utils/storage-service';
 
 export const refreshToken = async () => {
   const token = {
-    accessToken: getAccessToken(),
-    refreshToken: getRefreshToken()
+    accessToken: StorageService.getAccessToken(),
+    refreshToken: StorageService.getRefreshToken()
   };
 
   if (token) {
@@ -16,8 +16,8 @@ export const refreshToken = async () => {
 
   const newToken = response.data;
 
-  setAccessToken(newToken.accessToken);
-  setRefreshToken(newToken.refreshToken);
+  StorageService.setAccessToken(newToken.accessToken);
+  StorageService.setRefreshToken(newToken.refreshToken);
 
   return newToken.accessToken;
 };

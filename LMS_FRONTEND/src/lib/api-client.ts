@@ -3,14 +3,14 @@ import Axios, { InternalAxiosRequestConfig } from 'axios';
 import { toast } from '@/components/ui/use-toast';
 import { env } from '@/config/env';
 import { ERROR } from '@/types/constant';
-import { getAccessToken, getRefreshToken } from '@/utils/storage';
+import { StorageService } from '@/utils/storage-service';
 
 // import { refreshToken } from './refresh-token';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   if (config.headers) {
     config.headers.Accept = 'application/json';
-    const token = getAccessToken();
+    const token = StorageService.getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -69,8 +69,8 @@ api.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const token = {
-        accessToken: getAccessToken(),
-        refreshToken: getRefreshToken()
+        accessToken: StorageService.getAccessToken(),
+        refreshToken: StorageService.getRefreshToken()
       };
       const response = await api.post('/token/refresh-token', token);
       const { refreshToken } = response.data;
