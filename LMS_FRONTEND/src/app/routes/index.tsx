@@ -10,6 +10,7 @@ import NewsRoute from './news';
 import ProfileRoute from './profile';
 import ListAllTasksRoute from './project-workspace/list-all-task';
 import ProjectWorkspaceRoute from './project-workspace/project-workspace';
+import SupervisorRoute from './supervisor';
 
 export const createRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
@@ -36,6 +37,10 @@ export const createRouter = (queryClient: QueryClient) =>
     {
       path: 'profile',
       children: [ProfileRoute]
+    },
+    {
+      path: 'supervisor',
+      children: [SupervisorRoute]
     },
     {
       path: 'error',
