@@ -4,6 +4,7 @@ using AutoMapper;
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
@@ -104,24 +105,20 @@ namespace Service
 
 
         }
-        private async Task<(IEnumerable<Files>, Files)> FindFileById(Guid id)
+        private async Task<Files> FindFileById(Guid id)
         {
-            var hold_FileDB = await _repositoryManager.file.GetFiles(false);
+            var end = await _repositoryManager.file.GetFile(id, false).FirstOrDefaultAsync();
 
-            var end = hold_FileDB.Where(x => x.Id.Equals(id)).ToList();
+            if (end == null) throw new BadRequestException("No File With that Id was found");
 
-            if (!end.Any()) throw new BadRequestException("No File With that Id was found");
+            if (!IsFileExists(end.FileKey)) throw new BadRequestException("File with such key doesn't exist");
 
-            var hold_file = end.First();
-
-            if (!IsFileExists(hold_file.FileKey)) throw new BadRequestException("File with such key doesn't exist");
-
-            return (hold_FileDB, hold_file);
+            return end;
         }
 
         public async Task DeleteFile(Guid id)
         {
-            var (_, hold_file) = await FindFileById(id);
+            var hold_file = await FindFileById(id);
 
             await DeleteFileFromS3Async(hold_file.FileKey);
 
@@ -149,7 +146,7 @@ namespace Service
         }
         public async Task<(byte[], FileResponseModel)> GetFile(Guid fileID)
         {
-            var (_, hold_file) = await FindFileById(fileID);
+            var hold_file = await FindFileById(fileID);
 
             var hold = await GetFileFromS3Async(hold_file.FileKey ?? throw new Exception("Not found File key"));
 
@@ -184,9 +181,9 @@ namespace Service
         }
         public async Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID)
         {
-            var hold_file = await _repositoryManager.file.GetFiles(false);
+            var hold_file = await _repositoryManager.file.GetFiles(false, folderID);
 
-            var end = hold_file.Where(x => x.FolderId.Equals(folderID)).ToList();
+            var end = hold_file.ToList();
 
             var hold_folder_branch = _repositoryManager.folderClosure.GetFolderContent(folderID, false);
 
@@ -235,6 +232,8 @@ namespace Service
         }
         public async Task DeleteFolder(Guid folderID)
         {
+            var hold_folder = _repositoryManager.folder.GetFolder(folderID, false);
+
             var hold_files = _repositoryManager.file.FindAll(false).Where(x => x.FolderId.Equals(folderID));
 
             var hold_folderClosure_descendant = _repositoryManager.folderClosure.FindDescendants(folderID, false);

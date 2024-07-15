@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Entities.Models
 {
@@ -28,7 +21,7 @@ namespace Entities.Models
         //[JsonIgnore]
         //public virtual Account? CreatedByUser { get; set; }
         [Timestamp]
-        public byte[] RowVersion { get; set; }
+        public byte[]? RowVersion { get; set; } = null;
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
         // public virtual ICollection<Tasks> InversePredecessorTask { get; set; } = new List<Tasks>();

@@ -1,5 +1,4 @@
-﻿using Amazon.Auth.AccessControlPolicy;
-using AutoMapper;
+﻿using AutoMapper;
 using Entities.Models;
 using Shared.DataTransferObjects;
 using Shared.DataTransferObjects.RequestDTO;
@@ -92,12 +91,15 @@ namespace LMS_BACKEND_MAIN
                .ForMember(dest => dest.AssignedTo, opt => opt.MapFrom(src => src.AssignedTo))
                .ForMember(dest => dest.AssignedToUser, opt => opt.MapFrom(src => src.AssignedToUser != null ? src.AssignedToUser.FullName : "NotFound"))
                .ForMember(dest => dest.TaskStatus, opt => opt.MapFrom(src => src.TaskStatus.Name))
+               .ForMember(dest => dest.TaskListId, opt => opt.MapFrom(src => src.TaskListId))
                .ReverseMap();
             CreateMap<Account, AccountNeedVerifyResponseModel>();
             CreateMap<MoveTaskRequestModel, Tasks>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.TaskListId, opt => opt.MapFrom(src => src.TaskListId));
-
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.TaskListId, opt => opt.MapFrom(src => src.TaskListId));
+            CreateMap<Member, MemberResponseModel>()
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User != null ? src.User.FullName : "NotFound"))
+                .ReverseMap();
         }
     }
 }

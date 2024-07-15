@@ -78,7 +78,7 @@ namespace Repository
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.FullName)
                     .HasMaxLength(255)
-                    .IsUnicode(false)
+                    .IsUnicode()
                     .HasColumnName("FullName");
                 entity.Property(e => e.EmailVerifyCode)
                     .HasMaxLength(6)
@@ -192,6 +192,7 @@ namespace Repository
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.LastModifiedDate).HasColumnName("LastModifiedDate");
+                entity.Property(e => e.IsRoot).HasColumnName("IsRoot");
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .HasColumnName("Name");
@@ -200,6 +201,11 @@ namespace Repository
                     .HasForeignKey(d => d.CreatedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Folders_Accounts");
+
+                entity.HasOne(d => d.Project).WithMany(p => p.Folders)
+                    .HasForeignKey(d => d.ProjectId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_Folders_Projects");
             });
 
             modelBuilder.Entity<FolderClosure>(entity =>
@@ -268,7 +274,7 @@ namespace Repository
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.Title)
                     .HasMaxLength(255)
-                    .IsUnicode(false)
+                    .IsUnicode()
                     .HasColumnName("Title");
 
                 entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.News)
@@ -657,7 +663,7 @@ namespace Repository
                     .HasForeignKey(d => d.TaskGuid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TaskHistories_Tasks");
-                
+
                 entity.HasOne(d => d.AssignedToUser).WithMany(p => p.TaskHistories)
                     .HasForeignKey(d => d.AssignedTo)
                     .HasConstraintName("FK_TasksHistory_Accounts");

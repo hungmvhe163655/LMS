@@ -12,5 +12,6 @@
         ITaskService TaskService { get; }
         ITaskListService TaskListService { get; }
         IProjectService ProjectService { get; }
+        IMemberService MemberService { get; }
     }
 }

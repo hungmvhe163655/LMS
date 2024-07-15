@@ -115,9 +115,38 @@ namespace Service
             await _repository.Save();
         }
 
+        public async Task MoveTaskToTaskList(MoveTaskRequestModel model)
+        {
+            var hold = _mapper.Map<Tasks>(model);
+
+
+
+            await _repository.task.UpdateTask(hold);
+
+            await _repository.Save();
+        }
+
         public async Task<TaskResponseModel> GetTaskByID(Guid id)
         {
             return _mapper.Map<TaskResponseModel>(await _repository.task.GetTaskWithId(id, false).FirstAsync());
+        }
+
+        public (TaskUpdateRequestModel taskToPatch, Tasks taskEntity) MoveTaskForPatch(Guid taskListId, Guid id)
+        {
+            var taskList = _repository.taskList.GetByCondition(x => x.Id.Equals(taskListId), false);
+            if (taskList == null) throw new BadRequestException($"Can not find task list with id {taskListId}");
+            var hold = _repository.task.GetTaskWithId(id, true);
+            var taskEntity = hold.FirstOrDefault();
+            if (taskEntity == null) throw new BadRequestException($"Can not find task with id {id}");
+            var taskToPatch = _mapper.Map<TaskUpdateRequestModel>(taskEntity);
+
+            return (taskToPatch, taskEntity);
+        }
+
+        public void SaveChangesForPatch(TaskUpdateRequestModel taskToPatch, Tasks taskEntity)
+        {
+            _mapper.Map(taskToPatch, taskEntity);
+            _repository.Save();
         }
     }
 }

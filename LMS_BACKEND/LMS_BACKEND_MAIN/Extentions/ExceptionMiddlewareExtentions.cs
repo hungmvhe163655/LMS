@@ -2,7 +2,6 @@
 using Entities.ErrorModels;
 using Entities.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
-using Shared.DataTransferObjects.ResponseDTO;
 
 namespace LMS_BACKEND_MAIN.Extentions
 {
@@ -29,7 +28,7 @@ namespace LMS_BACKEND_MAIN.Extentions
                         await context.Response.WriteAsync(new ErrorDetails()
                         {
                             ErrorCode = context.Response.StatusCode,
-                            Message =  contextFeature.Error.Message,
+                            Message = contextFeature.Error.Message,
                         }.ToString());
                     }
                 });
