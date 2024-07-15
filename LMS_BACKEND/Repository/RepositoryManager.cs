@@ -24,6 +24,8 @@ namespace Repository
 
         private readonly Lazy<ITaskRepository> _taskRepository;
 
+        private readonly Lazy<IReportRepository> _reportRepository;
+
         private readonly Lazy<ITaskHistoryRepository> _taskHistoryRepository;
         private readonly Lazy<ITaskListRepository> _taskListRepository;
         private readonly Lazy<IProjectRepository> _projectRepository;
@@ -65,6 +67,8 @@ namespace Repository
             _projectStatusRepository = new Lazy<IProjectStatusRepository>(() => new ProjectStatusRepository(context));
 
             _projectTypeRepository = new Lazy<IProjectTypeRepository>(() => new ProjectTypeRepository(context));
+
+            _reportRepository = new Lazy<IReportRepository>(() => new ReportRepository(context));
             //khoi tao newsRepo
         }
         public IAccountRepository account => _accountRepository.Value;
@@ -77,7 +81,7 @@ namespace Repository
         public IScheduleRepository schedule => _scheduleRepository.Value;
         public ITaskRepository task => _taskRepository.Value;
         public ITaskHistoryRepository taskHistory => _taskHistoryRepository.Value;
-
+        public IReportRepository report => _reportRepository.Value;
         public ITaskListRepository taskList => _taskListRepository.Value;
 
         public IProjectRepository project => _projectRepository.Value;

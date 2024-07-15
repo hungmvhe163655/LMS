@@ -23,6 +23,8 @@
         public const string TaskListAPI = "api/task-lists";
 
         public const string ProfileAPI = "api/profile";
+
+        public const string ReportAPI = "api/reports";
     }
     public static class AuthorizeScheme
     {
@@ -84,6 +86,12 @@
 
         public const string DownloadFile = "download/{id:guid}";
 
+        public const string UploadImage = "upload/image";
+
+        public const string DownloadImage = "download/image/{key}";
+
+        public const string DeleteImage = "image/{key}";
+
         #endregion
 
         #region FolderAPIs
@@ -127,6 +135,12 @@
         public const string GetJoinRequest = "{id:guid}/join-request";
 
         public const string ValidateJoinRequest = "{id:guid}/join-request/validate";
+
+        #endregion
+
+        #region ReportsAPIs
+
+        public const string GetAllByDeviceId = "device/{id:guid}";
 
         #endregion
     }

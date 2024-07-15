@@ -26,6 +26,26 @@ namespace Service
             _mappers = mapper;
             _repositoryManager = repository;
         }
+        private static readonly HashSet<string> ImageMimeTypes = new HashSet<string>
+    {
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/bmp",
+        "image/tiff",
+        "image/svg+xml",
+        "image/webp"
+    };
+        public static bool IsImageMimeType(string mimeType)
+        {
+            if (string.IsNullOrEmpty(mimeType))
+            {
+                return false;
+            }
+
+            return ImageMimeTypes.Contains(mimeType.ToLowerInvariant());
+        }
+
         private async Task DeleteFileFromS3Async(string key)
         {
             DeleteObjectRequest request = new()
@@ -128,19 +148,17 @@ namespace Service
         }
         public async Task CreateFile(FileUploadRequestModel model, Stream inputStream)
         {
-            var fileKey = Guid.NewGuid().ToString();
-
-            model.FileKey = fileKey;
+            model.FileKey = Guid.NewGuid().ToString();
 
             var hold = _mappers.Map<Files>(model);
 
             hold.Id = Guid.NewGuid();
 
-            var result = await UploadFileToS3Async(fileKey, model.MimeType, inputStream);
-
-            if (result.HttpStatusCode != System.Net.HttpStatusCode.OK) { throw new Exception("Add File Failed due to AWS: " + result.HttpStatusCode); }
-
             await _repositoryManager.file.CreateFile(hold);
+
+            var result = await UploadFileToS3Async(model.FileKey, model.MimeType, inputStream);
+
+            if (result.HttpStatusCode != HttpStatusCode.OK) { throw new Exception("Add File Failed due to AWS: " + result.HttpStatusCode); }
 
             await _repositoryManager.Save();
         }
@@ -161,6 +179,22 @@ namespace Service
             var hold = await GetFileFromS3Async(fileKey ?? throw new BadRequestException("Not found File key"));
 
             return hold;
+        }
+        public async Task<string> UploadFile(Stream inputStream, string mime)
+        {
+            if (!IsImageMimeType(mime)) throw new BadRequestException("Only pictures allowed");
+
+            var file_key = Guid.NewGuid().ToString();
+
+            var result = await UploadFileToS3Async(file_key, mime, inputStream);
+
+            if (result.HttpStatusCode != HttpStatusCode.OK) { throw new Exception("Add File Failed due to AWS: " + result.HttpStatusCode); }
+
+            return file_key;
+        }
+        public async Task RemoveFile(string fileKey)
+        {
+            await DeleteFileFromS3Async(fileKey);
         }
         public async Task EditFile(FileEditRequestModel model)
         {
