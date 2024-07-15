@@ -102,7 +102,9 @@
 
         public const string GetProjectWithMember = "{userId}/projects";
 
-        public const string ChangePassword = "change-password";
+        public const string ChangePassword = "change-password/{id}";
+
+        public const string ChangePasswordOtp = "change-password-otp/{id}";
 
         public const string ChangeEmailOtp = "change-email-otp/{id}";
 
