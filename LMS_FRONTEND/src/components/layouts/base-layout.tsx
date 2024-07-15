@@ -9,10 +9,10 @@ type LayoutProps = {
 
 export function BaseLayout({ children }: LayoutProps) {
   return (
-    <>
+    <div className='flex h-dvh flex-col bg-gray-50'>
       <Header />
       {children}
       <Footer />
-    </>
+    </div>
   );
 }

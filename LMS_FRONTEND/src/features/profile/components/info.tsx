@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
 import { Navigate } from 'react-router-dom';
 
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
+import useAvatar from '@/hooks/use-avatar';
 import { useCurrentLoginUser } from '@/hooks/use-current-login-user';
 import { ROLES } from '@/types/constant';
 
@@ -23,13 +24,14 @@ export function Info() {
   const [open, setOpen] = useState(false);
   const role = user?.roles[0];
   const isStudent = user?.roles.includes(ROLES.STUDENT);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  const url = useAvatar(user?.id as string);
 
   if (!user) {
     return <Navigate to={`/auth/login`} />;
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -40,7 +42,7 @@ export function Info() {
           <div className='lg:w-1/2'>
             <div className='flex flex-col space-y-4 lg:flex-row'>
               <Avatar className='my-auto mr-4 size-32 text-4xl font-bold'>
-                <AvatarFallback>VH</AvatarFallback>
+                <AvatarImage src={url} />
               </Avatar>
               <div className='my-auto flex flex-col space-y-1'>
                 <span className='text-xl font-bold'>{user.fullName}</span>

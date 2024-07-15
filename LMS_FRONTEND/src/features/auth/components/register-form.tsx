@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 import { Link } from '@/components/app/link';
@@ -33,7 +32,6 @@ interface RegisterFormProps {
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ email, role, onBack }) => {
   const { mutate: register, isPending } = useRegister();
-  const navigate = useNavigate();
 
   const registerSchema = registerInputSchema.and(
     z.object({
@@ -73,11 +71,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ email, role, onBack }) => {
       gender: data.selectGender === 'male',
       roles: [role]
     };
-    register(req, {
-      onSuccess: () => {
-        navigate('auth/not-verified');
-      }
-    });
+    register(req);
   }
 
   return (

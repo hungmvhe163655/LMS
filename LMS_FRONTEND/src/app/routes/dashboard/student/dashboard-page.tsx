@@ -1,10 +1,10 @@
-import WorkspaceLayout from '@/components/layouts/workspace-layout';
+import { DashboardLayout } from '@/components/layouts/dashboard-layout';
 import StudentDashboard from '@/features/student/student-dashboard';
 
 export function StudentDashboardPage() {
   return (
-    <WorkspaceLayout>
+    <DashboardLayout title={'Student DashBoard'}>
       <StudentDashboard />
-    </WorkspaceLayout>
+    </DashboardLayout>
   );
 }

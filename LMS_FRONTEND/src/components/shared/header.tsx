@@ -21,7 +21,7 @@ export function Header() {
             to={'/news'}
             className='my-auto font-serif text-2xl text-white hover:text-gray-400 hover:no-underline'
           >
-            News{' '}
+            News
           </Link>
           <li className='my-auto mr-5'>
             <NotificationDropdown />

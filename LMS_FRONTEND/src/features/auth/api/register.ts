@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import { useNavigate } from 'react-router-dom';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
@@ -23,6 +24,7 @@ type UseRegisterOptions = {
 
 export const useRegister = ({ mutationConfig }: UseRegisterOptions = {}) => {
   const signIn = useSignIn();
+  const navigate = useNavigate();
   const { onSuccess, ...restConfig } = mutationConfig || {};
 
   return useMutation({
@@ -42,6 +44,8 @@ export const useRegister = ({ mutationConfig }: UseRegisterOptions = {}) => {
           roles: user.roles
         }
       });
+
+      navigate('auth/not-verified');
 
       onSuccess?.(data, variables, context);
     },
