@@ -1,4 +1,6 @@
-﻿namespace Entities.Models
+﻿using Entities.Interface;
+
+namespace Entities.Models
 {
     public class Member : ISoftDelete
     {
