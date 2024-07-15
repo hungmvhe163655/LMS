@@ -3,41 +3,12 @@ import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-
 import { CSS } from '@dnd-kit/utilities';
 import React, { useState } from 'react';
 
+import SortableTask from '@/components/app/sortable-task';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 
 import { mockTaskLists } from './mock-tasks';
 import type { Task, TaskList } from './workspace-types';
-
-interface SortableTaskProps {
-  task: Task;
-}
-
-const SortableTask: React.FC<SortableTaskProps> = ({ task }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
-    id: task.id,
-    data: { type: 'Task' }
-  });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition
-  };
-
-  // Task Object
-  return (
-    <Card ref={setNodeRef} style={style} {...attributes} {...listeners} className='mb-2'>
-      <CardHeader>
-        <CardTitle>{task.title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p>ID: {task.id}</p>
-        <p>Assigned to: {task.assignedTo}</p>
-      </CardContent>
-    </Card>
-  );
-};
 
 interface TaskListProps {
   taskList: TaskList;
@@ -130,8 +101,6 @@ const ProjectWorkspace: React.FC = () => {
     const { active, over } = event;
 
     if (active && over) {
-      // console.log('Active Type:', active.data.current?.type, ' Active Id:', active.id);
-      // console.log('Over Type:', over.data.current?.type, ' Over Id:', over?.id);
       if (active.data.current?.type == 'Task' && over.data.current?.type == 'Task') {
         const sourceList = taskLists.find((list) =>
           list.tasks.some((task) => task.id === active.id)
@@ -144,11 +113,9 @@ const ProjectWorkspace: React.FC = () => {
         if (!draggedTask) return;
 
         if (sourceList === targetList) {
-          console.log('Same col');
           // If source and target lists are the same, handle reordering within the same list
           const overIndex = targetList.tasks.findIndex((task) => task.id === over.id);
           const sourceIndex = targetList.tasks.findIndex((task) => task.id === active.id);
-          console.log('Length: ', sourceList.tasks.length);
           // If the TaskList has >1 Tasks, then perform the later code
           if (sourceList.tasks.length > 1) {
             setTaskLists((prev) => {
@@ -165,7 +132,6 @@ const ProjectWorkspace: React.FC = () => {
             });
           }
         } else {
-          // console.log('Diff col');
           // Moving task from one list to another
           setTaskLists((prev) => {
             const updatedLists = prev.map((list) => {
@@ -184,7 +150,6 @@ const ProjectWorkspace: React.FC = () => {
       }
 
       if (active.data.current?.type == 'Task' && over.data.current?.type == 'TaskList') {
-        // console.log('Task to List');
         const sourceList = taskLists.find((list) =>
           list.tasks.some((task) => task.id === active.id)
         );
