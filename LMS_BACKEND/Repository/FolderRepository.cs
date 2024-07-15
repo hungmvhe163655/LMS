@@ -1,5 +1,6 @@
 ﻿using Contracts.Interfaces;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -8,9 +9,9 @@ namespace Repository
         public FolderRepository(DataContext context) : base(context)
         {
         }
-        public Folder GetFolder(Guid id, bool track)
+        public async Task<Folder> GetFolder(Guid id, bool track)
         {
-            return FindAll(track).Where(x => x.Id.Equals(id)).ToList().First();
+            return await GetByCondition(x => x.Id.Equals(id), track).FirstOrDefaultAsync() ?? new Folder();
         }
         public async Task<bool> AddFolder(Folder folder)
         {
@@ -21,6 +22,10 @@ namespace Repository
         {
             Update(folder);
             return true;
+        }
+        public IQueryable<Folder> GetRootByProjectId(Guid projectId)
+        {
+            return GetByCondition(x => x.IsRoot && x.ProjectId.Equals(projectId), false);
         }
     }
 }

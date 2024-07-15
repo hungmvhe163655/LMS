@@ -108,19 +108,39 @@ namespace Service
         public async Task<GetFolderContentResponseModel> GetProjectResources(Guid ProjectID)
         {
 
-            var projectholder = await
-                _repository
-                .project
-                .GetByCondition(x => x.Id.Equals(ProjectID), false).Include(y => y.Folders.Where(z => z.IsRoot))
-                .FirstOrDefaultAsync() ?? throw new BadRequestException("Project with that ID does not exist");
-
-            var root = projectholder.Folders.FirstOrDefault() ?? throw new Exception("Folder does not have a root?");
+            var root = await _repository.folder.GetRootByProjectId(ProjectID).FirstOrDefaultAsync() ?? throw new Exception("Project associated with that ID currently doesn't have a root");
 
             var end = await _repository.file.GetFiles(false, root.Id);
 
             var folders = new List<Folder>();
 
             return new GetFolderContentResponseModel { Files = end.ToList(), Folders = folders };
+        }
+        public async Task<IEnumerable<AccountRequestJoinResponseModel>> GetJoinRequest(Guid projectId)
+        {
+            var hold = await _repository.member.GetByCondition(x => x.ProjectId.Equals(projectId) && !x.IsValidTeamMember, false).Include(y => y.User).ToListAsync();
+            List<Account> end = new List<Account>();
+            foreach (var item in hold)
+            {
+                if (item.User != null) end.Add(item.User);
+            }
+            return _mapper.Map<List<AccountRequestJoinResponseModel>>(end);
+        }
+        public async Task ValidateJoinRequest(IEnumerable<UpdateStudentJoinRequestModel> Listmodel, Guid id)
+        {
+            foreach (var item in Listmodel)
+            {
+                var hold = await
+                    _repository
+                    .member
+                    .GetByCondition(x => x.UserId.Equals(item.Id) && x.ProjectId.Equals(id) && x.ProjectId.Equals(item.ProjectID), false)
+                    .FirstOrDefaultAsync() ?? throw new Exception("Error due to database logic");
+
+                if (item.Accepted) _repository.member.Delete(hold);
+
+                else hold.IsValidTeamMember = true;
+            }
+            await _repository.Save();
         }
     }
 }

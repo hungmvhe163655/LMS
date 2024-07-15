@@ -100,6 +100,11 @@ namespace LMS_BACKEND_MAIN
             CreateMap<Member, MemberResponseModel>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User != null ? src.User.FullName : "NotFound"))
                 .ReverseMap();
+            CreateMap<Folder, FolderBranchDisplayResponseModel>()
+                .ForMember(c => c.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(c => c.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(c => c.Depth, opt => opt.Ignore());
+            CreateMap<Account, AccountRequestJoinResponseModel>();
         }
     }
 }

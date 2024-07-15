@@ -179,6 +179,24 @@ namespace Service
 
             await _repositoryManager.Save();
         }
+
+        public async Task<List<FolderBranchDisplayResponseModel>> GetRootWithProjectId(Guid projectId)
+        {
+            var root = await _repositoryManager.folder.GetRootByProjectId(projectId).FirstOrDefaultAsync() ?? throw new Exception("Project associated with that ID currently doesn't have a root");
+
+            var hold_folder_branch = await _repositoryManager.folderClosure.GetProjectFoldersByRoot(root.Id, false);
+
+            var folders = new List<FolderBranchDisplayResponseModel>();
+
+            foreach (var item in hold_folder_branch)
+            {
+                var mid = await _repositoryManager.folder.GetFolder(item.DescendantID, false);
+
+                folders.Add(new FolderBranchDisplayResponseModel { Id = mid.Id, Name = mid.Name, Depth = item.Depth });
+            }
+            return folders;
+        }
+
         public async Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID)
         {
             var hold_file = await _repositoryManager.file.GetFiles(false, folderID);
@@ -189,10 +207,7 @@ namespace Service
 
             var folders = new List<Folder>();
 
-            foreach (var item in hold_folder_branch)
-            {
-                folders.Add(_repositoryManager.folder.GetFolder(item.DescendantID, false));
-            }
+            foreach (var item in hold_folder_branch) folders.Add(await _repositoryManager.folder.GetFolder(item.DescendantID, false));
 
             return new GetFolderContentResponseModel { Files = end, Folders = folders };
         }
@@ -232,7 +247,7 @@ namespace Service
         }
         public async Task DeleteFolder(Guid folderID)
         {
-            var hold_folder = _repositoryManager.folder.GetFolder(folderID, false);
+            var hold_folder = await _repositoryManager.folder.GetFolder(folderID, false);
 
             var hold_files = _repositoryManager.file.FindAll(false).Where(x => x.FolderId.Equals(folderID));
 
@@ -248,6 +263,14 @@ namespace Service
 
             _repositoryManager.file.DeleteRange(hold_files);
 
+            await _repositoryManager.Save();
+        }
+        public async Task AttachToTask(Guid taskId, Guid fileID)
+        {
+            var task = await _repositoryManager.task.GetTaskWithId(taskId, true).FirstOrDefaultAsync() ?? throw new BadRequestException("Not found task with that ID");
+            var file = await _repositoryManager.file.GetFile(fileID, true).FirstOrDefaultAsync() ?? throw new BadRequestException("Not found file with that ID");
+            task.Files.Add(file);
+            file.Tasks.Add(task);
             await _repositoryManager.Save();
         }
     }

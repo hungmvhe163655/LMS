@@ -79,9 +79,16 @@
         #endregion
 
         #region FilesAPIs
+
         public const string UploadFile = "upload/{folderid:guid}";
 
         public const string DownloadFile = "download/{id:guid}";
+
+        #endregion
+
+        #region FolderAPIs
+
+        public const string GetProjectFolderScheme = "/project/{id:guid}/root";
 
         #endregion
 
@@ -107,6 +114,8 @@
 
         public const string GetTaskByProjectId = "project/{id:guid}";
 
+        public const string AttachFileToTask = "add-file/{id:guid}/{fileid:guid}";
+
         #endregion
 
         #region ProjectAPIs
@@ -114,6 +123,10 @@
         public const string GetTaskListByProject = "{projectId:guid}/task-lists";
 
         public const string GetMemberInProject = "{projectId:guid}/members";
+
+        public const string GetJoinRequest = "{id:guid}/join-request";
+
+        public const string ValidateJoinRequest = "{id:guid}/join-request/validate";
 
         #endregion
     }

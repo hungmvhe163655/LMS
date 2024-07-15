@@ -12,5 +12,7 @@ namespace Service.Contracts
         Task CreatNewProject(CreateProjectRequestModel model);
         Task UpdateProject(Guid projectId, UpdateProjectRequestModel model);
         Task<GetFolderContentResponseModel> GetProjectResources(Guid ProjectID);
+        Task<IEnumerable<AccountRequestJoinResponseModel>> GetJoinRequest(Guid projectId);
+        Task ValidateJoinRequest(IEnumerable<UpdateStudentJoinRequestModel> Listmodel, Guid id);
     }
 }
