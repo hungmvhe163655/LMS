@@ -26,7 +26,7 @@ export function AvatarDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar>
+        <Avatar className='hover:cursor-pointer select-none'>
           <AvatarImage src={url} />
         </Avatar>
       </DropdownMenuTrigger>
