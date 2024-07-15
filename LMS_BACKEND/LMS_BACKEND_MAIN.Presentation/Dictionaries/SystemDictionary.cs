@@ -120,6 +120,8 @@
 
         #region ProjectAPIs
 
+        public const string GetProjectResources = "{projectId:guid}/resources";
+
         public const string GetTaskListByProject = "{projectId:guid}/task-lists";
 
         public const string GetJoinRequest = "{id:guid}/join-request";
