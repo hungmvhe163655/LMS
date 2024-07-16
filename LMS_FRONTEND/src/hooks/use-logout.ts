@@ -24,9 +24,9 @@ export const useLogout = ({ mutationConfig }: UseLogoutOptions = {}) => {
 
   return useMutation({
     mutationFn: logout,
-    onSuccess: (data, variables, context) => {
+    onSuccess: (...args) => {
       clearTokens();
-      onSuccess?.(data, variables, context);
+      onSuccess?.(...args);
     },
     ...restConfig
   });

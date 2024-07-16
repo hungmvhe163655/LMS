@@ -18,7 +18,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarItems }) => {
     <nav className='relative'>
       <Button
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className='absolute bottom-0 right-0 bg-gray-800 mb-3'
+        className='absolute bottom-0 right-0 mb-3 bg-gray-800'
       >
         {isCollapsed ? <FaArrowRight /> : <FaArrowLeft />}
       </Button>

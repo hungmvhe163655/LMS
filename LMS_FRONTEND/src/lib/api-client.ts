@@ -1,4 +1,4 @@
-import Axios, { InternalAxiosRequestConfig } from 'axios';
+import axios, { InternalAxiosRequestConfig } from 'axios';
 
 import { toast } from '@/components/ui/use-toast';
 import { env } from '@/config/env';
@@ -20,7 +20,7 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   return config;
 }
 
-export const api = Axios.create({
+export const api = axios.create({
   baseURL: env.API_URL
 });
 
@@ -72,7 +72,8 @@ api.interceptors.response.use(
         accessToken: StorageService.getAccessToken(),
         refreshToken: StorageService.getRefreshToken()
       };
-      const response = await api.post('/token/refresh-token', token);
+
+      const response = await axios.post('/token/refresh-token', token);
       const { refreshToken } = response.data;
 
       // Nếu token được làm mới lại thì gửi lại Request
