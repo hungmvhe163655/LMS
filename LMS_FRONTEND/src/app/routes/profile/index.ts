@@ -1,7 +1,5 @@
-import EmailRoute from './email';
 import PasswordRoute from './password';
 import PhoneNumberRoute from './phone-number';
-import TwoFactorRoute from './two-factor';
 
 const ProfileRoute = {
   children: [
@@ -12,10 +10,8 @@ const ProfileRoute = {
         return { Component: Overall };
       }
     },
-    EmailRoute,
     PasswordRoute,
-    PhoneNumberRoute,
-    TwoFactorRoute
+    PhoneNumberRoute
   ]
 };
 

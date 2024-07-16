@@ -1,9 +1,12 @@
 import { Bell, LogOut, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+import useAvatar from '@/hooks/use-avatar';
 import { useLogout } from '@/hooks/use-logout';
+import { useAccessData } from '@/lib/auth-store';
+import { LoginData } from '@/types/api';
 
-import { Avatar, AvatarFallback } from '../ui/avatar';
+import { Avatar, AvatarImage } from '../ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,12 +20,14 @@ import {
 export function AvatarDropdown() {
   const navigate = useNavigate();
   const { mutate: logout, isPending } = useLogout();
+  const auth = useAccessData() as LoginData;
+  const url = useAvatar(auth?.id);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar>
-          <AvatarFallback className='cursor-pointer text-lg font-bold'>VH</AvatarFallback>
+        <Avatar className='select-none hover:cursor-pointer'>
+          <AvatarImage src={url} />
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='mr-8 w-56'>

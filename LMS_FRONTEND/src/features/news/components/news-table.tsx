@@ -34,7 +34,7 @@ export function NewsTable() {
   });
 
   if (isLoading) {
-    return <DataTableSkeleton columnCount={3} />;
+    return <DataTableSkeleton columnCount={3} rowCount={8} shrinkZero={true} />;
   }
 
   return <DataTable table={table} />;

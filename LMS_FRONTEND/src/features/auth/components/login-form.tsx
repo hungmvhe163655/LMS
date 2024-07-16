@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { AiOutlineLoading } from 'react-icons/ai';
 import { z } from 'zod';
 
 import { Link } from '@/components/app/link';
@@ -71,7 +72,13 @@ export const LoginForm = () => {
               )}
             />
             <Button type='submit' className='w-full' disabled={isPending}>
-              {isPending ? 'Logging in...' : 'Login'}
+              {isPending ? (
+                <>
+                  <AiOutlineLoading className='animate-spin' /> Logging in...
+                </>
+              ) : (
+                'Login'
+              )}
             </Button>
           </form>
         </Form>

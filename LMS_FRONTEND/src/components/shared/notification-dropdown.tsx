@@ -20,7 +20,7 @@ export function NotificationDropdown() {
           <span className='absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-red-500 text-xs font-bold'></span>
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='mr-8 w-auto min-w-full' align='end'>
+      <DropdownMenuContent className='mr-8 mt-1 w-auto min-w-full' align='end'>
         <DropdownMenuLabel className='flex justify-between'>
           <div>Notification</div>
           <Link to='#'>View All</Link>

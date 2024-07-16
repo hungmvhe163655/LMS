@@ -1,16 +1,16 @@
-import Axios, { InternalAxiosRequestConfig } from 'axios';
+import axios, { InternalAxiosRequestConfig } from 'axios';
 
 import { toast } from '@/components/ui/use-toast';
 import { env } from '@/config/env';
 import { ERROR } from '@/types/constant';
-import { getAccessToken } from '@/utils/storage';
+import { StorageService } from '@/utils/storage-service';
 
-import { refreshToken } from './refresh-token';
+// import { refreshToken } from './refresh-token';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   if (config.headers) {
     config.headers.Accept = 'application/json';
-    const token = getAccessToken();
+    const token = StorageService.getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -20,11 +20,11 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   return config;
 }
 
-export const api = Axios.create({
+export const api = axios.create({
   baseURL: env.API_URL
 });
 
-api.interceptors.request.use(authRequestInterceptor);
+api.interceptors.request.use(authRequestInterceptor, (error) => Promise.reject(error));
 
 api.interceptors.response.use(
   (response) => {
@@ -34,6 +34,8 @@ api.interceptors.response.use(
   async (error) => {
     const message: string =
       error.response?.data?.Message || error.response?.data?.message || error.message;
+
+    const originalRequest = error.config;
 
     // Bị Banned
     if (message.includes(ERROR.IS_BANNED)) {
@@ -54,7 +56,7 @@ api.interceptors.response.use(
     }
 
     // Không có quyền truy cập
-    if (error.response?.status === 403) {
+    if (error.response.status === 403) {
       toast({
         variant: 'destructive',
         description: "You're not allowed!"
@@ -64,26 +66,23 @@ api.interceptors.response.use(
     }
 
     // Chưa đăng nhập
-    if (error.response?.status === 401) {
-      const originalRequest = error.config;
-      const newAccessToken = await refreshToken();
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const token = {
+        accessToken: StorageService.getAccessToken(),
+        refreshToken: StorageService.getRefreshToken()
+      };
+
+      const response = await axios.post('/token/refresh-token', token);
+      const { refreshToken } = response.data;
 
       // Nếu token được làm mới lại thì gửi lại Request
-      if (newAccessToken) {
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+      if (refreshToken) {
+        originalRequest.headers.Authorization = `Bearer ${refreshToken}`;
         return api(originalRequest);
       }
 
-      const searchParams = new URLSearchParams();
-      const redirectTo = searchParams.get('redirectTo');
-      if (redirectTo) {
-        toast({
-          variant: 'destructive',
-          description: 'You must login first!'
-        });
-        window.location.href = `/auth/login?redirectTo=${redirectTo}`;
-        return Promise.reject(error);
-      }
+      return Promise.reject(error);
     }
 
     toast({

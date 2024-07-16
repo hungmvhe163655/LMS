@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -14,7 +13,8 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
-import { UserLogin } from '@/types/api';
+import { useAccessData } from '@/lib/auth-store';
+import { LoginData } from '@/types/api';
 
 import { useChangePassword } from '../api/change-password';
 
@@ -37,7 +37,7 @@ const formSchema = z
 export function ChangePasswordForm() {
   const { mutate: changePassword, isPending } = useChangePassword();
   const { toast } = useToast();
-  const auth = useAuthUser<UserLogin>() as UserLogin;
+  const loginData = useAccessData() as LoginData;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,7 +51,7 @@ export function ChangePasswordForm() {
   function onSubmit(data: z.infer<typeof formSchema>) {
     changePassword(
       {
-        userID: auth.id,
+        userID: loginData.id,
         oldPassWord: data.oldPassword,
         newPassWord: data.newPassword
       },

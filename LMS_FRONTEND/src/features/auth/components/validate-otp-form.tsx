@@ -84,20 +84,21 @@ export const ValidateOtpForm: React.FC<ValidateOtpFormProps> = ({ email, onBack,
           )}
         />
         <div className='flex w-full justify-between'>
-          <Button className='mr-5 mt-0' type='submit' disabled={isPending}>
-            {isPending ? 'Sending...' : 'Submit'}
+          <Button
+            className=' bg-blue-600 hover:bg-blue-800'
+            type='button'
+            onClick={onBack}
+            disabled={isPending || isPendingResend}
+          >
+            Return
           </Button>
           <Button type='button' onClick={handleResendOtp} disabled={seconds > 0 || isPendingResend}>
             {seconds > 0 ? `Resend OTP in ${seconds}s` : 'Resend OTP'}
           </Button>
         </div>
-        <Button
-          className='w-full bg-blue-600 hover:bg-blue-800'
-          type='button'
-          onClick={onBack}
-          disabled={isPending || isPendingResend}
-        >
-          Return
+
+        <Button className='mr-5 mt-0 w-full' type='submit' disabled={isPending}>
+          {isPending ? 'Sending...' : 'Submit'}
         </Button>
       </form>
     </Form>

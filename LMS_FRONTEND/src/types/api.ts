@@ -27,9 +27,10 @@ export type User = Entity<{
   specialized?: string;
 }>;
 
-export type UserLogin = Entity<{
+export type LoginData = {
+  id: string;
   roles: Roles;
-}>;
+};
 
 export type Pagination = {
   CurrentPage: number;

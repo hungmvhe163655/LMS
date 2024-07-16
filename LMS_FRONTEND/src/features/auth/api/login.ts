@@ -1,14 +1,14 @@
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { api } from '@/lib/api-client';
+import { getActions } from '@/lib/auth-store';
 import { MutationConfig } from '@/lib/react-query';
 import { AuthResponse, Roles } from '@/types/api';
 import { ERROR } from '@/types/constant';
 import getRedirectBasedOnRoles from '@/utils/role-based-redirect';
-import { setAccessToken, setRefreshToken } from '@/utils/storage';
+import { StorageService } from '@/utils/storage-service';
 
 import { LoginInput } from '../utils/schema';
 
@@ -26,7 +26,6 @@ type UseLoginOptions = {
 };
 
 export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
-  const signIn = useSignIn();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
@@ -37,27 +36,22 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
     mutationFn: login,
     onSuccess: (data: AuthResponse, variables, context) => {
       const { token, user } = data;
-      setAccessToken(token.accessToken);
-      setRefreshToken(token.refreshToken);
       const roles = user.roles.map((role) => role.toUpperCase()) as Roles;
 
-      const signInSuccess = signIn({
-        auth: {
-          token: token.accessToken,
-          type: 'Bearer'
-        },
-        userState: {
-          id: user.id,
-          roles
-        }
-      });
+      // Để cho zustand quản lý
+      const { setAccessToken, setRefreshToken, setAccessData } = getActions();
+      setAccessToken(token.accessToken);
+      setRefreshToken(token.refreshToken);
+      setAccessData({ id: user.id, roles: roles });
 
-      if (signInSuccess) {
-        if (redirectTo) {
-          navigate(redirectTo, { replace: true });
-        } else {
-          navigate(getRedirectBasedOnRoles(roles));
-        }
+      // Lưu vào local
+      StorageService.setAccessToken(token.accessToken);
+      StorageService.setRefreshToken(token.refreshToken);
+
+      if (redirectTo) {
+        navigate(redirectTo, { replace: true });
+      } else {
+        navigate(getRedirectBasedOnRoles(roles));
       }
 
       onSuccess?.(data, variables, context);

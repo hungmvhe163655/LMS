@@ -77,4 +77,7 @@ export const theme = {
     }
   }
 };
-export const plugins = [import('tailwindcss-animate')];
+export const plugins = [
+  import('tailwindcss-animate'),
+  require('tailwind-scrollbar')({ nocompatible: true, preferredStrategy: 'pseudoelements' })
+];

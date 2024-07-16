@@ -11,6 +11,7 @@ import ProfileRoute from './profile';
 import ListAllTasksRoute from './project-workspace/list-all-task';
 import OngoingProjectsRoute from './project-workspace/ongoing-projects';
 import ProjectWorkspaceRoute from './project-workspace/project-workspace';
+import SupervisorRoute from './supervisor';
 
 export const createRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
@@ -39,6 +40,10 @@ export const createRouter = (queryClient: QueryClient) =>
       children: [ProfileRoute]
     },
     {
+      path: 'supervisor',
+      children: [SupervisorRoute]
+    },
+    {
       path: 'error',
       children: [ErrorRoute]
     },
@@ -53,8 +58,8 @@ export const createRouter = (queryClient: QueryClient) =>
     {
       path: '*',
       lazy: async () => {
-        const { NotFoundRoute } = await import('./not-found');
-        return { Component: NotFoundRoute };
+        const { NotFoundPage: NotFoundPage } = await import('./not-found-page');
+        return { Component: NotFoundPage };
       }
     }
   ]);
