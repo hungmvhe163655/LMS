@@ -131,16 +131,15 @@ namespace Service
             return _mapper.Map<TaskResponseModel>(await _repository.task.GetTaskWithId(id, false).FirstAsync());
         }
 
-        public (TaskUpdateRequestModel taskToPatch, Tasks taskEntity) MoveTaskForPatch(Guid taskListId, Guid id)
+        public async Task<(TaskUpdateRequestModel taskToPatch, Tasks taskEntity)> MoveTaskForPatch(Guid taskListId, Guid id)
         {
-            var taskList = _repository.taskList.GetByCondition(x => x.Id.Equals(taskListId), false);
-            if (taskList == null) throw new BadRequestException($"Can not find task list with id {taskListId}");
-            var hold = _repository.task.GetTaskWithId(id, true);
-            var taskEntity = hold.FirstOrDefault();
-            if (taskEntity == null) throw new BadRequestException($"Can not find task with id {id}");
-            var taskToPatch = _mapper.Map<TaskUpdateRequestModel>(taskEntity);
-
-            return (taskToPatch, taskEntity);
+            var taskList = await _repository.taskList.GetByCondition(x => x.Id.Equals(taskListId), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
+            
+            var hold = await _repository.task.GetTaskWithId(id, true).FirstOrDefaultAsync()?? throw new BadRequestException($"Can not find task with id {id}");
+            
+            var taskToPatch = _mapper.Map<TaskUpdateRequestModel>(hold);
+            
+            return (taskToPatch, hold);
         }
 
         public void SaveChangesForPatch(TaskUpdateRequestModel taskToPatch, Tasks taskEntity)

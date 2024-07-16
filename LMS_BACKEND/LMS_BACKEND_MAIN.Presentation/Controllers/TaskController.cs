@@ -42,6 +42,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "Create Task success" });
         }
 
+        [HttpPut(RoutesAPI.AttachFileToTask)]
+        public async Task<IActionResult> AttachFileToTask(Guid id, Guid fileid)
+        {
+            await _service.FileService.AttachToTask(id, fileid);
+
+            return Ok(new ResponseMessage { Message = "Attach success" });
+        }
+
         [HttpPut]
         public async Task<IActionResult> UpdateTask([FromBody] TaskUpdateRequestModel model)
         {
@@ -71,12 +79,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return hold.Id;
         }
 
-        [HttpPatch("{id:guid}")]
-        public IActionResult MoveTaskToTaskList(Guid taskListId, Guid id, [FromBody] JsonPatchDocument<TaskUpdateRequestModel> patchDoc)
+        [HttpPatch("{taskListId:guid}/{id:guid}")]
+        public async Task<IActionResult> MoveTaskToTaskList(Guid taskListId, Guid id, [FromBody] JsonPatchDocument<TaskUpdateRequestModel> patchDoc)
         {
-            if (patchDoc is null) return BadRequest("patchDoc object sent from client is null.");
-            var result = _service.TaskService.MoveTaskForPatch(taskListId, id);
+            if (!patchDoc.Operations.Any()) throw new BadRequestException("patchDoc object sent from client is null.");
+
+            var result = await _service.TaskService.MoveTaskForPatch(taskListId, id);
+            
             patchDoc.ApplyTo(result.taskToPatch);
+            
             _service.TaskService.SaveChangesForPatch(result.taskToPatch, result.taskEntity);
             return Ok(new ResponseMessage { Message = $"Move task {id} to task list {taskListId} successfully " });
         }
