@@ -118,6 +118,12 @@
 
         #endregion
 
+        #region TaskListAPIs
+
+        public const string MoveTaskToTaskList = "{tasklistid:guid}/tasks/{taskid:guid}";
+
+        #endregion
+
         #region ProjectAPIs
 
         public const string GetTaskListByProject = "{projectId:guid}/task-lists";
