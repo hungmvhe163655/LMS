@@ -207,7 +207,7 @@ namespace Repository
 
                 entity.HasOne(d => d.Project).WithMany(p => p.Folders)
                     .HasForeignKey(d => d.ProjectId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Folders_Projects");
             });
 

@@ -1,6 +1,12 @@
-﻿namespace Entities.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Shared.DataTransferObjects.RequestDTO
 {
-    public class Report
+    public class CreateReportRequestModel
     {
         public Guid Id { get; set; }
         public Guid ScheduleId { get; set; }
@@ -8,7 +14,5 @@
         public string? Description { get; set; }
         public string? FileKey { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public virtual Schedule Schedules { get; set; } = null!;
     }
-
 }
