@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import useAvatar from '@/hooks/use-avatar';
 import { useLogout } from '@/hooks/use-logout';
-import { useAccessData } from '@/lib/auth-store';
+import { authStore } from '@/lib/auth-store';
 import { LoginData } from '@/types/api';
 
 import { Avatar, AvatarImage } from '../ui/avatar';
@@ -20,7 +20,8 @@ import {
 export function AvatarDropdown() {
   const navigate = useNavigate();
   const { mutate: logout, isPending } = useLogout();
-  const auth = useAccessData() as LoginData;
+  const { accessData, clearAccessData } = authStore.getState();
+  const auth = accessData as LoginData;
   const url = useAvatar(auth?.id);
 
   return (
@@ -50,6 +51,7 @@ export function AvatarDropdown() {
           onSelect={() =>
             logout(undefined, {
               onSuccess: () => {
+                clearAccessData();
                 navigate('/');
               }
             })

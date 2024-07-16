@@ -1,4 +1,4 @@
-import { useAccessData } from '@/lib/auth-store';
+import { authStore } from '@/lib/auth-store';
 
 import { Link } from '../app/link';
 
@@ -7,7 +7,7 @@ import { Logo } from './logo';
 import { NotificationDropdown } from './notification-dropdown';
 
 export function Header() {
-  const auth = useAccessData();
+  const { accessData } = authStore.getState();
 
   return (
     <header className='flex items-center justify-between bg-gray-800 p-4'>
@@ -15,7 +15,7 @@ export function Header() {
         <Logo />
       </div>
 
-      {auth && (
+      {accessData && (
         <ul className='flex justify-center space-x-10 align-middle'>
           <Link
             to={'/news'}

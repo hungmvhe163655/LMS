@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
-import { useActions } from '@/lib/auth-store';
 import { MutationConfig } from '@/lib/react-query';
 import { clearTokens, getAccessToken, getRefreshToken } from '@/utils/storage-service';
 
@@ -20,16 +19,9 @@ type UseLogoutOptions = {
 
 export const useLogout = ({ mutationConfig }: UseLogoutOptions = {}) => {
   const { onSuccess, ...restConfig } = mutationConfig || {};
-  const { clearAccessData } = useActions();
-
   return useMutation({
     mutationFn: logout,
     onSuccess: (...args) => {
-      try {
-        clearAccessData();
-      } catch (error) {
-        console.log(error);
-      }
       clearTokens();
       onSuccess?.(...args);
     },

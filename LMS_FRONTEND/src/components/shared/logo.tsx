@@ -1,12 +1,12 @@
-import { useAccessData } from '@/lib/auth-store';
+import { authStore } from '@/lib/auth-store';
 import { cn } from '@/lib/utils';
 import getRedirectBasedOnRoles from '@/utils/role-based-redirect';
 
 import { Link } from '../app/link';
 
 export function Logo() {
-  const auth = useAccessData();
-  const link = auth ? getRedirectBasedOnRoles(auth.roles) : '/';
+  const { accessData } = authStore.getState();
+  const link = accessData ? getRedirectBasedOnRoles(accessData.roles) : '/';
 
   return (
     <Link

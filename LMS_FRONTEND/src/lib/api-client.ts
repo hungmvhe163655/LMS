@@ -11,7 +11,7 @@ import {
   setRefreshToken
 } from '@/utils/storage-service';
 
-import { getActions } from './auth-store';
+import { authStore } from './auth-store';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   if (config.headers) {
@@ -91,7 +91,7 @@ api.interceptors.response.use(
         return api(originalRequest);
       }
 
-      const { clearAccessData } = getActions();
+      const { clearAccessData } = authStore.getState();
       clearAccessData();
       clearTokens();
 

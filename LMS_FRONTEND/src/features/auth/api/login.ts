@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { api } from '@/lib/api-client';
-import { getActions } from '@/lib/auth-store';
+import { authStore } from '@/lib/auth-store';
 import { MutationConfig } from '@/lib/react-query';
 import { AuthResponse, Roles } from '@/types/api';
 import { ERROR } from '@/types/constant';
@@ -43,8 +43,7 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
       setRefreshToken(token.refreshToken);
 
       // Để cho zustand quản lý
-      const { setAccessData } = getActions();
-      setAccessData({ id: user.id, roles: roles });
+      authStore.setState({ accessData: { id: user.id, roles: roles } });
 
       if (redirectTo) {
         navigate(redirectTo, { replace: true });
