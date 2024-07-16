@@ -49,5 +49,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             await _service.ProjectService.ValidateJoinRequest(modellist,id);
             return Ok(new ResponseMessage { Message = "Update success" });
         }
+        [HttpGet(RoutesAPI.GetProjectResources)]
+        public async Task<IActionResult> GetProjectResources(Guid projectId)
+        {
+            var hold = await _service.FileService.GetRootWithProjectId(projectId);
+
+            return Ok(hold);
+        }
     }
 }
