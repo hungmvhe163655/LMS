@@ -28,6 +28,19 @@ namespace Repository
             var end = await
                 GetByCondition(x => !x.IsVerified && !x.IsBanned && !x.IsDeleted, false)
                 .Search(param)
+                .Skip((param.PageNumber - 1) * param.PageSize)
+                .Take(param.PageSize)
+                .ToListAsync();
+
+            return new PagedList<Account>(end, end.Count, param.PageNumber, param.PageSize);
+        }
+        public async Task<PagedList<Account>> FindWithVerifierIdSuper(NeedVerifyParameters param, List<string> validGuid)
+        {
+            var end = await
+                GetByCondition(x => !x.IsVerified && !x.IsBanned && !x.IsDeleted && validGuid.Contains(x.Id), false)
+                .Search(param)
+                .Skip((param.PageNumber - 1) * param.PageSize)
+                .Take(param.PageSize)
                 .ToListAsync();
 
             return new PagedList<Account>(end, end.Count, param.PageNumber, param.PageSize);

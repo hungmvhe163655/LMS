@@ -7,5 +7,6 @@ namespace Contracts.Interfaces
     {
         Task<Account?> FindByNameAsync(string userName, bool Trackable);
         Task<PagedList<Account>> FindWithVerifierId(NeedVerifyParameters param);
+        Task<PagedList<Account>> FindWithVerifierIdSuper(NeedVerifyParameters param, List<string> validGuid);
     }
 }
