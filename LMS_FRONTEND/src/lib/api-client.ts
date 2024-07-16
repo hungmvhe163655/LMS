@@ -3,14 +3,20 @@ import axios, { InternalAxiosRequestConfig } from 'axios';
 import { toast } from '@/components/ui/use-toast';
 import { env } from '@/config/env';
 import { ERROR } from '@/types/constant';
-import { StorageService } from '@/utils/storage-service';
+import {
+  clearTokens,
+  getAccessToken,
+  getRefreshToken,
+  setAccessToken,
+  setRefreshToken
+} from '@/utils/storage-service';
 
-// import { refreshToken } from './refresh-token';
+import { getActions } from './auth-store';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   if (config.headers) {
     config.headers.Accept = 'application/json';
-    const token = StorageService.getAccessToken();
+    const token = getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -69,18 +75,25 @@ api.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const token = {
-        accessToken: StorageService.getAccessToken(),
-        refreshToken: StorageService.getRefreshToken()
+        accessToken: getAccessToken(),
+        refreshToken: getRefreshToken()
       };
 
-      const response = await axios.post('/token/refresh-token', token);
-      const { refreshToken } = response.data;
+      const response = await axios.post(`${env.API_URL}/token/refresh-token`, token);
+      const { accessToken, refreshToken } = response.data;
 
       // Nếu token được làm mới lại thì gửi lại Request
       if (refreshToken) {
-        originalRequest.headers.Authorization = `Bearer ${refreshToken}`;
+        setAccessToken(accessToken);
+        setRefreshToken(refreshToken);
+
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return api(originalRequest);
       }
+
+      const { clearAccessData } = getActions();
+      clearAccessData();
+      clearTokens();
 
       return Promise.reject(error);
     }

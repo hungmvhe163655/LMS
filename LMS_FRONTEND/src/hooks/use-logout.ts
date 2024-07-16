@@ -1,17 +1,17 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
-import { getActions } from '@/lib/auth-store';
+import { useActions } from '@/lib/auth-store';
 import { MutationConfig } from '@/lib/react-query';
-import { StorageService } from '@/utils/storage-service';
+import { clearTokens, getAccessToken, getRefreshToken } from '@/utils/storage-service';
 
-export const logout = () => {
+export const logout = async () => {
   const token = {
-    accessToken: StorageService.getAccessToken(),
-    refreshToken: StorageService.getRefreshToken()
+    accessToken: getAccessToken(),
+    refreshToken: getRefreshToken()
   };
-
-  return api.post('/auth/logout', token);
+  const res = await api.post('/auth/logout', token);
+  return res;
 };
 
 type UseLogoutOptions = {
@@ -20,11 +20,16 @@ type UseLogoutOptions = {
 
 export const useLogout = ({ mutationConfig }: UseLogoutOptions = {}) => {
   const { onSuccess, ...restConfig } = mutationConfig || {};
-  const { clearTokens } = getActions();
+  const { clearAccessData } = useActions();
 
   return useMutation({
     mutationFn: logout,
     onSuccess: (...args) => {
+      try {
+        clearAccessData();
+      } catch (error) {
+        console.log(error);
+      }
       clearTokens();
       onSuccess?.(...args);
     },
