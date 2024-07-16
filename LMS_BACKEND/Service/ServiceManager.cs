@@ -59,7 +59,7 @@ namespace Service
 
             _mailService = new Lazy<IMailService>(() => new MailService(logger, client, userManager, memoryCache, repositoryManager));
 
-            _newsService = new Lazy<INewsService>(() => new NewsService(logger, repositoryManager, mapper));
+            _newsService = new Lazy<INewsService>(() => new NewsService(repositoryManager, mapper));
 
             _fileService = new Lazy<IFileService>(() => new FileService(clients3, configuration, mapper, repositoryManager));
 
@@ -73,7 +73,7 @@ namespace Service
 
             _taskListService = new Lazy<ITaskListService>(() => new TaskListService(repositoryManager, mapper));
 
-            _projectService = new Lazy<IProjectService>(() => new ProjectService(logger, repositoryManager, mapper));
+            _projectService = new Lazy<IProjectService>(() => new ProjectService(repositoryManager, mapper));
 
             _reportService = new Lazy<IReportService>(() => new ReportService(repositoryManager, mapper));
         }
