@@ -3,7 +3,6 @@ using LMS_BACKEND_MAIN.Presentation.Attributes;
 using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
@@ -49,7 +48,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateAccountVerifyStatus([FromBody] UpdateVerifyStatusRequestModel model)
         {
-            var user = await _service.AccountService.GetUserById(model.verifierID)?? throw new BadRequestException("User with that id is not found");
+            var user = await _service.AccountService.GetUserById(model.verifierID) ?? throw new BadRequestException("User with that id is not found");
 
             await _service.AccountService.UpdateAccountVerifyStatus(model.UserID, model.verifierID);
 

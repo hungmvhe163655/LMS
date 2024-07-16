@@ -2,7 +2,6 @@
 using Repository.Extensions.Utility;
 using Shared.DataTransferObjects.RequestParameters;
 using System.Linq.Dynamic.Core;
-using System.Text;
 
 namespace Repository.Extensions
 {

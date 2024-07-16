@@ -128,11 +128,19 @@
 
         #endregion
 
+        #region TaskListAPIs
+
+        public const string MoveTaskToTaskList = "{tasklistid:guid}/tasks/{taskid:guid}";
+
+        #endregion
+
         #region ProjectAPIs
 
         public const string GetProjectResources = "{projectId:guid}/resources";
 
         public const string GetTaskListByProject = "{projectId:guid}/task-lists";
+
+        public const string GetMemberInProject = "{projectId:guid}/members";
 
         public const string GetJoinRequest = "{id:guid}/join-request";
 

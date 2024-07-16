@@ -6,11 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -62,7 +57,7 @@ namespace Service
             if (hold == null) throw new BadRequestException($"Can not find task list with id {model.Id}");
             var count = _repository.task.GetTasksWithTaskListId(hold.Id, false).Count();
             if (count > model.MaxTasks) throw new BadRequestException($"Max task must greater than number current task on list");
-            
+
             _mapper.Map(model, hold);
             await _repository.Save();
         }

@@ -12,13 +12,11 @@ namespace Service
     public class ProjectService : IProjectService
     {
         private readonly IRepositoryManager _repository;
-        private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
 
-        public ProjectService(ILoggerManager logger, IRepositoryManager repository, IMapper mapper)
+        public ProjectService(IRepositoryManager repository, IMapper mapper)
         {
             _repository = repository;
-            _logger = logger;
             _mapper = mapper;
         }
 
