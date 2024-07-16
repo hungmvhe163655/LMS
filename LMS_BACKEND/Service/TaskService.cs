@@ -115,37 +115,59 @@ namespace Service
             await _repository.Save();
         }
 
-        public async Task MoveTaskToTaskList(MoveTaskRequestModel model)
-        {
-            var hold = _mapper.Map<Tasks>(model);
-
-
-
-            await _repository.task.UpdateTask(hold);
-
-            await _repository.Save();
-        }
-
         public async Task<TaskResponseModel> GetTaskByID(Guid id)
         {
             return _mapper.Map<TaskResponseModel>(await _repository.task.GetTaskWithId(id, false).FirstAsync());
         }
 
-        public async Task<(TaskUpdateRequestModel taskToPatch, Tasks taskEntity)> MoveTaskForPatch(Guid taskListId, Guid id)
+        public async Task<(TaskUpdateRequestModel taskToPatch, Tasks taskEntity, Guid oldLitId)> MoveTaskForPatch(Guid taskListId, Guid taskId)
         {
-            var taskList = await _repository.taskList.GetByCondition(x => x.Id.Equals(taskListId), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
-            
-            var hold = await _repository.task.GetTaskWithId(id, true).FirstOrDefaultAsync()?? throw new BadRequestException($"Can not find task with id {id}");
-            
+            var taskList = await _repository.taskList.GetByCondition(x => x.Id.Equals(taskListId), false).Include(x =>x.Tasks).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
+
+            _ = taskList.Tasks.Where(x => x.Id.Equals(taskId)).FirstOrDefault() ?? throw new BadRequestException("no such task exist in inputed list");
+
+            var hold = await _repository.task.GetTaskWithId(taskId, true).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task with id {taskId}");
+
             var taskToPatch = _mapper.Map<TaskUpdateRequestModel>(hold);
-            
-            return (taskToPatch, hold);
+
+            return (taskToPatch, hold, hold.TaskListId);
         }
 
-        public void SaveChangesForPatch(TaskUpdateRequestModel taskToPatch, Tasks taskEntity)
+        public async Task<Guid> SaveChangesForPatch(TaskUpdateRequestModel taskToPatch, Tasks taskEntity, string userId)
         {
+            if (!IsTaskListAvailable(taskEntity.TaskListId).Result) throw new BadRequestException("Task lists already have maximum tasks");
+            if (!IsMemberInProject(taskEntity.TaskListId, userId).Result) throw new BadRequestException("Member is not in project");
             _mapper.Map(taskToPatch, taskEntity);
-            _repository.Save();
+             await _repository.Save();
+
+            return taskEntity.TaskListId;
         }
+
+        public async Task<bool> IsTaskListAvailable(Guid taskListId)
+        {
+            var taskList = await _repository.taskList.GetByCondition(x => x.Id.Equals(taskListId), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
+
+            var count = await _repository.task.GetTasksWithTaskListId(taskListId, false).CountAsync();
+
+            if (count < taskList.MaxTasks)
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        public async Task<bool> IsMemberInProject(Guid taskListId, string userId)
+        {
+            var taskList = await _repository.taskList.GetByCondition(x => x.Id.Equals(taskListId), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
+
+            var user = await _repository.member.GetByCondition(x => x.UserId.Equals(userId) && x.ProjectId.Equals(taskList.ProjectId), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find member with userid {userId}");
+
+            if (user == null)
+            {
+                return false;
+            }
+            else return true;
+        }
+
     }
 }

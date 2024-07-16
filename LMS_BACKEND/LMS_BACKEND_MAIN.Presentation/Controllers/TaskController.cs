@@ -1,6 +1,6 @@
 ﻿using Entities.Exceptions;
 using LMS_BACKEND_MAIN.Presentation.Dictionaries;
-using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
@@ -11,7 +11,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
     [ApiController]
     [Route(APIs.TaskAPI)]
-    //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+    [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
     public class TaskController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -77,19 +77,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
 
             return hold.Id;
-        }
-
-        [HttpPatch("{taskListId:guid}/{id:guid}")]
-        public async Task<IActionResult> MoveTaskToTaskList(Guid taskListId, Guid id, [FromBody] JsonPatchDocument<TaskUpdateRequestModel> patchDoc)
-        {
-            if (!patchDoc.Operations.Any()) throw new BadRequestException("patchDoc object sent from client is null.");
-
-            var result = await _service.TaskService.MoveTaskForPatch(taskListId, id);
-            
-            patchDoc.ApplyTo(result.taskToPatch);
-            
-            _service.TaskService.SaveChangesForPatch(result.taskToPatch, result.taskEntity);
-            return Ok(new ResponseMessage { Message = $"Move task {id} to task list {taskListId} successfully " });
         }
     }
 }

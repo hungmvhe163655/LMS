@@ -7,7 +7,6 @@ namespace Service.Contracts
     {
         Task CreateFile(FileUploadRequestModel model, Stream inputStream);
         Task<(byte[], FileResponseModel)> GetFile(Guid fileID);
-        Task<byte[]> DownloadFile(string fileKey);
         Task EditFile(FileEditRequestModel model);
         Task DeleteFile(Guid id);
         Task EditFolder(FolderEditRequestModel model);
@@ -16,6 +15,9 @@ namespace Service.Contracts
         Task<bool> CreateFolder(CreateFolderRequestModel model);
         Task DeleteFolder(Guid folderID);
         Task AttachToTask(Guid taskId, Guid fileID);
+        Task<string> UploadFile(Stream inputStream, string mime);
+        Task<byte[]> DownloadFile(string fileKey);
+        Task RemoveFile(string fileKey);
     }
 
 }

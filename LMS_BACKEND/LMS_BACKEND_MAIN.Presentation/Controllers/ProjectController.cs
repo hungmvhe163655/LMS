@@ -19,7 +19,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpGet(RoutesAPI.GetTaskListByProject)]
-        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         public async Task<IActionResult> GetTaskListByProject(Guid projectId)
         {
             var hold = await _service.TaskListService.GetTaskListByProject(projectId);
@@ -53,6 +53,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             await _service.ProjectService.ValidateJoinRequest(modellist,id);
             return Ok(new ResponseMessage { Message = "Update success" });
+        }
+        [HttpGet(RoutesAPI.GetProjectResources)]
+        public async Task<IActionResult> GetProjectResources(Guid projectId)
+        {
+            var hold = await _service.FileService.GetRootWithProjectId(projectId);
+
+            return Ok(hold);
         }
     }
 }

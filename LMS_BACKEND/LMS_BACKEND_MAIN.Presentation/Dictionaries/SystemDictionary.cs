@@ -23,6 +23,8 @@
         public const string TaskListAPI = "api/task-lists";
 
         public const string ProfileAPI = "api/profile";
+
+        public const string ReportAPI = "api/reports";
     }
     public static class AuthorizeScheme
     {
@@ -84,6 +86,12 @@
 
         public const string DownloadFile = "download/{id:guid}";
 
+        public const string UploadImage = "upload/image";
+
+        public const string DownloadImage = "download/image/{key}";
+
+        public const string DeleteImage = "image/{key}";
+
         #endregion
 
         #region FolderAPIs
@@ -102,7 +110,9 @@
 
         public const string GetProjectWithMember = "{userId}/projects";
 
-        public const string ChangePassword = "change-password";
+        public const string ChangePassword = "change-password/{id}";
+
+        public const string ChangePasswordOtp = "change-password-otp/{id}";
 
         public const string ChangeEmailOtp = "change-email-otp/{id}";
 
@@ -118,7 +128,15 @@
 
         #endregion
 
+        #region TaskListAPIs
+
+        public const string MoveTaskToTaskList = "{tasklistid:guid}/tasks/{taskid:guid}";
+
+        #endregion
+
         #region ProjectAPIs
+
+        public const string GetProjectResources = "{projectId:guid}/resources";
 
         public const string GetTaskListByProject = "{projectId:guid}/task-lists";
 
@@ -127,6 +145,12 @@
         public const string GetJoinRequest = "{id:guid}/join-request";
 
         public const string ValidateJoinRequest = "{id:guid}/join-request/validate";
+
+        #endregion
+
+        #region ReportsAPIs
+
+        public const string GetAllByDeviceId = "device/{id:guid}";
 
         #endregion
     }

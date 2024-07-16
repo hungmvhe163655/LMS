@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
+using System.IO;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -72,5 +73,31 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return Ok(new ResponseMessage { Message = "DELETEFILE" });
         }
+        [HttpPost(RoutesAPI.UploadImage)]
+        public async Task<IActionResult> UploadImage([FromForm] IFormFile file)
+        {
+            using var memoryStream = new MemoryStream();
+
+            await file.CopyToAsync(memoryStream);
+
+            memoryStream.Position = 0;
+
+            return Ok(await _serviceManager.FileService.UploadFile(memoryStream, file.ContentType));
+        }
+        [HttpGet(RoutesAPI.DownloadImage)]
+        public async Task<IActionResult> DownloadImage(string key)
+        {
+            var hold = await _serviceManager.FileService.DownloadFile(key);
+
+            return File(hold, "image/png");
+        }
+        [HttpDelete(RoutesAPI.DeleteImage)]
+        public async Task<IActionResult> DeleteImage(string key)
+        {
+            await _serviceManager.FileService.RemoveFile(key);
+
+            return Ok(new ResponseMessage { Message = "Remove Success" });
+        }
+
     }
 }

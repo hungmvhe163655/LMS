@@ -2,6 +2,7 @@
 {
     public interface IRepositoryManager
     {
+        IReportRepository report { get; }
         IAccountRepository account { get; }
         INewsRepository news { get; }
         INotificationRepository notification { get; }
