@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { Button } from '@/components/ui/button';
 
 const ActiveProject = () => {
@@ -11,9 +13,9 @@ const ActiveProject = () => {
           {project}
         </Button>
       ))}
-      <Button className='mt-2 w-full rounded-lg bg-blue-500 px-4 py-2 text-white'>
-        View your projects
-      </Button>
+      <Link className='mt-2 flex items-center text-sm text-blue-600' to={`/project`}>
+        View your project <span className='ml-1'>→</span>
+      </Link>
     </div>
   );
 };

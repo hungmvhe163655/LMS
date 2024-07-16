@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/order
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 const TaskVerifyingRequest = () => {
@@ -18,9 +20,9 @@ const TaskVerifyingRequest = () => {
           <Button className='shrink bg-blue-500'>➔</Button>
         </div>
       ))}
-      <Button className='mr-2 mt-2 w-full grow rounded-lg bg-blue-500 px-4 py-2 text-white'>
-        View all tasks
-      </Button>
+      <Link className='mt-2 flex items-center text-sm text-blue-600' to={`/project/tasks`}>
+        View all tasks <span className='ml-1'>→</span>
+      </Link>
     </div>
   );
 };

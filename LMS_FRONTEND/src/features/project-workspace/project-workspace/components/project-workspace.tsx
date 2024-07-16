@@ -1,6 +1,7 @@
 import { DndContext, closestCenter, DragOverEvent, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 
@@ -11,6 +12,7 @@ import { MouseSensor, KeyboardSensor } from './customer-sensors'; // Import the 
 import SortableTaskList from './sortable-tasklist';
 
 const ProjectWorkspace: React.FC = () => {
+  const { projectId } = useParams<{ projectId: string }>();
   const [taskLists, setTaskLists] = useState<TaskListType[]>(mockTaskLists);
   const mouseSensor = useSensor(MouseSensor);
   const keyboardSensor = useSensor(KeyboardSensor);
@@ -121,6 +123,8 @@ const ProjectWorkspace: React.FC = () => {
 
   return (
     <div className='min-h-screen bg-gray-100 p-4'>
+      <h1 className='mb-4 text-2xl font-bold'>Project Workspace</h1>
+      <p className='text-lg font-medium'>ID in the workspace: {projectId}</p>
       <Button onClick={handleAddTaskList} className='mb-4'>
         Add New Task List
       </Button>
