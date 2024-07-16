@@ -13,6 +13,7 @@ using Service;
 using Service.Contracts;
 using System.Net;
 using System.Net.Mail;
+using Amazon;
 using System.Security.Claims;
 using System.Text;
 

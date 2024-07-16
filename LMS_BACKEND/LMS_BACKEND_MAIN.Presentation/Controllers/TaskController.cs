@@ -1,6 +1,6 @@
 ﻿using Entities.Exceptions;
 using LMS_BACKEND_MAIN.Presentation.Dictionaries;
-using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
@@ -11,7 +11,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
     [ApiController]
     [Route(APIs.TaskAPI)]
-    //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+    [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
     public class TaskController : ControllerBase
     {
         private readonly IServiceManager _service;
