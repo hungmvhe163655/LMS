@@ -19,7 +19,7 @@ namespace Service
 
         public async Task<Notification> CreateNotification(string title, string content, int type, string createUserId, string group)
         {
-            var hold = new Notification { Id = Guid.NewGuid(), Title = title, Content = content, NotificationTypeId = type, CreatedBy = createUserId, Url = "lmao.com" };
+            var hold = new Notification { Id = Guid.NewGuid(), Title = title, Content = content, NotificationType = type+"", CreatedBy = createUserId, Url = "lmao.com" };//sua cho nay
             await _repositoryManager.notification.saveNotification(hold);
             await _repositoryManager.Save();
             await _hubContext.Clients.Groups(group).SendAsync("ReceiveNotification", hold);

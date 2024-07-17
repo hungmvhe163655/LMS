@@ -26,6 +26,8 @@ namespace Repository
                .Include(y=>y.Schedules)
                .ThenInclude(t=>t.Account)
                .Search(param)
+               .Skip((param.PageNumber - 1) * param.PageSize)
+                .Take(param.PageSize)
                .ToListAsync();
 
            return new PagedList<Report>(hold, hold.Count, param.PageNumber, param.PageSize);

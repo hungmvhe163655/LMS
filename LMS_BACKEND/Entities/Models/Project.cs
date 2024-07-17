@@ -9,7 +9,7 @@
 
         public DateTime CreatedDate { get; set; }
 
-        public int ProjectStatusId { get; set; }
+        public string ProjectStatus { get; set; } = null!;
 
         public int MaxMember { get; set; }
 
@@ -18,8 +18,6 @@
         public int ProjectTypeId { get; set; }
 
         public virtual ICollection<Member> Members { get; set; } = new List<Member>();
-
-        public virtual ProjectStatus ProjectStatus { get; set; } = null!;
 
         public virtual ProjectType ProjectType { get; set; } = null!;
 
