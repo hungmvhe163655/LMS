@@ -2056,7 +2056,7 @@ namespace Repository.Configuration
                 Name = "LIMS",
                 Description = "Implementing LIMS system for laboratory management.",
                 CreatedDate = new DateTime(2024, 05, 01),
-                ProjectStatus = PROJECT_STATUS.INITIALIZING,
+                ProjectStatus = PROJECT_STATUS.ONGOING,
                 MaxMember = 5,
                 IsRecruiting = false,
                 ProjectTypeId = 1
@@ -2068,7 +2068,7 @@ namespace Repository.Configuration
                 Name = "VR application for patient",
                 Description = "Developing application for occupational therapy",
                 CreatedDate = new DateTime(2024, 06, 12),
-                ProjectStatus = PROJECT_STATUS.INITIALIZING,
+                ProjectStatus = PROJECT_STATUS.ONGOING,
                 MaxMember = 4,
                 IsRecruiting = false,
                 ProjectTypeId = 6
@@ -2079,7 +2079,7 @@ namespace Repository.Configuration
                 Name = "Research Paper on Quantum Computing",
                 Description = "A comprehensive research paper on the applications of quantum computing in cryptography.",
                 CreatedDate = new DateTime(2024, 06, 30),
-                ProjectStatus = PROJECT_STATUS.INITIALIZING,
+                ProjectStatus = PROJECT_STATUS.ONGOING,
                 MaxMember = 3,
                 IsRecruiting = false,
                 ProjectTypeId = 2
@@ -2090,7 +2090,7 @@ namespace Repository.Configuration
                 Name = "AI in Healthcare",
                 Description = "Using AI to improve healthcare outcomes.",
                 CreatedDate = new DateTime(2023, 12, 06),
-                ProjectStatus = PROJECT_STATUS.INITIALIZING,
+                ProjectStatus = PROJECT_STATUS.COMPLETED,
                 MaxMember = 5,
                 IsRecruiting = false,
                 ProjectTypeId = 5
@@ -2101,7 +2101,7 @@ namespace Repository.Configuration
                 Name = "Environmental Monitoring",
                 Description = "Monitoring environmental parameters using IoT.",
                 CreatedDate = new DateTime(2024, 01, 16),
-                ProjectStatus = PROJECT_STATUS.INITIALIZING,
+                ProjectStatus = PROJECT_STATUS.ONGOING,
                 MaxMember = 5,
                 IsRecruiting = false,
                 ProjectTypeId = 3
@@ -2112,7 +2112,7 @@ namespace Repository.Configuration
                 Name = "Mobile Health App",
                 Description = "A mobile application for monitoring and managing personal health data.",
                 CreatedDate = new DateTime(2024, 01, 06),
-                ProjectStatus = PROJECT_STATUS.INITIALIZING,
+                ProjectStatus = PROJECT_STATUS.COMPLETED,
                 MaxMember = 4,
                 IsRecruiting = false,
                 ProjectTypeId = 4
@@ -2123,7 +2123,7 @@ namespace Repository.Configuration
                 Name = "AI-based Image Recognition",
                 Description = "Developing an AI system for recognizing and classifying images with high accuracy.",
                 CreatedDate = new DateTime(2023, 12, 09),
-                ProjectStatus = PROJECT_STATUS.INITIALIZING,
+                ProjectStatus = PROJECT_STATUS.CANCEL,
                 MaxMember = 5,
                 IsRecruiting = false,
                 ProjectTypeId = 5

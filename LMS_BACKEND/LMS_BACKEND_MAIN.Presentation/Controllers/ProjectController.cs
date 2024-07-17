@@ -3,12 +3,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using System.Text.Json;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
     [Route(APIs.ProjectAPI)]
     [ApiController]
+    [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
     public class ProjectController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -54,12 +57,22 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             await _service.ProjectService.ValidateJoinRequest(modellist,id);
             return Ok(new ResponseMessage { Message = "Update success" });
         }
+
         [HttpGet(RoutesAPI.GetProjectResources)]
         public async Task<IActionResult> GetProjectResources(Guid projectId)
         {
             var hold = await _service.FileService.GetRootWithProjectId(projectId);
 
             return Ok(hold);
+        }
+
+        [HttpGet("user/{userid}")]
+        public async Task<IActionResult> GetOngoingProject(string userId, [FromQuery] ProjectRequestParameters parameters)
+        {
+            var pageResult= await _service.ProjectService.GetOnGoingProjects(userId, parameters, trackChange: false);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
+            return Ok(pageResult.projects);
         }
     }
 }
