@@ -1,6 +1,7 @@
 ﻿using Contracts.Interfaces;
 using Entities.Models;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Servive.Hubs;
 using Shared.DataTransferObjects.RequestParameters;
@@ -32,10 +33,9 @@ namespace Service
             return await _repositoryManager.notification.GetPagedAsync(request, false);
         }
 
-        public async Task<Notification> GetNotification(string id)
+        public async Task<Notification?> GetNotification(Guid id)
         {
-            var result = await _repositoryManager.notification.GetByConditionAsync(entity => entity.Id.Equals(id), false);
-            return result.First();
+            return await _repositoryManager.notification.GetByCondition(entity => entity.Id.Equals(id), false).FirstOrDefaultAsync();
         }
     }
 }
