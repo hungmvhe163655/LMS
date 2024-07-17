@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
-using Shared;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using Shared.GlobalVariables;
 
 namespace Service
 {
@@ -126,7 +126,7 @@ namespace Service
         }
         public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccountsSuper(NeedVerifyParameters param)
         {
-            var hold = await _userManager.GetUsersInRoleAsync(StaticParameters.SUPERVISOR);
+            var hold = await _userManager.GetUsersInRoleAsync(ROLES.SUPERVISOR);
 
             List<string> validGuid = new List<string>();
 

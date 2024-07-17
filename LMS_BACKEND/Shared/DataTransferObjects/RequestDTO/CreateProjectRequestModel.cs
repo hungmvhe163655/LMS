@@ -9,7 +9,7 @@
 
         public DateTime CreatedDate { get; set; }
 
-        public int ProjectStatusId { get; set; }
+        public string ProjectStatus { get; set; } = null!;
 
         public int MaxMember { get; set; }
 

@@ -16,7 +16,6 @@
         ITaskListRepository taskList { get; }
         IProjectRepository project { get; }
         IMemberRepository member { get; }
-        IProjectStatusRepository projectStatus { get; }
         IProjectTypeRepository projectType { get; }
         Task Save();
     }

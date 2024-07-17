@@ -12,10 +12,13 @@ namespace Entities.Models
         public DateTime CreatedDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime DueDate { get; set; }
-        public int TaskPriorityId { get; set; }
+        public int Order { get; set; } = 0;
+        public string TaskPriority { get; set; } = null!;
+        //public int TaskPriorityId { get; set; }
         public Guid TaskListId { get; set; }
         public Guid ProjectId { get; set; }
-        public int TaskStatusId { get; set; }
+        //public int TaskStatusId { get; set; }
+        public string TaskStatus { get; set; } = null!;
         public string? AssignedTo { get; set; }
         public virtual Account? AssignedToUser { get; set; }
         //[JsonIgnore]
@@ -32,9 +35,9 @@ namespace Entities.Models
 
         public virtual TaskList TaskList { get; set; } = null!;
 
-        public virtual TaskPriorities TaskPriority { get; set; } = null!;
+        //public virtual TaskPriorities TaskPriority { get; set; } = null!;
 
-        public virtual TasksStatus TaskStatus { get; set; } = null!;
+        //public virtual TasksStatus TaskStatus { get; set; } = null!;
 
         public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
 
