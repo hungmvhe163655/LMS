@@ -170,7 +170,7 @@ namespace LMS_BACKEND_MAIN.Extentions
                 Decrypter.DecryptString(holdAccess, encryptionKey, iv),
                 Decrypter.DecryptString(holdSecret, encryptionKey, iv)
             );
-            awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
+            //awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
 
             services.AddDefaultAWSOptions(awsOptions);
 

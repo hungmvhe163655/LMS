@@ -13,9 +13,15 @@ interface TaskListProps {
   taskList: TaskListType;
   tasks: Task[];
   setTasks: React.Dispatch<React.SetStateAction<TaskListType[]>>;
+  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>; // Add setIsDialogOpen prop
 }
 
-const SortableTaskList: React.FC<TaskListProps> = ({ taskList, tasks, setTasks }) => {
+const SortableTaskList: React.FC<TaskListProps> = ({
+  taskList,
+  tasks,
+  setTasks,
+  setIsDialogOpen
+}) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: taskList.id,
     data: { type: 'TaskList' }
@@ -75,7 +81,11 @@ const SortableTaskList: React.FC<TaskListProps> = ({ taskList, tasks, setTasks }
       <SortableContext items={tasks.map((task) => task.id)} strategy={verticalListSortingStrategy}>
         {renderPlaceholderTask()}
         {tasks.map((task) => (
-          <SortableTask key={task.id} task={task} />
+          <SortableTask
+            key={task.id}
+            task={task}
+            setIsDialogOpen={setIsDialogOpen} // Pass the state setter to children
+          />
         ))}
       </SortableContext>
       <div className='mt-4'>

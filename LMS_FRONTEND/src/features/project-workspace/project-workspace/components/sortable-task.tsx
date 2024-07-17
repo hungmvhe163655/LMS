@@ -2,6 +2,8 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import React, { useState } from 'react';
 
+import CommentSection from '@/components/app/comment-section'; // Assuming these are in the same directory
+import HistorySection from '@/components/app/history-section';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import {
@@ -14,13 +16,15 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { Task } from '@/features/project-workspace/project-workspace/types/workspace-types';
 
 interface SortableTaskProps {
   task: Task;
+  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>; // Add setIsDialogOpen prop
 }
 
-const SortableTask: React.FC<SortableTaskProps> = ({ task }) => {
+const SortableTask: React.FC<SortableTaskProps> = ({ task, setIsDialogOpen }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: task.id,
     data: { type: 'Task' }
@@ -32,8 +36,13 @@ const SortableTask: React.FC<SortableTaskProps> = ({ task }) => {
     transition
   };
 
+  const handleDialogOpenChange = (isOpen: boolean) => {
+    setIsOpen(isOpen);
+    setIsDialogOpen(isOpen);
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={handleDialogOpenChange}>
       <DialogTrigger asChild>
         <Card
           ref={setNodeRef}
@@ -48,14 +57,13 @@ const SortableTask: React.FC<SortableTaskProps> = ({ task }) => {
           <CardContent>
             <p>ID: {task.id}</p>
             <p>Assigned to: {task.assignedTo}</p>
-            <Button onClick={() => setIsOpen(true)} data-no-dnd='true'>
+            <Button onClick={() => handleDialogOpenChange(true)} data-no-dnd='true'>
               → View Detail
-            </Button>{' '}
-            {/* Add View Detail button */}
+            </Button>
           </CardContent>
         </Card>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[425px]'>
+      <DialogContent className='sm:max-w-[800px]'>
         <DialogHeader>
           <DialogTitle>{task.title}</DialogTitle>
         </DialogHeader>
@@ -65,8 +73,6 @@ const SortableTask: React.FC<SortableTaskProps> = ({ task }) => {
               Priority
             </Label>
             <select id='priority' className='col-span-3' data-no-dnd='true'>
-              {' '}
-              {/* Add data-no-dnd */}
               <option value='urgent'>Urgent</option>
               <option value='high'>High</option>
               <option value='medium'>Medium</option>
@@ -82,16 +88,13 @@ const SortableTask: React.FC<SortableTaskProps> = ({ task }) => {
               defaultValue={task.assignedTo}
               className='col-span-3'
               data-no-dnd='true'
-            />{' '}
-            {/* Add data-no-dnd */}
+            />
           </div>
           <div className='grid grid-cols-4 items-center gap-4'>
             <Label htmlFor='status' className='text-right'>
               Task Status
             </Label>
             <select id='status' className='col-span-3' data-no-dnd='true'>
-              {' '}
-              {/* Add data-no-dnd */}
               <option value='todo'>To Do</option>
               <option value='doing'>Doing</option>
               <option value='done'>Done</option>
@@ -106,12 +109,25 @@ const SortableTask: React.FC<SortableTaskProps> = ({ task }) => {
               className='col-span-3'
               defaultValue={task.description}
               data-no-dnd='true'
-            />{' '}
-            {/* Add data-no-dnd */}
+            />
           </div>
         </div>
+        <div className='mt-4 border-t pt-4'>
+          <Tabs defaultValue='comment' className='w-full'>
+            <TabsList className='grid w-full grid-cols-2'>
+              <TabsTrigger value='comment'>Comment</TabsTrigger>
+              <TabsTrigger value='history'>History</TabsTrigger>
+            </TabsList>
+            <TabsContent value='comment'>
+              <CommentSection />
+            </TabsContent>
+            <TabsContent value='history'>
+              <HistorySection />
+            </TabsContent>
+          </Tabs>
+        </div>
         <DialogFooter>
-          <Button variant='outline' onClick={() => setIsOpen(false)}>
+          <Button variant='outline' onClick={() => handleDialogOpenChange(false)}>
             Cancel
           </Button>
           <Button type='submit'>Save changes</Button>

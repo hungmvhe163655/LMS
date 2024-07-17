@@ -14,6 +14,7 @@ import SortableTaskList from './sortable-tasklist';
 const ProjectWorkspace: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const [taskLists, setTaskLists] = useState<TaskListType[]>(mockTaskLists);
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // Track if dialog is open
   const mouseSensor = useSensor(MouseSensor);
   const keyboardSensor = useSensor(KeyboardSensor);
   const sensors = useSensors(mouseSensor, keyboardSensor);
@@ -132,6 +133,7 @@ const ProjectWorkspace: React.FC = () => {
         <SortableContext
           items={taskLists.map((list) => list.id)}
           strategy={horizontalListSortingStrategy}
+          disabled={isDialogOpen} // Disable sorting if dialog is open
         >
           <div className='flex gap-4 overflow-auto'>
             {taskLists.map((taskList) => (
@@ -140,6 +142,7 @@ const ProjectWorkspace: React.FC = () => {
                 taskList={taskList}
                 tasks={taskList.tasks}
                 setTasks={setTaskLists}
+                setIsDialogOpen={setIsDialogOpen} // Pass the state setter to children
               />
             ))}
           </div>
