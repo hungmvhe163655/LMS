@@ -12,6 +12,7 @@ namespace Entities.Models
         public DateTime CreatedDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime DueDate { get; set; }
+        public int Order { get; set; } = 0;
         public string TaskPriority { get; set; } = null!;
         //public int TaskPriorityId { get; set; }
         public Guid TaskListId { get; set; }
