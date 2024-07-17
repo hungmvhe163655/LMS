@@ -29,7 +29,6 @@ namespace Repository
         private readonly Lazy<ITaskHistoryRepository> _taskHistoryRepository;
         private readonly Lazy<ITaskListRepository> _taskListRepository;
         private readonly Lazy<IProjectRepository> _projectRepository;
-        private readonly Lazy<IProjectStatusRepository> _projectStatusRepository;
         private readonly Lazy<IProjectTypeRepository> _projectTypeRepository;
         private readonly Lazy<IMemberRepository> _memberRepository;
         public RepositoryManager(DataContext context)
@@ -64,8 +63,6 @@ namespace Repository
 
             _memberRepository = new Lazy<IMemberRepository>(() => new MemberRepository(context));
 
-            _projectStatusRepository = new Lazy<IProjectStatusRepository>(() => new ProjectStatusRepository(context));
-
             _projectTypeRepository = new Lazy<IProjectTypeRepository>(() => new ProjectTypeRepository(context));
 
             _reportRepository = new Lazy<IReportRepository>(() => new ReportRepository(context));
@@ -87,8 +84,6 @@ namespace Repository
         public IProjectRepository project => _projectRepository.Value;
 
         public IMemberRepository member => _memberRepository.Value;
-
-        public IProjectStatusRepository projectStatus => _projectStatusRepository.Value;
 
         public IProjectTypeRepository projectType => _projectTypeRepository.Value;
 

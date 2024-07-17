@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
+using Shared.GlobalVariables;
 
 namespace Service
 {
@@ -26,7 +27,7 @@ namespace Service
 
             hold.Id = Guid.NewGuid();
             hold.CreatedDate = DateTime.Now;
-            hold.ProjectStatusId = 1;
+            hold.ProjectStatus = 1+"";//sua cho nay
             var rootid = Guid.NewGuid();
             var root = new Folder
             {
@@ -68,7 +69,7 @@ namespace Service
 
             var projects = _repository.project
                 .GetByCondition(p => projectIds.Contains(p.Id), false)
-                .Where(p => p.ProjectStatusId == 2)
+                .Where(p => p.ProjectStatus.Equals(PROJECT_STATUS.INITIALIZING))
                 .ToList();
 
             if (!projects.Any())

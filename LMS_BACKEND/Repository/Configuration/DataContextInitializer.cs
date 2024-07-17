@@ -1,5 +1,6 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Shared.GlobalVariables;
 
 namespace Repository.Configuration
 {
@@ -715,7 +716,7 @@ namespace Repository.Configuration
                 Content = "A new system update will be available tomorrow.",
                 CreatedDate = DateTime.Now.AddDays(-1),
                 Url = "",
-                NotificationTypeId = 1,
+                NotificationType = NOTIFICATION_TYPE.SYSTEM,
                 CreatedBy = user1.Id,
             };
 
@@ -726,7 +727,7 @@ namespace Repository.Configuration
                 Content = "Scheduled maintenance will occur this weekend.",
                 CreatedDate = DateTime.Now.AddDays(-2),
                 Url = "",
-                NotificationTypeId = 1,
+                NotificationType = NOTIFICATION_TYPE.SYSTEM,
                 CreatedBy = user1.Id,
             };
 
@@ -737,7 +738,7 @@ namespace Repository.Configuration
                 Content = "We are excited to announce a new feature in our application.",
                 CreatedDate = DateTime.Now.AddDays(-3),
                 Url = "",
-                NotificationTypeId = 1,
+                NotificationType = NOTIFICATION_TYPE.SYSTEM,
                 CreatedBy = user1.Id,
             };
 
@@ -748,7 +749,7 @@ namespace Repository.Configuration
                 Content = "Please update your password to enhance security.",
                 CreatedDate = DateTime.Now.AddDays(-4),
                 Url = "",
-                NotificationTypeId = 1,
+                NotificationType = NOTIFICATION_TYPE.SYSTEM,
                 CreatedBy = user2.Id,
             };
 
@@ -759,7 +760,7 @@ namespace Repository.Configuration
                 Content = "The system will be down for maintenance tonight.",
                 CreatedDate = DateTime.Now.AddDays(-5),
                 Url = "",
-                NotificationTypeId = 1,
+                NotificationType = NOTIFICATION_TYPE.SYSTEM,
                 CreatedBy = user3.Id,
             };
 
@@ -770,7 +771,7 @@ namespace Repository.Configuration
                 Content = "Join weekly meeting.",
                 CreatedDate = DateTime.Now.AddDays(-6),
                 Url = "",
-                NotificationTypeId = 2,
+                NotificationType = NOTIFICATION_TYPE.PROJECT,
                 CreatedBy = user3.Id,
             };
 
@@ -781,7 +782,7 @@ namespace Repository.Configuration
                 Content = "Don't miss out on our latest promotions!",
                 CreatedDate = DateTime.Now.AddDays(-7),
                 Url = "",
-                NotificationTypeId = 2,
+                NotificationType = NOTIFICATION_TYPE.PROJECT,
                 CreatedBy = user3.Id,
             };
 
@@ -792,7 +793,7 @@ namespace Repository.Configuration
                 Content = "Please take a moment to complete our user survey.",
                 CreatedDate = DateTime.Now.AddDays(-8),
                 Url = "",
-                NotificationTypeId = 2,
+                NotificationType = NOTIFICATION_TYPE.PROJECT,
                 CreatedBy = user2.Id,
             };
 
@@ -803,7 +804,7 @@ namespace Repository.Configuration
                 Content = "Your account details have been updated.",
                 CreatedDate = DateTime.Now.AddDays(-9),
                 Url = "",
-                NotificationTypeId = 1,
+                NotificationType = NOTIFICATION_TYPE.SYSTEM,
                 CreatedBy = user1.Id,
             };
 
@@ -814,23 +815,24 @@ namespace Repository.Configuration
                 Content = "Don't forget about the event tomorrow!",
                 CreatedDate = DateTime.Now.AddDays(-10),
                 Url = "",
-                NotificationTypeId = 1,
+                
+                NotificationType = NOTIFICATION_TYPE.SYSTEM,
                 CreatedBy = user1.Id,
             };
 
             builder.Entity<Notification>().HasData(noti1, noti2, noti3, noti4, noti5, noti6, noti7, noti8, noti9, noti10);
-            builder.Entity<NotificationType>().HasData(
-                new NotificationType
-                {
-                    Id = 1,
-                    Name = "System",
-                },
-                new NotificationType
-                {
-                    Id = 2,
-                    Name = "Project",
-                }
-            );
+            //builder.Entity<NotificationType>().HasData(
+            //    new NotificationType
+            //    {
+            //        Id = 1,
+            //        Name = "System",
+            //    },
+            //    new NotificationType
+            //    {
+            //        Id = 2,
+            //        Name = "Project",
+            //    }
+            //);
             builder.Entity<NotificationAccount>().HasData(
                 new NotificationAccount
                 {
@@ -1496,16 +1498,16 @@ namespace Repository.Configuration
 
             builder.Entity<News>().HasData(news1, news2, news10, news11, news12, news13, news14, news15, news16, news17, news18, news19, news20, news3, news4, news5, news6, news7, news8, news9);
 
-            builder.Entity<DeviceStatus>().HasData(
-                new DeviceStatus { Id = 1, Name = "Available" },
-                new DeviceStatus { Id = 2, Name = "In Use" },
-                new DeviceStatus { Id = 3, Name = "Disable" }
-            );
+            //builder.Entity<DeviceStatus>().HasData(
+            //    new DeviceStatus { Id = 1, Name = "Available" },
+            //    new DeviceStatus { Id = 2, Name = "In Use" },
+            //    new DeviceStatus { Id = 3, Name = "Disable" }
+            //);
 
             Device device1 = new Device
             {
                 Id = new Guid("9eae03ad-745d-47c0-baef-ae4657964e6a"),
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 OwnedBy = user1.Id,
                 Name = "Server",
                 Description = "Primary server",
@@ -1516,7 +1518,7 @@ namespace Repository.Configuration
             Device device2 = new Device
             {
                 Id = new Guid("0104f1af-a314-4c64-8b8d-92c72caa97df"),
-                DeviceStatusId = 2,
+                DeviceStatus = DEVICE_STATUS.INUSE,
                 OwnedBy = user2.Id,
                 Name = "Screen",
                 Description = "Dell UltraSharp U2723QE 27 inch",
@@ -1527,7 +1529,7 @@ namespace Repository.Configuration
             Device device3 = new Device
             {
                 Id = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 OwnedBy = user3.Id,
                 Name = "PC",
                 Description = "Thai's PC",
@@ -1538,7 +1540,7 @@ namespace Repository.Configuration
             Device device4 = new Device
             {
                 Id = new Guid("11d331b4-136c-4844-a686-ffc38c103268"),
-                DeviceStatusId = 3,
+                DeviceStatus = DEVICE_STATUS.DISABLE,
                 OwnedBy = user1.Id,
                 Name = "Router",
                 Description = "Main office router",
@@ -1549,7 +1551,7 @@ namespace Repository.Configuration
             Device device5 = new Device
             {
                 Id = new Guid("b4dc2d48-482a-48a2-bad6-7a1e0e3139b7"),
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 OwnedBy = user3.Id,
                 Name = "Desktop",
                 Description = "Development desktop",
@@ -1560,7 +1562,7 @@ namespace Repository.Configuration
             Device device6 = new Device
             {
                 Id = new Guid("0a395b72-ae0d-4a49-b7f8-1763de733068"),
-                DeviceStatusId = 2,
+                DeviceStatus = DEVICE_STATUS.INUSE,
                 OwnedBy = user2.Id,
                 Name = "Monitor",
                 Description = "High resolution monitor",
@@ -1571,7 +1573,7 @@ namespace Repository.Configuration
             Device device7 = new Device
             {
                 Id = new Guid("5947a22f-0191-419c-873b-4324b5b95e84"),
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 OwnedBy = user1.Id,
                 Name = "Printer",
                 Description = "Office printer",
@@ -1582,7 +1584,7 @@ namespace Repository.Configuration
             Device device8 = new Device
             {
                 Id = new Guid("a1d65f8a-f7fd-4995-940f-6ab254523f90"),
-                DeviceStatusId = 2,
+                DeviceStatus = DEVICE_STATUS.INUSE,
                 OwnedBy = user3.Id,
                 Name = "Tablet",
                 Description = "Designer's tablet",
@@ -1593,7 +1595,7 @@ namespace Repository.Configuration
             Device device9 = new Device
             {
                 Id = new Guid("eb934470-4e73-41a8-8304-3bcb1ea18502"),
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 OwnedBy = user1.Id,
                 Name = "Projector",
                 Description = "Conference room projector",
@@ -1604,7 +1606,7 @@ namespace Repository.Configuration
             Device device10 = new Device
             {
                 Id = new Guid("51e6edb8-0a1f-4c26-afb7-fcf95ea0965f"),
-                DeviceStatusId = 3,
+                DeviceStatus = DEVICE_STATUS.DISABLE,
                 OwnedBy = user1.Id,
                 Name = "Switch",
                 Description = "Network switch",
@@ -1833,7 +1835,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("75fb870f-e344-40c9-ab85-101631f22505"),
                 ScheduleId = schedule1.Id,
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 Description = "Device was used for setting up a new development environment."
             };
 
@@ -1841,7 +1843,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("d3b039bd-813c-4b33-af98-2264dcb440c0"),
                 ScheduleId = schedule2.Id,
-                DeviceStatusId = 2,
+                DeviceStatus = DEVICE_STATUS.INUSE,
                 Description = "The laptop was utilized for testing the latest software build."
             };
 
@@ -1849,7 +1851,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("c8fb056c-cff8-4db2-b951-01859431a35e"),
                 ScheduleId = schedule3.Id,
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 Description = "Router firmware was updated and tested."
             };
 
@@ -1857,7 +1859,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("8455c9b0-c2ca-4de4-bdee-3070dc8af954"),
                 ScheduleId = schedule4.Id,
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 Description = "The desktop was used for backend development tasks."
             };
 
@@ -1865,7 +1867,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("426c57ce-68aa-498b-b603-16cf1e7a238d"),
                 ScheduleId = schedule5.Id,
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 Description = "Monitor calibrated for color accuracy."
             };
 
@@ -1873,7 +1875,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("285ce1fd-470c-4474-ad1b-ba273c0e8653"),
                 ScheduleId = schedule6.Id,
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 Description = "Printer serviced and toner replaced."
             };
 
@@ -1881,7 +1883,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("dd8ac1ac-0f4f-45af-825e-e74e531b66dc"),
                 ScheduleId = schedule7.Id,
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 Description = "Tablet used for sketching new UI designs."
             };
 
@@ -1890,7 +1892,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("f1dcaea6-1670-47d7-b8cb-398b89ca09d0"),
                 ScheduleId = schedule8.Id,
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 Description = "Projector used in a client presentation."
             };
 
@@ -1898,7 +1900,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("0e287e15-6c9f-44ab-9fb3-dc183f5e5e92"),
                 ScheduleId = schedule9.Id,
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 Description = "Network switch configuration updated."
             };
 
@@ -1906,7 +1908,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("78d4e5bd-d685-49b5-8b12-e71df921ec65"),
                 ScheduleId = schedule10.Id,
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 Description = "Server performance was monitored during load testing."
             };
 
@@ -1914,7 +1916,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("b9d04c5f-2ec0-4da1-92ab-7ef9bdcd82e4"),
                 ScheduleId = schedule11.Id,
-                DeviceStatusId = 2,
+                DeviceStatus = DEVICE_STATUS.INUSE,
                 Description = "Developer's laptop used for bug fixing."
             };
 
@@ -1922,7 +1924,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("5faf118e-4687-47c2-9b83-ecb389b8b6d5"),
                 ScheduleId = schedule12.Id,
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 Description = "Router settings optimized for network traffic."
             };
 
@@ -1930,7 +1932,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("76199946-58bd-473a-95a7-9da8afcb9fc7"),
                 ScheduleId = schedule13.Id,
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 Description = "Desktop setup for new project development."
             };
 
@@ -1938,7 +1940,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("e4880a12-6d1d-4e9b-8832-89c5982b1346"),
                 ScheduleId = schedule14.Id,
-                DeviceStatusId = 2,
+                DeviceStatus = DEVICE_STATUS.INUSE,
                 Description = "High-resolution monitor tested with graphic design software."
             };
 
@@ -1946,7 +1948,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("06a6fcd7-eb30-4728-9856-ee8d00f84810"),
                 ScheduleId = schedule15.Id,
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 Description = "Designer's tablet updated with latest design apps."
             };
 
@@ -1954,7 +1956,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("cf4dfffd-74e9-46dd-b9b5-2a9d09001564"),
                 ScheduleId = schedule16.Id,
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 Description = "Projector used for team meeting presentations."
             };
 
@@ -1962,7 +1964,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("19f6bcc1-2a8d-4c5d-ab3b-d5d3b21da159"),
                 ScheduleId = schedule17.Id,
-                DeviceStatusId = 2,
+                DeviceStatus = DEVICE_STATUS.INUSE,
                 Description = "Network switch maintenance and inspection."
             };
 
@@ -1970,7 +1972,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("697817b7-9d65-47dd-a39b-909f89e25bce"),
                 ScheduleId = schedule18.Id,
-                DeviceStatusId = 1,
+                DeviceStatus = DEVICE_STATUS.AVAILABLE,
                 Description = "The desktop was used for backend development tasks."
             };
 
@@ -1978,7 +1980,7 @@ namespace Repository.Configuration
             {
                 Id = new Guid("b774e795-3469-4b58-afe0-5f6e9e0a6aec"),
                 ScheduleId = schedule19.Id,
-                DeviceStatusId = 2,
+                DeviceStatus = DEVICE_STATUS.INUSE,
                 Description = "The desktop was used for backend development tasks."
             };
 
@@ -1986,34 +1988,34 @@ namespace Repository.Configuration
             {
                 Id = new Guid("5e2385b4-08f6-4e9e-888b-5d94c4b7fb78"),
                 ScheduleId = schedule20.Id,
-                DeviceStatusId = 2,
+                DeviceStatus = DEVICE_STATUS.INUSE,
                 Description = "The desktop was used for backend development tasks."
             };
 
             builder.Entity<Report>().HasData(rp1, rp2, rp3, rp4, rp5, rp6, rp7, rp8, rp9, rp10, rp11, rp12, rp13, rp14, rp15, rp16, rp17, rp18, rp19, rp20);
 
-            builder.Entity<ProjectStatus>().HasData(
-                new ProjectStatus
-                {
-                    Id = 1,
-                    Name = "Initializing",
-                },
-                new ProjectStatus
-                {
-                    Id = 2,
-                    Name = "On-going",
-                },
-                new ProjectStatus
-                {
-                    Id = 3,
-                    Name = "Completed",
-                },
-                new ProjectStatus
-                {
-                    Id = 4,
-                    Name = "Cancel",
-                }
-            );
+            //builder.Entity<ProjectStatus>().HasData(
+            //    new ProjectStatus
+            //    {
+            //        Id = 1,
+            //        Name = "Initializing",
+            //    },
+            //    new ProjectStatus
+            //    {
+            //        Id = 2,
+            //        Name = "On-going",
+            //    },
+            //    new ProjectStatus
+            //    {
+            //        Id = 3,
+            //        Name = "Completed",
+            //    },
+            //    new ProjectStatus
+            //    {
+            //        Id = 4,
+            //        Name = "Cancel",
+            //    }
+            //);
 
             builder.Entity<ProjectType>().HasData(
                 new ProjectType
@@ -2054,7 +2056,7 @@ namespace Repository.Configuration
                 Name = "LIMS",
                 Description = "Implementing LIMS system for laboratory management.",
                 CreatedDate = new DateTime(2024, 05, 01),
-                ProjectStatusId = 2,
+                ProjectStatus = PROJECT_STATUS.INITIALIZING,
                 MaxMember = 5,
                 IsRecruiting = false,
                 ProjectTypeId = 1
@@ -2066,7 +2068,7 @@ namespace Repository.Configuration
                 Name = "VR application for patient",
                 Description = "Developing application for occupational therapy",
                 CreatedDate = new DateTime(2024, 06, 12),
-                ProjectStatusId = 2,
+                ProjectStatus = PROJECT_STATUS.INITIALIZING,
                 MaxMember = 4,
                 IsRecruiting = false,
                 ProjectTypeId = 6
@@ -2077,7 +2079,7 @@ namespace Repository.Configuration
                 Name = "Research Paper on Quantum Computing",
                 Description = "A comprehensive research paper on the applications of quantum computing in cryptography.",
                 CreatedDate = new DateTime(2024, 06, 30),
-                ProjectStatusId = 2,
+                ProjectStatus = PROJECT_STATUS.INITIALIZING,
                 MaxMember = 3,
                 IsRecruiting = false,
                 ProjectTypeId = 2
@@ -2088,7 +2090,7 @@ namespace Repository.Configuration
                 Name = "AI in Healthcare",
                 Description = "Using AI to improve healthcare outcomes.",
                 CreatedDate = new DateTime(2023, 12, 06),
-                ProjectStatusId = 3,
+                ProjectStatus = PROJECT_STATUS.INITIALIZING,
                 MaxMember = 5,
                 IsRecruiting = false,
                 ProjectTypeId = 5
@@ -2099,7 +2101,7 @@ namespace Repository.Configuration
                 Name = "Environmental Monitoring",
                 Description = "Monitoring environmental parameters using IoT.",
                 CreatedDate = new DateTime(2024, 01, 16),
-                ProjectStatusId = 2,
+                ProjectStatus = PROJECT_STATUS.INITIALIZING,
                 MaxMember = 5,
                 IsRecruiting = false,
                 ProjectTypeId = 3
@@ -2110,7 +2112,7 @@ namespace Repository.Configuration
                 Name = "Mobile Health App",
                 Description = "A mobile application for monitoring and managing personal health data.",
                 CreatedDate = new DateTime(2024, 01, 06),
-                ProjectStatusId = 3,
+                ProjectStatus = PROJECT_STATUS.INITIALIZING,
                 MaxMember = 4,
                 IsRecruiting = false,
                 ProjectTypeId = 4
@@ -2121,7 +2123,7 @@ namespace Repository.Configuration
                 Name = "AI-based Image Recognition",
                 Description = "Developing an AI system for recognizing and classifying images with high accuracy.",
                 CreatedDate = new DateTime(2023, 12, 09),
-                ProjectStatusId = 4,
+                ProjectStatus = PROJECT_STATUS.INITIALIZING,
                 MaxMember = 5,
                 IsRecruiting = false,
                 ProjectTypeId = 5
@@ -2132,7 +2134,7 @@ namespace Repository.Configuration
                 Name = "Virtual Reality Training Platform",
                 Description = "Creating a VR platform for training professionals in various fields.",
                 CreatedDate = new DateTime(2024, 07, 05),
-                ProjectStatusId = 1,
+                ProjectStatus = PROJECT_STATUS.INITIALIZING,
                 MaxMember = 5,
                 IsRecruiting = true,
                 ProjectTypeId = 6
@@ -2143,7 +2145,7 @@ namespace Repository.Configuration
                 Name = "Data Analytics for Public Health",
                 Description = "Using data analytics to improve public health policies.",
                 CreatedDate = new DateTime(2024, 06, 30),
-                ProjectStatusId = 1,
+                ProjectStatus = PROJECT_STATUS.INITIALIZING,
                 MaxMember = 4,
                 IsRecruiting = true,
                 ProjectTypeId = 1
@@ -2611,51 +2613,51 @@ namespace Repository.Configuration
 
             builder.Entity<TaskList>().HasData(tl1, tl2, tl3, tl4, tl5, tl6, tl7, tl8, tl9, tl10, tl11, tl12, tl13, tl14, tl15, tl16, tl17, tl18, tl19, tl20, tl21, tl22, tl23, tl24, tl25, tl26, tl27, tl28, tl29, tl30);
 
-            builder.Entity<TaskPriorities>().HasData(
-                new TaskPriorities
-                {
-                    Id = 1,
-                    Name = "Low",
-                },
-                new TaskPriorities
-                {
-                    Id = 2,
-                    Name = "Medium",
-                },
-                new TaskPriorities
-                {
-                    Id = 3,
-                    Name = "High",
-                },
-                new TaskPriorities
-                {
-                    Id = 4,
-                    Name = "Critical",
-                }
-            );
+            //builder.Entity<TaskPriorities>().HasData(
+            //    new TaskPriorities
+            //    {
+            //        Id = 1,
+            //        Name = "Low",
+            //    },
+            //    new TaskPriorities
+            //    {
+            //        Id = 2,
+            //        Name = "Medium",
+            //    },
+            //    new TaskPriorities
+            //    {
+            //        Id = 3,
+            //        Name = "High",
+            //    },
+            //    new TaskPriorities
+            //    {
+            //        Id = 4,
+            //        Name = "Critical",
+            //    }
+            //);
 
-            builder.Entity<TasksStatus>().HasData(
-                new TasksStatus
-                {
-                    Id = 1,
-                    Name = "Open/To do",
-                },
-                new TasksStatus
-                {
-                    Id = 2,
-                    Name = "Doing",
-                },
-                new TasksStatus
-                {
-                    Id = 3,
-                    Name = "Review",
-                },
-                new TasksStatus
-                {
-                    Id = 4,
-                    Name = "Close",
-                }
-            );
+            //builder.Entity<TasksStatus>().HasData(
+            //    new TasksStatus
+            //    {
+            //        Id = 1,
+            //        Name = "Open/To do",
+            //    },
+            //    new TasksStatus
+            //    {
+            //        Id = 2,
+            //        Name = "Doing",
+            //    },
+            //    new TasksStatus
+            //    {
+            //        Id = 3,
+            //        Name = "Review",
+            //    },
+            //    new TasksStatus
+            //    {
+            //        Id = 4,
+            //        Name = "Close",
+            //    }
+            //);
             // Tasks for Project "LIMS"
             Tasks t1 = new Tasks
             {
@@ -2667,10 +2669,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 01),
                 StartDate = new DateTime(2024, 05, 02),
                 DueDate = new DateTime(2024, 05, 10),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("0bb2e364-d05d-4128-b24d-0f69725b85f3"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user3.Id
             };
             Tasks t2 = new Tasks
@@ -2683,10 +2685,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 01),
                 StartDate = new DateTime(2024, 05, 02),
                 DueDate = new DateTime(2024, 05, 15),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("0bb2e364-d05d-4128-b24d-0f69725b85f3"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user4.Id,
             };
             Tasks t3 = new Tasks
@@ -2699,10 +2701,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 12),
                 StartDate = new DateTime(2024, 05, 13),
                 DueDate = new DateTime(2024, 05, 25),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("8866bcb2-198a-4fcd-b0c0-8090444b8722"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user3.Id
             };
             Tasks t4 = new Tasks
@@ -2715,10 +2717,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 12),
                 StartDate = new DateTime(2024, 05, 13),
                 DueDate = new DateTime(2024, 05, 27),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("8866bcb2-198a-4fcd-b0c0-8090444b8722"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user5.Id,
             };
             Tasks t5 = new Tasks
@@ -2731,10 +2733,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 25),
                 StartDate = new DateTime(2024, 05, 26),
                 DueDate = new DateTime(2024, 06, 15),
-                TaskPriorityId = 1,
+                TaskPriority = TASK_PRIORITY.LOW,
                 TaskListId = new Guid("94420810-4a35-4f33-a7df-6078ab4efb1c"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user6.Id
             };
             Tasks t6 = new Tasks
@@ -2747,10 +2749,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 25),
                 StartDate = new DateTime(2024, 05, 26),
                 DueDate = new DateTime(2024, 06, 20),
-                TaskPriorityId = 1,
+                TaskPriority = TASK_PRIORITY.LOW,
                 TaskListId = new Guid("94420810-4a35-4f33-a7df-6078ab4efb1c"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user4.Id
             };
             Tasks t7 = new Tasks
@@ -2763,10 +2765,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 30),
                 StartDate = new DateTime(2024, 06, 01),
                 DueDate = new DateTime(2024, 06, 10),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("94420810-4a35-4f33-a7df-6078ab4efb1c"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user3.Id
             };
             Tasks t8 = new Tasks
@@ -2779,10 +2781,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 06, 20),
                 StartDate = new DateTime(2024, 06, 21),
                 DueDate = new DateTime(2024, 07, 01),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("816ebcd1-124d-4b5c-810e-b0e8aeedb501"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user6.Id
             };
             Tasks t9 = new Tasks
@@ -2795,10 +2797,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 06, 20),
                 StartDate = new DateTime(2024, 06, 21),
                 DueDate = new DateTime(2024, 07, 05),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("816ebcd1-124d-4b5c-810e-b0e8aeedb501"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user5.Id
             };
             Tasks t10 = new Tasks
@@ -2811,10 +2813,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 07, 01),
                 StartDate = new DateTime(2024, 07, 02),
                 DueDate = new DateTime(2024, 07, 05),
-                TaskPriorityId = 1,
+                TaskPriority = TASK_PRIORITY.LOW,
                 TaskListId = new Guid("e86a5ffe-7b06-4f06-94a4-698cb58161db"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user3.Id
             };
 
@@ -2829,10 +2831,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 01),
                 StartDate = new DateTime(2024, 05, 02),
                 DueDate = new DateTime(2024, 05, 15),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("2c81e116-5120-4920-bf51-092081bfc67d"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user3.Id
             };
             Tasks t12 = new Tasks
@@ -2845,10 +2847,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 16),
                 StartDate = new DateTime(2024, 05, 17),
                 DueDate = new DateTime(2024, 06, 05),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("a88a1f4e-d3dd-42f0-a0e7-3a7f6affa301"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user4.Id
             };
             Tasks t13 = new Tasks
@@ -2861,10 +2863,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 06, 06),
                 StartDate = new DateTime(2024, 06, 07),
                 DueDate = new DateTime(2024, 06, 20),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("8de05be7-f7d1-425e-9c5e-b1a965456935"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user8.Id
             };
             Tasks t14 = new Tasks
@@ -2877,10 +2879,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 06, 21),
                 StartDate = new DateTime(2024, 06, 22),
                 DueDate = new DateTime(2024, 07, 10),
-                TaskPriorityId = 1,
+                TaskPriority = TASK_PRIORITY.LOW,
                 TaskListId = new Guid("95be764c-437f-42c8-bd26-bf0aff147218"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user8.Id
             };
             Tasks t15 = new Tasks
@@ -2893,10 +2895,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 01),
                 StartDate = new DateTime(2024, 05, 02),
                 DueDate = new DateTime(2024, 05, 15),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("2c81e116-5120-4920-bf51-092081bfc67d"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user4.Id
             };
             Tasks t16 = new Tasks
@@ -2909,10 +2911,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 16),
                 StartDate = new DateTime(2024, 05, 17),
                 DueDate = new DateTime(2024, 06, 05),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("a88a1f4e-d3dd-42f0-a0e7-3a7f6affa301"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user4.Id
             };
             Tasks t17 = new Tasks
@@ -2925,10 +2927,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 06, 06),
                 StartDate = new DateTime(2024, 06, 07),
                 DueDate = new DateTime(2024, 06, 20),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("8de05be7-f7d1-425e-9c5e-b1a965456935"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user3.Id
             };
             Tasks t18 = new Tasks
@@ -2941,10 +2943,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 06, 21),
                 StartDate = new DateTime(2024, 06, 22),
                 DueDate = new DateTime(2024, 07, 10),
-                TaskPriorityId = 1,
+                TaskPriority = TASK_PRIORITY.LOW,
                 TaskListId = new Guid("95be764c-437f-42c8-bd26-bf0aff147218"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user3.Id
             };
             Tasks t19 = new Tasks
@@ -2957,10 +2959,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 01),
                 StartDate = new DateTime(2024, 05, 02),
                 DueDate = new DateTime(2024, 05, 15),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("2c81e116-5120-4920-bf51-092081bfc67d"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user8.Id
             };
             Tasks t20 = new Tasks
@@ -2973,10 +2975,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 16),
                 StartDate = new DateTime(2024, 05, 17),
                 DueDate = new DateTime(2024, 06, 05),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("a88a1f4e-d3dd-42f0-a0e7-3a7f6affa301"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user8.Id
             };
             Tasks t21 = new Tasks
@@ -2989,10 +2991,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 06, 06),
                 StartDate = new DateTime(2024, 06, 07),
                 DueDate = new DateTime(2024, 06, 20),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("8de05be7-f7d1-425e-9c5e-b1a965456935"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user3.Id
             };
 
@@ -3006,10 +3008,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 01),
                 StartDate = new DateTime(2024, 05, 02),
                 DueDate = new DateTime(2024, 05, 15),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("84f2c617-35e0-4343-a7c8-35226cb4c6a1"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user7.Id
             };
             Tasks t23 = new Tasks
@@ -3022,10 +3024,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 16),
                 StartDate = new DateTime(2024, 05, 17),
                 DueDate = new DateTime(2024, 06, 05),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("3a339b14-8f9e-413d-97d0-7ce36aafee58"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user7.Id
             };
             Tasks t24 = new Tasks
@@ -3038,10 +3040,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 06, 06),
                 StartDate = new DateTime(2024, 06, 07),
                 DueDate = new DateTime(2024, 06, 20),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("3a339b14-8f9e-413d-97d0-7ce36aafee58"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user7.Id
             };
             Tasks t25 = new Tasks
@@ -3054,10 +3056,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 06, 21),
                 StartDate = new DateTime(2024, 06, 22),
                 DueDate = new DateTime(2024, 07, 10),
-                TaskPriorityId = 1,
+                TaskPriority = TASK_PRIORITY.LOW,
                 TaskListId = new Guid("67a4dd09-f119-4c82-921e-597279ef412d"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user16.Id
             };
             Tasks t26 = new Tasks
@@ -3070,10 +3072,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 07, 11),
                 StartDate = new DateTime(2024, 07, 12),
                 DueDate = new DateTime(2024, 07, 30),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user16.Id
             };
             Tasks t27 = new Tasks
@@ -3086,10 +3088,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 08, 01),
                 StartDate = new DateTime(2024, 08, 02),
                 DueDate = new DateTime(2024, 08, 15),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user7.Id
             };
             Tasks t28 = new Tasks
@@ -3102,10 +3104,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 08, 16),
                 StartDate = new DateTime(2024, 08, 17),
                 DueDate = new DateTime(2024, 09, 01),
-                TaskPriorityId = 1,
+                TaskPriority = TASK_PRIORITY.LOW,
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user7.Id
             };
             Tasks t29 = new Tasks
@@ -3118,10 +3120,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 09, 02),
                 StartDate = new DateTime(2024, 09, 03),
                 DueDate = new DateTime(2024, 09, 20),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user16.Id
             };
             Tasks t30 = new Tasks
@@ -3134,10 +3136,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 09, 21),
                 StartDate = new DateTime(2024, 09, 22),
                 DueDate = new DateTime(2024, 10, 05),
-                TaskPriorityId = 1,
+                TaskPriority = TASK_PRIORITY.LOW,
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user7.Id
             };
             Tasks t31 = new Tasks
@@ -3150,10 +3152,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 10, 06),
                 StartDate = new DateTime(2024, 10, 07),
                 DueDate = new DateTime(2024, 10, 20),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user16.Id
             };
 
@@ -3169,10 +3171,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2023, 12, 07),
                 StartDate = new DateTime(2023, 12, 08),
                 DueDate = new DateTime(2023, 12, 20),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("5b24898d-dddc-4c99-8c69-5e43a370e45c"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user4.Id
             };
             Tasks t33 = new Tasks
@@ -3185,10 +3187,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2023, 12, 21),
                 StartDate = new DateTime(2023, 12, 22),
                 DueDate = new DateTime(2024, 01, 05),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("5b24898d-dddc-4c99-8c69-5e43a370e45c"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user20.Id
             };
             Tasks t34 = new Tasks
@@ -3201,10 +3203,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 01, 06),
                 StartDate = new DateTime(2024, 01, 07),
                 DueDate = new DateTime(2024, 01, 31),
-                TaskPriorityId = 1,
+                TaskPriority = TASK_PRIORITY.LOW,
                 TaskListId = new Guid("f5840e34-49e8-435f-bbb4-e403c53642b1"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user20.Id
             };
             Tasks t35 = new Tasks
@@ -3217,10 +3219,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 02, 01),
                 StartDate = new DateTime(2024, 02, 02),
                 DueDate = new DateTime(2024, 02, 28),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("f5840e34-49e8-435f-bbb4-e403c53642b1"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user19.Id
             };
             Tasks t36 = new Tasks
@@ -3233,10 +3235,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 03, 01),
                 StartDate = new DateTime(2024, 03, 02),
                 DueDate = new DateTime(2024, 03, 15),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("4c238c20-5106-4ca5-88a7-9980892a5455"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user18.Id
             };
             Tasks t37 = new Tasks
@@ -3249,10 +3251,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 03, 16),
                 StartDate = new DateTime(2024, 03, 17),
                 DueDate = new DateTime(2024, 03, 31),
-                TaskPriorityId = 1,
+                TaskPriority = TASK_PRIORITY.LOW,
                 TaskListId = new Guid("4c238c20-5106-4ca5-88a7-9980892a5455"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user19.Id
             };
             Tasks t38 = new Tasks
@@ -3265,10 +3267,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 04, 01),
                 StartDate = new DateTime(2024, 04, 02),
                 DueDate = new DateTime(2024, 04, 15),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user20.Id
             };
             Tasks t39 = new Tasks
@@ -3281,10 +3283,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 04, 16),
                 StartDate = new DateTime(2024, 04, 17),
                 DueDate = new DateTime(2024, 04, 30),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user19.Id
             };
             Tasks t40 = new Tasks
@@ -3297,10 +3299,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 01),
                 StartDate = new DateTime(2024, 05, 02),
                 DueDate = new DateTime(2024, 05, 15),
-                TaskPriorityId = 1,
+                TaskPriority = TASK_PRIORITY.LOW,
                 TaskListId = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user4.Id
             };
             Tasks t41 = new Tasks
@@ -3313,10 +3315,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 05, 16),
                 StartDate = new DateTime(2024, 05, 17),
                 DueDate = new DateTime(2024, 06, 01),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user4.Id
             };
 
@@ -3332,10 +3334,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 01, 17),
                 StartDate = new DateTime(2024, 01, 18),
                 DueDate = new DateTime(2024, 01, 25),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("c07b395a-cbf6-49a4-aeaa-ef28de9517ff"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user20.Id
             };
             Tasks t43 = new Tasks
@@ -3348,10 +3350,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 01, 26),
                 StartDate = new DateTime(2024, 01, 27),
                 DueDate = new DateTime(2024, 02, 03),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("c07b395a-cbf6-49a4-aeaa-ef28de9517ff"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user17.Id
             };
             Tasks t44 = new Tasks
@@ -3364,10 +3366,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 02, 04),
                 StartDate = new DateTime(2024, 02, 05),
                 DueDate = new DateTime(2024, 02, 12),
-                TaskPriorityId = 1,
+                TaskPriority = TASK_PRIORITY.LOW,
                 TaskListId = new Guid("24d9bd4f-d960-4081-87a8-6be032290863"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user16.Id
             };
             Tasks t45 = new Tasks
@@ -3380,10 +3382,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 02, 13),
                 StartDate = new DateTime(2024, 02, 14),
                 DueDate = new DateTime(2024, 02, 21),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("24d9bd4f-d960-4081-87a8-6be032290863"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user15.Id
             };
             Tasks t46 = new Tasks
@@ -3396,10 +3398,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 02, 22),
                 StartDate = new DateTime(2024, 02, 23),
                 DueDate = new DateTime(2024, 03, 01),
-                TaskPriorityId = 1,
+                TaskPriority = TASK_PRIORITY.LOW,
                 TaskListId = new Guid("455d5a96-2d52-4aa8-a98f-ac27f4f321c3"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user15.Id
             };
             Tasks t47 = new Tasks
@@ -3412,10 +3414,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 03, 02),
                 StartDate = new DateTime(2024, 03, 03),
                 DueDate = new DateTime(2024, 03, 10),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("455d5a96-2d52-4aa8-a98f-ac27f4f321c3"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user17.Id
             };
             Tasks t48 = new Tasks
@@ -3428,10 +3430,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 03, 11),
                 StartDate = new DateTime(2024, 03, 12),
                 DueDate = new DateTime(2024, 03, 18),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("a37790d5-0113-491b-98af-5060ff8aa26c"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user16.Id
             };
             Tasks t49 = new Tasks
@@ -3444,10 +3446,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 03, 19),
                 StartDate = new DateTime(2024, 03, 20),
                 DueDate = new DateTime(2024, 03, 27),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("a37790d5-0113-491b-98af-5060ff8aa26c"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user20.Id
             };
             Tasks t50 = new Tasks
@@ -3460,10 +3462,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 03, 28),
                 StartDate = new DateTime(2024, 03, 29),
                 DueDate = new DateTime(2024, 04, 04),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("455d5a96-2d52-4aa8-a98f-ac27f4f321c3"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user17.Id
             };
             Tasks t51 = new Tasks
@@ -3476,10 +3478,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 04, 05),
                 StartDate = new DateTime(2024, 04, 06),
                 DueDate = new DateTime(2024, 04, 15),
-                TaskPriorityId = 1,
+                TaskPriority = TASK_PRIORITY.LOW,
                 TaskListId = new Guid("a37790d5-0113-491b-98af-5060ff8aa26c"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user20.Id
             };
 
@@ -3494,10 +3496,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 01, 07),
                 StartDate = new DateTime(2024, 01, 08),
                 DueDate = new DateTime(2024, 01, 15),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("41640d60-1134-45c3-a7c4-2e7f306ec967"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user15.Id
             };
             Tasks t53 = new Tasks
@@ -3510,10 +3512,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 01, 16),
                 StartDate = new DateTime(2024, 01, 17),
                 DueDate = new DateTime(2024, 01, 22),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("5618a016-156a-449c-92e6-926eabe0cf8a"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user14.Id
             };
             Tasks t54 = new Tasks
@@ -3526,10 +3528,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 01, 23),
                 StartDate = new DateTime(2024, 01, 24),
                 DueDate = new DateTime(2024, 02, 01),
-                TaskPriorityId = 4,
+                TaskPriority = TASK_PRIORITY.CRITICAL,
                 TaskListId = new Guid("431dd63b-469e-4589-b1c6-4b4af20a7728"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user7.Id
             };
             Tasks t55 = new Tasks
@@ -3542,10 +3544,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 02, 02),
                 StartDate = new DateTime(2024, 02, 03),
                 DueDate = new DateTime(2024, 02, 10),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("431dd63b-469e-4589-b1c6-4b4af20a7728"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user15.Id
             };
             Tasks t56 = new Tasks
@@ -3558,10 +3560,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 02, 11),
                 StartDate = new DateTime(2024, 02, 12),
                 DueDate = new DateTime(2024, 02, 18),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("60ac6a0a-2788-4326-ad31-fdd899d7b80f"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user7.Id
             };
             Tasks t57 = new Tasks
@@ -3574,10 +3576,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 02, 19),
                 StartDate = new DateTime(2024, 02, 20),
                 DueDate = new DateTime(2024, 02, 28),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("60ac6a0a-2788-4326-ad31-fdd899d7b80f"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user14.Id
             };
             Tasks t58 = new Tasks
@@ -3590,10 +3592,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 02, 29),
                 StartDate = new DateTime(2024, 03, 01),
                 DueDate = new DateTime(2024, 03, 07),
-                TaskPriorityId = 4,
+                TaskPriority = TASK_PRIORITY.CRITICAL,
                 TaskListId = new Guid("60ac6a0a-2788-4326-ad31-fdd899d7b80f"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user7.Id
             };
             Tasks t59 = new Tasks
@@ -3606,10 +3608,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 03, 08),
                 StartDate = new DateTime(2024, 03, 09),
                 DueDate = new DateTime(2024, 03, 15),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("75f606e3-f12a-4257-b486-a15ef2aad23b"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user15.Id
             };
             Tasks t60 = new Tasks
@@ -3622,10 +3624,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 03, 16),
                 StartDate = new DateTime(2024, 03, 17),
                 DueDate = new DateTime(2024, 03, 20),
-                TaskPriorityId = 4,
+                TaskPriority = TASK_PRIORITY.CRITICAL,
                 TaskListId = new Guid("75f606e3-f12a-4257-b486-a15ef2aad23b"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user7.Id
             };
             Tasks t61 = new Tasks
@@ -3638,10 +3640,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 03, 21),
                 StartDate = new DateTime(2024, 03, 22),
                 DueDate = new DateTime(2024, 03, 29),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("75f606e3-f12a-4257-b486-a15ef2aad23b"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user14.Id
             };
 
@@ -3656,10 +3658,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2023, 12, 10),
                 StartDate = new DateTime(2023, 12, 11),
                 DueDate = new DateTime(2023, 12, 18),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("5f54b6b6-614e-46d2-a64e-10d91db2f516"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user6.Id
             };
             Tasks t63 = new Tasks
@@ -3672,10 +3674,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2023, 12, 19),
                 StartDate = new DateTime(2023, 12, 20),
                 DueDate = new DateTime(2023, 12, 25),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("5f54b6b6-614e-46d2-a64e-10d91db2f516"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user5.Id
             };
             Tasks t64 = new Tasks
@@ -3688,10 +3690,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2023, 12, 26),
                 StartDate = new DateTime(2023, 12, 27),
                 DueDate = new DateTime(2024, 01, 05),
-                TaskPriorityId = 4,
+                TaskPriority = TASK_PRIORITY.CRITICAL,
                 TaskListId = new Guid("b351e4b2-8b16-4c0c-b37b-630bcf661e4b"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user4.Id
             };
             Tasks t65 = new Tasks
@@ -3704,10 +3706,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 01, 06),
                 StartDate = new DateTime(2024, 01, 07),
                 DueDate = new DateTime(2024, 01, 15),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("0008056c-1d86-45f8-ae4e-b0512284472d"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user16.Id
             };
             Tasks t66 = new Tasks
@@ -3720,10 +3722,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 01, 16),
                 StartDate = new DateTime(2024, 01, 17),
                 DueDate = new DateTime(2024, 01, 22),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user6.Id
             };
             Tasks t67 = new Tasks
@@ -3736,10 +3738,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 01, 23),
                 StartDate = new DateTime(2024, 01, 24),
                 DueDate = new DateTime(2024, 01, 31),
-                TaskPriorityId = 4,
+                TaskPriority = TASK_PRIORITY.CRITICAL,
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user16.Id
             };
             Tasks t68 = new Tasks
@@ -3752,10 +3754,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 02, 01),
                 StartDate = new DateTime(2024, 02, 02),
                 DueDate = new DateTime(2024, 02, 10),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user5.Id
             };
             Tasks t69 = new Tasks
@@ -3768,10 +3770,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 02, 11),
                 StartDate = new DateTime(2024, 02, 12),
                 DueDate = new DateTime(2024, 02, 18),
-                TaskPriorityId = 2,
+                TaskPriority = TASK_PRIORITY.MEDIUM,
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user16.Id
             };
             Tasks t70 = new Tasks
@@ -3784,10 +3786,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 02, 19),
                 StartDate = new DateTime(2024, 02, 20),
                 DueDate = new DateTime(2024, 02, 28),
-                TaskPriorityId = 3,
+                TaskPriority = TASK_PRIORITY.HIGH,
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user4.Id
             };
             Tasks t71 = new Tasks
@@ -3800,10 +3802,10 @@ namespace Repository.Configuration
                 CreatedDate = new DateTime(2024, 02, 29),
                 StartDate = new DateTime(2024, 03, 01),
                 DueDate = new DateTime(2024, 03, 07),
-                TaskPriorityId = 4,
+                TaskPriority = TASK_PRIORITY.CRITICAL,
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
-                TaskStatusId = 1,
+                TaskStatus = TASK_STATUS.OPEN_TODO,
                 AssignedTo = user4.Id
             };
 
