@@ -1,66 +1,72 @@
-import React, { useState } from 'react';
-import FroalaEditor from 'react-froala-wysiwyg';
-import 'froala-editor/css/froala_editor.pkgd.min.css';
-import 'froala-editor/css/froala_style.min.css';
-import 'froala-editor/css/plugins.pkgd.min.css';
-import 'froala-editor/css/themes/gray.min.css';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-const CreateForm: React.FC = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+import RichText from '@/components/app/rich-text';
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
+const limit = 1000;
 
-  const handleContentChange = (model: string) => {
-    setContent(model);
-  };
+const formSchema = z.object({
+  title: z.string().min(1),
+  content: z.string().min(limit).trim()
+});
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Title:', title);
-    console.log('Content:', content);
-    // Submit logic here
-  };
+export function CreateNewsForm() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: '',
+      content: ''
+    }
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values.content);
+  }
 
   return (
-    <div className='flex min-h-screen flex-col items-center justify-center px-4'>
-      <form onSubmit={handleSubmit} className='w-full max-w-3xl space-y-6'>
-        <div>
-          <label className='mb-2 block text-lg font-semibold' htmlFor='news-title'>
-            News title
-          </label>
-          <input
-            id='news-title'
-            type='text'
-            value={title}
-            onChange={handleTitleChange}
-            className='w-full rounded border border-gray-300 px-4 py-2'
-            placeholder='Enter news title'
-            required
-          />
-        </div>
-        <div>
-          <label className='mb-2 block text-lg font-semibold' htmlFor='news-content'>
-            News content
-          </label>
-          <FroalaEditor
-            tag='textarea'
-            model={content}
-            onModelChange={handleContentChange}
-            config={{
-              placeholderText: 'Enter news content',
-              height: 300
-            }}
-          />
-        </div>
-        <button type='submit' className='rounded bg-blue-500 px-6 py-2 text-white'>
-          Create News
-        </button>
-      </form>
-    </div>
-  );
-};
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3 p-3'>
+        {/* Title */}
+        <FormField
+          control={form.control}
+          name='title'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Title</FormLabel>
+              <FormControl>
+                <Input type='text' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-export default CreateForm;
+        <FormField
+          control={form.control}
+          name='content'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Content</FormLabel>
+              <FormControl>
+                <RichText onChange={field.onChange} value={field.value} limit={limit} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type='submit'>Submit</Button>
+      </form>
+    </Form>
+  );
+}

@@ -12,7 +12,7 @@ export function Layout({ children }: LayoutProps) {
   return (
     <ProtectedRoute>
       <BaseLayout>
-        <div className='mt-2 p-10'>{children}</div>
+        <div className='mt-2 h-dvh p-10'>{children}</div>
       </BaseLayout>
     </ProtectedRoute>
   );

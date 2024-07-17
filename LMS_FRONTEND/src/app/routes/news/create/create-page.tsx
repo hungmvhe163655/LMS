@@ -1,10 +1,10 @@
-import { Layout } from '@/components/layouts/auth-layout';
-import CreateForm from '@/features/news/components/create-form';
+import { Layout } from '@/components/layouts/default-layout';
+import { CreateNewsForm } from '@/features/news/components/create-news';
 
 export function CreateNewsPage() {
   return (
-    <Layout title='Create news'>
-      <CreateForm />
+    <Layout>
+      <CreateNewsForm />
     </Layout>
   );
 }
