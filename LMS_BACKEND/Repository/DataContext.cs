@@ -492,6 +492,7 @@ namespace Repository
                     .ValueGeneratedNever()
                     .HasColumnName("Id");
                 entity.Property(e => e.AssignedTo).HasColumnName("AssignedTo");
+                entity.Property(e => e.Order).HasColumnName("Order");
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.DueDate).HasColumnName("DueDate");
@@ -685,6 +686,7 @@ namespace Repository
                     .ValueGeneratedNever()
                     .HasColumnName("Id");
                 entity.Property(e => e.MaxTasks).HasColumnName("MaxTasks");
+                entity.Property(e => e.Order).HasColumnName("Order");
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .HasColumnName("Name");
