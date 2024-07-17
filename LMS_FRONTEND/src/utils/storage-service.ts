@@ -1,25 +1,27 @@
-export class StorageService {
-  private static readonly ACCESS_TOKEN_KEY = 'accessToken';
-  private static readonly REFRESH_TOKEN_KEY = 'refreshToken';
+import ls from 'localstorage-slim';
 
-  static setAccessToken(token: string) {
-    localStorage.setItem(this.ACCESS_TOKEN_KEY, token);
-  }
+const ACCESS_TOKEN_KEY = 'accessToken';
+const REFRESH_TOKEN_KEY = 'refreshToken';
 
-  static getAccessToken(): string | undefined {
-    return localStorage.getItem(this.ACCESS_TOKEN_KEY) ?? undefined;
-  }
+ls.config.encrypt = true;
+ls.config.secret = 50;
 
-  static setRefreshToken(token: string) {
-    localStorage.setItem(this.REFRESH_TOKEN_KEY, token);
-  }
+export function setAccessToken(token: string) {
+  ls.set(ACCESS_TOKEN_KEY, token);
+}
 
-  static getRefreshToken(): string | undefined {
-    return localStorage.getItem(this.REFRESH_TOKEN_KEY) ?? undefined;
-  }
+export function getAccessToken(): string | undefined {
+  return ls.get(ACCESS_TOKEN_KEY) ?? undefined;
+}
 
-  static clearTokens() {
-    localStorage.removeItem(this.ACCESS_TOKEN_KEY);
-    localStorage.removeItem(this.REFRESH_TOKEN_KEY);
-  }
+export function setRefreshToken(token: string) {
+  ls.set(REFRESH_TOKEN_KEY, token);
+}
+
+export function getRefreshToken(): string | undefined {
+  return ls.get(REFRESH_TOKEN_KEY) ?? undefined;
+}
+
+export function clearTokens() {
+  ls.clear();
 }

@@ -3,12 +3,12 @@ import { AxiosError } from 'axios';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { api } from '@/lib/api-client';
-import { getActions } from '@/lib/auth-store';
+import { authStore } from '@/lib/auth-store';
 import { MutationConfig } from '@/lib/react-query';
 import { AuthResponse, Roles } from '@/types/api';
 import { ERROR } from '@/types/constant';
 import getRedirectBasedOnRoles from '@/utils/role-based-redirect';
-import { StorageService } from '@/utils/storage-service';
+import { setAccessToken, setRefreshToken } from '@/utils/storage-service';
 
 import { LoginInput } from '../utils/schema';
 
@@ -38,15 +38,12 @@ export const useLogin = ({ mutationConfig }: UseLoginOptions = {}) => {
       const { token, user } = data;
       const roles = user.roles.map((role) => role.toUpperCase()) as Roles;
 
-      // Để cho zustand quản lý
-      const { setAccessToken, setRefreshToken, setAccessData } = getActions();
+      // Lưu vào local
       setAccessToken(token.accessToken);
       setRefreshToken(token.refreshToken);
-      setAccessData({ id: user.id, roles: roles });
 
-      // Lưu vào local
-      StorageService.setAccessToken(token.accessToken);
-      StorageService.setRefreshToken(token.refreshToken);
+      // Để cho zustand quản lý
+      authStore.setState({ accessData: { id: user.id, roles: roles } });
 
       if (redirectTo) {
         navigate(redirectTo, { replace: true });

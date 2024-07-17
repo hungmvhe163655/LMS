@@ -1,9 +1,10 @@
+import { useEffect } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from '@/components/ui/use-toast';
 import { Roles } from '@/types/api';
 
-import { useAccessData } from './auth-store';
+import { authStore } from './auth-store';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -11,23 +12,26 @@ type ProtectedRouteProps = {
 };
 
 export const ProtectedRoute = ({ children, roles }: ProtectedRouteProps) => {
-  const auth = useAccessData();
+  const { accessData } = authStore.getState();
   const location = useLocation();
-  const { toast } = useToast();
 
-  if (!auth) {
-    toast({
-      variant: 'destructive',
-      description: 'You must login first!'
-    });
+  useEffect(() => {
+    if (!accessData) {
+      toast({
+        variant: 'destructive',
+        description: 'You must login first!'
+      });
+    }
+  }, [accessData]);
 
+  if (!accessData) {
     return (
       <Navigate to={`/auth/login?redirectTo=${encodeURIComponent(location.pathname)}`} replace />
     );
   }
 
   if (roles) {
-    const hasRequiredRole = roles.some((role) => auth.roles.includes(role));
+    const hasRequiredRole = roles.some((role) => accessData.roles.includes(role));
     if (!hasRequiredRole) return <Navigate to={'/errors/not-authorized'} />;
   }
 
