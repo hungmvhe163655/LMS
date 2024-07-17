@@ -351,6 +351,35 @@ namespace Service
 
             return principal;
         }
+
+        private ClaimsPrincipal GetPrincipalFromExpiredTokenMode2(string token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = true,
+                ValidateIssuer = true,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_Secret)),
+                ValidateLifetime = false,
+                ValidIssuer = _jwtConfiguration.ValidIssuer,
+                ValidAudience = _jwtConfiguration.ValidAudience
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+
+            if (securityToken is not JwtSecurityToken jwtSecurityToken ||
+           !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
+            StringComparison.InvariantCultureIgnoreCase))
+            {
+                throw new SecurityTokenException("Invalid token");
+            }
+
+            return principal;
+        }
+
         public async Task<TokenDTO> CreateToken(bool populateExp)//gui ve request token de duy tri dang nhap
         {
             if (_account != null)
@@ -382,7 +411,7 @@ namespace Service
         }
         public async Task<TokenDTO> RefreshTokens(TokenDTO tokenDto)
         {
-            var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
+            var principal = GetPrincipalFromExpiredTokenMode2(tokenDto.AccessToken);
 
             if (principal.Identity != null && principal.Identity.Name != null)
             {
@@ -401,7 +430,7 @@ namespace Service
         {
             try
             {
-                var principal = GetPrincipalFromExpiredToken(tokenDTO.AccessToken);
+                var principal = GetPrincipalFromExpiredTokenMode2(tokenDTO.AccessToken);
 
                 if (principal.Identity == null || principal.Identity.Name == null) return false;
 
