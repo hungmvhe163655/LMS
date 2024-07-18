@@ -63,7 +63,7 @@ namespace Service
 
             _fileService = new Lazy<IFileService>(() => new FileService(clients3, configuration, mapper, repositoryManager));
 
-            _notificationService = new Lazy<INotificationService>(() => new NotificationService(repositoryManager, notiHub));
+            _notificationService = new Lazy<INotificationService>(() => new NotificationService(repositoryManager, notiHub, mapper));
 
             _folderService = new Lazy<IFolderService>(() => new FolderService());
 

@@ -328,6 +328,10 @@ namespace Repository
                     .HasMaxLength(2048)
                     .HasColumnName("Url");
 
+                entity.HasOne(d => d.Project).WithMany(p => p.Notification)
+                    .HasForeignKey(d => d.ProjectId)
+                    .HasConstraintName("FK_Notifications_Project");
+
                 entity.HasOne(d => d.CreatedByUser).WithMany(p => p.Notifications)
                     .HasForeignKey(d => d.CreatedBy)
                     .HasConstraintName("FK_Notifications_Accounts");
@@ -501,8 +505,8 @@ namespace Repository
                 entity.Property(e => e.StartDate).HasColumnName("StartDate");
                 entity.Property(e => e.TaskListId).HasColumnName("TaskListId");
                 entity.Property(e => e.TaskPriority).HasColumnName("TaskPriority");
-               // entity.Property(e => e.TaskPriorityId).HasColumnName("TaskPriorityId");
-               // entity.Property(e => e.TaskStatusId).HasColumnName("TaskStatusId");
+                // entity.Property(e => e.TaskPriorityId).HasColumnName("TaskPriorityId");
+                // entity.Property(e => e.TaskStatusId).HasColumnName("TaskStatusId");
                 entity.Property(e => e.Title)
                     .HasMaxLength(500)
                     .HasColumnName("Title");

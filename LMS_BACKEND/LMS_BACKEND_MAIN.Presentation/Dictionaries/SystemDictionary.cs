@@ -2,6 +2,8 @@
 {
     public static class APIs
     {
+        public const string NotificationAPI = "api/notifications";
+
         public const string AuthenticationAPI = "api/auth";
 
         public const string AccountAPI = "api/accounts";
@@ -151,6 +153,13 @@
         #region ReportsAPIs
 
         public const string GetAllByDeviceId = "device/{id:guid}";
+
+        #endregion
+
+        #region NotificationAPIs
+
+
+        public const string MarkNotificationAsRead = "{id:guid}/read/user/{userid}";
 
         #endregion
     }

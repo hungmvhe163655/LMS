@@ -9,6 +9,8 @@ namespace Shared.DataTransferObjects.RequestDTO
         public string Content { get; set; }
         public string Type { get; set; }
         public string CreateUserId { get; set; }
+        public Guid? ProjectId { get; set; }
+        public string? Group { get; set; } = "System";
         public CreateNotificationRequestModel(string title, string content, string type, string createUserId)
         {
             Title = title;

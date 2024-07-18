@@ -17,6 +17,8 @@
 
         public int ProjectTypeId { get; set; }
 
+        public virtual ICollection<Notification> Notification { get; set; } = new List<Notification>();
+
         public virtual ICollection<Member> Members { get; set; } = new List<Member>();
 
         public virtual ProjectType ProjectType { get; set; } = null!;

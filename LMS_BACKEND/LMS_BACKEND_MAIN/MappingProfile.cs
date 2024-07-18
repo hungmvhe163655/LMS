@@ -107,6 +107,7 @@ namespace LMS_BACKEND_MAIN
             CreateMap<Account, AccountRequestJoinResponseModel>();
             CreateMap<Report, ReportResponseModel>()
                 .ForMember(x => x.Schedules, opt => opt.MapFrom(src => src.Schedules));
+            CreateMap<Notification, NotificationResponseModel>();
         }
     }
 }
