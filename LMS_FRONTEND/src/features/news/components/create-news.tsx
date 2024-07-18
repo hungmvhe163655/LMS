@@ -36,7 +36,7 @@ export function CreateNewsForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3 p-3'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-1 flex-col space-y-3 p-3'>
         {/* Title */}
         <FormField
           control={form.control}
@@ -56,7 +56,7 @@ export function CreateNewsForm() {
           control={form.control}
           name='content'
           render={({ field }) => (
-            <FormItem>
+            <FormItem className='flex flex-1 flex-col'>
               <FormLabel>Content</FormLabel>
               <FormControl>
                 <RichText onChange={field.onChange} value={field.value} limit={limit} />

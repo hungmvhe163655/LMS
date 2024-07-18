@@ -12,7 +12,7 @@ export function Layout({ children }: LayoutProps) {
   return (
     <ProtectedRoute>
       <BaseLayout>
-        <div className='mt-2 h-dvh p-10'>{children}</div>
+        <main className='mt-2 flex flex-1 flex-col p-10'>{children}</main>
       </BaseLayout>
     </ProtectedRoute>
   );
