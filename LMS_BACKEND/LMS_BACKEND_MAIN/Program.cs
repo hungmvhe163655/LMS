@@ -56,6 +56,8 @@ builder.Services.AddTransient<IConfigureOptions<MvcOptions>, MvcOptionsSetup>();
 
 builder.Services.AddScoped<ValidationFilterAttribute>();
 
+builder.Services.AddScoped<DTOFilter>();
+
 builder.Services.AddAuthentication();
 
 builder.Services.AddAuthorization(options =>

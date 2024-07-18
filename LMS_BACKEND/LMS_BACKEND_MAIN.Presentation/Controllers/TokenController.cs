@@ -18,7 +18,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpPost(RoutesAPI.TokenRefresh)]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(DTOFilter))]
         public async Task<IActionResult> TokenRefresh([FromBody] TokenDTO model)
         {
             var tokenDtoEnd = await _service.AuthenticationService.RefreshTokens(model);
