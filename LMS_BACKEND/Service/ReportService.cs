@@ -44,7 +44,8 @@ namespace Service
                 await
                 _repository
                 .report
-                .GetByCondition(x => x.Id.Equals(id), false)
+                .GetByCondition(x => x.Id
+                .Equals(id), false)
                 .FirstOrDefaultAsync()
                 ?? throw new BadRequestException("Invalid ID")
             );

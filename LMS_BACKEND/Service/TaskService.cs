@@ -40,13 +40,20 @@ namespace Service
                 _repository
                 .account
                 .GetByCondition(x => x.Id.Equals(model.CreatedBy), true)
-                .Include(y => y.Members.Where(z => z.IsLeader && z.ProjectId.Equals(model.ProjectId) && z.UserId.Equals(model.CreatedBy)))
+                .Include(y => y.Members
+                .Where(z => z.IsLeader && z.ProjectId
+                .Equals(model.ProjectId) && z.UserId
+                .Equals(model.CreatedBy)))
                 .FirstOrDefaultAsync();
             var hold_worker = await
                 _repository
                 .account
-                .GetByCondition(x => x.Id.Equals(model.AssignedTo), true)
-                .Include(y => y.Members.Where(z => z.ProjectId.Equals(model.ProjectId) && z.UserId.Equals(model.AssignedTo)))
+                .GetByCondition(x => x.Id
+                .Equals(model.AssignedTo), true)
+                .Include(y => y.Members
+                .Where(z => z.ProjectId
+                .Equals(model.ProjectId) && z.UserId
+                .Equals(model.AssignedTo)))
                 .FirstOrDefaultAsync();
 
             if (hold_creator == null) throw new BadRequestException("User Id does not existed or not in this project");
@@ -77,8 +84,12 @@ namespace Service
             var hold_worker = await
                _repository
                .account
-               .GetByCondition(x => x.Id.Equals(model.AssignedTo), true)
-               .Include(y => y.Members.Where(z => z.ProjectId.Equals(model.ProjectId) && z.UserId.Equals(model.AssignedTo)))
+               .GetByCondition(x => x.Id
+               .Equals(model.AssignedTo), true)
+               .Include(y => y.Members
+               .Where(z => z.ProjectId
+               .Equals(model.ProjectId) && z.UserId
+               .Equals(model.AssignedTo)))
                .FirstOrDefaultAsync();
 
             if (hold_worker == null) throw new BadRequestException("Assigned user id does not existed or not in this project");
@@ -102,8 +113,12 @@ namespace Service
             var hold_creator = await
                 _repository
                 .account
-                .GetByCondition(x => x.Id.Equals(userId), true)
-                .Include(y => y.Members.Where(z => z.IsLeader && z.IsLeader && z.ProjectId.Equals(hold.ProjectId) && z.UserId.Equals(userId)))
+                .GetByCondition(x => x.Id
+                .Equals(userId), true)
+                .Include(y => y.Members
+                .Where(z => z.IsLeader && z.IsLeader && z.ProjectId
+                .Equals(hold.ProjectId) && z.UserId
+                .Equals(userId)))
                 .FirstOrDefaultAsync();
 
             if (hold_creator == null) throw new BadRequestException("User is not allow to interract with this project");
@@ -136,8 +151,11 @@ namespace Service
         public async Task<Guid> SaveChangesForPatch(TaskUpdateRequestModel taskToPatch, Tasks taskEntity, string userId)
         {
             if (!IsTaskListAvailable(taskEntity.TaskListId).Result) throw new BadRequestException("Task lists already have maximum tasks");
+
             if (!IsMemberInProject(taskEntity.TaskListId, userId).Result) throw new BadRequestException("Member is not in project");
+
             _mapper.Map(taskToPatch, taskEntity);
+
              await _repository.Save();
 
             return taskEntity.TaskListId;

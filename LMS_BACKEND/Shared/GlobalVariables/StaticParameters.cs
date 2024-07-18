@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,49 +9,96 @@ namespace Shared.GlobalVariables
 {
     public class MAPPARAM
     {
-        public static int GetValue(string key)
+        public static string GetTaskPriorityValue(string key)
+        {
+            return GetValue(_taskPriorityMappings, key);
+        }
+
+        public static string GetTaskStatusValue(string key)
+        {
+            return GetValue(_taskStatusMappings, key);
+        }
+
+        public static string GetDeviceStatusValue(string key)
+        {
+            return GetValue(_deviceStatusMappings, key);
+        }
+
+        public static string GetNotificationTypeValue(string key)
+        {
+            return GetValue(_notificationTypeMappings, key);
+        }
+
+        public static string GetProjectTypeValue(string key)
+        {
+            return GetValue(_projectTypeMappings, key);
+        }
+
+        public static string GetProjectStatusValue(string key)
+        {
+            return GetValue(_projectStatusMappings, key);
+        }
+
+        private static string GetValue(IDictionary<string, string> mappings, string key)
         {
             if (key == null)
             {
-                throw new ArgumentNullException("extension");
+                throw new ArgumentNullException(nameof(key));
             }
 
-            int end;
+            mappings.TryGetValue(key, out string? value);
 
-            return _mappings.TryGetValue(key, out end) ? end : 0;
+            return value!=null ? value : throw new BadRequestException("Invalid string");
         }
-        private static IDictionary<string, int> _mappings = new Dictionary<string, int>(StringComparer.InvariantCultureIgnoreCase)
+        private static IDictionary<string, string> _taskPriorityMappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
         {
-            {"LOW", 1 },
-            {"MEDIUM",2 },
-            {"HIGH",3 },
-            {"CRITICAL",4 },
+            { TASK_PRIORITY.LOW, "Low" },
+            { TASK_PRIORITY.MEDIUM, "Medium" },
+            { TASK_PRIORITY.HIGH, "High" },
+            { TASK_PRIORITY.CRITICAL, "Critical" }
+        };
 
-            {"Open/To do",1 },
-            {"Doing",2 },
-            {"Review",3 },
-            {"Close",4 },
+        private static IDictionary<string, string> _taskStatusMappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            { TASK_STATUS.OPEN_TODO, "Open/To do" },
+            { TASK_STATUS.DOING, "Doing" },
+            { TASK_STATUS.REVIEW, "Review" },
+            { TASK_STATUS.CLOSE, "Close" }
+        };
 
-            {"AVAILABLE",1 },
-            {"INUSE",2 },
-            {"Disable",3 },
+        private static IDictionary<string, string> _deviceStatusMappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            { DEVICE_STATUS.AVAILABLE, "Available" },
+            { DEVICE_STATUS.INUSE, "In Use" },
+            { DEVICE_STATUS.DISABLE, "Disable" }
+        };
 
-            {"SYSTEM", 1 },
-            {"PROJECT",2 },
+        private static IDictionary<string, string> _notificationTypeMappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            { NOTIFICATION_TYPE.SYSTEM, "System" },
+            { NOTIFICATION_TYPE.PROJECT, "Project" }
+        };
 
-            {"WEBAPPLICATION",1 },
-            {"RESEARCHPAPER",2 },
-            {"IOT",3 },
-            {"MOBILEAPP",4 },
-            {"AI",5 },
-            {"VR",6 },
+        private static IDictionary<string, string> _projectTypeMappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            { PROJECT_TYPE.WEBAPP, "Web Application" },
+            { PROJECT_TYPE.RESEARCHPAPER, "Research Paper" },
+            { PROJECT_TYPE.IOT, "Iot" },
+            { PROJECT_TYPE.MOBILE, "Mobile app" },
+            { PROJECT_TYPE.AI, "Ai" },
+            { PROJECT_TYPE.VR, "Vr" }
+        };
 
-            {"Initializing",1 },
-            {"On-going",2 },
-            {"Completed",3 },
-            {"Cancel",4 }
+        private static IDictionary<string, string> _projectStatusMappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            { PROJECT_STATUS.INITIALIZING, "Initializing" },
+            { PROJECT_STATUS.ONGOING, "On-going" },
+            { PROJECT_STATUS.COMPLETED, "Completed" },
+            { PROJECT_STATUS.CANCEL, "Cancel" }
         };
     }
+    
+    
     public static class ROLES
     {
         public const string ADMIN = "Labadmin";
@@ -81,7 +129,7 @@ namespace Shared.GlobalVariables
 
         public const string CLOSE = "Close";
     }
-    
+
     public static class DEVICE_STATUS
     {
         public const string AVAILABLE = "Available";
