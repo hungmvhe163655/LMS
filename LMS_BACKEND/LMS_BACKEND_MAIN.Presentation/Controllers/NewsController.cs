@@ -6,7 +6,6 @@ using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -35,24 +34,24 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetNewsById(Guid id)
         {
-                var data = await _service.NewsService.GetNewsById(id);
-                return Ok(data);
+            var data = await _service.NewsService.GetNewsById(id);
+            return Ok(data);
         }
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult CreateNews(CreateNewsRequestModel model)
         {
-                var data = _service.NewsService.CreateNewsAsync(model);
-                return Ok(data);
+            var data = _service.NewsService.CreateNewsAsync(model);
+            return Ok(data);
         }
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> Update(UpdateNewsRequestModel model)
         {
-                await _service.NewsService.UpdateNews(model);
-                return Ok(new ResponseMessage { Message = "Update successfully" });
+            await _service.NewsService.UpdateNews(model);
+            return Ok(new ResponseMessage { Message = "Update successfully" });
         }
 
 
@@ -60,8 +59,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> Delete(Guid id)
         {
-                await _service.NewsService.DeleteNews(id);
-                return Ok(new ResponseMessage { Message = "Delete successfully" });
+            await _service.NewsService.DeleteNews(id);
+            return Ok(new ResponseMessage { Message = "Delete successfully" });
         }
 
     }

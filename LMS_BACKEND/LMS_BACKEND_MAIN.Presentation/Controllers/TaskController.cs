@@ -5,12 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -45,6 +40,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             await _service.TaskService.CreateTask(model);
 
             return Ok(new ResponseMessage { Message = "Create Task success" });
+        }
+
+        [HttpPut(RoutesAPI.AttachFileToTask)]
+        public async Task<IActionResult> AttachFileToTask(Guid id, Guid fileid)
+        {
+            await _service.FileService.AttachToTask(id, fileid);
+
+            return Ok(new ResponseMessage { Message = "Attach success" });
         }
 
         [HttpPut]

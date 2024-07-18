@@ -11,6 +11,8 @@
         IScheduleService ScheduleService { get; }
         ITaskService TaskService { get; }
         ITaskListService TaskListService { get; }
+        IReportService ReportService { get; }
         IProjectService ProjectService { get; }
+        IMemberService MemberService { get; }
     }
 }

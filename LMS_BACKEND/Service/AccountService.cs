@@ -9,11 +9,7 @@ using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared.GlobalVariables;
 
 namespace Service
 {
@@ -125,6 +121,21 @@ namespace Service
         public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccounts(NeedVerifyParameters param)
         {
             var user = await _repository.account.FindWithVerifierId(param) ?? throw new BadRequestException("bad param");
+
+            return (_mapper.Map<IEnumerable<AccountNeedVerifyResponseModel>>(user), user.MetaData);
+        }
+        public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccountsSuper(NeedVerifyParameters param)
+        {
+            var hold = await _userManager.GetUsersInRoleAsync(ROLES.SUPERVISOR);
+
+            List<string> validGuid = new List<string>();
+
+            foreach(var item in hold)
+            {
+                validGuid.Add(item.Id.ToString());
+            }
+
+            var user = await _repository.account.FindWithVerifierIdSuper(param, validGuid) ?? throw new BadRequestException("bad param");
 
             return (_mapper.Map<IEnumerable<AccountNeedVerifyResponseModel>>(user), user.MetaData);
         }

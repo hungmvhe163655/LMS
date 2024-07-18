@@ -2,31 +2,44 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
+using Shared.GlobalVariables;
 
 namespace Service
 {
     public class ProjectService : IProjectService
     {
         private readonly IRepositoryManager _repository;
-        private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
 
-        public ProjectService(ILoggerManager logger, IRepositoryManager repository, IMapper mapper)
+        public ProjectService(IRepositoryManager repository, IMapper mapper)
         {
             _repository = repository;
-            _logger = logger;
             _mapper = mapper;
         }
 
         public async Task CreatNewProject(CreateProjectRequestModel model)
         {
             var hold = _mapper.Map<Project>(model);
+
             hold.Id = Guid.NewGuid();
             hold.CreatedDate = DateTime.Now;
-            hold.ProjectStatusId = 1;
+            hold.ProjectStatus = 1+"";//sua cho nay
+            var rootid = Guid.NewGuid();
+            var root = new Folder
+            {
+                Id = rootid,
+                CreatedBy = model.CreatedBy,
+                CreatedDate = DateTime.Now,
+                IsRoot = true,
+                LastModifiedDate = DateTime.Now,
+                ProjectId = hold.Id,
+                Name = hold.Id + "Root",
+                FolderClosureAncestor = new List<FolderClosure> { new FolderClosure { AncestorID = rootid, DescendantID = rootid, Depth = 0 } }
+            };
             var member = new Member
             {
                 UserId = model.CreatedBy,
@@ -36,6 +49,7 @@ namespace Service
             };
             _repository.member.Create(member);
             _repository.project.Create(hold);
+            await _repository.folder.AddFolder(root);
             await _repository.Save();
         }
 
@@ -55,7 +69,7 @@ namespace Service
 
             var projects = _repository.project
                 .GetByCondition(p => projectIds.Contains(p.Id), false)
-                .Where(p => p.ProjectStatusId == 2)
+                .Where(p => p.ProjectStatus.Equals(PROJECT_STATUS.INITIALIZING))
                 .ToList();
 
             if (!projects.Any())
@@ -89,6 +103,44 @@ namespace Service
         {
             model.Id = projectId;
             var hold = _mapper.Map<Project>(model);
+            await _repository.Save();
+        }
+
+        public async Task<GetFolderContentResponseModel> GetProjectResources(Guid ProjectID)
+        {
+
+            var root = await _repository.folder.GetRootByProjectId(ProjectID).FirstOrDefaultAsync() ?? throw new Exception("Project associated with that ID currently doesn't have a root");
+
+            var end = await _repository.file.GetFiles(false, root.Id);
+
+            var folders = new List<Folder>();
+
+            return new GetFolderContentResponseModel { Files = end.ToList(), Folders = folders };
+        }
+        public async Task<IEnumerable<AccountRequestJoinResponseModel>> GetJoinRequest(Guid projectId)
+        {
+            var hold = await _repository.member.GetByCondition(x => x.ProjectId.Equals(projectId) && !x.IsValidTeamMember, false).Include(y => y.User).ToListAsync();
+            List<Account> end = new List<Account>();
+            foreach (var item in hold)
+            {
+                if (item.User != null) end.Add(item.User);
+            }
+            return _mapper.Map<List<AccountRequestJoinResponseModel>>(end);
+        }
+        public async Task ValidateJoinRequest(IEnumerable<UpdateStudentJoinRequestModel> Listmodel, Guid id)
+        {
+            foreach (var item in Listmodel)
+            {
+                var hold = await
+                    _repository
+                    .member
+                    .GetByCondition(x => x.UserId.Equals(item.Id) && x.ProjectId.Equals(id) && x.ProjectId.Equals(item.ProjectID), false)
+                    .FirstOrDefaultAsync() ?? throw new Exception("Error due to database logic");
+
+                if (item.Accepted) _repository.member.Delete(hold);
+
+                else hold.IsValidTeamMember = true;
+            }
             await _repository.Save();
         }
     }

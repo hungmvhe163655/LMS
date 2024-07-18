@@ -1,4 +1,5 @@
 ﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -9,6 +10,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
     [Route(APIs.FolderAPI)]
     [ApiController]
+    //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
     public class FolderController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
@@ -21,6 +23,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> GetFolder(Guid id)
         {
             return Ok(await _serviceManager.FileService.GetFolderContent(id));
+        }
+
+        [HttpGet(RoutesAPI.GetProjectFolderScheme)]
+        public async Task<IActionResult> GetProjectFolderScheme(Guid id)
+        {
+            return Ok(await _serviceManager.FileService.GetRootWithProjectId(id));
         }
 
         [HttpPost]

@@ -4,6 +4,7 @@ using AutoMapper;
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
@@ -25,6 +26,26 @@ namespace Service
             _mappers = mapper;
             _repositoryManager = repository;
         }
+        private static readonly HashSet<string> ImageMimeTypes = new HashSet<string>
+    {
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/bmp",
+        "image/tiff",
+        "image/svg+xml",
+        "image/webp"
+    };
+        public static bool IsImageMimeType(string mimeType)
+        {
+            if (string.IsNullOrEmpty(mimeType))
+            {
+                return false;
+            }
+
+            return ImageMimeTypes.Contains(mimeType.ToLowerInvariant());
+        }
+
         private async Task DeleteFileFromS3Async(string key)
         {
             DeleteObjectRequest request = new()
@@ -104,24 +125,20 @@ namespace Service
 
 
         }
-        private async Task<(IEnumerable<Files>, Files)> FindFileById(Guid id)
+        private async Task<Files> FindFileById(Guid id)
         {
-            var hold_FileDB = await _repositoryManager.file.GetFiles(false);
+            var end = await _repositoryManager.file.GetFile(id, false).FirstOrDefaultAsync();
 
-            var end = hold_FileDB.Where(x => x.Id.Equals(id)).ToList();
+            if (end == null) throw new BadRequestException("No File With that Id was found");
 
-            if (!end.Any()) throw new BadRequestException("No File With that Id was found");
+            if (!IsFileExists(end.FileKey)) throw new BadRequestException("File with such key doesn't exist");
 
-            var hold_file = end.First();
-
-            if (!IsFileExists(hold_file.FileKey)) throw new BadRequestException("File with such key doesn't exist");
-
-            return (hold_FileDB, hold_file);
+            return end;
         }
 
         public async Task DeleteFile(Guid id)
         {
-            var (_, hold_file) = await FindFileById(id);
+            var hold_file = await FindFileById(id);
 
             await DeleteFileFromS3Async(hold_file.FileKey);
 
@@ -131,25 +148,23 @@ namespace Service
         }
         public async Task CreateFile(FileUploadRequestModel model, Stream inputStream)
         {
-            var fileKey = Guid.NewGuid().ToString();
-
-            model.FileKey = fileKey;
+            model.FileKey = Guid.NewGuid().ToString();
 
             var hold = _mappers.Map<Files>(model);
 
             hold.Id = Guid.NewGuid();
 
-            var result = await UploadFileToS3Async(fileKey, model.MimeType, inputStream);
-
-            if (result.HttpStatusCode != System.Net.HttpStatusCode.OK) { throw new Exception("Add File Failed due to AWS: " + result.HttpStatusCode); }
-
             await _repositoryManager.file.CreateFile(hold);
+
+            var result = await UploadFileToS3Async(model.FileKey, model.MimeType, inputStream);
+
+            if (result.HttpStatusCode != HttpStatusCode.OK) { throw new Exception("Add File Failed due to AWS: " + result.HttpStatusCode); }
 
             await _repositoryManager.Save();
         }
         public async Task<(byte[], FileResponseModel)> GetFile(Guid fileID)
         {
-            var (_, hold_file) = await FindFileById(fileID);
+            var hold_file = await FindFileById(fileID);
 
             var hold = await GetFileFromS3Async(hold_file.FileKey ?? throw new Exception("Not found File key"));
 
@@ -164,6 +179,22 @@ namespace Service
             var hold = await GetFileFromS3Async(fileKey ?? throw new BadRequestException("Not found File key"));
 
             return hold;
+        }
+        public async Task<string> UploadFile(Stream inputStream, string mime)
+        {
+            if (!IsImageMimeType(mime)) throw new BadRequestException("Only pictures allowed");
+
+            var file_key = Guid.NewGuid().ToString();
+
+            var result = await UploadFileToS3Async(file_key, mime, inputStream);
+
+            if (result.HttpStatusCode != HttpStatusCode.OK) { throw new Exception("Add File Failed due to AWS: " + result.HttpStatusCode); }
+
+            return file_key;
+        }
+        public async Task RemoveFile(string fileKey)
+        {
+            await DeleteFileFromS3Async(fileKey);
         }
         public async Task EditFile(FileEditRequestModel model)
         {
@@ -182,20 +213,35 @@ namespace Service
 
             await _repositoryManager.Save();
         }
+
+        public async Task<List<FolderBranchDisplayResponseModel>> GetRootWithProjectId(Guid projectId)
+        {
+            var root = await _repositoryManager.folder.GetRootByProjectId(projectId).FirstOrDefaultAsync() ?? throw new Exception("Project associated with that ID currently doesn't have a root");
+
+            var hold_folder_branch = await _repositoryManager.folderClosure.GetProjectFoldersByRoot(root.Id, false);
+
+            var folders = new List<FolderBranchDisplayResponseModel>();
+
+            foreach (var item in hold_folder_branch)
+            {
+                var mid = await _repositoryManager.folder.GetFolder(item.DescendantID, false);
+
+                folders.Add(new FolderBranchDisplayResponseModel { Id = mid.Id, Name = mid.Name, Depth = item.Depth });
+            }
+            return folders;
+        }
+
         public async Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID)
         {
-            var hold_file = await _repositoryManager.file.GetFiles(false);
+            var hold_file = await _repositoryManager.file.GetFiles(false, folderID);
 
-            var end = hold_file.Where(x => x.FolderId.Equals(folderID)).ToList();
+            var end = hold_file.ToList();
 
             var hold_folder_branch = _repositoryManager.folderClosure.GetFolderContent(folderID, false);
 
             var folders = new List<Folder>();
 
-            foreach (var item in hold_folder_branch)
-            {
-                folders.Add(_repositoryManager.folder.GetFolder(item.DescendantID, false));
-            }
+            foreach (var item in hold_folder_branch) folders.Add(await _repositoryManager.folder.GetFolder(item.DescendantID, false));
 
             return new GetFolderContentResponseModel { Files = end, Folders = folders };
         }
@@ -235,6 +281,8 @@ namespace Service
         }
         public async Task DeleteFolder(Guid folderID)
         {
+            var hold_folder = await _repositoryManager.folder.GetFolder(folderID, false);
+
             var hold_files = _repositoryManager.file.FindAll(false).Where(x => x.FolderId.Equals(folderID));
 
             var hold_folderClosure_descendant = _repositoryManager.folderClosure.FindDescendants(folderID, false);
@@ -249,6 +297,14 @@ namespace Service
 
             _repositoryManager.file.DeleteRange(hold_files);
 
+            await _repositoryManager.Save();
+        }
+        public async Task AttachToTask(Guid taskId, Guid fileID)
+        {
+            var task = await _repositoryManager.task.GetTaskWithId(taskId, true).FirstOrDefaultAsync() ?? throw new BadRequestException("Not found task with that ID");
+            var file = await _repositoryManager.file.GetFile(fileID, true).FirstOrDefaultAsync() ?? throw new BadRequestException("Not found file with that ID");
+            task.Files.Add(file);
+            file.Tasks.Add(task);
             await _repositoryManager.Save();
         }
     }

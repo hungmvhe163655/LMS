@@ -12,13 +12,13 @@ namespace Entities.Models
         public DateTime EditDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime DueDate { get; set; }
-        public int TaskPriorityId { get; set; }
-        public int TaskStatusId { get; set; }
+        public string TaskStatus { get; set; } = null!;
+        public string TaskPriority { get; set; } = null!;
         public string? AssignedTo { get; set; }
         [JsonIgnore]
         public virtual Account AssignedToUser { get; set; } = null!;
-        public virtual TaskPriorities TaskPriority { get; set; } = null!;
-        public virtual TasksStatus TaskStatus { get; set; } = null!;
+        //public virtual TaskPriorities TaskPriority { get; set; } = null!;
+        //public virtual TasksStatus TaskStatus { get; set; } = null!;
         public virtual ICollection<Label> Labels { get; set; } = new List<Label>();
         public virtual Tasks TaskVersion { get; set; } = null!;
     }

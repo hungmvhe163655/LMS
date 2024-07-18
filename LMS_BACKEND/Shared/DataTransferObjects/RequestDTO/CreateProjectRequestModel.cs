@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Shared.DataTransferObjects.RequestDTO
+﻿namespace Shared.DataTransferObjects.RequestDTO
 {
     public class CreateProjectRequestModel
     {
@@ -15,7 +9,7 @@ namespace Shared.DataTransferObjects.RequestDTO
 
         public DateTime CreatedDate { get; set; }
 
-        public int ProjectStatusId { get; set; }
+        public string ProjectStatus { get; set; } = null!;
 
         public int MaxMember { get; set; }
 

@@ -1,25 +1,21 @@
-﻿using Contracts.Interfaces;
+﻿using Amazon.S3;
+using Asp.Versioning;
+using Contracts.Interfaces;
 using Entities.ConfigurationModels;
 using Entities.Models;
 using LoggerServices;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Service;
 using Service.Contracts;
-using System.Net.Mail;
 using System.Net;
-using System.Text;
-using Amazon.S3;
+using System.Net.Mail;
 using Amazon;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Diagnostics;
-using Shared.DataTransferObjects.ResponseDTO;
-using Asp.Versioning;
-using Microsoft.AspNetCore.Mvc;
-using LMS_BACKEND_MAIN.Presentation.Controllers;
-using Marvin.Cache.Headers;
+using System.Text;
 
 namespace LMS_BACKEND_MAIN.Extentions
 {
@@ -152,31 +148,31 @@ namespace LMS_BACKEND_MAIN.Extentions
 
             // tu day
 
-            //var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
+            var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
 
 
-            //var iv = Environment.GetEnvironmentVariable("ivKey");
+            var iv = Environment.GetEnvironmentVariable("ivKey");
 
-            //var awsOptions = configuration.GetAWSOptions("AWS");
+            var awsOptions = configuration.GetAWSOptions("AWS");
 
-            //var url = Environment.GetEnvironmentVariable("SERVICE_URL");
+            var url = Environment.GetEnvironmentVariable("SERVICE_URL");
 
-            //awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
+            awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
 
-            //var holdAccess = Environment.GetEnvironmentVariable("ENCRYPTED_ACCESS_KEY");
+            var holdAccess = Environment.GetEnvironmentVariable("ENCRYPTED_ACCESS_KEY");
 
-            //var holdSecret = Environment.GetEnvironmentVariable("ENCRYPTED_SECRET_KEY");
+            var holdSecret = Environment.GetEnvironmentVariable("ENCRYPTED_SECRET_KEY");
 
-            //if (holdAccess == null || holdSecret == null || encryptionKey == null || iv == null || url == null)
-            //    throw new InvalidOperationException("environment variable not set.");
+            if (holdAccess == null || holdSecret == null || encryptionKey == null || iv == null || url == null)
+                throw new InvalidOperationException("environment variable not set.");
 
-            //awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
-            //    Decrypter.DecryptString(holdAccess, encryptionKey, iv),
-            //    Decrypter.DecryptString(holdSecret, encryptionKey, iv)
-            //);
-            //awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
+            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
+                Decrypter.DecryptString(holdAccess, encryptionKey, iv),
+                Decrypter.DecryptString(holdSecret, encryptionKey, iv)
+            );
+            awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
 
-            //services.AddDefaultAWSOptions(awsOptions);
+            services.AddDefaultAWSOptions(awsOptions);
 
             //Den day
 

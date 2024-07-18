@@ -14,7 +14,7 @@ namespace Repository
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Device> Devices { get; set; }
-        public DbSet<DeviceStatus> DeviceStatuses { get; set; }
+        //public DbSet<DeviceStatus> DeviceStatuses { get; set; }
         public DbSet<Files> Files { get; set; }
         public DbSet<Folder> Folders { get; set; }
         public DbSet<FolderClosure> FoldersClosure { get; set; }
@@ -23,9 +23,9 @@ namespace Repository
         public DbSet<News> News { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<NotificationAccount> NotificationAccounts { get; set; }
-        public DbSet<NotificationType> NotificationTypes { get; set; }
+        //public DbSet<NotificationType> NotificationTypes { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<ProjectStatus> ProjectStatuses { get; set; }
+        //public DbSet<ProjectStatus> ProjectStatuses { get; set; }
         public DbSet<ProjectType> ProjectTypes { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
@@ -35,8 +35,11 @@ namespace Repository
         public DbSet<Tasks> Tasks { get; set; }
         public DbSet<TaskClosure> TaskClosure { get; set; }
         public DbSet<NewsFile> NewsFiles { get; set; }
-        public DbSet<TaskPriorities> TaskPriorities { get; set; }
-        public DbSet<TasksStatus> TaskStatus { get; set; }
+        //public DbSet<TaskPriorities> TaskPriorities { get; set; }
+        //public DbSet<TasksStatus> TaskStatus { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -130,18 +133,19 @@ namespace Repository
                     .ValueGeneratedNever()
                     .HasColumnName("Id");
                 entity.Property(e => e.Description).HasColumnName("Description");
-                entity.Property(e => e.DeviceStatusId).HasColumnName("DeviceStatusId");
+                //entity.Property(e => e.DeviceStatusId).HasColumnName("DeviceStatusId");
                 entity.Property(e => e.LastUsed).HasColumnName("LastUsed");
+                entity.Property(e => e.DeviceStatus).HasColumnName("DeviceStatus");
                 entity.Property(e => e.Name)
                     .HasMaxLength(250)
                     .IsUnicode(false)
                     .HasColumnName("Name");
                 entity.Property(e => e.OwnedBy).HasColumnName("OwnedBy");
 
-                entity.HasOne(d => d.DeviceStatus).WithMany(p => p.Devices)
-                    .HasForeignKey(d => d.DeviceStatusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Devices_DeviceStatuses");
+                //entity.HasOne(d => d.DeviceStatus).WithMany(p => p.Devices)
+                //    .HasForeignKey(d => d.DeviceStatusId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Devices_DeviceStatuses");
 
                 entity.HasOne(d => d.OwnedByUser).WithMany(p => p.Devices)
                     .HasForeignKey(d => d.OwnedBy)
@@ -149,16 +153,16 @@ namespace Repository
                     .HasConstraintName("FK_Devices_Accounts");
             });
 
-            modelBuilder.Entity<DeviceStatus>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("Id");
-                entity.Property(e => e.Name)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("Name");
-            });
+            //modelBuilder.Entity<DeviceStatus>(entity =>
+            //{
+            //    entity.Property(e => e.Id)
+            //        .ValueGeneratedNever()
+            //        .HasColumnName("Id");
+            //    entity.Property(e => e.Name)
+            //        .HasMaxLength(50)
+            //        .IsUnicode(false)
+            //        .HasColumnName("Name");
+            //});
 
             modelBuilder.Entity<Files>(entity =>
             {
@@ -192,6 +196,7 @@ namespace Repository
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.LastModifiedDate).HasColumnName("LastModifiedDate");
+                entity.Property(e => e.IsRoot).HasColumnName("IsRoot");
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .HasColumnName("Name");
@@ -200,6 +205,11 @@ namespace Repository
                     .HasForeignKey(d => d.CreatedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Folders_Accounts");
+
+                entity.HasOne(d => d.Project).WithMany(p => p.Folders)
+                    .HasForeignKey(d => d.ProjectId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Folders_Projects");
             });
 
             modelBuilder.Entity<FolderClosure>(entity =>
@@ -245,6 +255,7 @@ namespace Repository
                 entity.Property(e => e.UserId).HasColumnName("UserId");
                 entity.Property(e => e.IsLeader).HasColumnName("IsLeader");
                 entity.Property(e => e.JoinDate).HasColumnName("JoinDate");
+                entity.Property(e => e.IsValidTeamMember).HasColumnName("IsValid");
 
                 entity.HasOne(d => d.Project).WithMany(p => p.Members)
                     .HasForeignKey(d => d.ProjectId)
@@ -255,6 +266,8 @@ namespace Repository
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Members_Accounts");
+
+                entity.HasQueryFilter(d => d.IsDeleted == false);
             });
 
             modelBuilder.Entity<News>(entity =>
@@ -306,7 +319,7 @@ namespace Repository
                     .HasColumnName("Content");
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
-                entity.Property(e => e.NotificationTypeId).HasColumnName("NotificationTypeId");
+                entity.Property(e => e.NotificationType).HasColumnName("NotificationType");
                 entity.Property(e => e.Title)
                     .HasMaxLength(255)
                     .IsUnicode(false)
@@ -319,22 +332,22 @@ namespace Repository
                     .HasForeignKey(d => d.CreatedBy)
                     .HasConstraintName("FK_Notifications_Accounts");
 
-                entity.HasOne(d => d.NotificationType).WithMany(p => p.Notifications)
-                    .HasForeignKey(d => d.NotificationTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Notifications_NotificationTypes");
+                //entity.HasOne(d => d.NotificationType).WithMany(p => p.Notifications)
+                //    .HasForeignKey(d => d.NotificationTypeId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Notifications_NotificationTypes");
             });
 
-            modelBuilder.Entity<NotificationType>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("Id");
-                entity.Property(e => e.Name)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("Name");
-            });
+            //modelBuilder.Entity<NotificationType>(entity =>
+            //{
+            //    entity.Property(e => e.Id)
+            //        .ValueGeneratedNever()
+            //        .HasColumnName("Id");
+            //    entity.Property(e => e.Name)
+            //        .HasMaxLength(255)
+            //        .IsUnicode(false)
+            //        .HasColumnName("Name");
+            //});
 
             modelBuilder.Entity<NotificationAccount>(entity =>
             {
@@ -371,13 +384,13 @@ namespace Repository
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .HasColumnName("Name");
-                entity.Property(e => e.ProjectStatusId).HasColumnName("ProjectStatusId");
+                entity.Property(e => e.ProjectStatus).HasColumnName("ProjectStatus");
                 entity.Property(e => e.ProjectTypeId).HasColumnName("ProjectTypeId");
 
-                entity.HasOne(d => d.ProjectStatus).WithMany(p => p.Projects)
-                    .HasForeignKey(d => d.ProjectStatusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Projects_ProjectStatuses");
+                //entity.HasOne(d => d.ProjectStatus).WithMany(p => p.Projects)
+                //    .HasForeignKey(d => d.ProjectStatusId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Projects_ProjectStatuses");
 
                 entity.HasOne(d => d.ProjectType).WithMany(p => p.Projects)
                     .HasForeignKey(d => d.ProjectTypeId)
@@ -385,16 +398,16 @@ namespace Repository
                     .HasConstraintName("FK_Projects_ProjectTypes");
             });
 
-            modelBuilder.Entity<ProjectStatus>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("Id");
-                entity.Property(e => e.Name)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("Name");
-            });
+            //modelBuilder.Entity<ProjectStatus>(entity =>
+            //{
+            //    entity.Property(e => e.Id)
+            //        .ValueGeneratedNever()
+            //        .HasColumnName("Id");
+            //    entity.Property(e => e.Name)
+            //        .HasMaxLength(50)
+            //        .IsUnicode(false)
+            //        .HasColumnName("Name");
+            //});
 
             modelBuilder.Entity<ProjectType>(entity =>
             {
@@ -479,6 +492,7 @@ namespace Repository
                     .ValueGeneratedNever()
                     .HasColumnName("Id");
                 entity.Property(e => e.AssignedTo).HasColumnName("AssignedTo");
+                entity.Property(e => e.Order).HasColumnName("Order");
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.DueDate).HasColumnName("DueDate");
@@ -486,8 +500,9 @@ namespace Repository
                 entity.Property(e => e.RequiredValidation).HasColumnName("RequiresValidation");
                 entity.Property(e => e.StartDate).HasColumnName("StartDate");
                 entity.Property(e => e.TaskListId).HasColumnName("TaskListId");
-                entity.Property(e => e.TaskPriorityId).HasColumnName("TaskPriorityId");
-                entity.Property(e => e.TaskStatusId).HasColumnName("TaskStatusId");
+                entity.Property(e => e.TaskPriority).HasColumnName("TaskPriority");
+               // entity.Property(e => e.TaskPriorityId).HasColumnName("TaskPriorityId");
+               // entity.Property(e => e.TaskStatusId).HasColumnName("TaskStatusId");
                 entity.Property(e => e.Title)
                     .HasMaxLength(500)
                     .HasColumnName("Title");
@@ -501,15 +516,15 @@ namespace Repository
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Tasks_TaskLists");
 
-                entity.HasOne(d => d.TaskPriority).WithMany(p => p.Tasks)
-                    .HasForeignKey(d => d.TaskPriorityId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Tasks_TaskPrioties");
+                //entity.hasone(d => d.taskpriority).withmany(p => p.tasks)
+                //    .hasforeignkey(d => d.taskpriorityid)
+                //    .ondelete(deletebehavior.clientsetnull)
+                //    .hasconstraintname("fk_tasks_taskprioties");
 
-                entity.HasOne(d => d.TaskStatus).WithMany(p => p.Tasks)
-                    .HasForeignKey(d => d.TaskStatusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Tasks_TaskStatus");
+                //entity.HasOne(d => d.TaskStatus).WithMany(p => p.Tasks)
+                //    .HasForeignKey(d => d.TaskStatusId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Tasks_TaskStatus");
                 entity.HasMany(d => d.Accounts).WithMany(p => p.TasksCurrent)
                     .UsingEntity<Dictionary<string, object>>(
                         "TasksAccount",
@@ -599,16 +614,18 @@ namespace Repository
                 entity.Property(e => e.EditDate).HasColumnName("EditDate");
                 entity.Property(e => e.StartDate).HasColumnName("StartDate");
                 entity.Property(e => e.DueDate).HasColumnName("DueDate");
-                entity.Property(e => e.TaskPriorityId).HasColumnName("TaskPriorityId");
-                entity.Property(e => e.TaskStatusId).HasColumnName("TaskStatusId");
+                entity.Property(e => e.TaskStatus).HasColumnName("Status");
+                entity.Property(e => e.TaskPriority).HasColumnName("Priority");
+                //entity.Property(e => e.TaskPriorityId).HasColumnName("TaskPriorityId");
+                //entity.Property(e => e.TaskStatusId).HasColumnName("TaskStatusId");
 
-                entity.HasOne(d => d.TaskPriority).WithMany()
-                    .HasForeignKey(d => d.TaskPriorityId)
-                    .HasConstraintName("FK_TaskHistories_TaskPrioties");
+                //entity.HasOne(d => d.TaskPriority).WithMany()
+                //    .HasForeignKey(d => d.TaskPriorityId)
+                //    .HasConstraintName("FK_TaskHistories_TaskPrioties");
 
-                entity.HasOne(d => d.TaskStatus).WithMany()
-                    .HasForeignKey(d => d.TaskStatusId)
-                    .HasConstraintName("FK_TaskHistories_TaskStatus");
+                //entity.hasone(d => d.taskstatus).withmany()
+                //    .hasforeignkey(d => d.taskstatusid)
+                //    .hasconstraintname("fk_taskhistories_taskstatus");
                 //////////////////////////////////////////////
                 ///
                 /*
@@ -657,7 +674,7 @@ namespace Repository
                     .HasForeignKey(d => d.TaskGuid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TaskHistories_Tasks");
-                
+
                 entity.HasOne(d => d.AssignedToUser).WithMany(p => p.TaskHistories)
                     .HasForeignKey(d => d.AssignedTo)
                     .HasConstraintName("FK_TasksHistory_Accounts");
@@ -669,6 +686,7 @@ namespace Repository
                     .ValueGeneratedNever()
                     .HasColumnName("Id");
                 entity.Property(e => e.MaxTasks).HasColumnName("MaxTasks");
+                entity.Property(e => e.Order).HasColumnName("Order");
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .HasColumnName("Name");
@@ -680,28 +698,28 @@ namespace Repository
                     .HasConstraintName("FK_TaskLists_Projects");
             });
 
-            modelBuilder.Entity<TaskPriorities>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("Id");
-                entity.Property(e => e.Name)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("Name");
-            });
+            //modelBuilder.Entity<TaskPriorities>(entity =>
+            //{
+            //    entity.Property(e => e.Id)
+            //        .ValueGeneratedNever()
+            //        .HasColumnName("Id");
+            //    entity.Property(e => e.Name)
+            //        .HasMaxLength(50)
+            //        .IsUnicode(false)
+            //        .HasColumnName("Name");
+            //});
 
-            modelBuilder.Entity<TasksStatus>(entity =>
-            {
-                entity.ToTable("TaskStatus");
+            //modelBuilder.Entity<TasksStatus>(entity =>
+            //{
+            //    entity.ToTable("TaskStatus");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("Id");
-                entity.Property(e => e.Name)
-                    .HasMaxLength(50)
-                    .HasColumnName("Name");
-            });
+            //    entity.Property(e => e.Id)
+            //        .ValueGeneratedNever()
+            //        .HasColumnName("Id");
+            //    entity.Property(e => e.Name)
+            //        .HasMaxLength(50)
+            //        .HasColumnName("Name");
+            //});
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
 
             modelBuilder.SeedData();

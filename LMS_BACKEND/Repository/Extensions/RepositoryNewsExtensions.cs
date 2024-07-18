@@ -2,7 +2,6 @@
 using Repository.Extensions.Utility;
 using Shared.DataTransferObjects.RequestParameters;
 using System.Linq.Dynamic.Core;
-using System.Text;
 
 namespace Repository.Extensions
 {
@@ -23,12 +22,10 @@ namespace Repository.Extensions
 
         public static IQueryable<News> Sort(this IQueryable<News> news, string orderByQueryString)
         {
-            if (string.IsNullOrWhiteSpace(orderByQueryString))
-                return news.OrderBy(n => n.CreatedDate);
-
             var orderQuery = OrderQueryBuilder.CreateOrderQuery<News>(orderByQueryString);
 
-            if (string.IsNullOrWhiteSpace(orderQuery))
+            if (string.IsNullOrWhiteSpace(orderByQueryString) || string.IsNullOrWhiteSpace(orderQuery))
+
                 return news.OrderBy(n => n.CreatedDate);
 
             return news.OrderBy(orderQuery);

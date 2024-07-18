@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
-using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
-using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -29,13 +26,40 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(hold);
         }
 
+        [HttpGet(RoutesAPI.GetMemberInProject)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        public async Task<IActionResult> GetMemberInProject(Guid projectId)
+        {
+            var hold = await _service.MemberService.GetMembers(projectId);
+            return Ok(hold);
+        }
+
         [HttpPost]
-        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateProjejct(CreateProjectRequestModel model)
         {
             await _service.ProjectService.CreatNewProject(model);
-            return Ok(new ResponseMessage { Message = "Create project successfully"});
+            return Ok(new ResponseMessage { Message = "Create project successfully" });
         }
+        [HttpGet(RoutesAPI.GetJoinRequest)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> GetJoinRequest(Guid id)
+        {
+            return Ok(await _service.ProjectService.GetJoinRequest(id));
+        }
+        [HttpPost(RoutesAPI.ValidateJoinRequest)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> ValidateJoinRequest(Guid id,[FromBody] IEnumerable<UpdateStudentJoinRequestModel> modellist)
+        {
+            await _service.ProjectService.ValidateJoinRequest(modellist,id);
+            return Ok(new ResponseMessage { Message = "Update success" });
+        }
+        [HttpGet(RoutesAPI.GetProjectResources)]
+        public async Task<IActionResult> GetProjectResources(Guid projectId)
+        {
+            var hold = await _service.FileService.GetRootWithProjectId(projectId);
 
+            return Ok(hold);
+        }
     }
 }

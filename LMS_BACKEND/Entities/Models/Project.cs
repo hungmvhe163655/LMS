@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Entities.Models
+﻿namespace Entities.Models
 {
     public class Project
     {
@@ -15,7 +9,7 @@ namespace Entities.Models
 
         public DateTime CreatedDate { get; set; }
 
-        public int ProjectStatusId { get; set; }
+        public string ProjectStatus { get; set; } = null!;
 
         public int MaxMember { get; set; }
 
@@ -25,11 +19,11 @@ namespace Entities.Models
 
         public virtual ICollection<Member> Members { get; set; } = new List<Member>();
 
-        public virtual ProjectStatus ProjectStatus { get; set; } = null!;
-
         public virtual ProjectType ProjectType { get; set; } = null!;
 
         public virtual ICollection<TaskList> TaskLists { get; set; } = new List<TaskList>();
+
+        public virtual ICollection<Folder> Folders { get; set; } = new List<Folder>();
 
         //public virtual ICollection<Permission> Permissions { get; set; } = new List<Permission>();
 

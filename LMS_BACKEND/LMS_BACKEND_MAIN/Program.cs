@@ -1,3 +1,5 @@
+using Contracts.Interfaces;
+using LMS_BACKEND_MAIN.Configurations;
 using LMS_BACKEND_MAIN.Extentions;
 using LMS_BACKEND_MAIN.Presentation.Attributes;
 using Microsoft.AspNetCore.Mvc;
@@ -6,8 +8,6 @@ using Microsoft.Extensions.Options;
 using NLog;
 using Repository;
 using Servive.Hubs;
-using LMS_BACKEND_MAIN.Configurations;
-using Contracts.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +55,8 @@ builder.Services.AddControllers(
 builder.Services.AddTransient<IConfigureOptions<MvcOptions>, MvcOptionsSetup>();
 
 builder.Services.AddScoped<ValidationFilterAttribute>();
+
+builder.Services.AddScoped<DTOFilter>();
 
 builder.Services.AddAuthentication();
 
