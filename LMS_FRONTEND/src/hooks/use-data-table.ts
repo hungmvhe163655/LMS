@@ -54,7 +54,7 @@ interface UseDataTableProps<TData, TValue> {
    * @type `${Extract<keyof TData, string | number>}.${"asc" | "desc"}` | undefined
    * @example "createdAt.desc"
    */
-  defaultSort?: `${Extract<keyof TData, string | number>}.${'asc' | 'desc'}`;
+  defaultSort?: `${Extract<keyof TData, string | number>}.${'asc' | 'desc'}`[];
 
   /**
    * Defines filter fields for the table. Supports both dynamic faceted filters and search filters.
@@ -114,7 +114,7 @@ export function useDataTable<TData, TValue>({
   columns,
   pageCount,
   defaultPerPage = 10,
-  defaultSort,
+  defaultSort = [],
   enableRowSelection = false,
   filterFields = [],
   enableAdvancedFilter = false
@@ -127,8 +127,7 @@ export function useDataTable<TData, TValue>({
   const search = schema.parse(Object.fromEntries(searchParams));
   const page = search.page;
   const perPage = search.per_page ?? defaultPerPage;
-  const sort = search.sort ?? defaultSort;
-  const [column, order] = sort?.split('.') ?? [];
+  const sort = search.sort?.split(',') ?? (defaultSort.map((s) => `${s}`) || []);
 
   // Memoize computation of searchableColumns and filterableColumns
   const { searchableColumns, filterableColumns } = React.useMemo(() => {
@@ -213,18 +212,19 @@ export function useDataTable<TData, TValue>({
   }, [pageIndex, pageSize]);
 
   // Handle server-side sorting
-  const [sorting, setSorting] = React.useState<SortingState>([
-    {
-      id: column ?? '',
-      desc: order === 'desc'
-    }
-  ]);
+  const [sorting, setSorting] = React.useState<SortingState>(
+    sort.map((s) => {
+      const [id, desc] = s.split('.');
+      return { id, desc: desc === 'desc' };
+    })
+  );
 
   React.useEffect(() => {
+    const sortString = sorting.map(({ id, desc }) => `${id}.${desc ? 'desc' : 'asc'}`).join(',');
     navigate(
       `${pathname}?${createQueryString({
         page,
-        sort: sorting[0]?.id ? `${sorting[0]?.id}.${sorting[0]?.desc ? 'desc' : 'asc'}` : null
+        sort: sortString || null
       })}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -316,6 +316,7 @@ export function useDataTable<TData, TValue>({
       columnFilters
     },
     enableRowSelection,
+    enableMultiSort: true,
     onRowSelectionChange: setRowSelection,
     onPaginationChange: setPagination,
     onSortingChange: setSorting,

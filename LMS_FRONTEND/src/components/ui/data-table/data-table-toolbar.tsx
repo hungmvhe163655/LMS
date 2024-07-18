@@ -23,6 +23,11 @@ export function DataTableToolbar<TData>({
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
+  const canHideColumns = React.useMemo(
+    () => table.getAllColumns().some((column) => column.getCanHide()),
+    [table]
+  );
+
   // Memoize computation of searchableColumns and filterableColumns
   const { searchableColumns, filterableColumns } = React.useMemo(() => {
     return {
@@ -30,6 +35,10 @@ export function DataTableToolbar<TData>({
       filterableColumns: filterFields.filter((field) => field.options)
     };
   }, [filterFields]);
+
+  const handleResetFilters = React.useCallback(() => {
+    table.resetColumnFilters();
+  }, [table]);
 
   return (
     <div
@@ -72,7 +81,7 @@ export function DataTableToolbar<TData>({
             aria-label='Reset filters'
             variant='ghost'
             className='h-8 px-2 lg:px-3'
-            onClick={() => table.resetColumnFilters()}
+            onClick={handleResetFilters}
           >
             Reset
             <Cross2Icon className='ml-2 size-4' aria-hidden='true' />
@@ -81,7 +90,7 @@ export function DataTableToolbar<TData>({
       </div>
       <div className='flex items-center gap-2'>
         {children}
-        <DataTableViewOptions table={table} />
+        {canHideColumns && <DataTableViewOptions table={table} />}
       </div>
     </div>
   );

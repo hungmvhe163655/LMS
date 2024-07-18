@@ -3,11 +3,13 @@ import { useSearchParams } from 'react-router-dom';
 
 import { DataTable } from '@/components/ui/data-table/data-table';
 import { DataTableSkeleton } from '@/components/ui/data-table/data-table-skeleton';
+import { DataTableToolbar } from '@/components/ui/data-table/data-table-toolbar';
 import { useDataTable } from '@/hooks/use-data-table';
 
 import { useNews } from '../api/get-news';
 
 import { getColumns } from './news-columns';
+import { NewsTableToolbarActions } from './news-table-toolbar-actions';
 
 export function NewsTable() {
   const [searchParams] = useSearchParams();
@@ -29,7 +31,7 @@ export function NewsTable() {
 
   const { table } = useDataTable({
     data: data?.data || [],
-    pageCount: data?.pagination.TotalPages || -1,
+    pageCount: data?.pagination.TotalPages || 0,
     columns
   });
 
@@ -37,5 +39,11 @@ export function NewsTable() {
     return <DataTableSkeleton columnCount={3} rowCount={8} shrinkZero={true} />;
   }
 
-  return <DataTable table={table} />;
+  return (
+    <DataTable table={table}>
+      <DataTableToolbar table={table}>
+        <NewsTableToolbarActions />
+      </DataTableToolbar>
+    </DataTable>
+  );
 }

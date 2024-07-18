@@ -16,8 +16,8 @@ export function getColumns(): ColumnDef<News>[] {
     {
       accessorKey: 'createdBy',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Created By' />,
-      enableSorting: false,
-      enableHiding: false
+      enableHiding: false,
+      enableSorting: false
     },
     {
       accessorKey: 'createdDate',
