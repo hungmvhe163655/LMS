@@ -13,7 +13,8 @@
         public int TaskPriorityId { get; set; }
         public Guid TaskListId { get; set; }
         public Guid ProjectId { get; set; }
-        public int TaskStatusId { get; set; }
+        public string TaskStatus { get; set; } = null!;
         public string? AssignedTo { get; set; }
+        public int Order { get; set; }
     }
 }

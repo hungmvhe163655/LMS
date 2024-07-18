@@ -2393,6 +2393,7 @@ namespace Repository.Configuration
                 Id = new Guid("0bb2e364-d05d-4128-b24d-0f69725b85f3"),
                 Name = "Requirement Analysis",
                 MaxTasks = 5,
+                Order = 1,
                 ProjectId = prj1.Id
             };
             TaskList tl2 = new TaskList
@@ -2400,6 +2401,7 @@ namespace Repository.Configuration
                 Id = new Guid("8866bcb2-198a-4fcd-b0c0-8090444b8722"),
                 Name = "System Design",
                 MaxTasks = 4,
+                Order = 2,
                 ProjectId = prj1.Id,
             };
             TaskList tl3 = new TaskList
@@ -2407,6 +2409,7 @@ namespace Repository.Configuration
                 Id = new Guid("94420810-4a35-4f33-a7df-6078ab4efb1c"),
                 Name = "Implementation",
                 MaxTasks = 10,
+                Order = 3,
                 ProjectId = prj1.Id
             };
             TaskList tl4 = new TaskList
@@ -2414,6 +2417,7 @@ namespace Repository.Configuration
                 Id = new Guid("816ebcd1-124d-4b5c-810e-b0e8aeedb501"),
                 Name = "Testing",
                 MaxTasks = 6,
+                Order = 4,
                 ProjectId = prj1.Id
             };
             TaskList tl5 = new TaskList
@@ -2421,6 +2425,7 @@ namespace Repository.Configuration
                 Id = new Guid("e86a5ffe-7b06-4f06-94a4-698cb58161db"),
                 Name = "Deployment",
                 MaxTasks = 2,
+                Order = 5,
                 ProjectId = prj1.Id
             };
 
@@ -2430,6 +2435,7 @@ namespace Repository.Configuration
                 Id = new Guid("2c81e116-5120-4920-bf51-092081bfc67d"),
                 Name = "Initial Research",
                 MaxTasks = 3,
+                Order = 1,
                 ProjectId = prj2.Id
             };
             TaskList tl7 = new TaskList
@@ -2437,6 +2443,7 @@ namespace Repository.Configuration
                 Id = new Guid("a88a1f4e-d3dd-42f0-a0e7-3a7f6affa301"),
                 Name = "Prototype Development",
                 MaxTasks = 5,
+                Order = 2,
                 ProjectId = prj2.Id
             };
             TaskList tl8 = new TaskList
@@ -2444,6 +2451,7 @@ namespace Repository.Configuration
                 Id = new Guid("8de05be7-f7d1-425e-9c5e-b1a965456935"),
                 Name = "User Testing",
                 MaxTasks = 4,
+                Order = 3,
                 ProjectId = prj2.Id
             };
             TaskList tl9 = new TaskList
@@ -2451,6 +2459,7 @@ namespace Repository.Configuration
                 Id = new Guid("95be764c-437f-42c8-bd26-bf0aff147218"),
                 Name = "Final Development",
                 MaxTasks = 5,
+                Order = 4,
                 ProjectId = prj2.Id
             };
 
@@ -2460,6 +2469,7 @@ namespace Repository.Configuration
                 Id = new Guid("84f2c617-35e0-4343-a7c8-35226cb4c6a1"),
                 Name = "Literature Review",
                 MaxTasks = 4,
+                Order = 1,
                 ProjectId = prj3.Id
             };
             TaskList tl11 = new TaskList
@@ -2467,6 +2477,7 @@ namespace Repository.Configuration
                 Id = new Guid("3a339b14-8f9e-413d-97d0-7ce36aafee58"),
                 Name = "Experimentation",
                 MaxTasks = 6,
+                Order = 2,
                 ProjectId = prj3.Id
             };
             TaskList tl12 = new TaskList
@@ -2474,6 +2485,7 @@ namespace Repository.Configuration
                 Id = new Guid("67a4dd09-f119-4c82-921e-597279ef412d"),
                 Name = "Data Analysis",
                 MaxTasks = 5,
+                Order = 3,
                 ProjectId = prj3.Id
             };
             TaskList tl13 = new TaskList
@@ -2481,6 +2493,7 @@ namespace Repository.Configuration
                 Id = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 Name = "Paper Writing",
                 MaxTasks = 5,
+                Order = 4,
                 ProjectId = prj3.Id
             };
 
@@ -2490,6 +2503,7 @@ namespace Repository.Configuration
                 Id = new Guid("5b24898d-dddc-4c99-8c69-5e43a370e45c"),
                 Name = "Data Collection",
                 MaxTasks = 6,
+                Order = 1,
                 ProjectId = prj4.Id
             };
             TaskList tl15 = new TaskList
@@ -2497,6 +2511,7 @@ namespace Repository.Configuration
                 Id = new Guid("f5840e34-49e8-435f-bbb4-e403c53642b1"),
                 Name = "Model Training",
                 MaxTasks = 7,
+                Order = 2,
                 ProjectId = prj4.Id
             };
             TaskList tl16 = new TaskList
@@ -2504,6 +2519,7 @@ namespace Repository.Configuration
                 Id = new Guid("4c238c20-5106-4ca5-88a7-9980892a5455"),
                 Name = "Model Evaluation",
                 MaxTasks = 5,
+                Order = 3,
                 ProjectId = prj4.Id
             };
             TaskList tl17 = new TaskList
@@ -2511,6 +2527,7 @@ namespace Repository.Configuration
                 Id = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 Name = "Deployment",
                 MaxTasks = 4,
+                Order = 4,
                 ProjectId = prj4.Id
             };
 
@@ -2520,6 +2537,7 @@ namespace Repository.Configuration
                 Id = new Guid("c07b395a-cbf6-49a4-aeaa-ef28de9517ff"),
                 Name = "Sensor Installation",
                 MaxTasks = 5,
+                Order = 1,
                 ProjectId = prj5.Id
             };
             TaskList tl19 = new TaskList
@@ -2527,6 +2545,7 @@ namespace Repository.Configuration
                 Id = new Guid("24d9bd4f-d960-4081-87a8-6be032290863"),
                 Name = "Data Collection",
                 MaxTasks = 6,
+                Order = 2,
                 ProjectId = prj5.Id
             };
             TaskList tl20 = new TaskList
@@ -2534,6 +2553,7 @@ namespace Repository.Configuration
                 Id = new Guid("455d5a96-2d52-4aa8-a98f-ac27f4f321c3"),
                 Name = "Data Analysis",
                 MaxTasks = 5,
+                Order = 3,
                 ProjectId = prj5.Id
             };
             TaskList tl21 = new TaskList
@@ -2541,6 +2561,7 @@ namespace Repository.Configuration
                 Id = new Guid("a37790d5-0113-491b-98af-5060ff8aa26c"),
                 Name = "Reporting",
                 MaxTasks = 4,
+                Order = 4,
                 ProjectId = prj5.Id
             };
 
@@ -2550,6 +2571,7 @@ namespace Repository.Configuration
                 Id = new Guid("41640d60-1134-45c3-a7c4-2e7f306ec967"),
                 Name = "Requirement Gathering",
                 MaxTasks = 5,
+                Order = 1,
                 ProjectId = prj6.Id
             };
             TaskList tl23 = new TaskList
@@ -2557,6 +2579,7 @@ namespace Repository.Configuration
                 Id = new Guid("5618a016-156a-449c-92e6-926eabe0cf8a"),
                 Name = "UI/UX Design",
                 MaxTasks = 4,
+                Order= 2,
                 ProjectId = prj6.Id
             };
             TaskList tl24 = new TaskList
@@ -2564,6 +2587,7 @@ namespace Repository.Configuration
                 Id = new Guid("431dd63b-469e-4589-b1c6-4b4af20a7728"),
                 Name = "Development",
                 MaxTasks = 6,
+                Order= 3,
                 ProjectId = prj6.Id
             };
             TaskList tl25 = new TaskList
@@ -2571,6 +2595,7 @@ namespace Repository.Configuration
                 Id = new Guid("60ac6a0a-2788-4326-ad31-fdd899d7b80f"),
                 Name = "Testing",
                 MaxTasks = 4,
+                Order = 4,
                 ProjectId = prj6.Id
             };
             TaskList tl26 = new TaskList
@@ -2578,6 +2603,7 @@ namespace Repository.Configuration
                 Id = new Guid("75f606e3-f12a-4257-b486-a15ef2aad23b"),
                 Name = "Deployment",
                 MaxTasks = 3,
+                Order = 5,
                 ProjectId = prj6.Id
             };
 
@@ -2586,28 +2612,32 @@ namespace Repository.Configuration
             {
                 Id = new Guid("5f54b6b6-614e-46d2-a64e-10d91db2f516"),
                 Name = "Data Collection",
-                MaxTasks = 6,
+                MaxTasks = 5,
+                Order = 1,
                 ProjectId = prj7.Id
             };
             TaskList tl28 = new TaskList
             {
                 Id = new Guid("b351e4b2-8b16-4c0c-b37b-630bcf661e4b"),
                 Name = "Model Development",
-                MaxTasks = 5,
+                MaxTasks = 3,
+                Order = 2,
                 ProjectId = prj7.Id
             };
             TaskList tl29 = new TaskList
             {
                 Id = new Guid("0008056c-1d86-45f8-ae4e-b0512284472d"),
                 Name = "Model Training",
-                MaxTasks = 7,
+                MaxTasks = 3,
+                Order = 3,
                 ProjectId = prj7.Id
             };
             TaskList tl30 = new TaskList
             {
                 Id = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 Name = "Model Testing",
-                MaxTasks = 5,
+                MaxTasks = 6,
+                Order = 4,
                 ProjectId = prj7.Id
             };
 
@@ -2673,7 +2703,9 @@ namespace Repository.Configuration
                 TaskListId = new Guid("0bb2e364-d05d-4128-b24d-0f69725b85f3"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user3.Id
+
             };
             Tasks t2 = new Tasks
             {
@@ -2689,6 +2721,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("0bb2e364-d05d-4128-b24d-0f69725b85f3"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user4.Id,
             };
             Tasks t3 = new Tasks
@@ -2705,6 +2738,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("8866bcb2-198a-4fcd-b0c0-8090444b8722"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user3.Id
             };
             Tasks t4 = new Tasks
@@ -2721,6 +2755,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("8866bcb2-198a-4fcd-b0c0-8090444b8722"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user5.Id,
             };
             Tasks t5 = new Tasks
@@ -2737,6 +2772,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("94420810-4a35-4f33-a7df-6078ab4efb1c"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user6.Id
             };
             Tasks t6 = new Tasks
@@ -2753,6 +2789,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("94420810-4a35-4f33-a7df-6078ab4efb1c"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user4.Id
             };
             Tasks t7 = new Tasks
@@ -2769,6 +2806,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("94420810-4a35-4f33-a7df-6078ab4efb1c"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user3.Id
             };
             Tasks t8 = new Tasks
@@ -2785,6 +2823,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("816ebcd1-124d-4b5c-810e-b0e8aeedb501"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user6.Id
             };
             Tasks t9 = new Tasks
@@ -2801,6 +2840,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("816ebcd1-124d-4b5c-810e-b0e8aeedb501"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user5.Id
             };
             Tasks t10 = new Tasks
@@ -2817,6 +2857,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("e86a5ffe-7b06-4f06-94a4-698cb58161db"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user3.Id
             };
 
@@ -2835,6 +2876,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("2c81e116-5120-4920-bf51-092081bfc67d"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user3.Id
             };
             Tasks t12 = new Tasks
@@ -2851,6 +2893,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("a88a1f4e-d3dd-42f0-a0e7-3a7f6affa301"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user4.Id
             };
             Tasks t13 = new Tasks
@@ -2867,6 +2910,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("8de05be7-f7d1-425e-9c5e-b1a965456935"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user8.Id
             };
             Tasks t14 = new Tasks
@@ -2883,6 +2927,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("95be764c-437f-42c8-bd26-bf0aff147218"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user8.Id
             };
             Tasks t15 = new Tasks
@@ -2899,6 +2944,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("2c81e116-5120-4920-bf51-092081bfc67d"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user4.Id
             };
             Tasks t16 = new Tasks
@@ -2915,6 +2961,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("a88a1f4e-d3dd-42f0-a0e7-3a7f6affa301"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user4.Id
             };
             Tasks t17 = new Tasks
@@ -2931,6 +2978,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("8de05be7-f7d1-425e-9c5e-b1a965456935"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user3.Id
             };
             Tasks t18 = new Tasks
@@ -2947,6 +2995,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("95be764c-437f-42c8-bd26-bf0aff147218"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user3.Id
             };
             Tasks t19 = new Tasks
@@ -2963,6 +3012,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("2c81e116-5120-4920-bf51-092081bfc67d"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,  
                 AssignedTo = user8.Id
             };
             Tasks t20 = new Tasks
@@ -2979,6 +3029,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("a88a1f4e-d3dd-42f0-a0e7-3a7f6affa301"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user8.Id
             };
             Tasks t21 = new Tasks
@@ -2995,6 +3046,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("8de05be7-f7d1-425e-9c5e-b1a965456935"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user3.Id
             };
 
@@ -3012,6 +3064,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("84f2c617-35e0-4343-a7c8-35226cb4c6a1"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user7.Id
             };
             Tasks t23 = new Tasks
@@ -3028,6 +3081,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("3a339b14-8f9e-413d-97d0-7ce36aafee58"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user7.Id
             };
             Tasks t24 = new Tasks
@@ -3044,6 +3098,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("3a339b14-8f9e-413d-97d0-7ce36aafee58"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user7.Id
             };
             Tasks t25 = new Tasks
@@ -3060,6 +3115,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("67a4dd09-f119-4c82-921e-597279ef412d"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user16.Id
             };
             Tasks t26 = new Tasks
@@ -3076,6 +3132,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user16.Id
             };
             Tasks t27 = new Tasks
@@ -3092,6 +3149,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user7.Id
             };
             Tasks t28 = new Tasks
@@ -3108,6 +3166,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user7.Id
             };
             Tasks t29 = new Tasks
@@ -3124,6 +3183,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 4,
                 AssignedTo = user16.Id
             };
             Tasks t30 = new Tasks
@@ -3140,6 +3200,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 5,
                 AssignedTo = user7.Id
             };
             Tasks t31 = new Tasks
@@ -3156,6 +3217,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 6,
                 AssignedTo = user16.Id
             };
 
@@ -3175,6 +3237,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("5b24898d-dddc-4c99-8c69-5e43a370e45c"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user4.Id
             };
             Tasks t33 = new Tasks
@@ -3191,6 +3254,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("5b24898d-dddc-4c99-8c69-5e43a370e45c"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user20.Id
             };
             Tasks t34 = new Tasks
@@ -3207,6 +3271,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("f5840e34-49e8-435f-bbb4-e403c53642b1"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user20.Id
             };
             Tasks t35 = new Tasks
@@ -3223,6 +3288,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("f5840e34-49e8-435f-bbb4-e403c53642b1"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user19.Id
             };
             Tasks t36 = new Tasks
@@ -3239,6 +3305,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("4c238c20-5106-4ca5-88a7-9980892a5455"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user18.Id
             };
             Tasks t37 = new Tasks
@@ -3255,6 +3322,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("4c238c20-5106-4ca5-88a7-9980892a5455"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user19.Id
             };
             Tasks t38 = new Tasks
@@ -3271,6 +3339,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user20.Id
             };
             Tasks t39 = new Tasks
@@ -3287,6 +3356,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user19.Id
             };
             Tasks t40 = new Tasks
@@ -3303,6 +3373,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user4.Id
             };
             Tasks t41 = new Tasks
@@ -3319,6 +3390,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 4,
                 AssignedTo = user4.Id
             };
 
@@ -3338,6 +3410,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("c07b395a-cbf6-49a4-aeaa-ef28de9517ff"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user20.Id
             };
             Tasks t43 = new Tasks
@@ -3354,6 +3427,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("c07b395a-cbf6-49a4-aeaa-ef28de9517ff"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user17.Id
             };
             Tasks t44 = new Tasks
@@ -3370,6 +3444,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("24d9bd4f-d960-4081-87a8-6be032290863"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user16.Id
             };
             Tasks t45 = new Tasks
@@ -3386,6 +3461,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("24d9bd4f-d960-4081-87a8-6be032290863"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user15.Id
             };
             Tasks t46 = new Tasks
@@ -3402,6 +3478,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("455d5a96-2d52-4aa8-a98f-ac27f4f321c3"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user15.Id
             };
             Tasks t47 = new Tasks
@@ -3418,6 +3495,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("455d5a96-2d52-4aa8-a98f-ac27f4f321c3"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user17.Id
             };
             Tasks t48 = new Tasks
@@ -3434,6 +3512,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("a37790d5-0113-491b-98af-5060ff8aa26c"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user16.Id
             };
             Tasks t49 = new Tasks
@@ -3450,6 +3529,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("a37790d5-0113-491b-98af-5060ff8aa26c"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user20.Id
             };
             Tasks t50 = new Tasks
@@ -3466,6 +3546,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("455d5a96-2d52-4aa8-a98f-ac27f4f321c3"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user17.Id
             };
             Tasks t51 = new Tasks
@@ -3482,6 +3563,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("a37790d5-0113-491b-98af-5060ff8aa26c"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user20.Id
             };
 
@@ -3500,6 +3582,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("41640d60-1134-45c3-a7c4-2e7f306ec967"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user15.Id
             };
             Tasks t53 = new Tasks
@@ -3516,6 +3599,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("5618a016-156a-449c-92e6-926eabe0cf8a"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user14.Id
             };
             Tasks t54 = new Tasks
@@ -3532,6 +3616,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("431dd63b-469e-4589-b1c6-4b4af20a7728"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user7.Id
             };
             Tasks t55 = new Tasks
@@ -3548,6 +3633,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("431dd63b-469e-4589-b1c6-4b4af20a7728"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user15.Id
             };
             Tasks t56 = new Tasks
@@ -3564,6 +3650,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("60ac6a0a-2788-4326-ad31-fdd899d7b80f"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user7.Id
             };
             Tasks t57 = new Tasks
@@ -3580,6 +3667,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("60ac6a0a-2788-4326-ad31-fdd899d7b80f"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user14.Id
             };
             Tasks t58 = new Tasks
@@ -3596,6 +3684,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("60ac6a0a-2788-4326-ad31-fdd899d7b80f"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user7.Id
             };
             Tasks t59 = new Tasks
@@ -3612,6 +3701,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("75f606e3-f12a-4257-b486-a15ef2aad23b"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user15.Id
             };
             Tasks t60 = new Tasks
@@ -3628,6 +3718,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("75f606e3-f12a-4257-b486-a15ef2aad23b"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user7.Id
             };
             Tasks t61 = new Tasks
@@ -3644,6 +3735,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("75f606e3-f12a-4257-b486-a15ef2aad23b"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user14.Id
             };
 
@@ -3662,6 +3754,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("5f54b6b6-614e-46d2-a64e-10d91db2f516"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user6.Id
             };
             Tasks t63 = new Tasks
@@ -3678,6 +3771,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("5f54b6b6-614e-46d2-a64e-10d91db2f516"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user5.Id
             };
             Tasks t64 = new Tasks
@@ -3694,6 +3788,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("b351e4b2-8b16-4c0c-b37b-630bcf661e4b"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user4.Id
             };
             Tasks t65 = new Tasks
@@ -3710,6 +3805,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("0008056c-1d86-45f8-ae4e-b0512284472d"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user16.Id
             };
             Tasks t66 = new Tasks
@@ -3726,6 +3822,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user6.Id
             };
             Tasks t67 = new Tasks
@@ -3742,6 +3839,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user16.Id
             };
             Tasks t68 = new Tasks
@@ -3758,6 +3856,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user5.Id
             };
             Tasks t69 = new Tasks
@@ -3774,6 +3873,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 4,
                 AssignedTo = user16.Id
             };
             Tasks t70 = new Tasks
@@ -3790,6 +3890,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 5,
                 AssignedTo = user4.Id
             };
             Tasks t71 = new Tasks
@@ -3806,6 +3907,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 6,
                 AssignedTo = user4.Id
             };
 

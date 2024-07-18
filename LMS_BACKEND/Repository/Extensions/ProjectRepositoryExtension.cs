@@ -7,7 +7,22 @@ namespace Repository.Extensions
 {
     public static class ProjectRepositoryExtension
     {
-        public static IQueryable<Project> FilterProjects(this IQueryable<Project> projects, DateTime minCreatedDate, DateTime maxCreatedDate) => projects.Where(n => (DateTime.Compare(n.CreatedDate, minCreatedDate) > 0 && (DateTime.Compare(n.CreatedDate, maxCreatedDate) < 0)));
+        public static IQueryable<Project> FilterProjects(this IQueryable<Project> projects, DateTime minCreatedDate, DateTime maxCreatedDate, string? projectStatus = null, int projectTypeId = 0)
+        {
+            var filteredProjects = projects.Where(p => p.CreatedDate >= minCreatedDate && p.CreatedDate <= maxCreatedDate);
+
+            if (!string.IsNullOrEmpty(projectStatus))
+            {
+                filteredProjects = filteredProjects.Where(p => p.ProjectStatus.ToLower() == projectStatus.ToLower());
+            }
+
+            if (projectTypeId != 0)
+            {
+                filteredProjects = filteredProjects.Where(p => p.ProjectTypeId == projectTypeId);
+            }
+
+            return filteredProjects;
+        }
 
         public static IQueryable<Project> Search(this IQueryable<Project> projects, ProjectRequestParameters parameters)
         {

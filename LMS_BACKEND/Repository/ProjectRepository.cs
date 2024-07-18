@@ -15,9 +15,9 @@ namespace Repository
 
         public async Task<PagedList<Project>> GetOngoingProjectAsync(string userId, ProjectRequestParameters parameters, bool trackChange)
         {
-            var projects = await GetByCondition(p => p.Members.Any(m => m.UserId != null && m.UserId.Equals(userId)) && p.ProjectStatus.Equals(PROJECT_STATUS.ONGOING), false)
+            var projects = await GetByCondition(p => p.Members.Any(m => m.UserId != null && m.UserId.Equals(userId)) && p.ProjectStatus.Equals(PROJECT_STATUS.ONGOING), trackChange)
                 .Include(p => p.Members)
-                .FilterProjects(parameters.minCreatedDate, parameters.maxCreatedDate)
+                .FilterProjects(parameters.minCreatedDate, parameters.maxCreatedDate, parameters.ProjectStatusFilter, parameters.ProjectTypeId)
                 .Search(parameters)
                 .Sort(parameters.OrderBy)
                 .Skip((parameters.PageNumber - 1) * parameters.PageSize)

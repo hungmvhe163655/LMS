@@ -14,5 +14,7 @@ namespace Shared.DataTransferObjects.RequestParameters
 
         public bool ValidCreatedDateRange => DateTime.Compare(minCreatedDate, maxCreatedDate) < 0;
         public string? SearchTerm { get; set; }
+        public string? ProjectStatusFilter { get; set; }
+        public int ProjectTypeId { get; set; }
     }
 }
