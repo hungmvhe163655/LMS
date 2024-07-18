@@ -1,5 +1,8 @@
 ﻿using Contracts.Interfaces;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
+using Shared.DataTransferObjects.RequestParameters;
 
 namespace Repository
 {
@@ -19,5 +22,19 @@ namespace Repository
 
         public IQueryable<Tasks> GetTasksWithTaskListId(Guid taskListId, bool check) => FindAll(check).Where(x => x.TaskListId.Equals(taskListId));
 
+        public async Task<PagedList<Tasks>> GetAllTaskByUser(string userId, TaskRequestParameters parameters, bool check)
+        {
+            var tasks= await GetByCondition(t => t.AssignedToUser.Id.Equals(userId), check)
+                .FilterTasks(parameters.startDateFilter,parameters.endDateFilter)
+                .Search(parameters)
+                .Sort(parameters.OrderBy)
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .ToListAsync();
+
+            var count = await FindAll(check).FilterTasks(parameters.startDateFilter, parameters.endDateFilter).Search(parameters).CountAsync();
+
+            return new PagedList<Tasks>(tasks, count, parameters.PageNumber, parameters.PageSize);
+        }
     }
 }
