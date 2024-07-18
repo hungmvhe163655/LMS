@@ -5,7 +5,7 @@ using System.Linq.Dynamic.Core;
 
 namespace Repository.Extensions
 {
-    public static class RepositoryNewsExtensions
+    public static class NewsRepositoryExtensions
     {
         public static IQueryable<News> FilterNews(this IQueryable<News> news, DateTime minCreatedDate, DateTime maxCreatedDate) => news.Where(n => (DateTime.Compare(n.CreatedDate, minCreatedDate) > 0 && (DateTime.Compare(n.CreatedDate, maxCreatedDate) < 0)));
 
@@ -22,12 +22,10 @@ namespace Repository.Extensions
 
         public static IQueryable<News> Sort(this IQueryable<News> news, string orderByQueryString)
         {
-            if (string.IsNullOrWhiteSpace(orderByQueryString))
-                return news.OrderBy(n => n.CreatedDate);
-
             var orderQuery = OrderQueryBuilder.CreateOrderQuery<News>(orderByQueryString);
 
-            if (string.IsNullOrWhiteSpace(orderQuery))
+            if (string.IsNullOrWhiteSpace(orderByQueryString) || string.IsNullOrWhiteSpace(orderQuery))
+
                 return news.OrderBy(n => n.CreatedDate);
 
             return news.OrderBy(orderQuery);

@@ -76,6 +76,8 @@ namespace Service
             _projectService = new Lazy<IProjectService>(() => new ProjectService(repositoryManager, mapper));
 
             _reportService = new Lazy<IReportService>(() => new ReportService(repositoryManager, mapper));
+
+            _memberService = new Lazy<IMemberService>(() => new MemberService(repositoryManager, mapper));
         }
         public IAccountService AccountService => _accountService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;

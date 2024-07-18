@@ -1,9 +1,11 @@
 ﻿using Contracts.Interfaces;
 using Entities.Models;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Servive.Hubs;
 using Shared.DataTransferObjects.RequestParameters;
+using Shared.GlobalVariables;
 
 namespace Service
 {
@@ -17,9 +19,9 @@ namespace Service
             _hubContext = hub;
         }
 
-        public async Task<Notification> CreateNotification(string title, string content, int type, string createUserId, string group)
+        public async Task<Notification> CreateNotification(string title, string content, string type, string createUserId, string group)
         {
-            var hold = new Notification { Id = Guid.NewGuid(), Title = title, Content = content, NotificationType = type+"", CreatedBy = createUserId, Url = "lmao.com" };//sua cho nay
+            var hold = new Notification { Id = Guid.NewGuid(), Title = title, Content = content, NotificationType = MAPPARAM.GetNotificationTypeValue(type), CreatedBy = createUserId, Url = "lmao.com" };//sua cho nay
             await _repositoryManager.notification.saveNotification(hold);
             await _repositoryManager.Save();
             await _hubContext.Clients.Groups(group).SendAsync("ReceiveNotification", hold);
@@ -31,10 +33,9 @@ namespace Service
             return await _repositoryManager.notification.GetPagedAsync(request, false);
         }
 
-        public async Task<Notification> GetNotification(string id)
+        public async Task<Notification?> GetNotification(Guid id)
         {
-            var result = await _repositoryManager.notification.GetByConditionAsync(entity => entity.Id.Equals(id), false);
-            return result.First();
+            return await _repositoryManager.notification.GetByCondition(entity => entity.Id.Equals(id), false).FirstOrDefaultAsync();
         }
     }
 }
