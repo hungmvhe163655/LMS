@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import type { Task } from '@/features/project-workspace/project-workspace/types/workspace-types';
+import type { Task } from '@/features/project-workspace/project-workspace/types/project-types';
 
 interface SortableTaskProps {
   task: Task;

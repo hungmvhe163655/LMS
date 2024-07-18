@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 import { mockTaskLists } from '../mock-tasks';
-import type { TaskList as TaskListType } from '../types/workspace-types';
+import type { TaskList as TaskListType } from '../types/project-types';
 
 import { MouseSensor, KeyboardSensor } from './customer-sensors'; // Import the custom sensors
 import SortableTaskList from './sortable-tasklist';

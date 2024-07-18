@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import type { Task, TaskList as TaskListType } from '../types/workspace-types';
+import type { Task, TaskList as TaskListType } from '../types/project-types';
 
 import SortableTask from './sortable-task';
 

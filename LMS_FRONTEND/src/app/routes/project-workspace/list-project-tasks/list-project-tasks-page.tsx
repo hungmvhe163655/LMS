@@ -1,15 +1,15 @@
 import { BaseLayout } from '@/components/layouts/base-layout';
 import WorkspaceLayout from '@/components/layouts/workspace-layout';
-import OngoingProjects from '@/features/project-workspace/ongoing-projects/components/ongoing-projects';
+import ProjectTaskManager from '@/features/project-workspace/project-tasks-manager/components/project-tasks-manager';
 
-export function OngoingProjectsPage() {
+export function ListProjectTasksPage() {
   return (
     <BaseLayout>
       <WorkspaceLayout>
-        <OngoingProjects></OngoingProjects>
+        <ProjectTaskManager />
       </WorkspaceLayout>
     </BaseLayout>
   );
 }
 
-export default OngoingProjectsPage;
+export default ListProjectTasksPage;

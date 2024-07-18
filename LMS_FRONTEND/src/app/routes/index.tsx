@@ -9,6 +9,7 @@ import ErrorRoute from './errors';
 import NewsRoute from './news';
 import ProfileRoute from './profile';
 import ListAllTasksRoute from './project-workspace/list-all-task';
+import ListProjectTasksRoute from './project-workspace/list-project-tasks';
 import OngoingProjectsRoute from './project-workspace/ongoing-projects';
 import ProjectWorkspaceRoute from './project-workspace/project-workspace';
 import SupervisorRoute from './supervisor';
@@ -49,7 +50,12 @@ export const createRouter = (queryClient: QueryClient) =>
     },
     {
       path: 'project',
-      children: [OngoingProjectsRoute, ProjectWorkspaceRoute, ListAllTasksRoute]
+      children: [
+        OngoingProjectsRoute,
+        ProjectWorkspaceRoute,
+        ListAllTasksRoute,
+        ListProjectTasksRoute
+      ]
     },
     {
       path: '/',
