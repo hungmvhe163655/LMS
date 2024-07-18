@@ -63,10 +63,8 @@ namespace Service
             var newsFromDb = await _repository.news.GetNewsAsync(newsParameter, trackChanges);
             foreach (var news in newsFromDb)
             {
-                var hold = await _repository.account.GetByConditionAsync(a => a.Id.Equals(news.CreatedBy), false);
-                var account = hold.FirstOrDefault();
-                if (account == null) throw new BadRequestException("");
-                news.CreatedBy = account.FullName != null ? account.FullName : account.Email;
+                var hold = _repository.account.GetByCondition(a => a.Id.Equals(news.CreatedBy), false).FirstOrDefault() ?? throw new BadRequestException($"Can't find any news created by account {news.CreatedBy}");
+                news.CreatedBy = hold.FullName != null ? hold.FullName : hold.Email;
             }
             var newsDto = _mapper.Map<IEnumerable<NewsReponseModel>>(newsFromDb);
             return (news: newsDto, metaData: newsFromDb.MetaData);
