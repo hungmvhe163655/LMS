@@ -31,12 +31,22 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return StatusCode(201, result);
         }
         */
-        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
-        [HttpGet(RoutesAPI.GetAccountNeedVerified)]
-        public async Task<IActionResult> GetAccountNeedVerified([FromQuery] NeedVerifyParameters param)
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        [HttpGet(RoutesAPI.GetAccountNeedVerify)]
+        public async Task<IActionResult> GetAccountNeedVerify([FromQuery] NeedVerifyParameters param)
         {
-            var user = await
-            _service.AccountService.GetVerifierAccounts(param);
+            var user = await _service.AccountService.GetVerifierAccounts(param);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(user.meta));
+
+            return Ok(user.data);
+        }
+
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        [HttpGet(RoutesAPI.GetSupervisorNeedVerify)]
+        public async Task<IActionResult> GetSupervisorNeedVerify([FromQuery] NeedVerifyParameters param)
+        {
+            var user = await _service.AccountService.GetVerifierAccountsSuper(param);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(user.meta));
 

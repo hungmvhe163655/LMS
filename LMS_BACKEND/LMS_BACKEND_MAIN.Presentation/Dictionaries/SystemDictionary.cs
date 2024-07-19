@@ -76,7 +76,9 @@
 
         public const string CreateAdmin = "create-admin";
 
-        public const string GetAccountNeedVerified = "need-verified";
+        public const string GetAccountNeedVerify = "need-verify";
+
+        public const string GetSupervisorNeedVerify = "supervisor-need-verify";
 
         public const string UpdateAccountVerifyStatus = "verify-account";
 

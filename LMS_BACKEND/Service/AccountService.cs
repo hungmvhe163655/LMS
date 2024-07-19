@@ -16,9 +16,13 @@ namespace Service
     public sealed class AccountService : IAccountService
     {
         private readonly IRepositoryManager _repository;
+
         private readonly ILoggerManager _logger;
+
         private readonly IMapper _mapper;
+
         private readonly UserManager<Account> _userManager;
+
         private readonly RoleManager<IdentityRole> _roleManager;
         public AccountService
             (IRepositoryManager repository,
@@ -72,18 +76,26 @@ namespace Service
         public async Task<AccountDetailResponseModel> GetAccountDetail(string userId)
         {
             var account = await _repository.account.GetByCondition(entity => entity.Id.Equals(userId), false).FirstAsync();
+
             if (account == null) throw new BadRequestException($"{nameof(account)} is not valid");
+
             if (account.Email == null) throw new BadRequestException($"{nameof(account.Email)} is not valid");
+
             var checkRole = await _userManager.GetRolesAsync(account);
+
             var roleName = checkRole.FirstOrDefault();
+
             if (roleName == null) throw new BadRequestException($"{roleName} is not valid");
 
             var hold = _mapper.Map<AccountDetailResponseModel>(account);
+
             hold.Role = roleName;
 
             if (roleName.ToUpper().Equals("STUDENT"))
             {
-                var studentDetail = await _repository.studentDetail
+                var studentDetail = await 
+                    _repository
+                    .studentDetail
                     .GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), false);
                 var detail = studentDetail.FirstOrDefault();
 
