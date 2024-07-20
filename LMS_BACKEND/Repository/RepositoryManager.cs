@@ -1,100 +1,102 @@
-using Amazon.S3;
-using AutoMapper;
 using Contracts.Interfaces;
-using Entities.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
-using Service.Contracts;
-using Servive.Hubs;
-using System.Net.Mail;
 
-namespace Service
+namespace Repository
 {
-    public sealed class ServiceManager : IServiceManager
+    public sealed class RepositoryManager : IRepositoryManager
     {
-        //add more here
-        private readonly Lazy<IAccountService> _accountService;
+        private readonly DataContext _context;
 
-        private readonly Lazy<IAuthenticationService> _authenticationService;
+        private readonly Lazy<IAccountRepository> _accountRepository;
 
-        private readonly Lazy<IMailService> _mailService;
+        private readonly Lazy<INewsRepository> _newsRepository;
 
-        private readonly Lazy<INewsService> _newsService;
+        private readonly Lazy<INotificationRepository> _notificationsRepository;
 
-        private readonly Lazy<IFileService> _fileService;
+        private readonly Lazy<IStudentDetailRepository> _studentDetailRepository;
 
-        private readonly Lazy<INotificationService> _notificationService;
+        private readonly Lazy<IFileRepository> _fileRepository;
 
-        private readonly Lazy<IFolderService> _folderService;
+        private readonly Lazy<IFolderClosureRepository> _folderClosureRepository;
 
-        private readonly Lazy<IScheduleService> _scheduleService;
+        private readonly Lazy<IFolderRepository> _folderRepository;
 
-        private readonly Lazy<IReportService> _reportService;
+        private readonly Lazy<IScheduleRepository> _scheduleRepository;
 
-        private readonly Lazy<ITaskService> _taskService;
+        private readonly Lazy<ITaskRepository> _taskRepository;
 
-        private readonly Lazy<ITaskListService> _taskListService;
+        private readonly Lazy<IReportRepository> _reportRepository;
 
-        private readonly Lazy<IDeviceService> _deviceService;
+        private readonly Lazy<IDeviceRepository> _deviceRepository;
 
-        private readonly Lazy<IProjectService> _projectService;
-        private readonly Lazy<IMemberService> _memberService;
-        //
-        public ServiceManager(
-            IRepositoryManager repositoryManager,
-            ILoggerManager logger,
-            IMapper mapper,
-            UserManager<Account> userManager,
-            RoleManager<IdentityRole> roleManager,
-            SmtpClient client,
-            IConfiguration configuration,
-            IMemoryCache memoryCache,
-            IAmazonS3 clients3,
-            IHubContext<NotificationHub> notiHub
-            )
+        private readonly Lazy<INewsFileRepository> _newsFileRepository;
+
+        private readonly Lazy<ITaskHistoryRepository> _taskHistoryRepository;
+        private readonly Lazy<ITaskListRepository> _taskListRepository;
+        private readonly Lazy<IProjectRepository> _projectRepository;
+        private readonly Lazy<IProjectTypeRepository> _projectTypeRepository;
+        private readonly Lazy<IMemberRepository> _memberRepository;
+        public RepositoryManager(DataContext context)
         {
-            _accountService = new Lazy<IAccountService>(() => new AccountService(repositoryManager, logger, mapper, userManager, roleManager));
+            _context = context;
 
-            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration, roleManager, repositoryManager));
+            _accountRepository = new Lazy<IAccountRepository>(() => new AccountRepository(context));
 
-            _mailService = new Lazy<IMailService>(() => new MailService(logger, client, userManager, memoryCache, repositoryManager));
+            _newsRepository = new Lazy<INewsRepository>(() => new NewsRepository(context));
 
-            _newsService = new Lazy<INewsService>(() => new NewsService(repositoryManager, mapper));
+            _notificationsRepository = new Lazy<INotificationRepository>(() => new NotificationRepository(context));
 
-            _fileService = new Lazy<IFileService>(() => new FileService(clients3, configuration, mapper, repositoryManager));
+            _studentDetailRepository = new Lazy<IStudentDetailRepository>(() => new StudentDetailRepository(context));
 
-            _notificationService = new Lazy<INotificationService>(() => new NotificationService(repositoryManager, notiHub, mapper));
+            _notificationsRepository = new Lazy<INotificationRepository>(() => new NotificationRepository(context));
 
-            _folderService = new Lazy<IFolderService>(() => new FolderService());
+            _fileRepository = new Lazy<IFileRepository>(() => new FileRepository(context));
 
-            _scheduleService = new Lazy<IScheduleService>(() => new ScheduleService(repositoryManager, mapper));
+            _folderRepository = new Lazy<IFolderRepository>(() => new FolderRepository(context));
 
-            _taskService = new Lazy<ITaskService>(() => new TaskService(repositoryManager, mapper));
+            _folderClosureRepository = new Lazy<IFolderClosureRepository>(() => new FolderClosureRepository(context));
 
-            _taskListService = new Lazy<ITaskListService>(() => new TaskListService(repositoryManager, mapper));
+            _scheduleRepository = new Lazy<IScheduleRepository>(() => new ScheduleRepository(context));
 
-            _projectService = new Lazy<IProjectService>(() => new ProjectService(repositoryManager, mapper));
+            _taskRepository = new Lazy<ITaskRepository>(() => new TaskRepository(context));
 
-            _reportService = new Lazy<IReportService>(() => new ReportService(repositoryManager, mapper));
+            _taskHistoryRepository = new Lazy<ITaskHistoryRepository>(() => new TaskHistoryRepository(context));
 
-            _memberService = new Lazy<IMemberService>(() => new MemberService(repositoryManager, mapper));
+            _taskListRepository = new Lazy<ITaskListRepository>(() => new TaskListRepository(context));
 
-            _deviceService = new Lazy<IDeviceService>(() => new DeviceService(repositoryManager, mapper));
+            _projectRepository = new Lazy<IProjectRepository>(() => new ProjectRepository(context));
+
+            _memberRepository = new Lazy<IMemberRepository>(() => new MemberRepository(context));
+
+            _projectTypeRepository = new Lazy<IProjectTypeRepository>(() => new ProjectTypeRepository(context));
+
+            _reportRepository = new Lazy<IReportRepository>(() => new ReportRepository(context));
+
+            _newsFileRepository = new Lazy<INewsFileRepository>(() => new NewsFileRespository(context));
+
+            _deviceRepository = new Lazy<IDeviceRepository>(() => new DeviceRepository(context));
+            //khoi tao newsRepo
         }
-        public IAccountService AccountService => _accountService.Value;
-        public IAuthenticationService AuthenticationService => _authenticationService.Value;
-        public IMailService MailService => _mailService.Value;
-        public INewsService NewsService => _newsService.Value;
-        public IFileService FileService => _fileService.Value;
-        public INotificationService NotificationService => _notificationService.Value;
-        public IScheduleService ScheduleService => _scheduleService.Value;
-        public ITaskService TaskService => _taskService.Value;
-        public IReportService ReportService => _reportService.Value;
-        public ITaskListService TaskListService => _taskListService.Value;
-        public IProjectService ProjectService => _projectService.Value;
-        public IMemberService MemberService => _memberService.Value;
-        public IDeviceService DeviceService => _deviceService.Value;
+        public IAccountRepository account => _accountRepository.Value;
+        public INewsRepository news => _newsRepository.Value;
+        public INotificationRepository notification => _notificationsRepository.Value;
+        public IStudentDetailRepository studentDetail => _studentDetailRepository.Value;
+        public IFileRepository file => _fileRepository.Value;
+        public IFolderClosureRepository folderClosure => _folderClosureRepository.Value;
+        public IFolderRepository folder => _folderRepository.Value;
+        public IScheduleRepository schedule => _scheduleRepository.Value;
+        public ITaskRepository task => _taskRepository.Value;
+        public ITaskHistoryRepository taskHistory => _taskHistoryRepository.Value;
+        public IReportRepository report => _reportRepository.Value;
+        public ITaskListRepository taskList => _taskListRepository.Value;
+        public INewsFileRepository newsFile => _newsFileRepository.Value;
+
+        public IProjectRepository project => _projectRepository.Value;
+
+        public IMemberRepository member => _memberRepository.Value;
+
+        public IProjectTypeRepository projectType => _projectTypeRepository.Value;
+
+        public IDeviceRepository device => _deviceRepository.Value;
+        public async Task Save() => await _context.SaveChangesAsync();
     }
 }
