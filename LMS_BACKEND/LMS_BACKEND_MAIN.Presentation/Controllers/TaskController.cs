@@ -71,6 +71,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "Delete Success" });
         }
 
+        [HttpGet("userId/{userId}")]
+        public async Task<IActionResult> GetAllTaskByUser(string userId, [FromQuery] TaskRequestParameters parameters)
+        {
+            var pageResult = await _service.TaskService.GetTasksByUser(userId, parameters);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
+            return Ok(pageResult.tasks);
+        }
+
         private async Task<string> CheckUser()
         {
             var userClaims = User.Claims;
