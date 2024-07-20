@@ -37,6 +37,38 @@ namespace Service
             _userManager = userManager;
             _roleManager = roleManager;
         }
+        public async Task<IEnumerable<AccountManagementResponseModel>> TaskGetAccountForManagement(RequestParameters lamao)
+        {
+            var hold = await _repository.account.GetPagedAsync(lamao, false);
+
+            var end = _mapper.Map<IEnumerable<AccountManagementResponseModel>>(hold);
+
+            foreach (var account in hold)
+            {
+                var roles = await _userManager.GetRolesAsync(account);
+
+                var responseModel = end.First(e => e.Id == account.Id);
+
+                responseModel.Role = roles;
+            }
+
+            return end;
+        }
+
+        public async Task DisableAccount(string id, bool flag)
+        {
+            var hold = await 
+                _repository
+                .account
+                .GetByCondition(x=>x.Id
+                .Equals(id),true)
+                .FirstOrDefaultAsync()
+                ?? throw new BadRequestException("User with such ID does not existed");
+
+            hold.IsBanned = flag;
+
+            await _repository.Save();
+        }
         public async Task ChangeVerifierForId(string id, string verifierId)
         {
             var hold = await _repository.account.GetByCondition(x => x.Id.Equals(id), true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid Account Id");
