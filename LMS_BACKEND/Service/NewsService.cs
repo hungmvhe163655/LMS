@@ -37,10 +37,14 @@ namespace Service
             {
                 foreach (var file in model.FileKey) 
                 {
-                    var hold_file= new NewsFile
+                    var hold_file = new NewsFile
                     {
-                        
-                    }
+                        Id = Guid.NewGuid(),
+                        NewsID = hold.Id,
+                        FileKey = file,
+                    };
+
+                    await _repository.newsFile.CreateAsync(hold_file);
                 }
             }
             await _repository.Save();
