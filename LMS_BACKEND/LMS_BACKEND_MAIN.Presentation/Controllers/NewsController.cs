@@ -42,7 +42,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public IActionResult CreateNews(CreateNewsRequestModel model)
         {
             var data = _service.NewsService.CreateNewsAsync(model);
-            return Ok(data);
+            return Ok(new ResponseMessage { Message= "Create successfully"});
         }
 
         [HttpPut]
