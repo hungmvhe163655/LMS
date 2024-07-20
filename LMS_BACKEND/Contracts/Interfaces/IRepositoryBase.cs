@@ -14,6 +14,7 @@ namespace Contracts.Interfaces
         void Update(T entity);
         void Delete(T entity);
         Task<IEnumerable<T>> GetPagedAsync(RequestParameters lamao, bool Trackable);
+        Task AddRange(IEnumerable<T> entities);
         void DeleteRange(IEnumerable<T> entities);
         Task<bool> UpdateWithConcurrencyAsync(T entity);
         Task<bool> DeleteWithConcurrencyAsync(T entity);

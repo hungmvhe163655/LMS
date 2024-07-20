@@ -52,6 +52,11 @@ namespace Repository
         {
             _context.Set<T>().RemoveRange(entities);
         }
+
+        public async Task AddRange(IEnumerable<T> entities)
+        {
+           await _context.Set<T>().AddRangeAsync(entities);
+        }
         public async Task<bool> UpdateWithConcurrencyAsync(T entity)
         {
             try
