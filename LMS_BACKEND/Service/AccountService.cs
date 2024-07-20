@@ -16,9 +16,13 @@ namespace Service
     public sealed class AccountService : IAccountService
     {
         private readonly IRepositoryManager _repository;
+
         private readonly ILoggerManager _logger;
+
         private readonly IMapper _mapper;
+
         private readonly UserManager<Account> _userManager;
+
         private readonly RoleManager<IdentityRole> _roleManager;
         public AccountService
             (IRepositoryManager repository,
@@ -32,6 +36,38 @@ namespace Service
             _mapper = mapper;
             _userManager = userManager;
             _roleManager = roleManager;
+        }
+        public async Task<IEnumerable<AccountManagementResponseModel>> TaskGetAccountForManagement(RequestParameters lamao)
+        {
+            var hold = await _repository.account.GetPagedAsync(lamao, false);
+
+            var end = _mapper.Map<IEnumerable<AccountManagementResponseModel>>(hold);
+
+            foreach (var account in hold)
+            {
+                var roles = await _userManager.GetRolesAsync(account);
+
+                var responseModel = end.First(e => e.Id == account.Id);
+
+                responseModel.Role = roles;
+            }
+
+            return end;
+        }
+
+        public async Task DisableAccount(string id, bool flag)
+        {
+            var hold = await 
+                _repository
+                .account
+                .GetByCondition(x=>x.Id
+                .Equals(id),true)
+                .FirstOrDefaultAsync()
+                ?? throw new BadRequestException("User with such ID does not existed");
+
+            hold.IsBanned = flag;
+
+            await _repository.Save();
         }
         public async Task ChangeVerifierForId(string id, string verifierId)
         {
@@ -72,18 +108,26 @@ namespace Service
         public async Task<AccountDetailResponseModel> GetAccountDetail(string userId)
         {
             var account = await _repository.account.GetByCondition(entity => entity.Id.Equals(userId), false).FirstAsync();
+
             if (account == null) throw new BadRequestException($"{nameof(account)} is not valid");
+
             if (account.Email == null) throw new BadRequestException($"{nameof(account.Email)} is not valid");
+
             var checkRole = await _userManager.GetRolesAsync(account);
+
             var roleName = checkRole.FirstOrDefault();
+
             if (roleName == null) throw new BadRequestException($"{roleName} is not valid");
 
             var hold = _mapper.Map<AccountDetailResponseModel>(account);
+
             hold.Role = roleName;
 
             if (roleName.ToUpper().Equals("STUDENT"))
             {
-                var studentDetail = await _repository.studentDetail
+                var studentDetail = await 
+                    _repository
+                    .studentDetail
                     .GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), false);
                 var detail = studentDetail.FirstOrDefault();
 

@@ -2056,7 +2056,7 @@ namespace Repository.Configuration
                 Name = "LIMS",
                 Description = "Implementing LIMS system for laboratory management.",
                 CreatedDate = new DateTime(2024, 05, 01),
-                ProjectStatus = PROJECT_STATUS.INITIALIZING,
+                ProjectStatus = PROJECT_STATUS.ONGOING,
                 MaxMember = 5,
                 IsRecruiting = false,
                 ProjectTypeId = 1
@@ -2068,7 +2068,7 @@ namespace Repository.Configuration
                 Name = "VR application for patient",
                 Description = "Developing application for occupational therapy",
                 CreatedDate = new DateTime(2024, 06, 12),
-                ProjectStatus = PROJECT_STATUS.INITIALIZING,
+                ProjectStatus = PROJECT_STATUS.ONGOING,
                 MaxMember = 4,
                 IsRecruiting = false,
                 ProjectTypeId = 6
@@ -2079,7 +2079,7 @@ namespace Repository.Configuration
                 Name = "Research Paper on Quantum Computing",
                 Description = "A comprehensive research paper on the applications of quantum computing in cryptography.",
                 CreatedDate = new DateTime(2024, 06, 30),
-                ProjectStatus = PROJECT_STATUS.INITIALIZING,
+                ProjectStatus = PROJECT_STATUS.ONGOING,
                 MaxMember = 3,
                 IsRecruiting = false,
                 ProjectTypeId = 2
@@ -2090,7 +2090,7 @@ namespace Repository.Configuration
                 Name = "AI in Healthcare",
                 Description = "Using AI to improve healthcare outcomes.",
                 CreatedDate = new DateTime(2023, 12, 06),
-                ProjectStatus = PROJECT_STATUS.INITIALIZING,
+                ProjectStatus = PROJECT_STATUS.COMPLETED,
                 MaxMember = 5,
                 IsRecruiting = false,
                 ProjectTypeId = 5
@@ -2101,7 +2101,7 @@ namespace Repository.Configuration
                 Name = "Environmental Monitoring",
                 Description = "Monitoring environmental parameters using IoT.",
                 CreatedDate = new DateTime(2024, 01, 16),
-                ProjectStatus = PROJECT_STATUS.INITIALIZING,
+                ProjectStatus = PROJECT_STATUS.ONGOING,
                 MaxMember = 5,
                 IsRecruiting = false,
                 ProjectTypeId = 3
@@ -2112,7 +2112,7 @@ namespace Repository.Configuration
                 Name = "Mobile Health App",
                 Description = "A mobile application for monitoring and managing personal health data.",
                 CreatedDate = new DateTime(2024, 01, 06),
-                ProjectStatus = PROJECT_STATUS.INITIALIZING,
+                ProjectStatus = PROJECT_STATUS.COMPLETED,
                 MaxMember = 4,
                 IsRecruiting = false,
                 ProjectTypeId = 4
@@ -2123,7 +2123,7 @@ namespace Repository.Configuration
                 Name = "AI-based Image Recognition",
                 Description = "Developing an AI system for recognizing and classifying images with high accuracy.",
                 CreatedDate = new DateTime(2023, 12, 09),
-                ProjectStatus = PROJECT_STATUS.INITIALIZING,
+                ProjectStatus = PROJECT_STATUS.CANCEL,
                 MaxMember = 5,
                 IsRecruiting = false,
                 ProjectTypeId = 5
@@ -2150,8 +2150,240 @@ namespace Repository.Configuration
                 IsRecruiting = true,
                 ProjectTypeId = 1
             };
+            /// ******************************************************************************************************************************************************
+            Project prj10 = new Project
+            {
+                Id = new Guid("f5741ce6-d21c-4d8b-9005-ca669b1ed9e6"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj11 = new Project
+            {
+                Id = new Guid("94985ddd-ca1f-402f-a389-f1e1df169f75"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj12 = new Project
+            {
+                Id = new Guid("20a39a90-b376-477d-a2c2-1973cd347092"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj13 = new Project
+            {
+                Id = new Guid("0e175a98-f6f3-4fbf-aa2f-c7f0f8446d60"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj14 = new Project
+            {
+                Id = new Guid("2f404ee3-9fe2-407f-a07e-0b100e268c0e"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj15 = new Project
+            {
+                Id = new Guid("fc88de4a-d833-40a5-a9e5-e5b1b1f0718f"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj16 = new Project
+            {
+                Id = new Guid("aaa1e013-1aa8-44ef-adaa-298a8d81b2d0"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj17 = new Project
+            {
+                Id = new Guid("bbbdb7db-bf17-4d42-bb22-beebe83f6f34"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj18 = new Project
+            {
+                Id = new Guid("c6187862-b687-4c00-9f5a-4d5c6b52d87d"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj19 = new Project
+            {
+                Id = new Guid("8c76d5f2-2f87-4cf0-820f-f81284cbb10b"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj20 = new Project
+            {
+                Id = new Guid("2bc0fef9-3000-48ec-82e9-de4dc0494056"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj21 = new Project
+            {
+                Id = new Guid("390dba55-cdc1-4b12-88b8-0e3c257253c5"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj22 = new Project
+            {
+                Id = new Guid("da45413f-3263-4076-b186-03c9a5f9220f"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj23 = new Project
+            {
+                Id = new Guid("a210682e-f41e-4e01-af7c-43cd942ac9df"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj24 = new Project
+            {
+                Id = new Guid("88d39e7e-3952-43ef-8e15-57116d276d59"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj25 = new Project
+            {
+                Id = new Guid("a474440d-4a24-4e27-9863-99fb0d0ec189"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj26 = new Project
+            {
+                Id = new Guid("0d59a77e-14b0-441f-9c66-240b1f4ce144"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj27 = new Project
+            {
+                Id = new Guid("b915e80e-2894-4443-92ea-1fcfbf3fd851"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj28 = new Project
+            {
+                Id = new Guid("16e98a28-511a-49b1-9c04-d60626a889ee"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj29 = new Project
+            {
+                Id = new Guid("b5c6dbc1-8e92-4667-8627-8772ffbd09d0"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
+            Project prj30 = new Project
+            {
+                Id = new Guid("4b400907-f70f-453e-b8ae-92c522a69805"),
+                Name = "Data Analytics for Public Health",
+                Description = "Using data analytics to improve public health policies.",
+                CreatedDate = new DateTime(2024, 06, 30),
+                ProjectStatus = PROJECT_STATUS.ONGOING,
+                MaxMember = 4,
+                IsRecruiting = true,
+                ProjectTypeId = 1
+            };
 
-            builder.Entity<Project>().HasData(prj1, prj2, prj3, prj4, prj5, prj6, prj7, prj8, prj9);
+            builder.Entity<Project>().HasData(prj1, prj10, prj11, prj12, prj13, prj14, prj15, prj16, prj17, prj18, prj19, prj2, prj20, prj21, prj22, prj23, prj24, prj25, prj26, prj27, prj28, prj29, prj3, prj30, prj4, prj5, prj6, prj7, prj8, prj9);
 
             builder.Entity<Member>().HasData(
                 new Member
@@ -2385,6 +2617,594 @@ namespace Repository.Configuration
                     UserId = user19.Id,
                     IsLeader = false,
                     JoinDate = new DateTime(2024, 06, 30),
+                },
+                new Member
+                {
+                    ProjectId = prj10.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj10.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj10.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj10.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj11.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj11.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj11.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj11.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj12.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj12.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj12.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj12.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj13.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj13.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj13.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj13.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj14.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj14.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj14.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj14.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj15.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj15.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj15.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj15.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj16.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj16.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj16.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj16.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj17.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj17.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj17.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj17.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj18.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj18.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj18.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj18.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj19.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj19.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj19.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj19.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj20.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj20.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj20.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj20.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj21.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj21.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj21.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj21.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj22.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj22.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj22.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj22.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj23.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj23.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj23.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj23.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj24.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj24.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj24.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj24.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj25.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj25.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj25.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj25.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj26.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj26.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj26.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj26.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj27.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj27.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj27.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj27.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj28.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj28.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj28.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj28.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj29.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj29.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj29.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj29.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj30.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj30.Id,
+                    UserId = user3.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj30.Id,
+                    UserId = user4.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
+                },
+                new Member
+                {
+                    ProjectId = prj30.Id,
+                    UserId = user5.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 06, 20),
                 }
             );
 
@@ -2393,6 +3213,7 @@ namespace Repository.Configuration
                 Id = new Guid("0bb2e364-d05d-4128-b24d-0f69725b85f3"),
                 Name = "Requirement Analysis",
                 MaxTasks = 5,
+                Order = 1,
                 ProjectId = prj1.Id
             };
             TaskList tl2 = new TaskList
@@ -2400,6 +3221,7 @@ namespace Repository.Configuration
                 Id = new Guid("8866bcb2-198a-4fcd-b0c0-8090444b8722"),
                 Name = "System Design",
                 MaxTasks = 4,
+                Order = 2,
                 ProjectId = prj1.Id,
             };
             TaskList tl3 = new TaskList
@@ -2407,6 +3229,7 @@ namespace Repository.Configuration
                 Id = new Guid("94420810-4a35-4f33-a7df-6078ab4efb1c"),
                 Name = "Implementation",
                 MaxTasks = 10,
+                Order = 3,
                 ProjectId = prj1.Id
             };
             TaskList tl4 = new TaskList
@@ -2414,6 +3237,7 @@ namespace Repository.Configuration
                 Id = new Guid("816ebcd1-124d-4b5c-810e-b0e8aeedb501"),
                 Name = "Testing",
                 MaxTasks = 6,
+                Order = 4,
                 ProjectId = prj1.Id
             };
             TaskList tl5 = new TaskList
@@ -2421,6 +3245,7 @@ namespace Repository.Configuration
                 Id = new Guid("e86a5ffe-7b06-4f06-94a4-698cb58161db"),
                 Name = "Deployment",
                 MaxTasks = 2,
+                Order = 5,
                 ProjectId = prj1.Id
             };
 
@@ -2430,6 +3255,7 @@ namespace Repository.Configuration
                 Id = new Guid("2c81e116-5120-4920-bf51-092081bfc67d"),
                 Name = "Initial Research",
                 MaxTasks = 3,
+                Order = 1,
                 ProjectId = prj2.Id
             };
             TaskList tl7 = new TaskList
@@ -2437,6 +3263,7 @@ namespace Repository.Configuration
                 Id = new Guid("a88a1f4e-d3dd-42f0-a0e7-3a7f6affa301"),
                 Name = "Prototype Development",
                 MaxTasks = 5,
+                Order = 2,
                 ProjectId = prj2.Id
             };
             TaskList tl8 = new TaskList
@@ -2444,6 +3271,7 @@ namespace Repository.Configuration
                 Id = new Guid("8de05be7-f7d1-425e-9c5e-b1a965456935"),
                 Name = "User Testing",
                 MaxTasks = 4,
+                Order = 3,
                 ProjectId = prj2.Id
             };
             TaskList tl9 = new TaskList
@@ -2451,6 +3279,7 @@ namespace Repository.Configuration
                 Id = new Guid("95be764c-437f-42c8-bd26-bf0aff147218"),
                 Name = "Final Development",
                 MaxTasks = 5,
+                Order = 4,
                 ProjectId = prj2.Id
             };
 
@@ -2460,6 +3289,7 @@ namespace Repository.Configuration
                 Id = new Guid("84f2c617-35e0-4343-a7c8-35226cb4c6a1"),
                 Name = "Literature Review",
                 MaxTasks = 4,
+                Order = 1,
                 ProjectId = prj3.Id
             };
             TaskList tl11 = new TaskList
@@ -2467,6 +3297,7 @@ namespace Repository.Configuration
                 Id = new Guid("3a339b14-8f9e-413d-97d0-7ce36aafee58"),
                 Name = "Experimentation",
                 MaxTasks = 6,
+                Order = 2,
                 ProjectId = prj3.Id
             };
             TaskList tl12 = new TaskList
@@ -2474,6 +3305,7 @@ namespace Repository.Configuration
                 Id = new Guid("67a4dd09-f119-4c82-921e-597279ef412d"),
                 Name = "Data Analysis",
                 MaxTasks = 5,
+                Order = 3,
                 ProjectId = prj3.Id
             };
             TaskList tl13 = new TaskList
@@ -2481,6 +3313,7 @@ namespace Repository.Configuration
                 Id = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 Name = "Paper Writing",
                 MaxTasks = 5,
+                Order = 4,
                 ProjectId = prj3.Id
             };
 
@@ -2490,6 +3323,7 @@ namespace Repository.Configuration
                 Id = new Guid("5b24898d-dddc-4c99-8c69-5e43a370e45c"),
                 Name = "Data Collection",
                 MaxTasks = 6,
+                Order = 1,
                 ProjectId = prj4.Id
             };
             TaskList tl15 = new TaskList
@@ -2497,6 +3331,7 @@ namespace Repository.Configuration
                 Id = new Guid("f5840e34-49e8-435f-bbb4-e403c53642b1"),
                 Name = "Model Training",
                 MaxTasks = 7,
+                Order = 2,
                 ProjectId = prj4.Id
             };
             TaskList tl16 = new TaskList
@@ -2504,6 +3339,7 @@ namespace Repository.Configuration
                 Id = new Guid("4c238c20-5106-4ca5-88a7-9980892a5455"),
                 Name = "Model Evaluation",
                 MaxTasks = 5,
+                Order = 3,
                 ProjectId = prj4.Id
             };
             TaskList tl17 = new TaskList
@@ -2511,6 +3347,7 @@ namespace Repository.Configuration
                 Id = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 Name = "Deployment",
                 MaxTasks = 4,
+                Order = 4,
                 ProjectId = prj4.Id
             };
 
@@ -2520,6 +3357,7 @@ namespace Repository.Configuration
                 Id = new Guid("c07b395a-cbf6-49a4-aeaa-ef28de9517ff"),
                 Name = "Sensor Installation",
                 MaxTasks = 5,
+                Order = 1,
                 ProjectId = prj5.Id
             };
             TaskList tl19 = new TaskList
@@ -2527,6 +3365,7 @@ namespace Repository.Configuration
                 Id = new Guid("24d9bd4f-d960-4081-87a8-6be032290863"),
                 Name = "Data Collection",
                 MaxTasks = 6,
+                Order = 2,
                 ProjectId = prj5.Id
             };
             TaskList tl20 = new TaskList
@@ -2534,6 +3373,7 @@ namespace Repository.Configuration
                 Id = new Guid("455d5a96-2d52-4aa8-a98f-ac27f4f321c3"),
                 Name = "Data Analysis",
                 MaxTasks = 5,
+                Order = 3,
                 ProjectId = prj5.Id
             };
             TaskList tl21 = new TaskList
@@ -2541,6 +3381,7 @@ namespace Repository.Configuration
                 Id = new Guid("a37790d5-0113-491b-98af-5060ff8aa26c"),
                 Name = "Reporting",
                 MaxTasks = 4,
+                Order = 4,
                 ProjectId = prj5.Id
             };
 
@@ -2550,6 +3391,7 @@ namespace Repository.Configuration
                 Id = new Guid("41640d60-1134-45c3-a7c4-2e7f306ec967"),
                 Name = "Requirement Gathering",
                 MaxTasks = 5,
+                Order = 1,
                 ProjectId = prj6.Id
             };
             TaskList tl23 = new TaskList
@@ -2557,6 +3399,7 @@ namespace Repository.Configuration
                 Id = new Guid("5618a016-156a-449c-92e6-926eabe0cf8a"),
                 Name = "UI/UX Design",
                 MaxTasks = 4,
+                Order= 2,
                 ProjectId = prj6.Id
             };
             TaskList tl24 = new TaskList
@@ -2564,6 +3407,7 @@ namespace Repository.Configuration
                 Id = new Guid("431dd63b-469e-4589-b1c6-4b4af20a7728"),
                 Name = "Development",
                 MaxTasks = 6,
+                Order= 3,
                 ProjectId = prj6.Id
             };
             TaskList tl25 = new TaskList
@@ -2571,6 +3415,7 @@ namespace Repository.Configuration
                 Id = new Guid("60ac6a0a-2788-4326-ad31-fdd899d7b80f"),
                 Name = "Testing",
                 MaxTasks = 4,
+                Order = 4,
                 ProjectId = prj6.Id
             };
             TaskList tl26 = new TaskList
@@ -2578,6 +3423,7 @@ namespace Repository.Configuration
                 Id = new Guid("75f606e3-f12a-4257-b486-a15ef2aad23b"),
                 Name = "Deployment",
                 MaxTasks = 3,
+                Order = 5,
                 ProjectId = prj6.Id
             };
 
@@ -2586,32 +3432,762 @@ namespace Repository.Configuration
             {
                 Id = new Guid("5f54b6b6-614e-46d2-a64e-10d91db2f516"),
                 Name = "Data Collection",
-                MaxTasks = 6,
+                MaxTasks = 5,
+                Order = 1,
                 ProjectId = prj7.Id
             };
             TaskList tl28 = new TaskList
             {
                 Id = new Guid("b351e4b2-8b16-4c0c-b37b-630bcf661e4b"),
                 Name = "Model Development",
-                MaxTasks = 5,
+                MaxTasks = 3,
+                Order = 2,
                 ProjectId = prj7.Id
             };
             TaskList tl29 = new TaskList
             {
                 Id = new Guid("0008056c-1d86-45f8-ae4e-b0512284472d"),
                 Name = "Model Training",
-                MaxTasks = 7,
+                MaxTasks = 3,
+                Order = 3,
                 ProjectId = prj7.Id
             };
             TaskList tl30 = new TaskList
             {
                 Id = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 Name = "Model Testing",
-                MaxTasks = 5,
+                MaxTasks = 6,
+                Order = 4,
                 ProjectId = prj7.Id
             };
+            // Task lists for Project ""
+            TaskList tl31 = new TaskList
+            {
+                Id = new Guid("00085297-3c05-4062-a240-bb1b4c6b4a38"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj10.Id
+            };
+            TaskList tl32 = new TaskList
+            {
+                Id = new Guid("d91d4391-852d-4e06-b122-0374b8b5d854"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj10.Id
+            };
+            TaskList tl33 = new TaskList
+            {
+                Id = new Guid("b3f0e11a-2e7e-438b-8905-4b02a5028f95"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj10.Id
+            };
+            TaskList tl34 = new TaskList
+            {
+                Id = new Guid("75072b8e-0a97-470a-86d8-1f105994df83"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj10.Id
+            };
+            // Task lists for Project ""
+            TaskList tl35 = new TaskList
+            {
+                Id = new Guid("6b9652a0-3923-4885-bdee-a31f15e9e855"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj10.Id
+            };
+            TaskList tl36 = new TaskList
+            {
+                Id = new Guid("a35f0d22-bf97-436f-9aee-a33edf8e26d3"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj10.Id
+            };
+            TaskList tl37 = new TaskList
+            {
+                Id = new Guid("31da73d3-4de1-49c4-be8b-80a8c0b9d30b"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj10.Id
+            };
+            TaskList tl38 = new TaskList
+            {
+                Id = new Guid("4e4d83da-580a-438d-954f-c4a57dcbbf60"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj10.Id
+            };
+            // Task lists for Project ""
+            TaskList tl39 = new TaskList
+            {
+                Id = new Guid("b1cf6c5a-81a5-495d-9071-335b629f29d0"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj11.Id
+            };
+            TaskList tl40 = new TaskList
+            {
+                Id = new Guid("d2220ea0-8e34-4ccf-a8e4-a2b77364a1f8"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj11.Id
+            };
+            TaskList tl41 = new TaskList
+            {
+                Id = new Guid("a88e6bc8-51e6-43b1-955b-66d132791b85"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj11.Id
+            };
+            TaskList tl42 = new TaskList
+            {
+                Id = new Guid("daf064c6-75ff-4590-a3b8-a996468e19d8"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj11.Id
+            };
+            // Task lists for Project ""
+            TaskList tl43 = new TaskList
+            {
+                Id = new Guid("9fe99984-6667-4011-9be6-ec588a437e26"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj12.Id
+            };
+            TaskList tl44 = new TaskList
+            {
+                Id = new Guid("c17941d1-a1b7-4a31-9b9e-729449214f30"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj12.Id
+            };
+            TaskList tl45 = new TaskList
+            {
+                Id = new Guid("41a17fc7-3de1-4033-8732-c24849eae75c"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj12.Id
+            };
+            TaskList tl46 = new TaskList
+            {
+                Id = new Guid("fa15a081-aeae-425c-b9c3-06c2646aa4c6"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj12.Id
+            };
+            // Task lists for Project ""
+            TaskList tl47 = new TaskList
+            {
+                Id = new Guid("b5a32109-454a-48f3-b298-712238b91483"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj13.Id
+            };
+            TaskList tl48 = new TaskList
+            {
+                Id = new Guid("420ee8e5-71b3-49e4-b809-296e3058349e"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj13.Id
+            };
+            TaskList tl49 = new TaskList
+            {
+                Id = new Guid("2b140863-8557-4ad9-b2c1-ee9ee7381a2c"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj13.Id
+            };
+            TaskList tl50 = new TaskList
+            {
+                Id = new Guid("b1d1ceed-5120-4c84-aed7-ecaf2da41f88"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj13.Id
+            };
+            // Task lists for Project ""
+            TaskList tl51 = new TaskList
+            {
+                Id = new Guid("b5884262-3510-44b5-95ca-82420dc4ba15"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj14.Id
+            };
+            TaskList tl52 = new TaskList
+            {
+                Id = new Guid("8dec80db-c938-4030-94c7-2e7fe6821cac"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj14.Id
+            };
+            TaskList tl53 = new TaskList
+            {
+                Id = new Guid("9c8b594c-a4b1-428d-a017-27b78704307a"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj14.Id
+            };
+            TaskList tl54 = new TaskList
+            {
+                Id = new Guid("913951cc-4679-46e7-bea9-64092bd733d0"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj14.Id
+            };
+            // Task lists for Project ""
+            TaskList tl55 = new TaskList
+            {
+                Id = new Guid("5f6f2583-ace4-48b6-98e5-69c400c5f983"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj15.Id
+            };
+            TaskList tl56 = new TaskList
+            {
+                Id = new Guid("67cda2c4-355f-4690-ae22-d595fe4c7ae5"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj15.Id
+            };
+            TaskList tl57 = new TaskList
+            {
+                Id = new Guid("b5cae679-8459-4214-a9d6-02e9c2f427bb"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj15.Id
+            };
+            TaskList tl58 = new TaskList
+            {
+                Id = new Guid("9f4bf898-f8f5-4d7f-8bf5-c3769059060e"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj15.Id
+            };
+            // Task lists for Project ""
+            TaskList tl59 = new TaskList
+            {
+                Id = new Guid("4fb411c2-c2fe-4dc0-904b-2c711ee8a085"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj16.Id
+            };
+            TaskList tl60 = new TaskList
+            {
+                Id = new Guid("556dbbe7-9f99-4c1f-b7a5-44392ad1ae81"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj16.Id
+            };
+            TaskList tl61 = new TaskList
+            {
+                Id = new Guid("4473ec89-7805-41b9-8364-d2b35a501636"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj16.Id
+            };
+            TaskList tl62 = new TaskList
+            {
+                Id = new Guid("7965e5b0-b9a9-41c7-9d23-55507f84478b"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj16.Id
+            };
+            // Task lists for Project ""
+            TaskList tl63 = new TaskList
+            {
+                Id = new Guid("3d30d2e9-2fc9-467b-a2a2-030280f534ce"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj17.Id
+            };
+            TaskList tl64 = new TaskList
+            {
+                Id = new Guid("ce7bd183-f8e9-4472-b967-6a8548c40323"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj17.Id
+            };
+            TaskList tl65 = new TaskList
+            {
+                Id = new Guid("8203bcf4-60d3-4593-9934-32df5f18da43"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj17.Id
+            };
+            TaskList tl66 = new TaskList
+            {
+                Id = new Guid("88ccda68-cf6d-4468-a5dc-49474fd2537c"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj17.Id
+            };
+            // Task lists for Project ""
+            TaskList tl67 = new TaskList
+            {
+                Id = new Guid("b213e848-0190-42af-82ce-143847dfe69a"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj18.Id
+            };
+            TaskList tl68 = new TaskList
+            {
+                Id = new Guid("db3c0bd2-aed1-4e4e-bd25-e24080a1e0c8"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj18.Id
+            };
+            TaskList tl69 = new TaskList
+            {
+                Id = new Guid("2f7ff47f-c1e2-4e10-b472-298e5dd1e312"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj18.Id
+            };
+            TaskList tl70 = new TaskList
+            {
+                Id = new Guid("cdd20bb7-6562-416f-9138-fef2d097cc62"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj18.Id
+            };
+            // Task lists for Project ""
+            TaskList tl71 = new TaskList
+            {
+                Id = new Guid("bc28df54-9252-46fa-9ec1-7e0c4d92ea16"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj19.Id
+            };
+            TaskList tl72 = new TaskList
+            {
+                Id = new Guid("cd75e5bb-185f-41c8-9038-fa77b0e15346"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj19.Id
+            };
+            TaskList tl73 = new TaskList
+            {
+                Id = new Guid("2cfc3aab-2f03-4f6f-b532-1cb65cf505bd"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj19.Id
+            };
+            TaskList tl74 = new TaskList
+            {
+                Id = new Guid("708358a5-efbb-451d-926c-af4d4f65bb72"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj19.Id
+            };
+            // Task lists for Project ""
+            TaskList tl75 = new TaskList
+            {
+                Id = new Guid("d3b8b9a5-a488-43c4-8d3a-2ceb948e770f"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj20.Id
+            };
+            TaskList tl76 = new TaskList
+            {
+                Id = new Guid("3f3af254-7792-467e-83d4-19c0d2835750"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj20.Id
+            };
+            TaskList tl77 = new TaskList
+            {
+                Id = new Guid("b6dd29bd-ff67-4574-8409-f72bf454b5b1"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj20.Id
+            };
+            TaskList tl78 = new TaskList
+            {
+                Id = new Guid("0c988920-3d90-4131-b93e-9a50a5b83c8b"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj20.Id
+            };
+            // Task lists for Project ""
+            TaskList tl79 = new TaskList
+            {
+                Id = new Guid("31b43d03-c250-4b85-b86f-7f106af51f4e"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj21.Id
+            };
+            TaskList tl80 = new TaskList
+            {
+                Id = new Guid("b12d7375-dc9f-46a3-a315-eb02cbf0f371"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj21.Id
+            };
+            TaskList tl81 = new TaskList
+            {
+                Id = new Guid("60c72e99-ff91-4312-8405-83243c0fd4a8"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj21.Id
+            };
+            TaskList tl82 = new TaskList
+            {
+                Id = new Guid("5702d933-e34f-41c9-b9a1-fb64999f3e27"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj21.Id
+            };
+            // Task lists for Project ""
+            TaskList tl83 = new TaskList
+            {
+                Id = new Guid("072f6ce9-76d8-4d49-95d4-893802b4c49e"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj22.Id
+            };
+            TaskList tl84 = new TaskList
+            {
+                Id = new Guid("c059bb8a-b7ba-445d-9f93-3034c64a16b6"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj22.Id
+            };
+            TaskList tl85 = new TaskList
+            {
+                Id = new Guid("63f4b512-c46c-4cf4-ad61-5e665735f82b"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj22.Id
+            };
+            TaskList tl86 = new TaskList
+            {
+                Id = new Guid("126f3145-dfa9-4c94-aa27-669a70a73dab"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj22.Id
+            };
+            // Task lists for Project ""
+            TaskList tl87 = new TaskList
+            {
+                Id = new Guid("706fc57b-286f-419e-99a5-3734634bf9e8"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj23.Id
+            };
+            TaskList tl88 = new TaskList
+            {
+                Id = new Guid("71ecf7a0-92a9-40f8-9bbf-45a871bea3c3"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj23.Id
+            };
+            TaskList tl89 = new TaskList
+            {
+                Id = new Guid("ccc01136-2fc2-4a76-aa88-c943994ea3ed"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj23.Id
+            };
+            TaskList tl90 = new TaskList
+            {
+                Id = new Guid("1e8ed824-cfcb-4ec2-8f8b-e3c46067cdff"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj23.Id
+            };
+            // Task lists for Project ""
+            TaskList tl91 = new TaskList
+            {
+                Id = new Guid("53f24f9c-fe0c-4ded-91ef-2d52d18463b6"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj24.Id
+            };
+            TaskList tl92 = new TaskList
+            {
+                Id = new Guid("faa974a0-4bb3-495e-a9a5-195e8516bd44"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj24.Id
+            };
+            TaskList tl93 = new TaskList
+            {
+                Id = new Guid("08267faa-a7f9-48b3-bdd1-5ff95d9d500a"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj24.Id
+            };
+            TaskList tl94 = new TaskList
+            {
+                Id = new Guid("ace555ec-8088-4219-be76-dc6eb76dc4fd"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj24.Id
+            };
+            // Task lists for Project ""
+            TaskList tl95 = new TaskList
+            {
+                Id = new Guid("855ee363-b3cc-4628-ac7d-7016fee75dcd"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj25.Id
+            };
+            TaskList tl96 = new TaskList
+            {
+                Id = new Guid("f1ccd0d5-7e64-4740-a44d-b89430d6a1fb"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj25.Id
+            };
+            TaskList tl97 = new TaskList
+            {
+                Id = new Guid("d3381095-da10-40fd-82ac-75f981774a29"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj25.Id
+            };
+            TaskList tl98 = new TaskList
+            {
+                Id = new Guid("d5cd0716-7854-46c2-9909-e20668836094"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj25.Id
+            };
+            // Task lists for Project ""
+            TaskList tl99 = new TaskList
+            {
+                Id = new Guid("0c370783-e453-471d-8518-4c42b681ff0d"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj26.Id
+            };
+            TaskList tl100 = new TaskList
+            {
+                Id = new Guid("327ed869-4449-41ae-84d1-8eeb11d890ac"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj26.Id
+            };
+            TaskList tl101 = new TaskList
+            {
+                Id = new Guid("0169efa4-85d1-4e90-a8a2-c14a742c80eb"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj26.Id
+            };
+            TaskList tl102 = new TaskList
+            {
+                Id = new Guid("065898cb-e8f8-4305-b8e8-0c69ad7273e4"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj26.Id
+            };
+            // Task lists for Project ""
+            TaskList tl103 = new TaskList
+            {
+                Id = new Guid("0626e30e-f0a1-40af-a3a0-51edbbd88d03"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj27.Id
+            };
+            TaskList tl104 = new TaskList
+            {
+                Id = new Guid("d33a98d8-b806-430c-9c6a-e142d2992379"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj27.Id
+            };
+            TaskList tl105 = new TaskList
+            {
+                Id = new Guid("4852130d-ab5f-4979-aa8e-37cce9335e13"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj27.Id
+            };
+            TaskList tl106 = new TaskList
+            {
+                Id = new Guid("044978f5-431a-4fd2-aa4e-35fde9b9083b"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj27.Id
+            };
+            // Task lists for Project ""
+            TaskList tl107 = new TaskList
+            {
+                Id = new Guid("6a772965-aae4-4b04-8e89-fe14dee28b88"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj28.Id
+            };
+            TaskList tl108 = new TaskList
+            {
+                Id = new Guid("a1a1142b-22df-49c6-b46f-649dd1345989"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj28.Id
+            };
+            TaskList tl109 = new TaskList
+            {
+                Id = new Guid("073e7608-8fc4-4b30-9f92-994c6e3552e9"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj28.Id
+            };
+            TaskList tl110 = new TaskList
+            {
+                Id = new Guid("78282fba-7ef4-4f16-89e3-93a097271cc7"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj28.Id
+            };
+            // Task lists for Project ""
+            TaskList tl111 = new TaskList
+            {
+                Id = new Guid("a373d48c-7a4b-4cc8-a879-19b4b5ff3c41"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj29.Id
+            };
+            TaskList tl112 = new TaskList
+            {
+                Id = new Guid("fe2ff4d0-732e-433b-b05d-7a985edc6fe5"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj29.Id
+            };
+            TaskList tl113 = new TaskList
+            {
+                Id = new Guid("438858f4-203a-4de5-ab75-20292a481a50"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj29.Id
+            };
+            TaskList tl114 = new TaskList
+            {
+                Id = new Guid("b98058fd-7ee5-4430-8a25-c2d86aa80e44"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj29.Id
+            };
+            // Task lists for Project ""
+            TaskList tl115 = new TaskList
+            {
+                Id = new Guid("e819d6c6-cec6-493a-8e8d-2129a259c634"),
+                Name = "Data Collection",
+                MaxTasks = 5,
+                Order = 1,
+                ProjectId = prj30.Id
+            };
+            TaskList tl116 = new TaskList
+            {
+                Id = new Guid("d954bf2a-bb9e-4e90-8e43-a4cce635ded3"),
+                Name = "Model Development",
+                MaxTasks = 3,
+                Order = 2,
+                ProjectId = prj30.Id
+            };
+            TaskList tl117 = new TaskList
+            {
+                Id = new Guid("011dd84d-69f8-47ac-98be-960ed42786ff"),
+                Name = "Model Training",
+                MaxTasks = 3,
+                Order = 3,
+                ProjectId = prj30.Id
+            };
+            TaskList tl118 = new TaskList
+            {
+                Id = new Guid("3e0dae6f-8ca9-4c9b-b218-210031248c61"),
+                Name = "Model Testing",
+                MaxTasks = 6,
+                Order = 4,
+                ProjectId = prj30.Id
+            };
 
-            builder.Entity<TaskList>().HasData(tl1, tl2, tl3, tl4, tl5, tl6, tl7, tl8, tl9, tl10, tl11, tl12, tl13, tl14, tl15, tl16, tl17, tl18, tl19, tl20, tl21, tl22, tl23, tl24, tl25, tl26, tl27, tl28, tl29, tl30);
+            builder.Entity<TaskList>().HasData(tl1, tl2, tl3, tl4, tl5, tl6, tl7, tl8, tl9, tl10, tl11, tl12, tl13, tl14, tl15, tl16, tl17, tl18, tl19, tl20, tl21, tl22, tl23, tl24, tl25, tl26, tl27, tl28, tl29, tl30, tl31, tl32, tl33, tl34, tl35, tl36, tl37, tl38, tl39, tl40, tl41, tl42, tl43, tl44, tl45, tl46, tl47, tl48, tl49, tl50, tl51, tl52, tl53, tl54, tl55, tl56, tl57, tl58, tl59, tl60, tl61, tl62, tl63, tl64, tl65, tl66, tl67, tl68, tl69, tl70, tl71, tl72, tl73, tl74, tl75, tl76, tl77, tl78, tl79, tl80, tl81, tl82, tl83, tl84, tl85, tl86, tl87, tl88, tl89, tl90, tl91, tl92, tl93, tl94, tl95, tl96, tl97, tl98, tl99, tl100, tl101, tl102, tl103, tl104, tl105, tl106, tl107, tl108, tl109, tl110, tl111, tl112, tl113, tl114, tl115, tl116, tl117, tl118);
 
             //builder.Entity<TaskPriorities>().HasData(
             //    new TaskPriorities
@@ -2673,7 +4249,9 @@ namespace Repository.Configuration
                 TaskListId = new Guid("0bb2e364-d05d-4128-b24d-0f69725b85f3"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user3.Id
+
             };
             Tasks t2 = new Tasks
             {
@@ -2689,6 +4267,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("0bb2e364-d05d-4128-b24d-0f69725b85f3"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user4.Id,
             };
             Tasks t3 = new Tasks
@@ -2705,6 +4284,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("8866bcb2-198a-4fcd-b0c0-8090444b8722"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user3.Id
             };
             Tasks t4 = new Tasks
@@ -2721,6 +4301,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("8866bcb2-198a-4fcd-b0c0-8090444b8722"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user5.Id,
             };
             Tasks t5 = new Tasks
@@ -2737,6 +4318,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("94420810-4a35-4f33-a7df-6078ab4efb1c"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user6.Id
             };
             Tasks t6 = new Tasks
@@ -2753,6 +4335,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("94420810-4a35-4f33-a7df-6078ab4efb1c"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user4.Id
             };
             Tasks t7 = new Tasks
@@ -2769,6 +4352,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("94420810-4a35-4f33-a7df-6078ab4efb1c"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user3.Id
             };
             Tasks t8 = new Tasks
@@ -2785,6 +4369,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("816ebcd1-124d-4b5c-810e-b0e8aeedb501"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user6.Id
             };
             Tasks t9 = new Tasks
@@ -2801,6 +4386,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("816ebcd1-124d-4b5c-810e-b0e8aeedb501"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user5.Id
             };
             Tasks t10 = new Tasks
@@ -2817,6 +4403,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("e86a5ffe-7b06-4f06-94a4-698cb58161db"),
                 ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user3.Id
             };
 
@@ -2835,6 +4422,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("2c81e116-5120-4920-bf51-092081bfc67d"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user3.Id
             };
             Tasks t12 = new Tasks
@@ -2851,6 +4439,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("a88a1f4e-d3dd-42f0-a0e7-3a7f6affa301"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user4.Id
             };
             Tasks t13 = new Tasks
@@ -2867,6 +4456,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("8de05be7-f7d1-425e-9c5e-b1a965456935"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user8.Id
             };
             Tasks t14 = new Tasks
@@ -2883,6 +4473,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("95be764c-437f-42c8-bd26-bf0aff147218"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user8.Id
             };
             Tasks t15 = new Tasks
@@ -2899,6 +4490,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("2c81e116-5120-4920-bf51-092081bfc67d"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user4.Id
             };
             Tasks t16 = new Tasks
@@ -2915,6 +4507,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("a88a1f4e-d3dd-42f0-a0e7-3a7f6affa301"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user4.Id
             };
             Tasks t17 = new Tasks
@@ -2931,6 +4524,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("8de05be7-f7d1-425e-9c5e-b1a965456935"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user3.Id
             };
             Tasks t18 = new Tasks
@@ -2947,6 +4541,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("95be764c-437f-42c8-bd26-bf0aff147218"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user3.Id
             };
             Tasks t19 = new Tasks
@@ -2963,6 +4558,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("2c81e116-5120-4920-bf51-092081bfc67d"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,  
                 AssignedTo = user8.Id
             };
             Tasks t20 = new Tasks
@@ -2979,6 +4575,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("a88a1f4e-d3dd-42f0-a0e7-3a7f6affa301"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user8.Id
             };
             Tasks t21 = new Tasks
@@ -2995,6 +4592,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("8de05be7-f7d1-425e-9c5e-b1a965456935"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user3.Id
             };
 
@@ -3012,6 +4610,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("84f2c617-35e0-4343-a7c8-35226cb4c6a1"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user7.Id
             };
             Tasks t23 = new Tasks
@@ -3028,6 +4627,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("3a339b14-8f9e-413d-97d0-7ce36aafee58"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user7.Id
             };
             Tasks t24 = new Tasks
@@ -3044,6 +4644,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("3a339b14-8f9e-413d-97d0-7ce36aafee58"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user7.Id
             };
             Tasks t25 = new Tasks
@@ -3060,6 +4661,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("67a4dd09-f119-4c82-921e-597279ef412d"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user16.Id
             };
             Tasks t26 = new Tasks
@@ -3076,6 +4678,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user16.Id
             };
             Tasks t27 = new Tasks
@@ -3092,6 +4695,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user7.Id
             };
             Tasks t28 = new Tasks
@@ -3108,6 +4712,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user7.Id
             };
             Tasks t29 = new Tasks
@@ -3124,6 +4729,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 4,
                 AssignedTo = user16.Id
             };
             Tasks t30 = new Tasks
@@ -3140,6 +4746,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 5,
                 AssignedTo = user7.Id
             };
             Tasks t31 = new Tasks
@@ -3156,6 +4763,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("103337e3-a98d-4427-8a4c-ac8563886b47"),
                 ProjectId = new Guid("99d3dfb7-8a58-4bc6-bf43-39257ec2a472"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 6,
                 AssignedTo = user16.Id
             };
 
@@ -3175,6 +4783,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("5b24898d-dddc-4c99-8c69-5e43a370e45c"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user4.Id
             };
             Tasks t33 = new Tasks
@@ -3191,6 +4800,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("5b24898d-dddc-4c99-8c69-5e43a370e45c"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user20.Id
             };
             Tasks t34 = new Tasks
@@ -3207,6 +4817,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("f5840e34-49e8-435f-bbb4-e403c53642b1"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user20.Id
             };
             Tasks t35 = new Tasks
@@ -3223,6 +4834,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("f5840e34-49e8-435f-bbb4-e403c53642b1"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user19.Id
             };
             Tasks t36 = new Tasks
@@ -3239,6 +4851,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("4c238c20-5106-4ca5-88a7-9980892a5455"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user18.Id
             };
             Tasks t37 = new Tasks
@@ -3255,6 +4868,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("4c238c20-5106-4ca5-88a7-9980892a5455"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user19.Id
             };
             Tasks t38 = new Tasks
@@ -3271,6 +4885,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user20.Id
             };
             Tasks t39 = new Tasks
@@ -3287,6 +4902,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user19.Id
             };
             Tasks t40 = new Tasks
@@ -3303,6 +4919,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user4.Id
             };
             Tasks t41 = new Tasks
@@ -3319,6 +4936,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("ac829962-0360-44d2-a766-bb50e3e2001e"),
                 ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 4,
                 AssignedTo = user4.Id
             };
 
@@ -3338,6 +4956,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("c07b395a-cbf6-49a4-aeaa-ef28de9517ff"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user20.Id
             };
             Tasks t43 = new Tasks
@@ -3354,6 +4973,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("c07b395a-cbf6-49a4-aeaa-ef28de9517ff"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user17.Id
             };
             Tasks t44 = new Tasks
@@ -3370,6 +4990,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("24d9bd4f-d960-4081-87a8-6be032290863"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user16.Id
             };
             Tasks t45 = new Tasks
@@ -3386,6 +5007,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("24d9bd4f-d960-4081-87a8-6be032290863"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user15.Id
             };
             Tasks t46 = new Tasks
@@ -3402,6 +5024,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("455d5a96-2d52-4aa8-a98f-ac27f4f321c3"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user15.Id
             };
             Tasks t47 = new Tasks
@@ -3418,6 +5041,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("455d5a96-2d52-4aa8-a98f-ac27f4f321c3"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user17.Id
             };
             Tasks t48 = new Tasks
@@ -3434,6 +5058,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("a37790d5-0113-491b-98af-5060ff8aa26c"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user16.Id
             };
             Tasks t49 = new Tasks
@@ -3450,6 +5075,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("a37790d5-0113-491b-98af-5060ff8aa26c"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user20.Id
             };
             Tasks t50 = new Tasks
@@ -3466,6 +5092,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("455d5a96-2d52-4aa8-a98f-ac27f4f321c3"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user17.Id
             };
             Tasks t51 = new Tasks
@@ -3482,6 +5109,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("a37790d5-0113-491b-98af-5060ff8aa26c"),
                 ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user20.Id
             };
 
@@ -3500,6 +5128,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("41640d60-1134-45c3-a7c4-2e7f306ec967"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user15.Id
             };
             Tasks t53 = new Tasks
@@ -3516,6 +5145,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("5618a016-156a-449c-92e6-926eabe0cf8a"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user14.Id
             };
             Tasks t54 = new Tasks
@@ -3532,6 +5162,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("431dd63b-469e-4589-b1c6-4b4af20a7728"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user7.Id
             };
             Tasks t55 = new Tasks
@@ -3548,6 +5179,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("431dd63b-469e-4589-b1c6-4b4af20a7728"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user15.Id
             };
             Tasks t56 = new Tasks
@@ -3564,6 +5196,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("60ac6a0a-2788-4326-ad31-fdd899d7b80f"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user7.Id
             };
             Tasks t57 = new Tasks
@@ -3580,6 +5213,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("60ac6a0a-2788-4326-ad31-fdd899d7b80f"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user14.Id
             };
             Tasks t58 = new Tasks
@@ -3596,6 +5230,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("60ac6a0a-2788-4326-ad31-fdd899d7b80f"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user7.Id
             };
             Tasks t59 = new Tasks
@@ -3612,6 +5247,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("75f606e3-f12a-4257-b486-a15ef2aad23b"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user15.Id
             };
             Tasks t60 = new Tasks
@@ -3628,6 +5264,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("75f606e3-f12a-4257-b486-a15ef2aad23b"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user7.Id
             };
             Tasks t61 = new Tasks
@@ -3644,6 +5281,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("75f606e3-f12a-4257-b486-a15ef2aad23b"),
                 ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user14.Id
             };
 
@@ -3662,6 +5300,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("5f54b6b6-614e-46d2-a64e-10d91db2f516"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user6.Id
             };
             Tasks t63 = new Tasks
@@ -3678,6 +5317,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("5f54b6b6-614e-46d2-a64e-10d91db2f516"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user5.Id
             };
             Tasks t64 = new Tasks
@@ -3694,6 +5334,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("b351e4b2-8b16-4c0c-b37b-630bcf661e4b"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user4.Id
             };
             Tasks t65 = new Tasks
@@ -3710,6 +5351,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("0008056c-1d86-45f8-ae4e-b0512284472d"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user16.Id
             };
             Tasks t66 = new Tasks
@@ -3726,6 +5368,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 1,
                 AssignedTo = user6.Id
             };
             Tasks t67 = new Tasks
@@ -3742,6 +5385,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 2,
                 AssignedTo = user16.Id
             };
             Tasks t68 = new Tasks
@@ -3758,6 +5402,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 3,
                 AssignedTo = user5.Id
             };
             Tasks t69 = new Tasks
@@ -3774,6 +5419,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 4,
                 AssignedTo = user16.Id
             };
             Tasks t70 = new Tasks
@@ -3790,6 +5436,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 5,
                 AssignedTo = user4.Id
             };
             Tasks t71 = new Tasks
@@ -3806,6 +5453,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("05c5e7b3-63ac-482e-82fc-00bfb32afeca"),
                 ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
+                Order = 6,
                 AssignedTo = user4.Id
             };
 

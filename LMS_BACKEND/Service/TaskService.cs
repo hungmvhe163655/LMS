@@ -5,6 +5,7 @@ using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 
 namespace Service
@@ -130,6 +131,18 @@ namespace Service
             await _repository.Save();
         }
 
+        public async Task<(IEnumerable<TaskResponseModel> tasks, MetaData metaData)> GetTasksByUser(string userId, TaskRequestParameters parameters)
+        {
+            var taskFromDb = await _repository.task.GetAllTaskByUser(userId, parameters, false);
+
+            if (!taskFromDb.Any()) throw new BadRequestException("No task found for specified user.");
+
+            var tasksDto= _mapper.Map<IEnumerable<TaskResponseModel>>(taskFromDb);
+
+            return (tasks: tasksDto, metaData: taskFromDb.MetaData);
+
+        }
+        
         public async Task<TaskResponseModel> GetTaskByID(Guid id)
         {
             return _mapper.Map<TaskResponseModel>(await _repository.task.GetTaskWithId(id, false).FirstAsync());

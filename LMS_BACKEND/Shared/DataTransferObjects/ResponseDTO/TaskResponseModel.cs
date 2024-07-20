@@ -15,5 +15,6 @@
         public Guid ProjectId { get; set; }
         public string TaskStatus { get; set; } = "";
         public string? AssignedTo { get; set; }
+        public int Order { get; set; }
     }
 }

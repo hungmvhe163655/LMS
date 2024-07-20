@@ -1,7 +1,11 @@
-﻿namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
+namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 {
     public static class APIs
     {
+        public const string DeviceAPI = "api/devices";
+
+        public const string NotificationAPI = "api/notifications";
+
         public const string AuthenticationAPI = "api/auth";
 
         public const string AccountAPI = "api/accounts";
@@ -74,7 +78,9 @@
 
         public const string CreateAdmin = "create-admin";
 
-        public const string GetAccountNeedVerified = "need-verified";
+        public const string GetAccountNeedVerify = "need-verify";
+
+        public const string GetSupervisorNeedVerify = "supervisor-need-verify";
 
         public const string UpdateAccountVerifyStatus = "verify-account";
 
@@ -151,6 +157,13 @@
         #region ReportsAPIs
 
         public const string GetAllByDeviceId = "device/{id:guid}";
+
+        #endregion
+
+        #region NotificationAPIs
+
+
+        public const string MarkNotificationAsRead = "{id:guid}/read/user/{userid}";
 
         #endregion
     }

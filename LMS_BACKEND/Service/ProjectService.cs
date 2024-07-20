@@ -5,6 +5,7 @@ using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 using Shared.GlobalVariables;
 
@@ -27,7 +28,7 @@ namespace Service
 
             hold.Id = Guid.NewGuid();
             hold.CreatedDate = DateTime.Now;
-            hold.ProjectStatus = 1+"";//sua cho nay
+            hold.ProjectStatus = PROJECT_STATUS.INITIALIZING;
             var rootid = Guid.NewGuid();
             var root = new Folder
             {
@@ -60,24 +61,16 @@ namespace Service
             return hold;
         }
 
-        public IEnumerable<ProjectResponseModel> GetOnGoingProjects(string userId)
+        public async Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetOnGoingProjects(string userId, ProjectRequestParameters projetParameter, bool trackChange)
         {
-            var projectIds = _repository.member
-                .GetByCondition(m => m.UserId != null && m.UserId.Equals(userId), false)
-                .Select(m => m.ProjectId)
-                .ToList();
+            var projectFromDb = await _repository.project.GetOngoingProjectAsync(userId, projetParameter, trackChange);
 
-            var projects = _repository.project
-                .GetByCondition(p => projectIds.Contains(p.Id), false)
-                .Where(p => p.ProjectStatus.Equals(PROJECT_STATUS.INITIALIZING))
-                .ToList();
-
-            if (!projects.Any())
+            if (!projectFromDb.Any())
                 throw new BadRequestException("No projects found for the specified user.");
 
-            var result = _mapper.Map<IEnumerable<ProjectResponseModel>>(projects);
+            var projectsDto = _mapper.Map<IEnumerable<ProjectResponseModel>>(projectFromDb);
 
-            return result;
+            return (projects: projectsDto, metaData: projectFromDb.MetaData);
         }
 
         public IEnumerable<ProjectResponseModel> GetProjects(string userId)

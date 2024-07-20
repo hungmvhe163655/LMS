@@ -30,8 +30,6 @@ namespace Service
                 .GetByCondition(x => x.Id.Equals(taskListId), false)
                 .Include(y => y.Tasks)
                 .ThenInclude(z => z.AssignedToUser)
-                .Include(y => y.Tasks)
-                .ThenInclude(z => z.TaskStatus)
                 .ToListAsync();
 
             if (hold == null) throw new BadRequestException($"Can not found task list with id {taskListId}");
@@ -69,8 +67,6 @@ namespace Service
                 .GetByCondition(x => x.ProjectId.Equals(projectId), false)
                 .Include(y => y.Tasks)
                 .ThenInclude(z => z.AssignedToUser)
-                .Include(y => y.Tasks)
-                .ThenInclude(z => z.TaskStatus)
                 .ToListAsync();
 
             if (hold == null) throw new BadRequestException($"Project {projectId} have no task list");

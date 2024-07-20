@@ -1,5 +1,6 @@
 ﻿using Entities.Models;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 
 namespace Service.Contracts
@@ -8,7 +9,7 @@ namespace Service.Contracts
     {
         IEnumerable<ProjectResponseModel> GetProjects(string userId);
         Task<IEnumerable<Project>> GetAllProjects();
-        IEnumerable<ProjectResponseModel> GetOnGoingProjects(string userId);
+        Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetOnGoingProjects(string userId, ProjectRequestParameters projetParameter, bool trackChange);
         Task CreatNewProject(CreateProjectRequestModel model);
         Task UpdateProject(Guid projectId, UpdateProjectRequestModel model);
         Task<GetFolderContentResponseModel> GetProjectResources(Guid ProjectID);

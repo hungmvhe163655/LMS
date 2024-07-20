@@ -1,4 +1,4 @@
-﻿using Contracts.Interfaces;
+using Contracts.Interfaces;
 
 namespace Repository
 {
@@ -25,6 +25,10 @@ namespace Repository
         private readonly Lazy<ITaskRepository> _taskRepository;
 
         private readonly Lazy<IReportRepository> _reportRepository;
+
+        private readonly Lazy<IDeviceRepository> _deviceRepository;
+
+        private readonly Lazy<INewsFileRepository> _newsFileRepository;
 
         private readonly Lazy<ITaskHistoryRepository> _taskHistoryRepository;
         private readonly Lazy<ITaskListRepository> _taskListRepository;
@@ -66,6 +70,10 @@ namespace Repository
             _projectTypeRepository = new Lazy<IProjectTypeRepository>(() => new ProjectTypeRepository(context));
 
             _reportRepository = new Lazy<IReportRepository>(() => new ReportRepository(context));
+
+            _newsFileRepository = new Lazy<INewsFileRepository>(() => new NewsFileRespository(context));
+
+            _deviceRepository = new Lazy<IDeviceRepository>(() => new DeviceRepository(context));
             //khoi tao newsRepo
         }
         public IAccountRepository account => _accountRepository.Value;
@@ -80,6 +88,7 @@ namespace Repository
         public ITaskHistoryRepository taskHistory => _taskHistoryRepository.Value;
         public IReportRepository report => _reportRepository.Value;
         public ITaskListRepository taskList => _taskListRepository.Value;
+        public INewsFileRepository newsFile => _newsFileRepository.Value;
 
         public IProjectRepository project => _projectRepository.Value;
 
@@ -87,6 +96,7 @@ namespace Repository
 
         public IProjectTypeRepository projectType => _projectTypeRepository.Value;
 
+        public IDeviceRepository device => _deviceRepository.Value;
         public async Task Save() => await _context.SaveChangesAsync();
     }
 }

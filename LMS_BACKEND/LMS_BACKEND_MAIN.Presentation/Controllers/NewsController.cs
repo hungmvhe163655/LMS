@@ -11,6 +11,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
     [Route(APIs.NewsAPI)]
     [ApiController]
+    [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
     public class NewsController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -21,7 +22,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetNewsAsync([FromQuery] NewsRequestParameters newsParameters)
         {
             var pageResult = await _service.NewsService.GetNewsAsync(newsParameters, trackChanges: false);
@@ -31,7 +31,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetNewsById(Guid id)
         {
             var data = await _service.NewsService.GetNewsById(id);
@@ -39,15 +38,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(Roles = Roles.SUPERVISOR)]
         public IActionResult CreateNews(CreateNewsRequestModel model)
         {
             var data = _service.NewsService.CreateNewsAsync(model);
-            return Ok(data);
+            return Ok(new ResponseMessage { Message= "Create successfully"});
         }
 
         [HttpPut]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> Update(UpdateNewsRequestModel model)
         {
             await _service.NewsService.UpdateNews(model);
@@ -56,7 +55,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
 
         [HttpDelete("{id:guid}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _service.NewsService.DeleteNews(id);

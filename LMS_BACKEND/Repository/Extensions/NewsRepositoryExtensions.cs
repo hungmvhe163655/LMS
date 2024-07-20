@@ -5,7 +5,7 @@ using System.Linq.Dynamic.Core;
 
 namespace Repository.Extensions
 {
-    public static class RepositoryNewsExtensions
+    public static class NewsRepositoryExtensions
     {
         public static IQueryable<News> FilterNews(this IQueryable<News> news, DateTime minCreatedDate, DateTime maxCreatedDate) => news.Where(n => (DateTime.Compare(n.CreatedDate, minCreatedDate) > 0 && (DateTime.Compare(n.CreatedDate, maxCreatedDate) < 0)));
 

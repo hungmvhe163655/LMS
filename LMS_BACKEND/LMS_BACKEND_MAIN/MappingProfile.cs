@@ -92,6 +92,7 @@ namespace LMS_BACKEND_MAIN
                .ForMember(dest => dest.AssignedToUser, opt => opt.MapFrom(src => src.AssignedToUser != null ? src.AssignedToUser.FullName : "NotFound"))
                .ForMember(dest => dest.TaskStatus, opt => opt.MapFrom(src => src.TaskStatus))
                .ForMember(dest => dest.TaskListId, opt => opt.MapFrom(src => src.TaskListId))
+               .ForMember(dest => dest.Order, opt => opt.MapFrom(src => src.Order))
                .ReverseMap();
             CreateMap<Account, AccountNeedVerifyResponseModel>();
             CreateMap<MoveTaskRequestModel, Tasks>()
@@ -107,6 +108,18 @@ namespace LMS_BACKEND_MAIN
             CreateMap<Account, AccountRequestJoinResponseModel>();
             CreateMap<Report, ReportResponseModel>()
                 .ForMember(x => x.Schedules, opt => opt.MapFrom(src => src.Schedules));
+            CreateMap<Notification, NotificationResponseModel>();
+            CreateMap<Account, AccountManagementResponseModel>()
+                .ForMember(x => x.Role, opt => opt.Ignore())
+                .ForMember(x => x.Status, opt => opt.MapFrom(src => src.IsBanned ? "Banned" : src.IsVerified ? "Active" : "Unverified"))
+                .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Gender, op => op.MapFrom(src => src.Gender ? "Male" : "Female"));
+            CreateMap<CreateNewsRequestModel, News>()
+                .ForMember(dest => dest.NewsFiles, opt => opt.MapFrom(src =>
+                    src.FileKey != null
+                        ? src.FileKey.Select(fileKey => new NewsFile { FileKey = fileKey }).ToList()
+                        : new List<NewsFile>()
+                )).ReverseMap();
         }
     }
 }
