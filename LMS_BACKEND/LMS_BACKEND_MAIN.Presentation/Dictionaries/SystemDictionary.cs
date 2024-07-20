@@ -1,7 +1,9 @@
-﻿namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
+namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 {
     public static class APIs
     {
+        public const string DeviceAPI = "api/devices";
+
         public const string NotificationAPI = "api/notifications";
 
         public const string AuthenticationAPI = "api/auth";
