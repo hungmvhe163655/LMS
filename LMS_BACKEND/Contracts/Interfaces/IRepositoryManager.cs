@@ -5,7 +5,6 @@
         IReportRepository report { get; }
         IAccountRepository account { get; }
         INewsRepository news { get; }
-        INewsFileRepository newsFile { get; }
         INotificationRepository notification { get; }
         IStudentDetailRepository studentDetail { get; }
         IFileRepository file { get; }

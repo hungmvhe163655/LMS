@@ -31,7 +31,6 @@ namespace Repository
         private readonly Lazy<IProjectRepository> _projectRepository;
         private readonly Lazy<IProjectTypeRepository> _projectTypeRepository;
         private readonly Lazy<IMemberRepository> _memberRepository;
-        private readonly Lazy<INewsFileRepository> _newsFileRepository;
         public RepositoryManager(DataContext context)
         {
             _context = context;
@@ -67,8 +66,6 @@ namespace Repository
             _projectTypeRepository = new Lazy<IProjectTypeRepository>(() => new ProjectTypeRepository(context));
 
             _reportRepository = new Lazy<IReportRepository>(() => new ReportRepository(context));
-            
-            _newsFileRepository = new Lazy<INewsFileRepository>(() => new NewsFileRespository(context));
             //khoi tao newsRepo
         }
         public IAccountRepository account => _accountRepository.Value;
@@ -89,8 +86,6 @@ namespace Repository
         public IMemberRepository member => _memberRepository.Value;
 
         public IProjectTypeRepository projectType => _projectTypeRepository.Value;
-
-        public INewsFileRepository newsFile => _newsFileRepository.Value;
 
         public async Task Save() => await _context.SaveChangesAsync();
     }
