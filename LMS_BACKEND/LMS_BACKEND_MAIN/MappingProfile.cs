@@ -109,6 +109,11 @@ namespace LMS_BACKEND_MAIN
             CreateMap<Report, ReportResponseModel>()
                 .ForMember(x => x.Schedules, opt => opt.MapFrom(src => src.Schedules));
             CreateMap<Notification, NotificationResponseModel>();
+            CreateMap<Account, AccountManagementResponseModel>()
+                .ForMember(x => x.Role, opt => opt.Ignore())
+                .ForMember(x => x.Status, opt => opt.MapFrom(src => src.IsBanned ? "Banned" : src.IsVerified ? "Active" : "Unverified"))
+                .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Gender, op => op.MapFrom(src => src.Gender ? "Male" : "Female"));
         }
     }
 }
