@@ -1,4 +1,4 @@
-﻿namespace Shared.DataTransferObjects.ResponseDTO
+namespace Shared.DataTransferObjects.ResponseDTO
 {
     public class AccountReturnModel
     {
