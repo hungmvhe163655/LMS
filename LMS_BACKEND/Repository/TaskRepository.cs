@@ -22,10 +22,10 @@ namespace Repository
 
         public IQueryable<Tasks> GetTasksWithTaskListId(Guid taskListId, bool check) => FindAll(check).Where(x => x.TaskListId.Equals(taskListId));
 
-        public async Task<PagedList<Tasks>> GetAllTaskByUser(string userId, TaskRequestParameters parameters, bool check)
+          public async Task<PagedList<Tasks>> GetAllTaskByUser(string userId, TaskRequestParameters parameters, bool check)
         {
-            var tasks= await GetByCondition(t => t.AssignedToUser.Id.Equals(userId), check)
-                .FilterTasks(parameters.startDateFilter,parameters.endDateFilter)
+            var tasks= await GetByCondition(t => t.AssignedTo.Equals(userId), check)
+                .FilterTasks(parameters.startDateFilter,parameters.endDateFilter, parameters.ProjectIdFilter, parameters.TaskStatusFilter)
                 .Search(parameters)
                 .Sort(parameters.OrderBy)
                 .Skip((parameters.PageNumber - 1) * parameters.PageSize)
