@@ -24,8 +24,8 @@ namespace Repository
 
         public async Task<PagedList<Tasks>> GetAllTaskByUser(string userId, TaskRequestParameters parameters, bool check)
         {
-            var tasks= await GetByCondition(t => t.AssignedTo.Equals(userId), check)
-                .FilterTasks(parameters.startDateFilter,parameters.endDateFilter, parameters.ProjectIdFilter, parameters.TaskStatusFilter)
+            var tasks= await GetByCondition(t => t.AssignedToUser.Id.Equals(userId), check)
+                .FilterTasks(parameters.startDateFilter,parameters.endDateFilter)
                 .Search(parameters)
                 .Sort(parameters.OrderBy)
                 .Skip((parameters.PageNumber - 1) * parameters.PageSize)

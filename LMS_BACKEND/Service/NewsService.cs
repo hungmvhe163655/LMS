@@ -2,7 +2,6 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
@@ -22,32 +21,31 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task CreateNewsAsync(CreateNewsRequestModel model)
+        public async Task<bool> CreateNewsAsync(CreateNewsRequestModel model)
         {
-            var hold_user = await _repository.account.GetByCondition(entity => entity.Id.Equals(model.CreatedBy), true).FirstOrDefaultAsync()
-                ?? throw new BadRequestException($"Can't find user with id {model.CreatedBy}");
-
-            var hold = _mapper.Map<News>(model);
-            hold.Id = Guid.NewGuid();
-            hold.CreatedDate = DateTime.Now;
-
-            await _repository.news.CreateAsync(hold);
-
-            if(model.FileKey != null)
+            try
             {
-                foreach (var file in model.FileKey) 
+                var users = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(model.CreatedBy), true);
+                var user = users.FirstOrDefault();
+                if (user != null && model.Title != null)
                 {
-                    var hold_file = new NewsFile
+                    await _repository.news.CreateAsync(new News
                     {
                         Id = Guid.NewGuid(),
-                        NewsID = hold.Id,
-                        FileKey = file,
-                    };
-
-                    await _repository.newsFile.CreateAsync(hold_file);
+                        Content = model.Content,
+                        Title = model.Title,
+                        CreatedDate = model.CreatedDate,
+                        CreatedBy = user.Id ?? ""
+                    });
+                    await _repository.Save();
+                    return true;
                 }
+                return false;
             }
-            await _repository.Save();
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task DeleteNews(Guid id)

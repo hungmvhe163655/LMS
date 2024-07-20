@@ -1,14 +1,11 @@
-﻿using Contracts.Interfaces;
-using Entities.Exceptions;
+﻿using Entities.Exceptions;
 using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
-using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 using System.Security.Claims;
-using System.Text.Json;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -80,15 +77,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
 
             return hold.Id;
-        }
-
-        [HttpGet("userId/{userId}")]
-        public async Task<IActionResult> GetAllTaskByUser(string userId, [FromQuery] TaskRequestParameters parameters)
-        {
-            var pageResult = await _service.TaskService.GetTasksByUser(userId, parameters);
-
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
-            return Ok(pageResult.tasks);
         }
     }
 }
