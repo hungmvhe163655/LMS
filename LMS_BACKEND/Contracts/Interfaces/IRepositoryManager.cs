@@ -12,6 +12,8 @@ namespace Contracts.Interfaces
 
         IStudentDetailRepository studentDetail { get; }
 
+        INewsFileRepository newsFile { get; }
+
         IFileRepository file { get; }
 
         IFolderRepository folder { get; }
