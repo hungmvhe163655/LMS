@@ -26,7 +26,13 @@ namespace LMS_BACKEND_MAIN
                   .ForMember(dest => dest.VerifiedBy, opt => opt.MapFrom(src => src.VerifiedByUserID))
                   .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
                   .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
-            CreateMap<CreateNewsRequestModel, News>().ReverseMap();
+            CreateMap<CreateNewsRequestModel, News>()
+                .ForMember(dest => dest.NewsFiles, opt => opt.MapFrom(src =>
+                    src.FileKey != null
+                        ? src.FileKey.Select(fileKey => new NewsFile { FileKey = fileKey }).ToList()
+                        : new List<NewsFile>()
+                ))
+                .ReverseMap();
             CreateMap<UpdateNewsRequestModel, News>().ReverseMap();
             CreateMap<NewsReponseModel, News>().ReverseMap();
             CreateMap<AccountVerifyUpdateDTO, Account>().ReverseMap();
