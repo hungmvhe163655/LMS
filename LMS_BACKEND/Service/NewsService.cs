@@ -21,31 +21,32 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateNewsAsync(CreateNewsRequestModel model)
+        public async Task CreateNewsAsync(CreateNewsRequestModel model)
         {
-            try
+            var hold_user = await _repository.account.GetByCondition(entity => entity.Id.Equals(model.CreatedBy), true).FirstOrDefaultAsync()
+                ?? throw new BadRequestException($"Can't find user with id {model.CreatedBy}");
+
+            var hold = _mapper.Map<News>(model);
+            hold.Id = Guid.NewGuid();
+            hold.CreatedDate = DateTime.Now;
+
+            await _repository.news.CreateAsync(hold);
+
+            if(model.FileKey != null)
             {
-                var users = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(model.CreatedBy), true);
-                var user = users.FirstOrDefault();
-                if (user != null && model.Title != null)
+                foreach (var file in model.FileKey) 
                 {
-                    await _repository.news.CreateAsync(new News
+                    var hold_file = new NewsFile
                     {
                         Id = Guid.NewGuid(),
-                        Content = model.Content,
-                        Title = model.Title,
-                        CreatedDate = model.CreatedDate,
-                        CreatedBy = user.Id ?? ""
-                    });
-                    await _repository.Save();
-                    return true;
+                        NewsID = hold.Id,
+                        FileKey = file,
+                    };
+
+                    await _repository.newsFile.CreateAsync(hold_file);
                 }
-                return false;
             }
-            catch
-            {
-                throw;
-            }
+            await _repository.Save();
         }
 
         public async Task DeleteNews(Guid id)
