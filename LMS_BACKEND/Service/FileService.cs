@@ -27,15 +27,15 @@ namespace Service
             _repositoryManager = repository;
         }
         private static readonly HashSet<string> ImageMimeTypes = new HashSet<string>
-    {
-        "image/jpeg",
-        "image/png",
-        "image/gif",
-        "image/bmp",
-        "image/tiff",
-        "image/svg+xml",
-        "image/webp"
-    };
+        {
+            "image/jpeg",
+            "image/png",
+            "image/gif",
+            "image/bmp",
+            "image/tiff",
+            "image/svg+xml",
+            "image/webp"
+        };
         public static bool IsImageMimeType(string mimeType)
         {
             if (string.IsNullOrEmpty(mimeType))
