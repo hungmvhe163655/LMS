@@ -3,7 +3,6 @@ import { useSearchParams } from 'react-router-dom';
 
 import { DataTable } from '@/components/ui/data-table/data-table';
 import { DataTableSkeleton } from '@/components/ui/data-table/data-table-skeleton';
-import { DataTableToolbar } from '@/components/ui/data-table/data-table-toolbar';
 import { useDataTable } from '@/hooks/use-data-table';
 
 import { useNews } from '../api/get-news';
@@ -17,12 +16,14 @@ export function NewsTable() {
   const page = searchParams.get('page') || 1;
   const perPage = searchParams.get('per_page') || 10;
   const sort = searchParams.get('sort');
+  const searchTerm = searchParams.get('searchTerm');
 
   const { data, isLoading } = useNews({
     newsQueryParameter: {
       PageNumber: Number(page),
       PageSize: Number(perPage),
-      OrderBy: sort
+      OrderBy: sort,
+      SearchTerm: searchTerm
     }
   });
 
@@ -41,9 +42,7 @@ export function NewsTable() {
 
   return (
     <DataTable table={table}>
-      <DataTableToolbar table={table}>
-        <NewsTableToolbarActions />
-      </DataTableToolbar>
+      <NewsTableToolbarActions />
     </DataTable>
   );
 }
