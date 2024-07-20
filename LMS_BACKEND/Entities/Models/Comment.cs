@@ -1,7 +1,10 @@
-﻿namespace Entities.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Entities.Models
 {
     public class Comment
     {
+        [Key]
         public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public string? Content { get; set; }

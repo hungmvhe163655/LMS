@@ -1,7 +1,10 @@
-﻿namespace Entities.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Entities.Models
 {
     public class Device
     {
+        [Key]
         public Guid Id { get; set; }
         public string DeviceStatus { get; set; } = null!;
         public string OwnedBy { get; set; } = null!;
