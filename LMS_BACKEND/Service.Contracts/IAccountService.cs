@@ -31,5 +31,7 @@ namespace Service.Contracts
         Task<AccountDetailResponseModel> GetAccountDetail(string userId);
 
         Task ChangeEmailAsync(string id, ChangeEmailRequestModel model);
+
+        Task<IEnumerable<AccountRequestJoinResponseModel>> GetUserWithRole(string role);
     }
 }
