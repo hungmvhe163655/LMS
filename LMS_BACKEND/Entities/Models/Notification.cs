@@ -1,7 +1,10 @@
-﻿namespace Entities.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Entities.Models
 {
     public class Notification
     {
+        [Key]
         public Guid Id { get; set; }
         public string? Title { get; set; }
         public string? Content { get; set; }

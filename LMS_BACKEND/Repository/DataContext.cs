@@ -101,7 +101,7 @@ namespace Repository
             modelBuilder.Entity<Comment>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("Id");
                 entity.Property(e => e.Content)
                     .HasMaxLength(1000)
@@ -130,7 +130,7 @@ namespace Repository
             modelBuilder.Entity<Device>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("Id");
                 entity.Property(e => e.Description).HasColumnName("Description");
                 //entity.Property(e => e.DeviceStatusId).HasColumnName("DeviceStatusId");
@@ -156,7 +156,7 @@ namespace Repository
             //modelBuilder.Entity<DeviceStatus>(entity =>
             //{
             //    entity.Property(e => e.Id)
-            //        .ValueGeneratedNever()
+            //        .ValueGeneratedOnAdd()
             //        .HasColumnName("Id");
             //    entity.Property(e => e.Name)
             //        .HasMaxLength(50)
@@ -167,7 +167,7 @@ namespace Repository
             modelBuilder.Entity<Files>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("Id");
                 entity.Property(e => e.FileKey)
                     .HasMaxLength(500)
@@ -191,7 +191,7 @@ namespace Repository
             modelBuilder.Entity<Folder>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("Id");
                 entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy");
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
@@ -234,7 +234,7 @@ namespace Repository
             modelBuilder.Entity<Label>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("Id");
                 entity.Property(e => e.HexColor)
                     .HasMaxLength(7)
@@ -273,7 +273,7 @@ namespace Repository
             modelBuilder.Entity<News>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("Id");
                 entity.Property(e => e.Content).HasColumnName("Content")
                 .IsUnicode();
@@ -295,7 +295,7 @@ namespace Repository
                 entity.HasKey(e => e.Id).HasName("PK_NewsFiles_1");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("Id");
                 entity.Property(e => e.FileKey)
                     .HasMaxLength(500)
@@ -311,7 +311,7 @@ namespace Repository
             modelBuilder.Entity<Notification>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("Id");
                 entity.Property(e => e.Content)
                     .HasMaxLength(500)
@@ -345,7 +345,7 @@ namespace Repository
             //modelBuilder.Entity<NotificationType>(entity =>
             //{
             //    entity.Property(e => e.Id)
-            //        .ValueGeneratedNever()
+            //        .ValueGeneratedOnAdd()
             //        .HasColumnName("Id");
             //    entity.Property(e => e.Name)
             //        .HasMaxLength(255)
@@ -374,7 +374,7 @@ namespace Repository
             modelBuilder.Entity<Project>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("Id");
                 entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
                 entity.Property(e => e.Description)
@@ -405,7 +405,7 @@ namespace Repository
             //modelBuilder.Entity<ProjectStatus>(entity =>
             //{
             //    entity.Property(e => e.Id)
-            //        .ValueGeneratedNever()
+            //        .ValueGeneratedOnAdd()
             //        .HasColumnName("Id");
             //    entity.Property(e => e.Name)
             //        .HasMaxLength(50)
@@ -416,7 +416,7 @@ namespace Repository
             modelBuilder.Entity<ProjectType>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("Id");
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
@@ -427,7 +427,7 @@ namespace Repository
             modelBuilder.Entity<Report>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("Id");
 
                 entity.HasOne(d => d.Schedules)
@@ -469,7 +469,7 @@ namespace Repository
                 entity.HasKey(e => e.AccountId);
 
                 entity.Property(e => e.AccountId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("AccountId");
                 entity.Property(e => e.Major)
                     .HasMaxLength(50)
@@ -493,7 +493,7 @@ namespace Repository
             modelBuilder.Entity<Tasks>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("Id");
                 entity.Property(e => e.AssignedTo).HasColumnName("AssignedTo");
                 entity.Property(e => e.Order).HasColumnName("Order");
@@ -608,7 +608,7 @@ namespace Repository
             modelBuilder.Entity<TaskHistory>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("Id");
 
                 entity.Property(e => e.TaskGuid).HasColumnName("TaskGuid");
@@ -687,7 +687,7 @@ namespace Repository
             modelBuilder.Entity<TaskList>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("Id");
                 entity.Property(e => e.MaxTasks).HasColumnName("MaxTasks");
                 entity.Property(e => e.Order).HasColumnName("Order");
@@ -705,7 +705,7 @@ namespace Repository
             //modelBuilder.Entity<TaskPriorities>(entity =>
             //{
             //    entity.Property(e => e.Id)
-            //        .ValueGeneratedNever()
+            //        .ValueGeneratedOnAdd()
             //        .HasColumnName("Id");
             //    entity.Property(e => e.Name)
             //        .HasMaxLength(50)
@@ -718,7 +718,7 @@ namespace Repository
             //    entity.ToTable("TaskStatus");
 
             //    entity.Property(e => e.Id)
-            //        .ValueGeneratedNever()
+            //        .ValueGeneratedOnAdd()
             //        .HasColumnName("Id");
             //    entity.Property(e => e.Name)
             //        .HasMaxLength(50)

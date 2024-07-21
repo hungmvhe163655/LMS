@@ -1,4 +1,4 @@
-﻿using Contracts.Interfaces;
+using Contracts.Interfaces;
 
 namespace Repository
 {
@@ -26,12 +26,15 @@ namespace Repository
 
         private readonly Lazy<IReportRepository> _reportRepository;
 
+        private readonly Lazy<IDeviceRepository> _deviceRepository;
+
+        private readonly Lazy<INewsFileRepository> _newsFileRepository;
+
         private readonly Lazy<ITaskHistoryRepository> _taskHistoryRepository;
         private readonly Lazy<ITaskListRepository> _taskListRepository;
         private readonly Lazy<IProjectRepository> _projectRepository;
         private readonly Lazy<IProjectTypeRepository> _projectTypeRepository;
         private readonly Lazy<IMemberRepository> _memberRepository;
-        private readonly Lazy<INewsFileRepository> _newsFileRepository;
         public RepositoryManager(DataContext context)
         {
             _context = context;
@@ -67,8 +70,10 @@ namespace Repository
             _projectTypeRepository = new Lazy<IProjectTypeRepository>(() => new ProjectTypeRepository(context));
 
             _reportRepository = new Lazy<IReportRepository>(() => new ReportRepository(context));
-            
+
             _newsFileRepository = new Lazy<INewsFileRepository>(() => new NewsFileRespository(context));
+
+            _deviceRepository = new Lazy<IDeviceRepository>(() => new DeviceRepository(context));
             //khoi tao newsRepo
         }
         public IAccountRepository Account => _accountRepository.Value;
@@ -83,6 +88,7 @@ namespace Repository
         public ITaskHistoryRepository TaskHistory => _taskHistoryRepository.Value;
         public IReportRepository Report => _reportRepository.Value;
         public ITaskListRepository TaskList => _taskListRepository.Value;
+        public INewsFileRepository NewsFile => _newsFileRepository.Value;
 
         public IProjectRepository Project => _projectRepository.Value;
 
@@ -90,7 +96,7 @@ namespace Repository
 
         public IProjectTypeRepository ProjectType => _projectTypeRepository.Value;
 
-        public INewsFileRepository NewsFile => _newsFileRepository.Value;
+        public IDeviceRepository device => _deviceRepository.Value;
 
         public async Task Save() => await _context.SaveChangesAsync();
     }

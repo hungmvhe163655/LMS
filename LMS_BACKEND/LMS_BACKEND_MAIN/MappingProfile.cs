@@ -121,6 +121,12 @@ namespace LMS_BACKEND_MAIN
                 .ForMember(x => x.Status, opt => opt.MapFrom(src => src.IsBanned ? "Banned" : src.IsVerified ? "Active" : "Unverified"))
                 .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Gender, op => op.MapFrom(src => src.Gender ? "Male" : "Female"));
+            CreateMap<CreateNewsRequestModel, News>()
+                .ForMember(dest => dest.NewsFiles, opt => opt.MapFrom(src =>
+                    src.FileKey != null
+                        ? src.FileKey.Select(fileKey => new NewsFile { FileKey = fileKey }).ToList()
+                        : new List<NewsFile>()
+                )).ReverseMap();
         }
     }
 }

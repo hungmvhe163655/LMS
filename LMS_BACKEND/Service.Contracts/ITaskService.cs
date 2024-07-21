@@ -1,7 +1,7 @@
 ﻿using Entities.Models;
 using Shared.DataTransferObjects.RequestDTO;
-using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using Shared.DataTransferObjects.RequestParameters;
 
 namespace Service.Contracts
 {
@@ -18,6 +18,5 @@ namespace Service.Contracts
         Task<bool> IsTaskListAvailable(Guid taskListId);
         Task<bool> IsMemberInProject(Guid taskListId, string userId);
         Task<(IEnumerable<TaskResponseModel> tasks, MetaData metaData)> GetTasksByUser(string userId, TaskRequestParameters parameters);
-
     }
 }

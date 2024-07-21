@@ -1,4 +1,4 @@
-﻿namespace Contracts.Interfaces
+namespace Contracts.Interfaces
 {
     public interface IRepositoryManager
     {
@@ -18,6 +18,7 @@
         IProjectRepository Project { get; }
         IMemberRepository Member { get; }
         IProjectTypeRepository ProjectType { get; }
+        IDeviceRepository Device { get; }
         Task Save();
     }
 }
