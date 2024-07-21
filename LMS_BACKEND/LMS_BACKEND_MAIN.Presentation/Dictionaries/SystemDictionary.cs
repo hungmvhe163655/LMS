@@ -50,7 +50,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         public const string GetUsersSup = "accounts-supervisor";
 
-        public const string VerifyEmailSend = "verify-email-send";
+        public const string VerifyEmailSend = "verification-email";
 
         public const string GetCurrentLoggedInUser = "me";
 
@@ -78,11 +78,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         public const string CreateAdmin = "create-admin";
 
-        public const string GetAccountNeedVerify = "need-verify";
+        public const string GetAccountNeedVerify = "verification";
 
-        public const string GetSupervisorNeedVerify = "supervisor-need-verify";
+        public const string GetSupervisorNeedVerify = "supervisor/verification";
 
-        public const string UpdateAccountVerifyStatus = "verify-account";
+        public const string UpdateAccountVerifyStatus = "verification";
 
         #endregion
 
