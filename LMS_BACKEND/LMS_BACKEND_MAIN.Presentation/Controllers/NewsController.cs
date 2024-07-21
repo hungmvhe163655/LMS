@@ -39,10 +39,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpPost]
         [Authorize(Roles = Roles.SUPERVISOR)]
-        public IActionResult CreateNews(CreateNewsRequestModel model)
+        public async Task<IActionResult> CreateNews(CreateNewsRequestModel model)
         {
-            var result = _service.NewsService.CreateNewsAsync(model);
-            return CreatedAtRoute("GetNewsById", new { id = result.Id}, result);
+            await _service.NewsService.CreateNewsAsync(model);
+            return Created("CreateNews", model);
         }
 
         [HttpPut]
