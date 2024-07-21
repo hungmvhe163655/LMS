@@ -27,9 +27,14 @@ namespace Service
             var hold_user = await _repository.Account.GetByCondition(entity => entity.Id.Equals(model.CreatedBy), true).FirstOrDefaultAsync()
                 ?? throw new BadRequestException($"Can't find user with id {model.CreatedBy}");
 
-            var hold = _mapper.Map<News>(model);
-            hold.Id = Guid.NewGuid();
-            hold.CreatedDate = DateTime.Now;
+            var hold = new News
+            {
+                Id = Guid.NewGuid(),
+                Title = model.Title,
+                Content = model.Content ?? "",
+                CreatedBy = model.CreatedBy,
+                CreatedDate = DateTime.Now,
+            };
 
             await _repository.News.CreateAsync(hold);
 
@@ -48,7 +53,7 @@ namespace Service
                 }
                 var hold_newsFile = _mapper.Map<IEnumerable<NewsFile>>(listFile);
 
-                await _repository.NewsFile.AddRangeAsync(hold_newsFile);
+                await _repository.NewsFile.AddRange(hold_newsFile);
             }
             await _repository.Save();
         }
@@ -65,12 +70,7 @@ namespace Service
 
         public async Task<(IEnumerable<NewsReponseModel> news, MetaData metaData)> GetNewsAsync(NewsRequestParameters newsParameter, bool trackChanges)
         {
-            var newsFromDb = await _repository.News.GetNewsAsync(newsParameter, trackChanges);
-            foreach (var news in newsFromDb)
-            {
-                var hold = _repository.Account.GetByCondition(a => a.Id.Equals(news.CreatedBy), false).FirstOrDefault() ?? throw new BadRequestException($"Can't find any news created by account {news.CreatedBy}");
-                news.CreatedBy = hold.FullName != null ? hold.FullName : hold.Email;
-            }
+            var newsFromDb = await _repository.News.GetNewsAsync(newsParameter, trackChanges) ?? throw new BadRequestException("Can't find any news");
             var newsDto = _mapper.Map<IEnumerable<NewsReponseModel>>(newsFromDb);
             return (news: newsDto, metaData: newsFromDb.MetaData);
         }
@@ -91,8 +91,7 @@ namespace Service
 
         public async Task UpdateNews(UpdateNewsRequestModel model)
         {
-            var hold = _repository.News.GetNews(model.Id, true);
-            if (hold == null) throw new BadRequestException("News with id: " + model.Id + " is not exist");
+            var hold = _repository.News.GetNews(model.Id, true) ?? throw new BadRequestException("News with id: " + model.Id + " is not exist");
             _mapper.Map(model, hold);
             await _repository.Save();
         }

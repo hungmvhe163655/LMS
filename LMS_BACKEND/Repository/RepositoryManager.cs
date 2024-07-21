@@ -96,7 +96,7 @@ namespace Repository
 
         public IProjectTypeRepository ProjectType => _projectTypeRepository.Value;
 
-        public IDeviceRepository device => _deviceRepository.Value;
+        public IDeviceRepository Device => _deviceRepository.Value;
 
         public async Task Save() => await _context.SaveChangesAsync();
     }

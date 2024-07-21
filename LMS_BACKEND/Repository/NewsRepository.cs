@@ -21,7 +21,7 @@ namespace Repository
         {
             var news = await FindAll(trackChanges)
                 .Include(n => n.NewsFiles)
-                .Include(n => n.CreatedByNavigation.FullName)
+                .Include(n => n.CreatedByNavigation)
                 .FilterNews(parameters.minCreatedDate, parameters.maxCreatedDate)
                 .Search(parameters)
                 .Sort(parameters.OrderBy)
