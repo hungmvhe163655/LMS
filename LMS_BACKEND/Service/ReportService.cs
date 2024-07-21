@@ -31,7 +31,7 @@ namespace Service
         {
             var hold = await
             _repository
-                .report
+                .Report
                 .GetReports(param, false);
 
             return (_mapper.Map<IEnumerable<ReportResponseModel>>(hold), hold.MetaData);
@@ -43,7 +43,7 @@ namespace Service
             (
                 await
                 _repository
-                .report
+                .Report
                 .GetByCondition(x => x.Id
                 .Equals(id), false)
                 .FirstOrDefaultAsync()
@@ -53,21 +53,21 @@ namespace Service
         {
             model.Id = Guid.NewGuid();
 
-            _repository.report.Create(_mapper.Map<Report>(model));
+            _repository.Report.Create(_mapper.Map<Report>(model));
 
             await _repository.Save();
         }
         public async Task DeleteReport(Guid id)
         {
-            var hold = await _repository.report.GetByCondition(x => x.Id.Equals(id), false).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid ID");
+            var hold = await _repository.Report.GetByCondition(x => x.Id.Equals(id), false).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid ID");
 
-            _repository.report.Delete(hold);
+            _repository.Report.Delete(hold);
 
             await _repository.Save();
         }
         public async Task UpdateReport(Guid id, UpdateReportRequestModel model)// luc implement leen controller nhow phai them kiem tra sua fiel de con xoa file cu
         {
-            var hold = await _repository.report.GetByCondition(x => x.Id.Equals(id), true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid ID");
+            var hold = await _repository.Report.GetByCondition(x => x.Id.Equals(id), true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid ID");
 
             _mapper.Map(model, hold);
 

@@ -25,12 +25,12 @@ namespace Service
 
         public async Task<IEnumerable<TaskResponseModel>> GetTasksWithProjectId(Guid projectId)
         {
-            return _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.task.GetTasksWithProjectId(projectId, false).ToListAsync());
+            return _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.Task.GetTasksWithProjectId(projectId, false).ToListAsync());
         }
 
         public async Task<IEnumerable<TaskResponseModel>> GetTasksWithTaskListId(Guid taskListId)
         {
-            return _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.task.GetTasksWithTaskListId(taskListId, false).ToListAsync());
+            return _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.Task.GetTasksWithTaskListId(taskListId, false).ToListAsync());
         }
 
         public async Task CreateTask(TaskCreateRequestModel model)
@@ -39,7 +39,7 @@ namespace Service
 
             var hold_creator = await
                 _repository
-                .account
+                .Account
                 .GetByCondition(x => x.Id.Equals(model.CreatedBy), true)
                 .Include(y => y.Members
                 .Where(z => z.IsLeader && z.ProjectId
@@ -48,7 +48,7 @@ namespace Service
                 .FirstOrDefaultAsync();
             var hold_worker = await
                 _repository
-                .account
+                .Account
                 .GetByCondition(x => x.Id
                 .Equals(model.AssignedTo), true)
                 .Include(y => y.Members
@@ -73,7 +73,7 @@ namespace Service
 
             hold_worker.TaskHistories.Add(hold_version);
 
-            await _repository.task.AddNewTask(hold);
+            await _repository.Task.AddNewTask(hold);
 
             await _repository.Save();
         }
@@ -84,7 +84,7 @@ namespace Service
 
             var hold_worker = await
                _repository
-               .account
+               .Account
                .GetByCondition(x => x.Id
                .Equals(model.AssignedTo), true)
                .Include(y => y.Members
@@ -103,17 +103,17 @@ namespace Service
 
             hold_worker.TaskHistories.Add(hold_version);
 
-            await _repository.task.UpdateTask(hold);
+            await _repository.Task.UpdateTask(hold);
 
             await _repository.Save();
         }
         public async Task DeleteTask(Guid id, string userId)
         {
-            var hold = _repository.task.GetTaskWithId(id, false).First();
+            var hold = _repository.Task.GetTaskWithId(id, false).First();
 
             var hold_creator = await
                 _repository
-                .account
+                .Account
                 .GetByCondition(x => x.Id
                 .Equals(userId), true)
                 .Include(y => y.Members
@@ -124,16 +124,16 @@ namespace Service
 
             if (hold_creator == null) throw new BadRequestException("User is not allow to interract with this project");
 
-            _repository.taskHistory.DeleteTaskHistory(id);
+            _repository.TaskHistory.DeleteTaskHistory(id);
 
-            await _repository.task.DeleteTask(hold);
+            await _repository.Task.DeleteTask(hold);
 
             await _repository.Save();
         }
 
         public async Task<(IEnumerable<TaskResponseModel> tasks, MetaData metaData)> GetTasksByUser(string userId, TaskRequestParameters parameters)
         {
-            var taskFromDb = await _repository.task.GetAllTaskByUser(userId, parameters, false);
+            var taskFromDb = await _repository.Task.GetAllTaskByUser(userId, parameters, false);
 
             if (!taskFromDb.Any()) throw new BadRequestException("No task found for specified user.");
 
@@ -145,16 +145,16 @@ namespace Service
         
         public async Task<TaskResponseModel> GetTaskByID(Guid id)
         {
-            return _mapper.Map<TaskResponseModel>(await _repository.task.GetTaskWithId(id, false).FirstAsync());
+            return _mapper.Map<TaskResponseModel>(await _repository.Task.GetTaskWithId(id, false).FirstAsync());
         }
 
         public async Task<(TaskUpdateRequestModel taskToPatch, Tasks taskEntity, Guid oldLitId)> MoveTaskForPatch(Guid taskListId, Guid taskId)
         {
-            var taskList = await _repository.taskList.GetByCondition(x => x.Id.Equals(taskListId), false).Include(x =>x.Tasks).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
+            var taskList = await _repository.TaskList.GetByCondition(x => x.Id.Equals(taskListId), false).Include(x =>x.Tasks).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
 
             _ = taskList.Tasks.Where(x => x.Id.Equals(taskId)).FirstOrDefault() ?? throw new BadRequestException("no such task exist in inputed list");
 
-            var hold = await _repository.task.GetTaskWithId(taskId, true).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task with id {taskId}");
+            var hold = await _repository.Task.GetTaskWithId(taskId, true).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task with id {taskId}");
 
             var taskToPatch = _mapper.Map<TaskUpdateRequestModel>(hold);
 
@@ -176,9 +176,9 @@ namespace Service
 
         public async Task<bool> IsTaskListAvailable(Guid taskListId)
         {
-            var taskList = await _repository.taskList.GetByCondition(x => x.Id.Equals(taskListId), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
+            var taskList = await _repository.TaskList.GetByCondition(x => x.Id.Equals(taskListId), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
 
-            var count = await _repository.task.GetTasksWithTaskListId(taskListId, false).CountAsync();
+            var count = await _repository.Task.GetTasksWithTaskListId(taskListId, false).CountAsync();
 
             if (count < taskList.MaxTasks)
             {
@@ -189,9 +189,9 @@ namespace Service
 
         public async Task<bool> IsMemberInProject(Guid taskListId, string userId)
         {
-            var taskList = await _repository.taskList.GetByCondition(x => x.Id.Equals(taskListId), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
+            var taskList = await _repository.TaskList.GetByCondition(x => x.Id.Equals(taskListId), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
 
-            var user = await _repository.member.GetByCondition(x => x.UserId.Equals(userId) && x.ProjectId.Equals(taskList.ProjectId), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find member with userid {userId}");
+            var user = await _repository.Member.GetByCondition(x => x.UserId.Equals(userId) && x.ProjectId.Equals(taskList.ProjectId), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find member with userid {userId}");
 
             if (user == null)
             {
@@ -199,6 +199,5 @@ namespace Service
             }
             else return true;
         }
-
     }
 }

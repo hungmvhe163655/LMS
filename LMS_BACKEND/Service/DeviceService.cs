@@ -25,7 +25,7 @@ namespace Service
 
         public async Task<(IEnumerable<DeviceReturnModel> data, MetaData meta)> getDevice(DeviceRequestParameters param)
         {
-            var hold = await _repository.device.GetWithParam(param);
+            var hold = await _repository.Device.GetWithParam(param);
 
             return (_mapper.Map<IEnumerable<DeviceReturnModel>>(hold), hold.MetaData);
         }

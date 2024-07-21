@@ -20,7 +20,7 @@ namespace Service
 
         public async Task<IEnumerable<MemberResponseModel>> GetMembers(Guid projectId)
         {
-            var hold = await _repository.member
+            var hold = await _repository.Member
                 .GetByCondition(x => x.ProjectId.Equals(projectId), false)
                 .Include(x => x.User)
                 .ToListAsync();
@@ -30,9 +30,9 @@ namespace Service
 
         public async Task DeleteMember(Guid id, Guid projectId)
         {
-            var hold = await _repository.member.GetByCondition(x => x.UserId.Equals(id) && x.ProjectId.Equals(projectId), true).FirstOrDefaultAsync();
+            var hold = await _repository.Member.GetByCondition(x => x.UserId.Equals(id) && x.ProjectId.Equals(projectId), true).FirstOrDefaultAsync();
             if (hold == null) throw new BadRequestException($"Can't found member with id {id} in project {projectId}");
-            _repository.member.Delete(hold);
+            _repository.Member.Delete(hold);
             await _repository.Save();
         }
     }

@@ -33,7 +33,7 @@ namespace Service
             {
                 var hold_members = await 
                     _repositoryManager
-                    .member
+                    .Member
                     .GetByCondition(x=>x.ProjectId.Equals(model.ProjectId),true)
                     .Include(y=>y.User)
                     .ToListAsync()??throw new BadRequestException("Invalid project ID");
@@ -46,7 +46,7 @@ namespace Service
                 }
             }
 
-            await _repositoryManager.notification.saveNotification(hold);
+            await _repositoryManager.Notification.saveNotification(hold);
             await _repositoryManager.Save();
             await _hubContext.Clients.Groups(model.Group).SendAsync("ReceiveNotification", hold);
             return hold;
@@ -54,32 +54,32 @@ namespace Service
 
         public async Task<PagedList<NotificationResponseModel>> GetPagedNotifications(NotificationParameters param)
         {
-            var hold = await _repositoryManager.notification.GetNotifications(param, false).ToListAsync();
+            var hold = await _repositoryManager.Notification.GetNotifications(param, false).ToListAsync();
             return new PagedList<NotificationResponseModel>(_mapper.Map<List<NotificationResponseModel>>(hold), hold.Count, param.PageNumber, param.PageSize);
         }
 
         public async Task<IEnumerable<Notification>> GetAllNotifications(RequestParameters request)
         {
-            return await _repositoryManager.notification.GetPagedAsync(request, false);
+            return await _repositoryManager.Notification.GetPagedAsync(request, false);
         }
 
         public async Task<NotificationResponseModel?> GetNotification(Guid id)
         {
-            return _mapper.Map<NotificationResponseModel>(await _repositoryManager.notification.GetByCondition(entity => entity.Id.Equals(id), false).FirstOrDefaultAsync());
+            return _mapper.Map<NotificationResponseModel>(await _repositoryManager.Notification.GetByCondition(entity => entity.Id.Equals(id), false).FirstOrDefaultAsync());
         }
 
         public async Task MarkNotificationAsRead(string userId, Guid notificationId)
         {
             var user = await
                 _repositoryManager
-                .account
+                .Account
                 .GetByCondition(x => x.Id.Equals(userId), false)
                 .FirstOrDefaultAsync()
                 ?? throw new BadRequestException("Invalid User Id");
 
             var hold = await
                 _repositoryManager
-                .notification
+                .Notification
                 .GetByCondition(x => x.Id.Equals(notificationId), true)
                 .Include(y => y.NotificationsAccounts.Where(z => z.AccountId.Equals(userId)))
                 .FirstOrDefaultAsync()

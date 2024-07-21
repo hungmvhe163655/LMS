@@ -19,8 +19,11 @@ namespace Repository
 
         public async Task<PagedList<News>> GetNewsAsync(NewsRequestParameters parameters, bool trackChanges)
         {
-            var news = await FindAll(trackChanges).FilterNews(parameters.minCreatedDate, parameters.maxCreatedDate).Search(parameters)
+            var news = await FindAll(trackChanges)
+                .Include(n => n.NewsFiles)
+                .Include(n => n.CreatedByNavigation)
                 .FilterNews(parameters.minCreatedDate, parameters.maxCreatedDate)
+                .Search(parameters)
                 .Sort(parameters.OrderBy)
                 .Skip((parameters.PageNumber - 1) * parameters.PageSize)
                 .Take(parameters.PageSize)

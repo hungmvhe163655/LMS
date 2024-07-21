@@ -37,7 +37,7 @@ namespace Repository.Extensions
             return tasks.Where(n => n.Title.ToLower().Contains(lowerCaseTerm) || n.Description.ToLower().Contains(lowerCaseTerm));
         }
 
-        public static IQueryable<Tasks> Sort(this IQueryable<Tasks> tasks, string orderByQueryString)
+        public static IQueryable<Tasks> Sort(this IQueryable<Tasks> tasks, string? orderByQueryString)
         {
             if (string.IsNullOrWhiteSpace(orderByQueryString))
                 return tasks.OrderBy(n => n.CreatedDate);
