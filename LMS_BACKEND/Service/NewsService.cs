@@ -77,22 +77,31 @@ namespace Service
 
         public async Task<NewsReponseModel> GetNewsById(Guid id)
         {
-            try
-            {
-                var news = await _repository.News.GetByConditionAsync(news => news.Id.Equals(id), false);
-                if (news == null) throw new BadRequestException("Can't found news with id " + id);
-                return _mapper.Map<NewsReponseModel>(news.First());
-            }
-            catch
-            {
-                throw;
-            }
+            var news = await _repository.News.GetNews(id, false) ?? throw new BadRequestException("Can't found news with id " + id);
+            return _mapper.Map<NewsReponseModel>(news);
         }
 
         public async Task UpdateNews(UpdateNewsRequestModel model)
         {
-            var hold = _repository.News.GetNews(model.Id, true) ?? throw new BadRequestException("News with id: " + model.Id + " is not exist");
+            var hold = await _repository.News.GetNews(model.Id, true) ?? throw new BadRequestException("News with id: " + model.Id + " is not exist");
             _mapper.Map(model, hold);
+            if (model.FileKey != null)
+            {
+                var listFile = new List<NewsFileRequestModel>();
+                foreach (var file in model.FileKey)
+                {
+                    var hold_file = new NewsFileRequestModel
+                    {
+                        Id = Guid.NewGuid(),
+                        NewsID = hold.Id,
+                        FileKey = file,
+                    };
+                    listFile.Add(hold_file);
+                }
+                var hold_newsFile = _mapper.Map<IEnumerable<NewsFile>>(listFile);
+
+                await _repository.NewsFile.AddRange(hold_newsFile);
+            }
             await _repository.Save();
         }
 
