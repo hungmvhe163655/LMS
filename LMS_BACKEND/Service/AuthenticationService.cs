@@ -119,7 +119,7 @@ namespace Service
 
                 if (hold != null)
                 {
-                    _repositoryManager.studentDetail.Create(hold);
+                    _repositoryManager.StudentDetail.Create(hold);
 
                     await _repositoryManager.Save();
                 }

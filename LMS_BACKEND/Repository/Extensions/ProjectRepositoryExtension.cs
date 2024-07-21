@@ -33,7 +33,7 @@ namespace Repository.Extensions
             return projects.Where(n => n.Name.ToLower().Contains(lowerCaseTerm) || n.Description.ToLower().Contains(lowerCaseTerm));
         }
 
-        public static IQueryable<Project> Sort(this IQueryable<Project> projects, string orderByQueryString)
+        public static IQueryable<Project> Sort(this IQueryable<Project> projects, string? orderByQueryString)
         {
             if (string.IsNullOrWhiteSpace(orderByQueryString))
                 return projects.OrderBy(n => n.CreatedDate);
