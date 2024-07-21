@@ -31,6 +31,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return StatusCode(201, result);
         }
         */
+        /*
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
         [HttpGet(RoutesAPI.GetAccountNeedVerify)]
         public async Task<IActionResult> GetAccountNeedVerify([FromQuery] NeedVerifyParameters param)
@@ -41,9 +42,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return Ok(user.data);
         }
-
+        */
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
-        [HttpGet(RoutesAPI.GetSupervisorNeedVerify)]
+        [HttpGet(RoutesAPI.GetAccountNeedVerify)]
         public async Task<IActionResult> GetSupervisorNeedVerify([FromQuery] NeedVerifyParameters param)
         {
             var user = await _service.AccountService.GetVerifierAccountsSuper(param);
@@ -72,6 +73,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             var data = await _service.AccountService.GetAccountDetail(id);
             return Ok(data);
         }
-        
+
     }
 }
