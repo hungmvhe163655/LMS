@@ -13,5 +13,4 @@ namespace Contracts.Interfaces
         IQueryable<Tasks> GetTaskWithId(Guid id, bool track);
         Task<PagedList<Tasks>> GetAllTaskByUser(string userId, TaskRequestParameters parameters, bool check);
     }
-    }
 }
