@@ -1,16 +1,14 @@
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { Layout } from '@/components/layouts/default-layout';
-// import { NewsView } from '@/features/news/components/news-view';
-import { NewsTest } from '@/features/news/components/news-test';
+import { NewsView } from '@/features/news/components/news-view';
 
 export function NewsDetailPage() {
-  // const { id } = useParams() as { id: string };
+  const { id } = useParams() as { id: string };
 
   return (
     <Layout>
-      {/* <NewsView id={id} /> */}
-      <NewsTest />
+      <NewsView id={id} />
     </Layout>
   );
 }
