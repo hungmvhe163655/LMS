@@ -26,7 +26,7 @@ namespace Service
         {
             var hold = await
                 _repository
-                .taskList
+                .TaskList
                 .GetByCondition(x => x.Id.Equals(taskListId), false)
                 .Include(y => y.Tasks)
                 .ThenInclude(z => z.AssignedToUser)
@@ -43,7 +43,7 @@ namespace Service
 
             hold.Id = Guid.NewGuid();
 
-            await _repository.taskList.AddNewTaskList(hold);
+            await _repository.TaskList.AddNewTaskList(hold);
 
             await _repository.Save();
         }
@@ -51,9 +51,9 @@ namespace Service
 
         public async Task UpdateTaskList(UpdateTaskListRequestModel model)
         {
-            var hold = _repository.taskList.GetByCondition(x => x.Id.Equals(model.Id), true).FirstOrDefault();
+            var hold = _repository.TaskList.GetByCondition(x => x.Id.Equals(model.Id), true).FirstOrDefault();
             if (hold == null) throw new BadRequestException($"Can not find task list with id {model.Id}");
-            var count = _repository.task.GetTasksWithTaskListId(hold.Id, false).Count();
+            var count = _repository.Task.GetTasksWithTaskListId(hold.Id, false).Count();
             if (count > model.MaxTasks) throw new BadRequestException($"Max task must greater than number current task on list");
 
             _mapper.Map(model, hold);
@@ -63,7 +63,7 @@ namespace Service
         {
             var hold = await
                 _repository
-                .taskList
+                .TaskList
                 .GetByCondition(x => x.ProjectId.Equals(projectId), false)
                 .Include(y => y.Tasks)
                 .ThenInclude(z => z.AssignedToUser)
@@ -76,11 +76,11 @@ namespace Service
 
         public async Task DeleteTaskList(Guid taskListId)
         {
-            var count = _repository.task.GetTasksWithTaskListId(taskListId, false).Count();
+            var count = _repository.Task.GetTasksWithTaskListId(taskListId, false).Count();
             if (count > 0) throw new BadRequestException("Can not delete task list have tasks inside");
-            var hold = _repository.taskList.GetByCondition(x => x.Id.Equals(taskListId), false).FirstOrDefault();
+            var hold = _repository.TaskList.GetByCondition(x => x.Id.Equals(taskListId), false).FirstOrDefault();
             if (hold == null) throw new BadRequestException($"Can not find task list with id {taskListId}");
-            _repository.taskList.Delete(hold);
+            _repository.TaskList.Delete(hold);
             await _repository.Save();
         }
 

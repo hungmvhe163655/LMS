@@ -33,6 +33,7 @@ namespace LMS_BACKEND_MAIN
                         : new List<NewsFile>()
                 ))
                 .ReverseMap();
+            CreateMap<NewsFileRequestModel, NewsFile>().ReverseMap();
             CreateMap<UpdateNewsRequestModel, News>().ReverseMap();
             CreateMap<NewsReponseModel, News>().ReverseMap();
             CreateMap<AccountVerifyUpdateDTO, Account>().ReverseMap();

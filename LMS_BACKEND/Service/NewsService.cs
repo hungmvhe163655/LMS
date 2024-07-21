@@ -24,48 +24,51 @@ namespace Service
 
         public async Task CreateNewsAsync(CreateNewsRequestModel model)
         {
-            var hold_user = await _repository.account.GetByCondition(entity => entity.Id.Equals(model.CreatedBy), true).FirstOrDefaultAsync()
+            var hold_user = await _repository.Account.GetByCondition(entity => entity.Id.Equals(model.CreatedBy), true).FirstOrDefaultAsync()
                 ?? throw new BadRequestException($"Can't find user with id {model.CreatedBy}");
 
             var hold = _mapper.Map<News>(model);
             hold.Id = Guid.NewGuid();
             hold.CreatedDate = DateTime.Now;
 
-            await _repository.news.CreateAsync(hold);
+            await _repository.News.CreateAsync(hold);
 
             if(model.FileKey != null)
             {
+                var listFile = new List<NewsFileRequestModel>();
                 foreach (var file in model.FileKey) 
                 {
-                    var hold_file = new NewsFile
+                    var hold_file = new NewsFileRequestModel
                     {
                         Id = Guid.NewGuid(),
                         NewsID = hold.Id,
                         FileKey = file,
                     };
-
-                    await _repository.newsFile.CreateAsync(hold_file);
+                    listFile.Add(hold_file);
                 }
+                var hold_newsFile = _mapper.Map<IEnumerable<NewsFile>>(listFile);
+
+                await _repository.NewsFile.AddRangeAsync(hold_newsFile);
             }
             await _repository.Save();
         }
 
         public async Task DeleteNews(Guid id)
         {
-            var newses = _repository.news.GetByCondition(entity => entity.Id.Equals(id), false);
+            var newses = _repository.News.GetByCondition(entity => entity.Id.Equals(id), false);
             var news = newses.First();
             if (news == null)
                 throw new BadRequestException("News wth id: " + id + "doesn't exist");
-            _repository.news.Delete(news);
+            _repository.News.Delete(news);
             await _repository.Save();
         }
 
         public async Task<(IEnumerable<NewsReponseModel> news, MetaData metaData)> GetNewsAsync(NewsRequestParameters newsParameter, bool trackChanges)
         {
-            var newsFromDb = await _repository.news.GetNewsAsync(newsParameter, trackChanges);
+            var newsFromDb = await _repository.News.GetNewsAsync(newsParameter, trackChanges);
             foreach (var news in newsFromDb)
             {
-                var hold = _repository.account.GetByCondition(a => a.Id.Equals(news.CreatedBy), false).FirstOrDefault() ?? throw new BadRequestException($"Can't find any news created by account {news.CreatedBy}");
+                var hold = _repository.Account.GetByCondition(a => a.Id.Equals(news.CreatedBy), false).FirstOrDefault() ?? throw new BadRequestException($"Can't find any news created by account {news.CreatedBy}");
                 news.CreatedBy = hold.FullName != null ? hold.FullName : hold.Email;
             }
             var newsDto = _mapper.Map<IEnumerable<NewsReponseModel>>(newsFromDb);
@@ -76,7 +79,7 @@ namespace Service
         {
             try
             {
-                var news = await _repository.news.GetByConditionAsync(news => news.Id.Equals(id), false);
+                var news = await _repository.News.GetByConditionAsync(news => news.Id.Equals(id), false);
                 if (news == null) throw new BadRequestException("Can't found news with id " + id);
                 return _mapper.Map<NewsReponseModel>(news.First());
             }
@@ -88,7 +91,7 @@ namespace Service
 
         public async Task UpdateNews(UpdateNewsRequestModel model)
         {
-            var hold = _repository.news.GetNews(model.Id, true);
+            var hold = _repository.News.GetNews(model.Id, true);
             if (hold == null) throw new BadRequestException("News with id: " + model.Id + " is not exist");
             _mapper.Map(model, hold);
             await _repository.Save();

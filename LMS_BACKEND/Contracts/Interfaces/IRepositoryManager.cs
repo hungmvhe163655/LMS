@@ -2,22 +2,22 @@
 {
     public interface IRepositoryManager
     {
-        IReportRepository report { get; }
-        IAccountRepository account { get; }
-        INewsRepository news { get; }
-        INewsFileRepository newsFile { get; }
-        INotificationRepository notification { get; }
-        IStudentDetailRepository studentDetail { get; }
-        IFileRepository file { get; }
-        IFolderRepository folder { get; }
-        IFolderClosureRepository folderClosure { get; }
-        IScheduleRepository schedule { get; }
-        ITaskRepository task { get; }
-        ITaskHistoryRepository taskHistory { get; }
-        ITaskListRepository taskList { get; }
-        IProjectRepository project { get; }
-        IMemberRepository member { get; }
-        IProjectTypeRepository projectType { get; }
+        IReportRepository Report { get; }
+        IAccountRepository Account { get; }
+        INewsRepository News { get; }
+        INewsFileRepository NewsFile { get; }
+        INotificationRepository Notification { get; }
+        IStudentDetailRepository StudentDetail { get; }
+        IFileRepository File { get; }
+        IFolderRepository Folder { get; }
+        IFolderClosureRepository FolderClosure { get; }
+        IScheduleRepository Schedule { get; }
+        ITaskRepository Task { get; }
+        ITaskHistoryRepository TaskHistory { get; }
+        ITaskListRepository TaskList { get; }
+        IProjectRepository Project { get; }
+        IMemberRepository Member { get; }
+        IProjectTypeRepository ProjectType { get; }
         Task Save();
     }
 }

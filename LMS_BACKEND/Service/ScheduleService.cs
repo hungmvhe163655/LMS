@@ -34,7 +34,7 @@ namespace Service
 
             var (startTime, EndTime) = GetWeek(model.DateInput);
 
-            var result = _mapper.Map<IEnumerable<ScheduleResponseModel>>(await _repository.schedule.GetScheduleByDevice(model.DeviceId, startTime, EndTime, false));
+            var result = _mapper.Map<IEnumerable<ScheduleResponseModel>>(await _repository.Schedule.GetScheduleByDevice(model.DeviceId, startTime, EndTime, false));
 
             return result;
         }
@@ -42,9 +42,9 @@ namespace Service
         {
             model.Id = Guid.NewGuid();
 
-            if (!await _repository.schedule.CheckForOverlap(model.StartDate, model.EndDate, model.DeviceId))
+            if (!await _repository.Schedule.CheckForOverlap(model.StartDate, model.EndDate, model.DeviceId))
             {
-                await _repository.schedule.CreateScheduleForDevice(_mapper.Map<Schedule>(model));
+                await _repository.Schedule.CreateScheduleForDevice(_mapper.Map<Schedule>(model));
 
                 await _repository.Save();
             }
@@ -52,23 +52,23 @@ namespace Service
         }
         public async Task DeleteSchedule(Guid id)
         {
-            var hold = await _repository.schedule.GetSchedule(id, false);
+            var hold = await _repository.Schedule.GetSchedule(id, false);
 
             if (hold == null) throw new BadRequestException("No schedule with such Id exsited");
 
             if (hold.EndDate <= DateTime.Now) throw new UnauthorizedException("The booking schedule was already finished");
 
-            _repository.schedule.DeleteSchedule(hold);
+            _repository.Schedule.DeleteSchedule(hold);
 
             await _repository.Save();
         }
         public async Task UpdateSchedule(Guid id, ScheduleUpdateRequestModel model)
         {
-            var hold = await _repository.schedule.GetSchedule(id, true);
+            var hold = await _repository.Schedule.GetSchedule(id, true);
 
             if (hold == null) throw new BadRequestException("No schedule with such Id existed");
 
-            if (!await _repository.schedule.CheckForOverlap(model.StartDate, model.EndDate, hold.DeviceId))
+            if (!await _repository.Schedule.CheckForOverlap(model.StartDate, model.EndDate, hold.DeviceId))
             {
                 hold.StartDate = model.StartDate;
 

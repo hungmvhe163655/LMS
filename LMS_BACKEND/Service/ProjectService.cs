@@ -48,22 +48,22 @@ namespace Service
                 IsLeader = true,
                 JoinDate = DateTime.Now,
             };
-            _repository.member.Create(member);
-            _repository.project.Create(hold);
-            await _repository.folder.AddFolder(root);
+            _repository.Member.Create(member);
+            _repository.Project.Create(hold);
+            await _repository.Folder.AddFolder(root);
             await _repository.Save();
         }
 
         public async Task<IEnumerable<Project>> GetAllProjects()
         {
-            var hold = await _repository.project.FindAllAsync(false);
+            var hold = await _repository.Project.FindAllAsync(false);
             if (hold == null) throw new BadRequestException("Can not find any project");
             return hold;
         }
 
         public async Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetOnGoingProjects(string userId, ProjectRequestParameters projetParameter, bool trackChange)
         {
-            var projectFromDb = await _repository.project.GetOngoingProjectAsync(userId, projetParameter, trackChange);
+            var projectFromDb = await _repository.Project.GetOngoingProjectAsync(userId, projetParameter, trackChange);
 
             if (!projectFromDb.Any())
                 throw new BadRequestException("No projects found for the specified user.");
@@ -75,12 +75,12 @@ namespace Service
 
         public IEnumerable<ProjectResponseModel> GetProjects(string userId)
         {
-            var projectIds = _repository.member
+            var projectIds = _repository.Member
                 .GetByCondition(m => m.UserId != null && m.UserId.Equals(userId), false)
                 .Select(m => m.ProjectId)
                 .ToList();
 
-            var projects = _repository.project
+            var projects = _repository.Project
                 .GetByCondition(p => projectIds.Contains(p.Id), false)
                 .ToList();
 
@@ -102,9 +102,9 @@ namespace Service
         public async Task<GetFolderContentResponseModel> GetProjectResources(Guid ProjectID)
         {
 
-            var root = await _repository.folder.GetRootByProjectId(ProjectID).FirstOrDefaultAsync() ?? throw new Exception("Project associated with that ID currently doesn't have a root");
+            var root = await _repository.Folder.GetRootByProjectId(ProjectID).FirstOrDefaultAsync() ?? throw new Exception("Project associated with that ID currently doesn't have a root");
 
-            var end = await _repository.file.GetFiles(false, root.Id);
+            var end = await _repository.File.GetFiles(false, root.Id);
 
             var folders = new List<Folder>();
 
@@ -112,7 +112,7 @@ namespace Service
         }
         public async Task<IEnumerable<AccountRequestJoinResponseModel>> GetJoinRequest(Guid projectId)
         {
-            var hold = await _repository.member.GetByCondition(x => x.ProjectId.Equals(projectId) && !x.IsValidTeamMember, false).Include(y => y.User).ToListAsync();
+            var hold = await _repository.Member.GetByCondition(x => x.ProjectId.Equals(projectId) && !x.IsValidTeamMember, false).Include(y => y.User).ToListAsync();
             List<Account> end = new List<Account>();
             foreach (var item in hold)
             {
@@ -126,11 +126,11 @@ namespace Service
             {
                 var hold = await
                     _repository
-                    .member
+                    .Member
                     .GetByCondition(x => x.UserId.Equals(item.Id) && x.ProjectId.Equals(id) && x.ProjectId.Equals(item.ProjectID), false)
                     .FirstOrDefaultAsync() ?? throw new Exception("Error due to database logic");
 
-                if (item.Accepted) _repository.member.Delete(hold);
+                if (item.Accepted) _repository.Member.Delete(hold);
 
                 else hold.IsValidTeamMember = true;
             }
