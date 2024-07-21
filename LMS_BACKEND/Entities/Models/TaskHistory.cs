@@ -1,9 +1,11 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Entities.Models
 {
     public class TaskHistory
     {
+        [Key]
         public Guid Id { get; set; }
         public Guid TaskGuid { get; set; }
         public string? Title { get; set; }

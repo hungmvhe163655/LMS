@@ -24,10 +24,7 @@ namespace Repository
         }
         public async Task<bool> AddLeaf(IEnumerable<FolderClosure> hold)
         {
-            foreach (var item in hold)
-            {
-                await CreateAsync(item);
-            }
+            await AddRange(hold);
             return true;
         }
         public IEnumerable<FolderClosure> GetFolderContent(Guid Id, bool track)

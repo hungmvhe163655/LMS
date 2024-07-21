@@ -4,6 +4,7 @@ namespace Entities.Models
 {
     public class Tasks
     {
+        [Key]
         public Guid Id { get; set; }
         public string? Title { get; set; }
         public string CreatedBy { get; set; } = null!;
