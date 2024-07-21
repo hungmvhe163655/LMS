@@ -57,11 +57,11 @@ namespace Service
 
         public async Task DisableAccount(string id, bool flag)
         {
-            var hold = await 
+            var hold = await
                 _repository
                 .Account
-                .GetByCondition(x=>x.Id
-                .Equals(id),true)
+                .GetByCondition(x => x.Id
+                .Equals(id), true)
                 .FirstOrDefaultAsync()
                 ?? throw new BadRequestException("User with such ID does not existed");
 
@@ -125,7 +125,7 @@ namespace Service
 
             if (roleName.ToUpper().Equals("STUDENT"))
             {
-                var studentDetail = await 
+                var studentDetail = await
                     _repository
                     .StudentDetail
                     .GetByConditionAsync(entity => entity.AccountId != null && entity.AccountId.Equals(userId), false);
@@ -170,14 +170,16 @@ namespace Service
         }
         public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccountsSuper(NeedVerifyParameters param)
         {
-            var hold = await _userManager.GetUsersInRoleAsync(ROLES.SUPERVISOR);
+            var hold = _userManager.GetUsersInRoleAsync(param.Role ?? "").Result.Where(x => !x.IsVerified);
 
             List<string> validGuid = new List<string>();
 
-            foreach(var item in hold)
-            {
-                validGuid.Add(item.Id.ToString());
-            }
+            if (hold.Any())
+
+                foreach (var item in hold)
+
+                    validGuid.Add(item.Id.ToString());
+
 
             var user = await _repository.Account.FindWithVerifierIdSuper(param, validGuid) ?? throw new BadRequestException("bad param");
 
@@ -250,6 +252,12 @@ namespace Service
             await _repository.Save();
         }
 
+        public async Task<IEnumerable<AccountRequestJoinResponseModel>> GetUserWithRole(string role)
+        {
+            var hold = await _userManager.GetUsersInRoleAsync(role);
+
+            return _mapper.Map<IEnumerable<AccountRequestJoinResponseModel>>(hold);
+        }
         //public async Task<bool> ChangePhoneNumberAsync(string userId, string phoneNumber, string verifyCode)
         //{
         //    try

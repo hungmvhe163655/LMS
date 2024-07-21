@@ -31,11 +31,13 @@ namespace Repository
         public async Task<PagedList<Account>> FindWithVerifierIdSuper(NeedVerifyParameters param, List<string> validGuid)
         {
             var end = await
-                GetByCondition(x => !x.IsVerified && !x.IsBanned && !x.IsDeleted && validGuid.Contains(x.Id), false)
+                GetByCondition(x => !x.IsVerified && !x.IsBanned && !x.IsDeleted, false)
                 .Search(param)
                 .Skip((param.PageNumber - 1) * param.PageSize)
                 .Take(param.PageSize)
                 .ToListAsync();
+
+            var hold = validGuid.Any() ? end.Where(x => validGuid.Contains(x.Id)) : end;
 
             return new PagedList<Account>(end, end.Count, param.PageNumber, param.PageSize);
         }
