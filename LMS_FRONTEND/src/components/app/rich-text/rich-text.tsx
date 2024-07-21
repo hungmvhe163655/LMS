@@ -1,11 +1,11 @@
 import CharacterCount from '@tiptap/extension-character-count';
 import { Color } from '@tiptap/extension-color';
+import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import FontSize from 'tiptap-extension-font-size';
 
 import RichTextEditorToolbar from './rich-text-toolbar';
 
@@ -44,9 +44,17 @@ const RichText = ({ value, onChange, limit }: RichTextEditorProps) => {
         types: ['paragraph']
       }),
       TextStyle,
-      FontSize,
       Underline,
-      Color
+      Color,
+      Link.configure({
+        autolink: true,
+        defaultProtocol: 'https',
+        HTMLAttributes: {
+          class: 'font-medium text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer'
+        }
+      }).extend({
+        inclusive: false
+      })
     ],
     content: value, // Set the initial content with the provided value
     onUpdate: ({ editor }) => {

@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import RichText from '@/components/app/rich-text';
+import RichText from '@/components/app/rich-text/rich-text';
 import { Button } from '@/components/ui/button';
 import {
   Form,

@@ -17,23 +17,22 @@ import {
 import { useState } from 'react';
 import { HexColorInput, HexColorPicker } from 'react-colorful';
 
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
-} from '../ui/dropdown-menu';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { Separator } from '../ui/separator';
-import { Toggle } from '../ui/toggle';
+} from '../../ui/dropdown-menu';
+import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
+import { Separator } from '../../ui/separator';
+import { Toggle } from '../../ui/toggle';
 
-const fontSizes = ['12', '14', '16', '18', '20', '24', '28'];
+import { LinkReference } from './link-reference';
 
 const RichTextToolbar = ({ editor }: { editor: Editor }) => {
   const [textAlign, setTextAlign] = useState<'left' | 'right' | 'center' | 'justify'>('left');
   const [color, setColor] = useState('#000000');
-  const [fontSize, setFontSize] = useState('16');
 
   return (
     <div className='flex w-fit flex-row items-center gap-1 rounded-b-md p-1'>
@@ -162,31 +161,7 @@ const RichTextToolbar = ({ editor }: { editor: Editor }) => {
           />
         </PopoverContent>
       </Popover>
-      <DropdownMenu>
-        <DropdownMenuTrigger>
-          <span className='inline-flex h-10 min-w-10 max-w-10 items-center justify-center rounded-md border border-primary p-4 font-semibold text-black hover:bg-gray-200 focus:border-0'>
-            {fontSize}
-          </span>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className='min-w-fit'>
-          {fontSizes.map((size) => (
-            <DropdownMenuItem
-              className='p-3 text-base'
-              key={size}
-              onClick={() => {
-                editor
-                  .chain()
-                  .focus()
-                  .setFontSize(size + 'px')
-                  .run();
-                setFontSize(size);
-              }}
-            >
-              {size}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <LinkReference editor={editor} />
     </div>
   );
 };
