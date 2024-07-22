@@ -43,7 +43,7 @@ export function CreateNewsForm() {
           name='title'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
+              <FormLabel asChild>Title</FormLabel>
               <FormControl>
                 <Input type='text' {...field} />
               </FormControl>
@@ -57,7 +57,7 @@ export function CreateNewsForm() {
           name='content'
           render={({ field }) => (
             <FormItem className='flex flex-1 flex-col'>
-              <FormLabel>Content</FormLabel>
+              <FormLabel asChild>Content</FormLabel>
               <FormControl>
                 <RichText onChange={field.onChange} value={field.value} limit={limit} />
               </FormControl>
