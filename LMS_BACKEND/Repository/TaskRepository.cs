@@ -3,6 +3,7 @@ using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Extensions;
 using Shared.DataTransferObjects.RequestParameters;
+using Shared.GlobalVariables;
 
 namespace Repository
 {
@@ -22,9 +23,9 @@ namespace Repository
 
         public IQueryable<Tasks> GetTasksWithTaskListId(Guid taskListId, bool check) => FindAll(check).Where(x => x.TaskListId.Equals(taskListId));
 
-          public async Task<PagedList<Tasks>> GetAllTaskByUser(string userId, TaskRequestParameters parameters, bool check)
+        public async Task<PagedList<Tasks>> GetAllTaskByUser(string userId, TaskRequestParameters parameters, bool check)
         {
-            var tasks= await GetByCondition(t => t.AssignedTo.Equals(userId), check)
+            var tasks= await GetByCondition(t => t.AssignedTo != null && t.AssignedTo.Equals(userId), check)
                 .FilterTasks(parameters.startDateFilter,parameters.endDateFilter, parameters.ProjectIdFilter, parameters.TaskStatusFilter)
                 .Search(parameters)
                 .Sort(parameters.OrderBy)
@@ -35,6 +36,20 @@ namespace Repository
             var count = await FindAll(check).FilterTasks(parameters.startDateFilter, parameters.endDateFilter).Search(parameters).CountAsync();
 
             return new PagedList<Tasks>(tasks, count, parameters.PageNumber, parameters.PageSize);
+        }
+
+        public async Task<int> CountTaskUndone(string userId, Guid projectId)
+        {
+            var count = await GetByCondition(t => (t.AssignedTo != null && t.AssignedTo.Equals(userId)) && t.ProjectId.Equals(projectId) && (t.TaskStatus.Equals(TASK_STATUS.OPEN_TODO) || t.TaskStatus.Equals(TASK_STATUS.DOING)), false)
+                .CountAsync();
+            return count;
+        }
+
+        public async Task<int> CountAllTaskUndone(Guid projectId)
+        {
+            var count = await GetByCondition(t => t.ProjectId.Equals(projectId) && (t.TaskStatus.Equals(TASK_STATUS.OPEN_TODO) || t.TaskStatus.Equals(TASK_STATUS.DOING)), false)
+                .CountAsync();
+            return count;
         }
     }
 }

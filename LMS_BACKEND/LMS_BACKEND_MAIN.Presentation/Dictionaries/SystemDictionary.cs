@@ -114,8 +114,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         #region ProfileAPIs
 
-        public const string GetProjectWithMember = "{userId}/projects";
-
         public const string ChangePassword = "change-password/{id}";
 
         public const string ChangePasswordOtp = "change-password-otp/{id}";
@@ -151,6 +149,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
         public const string GetJoinRequest = "{id:guid}/join-request";
 
         public const string ValidateJoinRequest = "{id:guid}/join-request/validate";
+
+        public const string GetProjects = "user/{userid}";
+
+        public const string GetOngoingProjects = "user/{userid}/on-going";
 
         #endregion
 

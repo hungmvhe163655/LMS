@@ -40,7 +40,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> CreateProjejct(CreateProjectRequestModel model)
         {
             await _service.ProjectService.CreatNewProject(model);
-            return Ok(new ResponseMessage { Message = "Create project successfully" });
+            return Created("CreateProject",model);
         }
         [HttpGet(RoutesAPI.GetJoinRequest)]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
@@ -64,10 +64,28 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(hold);
         }
 
-        [HttpGet("user/{userid}")]
+        [HttpGet(RoutesAPI.GetOngoingProjects)]
         public async Task<IActionResult> GetOngoingProject(string userId, [FromQuery] ProjectRequestParameters parameters)
         {
             var pageResult= await _service.ProjectService.GetOnGoingProjects(userId, parameters, trackChange: false);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
+            return Ok(pageResult.projects);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllProjects([FromQuery] ProjectRequestParameters parameters)
+        {
+            var pageResult = await _service.ProjectService.GetAllProjects(parameters, trackChange: false);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
+            return Ok(pageResult.projects);
+        }
+
+        [HttpGet(RoutesAPI.GetProjects)]
+        public async Task<IActionResult> GetProjects(string userId, [FromQuery] ProjectRequestParameters parameters)
+        {
+            var pageResult = await _service.ProjectService.GetProjects(userId, parameters, trackChange: false);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
             return Ok(pageResult.projects);

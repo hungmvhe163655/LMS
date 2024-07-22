@@ -22,14 +22,14 @@ namespace Repository
         {
             try
             {
-                notification.NotificationsAccounts
-                       .Add(
+                notification.NotificationsAccounts.Add(
                     new NotificationAccount
                     {
                         AccountId = notification.CreatedBy,
                         IsRead = false,
                         NotificationId = notification.Id
-                    });
+                    }
+                );
                 await CreateAsync(notification);
                 return true;
             }

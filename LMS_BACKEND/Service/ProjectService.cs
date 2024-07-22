@@ -54,42 +54,46 @@ namespace Service
             await _repository.Save();
         }
 
-        public async Task<IEnumerable<Project>> GetAllProjects()
+        public async Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetAllProjects(ProjectRequestParameters projetParameter, bool trackChange)
         {
-            var hold = await _repository.Project.FindAllAsync(false);
-            if (hold == null) throw new BadRequestException("Can not find any project");
-            return hold;
-        }
-
-        public async Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetOnGoingProjects(string userId, ProjectRequestParameters projetParameter, bool trackChange)
-        {
-            var projectFromDb = await _repository.Project.GetOngoingProjectAsync(userId, projetParameter, trackChange);
-
-            if (!projectFromDb.Any())
-                throw new BadRequestException("No projects found for the specified user.");
+            var projectFromDb = await _repository.Project.GetAllProjectsAsync(projetParameter, trackChange) ?? throw new BadRequestException("No projects found for the specified user.");
 
             var projectsDto = _mapper.Map<IEnumerable<ProjectResponseModel>>(projectFromDb);
+
+            foreach (var project in projectsDto)
+            {
+                project.TaskUndone = _repository.Task.CountAllTaskUndone(project.Id).Result;
+            }
 
             return (projects: projectsDto, metaData: projectFromDb.MetaData);
         }
 
-        public IEnumerable<ProjectResponseModel> GetProjects(string userId)
+        public async Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetOnGoingProjects(string userId, ProjectRequestParameters projetParameter, bool trackChange)
         {
-            var projectIds = _repository.Member
-                .GetByCondition(m => m.UserId != null && m.UserId.Equals(userId), false)
-                .Select(m => m.ProjectId)
-                .ToList();
+            var projectFromDb = await _repository.Project.GetOngoingProjectAsync(userId, projetParameter, trackChange) ?? throw new BadRequestException("No projects found for the specified user.");
 
-            var projects = _repository.Project
-                .GetByCondition(p => projectIds.Contains(p.Id), false)
-                .ToList();
+            var projectsDto = _mapper.Map<IEnumerable<ProjectResponseModel>>(projectFromDb);
 
-            if (!projects.Any())
-                throw new BadRequestException("No projects found for the specified user.");
+            foreach (var project in projectsDto) 
+            {
+                project.TaskUndone = _repository.Task.CountTaskUndone(userId, project.Id).Result;
+            }
 
-            var result = _mapper.Map<IEnumerable<ProjectResponseModel>>(projects);
+            return (projects: projectsDto, metaData: projectFromDb.MetaData);
+        }
 
-            return result;
+        public async Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetProjects(string userId, ProjectRequestParameters projetParameter, bool trackChange)
+        {
+            var projectFromDb = await _repository.Project.GetProjectAsync(userId, projetParameter, trackChange) ?? throw new BadRequestException("No projects found for the specified user.");
+
+            var projectsDto = _mapper.Map<IEnumerable<ProjectResponseModel>>(projectFromDb);
+
+            foreach (var project in projectsDto)
+            {
+                project.TaskUndone = _repository.Task.CountTaskUndone(userId, project.Id).Result;
+            }
+
+            return (projects: projectsDto, metaData: projectFromDb.MetaData);
         }
 
         public async Task UpdateProject(Guid projectId, UpdateProjectRequestModel model)

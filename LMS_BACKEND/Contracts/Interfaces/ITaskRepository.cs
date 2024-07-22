@@ -12,5 +12,7 @@ namespace Contracts.Interfaces
         IQueryable<Tasks> GetTasksWithTaskListId(Guid taskListId, bool check);
         IQueryable<Tasks> GetTaskWithId(Guid id, bool track);
         Task<PagedList<Tasks>> GetAllTaskByUser(string userId, TaskRequestParameters parameters, bool check);
+        Task<int> CountTaskUndone(string userId, Guid projectId);
+        Task<int> CountAllTaskUndone( Guid projectId);
     }
 }

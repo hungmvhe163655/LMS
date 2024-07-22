@@ -7,8 +7,8 @@ namespace Service.Contracts
 {
     public interface IProjectService
     {
-        IEnumerable<ProjectResponseModel> GetProjects(string userId);
-        Task<IEnumerable<Project>> GetAllProjects();
+        Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetProjects(string userId, ProjectRequestParameters projetParameter, bool trackChange);
+        Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetAllProjects(ProjectRequestParameters projetParameter, bool trackChange);
         Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetOnGoingProjects(string userId, ProjectRequestParameters projetParameter, bool trackChange);
         Task CreatNewProject(CreateProjectRequestModel model);
         Task UpdateProject(Guid projectId, UpdateProjectRequestModel model);
