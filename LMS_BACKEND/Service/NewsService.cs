@@ -22,7 +22,7 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<Guid> CreateNewsAsync(CreateNewsRequestModel model)
+        public async Task<News> CreateNewsAsync(CreateNewsRequestModel model)
         {
             var hold_user = await _repository.Account.GetByCondition(entity => entity.Id.Equals(model.CreatedBy), true).FirstOrDefaultAsync()
                 ?? throw new BadRequestException($"Can't find user with id {model.CreatedBy}");
@@ -56,7 +56,7 @@ namespace Service
                 await _repository.NewsFile.AddRange(hold_newsFile);
             }
             await _repository.Save();
-            return hold.Id;
+            return hold;
         }
 
         public async Task DeleteNews(Guid id)

@@ -42,7 +42,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             var hold = await _service.TaskService.CreateTask(model);
 
-            return CreatedAtAction(nameof(GetTaskById), new { id = hold });
+            return CreatedAtAction(nameof(GetTaskById), new { id = hold.Id }, hold);
         }
 
         [HttpPut(RoutesAPI.AttachFileToTask)]

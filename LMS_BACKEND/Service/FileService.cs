@@ -146,7 +146,7 @@ namespace Service
 
             await _repositoryManager.Save();
         }
-        public async Task<Guid> CreateFile(FileUploadRequestModel model, Stream inputStream)
+        public async Task<FileResponseModel> CreateFile(FileUploadRequestModel model, Stream inputStream)
         {
             model.FileKey = Guid.NewGuid().ToString();
 
@@ -162,7 +162,7 @@ namespace Service
 
             await _repositoryManager.Save();
 
-            return hold.Id;
+            return _mappers.Map<FileResponseModel>(hold);
         }
         public async Task<(byte[], FileResponseModel)> GetFile(Guid fileID)
         {
@@ -247,7 +247,7 @@ namespace Service
 
             return new GetFolderContentResponseModel { Files = end, Folders = folders };
         }
-        public async Task<Guid> CreateFolder(CreateFolderRequestModel model)
+        public async Task<Folder> CreateFolder(CreateFolderRequestModel model)
         {
             var hold_folder = new Folder { Id = Guid.NewGuid(), CreatedBy = model.CreatedBy, CreatedDate = DateTime.Now, LastModifiedDate = DateTime.Now, Name = model.Name };
 
@@ -279,7 +279,7 @@ namespace Service
 
             await _repositoryManager.Save();
 
-            return hold_folder.Id;
+            return hold_folder;
         }
         public async Task DeleteFolder(Guid folderID)
         {

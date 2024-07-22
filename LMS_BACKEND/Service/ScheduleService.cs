@@ -38,9 +38,11 @@ namespace Service
 
             return result;
         }
-        public async Task<Guid> CreateScheduleForDevice(ScheduleCreateRequestModel model)
+        public async Task<Schedule> CreateScheduleForDevice(ScheduleCreateRequestModel model)
         {
-            model.Id = Guid.NewGuid();
+            var hold = _mapper.Map<Schedule>(model);
+
+            hold.Id = Guid.NewGuid();
 
             if (!await _repository.Schedule.CheckForOverlap(model.StartDate, model.EndDate, model.DeviceId))
             {
@@ -48,7 +50,7 @@ namespace Service
 
                 await _repository.Save();
 
-                return model.Id;
+                return hold;
             }
             throw new BadRequestException("The inputted time period was invalid");
 

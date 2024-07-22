@@ -25,7 +25,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var result = await _service.ScheduleService.CreateScheduleForDevice(model);
 
-            return CreatedAtAction(nameof(GetScheduleWithId), new {id = result});
+            return CreatedAtAction(nameof(GetScheduleWithId), new { id = result.Id }, result);
         }
 
         [HttpGet("{id:guid}")]

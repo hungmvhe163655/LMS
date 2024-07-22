@@ -41,7 +41,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             var result = await _serviceManager.FileService.CreateFile(metadata, memoryStream);
 
-            return CreatedAtAction(nameof(DownloadFile), new { id = result });
+            return CreatedAtAction(nameof(DownloadFile), new { id = result.Id }, result);
 
         }
 

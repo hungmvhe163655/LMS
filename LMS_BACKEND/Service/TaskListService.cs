@@ -37,7 +37,7 @@ namespace Service
             return result;
         }
 
-        public async Task<Guid> CreateTaskList(CreateTaskListRequestModel model)
+        public async Task<TaskList> CreateTaskList(CreateTaskListRequestModel model)
         {
             var hold = _mapper.Map<TaskList>(model);
 
@@ -47,7 +47,7 @@ namespace Service
 
             await _repository.Save();
 
-            return hold.Id;
+            return hold;
         }
 
 

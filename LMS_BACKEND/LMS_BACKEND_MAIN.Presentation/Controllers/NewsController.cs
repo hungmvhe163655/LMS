@@ -43,7 +43,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var result = await _service.NewsService.CreateNewsAsync(model);
 
-            return CreatedAtAction(nameof(GetNewsById), new {id = result});
+            return CreatedAtAction(nameof(GetNewsById), new { id = result.Id }, result);
         }
 
         [HttpPut]

@@ -45,7 +45,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var hold = await _service.ReportService.CreateReport(model);
 
-            return CreatedAtAction(nameof(GetReportById), new { id = hold });
+            return CreatedAtAction(nameof(GetReportById), new { id = hold.Id }, hold);
         }
         [HttpPut]
         public async Task<IActionResult> UpdateReport(Guid Id, [FromBody] UpdateReportRequestModel model)

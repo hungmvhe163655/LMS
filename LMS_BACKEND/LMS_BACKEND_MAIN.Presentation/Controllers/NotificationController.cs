@@ -44,9 +44,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> Add([FromBody] CreateNotificationRequestModel model)
         {
             var hold = await _service.NotificationService.CreateNotification(model);
-            return CreatedAtAction(nameof(GetById), new {id = hold.Id});
+
+            return CreatedAtAction(nameof(GetById), new { id = hold.Id }, hold);
         }
-        
+
         [HttpPut(RoutesAPI.MarkNotificationAsRead)]
         public async Task<IActionResult> MarkNotificationAsRead(Guid id, string userid)
         {

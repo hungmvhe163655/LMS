@@ -34,7 +34,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> CreateNewTaskList(CreateTaskListRequestModel model)
         {
             var result = await _service.TaskListService.CreateTaskList(model);
-            return CreatedAtAction(nameof(GetTaskListById), new { id = result });
+            return CreatedAtAction(nameof(GetTaskListById), new { id = result.Id }, result);
         }
 
         [HttpPut]

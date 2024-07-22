@@ -10,7 +10,7 @@ namespace Service.Contracts
         Task<IEnumerable<TaskResponseModel>> GetTasksWithProjectId(Guid projectId);
         Task<IEnumerable<TaskResponseModel>> GetTasksWithTaskListId(Guid taskListId);
         Task<TaskResponseModel> GetTaskByID(Guid id);
-        Task<Guid> CreateTask(TaskCreateRequestModel model);
+        Task<Tasks> CreateTask(TaskCreateRequestModel model);
         Task EditTask(TaskUpdateRequestModel model);
         Task DeleteTask(Guid id, string userId);
         Task<(TaskUpdateRequestModel taskToPatch, Tasks taskEntity, Guid oldLitId)> MoveTaskForPatch(Guid taskListId, Guid taskId);

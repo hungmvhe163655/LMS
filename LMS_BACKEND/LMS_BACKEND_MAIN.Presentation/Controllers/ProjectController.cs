@@ -49,7 +49,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var result = await _service.ProjectService.CreatNewProject(model);
 
-            return CreatedAtAction(nameof(GetProject), new { id = result });
+            return CreatedAtAction(nameof(GetProject), new { id = result.Id }, result);
         }
         [HttpGet(RoutesAPI.GetJoinRequest)]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
