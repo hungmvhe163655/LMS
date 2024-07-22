@@ -22,7 +22,7 @@ export const useUpdateProfile = ({ mutationConfig }: UseUpdateProfileOptions = {
     ...restConfig,
     mutationFn: updateProfile,
     onSuccess: (...args) => {
-      queryClient.invalidateQueries({
+      queryClient.refetchQueries({
         queryKey: getCurrentLoginUserOptions().queryKey
       });
       onSuccess?.(...args);

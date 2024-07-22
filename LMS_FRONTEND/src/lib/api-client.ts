@@ -20,6 +20,9 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    config.headers['Cache-Control'] = 'no-cache';
+    config.headers['Pragma'] = 'no-cache';
+    config.headers['Expires'] = '0';
   }
 
   config.withCredentials = true;
