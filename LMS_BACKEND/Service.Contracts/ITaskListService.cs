@@ -7,7 +7,7 @@ namespace Service.Contracts
     {
         Task<IEnumerable<TaskListResponseModel>> GetTaskListByProject(Guid projectId);
         Task<TaskListResponseModel> GetTaskListById(Guid taskListId);
-        Task CreateTaskList(CreateTaskListRequestModel model);
+        Task<Guid> CreateTaskList(CreateTaskListRequestModel model);
         Task UpdateTaskList(UpdateTaskListRequestModel model);
         Task DeleteTaskList(Guid tasklistId);
     }

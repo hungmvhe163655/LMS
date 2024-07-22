@@ -22,7 +22,7 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task CreatNewProject(CreateProjectRequestModel model)
+        public async Task<Guid> CreatNewProject(CreateProjectRequestModel model)
         {
             var hold = _mapper.Map<Project>(model);
 
@@ -52,6 +52,8 @@ namespace Service
             _repository.Project.Create(hold);
             await _repository.Folder.AddFolder(root);
             await _repository.Save();
+
+            return hold.Id;
         }
 
         public async Task<IEnumerable<Project>> GetAllProjects()

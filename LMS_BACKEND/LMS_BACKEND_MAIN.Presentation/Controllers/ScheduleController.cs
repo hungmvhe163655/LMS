@@ -19,13 +19,23 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             return Ok(await _service.ScheduleService.GetScheduleForDevice(model));
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateSchedule([FromBody] ScheduleCreateRequestModel model)
         {
-            await _service.ScheduleService.CreateScheduleForDevice(model);
+            var result = await _service.ScheduleService.CreateScheduleForDevice(model);
 
-            return Ok(model);
+            return CreatedAtAction(nameof(GetScheduleWithId), new {id = result});
         }
+
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetScheduleWithId(Guid id)
+        {
+            var hold = await _service.ScheduleService.GetSchedule(id);
+
+            return Ok(hold);
+        }
+
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteSchedule(Guid id)
         {
@@ -33,6 +43,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return Ok();
         }
+
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateSchedule(Guid id, [FromBody] ScheduleUpdateRequestModel model)
         {

@@ -33,7 +33,7 @@ namespace Service
             return _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.Task.GetTasksWithTaskListId(taskListId, false).ToListAsync());
         }
 
-        public async Task CreateTask(TaskCreateRequestModel model)
+        public async Task<Guid> CreateTask(TaskCreateRequestModel model)
         {
             var hold = _mapper.Map<Tasks>(model);
 
@@ -77,6 +77,8 @@ namespace Service
             await _repository.Task.AddNewTask(hold);
 
             await _repository.Save();
+
+            return hold.Id;
         }
 
         public async Task EditTask(TaskUpdateRequestModel model)

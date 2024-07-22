@@ -49,13 +49,15 @@ namespace Service
                 .FirstOrDefaultAsync()
                 ?? throw new BadRequestException("Invalid ID")
             );
-        public async Task CreateReport(CreateReportRequestModel model)
+        public async Task<Guid> CreateReport(CreateReportRequestModel model)
         {
             model.Id = Guid.NewGuid();
 
             _repository.Report.Create(_mapper.Map<Report>(model));
 
             await _repository.Save();
+
+            return model.Id;
         }
         public async Task DeleteReport(Guid id)
         {

@@ -8,6 +8,7 @@ namespace Service.Contracts
         Task<IEnumerable<ScheduleResponseModel>> GetScheduleForDevice(ScheduleRequestModel model);
         Task DeleteSchedule(Guid id);
         Task UpdateSchedule(Guid id, ScheduleUpdateRequestModel model);
-        Task CreateScheduleForDevice(ScheduleCreateRequestModel model);
+        Task<Guid> CreateScheduleForDevice(ScheduleCreateRequestModel model);
+        Task<ScheduleRequestModel> GetSchedule(Guid id);
     }
 }
