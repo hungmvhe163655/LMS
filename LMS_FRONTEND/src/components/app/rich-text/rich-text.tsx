@@ -20,7 +20,7 @@ const RichText = ({ value, onChange, limit }: RichTextEditorProps) => {
     editorProps: {
       attributes: {
         class:
-          'max-h-[35vh] flex-1 rounded-md border border-gray-300 bg-white p-5 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 overflow-auto'
+          'min-h-[70vh] max-h-[70vh] rounded-md border border-gray-300 bg-white p-5 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 overflow-auto'
       }
     },
     extensions: [
@@ -67,7 +67,7 @@ const RichText = ({ value, onChange, limit }: RichTextEditorProps) => {
   }
 
   return (
-    <div className='flex flex-1 flex-col justify-stretch space-y-3'>
+    <div className='flex flex-col justify-stretch space-y-3'>
       <div className='flex justify-between'>
         <RichTextEditorToolbar editor={editor} />
         {limit && (

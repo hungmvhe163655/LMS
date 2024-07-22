@@ -39,7 +39,7 @@ export function NewsView({ id }: { id: string }) {
             Date: {formatDateNoHours(data.createdDate)}
           </p>
         </div>
-        <p>{parse(clean)}</p>
+        <div>{parse(clean)}</div>
         <div className='flex justify-between'>
           <Link className='not-prose font-serif' to='/news'>
             See List News

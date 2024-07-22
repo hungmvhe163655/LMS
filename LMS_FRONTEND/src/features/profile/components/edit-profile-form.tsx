@@ -33,7 +33,7 @@ interface EditProfileFormProps {
 
 export function EditProfileForm({ user, onSubmitForm }: EditProfileFormProps) {
   const isStudent = user.roles.includes(ROLES.STUDENT);
-  const { mutate: updateProdfile } = useUpdateProfile();
+  const { mutate: updateProfile } = useUpdateProfile();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,7 +46,7 @@ export function EditProfileForm({ user, onSubmitForm }: EditProfileFormProps) {
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    updateProdfile(
+    updateProfile(
       { ...data, id: user.id, gender: data.gender.toLowerCase() === 'male' },
       {
         onSuccess: () => {
