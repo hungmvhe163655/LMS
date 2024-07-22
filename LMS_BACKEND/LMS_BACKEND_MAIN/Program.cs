@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using Contracts.Interfaces;
 using LMS_BACKEND_MAIN.Configurations;
 using LMS_BACKEND_MAIN.Extentions;
@@ -28,6 +29,10 @@ builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureCor(builder.Configuration);
 
 builder.Services.AddMemoryCache();
+
+builder.Services.ConfigureRateLimitingOptions(builder.Configuration);
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.ConfigureIISIntegration();
 
@@ -99,6 +104,8 @@ app.UseStaticFiles();
 app.UseHttpCacheHeaders();
 
 app.UseResponseCaching();
+
+app.UseIpRateLimiting();
 
 app.UseCors("CorsPolicy");
 

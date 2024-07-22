@@ -130,7 +130,7 @@ namespace Service
                     .GetByCondition(x => x.UserId.Equals(item.Id) && x.ProjectId.Equals(id) && x.ProjectId.Equals(item.ProjectID), false)
                     .FirstOrDefaultAsync() ?? throw new Exception("Error due to database logic");
 
-                if (item.Accepted) _repository.Member.Delete(hold);
+                if (!item.Accepted) _repository.Member.Delete(hold);
 
                 else hold.IsValidTeamMember = true;
             }

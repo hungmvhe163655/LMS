@@ -146,7 +146,7 @@ namespace Service
 
             await _repositoryManager.Save();
         }
-        public async Task CreateFile(FileUploadRequestModel model, Stream inputStream)
+        public async Task<Guid> CreateFile(FileUploadRequestModel model, Stream inputStream)
         {
             model.FileKey = Guid.NewGuid().ToString();
 
@@ -161,6 +161,8 @@ namespace Service
             if (result.HttpStatusCode != HttpStatusCode.OK) { throw new Exception("Add File Failed due to AWS: " + result.HttpStatusCode); }
 
             await _repositoryManager.Save();
+
+            return hold.Id;
         }
         public async Task<(byte[], FileResponseModel)> GetFile(Guid fileID)
         {
@@ -174,13 +176,13 @@ namespace Service
 
             return (hold, hold_return_model);
         }
-        public async Task<byte[]> DownloadFile(string fileKey)
+        public async Task<byte[]> DownloadFile(string fileKey)//download images
         {
             var hold = await GetFileFromS3Async(fileKey ?? throw new BadRequestException("Not found File key"));
 
             return hold;
         }
-        public async Task<string> UploadFile(Stream inputStream, string mime)
+        public async Task<string> UploadFile(Stream inputStream, string mime)//upload images
         {
             if (!IsImageMimeType(mime)) throw new BadRequestException("Only pictures allowed");
 
@@ -192,7 +194,7 @@ namespace Service
 
             return file_key;
         }
-        public async Task RemoveFile(string fileKey)
+        public async Task RemoveFile(string fileKey)//delete images
         {
             await DeleteFileFromS3Async(fileKey);
         }
@@ -245,7 +247,7 @@ namespace Service
 
             return new GetFolderContentResponseModel { Files = end, Folders = folders };
         }
-        public async Task<bool> CreateFolder(CreateFolderRequestModel model)
+        public async Task<Guid> CreateFolder(CreateFolderRequestModel model)
         {
             var hold_folder = new Folder { Id = Guid.NewGuid(), CreatedBy = model.CreatedBy, CreatedDate = DateTime.Now, LastModifiedDate = DateTime.Now, Name = model.Name };
 
@@ -277,7 +279,7 @@ namespace Service
 
             await _repositoryManager.Save();
 
-            return true;
+            return hold_folder.Id;
         }
         public async Task DeleteFolder(Guid folderID)
         {
@@ -302,9 +304,13 @@ namespace Service
         public async Task AttachToTask(Guid taskId, Guid fileID)
         {
             var task = await _repositoryManager.Task.GetTaskWithId(taskId, true).FirstOrDefaultAsync() ?? throw new BadRequestException("Not found task with that ID");
+
             var file = await _repositoryManager.File.GetFile(fileID, true).FirstOrDefaultAsync() ?? throw new BadRequestException("Not found file with that ID");
+
             task.Files.Add(file);
+
             file.Tasks.Add(task);
+
             await _repositoryManager.Save();
         }
     }

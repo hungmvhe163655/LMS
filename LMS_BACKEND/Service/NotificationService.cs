@@ -46,9 +46,12 @@ namespace Service
                 }
             }
 
-            await _repositoryManager.Notification.saveNotification(hold);
+            await _repositoryManager.Notification.SaveNotification(hold);
+
             await _repositoryManager.Save();
+
             await _hubContext.Clients.Groups(model.Group).SendAsync("ReceiveNotification", hold);
+
             return hold;
         }
 

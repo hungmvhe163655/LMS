@@ -46,6 +46,7 @@ namespace Service
                 .Equals(model.ProjectId) && z.UserId
                 .Equals(model.CreatedBy)))
                 .FirstOrDefaultAsync();
+
             var hold_worker = await
                 _repository
                 .Account
