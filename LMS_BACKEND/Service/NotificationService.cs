@@ -27,7 +27,7 @@ namespace Service
 
         public async Task<NotificationResponseModel> CreateNotification(CreateNotificationRequestModel model)
         {
-            var hold = new Notification { Id = Guid.NewGuid(), Title = model.Title, Content = model.Content, NotificationType = MAPPARAM.GetNotificationTypeValue(model.Type), CreatedBy = model.CreateUserId, Url = "lmao.com" };//sua cho nay
+            var hold = new Notification {ProjectId = Guid.Parse(model.Group??""), Id = Guid.NewGuid(), Title = model.Title, Content = model.Content, NotificationType = MAPPARAM.GetNotificationTypeValue(model.Type), CreatedBy = model.CreateUserId, Url = "lmao.com" };//sua cho nay
 
             if (hold.NotificationType.Equals(NOTIFICATION_TYPE.PROJECT))
             {
