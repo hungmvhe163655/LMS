@@ -171,6 +171,11 @@ namespace Shared.GlobalVariables
         public const string CANCEL = "Cancel";
     }
 
+    public static class CACHE_PROFILE
+    {
+        public const string TWOMINUTES = "120SecondsDuration";
+    }
+
     //public static class StaticParameters
     //{
     //    #region ROLES

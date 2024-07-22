@@ -57,7 +57,12 @@ namespace Service
 
         public async Task<PagedList<NotificationResponseModel>> GetPagedNotifications(NotificationParameters param)
         {
-            var hold = await _repositoryManager.Notification.GetNotifications(param, false).ToListAsync();
+            var hold = await _repositoryManager.NotificationAccount.GetNotificationsForAccount(param, false).ToListAsync();
+
+            var hold_noti = new List<Notification>();
+
+            foreach(var item in hold) hold_noti.Add(item.Notification);
+
             return new PagedList<NotificationResponseModel>(_mapper.Map<List<NotificationResponseModel>>(hold), hold.Count, param.PageNumber, param.PageSize);
         }
 

@@ -1,6 +1,7 @@
 ﻿using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Repository.Extensions;
 using Shared.DataTransferObjects.RequestParameters;
 
@@ -14,6 +15,9 @@ namespace Repository
         public IQueryable<Notification> GetNotifications(NotificationParameters param, bool track)
         {
             return FindAll(track)
+                .Include(x => x.NotificationsAccounts
+                .Where(y => y.AccountId
+                .Equals(param.UserId)))
                 .FilterNotification(param)
                 .Sort(param)
                 .Skip((param.PageNumber - 1) * param.PageSize)

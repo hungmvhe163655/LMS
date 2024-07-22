@@ -4,7 +4,6 @@ using Contracts.Interfaces;
 using Entities.ConfigurationModels;
 using Entities.Models;
 using LoggerServices;
-using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -166,17 +165,6 @@ namespace LMS_BACKEND_MAIN.Extentions
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
         public static void ConfigureResponseCaching(this IServiceCollection services) =>
             services.AddResponseCaching();
-        public static void ConfigureHttpCacheHeaders(this IServiceCollection services) =>
-            services.AddHttpCacheHeaders(
-                (expirationOpt) =>
-                {
-                    expirationOpt.MaxAge = 120;
-                    expirationOpt.CacheLocation = CacheLocation.Private;
-                },
-                    (validationOpt) =>
-                    {
-                        validationOpt.MustRevalidate = true;
-                    });
         public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
         {//nho chay app setup truoc khi release phai sua phan encryptionkey vaf iv nay
 

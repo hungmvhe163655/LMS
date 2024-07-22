@@ -46,7 +46,7 @@ builder.Services.AddJwtConfiguration(builder.Configuration);
 
 builder.Services.ConfigureResponseCaching();
 
-builder.Services.ConfigureHttpCacheHeaders();
+//builder.Services.ConfigureHttpCacheHeaders();
 
 builder.Services.AddControllers(
     config =>
@@ -101,7 +101,7 @@ else
 
 app.UseStaticFiles();
 
-app.UseHttpCacheHeaders();
+//app.UseHttpCacheHeaders();
 
 app.UseResponseCaching();
 

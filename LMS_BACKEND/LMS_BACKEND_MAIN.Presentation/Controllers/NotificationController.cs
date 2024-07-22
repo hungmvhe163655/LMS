@@ -24,19 +24,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = service;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] NotificationParameters param)
+        [HttpGet(RoutesAPI.GetById)]
+        public async Task<IActionResult> GetById(Guid id, string userid)
         {
-            var result = await _service.NotificationService.GetPagedNotifications(param);
+            await _service.NotificationService.MarkNotificationAsRead(userid, id);
 
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(result.MetaData));
-
-            return Ok(result);
-        }
-
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetById(Guid id)
-        {
             return Ok(await _service.NotificationService.GetNotification(id));
         }
 
@@ -48,11 +40,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return CreatedAtAction(nameof(GetById), new { id = hold.Id }, hold);
         }
 
+        /*
         [HttpPut(RoutesAPI.MarkNotificationAsRead)]
         public async Task<IActionResult> MarkNotificationAsRead(Guid id, string userid)
         {
             await _service.NotificationService.MarkNotificationAsRead(userid, id);
             return Ok(new ResponseMessage { Message = "Success" });
         }
+        */
     }
 }

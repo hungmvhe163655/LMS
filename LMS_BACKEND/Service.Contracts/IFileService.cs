@@ -13,7 +13,7 @@ namespace Service.Contracts
         Task EditFolder(FolderEditRequestModel model);
         Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID);
         Task<List<FolderBranchDisplayResponseModel>> GetRootWithProjectId(Guid projectId);
-        Task<Folder> CreateFolder(CreateFolderRequestModel model);
+        Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model);
         Task DeleteFolder(Guid folderID);
         Task AttachToTask(Guid taskId, Guid fileID);
         Task<string> UploadFile(Stream inputStream, string mime);

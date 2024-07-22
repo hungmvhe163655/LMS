@@ -30,6 +30,8 @@ namespace Repository
 
         private readonly Lazy<INewsFileRepository> _newsFileRepository;
 
+        private readonly Lazy<INotificationAccountRepository> _notificationAccountRepository;
+
         private readonly Lazy<ITaskHistoryRepository> _taskHistoryRepository;
         private readonly Lazy<ITaskListRepository> _taskListRepository;
         private readonly Lazy<IProjectRepository> _projectRepository;
@@ -74,8 +76,11 @@ namespace Repository
             _newsFileRepository = new Lazy<INewsFileRepository>(() => new NewsFileRespository(context));
 
             _deviceRepository = new Lazy<IDeviceRepository>(() => new DeviceRepository(context));
+
+            _notificationAccountRepository = new Lazy<INotificationAccountRepository>(() => new NotificationAccountRepository(context));
             //khoi tao newsRepo
         }
+        public INotificationAccountRepository NotificationAccount => _notificationAccountRepository.Value;
         public IAccountRepository Account => _accountRepository.Value;
         public INewsRepository News => _newsRepository.Value;
         public INotificationRepository Notification => _notificationsRepository.Value;
