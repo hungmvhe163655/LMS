@@ -37,7 +37,13 @@ namespace LMS_BACKEND_MAIN
                 ))
                 .ReverseMap();
             CreateMap<NewsFileRequestModel, NewsFile>().ReverseMap();
-            CreateMap<UpdateNewsRequestModel, News>().ReverseMap();
+            CreateMap<UpdateNewsRequestModel, News>()
+                .ForMember(dest => dest.NewsFiles, opt => opt.MapFrom(src =>
+                    src.FileKey != null
+                        ? src.FileKey.Select(fileKey => new NewsFile { FileKey = fileKey }).ToList()
+                        : new List<NewsFile>()
+                ))
+                .ReverseMap();
             CreateMap<NewsReponseModel, News>()
                 .ForPath(dest => dest.CreatedByNavigation.FullName, opt => opt.MapFrom(src => src.CreatedBy))
                 .ReverseMap();
