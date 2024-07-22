@@ -1,5 +1,6 @@
 ﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
@@ -22,6 +23,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public NotificationController(IServiceManager service)
         {
             _service = service;
+        }
+        [HttpGet]
+        public async Task<IActionResult> Get([FromQuery]NotificationParameters param)
+        {
+            var hold = await _service.NotificationService.GetPagedNotifications(param);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(hold.MetaData));
+
+            return Ok(hold);
         }
 
         [HttpGet(RoutesAPI.GetById)]

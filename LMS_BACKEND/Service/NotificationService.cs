@@ -63,7 +63,7 @@ namespace Service
 
             foreach(var item in hold) hold_noti.Add(item.Notification);
 
-            return new PagedList<NotificationResponseModel>(_mapper.Map<List<NotificationResponseModel>>(hold), hold.Count, param.PageNumber, param.PageSize);
+            return new PagedList<NotificationResponseModel>(_mapper.Map<List<NotificationResponseModel>>(hold_noti), hold_noti.Count, param.PageNumber, param.PageSize);
         }
 
         public async Task<IEnumerable<Notification>> GetAllNotifications(RequestParameters request)

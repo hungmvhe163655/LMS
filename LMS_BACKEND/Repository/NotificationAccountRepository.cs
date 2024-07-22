@@ -18,8 +18,11 @@ namespace Repository
         }
         public IQueryable<NotificationAccount> GetNotificationsForAccount(NotificationParameters param, bool track)
         {
-            return param.Read ? GetByCondition(x => x.AccountId.Equals(param.UserId), track).Include(y => y.Notification).OrderByDescending(y => y.Notification.CreatedDate).FilterNotificationAccount(param).Skip((param.PageNumber - 1) * param.PageSize).Take(param.PageSize)
+
+            var hold = param.Read ? GetByCondition(x => x.AccountId.Equals(param.UserId), track).Include(y => y.Notification).OrderByDescending(y => y.Notification.CreatedDate).FilterNotificationAccount(param).Skip((param.PageNumber - 1) * param.PageSize).Take(param.PageSize)
                               : GetByCondition(x => x.AccountId.Equals(param.UserId) && !x.IsRead, track).Include(y => y.Notification).OrderByDescending(y => y.Notification.CreatedDate).FilterNotificationAccount(param).Skip((param.PageNumber - 1) * param.PageSize).Take(param.PageSize);
+
+            return hold;
 
         }
     }
