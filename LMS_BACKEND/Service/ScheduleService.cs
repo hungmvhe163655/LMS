@@ -38,7 +38,7 @@ namespace Service
 
             return result;
         }
-        public async Task<Schedule> CreateScheduleForDevice(ScheduleCreateRequestModel model)
+        public async Task<ScheduleResponseModel> CreateScheduleForDevice(ScheduleCreateRequestModel model)
         {
             var hold = _mapper.Map<Schedule>(model);
 
@@ -50,7 +50,7 @@ namespace Service
 
                 await _repository.Save();
 
-                return hold;
+                return _mapper.Map<ScheduleResponseModel>(hold);
             }
             throw new BadRequestException("The inputted time period was invalid");
 

@@ -49,7 +49,7 @@ namespace Service
                 .FirstOrDefaultAsync()
                 ?? throw new BadRequestException("Invalid ID")
             );
-        public async Task<Report> CreateReport(CreateReportRequestModel model)
+        public async Task<ReportResponseModel> CreateReport(CreateReportRequestModel model)
         {
             var hold = _mapper.Map<Report>(model);
 
@@ -59,7 +59,7 @@ namespace Service
 
             await _repository.Save();
 
-            return hold;
+            return _mapper.Map<ReportResponseModel>(hold);
         }
         public async Task DeleteReport(Guid id)
         {

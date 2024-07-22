@@ -25,7 +25,7 @@ namespace Service
             _hubContext = hub;
         }
 
-        public async Task<Notification> CreateNotification(CreateNotificationRequestModel model)
+        public async Task<NotificationResponseModel> CreateNotification(CreateNotificationRequestModel model)
         {
             var hold = new Notification { Id = Guid.NewGuid(), Title = model.Title, Content = model.Content, NotificationType = MAPPARAM.GetNotificationTypeValue(model.Type), CreatedBy = model.CreateUserId, Url = "lmao.com" };//sua cho nay
             
@@ -52,7 +52,7 @@ namespace Service
 
             await _hubContext.Clients.Groups(model.Group).SendAsync("ReceiveNotification", hold);
 
-            return hold;
+            return _mapper.Map<NotificationResponseModel>(hold);
         }
 
         public async Task<PagedList<NotificationResponseModel>> GetPagedNotifications(NotificationParameters param)

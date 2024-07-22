@@ -247,7 +247,7 @@ namespace Service
 
             return new GetFolderContentResponseModel { Files = end, Folders = folders };
         }
-        public async Task<Folder> CreateFolder(CreateFolderRequestModel model)
+        public async Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model)
         {
             var hold_folder = new Folder { Id = Guid.NewGuid(), CreatedBy = model.CreatedBy, CreatedDate = DateTime.Now, LastModifiedDate = DateTime.Now, Name = model.Name };
 
@@ -279,7 +279,7 @@ namespace Service
 
             await _repositoryManager.Save();
 
-            return hold_folder;
+            return _mappers.Map<FolderResponseModel>(hold_folder);
         }
         public async Task DeleteFolder(Guid folderID)
         {
