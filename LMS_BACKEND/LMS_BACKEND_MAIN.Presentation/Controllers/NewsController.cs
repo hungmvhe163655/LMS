@@ -41,8 +41,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateNews(CreateNewsRequestModel model)
         {
-            await _service.NewsService.CreateNewsAsync(model);
-            return Created("CreateNews", model);
+            var result = await _service.NewsService.CreateNewsAsync(model);
+
+            return CreatedAtAction(nameof(GetNewsById), new { id = result.Id }, result);
         }
 
         [HttpPut]

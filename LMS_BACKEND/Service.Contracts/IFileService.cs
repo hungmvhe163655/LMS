@@ -1,18 +1,19 @@
-﻿using Shared.DataTransferObjects.RequestDTO;
+﻿using Entities.Models;
+using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
 
 namespace Service.Contracts
 {
     public interface IFileService
     {
-        Task CreateFile(FileUploadRequestModel model, Stream inputStream);
+        Task<FileResponseModel> CreateFile(FileUploadRequestModel model, Stream inputStream);
         Task<(byte[], FileResponseModel)> GetFile(Guid fileID);
         Task EditFile(FileEditRequestModel model);
         Task DeleteFile(Guid id);
         Task EditFolder(FolderEditRequestModel model);
         Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID);
         Task<List<FolderBranchDisplayResponseModel>> GetRootWithProjectId(Guid projectId);
-        Task<bool> CreateFolder(CreateFolderRequestModel model);
+        Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model);
         Task DeleteFolder(Guid folderID);
         Task AttachToTask(Guid taskId, Guid fileID);
         Task<string> UploadFile(Stream inputStream, string mime);

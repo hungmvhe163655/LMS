@@ -22,7 +22,7 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task CreatNewProject(CreateProjectRequestModel model)
+        public async Task<ProjectResponseModel> CreatNewProject(CreateProjectRequestModel model)
         {
             var hold = _mapper.Map<Project>(model);
 
@@ -52,6 +52,8 @@ namespace Service
             _repository.Project.Create(hold);
             await _repository.Folder.AddFolder(root);
             await _repository.Save();
+
+            return _mapper.Map<ProjectResponseModel>(hold);
         }
 
         public async Task<IEnumerable<Project>> GetAllProjects()
@@ -130,7 +132,7 @@ namespace Service
                     .GetByCondition(x => x.UserId.Equals(item.Id) && x.ProjectId.Equals(id) && x.ProjectId.Equals(item.ProjectID), false)
                     .FirstOrDefaultAsync() ?? throw new Exception("Error due to database logic");
 
-                if (item.Accepted) _repository.Member.Delete(hold);
+                if (!item.Accepted) _repository.Member.Delete(hold);
 
                 else hold.IsValidTeamMember = true;
             }

@@ -36,11 +36,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var result = await _serviceManager.FileService.CreateFolder(model);
 
-            if (!result)
+            if (result == null)
             {
                 return BadRequest(new ResponseMessage { Message = "Failed Create Folder" });
             }
-            return Ok(model);
+            return CreatedAtAction(nameof(GetFolder),new {id = result.Id}, result);
         }
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteFolder(Guid FolderID)

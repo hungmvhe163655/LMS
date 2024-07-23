@@ -64,23 +64,19 @@ namespace Service
         }
         public async Task<bool> SendOTP(string email, string keymode)
         {
-            try
+            if (email == null) throw new BadRequestException("Invalid Email");
+
+            var hold_user = await _userManager.FindByEmailAsync(email);
+
+            if (hold_user != null && hold_user.Email != null)
             {
-                if (email != null)
-                {
-                    var hold_user = await _userManager.FindByEmailAsync(email);
-                    if (hold_user != null && hold_user.Email != null)
-                    {
-                        var Token = GenerateOtp();
-                        _cache.Set(GetCacheKey(hold_user, keymode), Token, TimeSpan.FromMinutes(2));
-                        return await SendMailGmailSmtp(_Mail.Split("/")[0], hold_user.Email, "LMS - EMAIL VERIFY", "Your Verify Code: " + Token);
-                    }
-                }
+                var Token = GenerateOtp();
+
+                _cache.Set(GetCacheKey(hold_user, keymode), Token, TimeSpan.FromMinutes(2));
+
+                return await SendMailGmailSmtp(_Mail.Split("/")[0], hold_user.Email, "LMS - EMAIL VERIFY", "Your Verify Code: " + Token);
             }
-            catch
-            {
-                return false;
-            }
+
             return false;
         }
         public async Task<bool> VerifyOtp(string email, string token, string keymode)
@@ -89,22 +85,17 @@ namespace Service
             if (email == null || !IsValidEmail(email)) throw new BadRequestException("Email is not valid");
 
             if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
-            try
+
+            var hold_user = await _userManager.FindByEmailAsync(email);
+
+            if (hold_user == null) throw new BadRequestException("No user with such Email");
+
+            var cacheKey = GetCacheKey(hold_user, keymode);
+            if (_cache.TryGetValue(cacheKey, out string? storedToken))
             {
-                var hold_user = await _userManager.FindByEmailAsync(email);
-                if (hold_user != null)
-                {
-                    var cacheKey = GetCacheKey(hold_user, keymode);
-                    if (_cache.TryGetValue(cacheKey, out string? storedToken))
-                    {
-                        return !string.IsNullOrEmpty(storedToken) ? storedToken.Equals(token) : false;
-                    }
-                }
+                return !string.IsNullOrEmpty(storedToken) ? storedToken.Equals(token) : false;
             }
-            catch
-            {
-                return false;
-            }
+
             return false;
         }
         //lmao
@@ -114,40 +105,34 @@ namespace Service
             if (email == null || !IsValidEmail(email)) throw new BadRequestException("Email is not valid");
 
             if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
-            try
+
+            var hold_user = await _userManager.FindByEmailAsync(email);
+
+            if (hold_user != null && hold_user.TwoFactorEnabled)
             {
-                var hold_user = await _userManager.FindByEmailAsync(email);
-                if (hold_user != null && hold_user.TwoFactorEnabled)
+                var cacheKey = GetCacheKey(hold_user, "TwoFactorToken");
+
+                if (_cache.TryGetValue(cacheKey, out string? storedToken))
                 {
-                    var cacheKey = GetCacheKey(hold_user, "TwoFactorToken");
-                    if (_cache.TryGetValue(cacheKey, out string? storedToken))
-                    {
-                        return !string.IsNullOrEmpty(storedToken) ? storedToken.Equals(token) : false;
-                    }
+                    return !string.IsNullOrEmpty(storedToken) ? storedToken.Equals(token) : false;
                 }
-            }
-            catch
-            {
-                return false;
             }
             return false;
         }
         public async Task<bool> SendTwoFactorOtp(string email)
         {
-            try
+
+            var hold_user = await _userManager.FindByEmailAsync(email);
+
+            if (hold_user != null && hold_user.Email != null && hold_user.TwoFactorEnabled)
             {
-                var hold_user = await _userManager.FindByEmailAsync(email);
-                if (hold_user != null && hold_user.Email != null && hold_user.TwoFactorEnabled)
-                {
-                    var Token = await _userManager.GenerateTwoFactorTokenAsync(hold_user, "Email");
-                    _cache.Set(GetCacheKey(hold_user, "TwoFactorToken"), Token, TimeSpan.FromMinutes(2));
-                    return await SendMailGmailSmtp(_Mail.Split("/")[0], hold_user.Email, "LMS - LOGIN VERIFY", "Your login Verify Code: " + Token);
-                }
+                var Token = await _userManager.GenerateTwoFactorTokenAsync(hold_user, "Email");
+
+                _cache.Set(GetCacheKey(hold_user, "TwoFactorToken"), Token, TimeSpan.FromMinutes(2));
+
+                return await SendMailGmailSmtp(_Mail.Split("/")[0], hold_user.Email, "LMS - LOGIN VERIFY", "Your login Verify Code: " + Token);
             }
-            catch
-            {
-                return false;
-            }
+
             return false;
         }
         public async Task<bool> SendVerifyEmailOtp(string email)

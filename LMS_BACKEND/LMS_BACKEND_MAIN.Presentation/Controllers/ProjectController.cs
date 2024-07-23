@@ -35,12 +35,21 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(hold);
         }
 
+        [HttpGet("{id:guid}")]
+        [Authorize(Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> GetProject(Guid id)
+        {
+            var result = await _service.ProjectService.GetAllProjects();
+
+            return Ok(result.Where(x => x.Id.Equals(id)));
+        }
         [HttpPost]
         [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateProjejct(CreateProjectRequestModel model)
         {
-            await _service.ProjectService.CreatNewProject(model);
-            return Ok(new ResponseMessage { Message = "Create project successfully" });
+            var result = await _service.ProjectService.CreatNewProject(model);
+
+            return CreatedAtAction(nameof(GetProject), new { id = result.Id }, result);
         }
         [HttpGet(RoutesAPI.GetJoinRequest)]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
@@ -50,9 +59,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
         [HttpPost(RoutesAPI.ValidateJoinRequest)]
         [Authorize(Roles = Roles.SUPERVISOR)]
-        public async Task<IActionResult> ValidateJoinRequest(Guid id,[FromBody] IEnumerable<UpdateStudentJoinRequestModel> modellist)
+        public async Task<IActionResult> ValidateJoinRequest(Guid id, [FromBody] IEnumerable<UpdateStudentJoinRequestModel> modellist)
         {
-            await _service.ProjectService.ValidateJoinRequest(modellist,id);
+            await _service.ProjectService.ValidateJoinRequest(modellist, id);
             return Ok(new ResponseMessage { Message = "Update success" });
         }
 
@@ -67,7 +76,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpGet("user/{userid}")]
         public async Task<IActionResult> GetOngoingProject(string userId, [FromQuery] ProjectRequestParameters parameters)
         {
-            var pageResult= await _service.ProjectService.GetOnGoingProjects(userId, parameters, trackChange: false);
+            var pageResult = await _service.ProjectService.GetOnGoingProjects(userId, parameters, trackChange: false);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
             return Ok(pageResult.projects);

@@ -29,6 +29,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
         public const string ProfileAPI = "api/profile";
 
         public const string ReportAPI = "api/reports";
+
+        public const string RateLimitAPI = "api/rate-limit";
     }
     public static class AuthorizeScheme
     {
@@ -162,6 +164,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         #region NotificationAPIs
 
+        public const string GetById = "{id:guid}/user/{userid}";
 
         public const string MarkNotificationAsRead = "{id:guid}/read/user/{userid}";
 

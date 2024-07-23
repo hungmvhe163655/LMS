@@ -4,7 +4,6 @@ using Contracts.Interfaces;
 using Entities.ConfigurationModels;
 using Entities.Models;
 using LoggerServices;
-using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -16,6 +15,7 @@ using System.Net.Mail;
 using Amazon;
 using System.Security.Claims;
 using System.Text;
+using AspNetCoreRateLimit;
 
 namespace LMS_BACKEND_MAIN.Extentions
 {
@@ -23,8 +23,43 @@ namespace LMS_BACKEND_MAIN.Extentions
     {
         public string[]? Origins { get; set; }
     }
+    public class LimitRule
+    {
+        public string Endpoint { get; set; } = "*";
+        public double Limit { get; set; } = 3;
+        public string Period { get; set; } = "5m";
+    }
+    public class LimitConfig
+    {
+        public LimitRule[] LimitRule { get; set; } = null!;
+    }
     public static class ServiceExtentions
     {
+        public static void ConfigureRateLimitingOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            var RateConfig = new LimitConfig();
+
+            configuration.GetSection("RateConfig").Bind(RateConfig);
+
+            var rateLimitRules = new List<RateLimitRule>();
+
+            foreach (var item in RateConfig.LimitRule)
+            
+            rateLimitRules.Add(new RateLimitRule { Endpoint = item.Endpoint, Limit = item.Limit, Period = item.Period });
+            
+            services.Configure<IpRateLimitOptions>(opt =>
+            {
+                opt.GeneralRules = rateLimitRules;
+            });
+
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+            services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+        }
         public static void ConfigureVersioning(this IServiceCollection services)
         {
             services.AddApiVersioning(opt =>
@@ -130,17 +165,6 @@ namespace LMS_BACKEND_MAIN.Extentions
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
         public static void ConfigureResponseCaching(this IServiceCollection services) =>
             services.AddResponseCaching();
-        public static void ConfigureHttpCacheHeaders(this IServiceCollection services) =>
-            services.AddHttpCacheHeaders(
-                (expirationOpt) =>
-                {
-                    expirationOpt.MaxAge = 120;
-                    expirationOpt.CacheLocation = CacheLocation.Private;
-                },
-                    (validationOpt) =>
-                    {
-                        validationOpt.MustRevalidate = true;
-                    });
         public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
         {//nho chay app setup truoc khi release phai sua phan encryptionkey vaf iv nay
 

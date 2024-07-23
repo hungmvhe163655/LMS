@@ -8,7 +8,6 @@ namespace Shared.DataTransferObjects.RequestDTO
 {
     public class CreateReportRequestModel
     {
-        public Guid Id { get; set; }
         public Guid ScheduleId { get; set; }
         public int DeviceStatusId { get; set; }
         public string? Description { get; set; }

@@ -9,7 +9,7 @@ namespace Service.Contracts
     {
         Task<IEnumerable<Notification>> GetAllNotifications(RequestParameters model);
         Task<NotificationResponseModel?> GetNotification(Guid id);
-        Task<Notification> CreateNotification(CreateNotificationRequestModel model);
+        Task<NotificationResponseModel> CreateNotification(CreateNotificationRequestModel model);
         Task MarkNotificationAsRead(string userId, Guid notificationId);
         Task<PagedList<NotificationResponseModel>> GetPagedNotifications(NotificationParameters param);
     }

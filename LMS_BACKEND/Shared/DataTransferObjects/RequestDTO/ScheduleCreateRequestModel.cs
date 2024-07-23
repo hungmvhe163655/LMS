@@ -2,7 +2,6 @@
 {
     public class ScheduleCreateRequestModel
     {
-        public Guid Id { get; set; }
         public Guid DeviceId { get; set; }
         public string AccountId { get; set; } = null!;
         public DateTime ScheduledDate { get; set; }
