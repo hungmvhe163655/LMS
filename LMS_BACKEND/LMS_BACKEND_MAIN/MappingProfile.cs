@@ -98,7 +98,10 @@ namespace LMS_BACKEND_MAIN
                 .ForMember(dest => dest.CreatedBy, otp => otp.Ignore())
                 .ReverseMap();
             CreateMap<UpdateProjectRequestModel, Project>().ReverseMap();
-            CreateMap<Project, ProjectResponseModel>().ReverseMap();
+            CreateMap<Project, ProjectResponseModel>()
+                .ForMember(dest => dest.TaskUndone, op => op.Ignore())
+                .ForMember(dest => dest.ListTaskUndone, op => op.Ignore())
+                .ReverseMap();
             CreateMap<Account, MinorAccountReturnModel>();
             CreateMap<Tasks, TaskResponseModel>().ReverseMap();
             CreateMap<TaskList, TaskListResponseModel>()
@@ -138,6 +141,7 @@ namespace LMS_BACKEND_MAIN
                         ? src.FileKey.Select(fileKey => new NewsFile { FileKey = fileKey }).ToList()
                         : new List<NewsFile>()
                 )).ReverseMap();
+            CreateMap<Folder,FolderResponseModel>().ReverseMap();
         }
     }
 }

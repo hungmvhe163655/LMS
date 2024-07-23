@@ -40,9 +40,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             if (!(await CheckUser()).Equals(model.CreatedBy)) throw new UnauthorizedException("You don't have access to this fuction");
 
-            await _service.TaskService.CreateTask(model);
+            var hold = await _service.TaskService.CreateTask(model);
 
-            return Ok(new ResponseMessage { Message = "Create Task success" });
+            return CreatedAtAction(nameof(GetTaskById), new { id = hold.Id }, hold);
         }
 
         [HttpPut(RoutesAPI.AttachFileToTask)]

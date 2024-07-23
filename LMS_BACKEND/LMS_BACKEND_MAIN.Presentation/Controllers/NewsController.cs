@@ -41,15 +41,16 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateNews(CreateNewsRequestModel model)
         {
-            await _service.NewsService.CreateNewsAsync(model);
-            return Created("CreateNews", model);
+            var result = await _service.NewsService.CreateNewsAsync(model);
+
+            return CreatedAtAction(nameof(GetNewsById), new { id = result.Id }, result);
         }
 
-        [HttpPut]
+        [HttpPut("{id:guid}")]
         [Authorize(Roles = Roles.SUPERVISOR)]
-        public async Task<IActionResult> Update(UpdateNewsRequestModel model)
+        public async Task<IActionResult> Update(Guid id, UpdateNewsRequestModel model)
         {
-            await _service.NewsService.UpdateNews(model);
+            await _service.NewsService.UpdateNews(id, model);
             return Ok(new ResponseMessage { Message = "Update successfully" });
         }
 

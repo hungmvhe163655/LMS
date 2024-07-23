@@ -10,6 +10,6 @@ namespace Service.Contracts
 {
     public interface IDeviceService
     {
-        Task<(IEnumerable<DeviceReturnModel> data, MetaData meta)> getDevice(DeviceRequestParameters param);
+        Task<(IEnumerable<DeviceReturnModel> data, MetaData meta)> GetDevice(DeviceRequestParameters param);
     }
 }

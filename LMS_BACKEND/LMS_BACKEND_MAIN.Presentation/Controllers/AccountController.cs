@@ -20,29 +20,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = service;
         }
-        /*
-        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
-        [HttpPost(RoutesAPI.CreateAdmin)]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreateAdmin([FromBody] RegisterRequestModel model)
-        {
-            var result = await _service.AuthenticationService.RegisterLabLead(model);
 
-            return StatusCode(201, result);
-        }
-        */
-        /*
-        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
-        [HttpGet(RoutesAPI.GetAccountNeedVerify)]
-        public async Task<IActionResult> GetAccountNeedVerify([FromQuery] NeedVerifyParameters param)
-        {
-            var user = await _service.AccountService.GetVerifierAccounts(param);
-
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(user.meta));
-
-            return Ok(user.data);
-        }
-        */
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
         [HttpGet(RoutesAPI.GetAccountNeedVerify)]
         public async Task<IActionResult> GetSupervisorNeedVerify([FromQuery] NeedVerifyParameters param)

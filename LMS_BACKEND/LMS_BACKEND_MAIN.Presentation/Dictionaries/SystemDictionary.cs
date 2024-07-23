@@ -29,6 +29,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
         public const string ProfileAPI = "api/profile";
 
         public const string ReportAPI = "api/reports";
+
+        public const string RateLimitAPI = "api/rate-limit";
     }
     public static class AuthorizeScheme
     {
@@ -114,8 +116,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         #region ProfileAPIs
 
-        public const string GetProjectWithMember = "{userId}/projects";
-
         public const string ChangePassword = "change-password/{id}";
 
         public const string ChangePasswordOtp = "change-password-otp/{id}";
@@ -152,6 +152,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         public const string ValidateJoinRequest = "{id:guid}/join-request/validate";
 
+        public const string GetProjects = "user/{userid}";
+
+        public const string GetOngoingProjects = "user/{userid}/on-going";
+
         #endregion
 
         #region ReportsAPIs
@@ -162,6 +166,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         #region NotificationAPIs
 
+        public const string GetById = "{id:guid}/user/{userid}";
 
         public const string MarkNotificationAsRead = "{id:guid}/read/user/{userid}";
 

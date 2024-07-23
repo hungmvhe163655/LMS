@@ -9,10 +9,10 @@ namespace Shared.DataTransferObjects.RequestParameters
     public class ProjectRequestParameters : RequestParameters
     {
         public ProjectRequestParameters() => OrderBy = "CreatedDate";
-        public DateTime minCreatedDate { get; set; }
-        public DateTime maxCreatedDate { get; set; } = DateTime.MaxValue;
+        public DateTime MinCreatedDate { get; set; }
+        public DateTime MaxCreatedDate { get; set; } = DateTime.MaxValue;
 
-        public bool ValidCreatedDateRange => DateTime.Compare(minCreatedDate, maxCreatedDate) < 0;
+        public bool ValidCreatedDateRange => DateTime.Compare(MinCreatedDate, MaxCreatedDate) < 0;
         public string? SearchTerm { get; set; }
         public string? ProjectStatusFilter { get; set; }
         public int ProjectTypeId { get; set; }

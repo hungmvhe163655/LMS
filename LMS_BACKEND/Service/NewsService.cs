@@ -22,7 +22,7 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task CreateNewsAsync(CreateNewsRequestModel model)
+        public async Task<NewsReponseModel> CreateNewsAsync(CreateNewsRequestModel model)
         {
             var hold_user = await _repository.Account.GetByCondition(entity => entity.Id.Equals(model.CreatedBy), true).FirstOrDefaultAsync()
                 ?? throw new BadRequestException($"Can't find user with id {model.CreatedBy}");
@@ -36,35 +36,32 @@ namespace Service
                 CreatedDate = DateTime.Now,
             };
 
-            await _repository.News.CreateAsync(hold);
-
-            if(model.FileKey != null)
+            if (model.FileKey?.Any() == true)
             {
-                var listFile = new List<NewsFileRequestModel>();
-                foreach (var file in model.FileKey) 
+                var newsFiles = model.FileKey.Select(fileKey => new NewsFileRequestModel
                 {
-                    var hold_file = new NewsFileRequestModel
-                    {
-                        Id = Guid.NewGuid(),
-                        NewsID = hold.Id,
-                        FileKey = file,
-                    };
-                    listFile.Add(hold_file);
-                }
-                var hold_newsFile = _mapper.Map<IEnumerable<NewsFile>>(listFile);
+                    Id = Guid.NewGuid(),
+                    NewsID = hold.Id,
+                    FileKey = fileKey
+                });
 
-                await _repository.NewsFile.AddRange(hold_newsFile);
+                var mappedNewsFiles = _mapper.Map<IEnumerable<NewsFile>>(newsFiles);
+                await _repository.NewsFile.AddRange(mappedNewsFiles);
             }
+            await _repository.News.CreateAsync(hold);
             await _repository.Save();
+            return _mapper.Map<NewsReponseModel>(hold);
         }
 
         public async Task DeleteNews(Guid id)
         {
-            var newses = _repository.News.GetByCondition(entity => entity.Id.Equals(id), false);
-            var news = newses.First();
-            if (news == null)
-                throw new BadRequestException("News wth id: " + id + "doesn't exist");
-            _repository.News.Delete(news);
+            var hold = await _repository.News.GetNews(id, false) ?? throw new BadRequestException("News wth id: " + id + "doesn't exist");
+            var hold_newsFile = await _repository.NewsFile.GetByConditionAsync(n => n.NewsID.Equals(id), false);
+            if(hold_newsFile.Any())
+            {
+                _repository.NewsFile.DeleteRange(hold_newsFile);
+            }
+            _repository.News.Delete(hold);
             await _repository.Save();
         }
 
@@ -81,26 +78,27 @@ namespace Service
             return _mapper.Map<NewsReponseModel>(news);
         }
 
-        public async Task UpdateNews(UpdateNewsRequestModel model)
+        public async Task UpdateNews(Guid id, UpdateNewsRequestModel model)
         {
-            var hold = await _repository.News.GetNews(model.Id, true) ?? throw new BadRequestException("News with id: " + model.Id + " is not exist");
+            var hold = await _repository.News.GetNews(id, true) ?? throw new BadRequestException("News with id: " + id + " is not exist");
             _mapper.Map(model, hold);
-            if (model.FileKey != null)
+            if (model.FileKey?.Any() == true)
             {
-                var listFile = new List<NewsFileRequestModel>();
-                foreach (var file in model.FileKey)
+                var existingFiles = await _repository.NewsFile.GetByCondition(f => f.NewsID.Equals(hold.Id), false).ToListAsync();
+                if (existingFiles.Any())
                 {
-                    var hold_file = new NewsFileRequestModel
-                    {
-                        Id = Guid.NewGuid(),
-                        NewsID = hold.Id,
-                        FileKey = file,
-                    };
-                    listFile.Add(hold_file);
+                    _repository.NewsFile.DeleteRange(existingFiles);
                 }
-                var hold_newsFile = _mapper.Map<IEnumerable<NewsFile>>(listFile);
 
-                await _repository.NewsFile.AddRange(hold_newsFile);
+                var newsFiles = model.FileKey.Select(fileKey => new NewsFileRequestModel
+                {
+                    Id = Guid.NewGuid(),
+                    NewsID = hold.Id,
+                    FileKey = fileKey
+                });
+
+                var mappedNewsFiles = _mapper.Map<IEnumerable<NewsFile>>(newsFiles);
+                await _repository.NewsFile.AddRange(mappedNewsFiles);
             }
             await _repository.Save();
         }
