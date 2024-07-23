@@ -100,6 +100,7 @@ namespace LMS_BACKEND_MAIN
             CreateMap<UpdateProjectRequestModel, Project>().ReverseMap();
             CreateMap<Project, ProjectResponseModel>()
                 .ForMember(dest => dest.TaskUndone, op => op.Ignore())
+                .ForMember(dest => dest.ListTaskUndone, op => op.Ignore())
                 .ReverseMap();
             CreateMap<Account, MinorAccountReturnModel>();
             CreateMap<Tasks, TaskResponseModel>().ReverseMap();

@@ -78,9 +78,9 @@ namespace Service
             return _mapper.Map<NewsReponseModel>(news);
         }
 
-        public async Task UpdateNews(UpdateNewsRequestModel model)
+        public async Task UpdateNews(Guid id, UpdateNewsRequestModel model)
         {
-            var hold = await _repository.News.GetNews(model.Id, true) ?? throw new BadRequestException("News with id: " + model.Id + " is not exist");
+            var hold = await _repository.News.GetNews(id, true) ?? throw new BadRequestException("News with id: " + id + " is not exist");
             _mapper.Map(model, hold);
             if (model.FileKey?.Any() == true)
             {

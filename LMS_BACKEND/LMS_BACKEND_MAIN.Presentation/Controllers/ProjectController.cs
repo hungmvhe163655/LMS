@@ -39,9 +39,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> GetProject(Guid id)
         {
-            var result = await _service.ProjectService.GetAllProjects();
-
-            return Ok(result.Where(x => x.Id.Equals(id)));
+            var result = await _service.ProjectService.GetProjectById(id);
+            return Ok(result);
         }
         [HttpPost]
         [Authorize(Roles = Roles.SUPERVISOR)]

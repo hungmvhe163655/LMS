@@ -62,11 +62,6 @@ namespace Service
 
             var projectsDto = _mapper.Map<IEnumerable<ProjectResponseModel>>(projectFromDb);
 
-            foreach (var project in projectsDto)
-            {
-                project.TaskUndone = _repository.Task.CountAllTaskUndone(project.Id).Result;
-            }
-
             return (projects: projectsDto, metaData: projectFromDb.MetaData);
         }
 
@@ -74,12 +69,26 @@ namespace Service
         {
             var projectFromDb = await _repository.Project.GetOngoingProjectAsync(userId, projetParameter, trackChange) ?? throw new BadRequestException("No projects found for the specified user.");
 
-            var projectsDto = _mapper.Map<IEnumerable<ProjectResponseModel>>(projectFromDb);
+            var totalTaskUndone = 0;
 
-            foreach (var project in projectsDto) 
+            var projectsDto = projectFromDb.Select(p =>
             {
-                project.TaskUndone = _repository.Task.CountTaskUndone(userId, project.Id).Result;
-            }
+                var undoneTasks = p.TaskLists
+                    .SelectMany(tl => tl.Tasks)
+                    .Where(t => t.TaskStatus != TASK_STATUS.CLOSE)
+                    .ToList();
+
+                var taskUndoneCount = p.TaskLists.Sum(tl => tl.Tasks.Count(t => t.TaskStatus != TASK_STATUS.CLOSE));
+                totalTaskUndone += taskUndoneCount;
+
+                var taskUndoneListDto= _mapper.Map<IEnumerable<TasksViewResponseModel>>(undoneTasks);
+
+                var projectDto = _mapper.Map<ProjectResponseModel>(p);
+                projectDto.TaskUndone = taskUndoneCount;
+                projectDto.ListTaskUndone = taskUndoneListDto;
+
+                return projectDto;
+            }).ToList();
 
             return (projects: projectsDto, metaData: projectFromDb.MetaData);
         }
@@ -88,14 +97,34 @@ namespace Service
         {
             var projectFromDb = await _repository.Project.GetProjectAsync(userId, projetParameter, trackChange) ?? throw new BadRequestException("No projects found for the specified user.");
 
-            var projectsDto = _mapper.Map<IEnumerable<ProjectResponseModel>>(projectFromDb);
+            var totalTaskUndone = 0;
 
-            foreach (var project in projectsDto)
+            var projectsDto = projectFromDb.Select(p =>
             {
-                project.TaskUndone = _repository.Task.CountTaskUndone(userId, project.Id).Result;
-            }
+                var undoneTasks = p.TaskLists
+                    .SelectMany(tl => tl.Tasks)
+                    .Where(t => t.TaskStatus != TASK_STATUS.CLOSE)
+                    .ToList();
+
+                var taskUndoneCount = p.TaskLists.Sum(tl => tl.Tasks.Count(t => t.TaskStatus != TASK_STATUS.CLOSE));
+                totalTaskUndone += taskUndoneCount;
+
+                var taskUndoneListDto = _mapper.Map<IEnumerable<TasksViewResponseModel>>(undoneTasks);
+
+                var projectDto = _mapper.Map<ProjectResponseModel>(p);
+                projectDto.TaskUndone = taskUndoneCount;
+                projectDto.ListTaskUndone = taskUndoneListDto;
+
+                return projectDto;
+            }).ToList();
 
             return (projects: projectsDto, metaData: projectFromDb.MetaData);
+        }
+
+        public async Task<ProjectResponseModel> GetProjectById(Guid id)
+        {
+            var hold = await _repository.Project.GetByCondition(p => p.Id.Equals(id), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can't find project with id {id}");
+            return (_mapper.Map<ProjectResponseModel>(hold));
         }
 
         public async Task UpdateProject(Guid projectId, UpdateProjectRequestModel model)

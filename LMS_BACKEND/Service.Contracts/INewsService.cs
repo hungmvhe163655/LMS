@@ -10,7 +10,7 @@ namespace Service.Contracts
         Task<(IEnumerable<NewsReponseModel> news, MetaData metaData)> GetNewsAsync(NewsRequestParameters newsParameter, bool trackChanges);
         Task<NewsReponseModel> GetNewsById(Guid id);
         Task<NewsReponseModel> CreateNewsAsync(CreateNewsRequestModel model);
-        Task UpdateNews(UpdateNewsRequestModel model);
+        Task UpdateNews(Guid id, UpdateNewsRequestModel model);
         Task DeleteNews(Guid id);
     }
 }

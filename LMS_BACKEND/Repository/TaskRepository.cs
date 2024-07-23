@@ -37,19 +37,5 @@ namespace Repository
 
             return new PagedList<Tasks>(tasks, count, parameters.PageNumber, parameters.PageSize);
         }
-
-        public async Task<int> CountTaskUndone(string userId, Guid projectId)
-        {
-            var count = await GetByCondition(t => (t.AssignedTo != null && t.AssignedTo.Equals(userId)) && t.ProjectId.Equals(projectId) && (t.TaskStatus.Equals(TASK_STATUS.OPEN_TODO) || t.TaskStatus.Equals(TASK_STATUS.DOING)), false)
-                .CountAsync();
-            return count;
-        }
-
-        public async Task<int> CountAllTaskUndone(Guid projectId)
-        {
-            var count = await GetByCondition(t => t.ProjectId.Equals(projectId) && (t.TaskStatus.Equals(TASK_STATUS.OPEN_TODO) || t.TaskStatus.Equals(TASK_STATUS.DOING)), false)
-                .CountAsync();
-            return count;
-        }
     }
 }
