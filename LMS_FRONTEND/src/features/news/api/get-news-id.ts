@@ -10,7 +10,7 @@ export const getNewsId = async (id: string): Promise<News> => {
   return response.data;
 };
 
-export const getNewsQueryOptions = (id: string) => {
+export const getNewsIdQueryOptions = (id: string) => {
   return queryOptions({
     queryKey: ['newsById', id],
     queryFn: () => getNewsId(id)
@@ -19,12 +19,12 @@ export const getNewsQueryOptions = (id: string) => {
 
 type UseNewsByIdOptions = {
   id: string;
-  queryConfig?: QueryConfig<typeof getNewsQueryOptions>;
+  queryConfig?: QueryConfig<typeof getNewsIdQueryOptions>;
 };
 
 export const useNewsById = ({ id, queryConfig }: UseNewsByIdOptions) => {
   return useQuery({
-    ...getNewsQueryOptions(id),
+    ...getNewsIdQueryOptions(id),
     ...queryConfig
   });
 };

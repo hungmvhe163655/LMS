@@ -106,7 +106,7 @@ export function UpdateNewsForm({ id }: { id: string }) {
             <FormItem className='flex flex-col'>
               <FormLabel className='text-xl'>Content</FormLabel>
               <FormControl>
-                <RichText {...field} limit={limit} />
+                <RichText onChange={field.onChange} value={field.value} limit={limit} />
               </FormControl>
               <FormMessage />
             </FormItem>
