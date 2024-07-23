@@ -20,8 +20,10 @@ namespace Repository.Extensions
             return news.Where(n => n.Title.ToLower().Contains(lowerCaseTerm));
         }
 
-        public static IQueryable<News> Sort(this IQueryable<News> news, string orderByQueryString)
+        public static IQueryable<News> Sort(this IQueryable<News> news, string? orderByQueryString)
         {
+            if(string.IsNullOrEmpty(orderByQueryString)) return news.OrderBy(n => n.CreatedDate);
+
             var orderQuery = OrderQueryBuilder.CreateOrderQuery<News>(orderByQueryString);
 
             if (string.IsNullOrWhiteSpace(orderByQueryString) || string.IsNullOrWhiteSpace(orderQuery))

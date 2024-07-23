@@ -26,9 +26,27 @@ namespace LMS_BACKEND_MAIN
                   .ForMember(dest => dest.VerifiedBy, opt => opt.MapFrom(src => src.VerifiedByUserID))
                   .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
                   .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
-            CreateMap<CreateNewsRequestModel, News>().ReverseMap();
-            CreateMap<UpdateNewsRequestModel, News>().ReverseMap();
-            CreateMap<NewsReponseModel, News>().ReverseMap();
+            CreateMap<CreateNewsRequestModel, News>()
+                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.CreatedBy))
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
+                .ForMember(dest => dest.NewsFiles, opt => opt.MapFrom(src =>
+                    src.FileKey != null
+                        ? src.FileKey.Select(fileKey => new NewsFile { FileKey = fileKey }).ToList()
+                        : new List<NewsFile>()
+                ))
+                .ReverseMap();
+            CreateMap<NewsFileRequestModel, NewsFile>().ReverseMap();
+            CreateMap<UpdateNewsRequestModel, News>()
+                .ForMember(dest => dest.NewsFiles, opt => opt.MapFrom(src =>
+                    src.FileKey != null
+                        ? src.FileKey.Select(fileKey => new NewsFile { FileKey = fileKey }).ToList()
+                        : new List<NewsFile>()
+                ))
+                .ReverseMap();
+            CreateMap<NewsReponseModel, News>()
+                .ForPath(dest => dest.CreatedByNavigation.FullName, opt => opt.MapFrom(src => src.CreatedBy))
+                .ReverseMap();
             CreateMap<AccountVerifyUpdateDTO, Account>().ReverseMap();
             CreateMap<Files, FileUploadRequestModel>().ReverseMap();
             CreateMap<Files, FileResponseModel>()
@@ -108,6 +126,18 @@ namespace LMS_BACKEND_MAIN
             CreateMap<Account, AccountRequestJoinResponseModel>();
             CreateMap<Report, ReportResponseModel>()
                 .ForMember(x => x.Schedules, opt => opt.MapFrom(src => src.Schedules));
+            CreateMap<Notification, NotificationResponseModel>();
+            CreateMap<Account, AccountManagementResponseModel>()
+                .ForMember(x => x.Role, opt => opt.Ignore())
+                .ForMember(x => x.Status, opt => opt.MapFrom(src => src.IsBanned ? "Banned" : src.IsVerified ? "Active" : "Unverified"))
+                .ForMember(x => x.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Gender, op => op.MapFrom(src => src.Gender ? "Male" : "Female"));
+            CreateMap<CreateNewsRequestModel, News>()
+                .ForMember(dest => dest.NewsFiles, opt => opt.MapFrom(src =>
+                    src.FileKey != null
+                        ? src.FileKey.Select(fileKey => new NewsFile { FileKey = fileKey }).ToList()
+                        : new List<NewsFile>()
+                )).ReverseMap();
         }
     }
 }

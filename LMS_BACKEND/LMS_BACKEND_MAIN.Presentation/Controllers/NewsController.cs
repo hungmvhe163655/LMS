@@ -39,10 +39,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpPost]
         [Authorize(Roles = Roles.SUPERVISOR)]
-        public IActionResult CreateNews(CreateNewsRequestModel model)
+        public async Task<IActionResult> CreateNews(CreateNewsRequestModel model)
         {
-            var data = _service.NewsService.CreateNewsAsync(model);
-            return Ok(data);
+            await _service.NewsService.CreateNewsAsync(model);
+            return Created("CreateNews", model);
         }
 
         [HttpPut]
@@ -59,7 +59,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await _service.NewsService.DeleteNews(id);
-            return Ok(new ResponseMessage { Message = "Delete successfully" });
+            return NoContent();
         }
 
     }

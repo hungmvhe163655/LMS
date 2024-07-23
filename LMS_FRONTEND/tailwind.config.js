@@ -79,5 +79,6 @@ export const theme = {
 };
 export const plugins = [
   import('tailwindcss-animate'),
-  require('tailwind-scrollbar')({ nocompatible: true, preferredStrategy: 'pseudoelements' })
+  require('tailwind-scrollbar')({ nocompatible: true, preferredStrategy: 'pseudoelements' }),
+  require('@tailwindcss/typography')
 ];

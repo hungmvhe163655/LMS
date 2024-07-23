@@ -12,15 +12,18 @@ namespace Repository
         {
         }
 
-        public News GetNews(Guid id, bool trackChanges)
+        public async Task<News> GetNews(Guid id, bool trackChanges)
         {
-            return FindAll(trackChanges).Where(n => n.Id.Equals(id)).First();
+            return await FindAll(trackChanges).Where(n => n.Id.Equals(id)).Include(x => x.CreatedByNavigation).FirstAsync();
         }
 
         public async Task<PagedList<News>> GetNewsAsync(NewsRequestParameters parameters, bool trackChanges)
         {
-            var news = await FindAll(trackChanges).FilterNews(parameters.minCreatedDate, parameters.maxCreatedDate).Search(parameters)
+            var news = await FindAll(trackChanges)
+                .Include(n => n.NewsFiles)
+                .Include(n => n.CreatedByNavigation)
                 .FilterNews(parameters.minCreatedDate, parameters.maxCreatedDate)
+                .Search(parameters)
                 .Sort(parameters.OrderBy)
                 .Skip((parameters.PageNumber - 1) * parameters.PageSize)
                 .Take(parameters.PageSize)

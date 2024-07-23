@@ -119,7 +119,7 @@ namespace Service
 
                 if (hold != null)
                 {
-                    _repositoryManager.studentDetail.Create(hold);
+                    _repositoryManager.StudentDetail.Create(hold);
 
                     await _repositoryManager.Save();
                 }
@@ -418,13 +418,14 @@ namespace Service
                 var user = await _userManager.FindByNameAsync(principal.Identity.Name);
 
                 if (user == null || user.UserRefreshToken != tokenDto.RefreshToken || user.UserRefreshTokenExpiryTime <= DateTime.Now)
-                    return new TokenDTO("Not Found", "Not Found");
+
+                    throw new BadRequestException("Refresh Token was expired");
 
                 _account = user;
 
                 return await CreateToken(false);
             }
-            return new TokenDTO("Not Found", "Not Found");
+            throw new BadRequestException("Invalid AccessToken");
         }
         public async Task<bool> InvalidateToken(TokenDTO tokenDTO)//logout logic
         {

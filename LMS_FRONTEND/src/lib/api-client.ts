@@ -20,6 +20,9 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    config.headers['Cache-Control'] = 'no-cache';
+    config.headers['Pragma'] = 'no-cache';
+    config.headers['Expires'] = '0';
   }
 
   config.withCredentials = true;
@@ -79,23 +82,26 @@ api.interceptors.response.use(
         refreshToken: getRefreshToken()
       };
 
-      const response = await axios.post(`${env.API_URL}/token/refresh-token`, token);
-      const { accessToken, refreshToken } = response.data;
+      try {
+        const response = await axios.post(`${env.API_URL}/token/refresh-token`, token);
+        const { accessToken, refreshToken } = response.data;
 
-      // Nếu token được làm mới lại thì gửi lại Request
-      if (refreshToken) {
-        setAccessToken(accessToken);
-        setRefreshToken(refreshToken);
+        // Nếu token được làm mới lại thì gửi lại Request
+        if (refreshToken) {
+          setAccessToken(accessToken);
+          setRefreshToken(refreshToken);
 
-        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-        return api(originalRequest);
+          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+          return api(originalRequest);
+        }
+        return Promise.reject(error);
+      } catch (error) {
+        const { clearAccessData } = authStore.getState();
+        clearAccessData();
+        clearTokens();
+        window.location.href = '/auth/login';
+        return Promise.reject(error);
       }
-
-      const { clearAccessData } = authStore.getState();
-      clearAccessData();
-      clearTokens();
-
-      return Promise.reject(error);
     }
 
     toast({

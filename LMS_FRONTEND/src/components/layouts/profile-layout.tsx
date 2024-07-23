@@ -11,7 +11,7 @@ export function Layout({ children }: LayoutProps) {
   return (
     <ProtectedRoute>
       <BaseLayout>
-        <main className='flex h-dvh bg-gray-50'>
+        <main className='flex flex-1 bg-gray-50'>
           <ProfileSidebar />
           <div className='mt-8 w-full'>{children}</div>
         </main>

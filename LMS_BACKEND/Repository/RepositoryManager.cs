@@ -1,4 +1,4 @@
-﻿using Contracts.Interfaces;
+using Contracts.Interfaces;
 
 namespace Repository
 {
@@ -25,6 +25,10 @@ namespace Repository
         private readonly Lazy<ITaskRepository> _taskRepository;
 
         private readonly Lazy<IReportRepository> _reportRepository;
+
+        private readonly Lazy<IDeviceRepository> _deviceRepository;
+
+        private readonly Lazy<INewsFileRepository> _newsFileRepository;
 
         private readonly Lazy<ITaskHistoryRepository> _taskHistoryRepository;
         private readonly Lazy<ITaskListRepository> _taskListRepository;
@@ -66,26 +70,33 @@ namespace Repository
             _projectTypeRepository = new Lazy<IProjectTypeRepository>(() => new ProjectTypeRepository(context));
 
             _reportRepository = new Lazy<IReportRepository>(() => new ReportRepository(context));
+
+            _newsFileRepository = new Lazy<INewsFileRepository>(() => new NewsFileRespository(context));
+
+            _deviceRepository = new Lazy<IDeviceRepository>(() => new DeviceRepository(context));
             //khoi tao newsRepo
         }
-        public IAccountRepository account => _accountRepository.Value;
-        public INewsRepository news => _newsRepository.Value;
-        public INotificationRepository notification => _notificationsRepository.Value;
-        public IStudentDetailRepository studentDetail => _studentDetailRepository.Value;
-        public IFileRepository file => _fileRepository.Value;
-        public IFolderClosureRepository folderClosure => _folderClosureRepository.Value;
-        public IFolderRepository folder => _folderRepository.Value;
-        public IScheduleRepository schedule => _scheduleRepository.Value;
-        public ITaskRepository task => _taskRepository.Value;
-        public ITaskHistoryRepository taskHistory => _taskHistoryRepository.Value;
-        public IReportRepository report => _reportRepository.Value;
-        public ITaskListRepository taskList => _taskListRepository.Value;
+        public IAccountRepository Account => _accountRepository.Value;
+        public INewsRepository News => _newsRepository.Value;
+        public INotificationRepository Notification => _notificationsRepository.Value;
+        public IStudentDetailRepository StudentDetail => _studentDetailRepository.Value;
+        public IFileRepository File => _fileRepository.Value;
+        public IFolderClosureRepository FolderClosure => _folderClosureRepository.Value;
+        public IFolderRepository Folder => _folderRepository.Value;
+        public IScheduleRepository Schedule => _scheduleRepository.Value;
+        public ITaskRepository Task => _taskRepository.Value;
+        public ITaskHistoryRepository TaskHistory => _taskHistoryRepository.Value;
+        public IReportRepository Report => _reportRepository.Value;
+        public ITaskListRepository TaskList => _taskListRepository.Value;
+        public INewsFileRepository NewsFile => _newsFileRepository.Value;
 
-        public IProjectRepository project => _projectRepository.Value;
+        public IProjectRepository Project => _projectRepository.Value;
 
-        public IMemberRepository member => _memberRepository.Value;
+        public IMemberRepository Member => _memberRepository.Value;
 
-        public IProjectTypeRepository projectType => _projectTypeRepository.Value;
+        public IProjectTypeRepository ProjectType => _projectTypeRepository.Value;
+
+        public IDeviceRepository Device => _deviceRepository.Value;
 
         public async Task Save() => await _context.SaveChangesAsync();
     }

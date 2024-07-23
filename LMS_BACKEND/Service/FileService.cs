@@ -27,15 +27,15 @@ namespace Service
             _repositoryManager = repository;
         }
         private static readonly HashSet<string> ImageMimeTypes = new HashSet<string>
-    {
-        "image/jpeg",
-        "image/png",
-        "image/gif",
-        "image/bmp",
-        "image/tiff",
-        "image/svg+xml",
-        "image/webp"
-    };
+        {
+            "image/jpeg",
+            "image/png",
+            "image/gif",
+            "image/bmp",
+            "image/tiff",
+            "image/svg+xml",
+            "image/webp"
+        };
         public static bool IsImageMimeType(string mimeType)
         {
             if (string.IsNullOrEmpty(mimeType))
@@ -127,7 +127,7 @@ namespace Service
         }
         private async Task<Files> FindFileById(Guid id)
         {
-            var end = await _repositoryManager.file.GetFile(id, false).FirstOrDefaultAsync();
+            var end = await _repositoryManager.File.GetFile(id, false).FirstOrDefaultAsync();
 
             if (end == null) throw new BadRequestException("No File With that Id was found");
 
@@ -142,7 +142,7 @@ namespace Service
 
             await DeleteFileFromS3Async(hold_file.FileKey);
 
-            _repositoryManager.file.Delete(hold_file);
+            _repositoryManager.File.Delete(hold_file);
 
             await _repositoryManager.Save();
         }
@@ -154,7 +154,7 @@ namespace Service
 
             hold.Id = Guid.NewGuid();
 
-            await _repositoryManager.file.CreateFile(hold);
+            await _repositoryManager.File.CreateFile(hold);
 
             var result = await UploadFileToS3Async(model.FileKey, model.MimeType, inputStream);
 
@@ -170,7 +170,7 @@ namespace Service
 
             var hold_return_model = _mappers.Map<FileResponseModel>(hold_file);
 
-            hold_return_model.FolderPath = _repositoryManager.folderClosure.GetBranch(hold_file.FolderId, false).ToString() ?? "";
+            hold_return_model.FolderPath = _repositoryManager.FolderClosure.GetBranch(hold_file.FolderId, false).ToString() ?? "";
 
             return (hold, hold_return_model);
         }
@@ -200,7 +200,7 @@ namespace Service
         {
             var hold = _mappers.Map<Files>(model);
 
-            _repositoryManager.file.Update(hold);
+            _repositoryManager.File.Update(hold);
 
             await _repositoryManager.Save();
 
@@ -209,22 +209,22 @@ namespace Service
         {
             var hold = _mappers.Map<Folder>(model);
 
-            _repositoryManager.folder.UpdateFolder(hold);
+            _repositoryManager.Folder.UpdateFolder(hold);
 
             await _repositoryManager.Save();
         }
 
         public async Task<List<FolderBranchDisplayResponseModel>> GetRootWithProjectId(Guid projectId)
         {
-            var root = await _repositoryManager.folder.GetRootByProjectId(projectId).FirstOrDefaultAsync() ?? throw new Exception("Project associated with that ID currently doesn't have a root");
+            var root = await _repositoryManager.Folder.GetRootByProjectId(projectId).FirstOrDefaultAsync() ?? throw new Exception("Project associated with that ID currently doesn't have a root");
 
-            var hold_folder_branch = await _repositoryManager.folderClosure.GetProjectFoldersByRoot(root.Id, false);
+            var hold_folder_branch = await _repositoryManager.FolderClosure.GetProjectFoldersByRoot(root.Id, false);
 
             var folders = new List<FolderBranchDisplayResponseModel>();
 
             foreach (var item in hold_folder_branch)
             {
-                var mid = await _repositoryManager.folder.GetFolder(item.DescendantID, false);
+                var mid = await _repositoryManager.Folder.GetFolder(item.DescendantID, false);
 
                 folders.Add(new FolderBranchDisplayResponseModel { Id = mid.Id, Name = mid.Name, Depth = item.Depth });
             }
@@ -233,15 +233,15 @@ namespace Service
 
         public async Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID)
         {
-            var hold_file = await _repositoryManager.file.GetFiles(false, folderID);
+            var hold_file = await _repositoryManager.File.GetFiles(false, folderID);
 
             var end = hold_file.ToList();
 
-            var hold_folder_branch = _repositoryManager.folderClosure.GetFolderContent(folderID, false);
+            var hold_folder_branch = _repositoryManager.FolderClosure.GetFolderContent(folderID, false);
 
             var folders = new List<Folder>();
 
-            foreach (var item in hold_folder_branch) folders.Add(await _repositoryManager.folder.GetFolder(item.DescendantID, false));
+            foreach (var item in hold_folder_branch) folders.Add(await _repositoryManager.Folder.GetFolder(item.DescendantID, false));
 
             return new GetFolderContentResponseModel { Files = end, Folders = folders };
         }
@@ -249,11 +249,11 @@ namespace Service
         {
             var hold_folder = new Folder { Id = Guid.NewGuid(), CreatedBy = model.CreatedBy, CreatedDate = DateTime.Now, LastModifiedDate = DateTime.Now, Name = model.Name };
 
-            await _repositoryManager.folder.AddFolder(hold_folder);
+            await _repositoryManager.Folder.AddFolder(hold_folder);
 
             if (model.AncestorId != Guid.Empty)
             {
-                var hold_ancs = _repositoryManager.folderClosure.FindAncestors(model.AncestorId, false);
+                var hold_ancs = _repositoryManager.FolderClosure.FindAncestors(model.AncestorId, false);
 
                 var hold = new List<FolderClosure>();
 
@@ -263,7 +263,7 @@ namespace Service
                 }
                 hold.Add(new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 });
 
-                await _repositoryManager.folderClosure.AddLeaf(hold);
+                await _repositoryManager.FolderClosure.AddLeaf(hold);
             }
             else
             {
@@ -272,7 +272,7 @@ namespace Service
                     new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 }
                 };
 
-                await _repositoryManager.folderClosure.AddLeaf(hold);
+                await _repositoryManager.FolderClosure.AddLeaf(hold);
             }
 
             await _repositoryManager.Save();
@@ -281,28 +281,28 @@ namespace Service
         }
         public async Task DeleteFolder(Guid folderID)
         {
-            var hold_folder = await _repositoryManager.folder.GetFolder(folderID, false);
+            var hold_folder = await _repositoryManager.Folder.GetFolder(folderID, false);
 
-            var hold_files = _repositoryManager.file.FindAll(false).Where(x => x.FolderId.Equals(folderID));
+            var hold_files = _repositoryManager.File.FindAll(false).Where(x => x.FolderId.Equals(folderID));
 
-            var hold_folderClosure_descendant = _repositoryManager.folderClosure.FindDescendants(folderID, false);
+            var hold_folderClosure_descendant = _repositoryManager.FolderClosure.FindDescendants(folderID, false);
 
             var descendants_ancestors = new List<FolderClosure>();
 
             foreach (var item in hold_folderClosure_descendant)
             {
-                descendants_ancestors.AddRange(_repositoryManager.folderClosure.FindAncestors(item.DescendantID, false));
+                descendants_ancestors.AddRange(_repositoryManager.FolderClosure.FindAncestors(item.DescendantID, false));
             }
-            _repositoryManager.folderClosure.DeleteListFolder(descendants_ancestors);
+            _repositoryManager.FolderClosure.DeleteListFolder(descendants_ancestors);
 
-            _repositoryManager.file.DeleteRange(hold_files);
+            _repositoryManager.File.DeleteRange(hold_files);
 
             await _repositoryManager.Save();
         }
         public async Task AttachToTask(Guid taskId, Guid fileID)
         {
-            var task = await _repositoryManager.task.GetTaskWithId(taskId, true).FirstOrDefaultAsync() ?? throw new BadRequestException("Not found task with that ID");
-            var file = await _repositoryManager.file.GetFile(fileID, true).FirstOrDefaultAsync() ?? throw new BadRequestException("Not found file with that ID");
+            var task = await _repositoryManager.Task.GetTaskWithId(taskId, true).FirstOrDefaultAsync() ?? throw new BadRequestException("Not found task with that ID");
+            var file = await _repositoryManager.File.GetFile(fileID, true).FirstOrDefaultAsync() ?? throw new BadRequestException("Not found file with that ID");
             task.Files.Add(file);
             file.Tasks.Add(task);
             await _repositoryManager.Save();

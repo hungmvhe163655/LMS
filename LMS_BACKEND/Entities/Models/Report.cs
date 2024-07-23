@@ -1,7 +1,10 @@
-﻿namespace Entities.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Entities.Models
 {
     public class Report
     {
+        [Key]
         public Guid Id { get; set; }
         public Guid ScheduleId { get; set; }
         public string? DeviceStatus { get; set; } 

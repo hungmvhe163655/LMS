@@ -1,7 +1,10 @@
-﻿namespace Entities.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Entities.Models
 {
     public class Project
     {
+        [Key]
         public Guid Id { get; set; }
         public string? Name { get; set; } = null!;
 
@@ -16,6 +19,8 @@
         public bool? IsRecruiting { get; set; } = null!;
 
         public int ProjectTypeId { get; set; }
+
+        public virtual ICollection<Notification> Notification { get; set; } = new List<Notification>();
 
         public virtual ICollection<Member> Members { get; set; } = new List<Member>();
 

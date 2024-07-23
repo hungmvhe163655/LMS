@@ -8,6 +8,7 @@ import { useDataTable } from '@/hooks/use-data-table';
 import { useNews } from '../api/get-news';
 
 import { getColumns } from './news-columns';
+import { NewsTableToolbarActions } from './news-table-toolbar-actions';
 
 export function NewsTable() {
   const [searchParams] = useSearchParams();
@@ -15,12 +16,14 @@ export function NewsTable() {
   const page = searchParams.get('page') || 1;
   const perPage = searchParams.get('per_page') || 10;
   const sort = searchParams.get('sort');
+  const searchTerm = searchParams.get('searchTerm');
 
   const { data, isLoading } = useNews({
     newsQueryParameter: {
       PageNumber: Number(page),
       PageSize: Number(perPage),
-      OrderBy: sort
+      OrderBy: sort,
+      SearchTerm: searchTerm
     }
   });
 
@@ -29,7 +32,7 @@ export function NewsTable() {
 
   const { table } = useDataTable({
     data: data?.data || [],
-    pageCount: data?.pagination.TotalPages || -1,
+    pageCount: data?.pagination.TotalPages || 0,
     columns
   });
 
@@ -37,5 +40,9 @@ export function NewsTable() {
     return <DataTableSkeleton columnCount={3} rowCount={8} shrinkZero={true} />;
   }
 
-  return <DataTable table={table} />;
+  return (
+    <DataTable table={table}>
+      <NewsTableToolbarActions />
+    </DataTable>
+  );
 }

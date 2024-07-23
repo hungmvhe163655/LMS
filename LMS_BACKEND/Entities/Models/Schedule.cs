@@ -1,7 +1,10 @@
-﻿namespace Entities.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Entities.Models
 {
     public class Schedule
     {
+        [Key]
         public Guid Id { get; set; }
         public Guid DeviceId { get; set; }
         public string? AccountId { get; set; }

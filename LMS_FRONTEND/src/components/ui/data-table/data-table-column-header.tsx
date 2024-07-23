@@ -1,4 +1,10 @@
-import { ArrowDownIcon, ArrowUpIcon, CaretSortIcon, EyeNoneIcon } from '@radix-ui/react-icons';
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  CaretSortIcon,
+  Cross1Icon,
+  EyeNoneIcon
+} from '@radix-ui/react-icons';
 import { type Column } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
@@ -56,7 +62,7 @@ export function DataTableColumnHeader<TData, TValue>({
             <>
               <DropdownMenuItem
                 aria-label='Sort ascending'
-                onClick={() => column.toggleSorting(false)}
+                onClick={() => column.toggleSorting(false, true)}
               >
                 <ArrowUpIcon
                   className='mr-2 size-3.5 text-muted-foreground/70'
@@ -66,7 +72,7 @@ export function DataTableColumnHeader<TData, TValue>({
               </DropdownMenuItem>
               <DropdownMenuItem
                 aria-label='Sort descending'
-                onClick={() => column.toggleSorting(true)}
+                onClick={() => column.toggleSorting(true, true)}
               >
                 <ArrowDownIcon
                   className='mr-2 size-3.5 text-muted-foreground/70'
@@ -74,6 +80,15 @@ export function DataTableColumnHeader<TData, TValue>({
                 />
                 Desc
               </DropdownMenuItem>
+              {column.getIsSorted() && (
+                <DropdownMenuItem aria-label='Remove sorting' onClick={() => column.clearSorting()}>
+                  <Cross1Icon
+                    className='mr-2 size-3.5 text-muted-foreground/70'
+                    aria-hidden='true'
+                  />
+                  Remove
+                </DropdownMenuItem>
+              )}
             </>
           )}
           {column.getCanSort() && column.getCanHide() && <DropdownMenuSeparator />}

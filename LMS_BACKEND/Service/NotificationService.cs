@@ -1,10 +1,14 @@
-﻿using Contracts.Interfaces;
+﻿using AutoMapper;
+using Contracts.Interfaces;
+using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Servive.Hubs;
+using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
+using Shared.DataTransferObjects.ResponseDTO;
 using Shared.GlobalVariables;
 
 namespace Service
@@ -13,29 +17,82 @@ namespace Service
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IHubContext<NotificationHub> _hubContext;
-        public NotificationService(IRepositoryManager repositoryManager, IHubContext<NotificationHub> hub)
+        private readonly IMapper _mapper;
+        public NotificationService(IRepositoryManager repositoryManager, IHubContext<NotificationHub> hub, IMapper mapper)
         {
+            _mapper = mapper;
             _repositoryManager = repositoryManager;
             _hubContext = hub;
         }
 
-        public async Task<Notification> CreateNotification(string title, string content, string type, string createUserId, string group)
+        public async Task<Notification> CreateNotification(CreateNotificationRequestModel model)
         {
-            var hold = new Notification { Id = Guid.NewGuid(), Title = title, Content = content, NotificationType = MAPPARAM.GetNotificationTypeValue(type), CreatedBy = createUserId, Url = "lmao.com" };//sua cho nay
-            await _repositoryManager.notification.saveNotification(hold);
+            var hold = new Notification { Id = Guid.NewGuid(), Title = model.Title, Content = model.Content, NotificationType = MAPPARAM.GetNotificationTypeValue(model.Type), CreatedBy = model.CreateUserId, Url = "lmao.com" };//sua cho nay
+            
+            if(hold.NotificationType.Equals(NOTIFICATION_TYPE.PROJECT))
+            {
+                var hold_members = await 
+                    _repositoryManager
+                    .Member
+                    .GetByCondition(x=>x.ProjectId.Equals(model.ProjectId),true)
+                    .Include(y=>y.User)
+                    .ToListAsync()??throw new BadRequestException("Invalid project ID");
+
+                foreach(var item in hold_members)
+                {
+                    if (item.User == null) continue;
+
+                    item.User.NotificationsAccounts.Add(new NotificationAccount { NotificationId = hold.Id, AccountId = item.User.Id, IsRead = false });
+                }
+            }
+
+            await _repositoryManager.Notification.saveNotification(hold);
             await _repositoryManager.Save();
-            await _hubContext.Clients.Groups(group).SendAsync("ReceiveNotification", hold);
+            await _hubContext.Clients.Groups(model.Group).SendAsync("ReceiveNotification", hold);
             return hold;
+        }
+
+        public async Task<PagedList<NotificationResponseModel>> GetPagedNotifications(NotificationParameters param)
+        {
+            var hold = await _repositoryManager.Notification.GetNotifications(param, false).ToListAsync();
+            return new PagedList<NotificationResponseModel>(_mapper.Map<List<NotificationResponseModel>>(hold), hold.Count, param.PageNumber, param.PageSize);
         }
 
         public async Task<IEnumerable<Notification>> GetAllNotifications(RequestParameters request)
         {
-            return await _repositoryManager.notification.GetPagedAsync(request, false);
+            return await _repositoryManager.Notification.GetPagedAsync(request, false);
         }
 
-        public async Task<Notification?> GetNotification(Guid id)
+        public async Task<NotificationResponseModel?> GetNotification(Guid id)
         {
-            return await _repositoryManager.notification.GetByCondition(entity => entity.Id.Equals(id), false).FirstOrDefaultAsync();
+            return _mapper.Map<NotificationResponseModel>(await _repositoryManager.Notification.GetByCondition(entity => entity.Id.Equals(id), false).FirstOrDefaultAsync());
+        }
+
+        public async Task MarkNotificationAsRead(string userId, Guid notificationId)
+        {
+            var user = await
+                _repositoryManager
+                .Account
+                .GetByCondition(x => x.Id.Equals(userId), false)
+                .FirstOrDefaultAsync()
+                ?? throw new BadRequestException("Invalid User Id");
+
+            var hold = await
+                _repositoryManager
+                .Notification
+                .GetByCondition(x => x.Id.Equals(notificationId), true)
+                .Include(y => y.NotificationsAccounts.Where(z => z.AccountId.Equals(userId)))
+                .FirstOrDefaultAsync()
+                ?? throw new BadRequestException("Invalid Notification Id"); ;
+
+            if (hold.NotificationsAccounts.Any() && hold.NotificationType.Equals(NOTIFICATION_TYPE.PROJECT))
+
+                hold.NotificationsAccounts.First().IsRead = true;
+
+            if (hold.NotificationType.Equals(NOTIFICATION_TYPE.PROJECT))
+
+                hold.NotificationsAccounts.Add(new NotificationAccount { AccountId = user.Id, NotificationId = hold.Id, IsRead = true });
+
         }
     }
 }

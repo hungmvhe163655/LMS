@@ -1,66 +1,130 @@
-import React, { useState } from 'react';
-import FroalaEditor from 'react-froala-wysiwyg';
-import 'froala-editor/css/froala_editor.pkgd.min.css';
-import 'froala-editor/css/froala_style.min.css';
-import 'froala-editor/css/plugins.pkgd.min.css';
-import 'froala-editor/css/themes/gray.min.css';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 
-const CreateForm: React.FC = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+import { Link } from '@/components/app/link';
+import RichText from '@/components/app/rich-text/rich-text';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/dialog';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
+import { authStore } from '@/lib/auth-store';
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
+import { useCreateNews } from '../api/create-news';
 
-  const handleContentChange = (model: string) => {
-    setContent(model);
-  };
+const limit = 1000;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Title:', title);
-    console.log('Content:', content);
-    // Submit logic here
-  };
+const formSchema = z.object({
+  title: z.string().min(1).trim(),
+  content: z.string().min(1).max(limit).trim()
+});
+
+export function CreateNewsForm() {
+  const { accessData } = authStore.getState();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const { mutate: createNews } = useCreateNews();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: '',
+      content: ''
+    }
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    const data = {
+      ...values,
+      createdBy: accessData?.id
+    };
+
+    createNews(data, {
+      onSuccess: () => {
+        navigate('/news');
+        toast({
+          variant: 'success',
+          description: 'Save News Success'
+        });
+      }
+    });
+  }
 
   return (
-    <div className='flex min-h-screen flex-col items-center justify-center px-4'>
-      <form onSubmit={handleSubmit} className='w-full max-w-3xl space-y-6'>
-        <div>
-          <label className='mb-2 block text-lg font-semibold' htmlFor='news-title'>
-            News title
-          </label>
-          <input
-            id='news-title'
-            type='text'
-            value={title}
-            onChange={handleTitleChange}
-            className='w-full rounded border border-gray-300 px-4 py-2'
-            placeholder='Enter news title'
-            required
-          />
-        </div>
-        <div>
-          <label className='mb-2 block text-lg font-semibold' htmlFor='news-content'>
-            News content
-          </label>
-          <FroalaEditor
-            tag='textarea'
-            model={content}
-            onModelChange={handleContentChange}
-            config={{
-              placeholderText: 'Enter news content',
-              height: 300
-            }}
-          />
-        </div>
-        <button type='submit' className='rounded bg-blue-500 px-6 py-2 text-white'>
-          Create News
-        </button>
-      </form>
-    </div>
-  );
-};
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-1 flex-col space-y-3'>
+        {/* Title */}
+        <FormField
+          control={form.control}
+          name='title'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='text-xl'>Title</FormLabel>
+              <FormControl>
+                <Input type='text' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-export default CreateForm;
+        <FormField
+          control={form.control}
+          name='content'
+          render={({ field }) => (
+            <FormItem className='flex flex-col'>
+              <FormLabel className='text-xl'>Content</FormLabel>
+              <FormControl>
+                <RichText onChange={field.onChange} value={field.value} limit={limit} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type='submit'>Submit</Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant='outline' type='button'>
+              Return to News List
+            </Button>
+          </DialogTrigger>
+          <DialogContent className='sm:max-w-[425px]'>
+            <DialogHeader>
+              <DialogTitle>Exit</DialogTitle>
+              <DialogDescription>
+                Are you sure quit? Your change will not be save!
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type='button' variant='secondary'>
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Link variant='button' to='/news'>
+                Yes
+              </Link>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </form>
+    </Form>
+  );
+}

@@ -1,8 +1,7 @@
 import { Entity, QueryParams } from '@/types/api';
 
 export type NewsQueryParams = {
-  MinCreatedDate?: Date;
-  MaxCreatedDate?: Date;
+  SearchTerm?: string | null;
 } & QueryParams;
 
 export type News = Entity<{

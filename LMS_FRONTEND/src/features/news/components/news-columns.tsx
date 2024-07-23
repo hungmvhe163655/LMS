@@ -1,5 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 
+import { Link } from '@/components/app/link';
 import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
 import { formatDate } from '@/utils/format';
 
@@ -10,14 +11,15 @@ export function getColumns(): ColumnDef<News>[] {
     {
       accessorKey: 'title',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Title' />,
+      cell: ({ row }) => <Link to={`/news/${row.original.id}`}>{row.original.title}</Link>,
       enableSorting: false,
       enableHiding: false
     },
     {
       accessorKey: 'createdBy',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Created By' />,
-      enableSorting: false,
-      enableHiding: false
+      enableHiding: false,
+      enableSorting: false
     },
     {
       accessorKey: 'createdDate',

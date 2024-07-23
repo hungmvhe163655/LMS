@@ -1,4 +1,5 @@
 import CreateNewsRoute from './create';
+import NewsDetailRoute from './detail';
 
 const NewsRoute = {
   children: [
@@ -9,7 +10,8 @@ const NewsRoute = {
         return { Component: ListNewsPage };
       }
     },
-    CreateNewsRoute
+    CreateNewsRoute,
+    NewsDetailRoute
   ]
 };
 
