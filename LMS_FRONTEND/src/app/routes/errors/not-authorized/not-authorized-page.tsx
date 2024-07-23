@@ -1,5 +1,11 @@
+import { ErrorFallback } from '@/components/errors/error-fallback';
 import { Layout } from '@/components/layouts/error-layout';
 
 export function NotAuthorizedPage() {
-  return <Layout title='NOT AUTHORIZED!' message=' Your Account Does Not Allow To This Page :(' />;
+  <Layout>
+    <ErrorFallback
+      title='Not Authorized'
+      message='Sorry, you are not allowed to visit this page!'
+    />
+  </Layout>;
 }

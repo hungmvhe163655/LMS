@@ -1,5 +1,6 @@
 import CreateNewsRoute from './create';
 import NewsDetailRoute from './detail';
+import UpdateNewsRoute from './update';
 
 const NewsRoute = {
   children: [
@@ -11,7 +12,8 @@ const NewsRoute = {
       }
     },
     CreateNewsRoute,
-    NewsDetailRoute
+    NewsDetailRoute,
+    UpdateNewsRoute
   ]
 };
 

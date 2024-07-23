@@ -26,6 +26,15 @@ export function getColumns(): ColumnDef<News>[] {
       header: ({ column }) => <DataTableColumnHeader column={column} title='Created Date' />,
       cell: ({ cell }) => formatDate(cell.getValue() as Date),
       enableHiding: false
+    },
+    {
+      id: 'edit',
+      cell: ({ row }) => (
+        <Link variant='button' to={`/news/update/${row.original.id}`}>
+          Update
+        </Link>
+      ),
+      enableHiding: false
     }
   ];
 }

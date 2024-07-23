@@ -1,10 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 import { Link } from '@/components/app/link';
 import RichText from '@/components/app/rich-text/rich-text';
+import { Spinner } from '@/components/app/spinner';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -26,10 +28,9 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { authStore } from '@/lib/auth-store';
 
-import { useCreateNews } from '../api/create-news';
 import { useNewsById } from '../api/get-news-id';
+import { useUpdateNews } from '../api/update-news';
 
 const limit = 1000;
 
@@ -39,34 +40,45 @@ const formSchema = z.object({
 });
 
 export function UpdateNewsForm({ id }: { id: string }) {
-  const { data } = useNewsById({ id });
-  const { accessData } = authStore.getState();
+  const { data, isLoading } = useNewsById({ id });
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { mutate: createNews } = useCreateNews();
+  const { mutate: updateNews } = useUpdateNews();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: data?.title,
-      content: data?.content
+      title: '',
+      content: ''
     }
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const data = {
-      ...values,
-      createdBy: accessData?.id
-    };
+  useEffect(() => {
+    if (data) {
+      form.reset(data);
+    }
+  }, [data, form]);
 
-    createNews(data, {
-      onSuccess: () => {
-        navigate('/news');
-        toast({
-          variant: 'success',
-          description: 'Save News Success'
-        });
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    updateNews(
+      { ...values, id },
+      {
+        onSuccess: () => {
+          navigate('/news');
+          toast({
+            variant: 'success',
+            description: 'Update News Success'
+          });
+        }
       }
-    });
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className='flex h-48 w-full items-center justify-center'>
+        <Spinner size='lg' />
+      </div>
+    );
   }
 
   return (

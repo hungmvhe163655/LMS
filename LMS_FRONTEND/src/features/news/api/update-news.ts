@@ -6,7 +6,7 @@ import { MutationConfig } from '@/lib/react-query';
 import { getNewsQueryOptions } from './get-news';
 
 export const updateNews = async (data: any) => {
-  const res = await api.put(`/news`, data);
+  const res = await api.put(`/news/${data.id}`, data);
   return res.data;
 };
 
@@ -14,7 +14,7 @@ type UseUpdateNewsOptions = {
   mutationConfig?: MutationConfig<typeof updateNews>;
 };
 
-export const useCreateNews = ({ mutationConfig }: UseUpdateNewsOptions = {}) => {
+export const useUpdateNews = ({ mutationConfig }: UseUpdateNewsOptions = {}) => {
   const queryClient = useQueryClient();
 
   const { onSuccess, ...restConfig } = mutationConfig || {};
