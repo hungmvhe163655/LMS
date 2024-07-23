@@ -105,13 +105,5 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return hold.Id;
         }
-
-        [HttpGet(RoutesAPI.GetProjectWithMember)]
-        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
-        public IActionResult GetProjectWithMember(string userId)
-        {
-            var data = _service.ProjectService.GetProjects(userId);
-            return Ok(data);
-        }
     }
 }
