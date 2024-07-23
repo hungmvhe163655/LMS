@@ -30,7 +30,7 @@ namespace Repository.Extensions
 
             var lowerCaseTerm = parameters.SearchTerm == null ? "" : parameters.SearchTerm.Trim().ToLower();
 
-            return projects.Where(n => n.Name.ToLower().Contains(lowerCaseTerm) || n.Description.ToLower().Contains(lowerCaseTerm));
+            return projects.Where(n => (n.Name != null && n.Name.ToLower().Contains(lowerCaseTerm)) || (n.Description != null && n.Description.ToLower().Contains(lowerCaseTerm)));
         }
 
         public static IQueryable<Project> Sort(this IQueryable<Project> projects, string? orderByQueryString)

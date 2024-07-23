@@ -34,7 +34,7 @@ namespace Repository.Extensions
 
             var lowerCaseTerm = parameters.SearchTerm == null ? "" : parameters.SearchTerm.Trim().ToLower();
 
-            return tasks.Where(n => n.Title.ToLower().Contains(lowerCaseTerm) || n.Description.ToLower().Contains(lowerCaseTerm));
+            return tasks.Where(n => (n.Title != null && n.Title.ToLower().Contains(lowerCaseTerm)) || (n.Description != null && n.Description.ToLower().Contains(lowerCaseTerm)));
         }
 
         public static IQueryable<Tasks> Sort(this IQueryable<Tasks> tasks, string? orderByQueryString)
