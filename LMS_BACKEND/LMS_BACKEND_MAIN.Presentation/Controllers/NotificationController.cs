@@ -1,5 +1,6 @@
 ﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
@@ -23,35 +24,39 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = service;
         }
-
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] NotificationParameters param)
+        public async Task<IActionResult> Get([FromQuery]NotificationParameters param)
         {
-            var result = await _service.NotificationService.GetPagedNotifications(param);
+            var hold = await _service.NotificationService.GetPagedNotifications(param);
 
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(result.MetaData));
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(hold.MetaData));
 
-            return Ok(result);
+            return Ok(hold);
         }
 
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetById(Guid id)
+        [HttpGet(RoutesAPI.GetById)]
+        public async Task<IActionResult> GetById(Guid id, string userid)
         {
+            await _service.NotificationService.MarkNotificationAsRead(userid, id);
+
             return Ok(await _service.NotificationService.GetNotification(id));
         }
 
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] CreateNotificationRequestModel model)
         {
-            await _service.NotificationService.CreateNotification(model);
-            return Ok(new ResponseMessage { Message = "Add Success"});
+            var hold = await _service.NotificationService.CreateNotification(model);
+
+            return CreatedAtAction(nameof(GetById), new { id = hold.Id }, hold);
         }
-        
+
+        /*
         [HttpPut(RoutesAPI.MarkNotificationAsRead)]
         public async Task<IActionResult> MarkNotificationAsRead(Guid id, string userid)
         {
             await _service.NotificationService.MarkNotificationAsRead(userid, id);
             return Ok(new ResponseMessage { Message = "Success" });
         }
+        */
     }
 }

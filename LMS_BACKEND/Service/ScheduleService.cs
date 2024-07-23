@@ -38,17 +38,22 @@ namespace Service
 
             return result;
         }
-        public async Task CreateScheduleForDevice(ScheduleCreateRequestModel model)
+        public async Task<ScheduleResponseModel> CreateScheduleForDevice(ScheduleCreateRequestModel model)
         {
-            model.Id = Guid.NewGuid();
+            var hold = _mapper.Map<Schedule>(model);
+
+            hold.Id = Guid.NewGuid();
 
             if (!await _repository.Schedule.CheckForOverlap(model.StartDate, model.EndDate, model.DeviceId))
             {
                 await _repository.Schedule.CreateScheduleForDevice(_mapper.Map<Schedule>(model));
 
                 await _repository.Save();
+
+                return _mapper.Map<ScheduleResponseModel>(hold);
             }
             throw new BadRequestException("The inputted time period was invalid");
+
         }
         public async Task DeleteSchedule(Guid id)
         {
@@ -78,6 +83,13 @@ namespace Service
             }
             throw new BadRequestException("The inputted time period was invalid");
 
+        }
+
+        public async Task<ScheduleRequestModel> GetSchedule(Guid id)
+        {
+            var hold = await _repository.Schedule.GetSchedule(id, false);
+
+            return _mapper.Map<ScheduleRequestModel>(hold);
         }
     }
 }

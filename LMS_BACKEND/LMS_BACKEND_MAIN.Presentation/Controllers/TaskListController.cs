@@ -33,8 +33,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateNewTaskList(CreateTaskListRequestModel model)
         {
-            await _service.TaskListService.CreateTaskList(model);
-            return Ok(new ResponseMessage { Message = "Create Task list successfully" });
+            var result = await _service.TaskListService.CreateTaskList(model);
+            return CreatedAtAction(nameof(GetTaskListById), new { id = result.Id }, result);
         }
 
         [HttpPut]

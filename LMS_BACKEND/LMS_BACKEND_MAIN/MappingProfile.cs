@@ -140,6 +140,7 @@ namespace LMS_BACKEND_MAIN
                         ? src.FileKey.Select(fileKey => new NewsFile { FileKey = fileKey }).ToList()
                         : new List<NewsFile>()
                 )).ReverseMap();
+            CreateMap<Folder,FolderResponseModel>().ReverseMap();
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Contracts.Interfaces
         IMemberRepository Member { get; }
         IProjectTypeRepository ProjectType { get; }
         IDeviceRepository Device { get; }
+        INotificationAccountRepository NotificationAccount { get; }
         Task Save();
     }
 }
