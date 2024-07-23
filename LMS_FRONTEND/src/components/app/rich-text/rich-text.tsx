@@ -16,51 +16,55 @@ type RichTextEditorProps = {
 };
 
 const RichText = ({ value, onChange, limit }: RichTextEditorProps) => {
-  const editor = useEditor({
-    editorProps: {
-      attributes: {
-        class:
-          'min-h-[70vh] max-h-[70vh] rounded-md border border-gray-300 bg-white p-5 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 overflow-auto'
+  const editor = useEditor(
+    {
+      editorProps: {
+        attributes: {
+          class:
+            'min-h-[70vh] max-h-[70vh] rounded-md border border-gray-300 bg-white p-5 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 overflow-auto'
+        }
+      },
+      extensions: [
+        StarterKit.configure({
+          orderedList: {
+            HTMLAttributes: {
+              class: 'list-decimal pl-4'
+            }
+          },
+          bulletList: {
+            HTMLAttributes: {
+              class: 'list-disc pl-4'
+            }
+          },
+          heading: false
+        }),
+        CharacterCount.configure({
+          limit
+        }),
+        TextAlign.configure({
+          types: ['paragraph']
+        }),
+        TextStyle,
+        Underline,
+        Color,
+        Link.configure({
+          autolink: true,
+          defaultProtocol: 'https',
+          HTMLAttributes: {
+            class:
+              'font-medium text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer'
+          }
+        }).extend({
+          inclusive: false
+        })
+      ],
+      content: `${value}`, // Set the initial content with the provided value
+      onUpdate: ({ editor }) => {
+        onChange(editor.getHTML()); // Call the onChange callback with the updated HTML content
       }
     },
-    extensions: [
-      StarterKit.configure({
-        orderedList: {
-          HTMLAttributes: {
-            class: 'list-decimal pl-4'
-          }
-        },
-        bulletList: {
-          HTMLAttributes: {
-            class: 'list-disc pl-4'
-          }
-        },
-        heading: false
-      }),
-      CharacterCount.configure({
-        limit
-      }),
-      TextAlign.configure({
-        types: ['paragraph']
-      }),
-      TextStyle,
-      Underline,
-      Color,
-      Link.configure({
-        autolink: true,
-        defaultProtocol: 'https',
-        HTMLAttributes: {
-          class: 'font-medium text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer'
-        }
-      }).extend({
-        inclusive: false
-      })
-    ],
-    content: `${value}`, // Set the initial content with the provided value
-    onUpdate: ({ editor }) => {
-      onChange(editor.getHTML()); // Call the onChange callback with the updated HTML content
-    }
-  });
+    [value]
+  );
 
   if (!editor) {
     return <div>Something went wrong!</div>;
