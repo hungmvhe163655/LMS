@@ -3,10 +3,17 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
-import { getNewsIdQueryOptions } from './get-news-id';
+import { UpdateNewsInputSchema } from '../types/api';
+import { newsKeys } from '../utils/queries';
 
-export const updateNews = async (data: any) => {
-  const res = await api.put(`/news/${data.id}`, data);
+export const updateNews = async ({
+  data,
+  newsId
+}: {
+  data: UpdateNewsInputSchema;
+  newsId: string;
+}) => {
+  const res = await api.put(`/news/${newsId}`, data);
   return res.data;
 };
 
@@ -24,10 +31,10 @@ export const useUpdateNews = ({ mutationConfig }: UseUpdateNewsOptions = {}) => 
     mutationFn: updateNews,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
-        queryKey: ['news']
+        queryKey: newsKeys.all
       });
       queryClient.invalidateQueries({
-        queryKey: getNewsIdQueryOptions(variables.id).queryKey
+        queryKey: newsKeys.detail(variables.newsId)
       });
       onSuccess?.(data, variables, context);
     }

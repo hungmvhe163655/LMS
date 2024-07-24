@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
 
 import { Link } from '@/components/app/link';
 import RichText from '@/components/app/rich-text/rich-text';
@@ -31,21 +30,15 @@ import { useToast } from '@/components/ui/use-toast';
 
 import { useNewsById } from '../api/get-news-id';
 import { useUpdateNews } from '../api/update-news';
-
-const limit = 1000;
-
-const formSchema = z.object({
-  title: z.string().min(1).trim(),
-  content: z.string().min(1).max(limit).trim()
-});
+import { CONTENT_LIMIT, updateNewsInputSchema, UpdateNewsInputSchema } from '../types/api';
 
 export function UpdateNewsForm({ id }: { id: string }) {
   const { data, isLoading } = useNewsById({ id });
   const { toast } = useToast();
   const navigate = useNavigate();
   const { mutate: updateNews } = useUpdateNews();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<UpdateNewsInputSchema>({
+    resolver: zodResolver(updateNewsInputSchema),
     defaultValues: {
       title: '',
       content: ''
@@ -58,19 +51,23 @@ export function UpdateNewsForm({ id }: { id: string }) {
     }
   }, [data, form]);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    updateNews(
-      { ...values, id },
-      {
-        onSuccess: () => {
-          navigate('/news');
-          toast({
-            variant: 'success',
-            description: 'Update News Success'
-          });
-        }
+  function onSubmit(values: UpdateNewsInputSchema) {
+    const sendData = {
+      data: {
+        ...values
+      },
+      newsId: id
+    };
+
+    updateNews(sendData, {
+      onSuccess: () => {
+        navigate('/news');
+        toast({
+          variant: 'success',
+          description: 'Update News Success'
+        });
       }
-    );
+    });
   }
 
   if (isLoading) {
@@ -106,7 +103,7 @@ export function UpdateNewsForm({ id }: { id: string }) {
             <FormItem className='flex flex-col'>
               <FormLabel className='text-xl'>Content</FormLabel>
               <FormControl>
-                <RichText onChange={field.onChange} value={field.value} limit={limit} />
+                <RichText onChange={field.onChange} value={field.value} limit={CONTENT_LIMIT} />
               </FormControl>
               <FormMessage />
             </FormItem>

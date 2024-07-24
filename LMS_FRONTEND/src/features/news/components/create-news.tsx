@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
 
 import { Link } from '@/components/app/link';
 import RichText from '@/components/app/rich-text/rich-text';
@@ -29,32 +28,31 @@ import { useToast } from '@/components/ui/use-toast';
 import { authStore } from '@/lib/auth-store';
 
 import { useCreateNews } from '../api/create-news';
-
-const limit = 1000;
-
-const formSchema = z.object({
-  title: z.string().min(1).trim(),
-  content: z.string().min(1).max(limit).trim()
-});
+import {
+  CONTENT_LIMIT,
+  createNewsAPISchema,
+  createNewsInputSchema,
+  CreateNewsInputSchema
+} from '../types/api';
 
 export function CreateNewsForm() {
   const { accessData } = authStore.getState();
   const { toast } = useToast();
   const navigate = useNavigate();
   const { mutate: createNews } = useCreateNews();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<CreateNewsInputSchema>({
+    resolver: zodResolver(createNewsInputSchema),
     defaultValues: {
       title: '',
       content: ''
     }
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const data = {
+  function onSubmit(values: CreateNewsInputSchema) {
+    const data = createNewsAPISchema.parse({
       ...values,
       createdBy: accessData?.id
-    };
+    });
 
     createNews(data, {
       onSuccess: () => {
@@ -92,7 +90,7 @@ export function CreateNewsForm() {
             <FormItem className='flex flex-col'>
               <FormLabel className='text-xl'>Content</FormLabel>
               <FormControl>
-                <RichText onChange={field.onChange} value={field.value} limit={limit} />
+                <RichText onChange={field.onChange} value={field.value} limit={CONTENT_LIMIT} />
               </FormControl>
               <FormMessage />
             </FormItem>

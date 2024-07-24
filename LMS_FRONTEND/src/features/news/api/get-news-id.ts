@@ -4,6 +4,7 @@ import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 
 import { News } from '../types/api';
+import { newsKeys } from '../utils/queries';
 
 export const getNewsId = async (id: string): Promise<News> => {
   const response = await api.get(`/news/${id}`);
@@ -12,7 +13,7 @@ export const getNewsId = async (id: string): Promise<News> => {
 
 export const getNewsIdQueryOptions = (id: string) => {
   return queryOptions({
-    queryKey: ['newsById', id],
+    queryKey: newsKeys.detail(id),
     queryFn: () => getNewsId(id)
   });
 };
