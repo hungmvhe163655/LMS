@@ -104,7 +104,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         #region FolderAPIs
 
-        public const string GetProjectFolderScheme = "/project/{id:guid}/root";
+        public const string GetProjectFolderScheme = "project/{id:guid}/root";
 
         #endregion
 
