@@ -39,7 +39,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var user = await _service.AccountService.GetUserById(model.VerifierID) ?? throw new BadRequestException("User with that id is not found");
 
-            await _service.AccountService.UpdateAccountVerifyStatus(model.UserID, model.VerifierID);
+            await _service.AccountService.UpdateAccountVerifyStatus(model.Users, model.VerifierID);
 
             return Ok(new ResponseMessage { Message = "Update User " + user.FullName + " Status Successully" });
         }

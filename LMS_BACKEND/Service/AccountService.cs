@@ -140,7 +140,7 @@ namespace Service
             return hold;
         }
 
-        public async Task UpdateAccountVerifyStatus(IEnumerable<UserAcceptanceRequestModel> UserList, string verifier, bool accept)
+        public async Task UpdateAccountVerifyStatus(IEnumerable<UserAcceptanceRequestModel> UserList, string verifier)
         {
             List<Account> accountListAccept = new List<Account>();
 
