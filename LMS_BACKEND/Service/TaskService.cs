@@ -18,17 +18,27 @@ namespace Service
 
         private readonly IMapper _mapper;
 
-        private readonly IRedisCacheHelper _cache;
+       // private readonly IRedisCacheHelper _cache;
 
-        public TaskService(IRepositoryManager repositoryManager, IMapper mapper, IRedisCacheHelper cache)
+        //public TaskService(IRepositoryManager repositoryManager, IMapper mapper, IRedisCacheHelper cache)
+        public TaskService(IRepositoryManager repositoryManager, IMapper mapper)
         {
             _repository = repositoryManager;
 
             _mapper = mapper;
 
-            _cache = cache;
+          //  _cache = cache;
         }
 
+        public async Task<IEnumerable<TaskResponseModel>> GetTasksWithProjectId(Guid projectId)
+        {
+
+            var hold = _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.Task.GetTasksWithProjectId(projectId, false).ToListAsync());
+
+            return hold;
+        }
+
+        /*
         public async Task<IEnumerable<TaskResponseModel>> GetTasksWithProjectId(Guid projectId)
         {
             var data_cached = await _cache.GetCacheAsync<IEnumerable<TaskResponseModel>>(projectId.ToString() + nameof(GetTasksWithProjectId));
@@ -43,7 +53,7 @@ namespace Service
             }
             else return data_cached;
         }
-
+        */
         public async Task<IEnumerable<TaskResponseModel>> GetTasksWithTaskListId(Guid taskListId)
         {
             return _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.Task.GetTasksWithTaskListId(taskListId, false).ToListAsync());

@@ -72,7 +72,9 @@ namespace Service
 
             _scheduleService = new Lazy<IScheduleService>(() => new ScheduleService(repositoryManager, mapper));
 
-            _taskService = new Lazy<ITaskService>(() => new TaskService(repositoryManager, mapper, cache));
+            //_taskService = new Lazy<ITaskService>(() => new TaskService(repositoryManager, mapper, cache));
+
+            _taskService = new Lazy<ITaskService> (() => new TaskService(repositoryManager, mapper));
 
             _taskListService = new Lazy<ITaskListService>(() => new TaskListService(repositoryManager, mapper));
 

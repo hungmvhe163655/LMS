@@ -16,11 +16,12 @@ var logger = NLog.LogManager.Setup().LoadConfigurationFromFile(Path.Combine(Dire
 
 var connectionString = builder.Configuration.GetConnectionString("LemaoString") ?? throw new InvalidOperationException("Connection string 'Cnn' not found.");
 
-var redisString = builder.Configuration.GetConnectionString("LemaoString2") ?? throw new InvalidOperationException("Redis connectrion string was not found");
+//var redisString = builder.Configuration.GetConnectionString("LemaoString2") ?? throw new InvalidOperationException("Redis connectrion string was not found");
 
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(connectionString));
 
+/*
 builder.Services.AddStackExchangeRedisCache(
     options =>
     {
@@ -28,6 +29,7 @@ builder.Services.AddStackExchangeRedisCache(
 
         options.InstanceName = nameof(LMS_BACKEND_MAIN);
     });
+*/
 
 builder.Services.ConfigureRepositoryManager();
 
@@ -57,7 +59,7 @@ builder.Services.AddJwtConfiguration(builder.Configuration);
 
 builder.Services.ConfigureResponseCaching();
 
-builder.Services.ConfigureCacheRedis();
+//builder.Services.ConfigureCacheRedis();
 
 //builder.Services.ConfigureHttpCacheHeaders();
 
