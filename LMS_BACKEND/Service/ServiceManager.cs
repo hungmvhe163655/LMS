@@ -52,8 +52,8 @@ namespace Service
             IConfiguration configuration,
             IMemoryCache memoryCache,
             IAmazonS3 clients3,
-            IHubContext<NotificationHub> notiHub,
-            IRedisCacheHelper cache
+            IHubContext<NotificationHub> notiHub//,
+            //IRedisCacheHelper cache
             )
         {
             _accountService = new Lazy<IAccountService>(() => new AccountService(repositoryManager, logger, mapper, userManager, roleManager));
