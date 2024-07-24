@@ -27,7 +27,7 @@ export const createRouter = (queryClient: QueryClient) =>
       children: [NewsRoute]
     },
     {
-      path: '/dashboard',
+      path: 'dashboard',
       children: [StudentDashboardRoute, SupervisorDashboardRoute, LabDirectorDashboardRoute]
     },
     {

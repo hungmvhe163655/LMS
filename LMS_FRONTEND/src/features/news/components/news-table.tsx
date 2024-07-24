@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { DataTable } from '@/components/ui/data-table/data-table';
@@ -28,7 +28,7 @@ export function NewsTable() {
   });
 
   // Memoize the columns so they don't re-render on every render
-  const columns = React.useMemo(() => getColumns(), []);
+  const columns = useMemo(() => getColumns(), []);
 
   const { table } = useDataTable({
     data: data?.data || [],

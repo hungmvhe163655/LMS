@@ -1,5 +1,10 @@
+import { ErrorFallback } from '@/components/errors/error-fallback';
 import { Layout } from '@/components/layouts/error-layout';
 
-export function NotVerifiedPage() {
-  return <Layout title='BANNED ACCOUNT!' message='Your Account Is Banned :(' />;
+export function BannedPage() {
+  return (
+    <Layout>
+      <ErrorFallback title='Banned' message='Your account is banned from this LAB!' />
+    </Layout>
+  );
 }

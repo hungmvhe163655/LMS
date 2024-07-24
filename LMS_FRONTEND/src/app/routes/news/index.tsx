@@ -7,8 +7,8 @@ const NewsRoute = {
     {
       index: true,
       lazy: async () => {
-        const { ListNewsPage: ListNewsPage } = await import('./list/list-page');
-        return { Component: ListNewsPage };
+        const { NewsTablePage: NewsTablePage } = await import('./table/news-table-page');
+        return { Component: NewsTablePage };
       }
     },
     CreateNewsRoute,

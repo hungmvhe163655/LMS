@@ -31,7 +31,7 @@ export const useUpdateNews = ({ mutationConfig }: UseUpdateNewsOptions = {}) => 
     mutationFn: updateNews,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
-        queryKey: newsKeys.all
+        queryKey: newsKeys.lists()
       });
       queryClient.invalidateQueries({
         queryKey: newsKeys.detail(variables.newsId)

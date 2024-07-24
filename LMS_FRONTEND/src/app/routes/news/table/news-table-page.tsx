@@ -2,7 +2,7 @@ import { Layout } from '@/components/layouts/default-layout';
 import { Head } from '@/components/seo/head';
 import { NewsTable } from '@/features/news/components/news-table';
 
-export function ListNewsPage() {
+export function NewsTablePage() {
   return (
     <Layout>
       <Head title={'News'} />

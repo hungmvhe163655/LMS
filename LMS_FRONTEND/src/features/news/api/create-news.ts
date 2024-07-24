@@ -25,7 +25,7 @@ export const useCreateNews = ({ mutationConfig }: UseCreateNewsOptions = {}) => 
     mutationFn: createNews,
     onSuccess: (...args) => {
       queryClient.invalidateQueries({
-        queryKey: newsKeys.all
+        queryKey: newsKeys.lists()
       });
       onSuccess?.(...args);
     }
