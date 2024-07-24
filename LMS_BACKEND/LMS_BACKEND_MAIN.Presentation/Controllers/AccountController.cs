@@ -43,6 +43,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return Ok(new ResponseMessage { Message = "Update User " + user.FullName + " Status Successully" });
         }
+
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
