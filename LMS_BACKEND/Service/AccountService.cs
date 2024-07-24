@@ -175,15 +175,15 @@ namespace Service
                 }
             }
         }
-        public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccounts(NeedVerifyParameters param)
+        public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccounts(NeedVerifyParameters param, string userId)
         {
             var user = await _repository.Account.FindWithVerifierId(param) ?? throw new BadRequestException("bad param");
 
             return (_mapper.Map<IEnumerable<AccountNeedVerifyResponseModel>>(user), user.MetaData);
         }
-        public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccountsSuper(NeedVerifyParameters param)
+        public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccountsSuper(NeedVerifyParameters param, string userId)
         {
-            var hold = !string.IsNullOrWhiteSpace(param.Role) ? _userManager.GetUsersInRoleAsync(param.Role).Result.Where(x => !x.IsVerified) : null;
+            var hold = !string.IsNullOrWhiteSpace(param.Role) ?  _userManager.GetUsersInRoleAsync(param.Role).Result.Where(x => !x.IsVerified) : null;
 
             List<string> validGuid = new List<string>();
 
@@ -194,7 +194,7 @@ namespace Service
                     validGuid.Add(item.Id.ToString());
 
 
-            var user = await _repository.Account.FindWithVerifierIdSuper(param, validGuid) ?? throw new BadRequestException("bad param");
+            var user = await _repository.Account.FindWithVerifierIdSuper(param, validGuid, userId) ?? throw new BadRequestException("bad param");
 
             return (_mapper.Map<IEnumerable<AccountNeedVerifyResponseModel>>(user), user.MetaData);
         }

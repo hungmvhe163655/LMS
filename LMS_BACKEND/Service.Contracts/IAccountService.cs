@@ -18,9 +18,9 @@ namespace Service.Contracts
 
         Task<AccountReturnModel> GetUserById(string id);
 
-        Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccounts(NeedVerifyParameters param);
+        Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccounts(NeedVerifyParameters param, string userId);
 
-        Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccountsSuper(NeedVerifyParameters param);
+        Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccountsSuper(NeedVerifyParameters param, string userId);
 
         Task UpdateAccountVerifyStatus(IEnumerable<UserAcceptanceRequestModel> userIdList, string verifier);
 

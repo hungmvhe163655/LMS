@@ -26,7 +26,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpGet(RoutesAPI.GetAccountNeedVerify)]
         public async Task<IActionResult> GetSupervisorNeedVerify([FromQuery] NeedVerifyParameters param)
         {
-            var user = await _service.AccountService.GetVerifierAccountsSuper(param);
+            var user = await _service.AccountService.GetVerifierAccountsSuper(param, await CheckUser());
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(user.meta));
 
