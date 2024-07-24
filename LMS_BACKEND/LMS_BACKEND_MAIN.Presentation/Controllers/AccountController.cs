@@ -37,9 +37,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateAccountVerifyStatus([FromBody] UpdateVerifyStatusRequestModel model)
         {
-            var user = await _service.AccountService.GetUserById(model.verifierID) ?? throw new BadRequestException("User with that id is not found");
+            var user = await _service.AccountService.GetUserById(model.VerifierID) ?? throw new BadRequestException("User with that id is not found");
 
-            await _service.AccountService.UpdateAccountVerifyStatus(model.UserID, model.verifierID);
+            await _service.AccountService.UpdateAccountVerifyStatus(model.UserID, model.VerifierID);
 
             return Ok(new ResponseMessage { Message = "Update User " + user.FullName + " Status Successully" });
         }

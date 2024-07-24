@@ -140,15 +140,23 @@ namespace Service
             return hold;
         }
 
-        public async Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> UserIDList, string verifier)
+        public async Task UpdateAccountVerifyStatus(IEnumerable<UserAcceptanceRequestModel> UserList, string verifier, bool accept)
         {
-            List<Account> accountList = new List<Account>();
+            List<Account> accountListAccept = new List<Account>();
 
-            accountList.AddRange(await _repository.Account.GetByCondition(entity => UserIDList.Contains(entity.Id) && !entity.IsVerified, false).ToListAsync());
+            List<Account> accountListReject = new List<Account>();
 
-            if (accountList.Any())
+            List<string> UserIDListAccept = UserList.Where(x => x.IsApproved).Select(x => x.UserId).ToList();
+
+            List<string> UserIDListReject = UserList.Where(x => !x.IsApproved).Select(y => y.UserId).ToList();
+
+            accountListAccept.AddRange(await _repository.Account.GetByCondition(entity => UserIDListAccept.Contains(entity.Id) && !entity.IsVerified, false).ToListAsync());
+
+            accountListReject.AddRange(await _repository.Account.GetByCondition(entity => UserIDListReject.Contains(entity.Id) && !entity.IsVerified, false).ToListAsync());
+
+            if (accountListAccept.Any())
             {
-                foreach (var account in accountList)
+                foreach (var account in accountListAccept)
                 {
                     account.IsVerified = true;
 
@@ -158,9 +166,14 @@ namespace Service
 
                     await _repository.Save();
                 }
-                return true;
             }
-            return false;
+            if (accountListReject.Any())
+            {
+                foreach(var account in accountListReject)
+                {
+                    await _userManager.DeleteAsync(account);
+                }
+            }
         }
         public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccounts(NeedVerifyParameters param)
         {

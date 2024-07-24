@@ -22,7 +22,7 @@ namespace Service.Contracts
 
         Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccountsSuper(NeedVerifyParameters param);
 
-        Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> userIdList, string verifier);
+        Task UpdateAccountVerifyStatus(IEnumerable<UserAcceptanceRequestModel> userIdList, string verifier);
 
         Task<bool> ChangePasswordAsync(string userId, string oldPassword, string newPassword);
 
