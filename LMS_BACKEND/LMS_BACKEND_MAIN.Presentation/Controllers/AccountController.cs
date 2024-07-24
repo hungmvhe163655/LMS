@@ -40,11 +40,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var hold = await CheckUser();
 
-            var user = await _service.AccountService.GetUserById(hold) ?? throw new BadRequestException("User with that id is not found");
-
             await _service.AccountService.UpdateAccountVerifyStatus(model.Users, hold);
 
-            return Ok(new ResponseMessage { Message = "Update User " + user.FullName + " Status Successully" });
+            return Ok(new ResponseMessage { Message = "Update User Status Successully" });
         }
 
         [HttpGet("{id}")]
@@ -53,6 +51,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> GetAccountDetail(string id)
         {
             var data = await _service.AccountService.GetAccountDetail(id);
+
             return Ok(data);
         }
 
