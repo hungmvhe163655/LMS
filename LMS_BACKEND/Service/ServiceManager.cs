@@ -1,5 +1,6 @@
 ﻿using Amazon.S3;
 using AutoMapper;
+using Contracts;
 using Contracts.Interfaces;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
@@ -51,7 +52,8 @@ namespace Service
             IConfiguration configuration,
             IMemoryCache memoryCache,
             IAmazonS3 clients3,
-            IHubContext<NotificationHub> notiHub
+            IHubContext<NotificationHub> notiHub,
+            IRedisCacheHelper cache
             )
         {
             _accountService = new Lazy<IAccountService>(() => new AccountService(repositoryManager, logger, mapper, userManager, roleManager));
@@ -70,7 +72,7 @@ namespace Service
 
             _scheduleService = new Lazy<IScheduleService>(() => new ScheduleService(repositoryManager, mapper));
 
-            _taskService = new Lazy<ITaskService>(() => new TaskService(repositoryManager, mapper));
+            _taskService = new Lazy<ITaskService>(() => new TaskService(repositoryManager, mapper, cache));
 
             _taskListService = new Lazy<ITaskListService>(() => new TaskListService(repositoryManager, mapper));
 
