@@ -170,11 +170,11 @@ namespace Service
         }
         public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccountsSuper(NeedVerifyParameters param)
         {
-            var hold = _userManager.GetUsersInRoleAsync(param.Role ?? "").Result.Where(x => !x.IsVerified);
+            var hold = !string.IsNullOrWhiteSpace(param.Role) ? _userManager.GetUsersInRoleAsync(param.Role).Result.Where(x => !x.IsVerified) : null;
 
             List<string> validGuid = new List<string>();
 
-            if (hold.Any())
+            if (hold != null && hold.Any())
 
                 foreach (var item in hold)
 
