@@ -72,7 +72,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "DELETEFILE" });
         }
         [HttpPost(RoutesAPI.UploadImage)]
-        public async Task<IActionResult> UploadImage(string type,[FromForm] IFormFile file)
+        public async Task<IActionResult> UploadImage(string type, [FromForm] IFormFile file)
         {
             using var memoryStream = new MemoryStream();
 
