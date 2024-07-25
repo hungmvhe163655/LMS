@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-    public class Image // this is new 
+    public class Images // this is new 
     {
         [Key]
-        public Guid Id { get; set; }
+        public string Id { get; set; } = null!;
         public string Name { get; set; } = null!;
         public string Extentions { get; set; } = null!;
         public string Type { get; set; } = null!;
-        public Guid? ContentId { get; set; } = Guid.Empty!;
-        public virtual Device? Device { get; set; } = null!;
+        public virtual Device? Device { get; set; }
+        public virtual Report? Report { get; set; }
     }
 }

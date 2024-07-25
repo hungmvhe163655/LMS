@@ -185,8 +185,6 @@ namespace Shared.GlobalVariables
     {
         public const string DEVICE = "Device";
 
-        public const string NEWS = "News";
-
         public const string REPORT = "Report";
     }
 

@@ -14,7 +14,7 @@ namespace Repository
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
-        public DbSet<Image> Images { get; set; }
+        public DbSet<Images> Images { get; set; }
         public DbSet<Device> Devices { get; set; }
         //public DbSet<DeviceStatus> DeviceStatuses { get; set; }
         public DbSet<Files> Files { get; set; }
@@ -47,11 +47,11 @@ namespace Repository
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Image>(entity =>
+            modelBuilder.Entity<Images>(entity =>
             {
                 entity.ToTable("Image");
                 entity.Property(x => x.Id)
-                .ValueGeneratedOnAdd()
+                .ValueGeneratedNever()
                 .HasColumnName("Id");
 
                 entity.Property(x => x.Name)
@@ -63,10 +63,6 @@ namespace Repository
 
                 entity.Property(x => x.Type)
                 .HasColumnName("Type");
-
-                entity.Property(x => x.ContentId)
-                .ValueGeneratedNever()
-                .HasColumnName("ContentId");
 
             });
 
@@ -176,6 +172,12 @@ namespace Repository
                     .HasForeignKey(d => d.OwnedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Devices_Accounts");
+
+                entity.HasOne(d => d.Image).WithOne(p => p.Device)
+                .HasForeignKey<Device>(d => d.Filekey)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Devices_Images");
             });
 
             //modelBuilder.Entity<DeviceStatus>(entity =>
@@ -460,6 +462,12 @@ namespace Repository
                     .HasForeignKey<Report>(d => d.ScheduleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Reports_Schedules");
+
+                entity.HasOne(d => d.Image)
+                .WithOne(p => p.Report)
+                .HasForeignKey<Report>(d => d.FileKey)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Reports_Images");
             });
 
             modelBuilder.Entity<Schedule>(entity =>

@@ -16,7 +16,7 @@ namespace Service.Contracts
         Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model);
         Task DeleteFolder(Guid folderID);
         Task AttachToTask(Guid taskId, Guid fileID);
-        Task<string> UploadFile(Stream inputStream, string mime);
+        Task<string> UploadFile(Stream inputStream, string mime, string type);
         Task<byte[]> DownloadFile(string fileKey);
         Task RemoveFile(string fileKey);
     }
