@@ -275,6 +275,7 @@ namespace Repository.Configuration
                 IsDeleted = false,
                 IsBanned = false,
                 IsVerified = false,
+                VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
                 EmailVerifyCodeAge = DateTime.UtcNow,
                 UserRefreshTokenExpiryTime = DateTime.UtcNow,
                 PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",

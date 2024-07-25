@@ -2,13 +2,16 @@
 using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
@@ -23,6 +26,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public DeviceController(IServiceManager service)
         {
             _service = service;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDevices([FromQuery] DeviceRequestParameters parameters)
+        {
+            var result = await _service.DeviceService.GetDevice(parameters);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(result.meta));
+            return Ok(result.data);
         }
 
         [HttpGet("{id:guid}")]

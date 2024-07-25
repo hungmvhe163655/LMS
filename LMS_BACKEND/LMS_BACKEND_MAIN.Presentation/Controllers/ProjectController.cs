@@ -74,15 +74,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(hold);
         }
 
-        [HttpGet(RoutesAPI.GetOngoingProjects)]
-        public async Task<IActionResult> GetOngoingProject(string userId, [FromQuery] ProjectRequestParameters parameters)
-        {
-            var pageResult = await _service.ProjectService.GetOnGoingProjects(userId, parameters, trackChange: false);
-
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
-            return Ok(pageResult.projects);
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetAllProjects([FromQuery] ProjectRequestParameters parameters)
         {
