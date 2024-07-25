@@ -140,15 +140,23 @@ namespace Service
             return hold;
         }
 
-        public async Task<bool> UpdateAccountVerifyStatus(IEnumerable<string> UserIDList, string verifier)
+        public async Task UpdateAccountVerifyStatus(IEnumerable<UserAcceptanceRequestModel> UserList, string verifier)
         {
-            List<Account> accountList = new List<Account>();
+            List<Account> accountListAccept = new List<Account>();
 
-            accountList.AddRange(await _repository.Account.GetByCondition(entity => UserIDList.Contains(entity.Id) && !entity.IsVerified, false).ToListAsync());
+            List<Account> accountListReject = new List<Account>();
 
-            if (accountList.Any())
+            List<string> UserIDListAccept = UserList.Where(x => x.IsApproved).Select(x => x.UserId).ToList();
+
+            List<string> UserIDListReject = UserList.Where(x => !x.IsApproved).Select(y => y.UserId).ToList();
+
+            accountListAccept.AddRange(await _repository.Account.GetByCondition(entity => UserIDListAccept.Contains(entity.Id) && !entity.IsVerified, false).ToListAsync());
+
+            accountListReject.AddRange(await _repository.Account.GetByCondition(entity => UserIDListReject.Contains(entity.Id) && !entity.IsVerified, false).ToListAsync());
+
+            if (accountListAccept.Any())
             {
-                foreach (var account in accountList)
+                foreach (var account in accountListAccept)
                 {
                     account.IsVerified = true;
 
@@ -158,30 +166,35 @@ namespace Service
 
                     await _repository.Save();
                 }
-                return true;
             }
-            return false;
+            if (accountListReject.Any())
+            {
+                foreach(var account in accountListReject)
+                {
+                    await _userManager.DeleteAsync(account);
+                }
+            }
         }
-        public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccounts(NeedVerifyParameters param)
+        public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccounts(NeedVerifyParameters param, string userId)
         {
             var user = await _repository.Account.FindWithVerifierId(param) ?? throw new BadRequestException("bad param");
 
             return (_mapper.Map<IEnumerable<AccountNeedVerifyResponseModel>>(user), user.MetaData);
         }
-        public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccountsSuper(NeedVerifyParameters param)
+        public async Task<(IEnumerable<AccountNeedVerifyResponseModel> data, MetaData meta)> GetVerifierAccountsSuper(NeedVerifyParameters param, string userId)
         {
-            var hold = _userManager.GetUsersInRoleAsync(param.Role ?? "").Result.Where(x => !x.IsVerified);
+            var hold = !string.IsNullOrWhiteSpace(param.Role) ?  _userManager.GetUsersInRoleAsync(param.Role).Result.Where(x => !x.IsVerified) : null;
 
             List<string> validGuid = new List<string>();
 
-            if (hold.Any())
+            if (hold != null && hold.Any())
 
                 foreach (var item in hold)
 
                     validGuid.Add(item.Id.ToString());
 
 
-            var user = await _repository.Account.FindWithVerifierIdSuper(param, validGuid) ?? throw new BadRequestException("bad param");
+            var user = await _repository.Account.FindWithVerifierIdSuper(param, validGuid, userId) ?? throw new BadRequestException("bad param");
 
             return (_mapper.Map<IEnumerable<AccountNeedVerifyResponseModel>>(user), user.MetaData);
         }

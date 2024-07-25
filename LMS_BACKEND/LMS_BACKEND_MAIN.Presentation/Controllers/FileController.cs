@@ -72,7 +72,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "DELETEFILE" });
         }
         [HttpPost(RoutesAPI.UploadImage)]
-        public async Task<IActionResult> UploadImage([FromForm] IFormFile file)
+        public async Task<IActionResult> UploadImage(string type, [FromForm] IFormFile file)
         {
             using var memoryStream = new MemoryStream();
 
@@ -80,7 +80,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             memoryStream.Position = 0;
 
-            return Ok(await _serviceManager.FileService.UploadFile(memoryStream, file.ContentType));
+            return Ok(await _serviceManager.FileService.UploadFile(memoryStream, file.ContentType, type));
         }
         [HttpGet(RoutesAPI.DownloadImage)]
         public async Task<IActionResult> DownloadImage(string key)

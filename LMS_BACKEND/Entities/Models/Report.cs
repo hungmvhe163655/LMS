@@ -11,6 +11,7 @@ namespace Entities.Models
         public string? Description { get; set; }
         public string? FileKey { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public virtual Images? Image { get; set; }
         public virtual Schedule Schedules { get; set; } = null!;
     }
 

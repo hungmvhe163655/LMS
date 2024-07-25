@@ -7,6 +7,7 @@ using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
@@ -25,7 +26,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpGet(RoutesAPI.GetAccountNeedVerify)]
         public async Task<IActionResult> GetSupervisorNeedVerify([FromQuery] NeedVerifyParameters param)
         {
-            var user = await _service.AccountService.GetVerifierAccountsSuper(param);
+            var user = await _service.AccountService.GetVerifierAccountsSuper(param, await CheckUser());
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(user.meta));
 
@@ -37,20 +38,32 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateAccountVerifyStatus([FromBody] UpdateVerifyStatusRequestModel model)
         {
-            var user = await _service.AccountService.GetUserById(model.verifierID) ?? throw new BadRequestException("User with that id is not found");
+            var hold = await CheckUser();
 
-            await _service.AccountService.UpdateAccountVerifyStatus(model.UserID, model.verifierID);
+            await _service.AccountService.UpdateAccountVerifyStatus(model.Users, hold);
 
-            return Ok(new ResponseMessage { Message = "Update User " + user.FullName + " Status Successully" });
+            return Ok(new ResponseMessage { Message = "Update User Status Successully" });
         }
+
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> GetAccountDetail(string id)
         {
             var data = await _service.AccountService.GetAccountDetail(id);
+
             return Ok(data);
         }
 
+        private async Task<string> CheckUser()
+        {
+            var userClaims = User.Claims;
+
+            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
+
+            return hold.Id;
+        }
     }
 }

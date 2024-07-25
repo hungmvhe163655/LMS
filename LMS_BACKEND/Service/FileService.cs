@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
+using Shared.GlobalVariables;
 using System.Net;
 
 namespace Service
@@ -182,11 +183,19 @@ namespace Service
 
             return hold;
         }
-        public async Task<string> UploadFile(Stream inputStream, string mime)//upload images
+        public async Task<string> UploadFile(Stream inputStream, string mime, string type)//upload images
         {
+            if (!type.ToLower().Equals(IMAGE_TYPE.DEVICE.ToLower()) && !type.ToLower().Equals(IMAGE_TYPE.REPORT.ToLower())) throw new BadRequestException("Not a valid purpose");
+
             if (!IsImageMimeType(mime)) throw new BadRequestException("Only pictures allowed");
 
             var file_key = Guid.NewGuid().ToString();
+
+            var hold = new Images { Id = file_key, Extentions = mime, Type = type.ToLower().Equals(IMAGE_TYPE.DEVICE.ToLower()) ? IMAGE_TYPE.DEVICE : IMAGE_TYPE.REPORT, Name = file_key };
+
+            _repositoryManager.Image.Create(hold);
+
+            await _repositoryManager.Save();
 
             var result = await UploadFileToS3Async(file_key, mime, inputStream);
 
@@ -196,7 +205,13 @@ namespace Service
         }
         public async Task RemoveFile(string fileKey)//delete images
         {
+            var hold = await _repositoryManager.Image.GetByCondition(x => x.Id.Equals(fileKey), false).FirstOrDefaultAsync();
+
+            _repositoryManager.Image.Delete(hold ?? throw new BadRequestException("No such Image exist"));
+
             await DeleteFileFromS3Async(fileKey);
+
+            await _repositoryManager.Save();
         }
         public async Task EditFile(FileEditRequestModel model)
         {

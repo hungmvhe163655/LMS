@@ -9,8 +9,6 @@ namespace Repository.Extensions
         {
             var hold = data;
 
-            if (parameters.UserId != null) hold = data.Where(x => x.VerifiedBy != null && x.VerifiedBy.Equals(parameters.UserId));
-
             if (string.IsNullOrWhiteSpace(parameters.SearchContent ?? "")) return hold;
 
             var lowerCaseTerm = parameters.SearchContent == null ? "" : parameters.SearchContent.Trim().ToLower();

@@ -10,6 +10,7 @@ using Service.Contracts;
 using Shared;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
+using Shared.GlobalVariables;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -71,7 +72,7 @@ namespace Service
 
             var verifierRole = await _userManager.GetRolesAsync(verifier);
 
-            if (verifierRole == null || !(verifierRole.Contains("Supervisor") || (verifierRole.Contains("Labadmin"))))
+            if (verifierRole == null || !(verifierRole.Contains(ROLES.SUPERVISOR) || (verifierRole.Contains(ROLES.ADMIN))))
 
                 throw new BadRequestException("Verifier's not authorized");
 
@@ -89,7 +90,9 @@ namespace Service
             {
                 user.EmailConfirmed = true;
 
-                user.VerifiedBy = verifier.Id;
+                if (model.Roles.Contains(ROLES.STUDENT)) user.VerifiedBy = verifier.Id;
+
+                if (model.Roles.Contains(ROLES.SUPERVISOR)) user.VerifiedBy = null;
 
                 user.UserName = model.RollNumber ?? user.Id.ToString();
 
@@ -115,7 +118,7 @@ namespace Service
 
                 if (user == null) throw new Exception("Errors occurs during the registing process");
 
-                var hold = model.Roles.Contains("Student") ? new StudentDetail { AccountId = user.Id, RollNumber = model.RollNumber } : null;
+                var hold = model.Roles.Contains(ROLES.STUDENT) ? new StudentDetail { AccountId = user.Id, RollNumber = model.RollNumber } : null;
 
                 if (hold != null)
                 {
@@ -339,7 +342,6 @@ namespace Service
             };
             var tokenHandler = new JwtSecurityTokenHandler();
 
-
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
 
             if (securityToken is not JwtSecurityToken jwtSecurityToken ||
@@ -366,7 +368,6 @@ namespace Service
                 ValidAudience = _jwtConfiguration.ValidAudience
             };
             var tokenHandler = new JwtSecurityTokenHandler();
-
 
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
 
