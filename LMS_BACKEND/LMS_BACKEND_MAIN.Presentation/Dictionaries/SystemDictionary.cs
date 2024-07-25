@@ -150,11 +150,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         public const string GetJoinRequest = "{id:guid}/join-request";
 
-        public const string ValidateJoinRequest = "{id:guid}/join-request/validate";
+        public const string ValidateJoinRequest = "{id:guid}/join-request";
 
         public const string GetProjects = "user/{userid}";
-
-        public const string GetOngoingProjects = "user/{userid}/on-going";
 
         #endregion
 

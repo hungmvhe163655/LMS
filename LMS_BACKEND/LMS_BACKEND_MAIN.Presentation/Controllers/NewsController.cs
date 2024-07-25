@@ -20,7 +20,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = service;
         }
-
+        
         [HttpGet]
         public async Task<IActionResult> GetNewsAsync([FromQuery] NewsRequestParameters newsParameters)
         {
