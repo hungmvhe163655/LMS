@@ -1,10 +1,12 @@
-﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
+﻿using Entities.Exceptions;
+using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
@@ -46,7 +48,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateProjejct(CreateProjectRequestModel model)
         {
-            var result = await _service.ProjectService.CreatNewProject(model);
+            var result = await _service.ProjectService.CreatNewProject(CheckUser().Result ,model);
 
             return CreatedAtAction(nameof(GetProject), new { id = result.Id }, result);
         }
@@ -97,6 +99,17 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
             return Ok(pageResult.projects);
+        }
+
+        private async Task<string> CheckUser()
+        {
+            var userClaims = User.Claims;
+
+            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
+
+            return hold.Id;
         }
     }
 }

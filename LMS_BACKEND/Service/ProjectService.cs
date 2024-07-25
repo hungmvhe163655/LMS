@@ -22,7 +22,7 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<ProjectResponseModel> CreatNewProject(CreateProjectRequestModel model)
+        public async Task<ProjectResponseModel> CreatNewProject(string userId, CreateProjectRequestModel model)
         {
             var hold = _mapper.Map<Project>(model);
 
@@ -33,7 +33,7 @@ namespace Service
             var root = new Folder
             {
                 Id = rootid,
-                CreatedBy = model.CreatedBy,
+                CreatedBy = userId,
                 CreatedDate = DateTime.Now,
                 IsRoot = true,
                 LastModifiedDate = DateTime.Now,
@@ -43,7 +43,7 @@ namespace Service
             };
             var member = new Member
             {
-                UserId = model.CreatedBy,
+                UserId = userId,
                 ProjectId = hold.Id,
                 IsLeader = true,
                 JoinDate = DateTime.Now,
