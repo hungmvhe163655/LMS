@@ -176,6 +176,11 @@ namespace Shared.GlobalVariables
         public const string TWOMINUTES = "120SecondsDuration";
     }
 
+    public static class REDIS_CACHE
+    {
+        public const string PROJECT_TASKS = "GetTasksWithProjectId";
+    }
+
     //public static class StaticParameters
     //{
     //    #region ROLES

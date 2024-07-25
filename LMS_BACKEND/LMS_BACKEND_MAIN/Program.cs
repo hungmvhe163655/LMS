@@ -15,8 +15,21 @@ var builder = WebApplication.CreateBuilder(args);
 var logger = NLog.LogManager.Setup().LoadConfigurationFromFile(Path.Combine(Directory.GetCurrentDirectory(), "nlog.config")).GetCurrentClassLogger();
 
 var connectionString = builder.Configuration.GetConnectionString("LemaoString") ?? throw new InvalidOperationException("Connection string 'Cnn' not found.");
+
+//var redisString = builder.Configuration.GetConnectionString("LemaoString2") ?? throw new InvalidOperationException("Redis connectrion string was not found");
+
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(connectionString));
+
+/*
+builder.Services.AddStackExchangeRedisCache(
+    options =>
+    {
+        options.Configuration = redisString;
+
+        options.InstanceName = nameof(LMS_BACKEND_MAIN);
+    });
+*/
 
 builder.Services.ConfigureRepositoryManager();
 
@@ -46,6 +59,8 @@ builder.Services.AddJwtConfiguration(builder.Configuration);
 
 builder.Services.ConfigureResponseCaching();
 
+//builder.Services.ConfigureCacheRedis();
+
 //builder.Services.ConfigureHttpCacheHeaders();
 
 builder.Services.AddControllers(
@@ -68,7 +83,9 @@ builder.Services.AddAuthentication();
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("adminorsupervisor", policy => policy.RequireRole("labadmin", "supervisor"));
+
     options.AddPolicy("admin", policy => policy.RequireRole("labadmin"));
+
     options.AddPolicy("supervisor", policy => policy.RequireRole("supervisor"));
 });
 
@@ -92,6 +109,7 @@ app.ConfigureExceptionHandler(log);
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+
     app.UseSwaggerUI();
 }
 else

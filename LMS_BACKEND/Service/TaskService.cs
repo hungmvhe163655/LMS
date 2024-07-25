@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Contracts;
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
@@ -7,6 +8,7 @@ using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using Shared.GlobalVariables;
 
 namespace Service
 {
@@ -16,18 +18,42 @@ namespace Service
 
         private readonly IMapper _mapper;
 
+       // private readonly IRedisCacheHelper _cache;
+
+        //public TaskService(IRepositoryManager repositoryManager, IMapper mapper, IRedisCacheHelper cache)
         public TaskService(IRepositoryManager repositoryManager, IMapper mapper)
         {
             _repository = repositoryManager;
 
             _mapper = mapper;
+
+          //  _cache = cache;
         }
 
         public async Task<IEnumerable<TaskResponseModel>> GetTasksWithProjectId(Guid projectId)
         {
-            return _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.Task.GetTasksWithProjectId(projectId, false).ToListAsync());
+
+            var hold = _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.Task.GetTasksWithProjectId(projectId, false).ToListAsync());
+
+            return hold;
         }
 
+        /*
+        public async Task<IEnumerable<TaskResponseModel>> GetTasksWithProjectId(Guid projectId)
+        {
+            var data_cached = await _cache.GetCacheAsync<IEnumerable<TaskResponseModel>>(projectId.ToString() + nameof(GetTasksWithProjectId));
+
+            if (data_cached == null)
+            {
+                var hold = _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.Task.GetTasksWithProjectId(projectId, false).ToListAsync());
+
+                await _cache.SetCacheAsync<IEnumerable<TaskResponseModel>>(projectId.ToString() + nameof(GetTasksWithProjectId), hold, TimeSpan.FromHours(1));
+
+                return hold;
+            }
+            else return data_cached;
+        }
+        */
         public async Task<IEnumerable<TaskResponseModel>> GetTasksWithTaskListId(Guid taskListId)
         {
             return _mapper.Map<IEnumerable<TaskResponseModel>>(await _repository.Task.GetTasksWithTaskListId(taskListId, false).ToListAsync());
@@ -140,12 +166,12 @@ namespace Service
 
             if (!taskFromDb.Any()) throw new BadRequestException("No task found for specified user.");
 
-            var tasksDto= _mapper.Map<IEnumerable<TaskResponseModel>>(taskFromDb);
+            var tasksDto = _mapper.Map<IEnumerable<TaskResponseModel>>(taskFromDb);
 
             return (tasks: tasksDto, metaData: taskFromDb.MetaData);
 
         }
-        
+
         public async Task<TaskResponseModel> GetTaskByID(Guid id)
         {
             return _mapper.Map<TaskResponseModel>(await _repository.Task.GetTaskWithId(id, false).FirstAsync());
@@ -153,7 +179,7 @@ namespace Service
 
         public async Task<(TaskUpdateRequestModel taskToPatch, Tasks taskEntity, Guid oldLitId)> MoveTaskForPatch(Guid taskListId, Guid taskId)
         {
-            var taskList = await _repository.TaskList.GetByCondition(x => x.Id.Equals(taskListId), false).Include(x =>x.Tasks).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
+            var taskList = await _repository.TaskList.GetByCondition(x => x.Id.Equals(taskListId), false).Include(x => x.Tasks).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
 
             _ = taskList.Tasks.Where(x => x.Id.Equals(taskId)).FirstOrDefault() ?? throw new BadRequestException("no such task exist in inputed list");
 
@@ -172,7 +198,7 @@ namespace Service
 
             _mapper.Map(taskToPatch, taskEntity);
 
-             await _repository.Save();
+            await _repository.Save();
 
             return taskEntity.TaskListId;
         }

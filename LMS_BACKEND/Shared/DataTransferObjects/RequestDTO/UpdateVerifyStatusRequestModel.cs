@@ -5,7 +5,6 @@ namespace Shared.DataTransferObjects.RequestDTO
     public class UpdateVerifyStatusRequestModel
     {
         [Required(ErrorMessage = "UserId is required")]
-        public List<string> UserID { get; set; } = new List<string>();
-        public string verifierID { get; set; } = null!;
+        public List<UserAcceptanceRequestModel> Users { get; set; } = new List<UserAcceptanceRequestModel>();
     }
 }
