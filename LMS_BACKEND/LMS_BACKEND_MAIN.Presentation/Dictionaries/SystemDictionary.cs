@@ -94,7 +94,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         public const string DownloadFile = "download/{id:guid}";
 
-        public const string UploadImage = "upload/image";
+        public const string UploadImage = "upload/image/{type}";
 
         public const string DownloadImage = "download/image/{key}";
 

@@ -50,14 +50,18 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateReport(Guid Id, [FromBody] UpdateReportRequestModel model)
         {
-            await _service.ReportService.UpdateReport(Id, model);
+            var hold = await _service.ReportService.UpdateReport(Id, model);
+
+            await _service.FileService.RemoveFile(hold ?? Guid.Empty.ToString());
 
             return Ok(new ResponseMessage { Message = "Update success" });
         }
         [HttpDelete]
         public async Task<IActionResult> DeleteReport(Guid Id)
         {
-            await _service.ReportService.DeleteReport(Id);
+            var hold = await _service.ReportService.DeleteReport(Id);
+
+            await _service.FileService.RemoveFile(hold ?? Guid.Empty.ToString());
 
             return Ok(new ResponseMessage { Message = "Delete success" });
         }

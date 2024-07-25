@@ -16,7 +16,7 @@ namespace Service.Contracts
         Task<(IEnumerable<ReportResponseModel> data, MetaData meta)> GetallReportsWithParam(Guid deviceId, ReportRequestParameters param);
         Task<ReportResponseModel> GetReport(Guid id);
         Task<ReportResponseModel> CreateReport(CreateReportRequestModel model);
-        Task DeleteReport(Guid id);
-        Task UpdateReport(Guid id, UpdateReportRequestModel model);
+        Task<string?> DeleteReport(Guid id);
+        Task<string?> UpdateReport(Guid id, UpdateReportRequestModel model);
     }
 }

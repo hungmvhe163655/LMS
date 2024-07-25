@@ -61,21 +61,33 @@ namespace Service
 
             return _mapper.Map<ReportResponseModel>(hold);
         }
-        public async Task DeleteReport(Guid id)
+        public async Task<string?> DeleteReport(Guid id)
         {
             var hold = await _repository.Report.GetByCondition(x => x.Id.Equals(id), false).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid ID");
+
+            var hold_image = hold.FileKey;
 
             _repository.Report.Delete(hold);
 
             await _repository.Save();
+
+            return hold_image;
         }
-        public async Task UpdateReport(Guid id, UpdateReportRequestModel model)// luc implement leen controller nhow phai them kiem tra sua fiel de con xoa file cu
+        public async Task<string?> UpdateReport(Guid id, UpdateReportRequestModel model)// luc implement leen controller nhow phai them kiem tra sua fiel de con xoa file cu
         {
             var hold = await _repository.Report.GetByCondition(x => x.Id.Equals(id), true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid ID");
+
+            var compare = hold.FileKey != null ? hold.FileKey.Equals(model.FileKey) : false;
+
+            string end = "";
+
+            if(compare) end = model.FileKey;
 
             _mapper.Map(model, hold);
 
             await _repository.Save();
+
+            return end;
         }
     }
 }
