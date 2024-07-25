@@ -14,7 +14,7 @@ namespace Entities.Models
         public bool IsDeleted { get; set; }
 
         public virtual Account? OwnedByUser { get; set; } = null!;
-
+        public virtual ICollection<Image> Images { get; set; } = new List<Image>(); //this is new 
         public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
     }
 }

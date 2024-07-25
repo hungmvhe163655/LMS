@@ -13,6 +13,8 @@ namespace Repository
         : base(options) { }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Image> Images { get; set; }
         public DbSet<Device> Devices { get; set; }
         //public DbSet<DeviceStatus> DeviceStatuses { get; set; }
         public DbSet<Files> Files { get; set; }
@@ -44,6 +46,29 @@ namespace Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Image>(entity =>
+            {
+                entity.ToTable("Image");
+                entity.Property(x => x.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("Id");
+
+                entity.Property(x => x.Name)
+                .IsUnicode(true)
+                .HasColumnName(@"Name");
+
+                entity.Property(x => x.Extentions)
+                .HasColumnName("Extentions");
+
+                entity.Property(x => x.Type)
+                .HasColumnName("Type");
+
+                entity.Property(x => x.ContentId)
+                .ValueGeneratedNever()
+                .HasColumnName("ContentId");
+
+            });
 
             modelBuilder.Entity<IdentityUserRole<string>>(entity =>
             {

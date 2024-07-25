@@ -181,6 +181,15 @@ namespace Shared.GlobalVariables
         public const string PROJECT_TASKS = "GetTasksWithProjectId";
     }
 
+    public static class IMAGE_TYPE
+    {
+        public const string DEVICE = "Device";
+
+        public const string NEWS = "News";
+
+        public const string REPORT = "Report";
+    }
+
     //public static class StaticParameters
     //{
     //    #region ROLES
