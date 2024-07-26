@@ -36,7 +36,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpGet(RoutesAPI.GetCommentByTaskId)]
-        public async Task<IActionResult> GetCommentByTaskId(Guid taskid, [FromQuery] RequestParameters param)
+        public async Task<IActionResult> GetCommentByTaskId(Guid taskid, [FromQuery] CommentParameters param)
         {
             var hold = await _service.CommentService.GetPagedComment(taskid, param);
 
@@ -45,7 +45,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(hold.ToList());
         }
 
-        [HttpPost]
+        [HttpPost(RoutesAPI.CreateComment)]
         public async Task<IActionResult> CreateComment(Guid taskid, [FromBody] CreateCommentRequestModel model)
         {
             var hold = await _service.CommentService.CreateComment(model, await CheckUser(), taskid);

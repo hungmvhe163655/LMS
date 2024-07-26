@@ -9,7 +9,7 @@ namespace Shared.DataTransferObjects.RequestDTO
 {
     public class CreateCommentRequestModel
     {
-        public string? Content { get; set; }
+        public string Content { get; set; } = null!;
         public Guid? ParentId { get; set; }
     }
 }

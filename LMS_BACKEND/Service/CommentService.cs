@@ -25,11 +25,17 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<PagedList<CommentResponseModel>> GetPagedComment(Guid taskId, RequestParameters param)
+        //public async Task<PagedList<CommentResponseModel>> GetPagedComment(Guid taskId, CommentParameters param)
+        public async Task<PagedList<CommentResponseModel>> GetPagedComment(Guid taskId, CommentParameters param)
         {
-            var hold = _repository.Comment.GetCommentByTaskId(taskId);
+            //var hold = _repository.Comment.GetCommentByTaskId(taskId);
 
-            return PagedList<CommentResponseModel>.ToPagedList(_mapper.Map<IEnumerable<CommentResponseModel>>(await hold.ToListAsync()), param.PageNumber, param.PageSize);
+            var hold2 = await _repository.Comment.GetCommentByTaskId2(taskId);
+
+            //return PagedList<CommentResponseModel>.ToPagedList(_mapper.Map<IEnumerable<CommentResponseModel>>(await hold.ToListAsync()), param.PageNumber, param.PageSize);
+
+            return PagedList<CommentResponseModel>.ToPagedList(_mapper.Map<IEnumerable<CommentResponseModel>>(hold2), param.PageNumber, param.PageSize);
+
         }
 
         public async Task<CommentResponseModel> CreateComment(CreateCommentRequestModel model, string userid, Guid taskId)
