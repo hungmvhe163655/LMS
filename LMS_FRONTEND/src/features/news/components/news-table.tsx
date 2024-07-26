@@ -16,7 +16,7 @@ export function NewsTable() {
   const page = searchParams.get('page') || 1;
   const perPage = searchParams.get('per_page') || 10;
   const sort = searchParams.get('sort');
-  const searchTerm = searchParams.get('searchTerm');
+  const searchTerm = searchParams.get('search_term');
 
   const { data, isLoading } = useNews({
     newsQueryParameter: {

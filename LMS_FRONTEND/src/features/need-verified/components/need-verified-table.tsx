@@ -15,11 +15,13 @@ export function VerifyAccountsTable() {
 
   const page = searchParams.get('page') || 1;
   const perPage = searchParams.get('per_page') || 10;
+  const searchContent = searchParams.get('search_content');
 
   const { data, isLoading } = useGetVerifyAccounts({
     verifiedAccountsQueryParameter: {
       PageNumber: Number(page),
-      PageSize: Number(perPage)
+      PageSize: Number(perPage),
+      SearchContent: searchContent
     }
   });
 
@@ -38,7 +40,7 @@ export function VerifyAccountsTable() {
 
   return (
     <DataTable table={table}>
-      <VerfyAccountTableToolbarActions />
+      <VerfyAccountTableToolbarActions table={table} />
     </DataTable>
   );
 }

@@ -11,6 +11,7 @@ import ProfileRoute from './profile';
 import ListAllTasksRoute from './project-workspace/list-all-task';
 import ProjectWorkspaceRoute from './project-workspace/project-workspace';
 import SupervisorRoute from './supervisor';
+import VerifyAccountsRoute from './verify-account';
 
 export const createRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
@@ -41,6 +42,10 @@ export const createRouter = (queryClient: QueryClient) =>
     {
       path: 'supervisor',
       children: [SupervisorRoute]
+    },
+    {
+      path: 'verify-account',
+      children: [VerifyAccountsRoute]
     },
     {
       path: 'error',

@@ -12,25 +12,31 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 
 import { useVerifyAccounts } from '../api/verify-account';
+
+interface ConfirmValidationDialogProps {
+  userId: string[]; // or number, depending on your data type
+  isAccept: boolean;
+  onSuccess?: () => void;
+}
+
 export function ConfirmValidationDialog({
   userId,
-  isAccept
-}: {
-  userId: string;
-  isAccept: boolean;
-}) {
+  isAccept,
+  onSuccess
+}: ConfirmValidationDialogProps) {
   const { mutate: verifyAccounts } = useVerifyAccounts();
   const { toast } = useToast();
 
   function handleVerify() {
     verifyAccounts(
-      { userId: [userId] },
+      { userId },
       {
         onSuccess: () => {
           toast({
             variant: 'success',
             description: 'Verify success'
           });
+          onSuccess?.();
         }
       }
     );
