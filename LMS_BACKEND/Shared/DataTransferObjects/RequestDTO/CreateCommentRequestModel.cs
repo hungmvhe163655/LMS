@@ -1,0 +1,15 @@
+﻿using Entities.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Shared.DataTransferObjects.RequestDTO
+{
+    public class CreateCommentRequestModel
+    {
+        public string? Content { get; set; }
+        public Guid? ParentId { get; set; }
+    }
+}
