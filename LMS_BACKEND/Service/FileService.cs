@@ -324,7 +324,7 @@ namespace Service
 
             var descendants_ancestors = new List<FolderClosure>();
 
-            var hold_folder = await _repositoryManager.Folder.GetFolder(folderID, false);
+            var hold_folder = await _repositoryManager.Folder.GetFolder(folderID, false) ?? throw new BadRequestException("Not a valid folder ID");
 
             var hold_folderClosure_descendant = _repositoryManager.FolderClosure.FindDescendants(folderID, false);
 
