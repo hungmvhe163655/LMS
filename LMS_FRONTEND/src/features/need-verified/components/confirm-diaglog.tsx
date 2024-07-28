@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -14,7 +16,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { useVerifyAccounts } from '../api/verify-account';
 
 interface ConfirmValidationDialogProps {
-  userId: string[]; // or number, depending on your data type
+  userId: string[];
   isAccept: boolean;
   onSuccess?: () => void;
 }
@@ -26,24 +28,27 @@ export function ConfirmValidationDialog({
 }: ConfirmValidationDialogProps) {
   const { mutate: verifyAccounts } = useVerifyAccounts();
   const { toast } = useToast();
+  const [open, setOpen] = useState(false);
 
   function handleVerify() {
-    verifyAccounts(
-      { userId },
-      {
-        onSuccess: () => {
-          toast({
-            variant: 'success',
-            description: 'Verify success'
-          });
-          onSuccess?.();
-        }
+    const data = userId.map((id) => ({
+      userId: id,
+      isApproved: isAccept
+    }));
+    verifyAccounts(data, {
+      onSuccess: () => {
+        toast({
+          variant: 'success',
+          description: 'Verify success'
+        });
+        setOpen(false);
+        onSuccess?.();
       }
-    );
+    });
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant={isAccept ? 'success' : 'destructive'}>
           {isAccept ? 'Accept' : 'Decline'}
@@ -53,7 +58,7 @@ export function ConfirmValidationDialog({
         <DialogHeader>
           <DialogTitle>Confirm Dialog</DialogTitle>
           <DialogDescription>
-            Are you sure {isAccept ? 'accept' : 'decline'} this request?
+            Are you sure {isAccept ? 'accept' : 'decline'} {userId.length} request?
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

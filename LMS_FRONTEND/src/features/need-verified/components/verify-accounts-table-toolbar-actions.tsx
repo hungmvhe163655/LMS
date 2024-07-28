@@ -39,20 +39,23 @@ export function VerfyAccountTableToolbarActions({ table }: NeedVerfiedTableToolb
 
   return (
     <div className='flex items-center justify-between gap-2'>
-      {table.getFilteredSelectedRowModel().rows.length > 0 ? (
-        <div className='flex'>
-          <ConfirmValidationDialog
-            userId={userId}
-            isAccept={true}
-            onSuccess={() => table.toggleAllRowsSelected(false)}
-          />
-          <ConfirmValidationDialog
-            userId={userId}
-            isAccept={false}
-            onSuccess={() => table.toggleAllRowsSelected(false)}
-          />
-        </div>
-      ) : null}
+      <div className='flex space-x-4'>
+        {table.getFilteredSelectedRowModel().rows.length > 0 ? (
+          <>
+            <ConfirmValidationDialog
+              userId={userId}
+              isAccept={true}
+              onSuccess={() => table.toggleAllRowsSelected(false)}
+            />
+            <ConfirmValidationDialog
+              userId={userId}
+              isAccept={false}
+              onSuccess={() => table.toggleAllRowsSelected(false)}
+            />
+          </>
+        ) : null}
+      </div>
+
       <div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='flex space-x-2 p-2'>

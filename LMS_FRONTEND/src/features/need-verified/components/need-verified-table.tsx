@@ -31,6 +31,7 @@ export function VerifyAccountsTable() {
   const { table } = useDataTable({
     data: data?.data || [],
     pageCount: data?.pagination.TotalPages || 0,
+    enableRowSelection: true,
     columns
   });
 

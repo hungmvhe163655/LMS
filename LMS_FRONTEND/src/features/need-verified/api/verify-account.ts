@@ -6,8 +6,8 @@ import { MutationConfig } from '@/lib/react-query';
 import { VerifyAccount } from '../types/api';
 import { VerifiedAccountKeys } from '../utils/queries';
 
-export const verifyAccounts = async (data: VerifyAccount) => {
-  const res = await api.post(`/accounts/verification`, data);
+export const verifyAccounts = async (data: VerifyAccount[]) => {
+  const res = await api.post(`/accounts/verification`, { users: data });
   return res.data;
 };
 

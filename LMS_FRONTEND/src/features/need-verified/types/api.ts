@@ -12,5 +12,6 @@ export type VerifiedAccountsQueryParams = {
 } & QueryParams;
 
 export type VerifyAccount = {
-  userId: string[];
+  userId: string;
+  isApproved: boolean;
 };

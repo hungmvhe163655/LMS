@@ -41,7 +41,7 @@ export function getColumns(): ColumnDef<NeedVerfiedAccount>[] {
     {
       id: 'action',
       cell: ({ row }) => (
-        <div className='flex'>
+        <div className='flex space-x-4'>
           <ConfirmValidationDialog
             userId={[row.original.id]}
             isAccept={true}
