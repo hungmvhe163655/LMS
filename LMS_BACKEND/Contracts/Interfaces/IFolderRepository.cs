@@ -3,7 +3,7 @@ using Shared.DataTransferObjects.RequestParameters;
 
 namespace Contracts.Interfaces
 {
-    public interface IFolderRepository
+    public interface IFolderRepository : IRepositoryBase<Folder>
     {
         Task<Folder> GetFolder(Guid id, bool track);
         Task<(IQueryable<Folder> Data, int CountLeft)> GetFolderWithDescendantDepth1Id(FolderRequestParameters param, Guid FatherId);

@@ -353,20 +353,26 @@ namespace Service
 
             var hold_folder = await _repositoryManager.Folder.GetFolder(folderID, false) ?? throw new BadRequestException("Not a valid folder ID");
 
-            var hold_folderClosure_descendant = _repositoryManager.FolderClosure.FindDescendants(folderID, false);
+            if (hold_folder.IsRoot) throw new BadRequestException("Can not delete root folder");
+
+            var hold_folderClosure_descendant = _repositoryManager.FolderClosure.FindDescendants(folderID, false).Select(x => x.DescendantID);
+
+            var descendants = _repositoryManager.Folder.GetByCondition(x => hold_folderClosure_descendant.Contains(x.Id), false);
 
             foreach (var item in hold_folderClosure_descendant)
             {
-                descendants_ancestors.AddRange(await _repositoryManager.FolderClosure.FindAncestors(item.DescendantID, false).ToListAsync());
+                descendants_ancestors.AddRange(await _repositoryManager.FolderClosure.FindAncestors(item, false).ToListAsync());
             }
 
-            FolderToDelete.AddRange(hold_folderClosure_descendant.Select(x => x.DescendantID));
+            FolderToDelete.AddRange(hold_folderClosure_descendant);
 
             var hold_files = await _repositoryManager.File.FindAll(false).Where(x => FolderToDelete.Contains(x.FolderId)).ToListAsync();
 
             _repositoryManager.File.DeleteRange(hold_files);
 
             _repositoryManager.FolderClosure.DeleteListFolder(descendants_ancestors);
+
+            _repositoryManager.Folder.DeleteRange(await descendants.ToListAsync());
 
             await _repositoryManager.Save();
         }
