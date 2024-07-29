@@ -24,7 +24,7 @@ namespace Repository
                     .FirstOrDefaultAsync()
                     ?? throw new BadRequestException("Invalid folderID"))
                     .FolderClosureAncestor
-                    .Where(x=>x.Depth==1)
+                    .Where(x => x.Depth == 1)
                     .Select(z => z.DescendantID).ToList();
 
             var end = GetByCondition(x => hold.Contains(x.Id), false).SortContent(param.OrderBy);
@@ -35,7 +35,7 @@ namespace Repository
                 .Take(param.Take ?? SCROLL_LIST.SMALL30)
                 : end;
 
-            return (result, result.Count() - (end.Count() + param.Top ?? 0));
+            return (result, end.Count() - (result.Count() + param.Top ?? 0));
         }
 
         public async Task<Folder> GetFolder(Guid id, bool track)

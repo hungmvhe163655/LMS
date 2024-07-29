@@ -27,7 +27,7 @@ namespace Repository
 
             var taken = end.CountAsync().Result + param.Top ?? 0;
 
-            return (hold, total - taken);
+            return (end, total - taken);
         }
         public async Task<IEnumerable<Files>> GetFilesWithQuery(bool track, FileRequestParameters parameters)
         {
