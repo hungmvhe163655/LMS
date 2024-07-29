@@ -14,9 +14,9 @@ namespace Repository
         {
             return await GetByCondition(x => x.AncestorID.Equals(rootId), false).ToListAsync();
         }
-        public IEnumerable<FolderClosure> FindAncestors(Guid Ancs_Id, bool track)
+        public IQueryable<FolderClosure> FindAncestors(Guid Ancs_Id, bool track)
         {
-            return FindAll(track).Where(x => x.DescendantID.Equals(Ancs_Id)).ToList();
+            return GetByCondition(x => x.DescendantID.Equals(Ancs_Id), track);
         }
         public IEnumerable<FolderClosure> FindDescendants(Guid guid, bool track)
         {

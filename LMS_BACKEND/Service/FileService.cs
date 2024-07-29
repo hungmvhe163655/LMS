@@ -287,23 +287,32 @@ namespace Service
 
         public async Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model)
         {
-            var hold_folder = new Folder { Id = Guid.NewGuid(), CreatedBy = model.CreatedBy, ProjectId = model.ProjectId, CreatedDate = DateTime.Now, LastModifiedDate = DateTime.Now, Name = model.Name };
+            var hold_folder = new Folder
+            {
+                Id = Guid.NewGuid(),
+                CreatedBy = model.CreatedBy,
+                ProjectId = model.ProjectId,
+                CreatedDate = DateTime.Now,
+                LastModifiedDate = DateTime.Now,
+                Name = model.Name
+            };
+            if (model.ProjectId == Guid.Empty) throw new BadRequestException("Project Id can not be null");
 
             if (model.AncestorId != Guid.Empty)
             {
-                var hold_ancs = _repositoryManager.FolderClosure.FindAncestors(model.AncestorId, false);
+                var hold_ancs = await _repositoryManager.FolderClosure.FindAncestors(model.AncestorId, true).ToListAsync();
 
-                var hold = new List<FolderClosure>();
+                var end = new List<FolderClosure>();
 
                 foreach (var item in hold_ancs)
                 {
-                    hold.Add(new FolderClosure { AncestorID = item.AncestorID, DescendantID = hold_folder.Id, Depth = item.Depth + 1 });
+                    end.Add(new FolderClosure { AncestorID = item.AncestorID, DescendantID = hold_folder.Id, Depth = item.Depth + 1 });
                 }
-                hold.Add(new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 });
+                end.Add(new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 });
 
                 await _repositoryManager.Folder.AddFolder(hold_folder);
 
-                await _repositoryManager.FolderClosure.AddLeaf(hold);
+                await _repositoryManager.FolderClosure.AddRange(end);
             }
             else
             {
@@ -348,7 +357,7 @@ namespace Service
 
             foreach (var item in hold_folderClosure_descendant)
             {
-                descendants_ancestors.AddRange(_repositoryManager.FolderClosure.FindAncestors(item.DescendantID, false));
+                descendants_ancestors.AddRange(await _repositoryManager.FolderClosure.FindAncestors(item.DescendantID, false).ToListAsync());
             }
 
             FolderToDelete.AddRange(hold_folderClosure_descendant.Select(x => x.DescendantID));

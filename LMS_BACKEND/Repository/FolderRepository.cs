@@ -20,11 +20,11 @@ namespace Repository
                 GetByCondition
                     (x => x.Id
                     .Equals(FatherId), false)
-                    .Include(x => x.FolderClosureDescendant
-                    .Where(y => y.Depth == 1))
+                    .Include(x => x.FolderClosureAncestor)
                     .FirstOrDefaultAsync()
                     ?? throw new BadRequestException("Invalid folderID"))
-                    .FolderClosureDescendant
+                    .FolderClosureAncestor
+                    .Where(x=>x.Depth==1)
                     .Select(z => z.DescendantID).ToList();
 
             var end = GetByCondition(x => hold.Contains(x.Id), false).SortContent(param.OrderBy);
