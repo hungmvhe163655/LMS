@@ -289,8 +289,6 @@ namespace Service
         {
             var hold_folder = new Folder { Id = Guid.NewGuid(), CreatedBy = model.CreatedBy, ProjectId = model.ProjectId, CreatedDate = DateTime.Now, LastModifiedDate = DateTime.Now, Name = model.Name };
 
-            await _repositoryManager.Folder.AddFolder(hold_folder);
-
             if (model.AncestorId != Guid.Empty)
             {
                 var hold_ancs = _repositoryManager.FolderClosure.FindAncestors(model.AncestorId, false);
@@ -303,6 +301,8 @@ namespace Service
                 }
                 hold.Add(new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 });
 
+                await _repositoryManager.Folder.AddFolder(hold_folder);
+
                 await _repositoryManager.FolderClosure.AddLeaf(hold);
             }
             else
@@ -311,6 +311,10 @@ namespace Service
                 {
                     new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 }
                 };
+
+                hold_folder.IsRoot = true;
+
+                await _repositoryManager.Folder.AddFolder(hold_folder);
 
                 await _repositoryManager.FolderClosure.AddLeaf(hold);
             }
