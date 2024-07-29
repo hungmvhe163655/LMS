@@ -10,5 +10,6 @@ namespace Shared.DataTransferObjects.RequestDTO
     {
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
+        public string? Filekey { get; set; }
     }
 }
