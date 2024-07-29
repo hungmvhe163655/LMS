@@ -10,6 +10,6 @@ namespace Shared.DataTransferObjects.RequestParameters
     {
         public int? Top { get; set; } = 0;
         public int? Take { get; set; } = 0;
-        public string? Sorting { get; set; }
+        public string? OrderBy { get; set; }
     }
 }

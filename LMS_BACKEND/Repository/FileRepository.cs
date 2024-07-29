@@ -19,7 +19,7 @@ namespace Repository
             .ToListAsync();
         public async Task<(IQueryable<Files> Data, int CountLeft)> GetFileWithFolderId(FilesRequestParameters param, Guid FolderId)
         {
-            var hold = GetByCondition(x => x.FolderId.Equals(FolderId), false).Sort(param.Sorting);
+            var hold = GetByCondition(x => x.FolderId.Equals(FolderId), false).Sort(param.OrderBy);
 
             var end = hold.Skip(param.Top ?? SCROLL_LIST.DEFAULT_TOP).Take(param.Take ?? SCROLL_LIST.MEDIUM50);
 

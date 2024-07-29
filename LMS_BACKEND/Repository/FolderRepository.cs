@@ -27,7 +27,7 @@ namespace Repository
                     .FolderClosureDescendant
                     .Select(z => z.DescendantID).ToList();
 
-            var end = GetByCondition(x => hold.Contains(x.Id), false).SortContent(param.Sorting);
+            var end = GetByCondition(x => hold.Contains(x.Id), false).SortContent(param.OrderBy);
 
             var result = param.Take > 0
                 ? end
