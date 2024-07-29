@@ -108,6 +108,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         public const string GetProjectFolderScheme = "project/{id:guid}/root";
 
+        public const string GetFolderFolders = "{id:guid}/content/folders";
+
+        public const string GetFolderFiles = "{id:guid}/content/files";
+
         #endregion
 
         #region TokenAPIs

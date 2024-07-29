@@ -9,6 +9,7 @@ namespace Service.Contracts
     {
         Task<FileResponseModel> CreateFile(FileUploadRequestModel model, Stream inputStream);
         Task<(byte[], FileResponseModel)> GetFile(Guid fileID);
+        Task<FolderResponseModel> GetFolderWithId(Guid folderId);
         Task<(IEnumerable<FolderResponseModel> Data, int DataLeft)> GetFolderFolders(FolderRequestParameters param, Guid folderID);
         Task<(IEnumerable<FileResponseModel> Data, int CountLeft)> GetFolderFiles(FilesRequestParameters param, Guid folderID);
         Task EditFile(FileEditRequestModel model);

@@ -204,6 +204,14 @@ namespace Service
 
             return file_key;
         }
+
+        public async Task<FolderResponseModel> GetFolderWithId(Guid folderId)
+        {
+            var hold = await _repositoryManager.Folder.GetFolder(folderId, false);
+
+            return _mappers.Map<FolderResponseModel>(hold);
+        }
+
         public async Task RemoveFile(string fileKey)//delete images
         {
             var hold = await _repositoryManager.Image.GetByCondition(x => x.Id.Equals(fileKey), false).FirstOrDefaultAsync();
