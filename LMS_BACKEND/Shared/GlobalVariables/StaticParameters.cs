@@ -188,6 +188,17 @@ namespace Shared.GlobalVariables
         public const string REPORT = "Report";
     }
 
+    public static class SCROLL_LIST
+    {
+        public const int SMALL30 = 30;
+
+        public const int MEDIUM50 = 50;
+
+        public const int LARGE100 = 100;
+
+        public const int DEFAULT_TOP = 0;
+    }
+
     //public static class StaticParameters
     //{
     //    #region ROLES

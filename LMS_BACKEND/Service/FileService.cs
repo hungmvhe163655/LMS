@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 using Shared.GlobalVariables;
 using System.Net;
@@ -262,6 +263,20 @@ namespace Service
 
             return new GetFolderContentResponseModel { Files = end, Folders = folders };
         }
+        public async Task<(IEnumerable<FolderResponseModel> Data, int DataLeft)> GetFolderFolders(FolderRequestParameters param, Guid folderID)
+        {
+            var folders = await _repositoryManager.Folder.GetFolderWithDescendantDepth1Id(param, folderID);
+
+            return (_mappers.Map<IEnumerable<FolderResponseModel>>(folders.Data), folders.CountLeft);
+        }
+
+        public async Task<(IEnumerable<FileResponseModel> Data, int CountLeft)> GetFolderFiles(FilesRequestParameters param, Guid folderID)
+        {
+            var hold_file = await _repositoryManager.File.GetFileWithFolderId(param, folderID);
+
+            return (_mappers.Map<IEnumerable<FileResponseModel>>(hold_file.Data), hold_file.CountLeft);
+        }
+
         public async Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model)
         {
             var hold_folder = new Folder { Id = Guid.NewGuid(), CreatedBy = model.CreatedBy, ProjectId = model.ProjectId, CreatedDate = DateTime.Now, LastModifiedDate = DateTime.Now, Name = model.Name };

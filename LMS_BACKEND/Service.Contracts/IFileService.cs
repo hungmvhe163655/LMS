@@ -1,5 +1,6 @@
 ﻿using Entities.Models;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 
 namespace Service.Contracts
@@ -8,6 +9,8 @@ namespace Service.Contracts
     {
         Task<FileResponseModel> CreateFile(FileUploadRequestModel model, Stream inputStream);
         Task<(byte[], FileResponseModel)> GetFile(Guid fileID);
+        Task<(IEnumerable<FolderResponseModel> Data, int DataLeft)> GetFolderFolders(FolderRequestParameters param, Guid folderID);
+        Task<(IEnumerable<FileResponseModel> Data, int CountLeft)> GetFolderFiles(FilesRequestParameters param, Guid folderID);
         Task EditFile(FileEditRequestModel model);
         Task DeleteFile(Guid id);
         Task EditFolder(FolderEditRequestModel model);
