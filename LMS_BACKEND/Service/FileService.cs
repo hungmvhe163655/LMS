@@ -307,16 +307,7 @@ namespace Service
             }
             else
             {
-                var hold = new List<FolderClosure>
-                {
-                    new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 }
-                };
-
-                hold_folder.IsRoot = true;
-
-                await _repositoryManager.Folder.AddFolder(hold_folder);
-
-                await _repositoryManager.FolderClosure.AddLeaf(hold);
+                throw new BadRequestException("AncestorId can not be null");
             }
 
             await _repositoryManager.Save();
