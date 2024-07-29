@@ -22,15 +22,13 @@ export function AppProvider({ children }: AppProviderProps) {
         </div>
       }
     >
-      <ErrorBoundary fallback={<MainErrorFallback />}>
-        <HelmetProvider>
-          <QueryClientProvider client={queryClient}>
-            {children}
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
-        </HelmetProvider>
-        <Toaster />
-      </ErrorBoundary>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <ErrorBoundary FallbackComponent={MainErrorFallback}>{children}</ErrorBoundary>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </HelmetProvider>
+      <Toaster />
     </React.Suspense>
   );
 }

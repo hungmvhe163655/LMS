@@ -65,7 +65,7 @@ api.interceptors.response.use(
     }
 
     // Không có quyền truy cập
-    if (error.response.status === 403) {
+    if (error.response?.status === 403) {
       toast({
         variant: 'destructive',
         description: "You're not allowed!"
@@ -75,7 +75,7 @@ api.interceptors.response.use(
     }
 
     // Chưa đăng nhập
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const token = {
         accessToken: getAccessToken(),
@@ -94,6 +94,7 @@ api.interceptors.response.use(
           originalRequest.headers.Authorization = `Bearer ${accessToken}`;
           return api(originalRequest);
         }
+
         return Promise.reject(error);
       } catch (error) {
         const { clearAccessData } = authStore.getState();

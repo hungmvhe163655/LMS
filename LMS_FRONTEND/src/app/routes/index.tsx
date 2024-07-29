@@ -8,6 +8,7 @@ import SupervisorDashboardRoute from './dashboard/supervisor';
 import ErrorRoute from './errors';
 import NewsRoute from './news';
 import ProfileRoute from './profile';
+import ProjectResourcesRoute from './project-resources';
 import ListAllTasksRoute from './project-workspace/list-all-task';
 import ProjectWorkspaceRoute from './project-workspace/project-workspace';
 import SupervisorRoute from './supervisor';
@@ -50,6 +51,10 @@ export const createRouter = (queryClient: QueryClient) =>
     {
       path: 'error',
       children: [ErrorRoute]
+    },
+    {
+      path: 'resources',
+      children: [ProjectResourcesRoute]
     },
     {
       path: '/',
