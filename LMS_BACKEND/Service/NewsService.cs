@@ -22,17 +22,17 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<NewsReponseModel> CreateNewsAsync(CreateNewsRequestModel model)
+        public async Task<NewsReponseModel> CreateNewsAsync(string userId, CreateNewsRequestModel model)
         {
-            var hold_user = await _repository.Account.GetByCondition(entity => entity.Id.Equals(model.CreatedBy), true).FirstOrDefaultAsync()
-                ?? throw new BadRequestException($"Can't find user with id {model.CreatedBy}");
+            //var hold_user = await _repository.Account.GetByCondition(entity => entity.Id.Equals(userId), true).FirstOrDefaultAsync()
+            //    ?? throw new BadRequestException($"Can't find user with id {userId}");
 
             var hold = new News
             {
                 Id = Guid.NewGuid(),
                 Title = model.Title,
                 Content = model.Content ?? "",
-                CreatedBy = model.CreatedBy,
+                CreatedBy = userId,
                 CreatedDate = DateTime.Now,
             };
 

@@ -57,6 +57,7 @@ namespace Service
             
             hold.Name = model.Name;
             hold.Description = model.Description;
+            hold.Filekey = model.Filekey;
 
             await _repository.Save();
         }
@@ -66,5 +67,15 @@ namespace Service
             var hold = await _repository.Device.GetByCondition(d => d.Id.Equals(id), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can find any device with id {id}");
             return _mapper.Map<DeviceReturnModel>(hold);
         } 
+
+        public async Task DeleteDevice(Guid id)
+        {
+            var hold = await _repository.Device.GetByCondition(d => d.Id.Equals(id), true).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can find any device with id {id}");
+            
+            hold.DeviceStatus = DEVICE_STATUS.DISABLE;
+            hold.IsDeleted = true;
+
+            await _repository.Save();
+        }
     }
 }

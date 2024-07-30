@@ -21,7 +21,7 @@ namespace Repository
 
         public IQueryable<Tasks> GetTasksWithProjectId(Guid projectId, bool check) => FindAll(check).Where(x => x.ProjectId.Equals(projectId));
 
-        public IQueryable<Tasks> GetTasksWithTaskListId(Guid taskListId, bool check) => FindAll(check).Where(x => x.TaskListId.Equals(taskListId));
+        public IQueryable<Tasks> GetTasksWithTaskListId(Guid taskListId, bool check) => FindAll(check).Where(x => x.TaskListId.Equals(taskListId)).OrderBy(t=>t.Order);
 
         public async Task<PagedList<Tasks>> GetAllTaskByUser(string userId, TaskRequestParameters parameters, bool check)
         {

@@ -44,6 +44,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             var result = await _service.ProjectService.GetProjectById(id);
             return Ok(result);
         }
+
         [HttpPost]
         [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateProjejct(CreateProjectRequestModel model)
@@ -52,12 +53,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return CreatedAtAction(nameof(GetProject), new { id = result.Id }, result);
         }
+
         [HttpGet(RoutesAPI.GetJoinRequest)]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> GetJoinRequest(Guid id)
         {
             return Ok(await _service.ProjectService.GetJoinRequest(id));
         }
+
         [HttpPost(RoutesAPI.ValidateJoinRequest)]
         [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> ValidateJoinRequest(Guid id, [FromBody] IEnumerable<UpdateStudentJoinRequestModel> modellist)
