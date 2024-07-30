@@ -16,6 +16,8 @@ using Amazon;
 using System.Security.Claims;
 using System.Text;
 using AspNetCoreRateLimit;
+using Contracts;
+using Repository.Helper;
 
 namespace LMS_BACKEND_MAIN.Extentions
 {
@@ -161,6 +163,8 @@ namespace LMS_BACKEND_MAIN.Extentions
             services.AddScoped<IRepositoryManager, RepositoryManager>();
         public static void ConfigureServiceManager(this IServiceCollection services) =>
             services.AddScoped<IServiceManager, ServiceManager>();
+        public static void ConfigureCacheRedis(this IServiceCollection services) =>
+            services.AddSingleton<IRedisCacheHelper, RedisCacheHelper>();
         public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration) =>
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
         public static void ConfigureResponseCaching(this IServiceCollection services) =>

@@ -94,9 +94,7 @@ namespace LMS_BACKEND_MAIN
             CreateMap<TaskUpdateRequestModel, Tasks>().ReverseMap();
             CreateMap<CreateTaskListRequestModel, TaskList>().ReverseMap();
             CreateMap<UpdateTaskListRequestModel, TaskList>().ReverseMap();
-            CreateMap<Project, CreateProjectRequestModel>()
-                .ForMember(dest => dest.CreatedBy, otp => otp.Ignore())
-                .ReverseMap();
+            CreateMap<Project, CreateProjectRequestModel>().ReverseMap();
             CreateMap<UpdateProjectRequestModel, Project>().ReverseMap();
             CreateMap<Project, ProjectResponseModel>()
                 .ForMember(dest => dest.TaskUndone, op => op.Ignore())
@@ -141,7 +139,13 @@ namespace LMS_BACKEND_MAIN
                         ? src.FileKey.Select(fileKey => new NewsFile { FileKey = fileKey }).ToList()
                         : new List<NewsFile>()
                 )).ReverseMap();
-            CreateMap<Folder,FolderResponseModel>().ReverseMap();
+            CreateMap<Folder, FolderResponseModel>().ReverseMap();
+            CreateMap<Device, CreateDeviceRequestModel>().ReverseMap();
+            CreateMap<Device, UpdateDeviceRequestModel>().ReverseMap();
+
+            CreateMap<Comment, CommentResponseModel>();
+
+            CreateMap<CreateCommentRequestModel, Comment>();
         }
     }
 }

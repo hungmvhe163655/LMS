@@ -22,7 +22,7 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<ProjectResponseModel> CreatNewProject(CreateProjectRequestModel model)
+        public async Task<ProjectResponseModel> CreatNewProject(string userId, CreateProjectRequestModel model)
         {
             var hold = _mapper.Map<Project>(model);
 
@@ -33,7 +33,7 @@ namespace Service
             var root = new Folder
             {
                 Id = rootid,
-                CreatedBy = model.CreatedBy,
+                CreatedBy = userId,
                 CreatedDate = DateTime.Now,
                 IsRoot = true,
                 LastModifiedDate = DateTime.Now,
@@ -43,7 +43,7 @@ namespace Service
             };
             var member = new Member
             {
-                UserId = model.CreatedBy,
+                UserId = userId,
                 ProjectId = hold.Id,
                 IsLeader = true,
                 JoinDate = DateTime.Now,
@@ -61,34 +61,6 @@ namespace Service
             var projectFromDb = await _repository.Project.GetAllProjectsAsync(projetParameter, trackChange) ?? throw new BadRequestException("No projects found for the specified user.");
 
             var projectsDto = _mapper.Map<IEnumerable<ProjectResponseModel>>(projectFromDb);
-
-            return (projects: projectsDto, metaData: projectFromDb.MetaData);
-        }
-
-        public async Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetOnGoingProjects(string userId, ProjectRequestParameters projetParameter, bool trackChange)
-        {
-            var projectFromDb = await _repository.Project.GetOngoingProjectAsync(userId, projetParameter, trackChange) ?? throw new BadRequestException("No projects found for the specified user.");
-
-            var totalTaskUndone = 0;
-
-            var projectsDto = projectFromDb.Select(p =>
-            {
-                var undoneTasks = p.TaskLists
-                    .SelectMany(tl => tl.Tasks)
-                    .Where(t => t.TaskStatus != TASK_STATUS.CLOSE)
-                    .ToList();
-
-                var taskUndoneCount = p.TaskLists.Sum(tl => tl.Tasks.Count(t => t.TaskStatus != TASK_STATUS.CLOSE));
-                totalTaskUndone += taskUndoneCount;
-
-                var taskUndoneListDto= _mapper.Map<IEnumerable<TasksViewResponseModel>>(undoneTasks);
-
-                var projectDto = _mapper.Map<ProjectResponseModel>(p);
-                projectDto.TaskUndone = taskUndoneCount;
-                projectDto.ListTaskUndone = taskUndoneListDto;
-
-                return projectDto;
-            }).ToList();
 
             return (projects: projectsDto, metaData: projectFromDb.MetaData);
         }

@@ -1,5 +1,6 @@
 ﻿using Amazon.S3;
 using AutoMapper;
+using Contracts;
 using Contracts.Interfaces;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
@@ -38,8 +39,12 @@ namespace Service
         private readonly Lazy<ITaskListService> _taskListService;
 
         private readonly Lazy<IProjectService> _projectService;
+
         private readonly Lazy<IMemberService> _memberService;
+
         private readonly Lazy<IDeviceService> _deviceService;
+
+        private readonly Lazy<ICommentService> _commentService;
         //
         public ServiceManager(
             IRepositoryManager repositoryManager,
@@ -51,7 +56,8 @@ namespace Service
             IConfiguration configuration,
             IMemoryCache memoryCache,
             IAmazonS3 clients3,
-            IHubContext<NotificationHub> notiHub
+            IHubContext<NotificationHub> notiHub//,
+            //IRedisCacheHelper cache
             )
         {
             _accountService = new Lazy<IAccountService>(() => new AccountService(repositoryManager, logger, mapper, userManager, roleManager));
@@ -70,7 +76,9 @@ namespace Service
 
             _scheduleService = new Lazy<IScheduleService>(() => new ScheduleService(repositoryManager, mapper));
 
-            _taskService = new Lazy<ITaskService>(() => new TaskService(repositoryManager, mapper));
+            //_taskService = new Lazy<ITaskService>(() => new TaskService(repositoryManager, mapper, cache));
+
+            _taskService = new Lazy<ITaskService> (() => new TaskService(repositoryManager, mapper));
 
             _taskListService = new Lazy<ITaskListService>(() => new TaskListService(repositoryManager, mapper));
 
@@ -81,7 +89,10 @@ namespace Service
             _memberService = new Lazy<IMemberService>(() => new MemberService(repositoryManager, mapper));
 
             _deviceService = new Lazy<IDeviceService>(() => new DeviceService(repositoryManager, mapper));
+
+            _commentService = new Lazy<ICommentService>(() => new CommentService(repositoryManager, mapper));
         }
+        public ICommentService CommentService => _commentService.Value;
         public IAccountService AccountService => _accountService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
         public IMailService MailService => _mailService.Value;

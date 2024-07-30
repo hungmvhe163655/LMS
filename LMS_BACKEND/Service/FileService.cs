@@ -8,7 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using Shared.GlobalVariables;
 using System.Net;
 
 namespace Service
@@ -182,11 +184,19 @@ namespace Service
 
             return hold;
         }
-        public async Task<string> UploadFile(Stream inputStream, string mime)//upload images
+        public async Task<string> UploadFile(Stream inputStream, string mime, string type)//upload images
         {
+            if (!type.ToLower().Equals(IMAGE_TYPE.DEVICE.ToLower()) && !type.ToLower().Equals(IMAGE_TYPE.REPORT.ToLower())) throw new BadRequestException("Not a valid purpose");
+
             if (!IsImageMimeType(mime)) throw new BadRequestException("Only pictures allowed");
 
             var file_key = Guid.NewGuid().ToString();
+
+            var hold = new Images { Id = file_key, Extentions = mime, Type = type.ToLower().Equals(IMAGE_TYPE.DEVICE.ToLower()) ? IMAGE_TYPE.DEVICE : IMAGE_TYPE.REPORT, Name = file_key };
+
+            _repositoryManager.Image.Create(hold);
+
+            await _repositoryManager.Save();
 
             var result = await UploadFileToS3Async(file_key, mime, inputStream);
 
@@ -194,9 +204,23 @@ namespace Service
 
             return file_key;
         }
+
+        public async Task<FolderResponseModel> GetFolderWithId(Guid folderId)
+        {
+            var hold = await _repositoryManager.Folder.GetFolder(folderId, false);
+
+            return _mappers.Map<FolderResponseModel>(hold);
+        }
+
         public async Task RemoveFile(string fileKey)//delete images
         {
+            var hold = await _repositoryManager.Image.GetByCondition(x => x.Id.Equals(fileKey), false).FirstOrDefaultAsync();
+
+            _repositoryManager.Image.Delete(hold ?? throw new BadRequestException("No such Image exist"));
+
             await DeleteFileFromS3Async(fileKey);
+
+            await _repositoryManager.Save();
         }
         public async Task EditFile(FileEditRequestModel model)
         {
@@ -247,40 +271,59 @@ namespace Service
 
             return new GetFolderContentResponseModel { Files = end, Folders = folders };
         }
+        public async Task<(IEnumerable<FolderResponseModel> Data, int DataLeft)> GetFolderFolders(FolderRequestParameters param, Guid folderID)
+        {
+            var folders = await _repositoryManager.Folder.GetFolderWithDescendantDepth1Id(param, folderID);
+
+            return (_mappers.Map<IEnumerable<FolderResponseModel>>(folders.Data), folders.CountLeft);
+        }
+
+        public async Task<(IEnumerable<FileResponseModel> Data, int CountLeft)> GetFolderFiles(FilesRequestParameters param, Guid folderID)
+        {
+            var hold_file = await _repositoryManager.File.GetFileWithFolderId(param, folderID);
+
+            return (_mappers.Map<IEnumerable<FileResponseModel>>(hold_file.Data), hold_file.CountLeft);
+        }
+
         public async Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model)
         {
-            var hold_folder = new Folder { Id = Guid.NewGuid(), CreatedBy = model.CreatedBy, CreatedDate = DateTime.Now, LastModifiedDate = DateTime.Now, Name = model.Name };
-
-            await _repositoryManager.Folder.AddFolder(hold_folder);
+            var hold_folder = new Folder
+            {
+                Id = Guid.NewGuid(),
+                CreatedBy = model.CreatedBy,
+                ProjectId = model.ProjectId,
+                CreatedDate = DateTime.Now,
+                LastModifiedDate = DateTime.Now,
+                Name = model.Name
+            };
+            if (model.ProjectId == Guid.Empty) throw new BadRequestException("Project Id can not be null");
 
             if (model.AncestorId != Guid.Empty)
             {
-                var hold_ancs = _repositoryManager.FolderClosure.FindAncestors(model.AncestorId, false);
+                var hold_ancs = await _repositoryManager.FolderClosure.FindAncestors(model.AncestorId, true).ToListAsync();
 
-                var hold = new List<FolderClosure>();
+                var end = new List<FolderClosure>();
 
                 foreach (var item in hold_ancs)
                 {
-                    hold.Add(new FolderClosure { AncestorID = item.AncestorID, DescendantID = hold_folder.Id, Depth = item.Depth + 1 });
+                    end.Add(new FolderClosure { AncestorID = item.AncestorID, DescendantID = hold_folder.Id, Depth = item.Depth + 1 });
                 }
-                hold.Add(new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 });
+                end.Add(new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 });
 
-                await _repositoryManager.FolderClosure.AddLeaf(hold);
+                await _repositoryManager.Folder.AddFolder(hold_folder);
+
+                await _repositoryManager.FolderClosure.AddRange(end);
             }
             else
             {
-                var hold = new List<FolderClosure>
-                {
-                    new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 }
-                };
-
-                await _repositoryManager.FolderClosure.AddLeaf(hold);
+                throw new BadRequestException("AncestorId can not be null");
             }
 
             await _repositoryManager.Save();
 
             return _mappers.Map<FolderResponseModel>(hold_folder);
         }
+        /*
         public async Task DeleteFolder(Guid folderID)
         {
             var hold_folder = await _repositoryManager.Folder.GetFolder(folderID, false);
@@ -298,6 +341,38 @@ namespace Service
             _repositoryManager.FolderClosure.DeleteListFolder(descendants_ancestors);
 
             _repositoryManager.File.DeleteRange(hold_files);
+
+            await _repositoryManager.Save();
+        }
+        */
+        public async Task DeleteFolder(Guid folderID)
+        {
+            var FolderToDelete = new List<Guid>();
+
+            var descendants_ancestors = new List<FolderClosure>();
+
+            var hold_folder = await _repositoryManager.Folder.GetFolder(folderID, false) ?? throw new BadRequestException("Not a valid folder ID");
+
+            if (hold_folder.IsRoot) throw new BadRequestException("Can not delete root folder");
+
+            var hold_folderClosure_descendant = _repositoryManager.FolderClosure.FindDescendants(folderID, false).Select(x => x.DescendantID);
+
+            var descendants = _repositoryManager.Folder.GetByCondition(x => hold_folderClosure_descendant.Contains(x.Id), false);
+
+            foreach (var item in hold_folderClosure_descendant)
+            {
+                descendants_ancestors.AddRange(await _repositoryManager.FolderClosure.FindAncestors(item, false).ToListAsync());
+            }
+
+            FolderToDelete.AddRange(hold_folderClosure_descendant);
+
+            var hold_files = await _repositoryManager.File.FindAll(false).Where(x => FolderToDelete.Contains(x.FolderId)).ToListAsync();
+
+            _repositoryManager.File.DeleteRange(hold_files);
+
+            _repositoryManager.FolderClosure.DeleteListFolder(descendants_ancestors);
+
+            _repositoryManager.Folder.DeleteRange(await descendants.ToListAsync());
 
             await _repositoryManager.Save();
         }

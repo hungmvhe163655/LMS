@@ -30,13 +30,21 @@ namespace Repository
 
         private readonly Lazy<INewsFileRepository> _newsFileRepository;
 
+        private readonly Lazy<IImageRepository> _imageRepository;
+
         private readonly Lazy<INotificationAccountRepository> _notificationAccountRepository;
 
         private readonly Lazy<ITaskHistoryRepository> _taskHistoryRepository;
+
         private readonly Lazy<ITaskListRepository> _taskListRepository;
+
         private readonly Lazy<IProjectRepository> _projectRepository;
+
         private readonly Lazy<IProjectTypeRepository> _projectTypeRepository;
+
         private readonly Lazy<IMemberRepository> _memberRepository;
+
+        private readonly Lazy<ICommentRepository> _commentRepository;
         public RepositoryManager(DataContext context)
         {
             _context = context;
@@ -78,21 +86,38 @@ namespace Repository
             _deviceRepository = new Lazy<IDeviceRepository>(() => new DeviceRepository(context));
 
             _notificationAccountRepository = new Lazy<INotificationAccountRepository>(() => new NotificationAccountRepository(context));
+
+            _imageRepository = new Lazy<IImageRepository>(() => new ImageRepository(context));
+
+            _commentRepository = new Lazy<ICommentRepository>(() => new CommentRepository(context));
             //khoi tao newsRepo
         }
         public INotificationAccountRepository NotificationAccount => _notificationAccountRepository.Value;
+
         public IAccountRepository Account => _accountRepository.Value;
+
         public INewsRepository News => _newsRepository.Value;
+
         public INotificationRepository Notification => _notificationsRepository.Value;
+
         public IStudentDetailRepository StudentDetail => _studentDetailRepository.Value;
+
         public IFileRepository File => _fileRepository.Value;
+
         public IFolderClosureRepository FolderClosure => _folderClosureRepository.Value;
+
         public IFolderRepository Folder => _folderRepository.Value;
+
         public IScheduleRepository Schedule => _scheduleRepository.Value;
+
         public ITaskRepository Task => _taskRepository.Value;
+
         public ITaskHistoryRepository TaskHistory => _taskHistoryRepository.Value;
+
         public IReportRepository Report => _reportRepository.Value;
+
         public ITaskListRepository TaskList => _taskListRepository.Value;
+
         public INewsFileRepository NewsFile => _newsFileRepository.Value;
 
         public IProjectRepository Project => _projectRepository.Value;
@@ -102,6 +127,10 @@ namespace Repository
         public IProjectTypeRepository ProjectType => _projectTypeRepository.Value;
 
         public IDeviceRepository Device => _deviceRepository.Value;
+
+        public IImageRepository Image => _imageRepository.Value;
+
+        public ICommentRepository Comment => _commentRepository.Value;
 
         public async Task Save() => await _context.SaveChangesAsync();
     }

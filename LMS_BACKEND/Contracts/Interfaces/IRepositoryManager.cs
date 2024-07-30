@@ -20,6 +20,8 @@ namespace Contracts.Interfaces
         IProjectTypeRepository ProjectType { get; }
         IDeviceRepository Device { get; }
         INotificationAccountRepository NotificationAccount { get; }
+        IImageRepository Image { get; }
+        ICommentRepository Comment { get; }
         Task Save();
     }
 }

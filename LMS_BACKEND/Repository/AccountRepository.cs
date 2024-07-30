@@ -1,8 +1,10 @@
 ﻿using Contracts.Interfaces;
+using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Extensions;
 using Shared.DataTransferObjects.RequestParameters;
+using Shared.GlobalVariables;
 
 namespace Repository
 {
@@ -28,18 +30,19 @@ namespace Repository
 
             return new PagedList<Account>(end, end.Count, param.PageNumber, param.PageSize);
         }
-        public async Task<PagedList<Account>> FindWithVerifierIdSuper(NeedVerifyParameters param, List<string> validGuid)
+        public async Task<PagedList<Account>> FindWithVerifierIdSuper(NeedVerifyParameters param, List<string> validGuid, string userId)
         {
             var end = await
                 GetByCondition(x => !x.IsVerified && !x.IsBanned && !x.IsDeleted, false)
                 .Search(param)
-                .Skip((param.PageNumber - 1) * param.PageSize)
-                .Take(param.PageSize)
                 .ToListAsync();
+            if (param.Role == null) return PagedList<Account>.ToPagedList(end.Where(x => x.VerifiedBy != null && x.VerifiedBy.Equals(userId)), param.PageNumber, param.PageSize);
 
-            var hold = validGuid.Any() ? end.Where(x => validGuid.Contains(x.Id)) : end;
+            if (param.Role.Equals(ROLES.STUDENT)) return PagedList<Account>.ToPagedList(validGuid.Any() ? end.Where(x => validGuid.Contains(x.Id) && x.VerifiedBy != null && x.VerifiedBy.Equals(userId)) : throw new BadRequestException("Invalid student ID"), param.PageNumber, param.PageSize);
 
-            return new PagedList<Account>(end, end.Count, param.PageNumber, param.PageSize);
+            if (param.Role.Equals(ROLES.SUPERVISOR)) return PagedList<Account>.ToPagedList(validGuid.Any() ? end.Where(x => validGuid.Contains(x.Id)) : throw new BadRequestException("Invalid supervisor ID"), param.PageNumber, param.PageSize);
+
+            throw new BadRequestException("Bad role request");
         }
     }
 }

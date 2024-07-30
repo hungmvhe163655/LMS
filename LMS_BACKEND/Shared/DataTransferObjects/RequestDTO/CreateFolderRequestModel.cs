@@ -4,7 +4,7 @@
     {
         public string? Name { get; set; }
         public string? CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public Guid ProjectId { get; set; }
         public Guid AncestorId { get; set; }
     }
 }
