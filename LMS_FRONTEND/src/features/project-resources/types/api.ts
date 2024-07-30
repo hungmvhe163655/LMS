@@ -4,7 +4,7 @@ type BaseItem = {
   id: string;
   name: string;
   createdBy: string;
-  createdDate: Date;
+  uploadDate: Date;
 };
 
 export type ResourceFolder = {
@@ -15,3 +15,9 @@ export type ResourceFile = {
   type: typeof RESOURCE.FILE;
   size: number;
 } & BaseItem;
+
+export type ResourceQueryParams = {
+  Top?: number;
+  Take?: number;
+  OrderBy?: string;
+};
