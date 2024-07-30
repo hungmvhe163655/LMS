@@ -5,6 +5,7 @@ import AuthRoute from './auth';
 import LabDirectorDashboardRoute from './dashboard/lab-director';
 import StudentDashboardRoute from './dashboard/student';
 import SupervisorDashboardRoute from './dashboard/supervisor';
+import BookingScheduleRoute from './device/booking-schedule';
 import ErrorRoute from './errors';
 import NewsRoute from './news';
 import ProfileRoute from './profile';
@@ -56,6 +57,10 @@ export const createRouter = (queryClient: QueryClient) =>
         ListAllTasksRoute,
         ListProjectTasksRoute
       ]
+    },
+    {
+      path: 'device',
+      children: [BookingScheduleRoute]
     },
     {
       path: '/',

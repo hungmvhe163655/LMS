@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox'; // Import the Checkbox component
 import {
   Dialog,
   DialogContent,
@@ -26,7 +27,12 @@ import { createProject } from '@/features/project-workspace/ongoing-projects/api
 const projectSchema = z.object({
   name: z.string().nonempty('Name is required'),
   description: z.string().max(500, 'Description must be less than 500 characters'),
-  maxMember: z.number().positive('Max member must be greater than 0')
+  maxMember: z
+    .string()
+    .regex(/^\d+$/, 'Max member must be a number')
+    .transform((val) => Number(val))
+    .refine((val) => val > 0, 'Max member must be greater than 0'),
+  isRecruiting: z.boolean() // Add validation for the isRecruiting field
 });
 
 type ProjectFormData = z.infer<typeof projectSchema>;
@@ -44,7 +50,8 @@ const CreateProjectDialog: React.FC<CreateProjectDialogProps> = ({ userId, onSuc
     defaultValues: {
       name: '',
       description: '',
-      maxMember: 1
+      maxMember: 1,
+      isRecruiting: true // Set default value for isRecruiting
     }
   });
 
@@ -59,7 +66,6 @@ const CreateProjectDialog: React.FC<CreateProjectDialogProps> = ({ userId, onSuc
         createdBy: userId,
         createdDate: new Date().toISOString(),
         projectStatus: 'Active', // Assuming a default status
-        isRecruiting: true, // Assuming a default value
         projectTypeId: 1 // Assuming a default project type ID
       });
 
@@ -117,6 +123,24 @@ const CreateProjectDialog: React.FC<CreateProjectDialogProps> = ({ userId, onSuc
                     <Input {...field} type='number' placeholder='Max member' />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='isRecruiting'
+              render={({ field }) => (
+                <FormItem className='flex items-center space-x-2'>
+                  <FormControl>
+                    <Checkbox
+                      id='isRecruiting'
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel htmlFor='isRecruiting' className='text-sm font-medium'>
+                    Is Recruiting
+                  </FormLabel>
                 </FormItem>
               )}
             />
