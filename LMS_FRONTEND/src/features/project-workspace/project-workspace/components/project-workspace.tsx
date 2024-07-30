@@ -1,11 +1,14 @@
 import { DndContext, closestCenter, DragOverEvent, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 
+import { addNewTaskList } from '../api/add-new-task'; // Import the addNewTaskList function
 import { getTaskLists } from '../api/get-tasklists';
+import { useUpdateTaskList } from '../api/move-task';
 import type { TaskList as TaskListType } from '../types/project-types';
 
 import { MouseSensor, KeyboardSensor } from './customer-sensors'; // Import the custom sensors
@@ -19,6 +22,27 @@ const ProjectWorkspace: React.FC = () => {
   const keyboardSensor = useSensor(KeyboardSensor);
   const sensors = useSensors(mouseSensor, keyboardSensor);
 
+  const queryClient = useQueryClient();
+
+  const { mutate: updateTaskListMutate } = useUpdateTaskList({
+    mutationConfig: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['taskLists', projectId] });
+      }
+    }
+  });
+
+  const addTaskListMutation = useMutation({
+    mutationFn: addNewTaskList,
+    onSuccess: (newTaskList) => {
+      queryClient.invalidateQueries({ queryKey: ['taskLists', projectId] });
+      setTaskLists((prev) => [...prev, newTaskList]);
+    },
+    onError: (error) => {
+      console.error('Error adding task list:', error);
+    }
+  });
+
   useEffect(() => {
     if (projectId) {
       getTaskLists(projectId).then((data) => setTaskLists(data));
@@ -29,6 +53,7 @@ const ProjectWorkspace: React.FC = () => {
     const { active, over } = event;
 
     if (active && over) {
+      // Task on Task
       if (active.data.current?.type === 'Task' && over.data.current?.type === 'Task') {
         const sourceList = taskLists.find((list) =>
           list.tasks.some((task) => task.id === active.id)
@@ -40,6 +65,7 @@ const ProjectWorkspace: React.FC = () => {
         const draggedTask = sourceList.tasks.find((task) => task.id === active.id);
         if (!draggedTask) return;
 
+        // Task on Task of the same collumn
         if (sourceList === targetList) {
           const overIndex = targetList.tasks.findIndex((task) => task.id === over.id);
           const sourceIndex = targetList.tasks.findIndex((task) => task.id === active.id);
@@ -59,6 +85,12 @@ const ProjectWorkspace: React.FC = () => {
             });
           }
         } else {
+          // Task on Task of the different collumn
+          updateTaskListMutate({
+            taskId: draggedTask.id,
+            srcTaskListId: sourceList.id,
+            overTaskListId: targetList.id
+          });
           setTaskLists((prev) => {
             const updatedLists = prev.map((list) => {
               if (list.id === sourceList.id) {
@@ -73,7 +105,7 @@ const ProjectWorkspace: React.FC = () => {
           });
         }
       }
-
+      // Task on TaskList
       if (active.data.current?.type === 'Task' && over.data.current?.type === 'TaskList') {
         const sourceList = taskLists.find((list) =>
           list.tasks.some((task) => task.id === active.id)
@@ -84,8 +116,13 @@ const ProjectWorkspace: React.FC = () => {
 
         const draggedTask = sourceList.tasks.find((task) => task.id === active.id);
         if (!draggedTask) return;
-
+        // Task on different TaskList
         if (sourceList !== targetList) {
+          updateTaskListMutate({
+            taskId: draggedTask.id,
+            srcTaskListId: sourceList.id,
+            overTaskListId: targetList.id
+          });
           setTaskLists((prev) => {
             const updatedLists = prev.map((list) => {
               if (list.id === sourceList.id) {
@@ -100,7 +137,7 @@ const ProjectWorkspace: React.FC = () => {
           });
         }
       }
-
+      // TaskList on TaskList
       if (active.data.current?.type === 'TaskList' && over.data.current?.type === 'TaskList') {
         const sourceIndex = taskLists.findIndex((list) => list.id === active.id);
         const targetIndex = taskLists.findIndex((list) => list.id === over.id);
@@ -116,17 +153,11 @@ const ProjectWorkspace: React.FC = () => {
   };
 
   const handleAddTaskList = () => {
-    setTaskLists((prev) => [
-      ...prev,
-      {
-        id: `task-list-${Math.random().toString(36).substr(2, 9)}`,
-        name: 'New Task List',
-        tasks: [],
-        maxTasks: 10, // Add default value for maxTasks
-        projectId: projectId || '', // Add projectId from params
-        order: prev.length + 1 // Add order based on the current number of task lists
-      } as TaskListType
-    ]);
+    addTaskListMutation.mutate({
+      name: 'New Task List',
+      maxTasks: 10,
+      projectId: projectId || ''
+    });
   };
 
   return (

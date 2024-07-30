@@ -23,6 +23,10 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { createProject } from '@/features/project-workspace/ongoing-projects/api/create-project';
+import { authStore } from '@/lib/auth-store';
+
+const { accessData } = authStore.getState();
+const userRoles = accessData?.roles || [];
 
 const projectSchema = z.object({
   name: z.string().nonempty('Name is required'),
@@ -77,80 +81,84 @@ const CreateProjectDialog: React.FC<CreateProjectDialogProps> = ({ userId, onSuc
   };
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={handleDialogOpenChange}>
-      <DialogTrigger asChild>
-        <Button onClick={() => handleDialogOpenChange(true)}>Create New Project</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Create New Project</DialogTitle>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleFormSubmit)} className='space-y-4'>
-            <FormField
-              control={form.control}
-              name='name'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder='Project name' />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='description'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder='Project description' />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='maxMember'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Max Member</FormLabel>
-                  <FormControl>
-                    <Input {...field} type='number' placeholder='Max member' />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='isRecruiting'
-              render={({ field }) => (
-                <FormItem className='flex items-center space-x-2'>
-                  <FormControl>
-                    <Checkbox
-                      id='isRecruiting'
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormLabel htmlFor='isRecruiting' className='text-sm font-medium'>
-                    Is Recruiting
-                  </FormLabel>
-                </FormItem>
-              )}
-            />
-            <DialogFooter>
-              <Button type='submit'>Create</Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+    <div>
+      {!userRoles.includes('STUDENT') && (
+        <Dialog open={isDialogOpen} onOpenChange={handleDialogOpenChange}>
+          <DialogTrigger asChild>
+            <Button onClick={() => handleDialogOpenChange(true)}>Create New Project</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Create New Project</DialogTitle>
+            </DialogHeader>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleFormSubmit)} className='space-y-4'>
+                <FormField
+                  control={form.control}
+                  name='name'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder='Project name' />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='description'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder='Project description' />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='maxMember'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Max Member</FormLabel>
+                      <FormControl>
+                        <Input {...field} type='number' placeholder='Max member' />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='isRecruiting'
+                  render={({ field }) => (
+                    <FormItem className='flex items-center space-x-2'>
+                      <FormControl>
+                        <Checkbox
+                          id='isRecruiting'
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel htmlFor='isRecruiting' className='text-sm font-medium'>
+                        Is Recruiting
+                      </FormLabel>
+                    </FormItem>
+                  )}
+                />
+                <DialogFooter>
+                  <Button type='submit'>Create</Button>
+                </DialogFooter>
+              </form>
+            </Form>
+          </DialogContent>
+        </Dialog>
+      )}
+    </div>
   );
 };
 
