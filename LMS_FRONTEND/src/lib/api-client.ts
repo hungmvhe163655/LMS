@@ -70,7 +70,7 @@ api.interceptors.response.use(
         variant: 'destructive',
         description: "You're not allowed!"
       });
-      window.location.href = `/error/forbidden`;
+      window.location.href = `/error/not-authorized`;
       return Promise.reject(error);
     }
 
