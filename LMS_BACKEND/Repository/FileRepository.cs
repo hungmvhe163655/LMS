@@ -1,7 +1,9 @@
 ﻿using Contracts.Interfaces;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
 using Shared.DataTransferObjects.RequestParameters;
+using Shared.GlobalVariables;
 
 namespace Repository
 {
@@ -15,6 +17,18 @@ namespace Repository
             GetByCondition(x => x.FolderId.Equals(FolderId), track)
             .OrderBy(x => x.Name)
             .ToListAsync();
+        public async Task<(IQueryable<Files> Data, int CountLeft)> GetFileWithFolderId(FilesRequestParameters param, Guid FolderId)
+        {
+            var hold = GetByCondition(x => x.FolderId.Equals(FolderId), false).Sort(param.OrderBy);
+
+            var end = hold.Skip(param.Top ?? SCROLL_LIST.DEFAULT_TOP).Take(param.Take ?? SCROLL_LIST.MEDIUM50);
+
+            var total = await hold.CountAsync();
+
+            var taken = end.CountAsync().Result + param.Top ?? 0;
+
+            return (end, total - taken);
+        }
         public async Task<IEnumerable<Files>> GetFilesWithQuery(bool track, FileRequestParameters parameters)
         {
             if (parameters.SearchTerm != null)
