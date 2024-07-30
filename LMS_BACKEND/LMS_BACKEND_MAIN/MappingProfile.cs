@@ -141,6 +141,7 @@ namespace LMS_BACKEND_MAIN
             CreateMap<Folder, FolderResponseModel>().ReverseMap();
             CreateMap<Device, CreateDeviceRequestModel>().ReverseMap();
             CreateMap<Device, UpdateDeviceRequestModel>().ReverseMap();
+            CreateMap<TaskList, TaskListUpdateRequestModel>().ReverseMap();
 
             CreateMap<Comment, CommentResponseModel>();
 
