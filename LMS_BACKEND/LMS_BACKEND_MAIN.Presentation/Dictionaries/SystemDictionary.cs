@@ -183,5 +183,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
         public const string CreateComment = "task/{taskid:guid}";
 
         #endregion
+
+        #region
+
+        public const string GetScheduleByDevice = "devices/{id:guid}";
     }
 }

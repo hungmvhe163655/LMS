@@ -69,5 +69,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             await _service.DeviceService.UpdateDevice(id, model);
             return NoContent();
         }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteDevice(Guid id)
+        {
+            await _service.DeviceService.DeleteDevice(id);
+            return NoContent();
+        }
     }
 }
