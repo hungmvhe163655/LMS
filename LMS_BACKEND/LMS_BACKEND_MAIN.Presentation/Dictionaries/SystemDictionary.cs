@@ -184,8 +184,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         #endregion
 
-        #region
+        #region SchedulesAPIs
 
         public const string GetScheduleByDevice = "devices/{id:guid}";
+
+        #endregion
     }
 }
