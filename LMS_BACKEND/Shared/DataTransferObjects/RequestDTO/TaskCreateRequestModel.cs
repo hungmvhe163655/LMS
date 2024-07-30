@@ -3,7 +3,6 @@
     public class TaskCreateRequestModel
     {
         public string Title { get; set; } = null!;
-        public string? CreatedBy { get; set; }
         public bool? RequiredValidation { get; set; }
         public string Description { get; set; } = null!;
         public DateTime StartDate { get; set; }
