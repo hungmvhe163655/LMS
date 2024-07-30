@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import type { Task, TaskList as TaskListType } from '../types/project-types';
 
 import SortableTask from './sortable-task';
+import UpdateTaskListDialog from './update-task-list-dialog'; // Import the new dialog component
 
 interface TaskListProps {
   taskList: TaskListType;
@@ -33,6 +34,7 @@ const SortableTaskList: React.FC<TaskListProps> = ({
   };
 
   const [newTaskTitle, setNewTaskTitle] = useState('');
+  const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
 
   const handleAddTask = () => {
     if (newTaskTitle.trim()) {
@@ -77,7 +79,21 @@ const SortableTaskList: React.FC<TaskListProps> = ({
       {...listeners}
       className='w-80 rounded-md border bg-white p-4 shadow-md'
     >
-      <h3 className='mb-4 text-xl font-semibold'>{taskList.name}</h3>
+      <div className='mb-2 flex items-center justify-between'>
+        <h3 className='text-xl font-semibold'>
+          {taskList.name} <span>{taskList.id}</span>
+          {/* <span className='text-sm'>({taskList.maxTasks?.valueOf()} Max Tasks)</span> */}
+        </h3>
+        <Button
+          variant='outline'
+          size='sm'
+          onClick={() => setIsUpdateDialogOpen(true)}
+          data-no-dnd='true'
+        >
+          Edit
+        </Button>
+      </div>
+      <hr className='my-2' />
       <SortableContext items={tasks.map((task) => task.id)} strategy={verticalListSortingStrategy}>
         {renderPlaceholderTask()}
         {tasks.map((task) => (
@@ -100,6 +116,12 @@ const SortableTaskList: React.FC<TaskListProps> = ({
           Add New Task
         </Button>
       </div>
+      <UpdateTaskListDialog
+        isOpen={isUpdateDialogOpen}
+        onClose={() => setIsUpdateDialogOpen(false)}
+        taskList={taskList}
+        setTasks={setTasks}
+      />
     </div>
   );
 };

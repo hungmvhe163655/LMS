@@ -55,6 +55,7 @@ const ProjectWorkspace: React.FC = () => {
     if (active && over) {
       // Task on Task
       if (active.data.current?.type === 'Task' && over.data.current?.type === 'Task') {
+        console.log(over.data.current);
         const sourceList = taskLists.find((list) =>
           list.tasks.some((task) => task.id === active.id)
         );
