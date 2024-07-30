@@ -26,7 +26,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             {
                 return BadRequest(new ResponseMessage { Message = "File Is Null Or Empty" });
             }
-            var metadata = new FileUploadRequestModel { FolderId = folderid, MimeType = file.ContentType, Size = file.Length, Name = file.Name };
+            var metadata = new FileUploadRequestModel { FolderId = folderid, MimeType = file.ContentType, Size = file.Length, Name = file.FileName };
 
             if (metadata == null)
             {
