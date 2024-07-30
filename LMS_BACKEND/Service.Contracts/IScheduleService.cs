@@ -6,7 +6,7 @@ namespace Service.Contracts
 {
     public interface IScheduleService
     {
-        Task<IEnumerable<ScheduleResponseModel>> GetScheduleForDevice(ScheduleRequestModel model);
+        Task<IEnumerable<ScheduleResponseModel>> GetScheduleForDevice(ScheduleRequestModel model, Guid id);
         Task DeleteSchedule(Guid id);
         Task UpdateSchedule(Guid id, ScheduleUpdateRequestModel model);
         Task<ScheduleResponseModel> CreateScheduleForDevice(ScheduleCreateRequestModel model);

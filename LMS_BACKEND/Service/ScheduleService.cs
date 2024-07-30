@@ -28,19 +28,21 @@ namespace Service
 
             return (startOfWeek, endOfWeek);
         }
-        public async Task<IEnumerable<ScheduleResponseModel>> GetScheduleForDevice(ScheduleRequestModel model)
+        public async Task<IEnumerable<ScheduleResponseModel>> GetScheduleForDevice(ScheduleRequestModel model, Guid id)
         {
             if (model == null) throw new BadRequestException("lamao");
 
             var (startTime, EndTime) = GetWeek(model.DateInput);
 
-            var result = _mapper.Map<IEnumerable<ScheduleResponseModel>>(await _repository.Schedule.GetScheduleByDevice(model.DeviceId, startTime, EndTime, false));
+            var result = _mapper.Map<IEnumerable<ScheduleResponseModel>>(await _repository.Schedule.GetScheduleByDevice(id, startTime, EndTime, false));
 
             return result;
         }
         public async Task<ScheduleResponseModel> CreateScheduleForDevice(ScheduleCreateRequestModel model)
         {
             var hold = _mapper.Map<Schedule>(model);
+
+            hold.ScheduledDate = DateTime.Now;
 
             hold.Id = Guid.NewGuid();
 
@@ -53,7 +55,6 @@ namespace Service
                 return _mapper.Map<ScheduleResponseModel>(hold);
             }
             throw new BadRequestException("The inputted time period was invalid");
-
         }
         public async Task DeleteSchedule(Guid id)
         {
