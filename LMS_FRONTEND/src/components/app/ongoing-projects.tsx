@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface ProjectProps {
   name: string;
@@ -12,9 +13,11 @@ const OngoingProjects: React.FC<ProjectProps> = ({ name, supervisor, tasksUndone
       <h2 className='mb-2 text-xl font-bold'>{name}</h2>
       <p className='text-gray-700'>Supervisor: {supervisor}</p>
       <p className='text-gray-700'>Tasks undone: {tasksUndone}</p>
-      <button className='mt-2 rounded-lg bg-blue-500 px-4 py-2 text-white'>
-        View your projects
-      </button>
+      <Link to={'/project'}>
+        <button className='mt-2 rounded-lg bg-blue-500 px-4 py-2 text-white'>
+          View your projects
+        </button>
+      </Link>
     </div>
   );
 };

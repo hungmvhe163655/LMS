@@ -1,11 +1,11 @@
 import { DndContext, closestCenter, DragOverEvent, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 
-import { mockTaskLists } from '../mock-tasks';
+import { getTaskLists } from '../api/get-tasklists';
 import type { TaskList as TaskListType } from '../types/project-types';
 
 import { MouseSensor, KeyboardSensor } from './customer-sensors'; // Import the custom sensors
@@ -13,11 +13,17 @@ import SortableTaskList from './sortable-tasklist';
 
 const ProjectWorkspace: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
-  const [taskLists, setTaskLists] = useState<TaskListType[]>(mockTaskLists);
+  const [taskLists, setTaskLists] = useState<TaskListType[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false); // Track if dialog is open
   const mouseSensor = useSensor(MouseSensor);
   const keyboardSensor = useSensor(KeyboardSensor);
   const sensors = useSensors(mouseSensor, keyboardSensor);
+
+  useEffect(() => {
+    if (projectId) {
+      getTaskLists(projectId).then((data) => setTaskLists(data));
+    }
+  }, [projectId]);
 
   const handleDragEnd = (event: DragOverEvent) => {
     const { active, over } = event;
@@ -117,13 +123,14 @@ const ProjectWorkspace: React.FC = () => {
         name: 'New Task List',
         tasks: [],
         maxTasks: 10, // Add default value for maxTasks
-        projectId: '1' // Add default value for projectId
+        projectId: projectId || '', // Add projectId from params
+        order: prev.length + 1 // Add order based on the current number of task lists
       } as TaskListType
     ]);
   };
 
   return (
-    <div className='min-h-screen bg-gray-100 p-4'>
+    <div className='h-fit min-h-screen bg-gray-100 p-4'>
       <h1 className='mb-4 text-2xl font-bold'>Project Workspace</h1>
       <p className='text-lg font-medium'>ID in the workspace: {projectId}</p>
       <Button onClick={handleAddTaskList} className='mb-4'>

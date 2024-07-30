@@ -1,4 +1,4 @@
-import { FaPhone, FaRProject } from 'react-icons/fa';
+import { FaCog, FaRProject } from 'react-icons/fa';
 import { RiLockPasswordLine } from 'react-icons/ri';
 
 import Sidebar from '@/components/shared/side-bar';
@@ -16,9 +16,9 @@ const sidebarItems: SidebarItem[] = [
     icon: <RiLockPasswordLine />
   },
   {
-    title: 'Change Phone Number',
-    href: '/profile/phone-number',
-    icon: <FaPhone />
+    title: 'Project Settings',
+    href: '/project/settings',
+    icon: <FaCog />
   }
 ];
 

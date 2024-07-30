@@ -1,90 +1,119 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-interface Project {
-  id: string;
-  Name: string;
-  Description: string;
-  CreatedDate: Date;
-  ProjectStatusId: number;
-  MaxMember: number;
-  IsRecruiting: boolean;
-  ProjectTypeId: number;
-}
+import CreateProjectDialog from '@/components/app/create-project-dialog';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
+} from '@/components/ui/pagination';
+import { authStore } from '@/lib/auth-store';
+
+import { useOngoingProjects } from '../api/get-ongoing-projects';
 
 const OngoingProjects: React.FC = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const { accessData } = authStore.getState();
+  const userId = accessData?.id;
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize] = useState(12); // Set your default page size
 
-  const fetchProjects = async () => {
-    // Simulate API call
-    const response: Project[] = [
-      {
-        id: '1',
-        Name: 'Lab Management System',
-        Description: 'A system for managing the SAP Laboratory of FPT University',
-        CreatedDate: new Date(),
-        ProjectStatusId: 1,
-        MaxMember: 10,
-        IsRecruiting: true,
-        ProjectTypeId: 1
-      },
-      {
-        id: '2',
-        Name: 'Blockchain Pokemon',
-        Description: 'Sample description text ...',
-        CreatedDate: new Date(),
-        ProjectStatusId: 1,
-        MaxMember: 10,
-        IsRecruiting: true,
-        ProjectTypeId: 1
-      },
-      {
-        id: '3',
-        Name: 'Shopping App',
-        Description: 'Sample description text ...',
-        CreatedDate: new Date(),
-        ProjectStatusId: 1,
-        MaxMember: 10,
-        IsRecruiting: true,
-        ProjectTypeId: 1
-      },
-      {
-        id: '4',
-        Name: 'Grab 3.0',
-        Description: 'Sample description text ...',
-        CreatedDate: new Date(),
-        ProjectStatusId: 1,
-        MaxMember: 10,
-        IsRecruiting: true,
-        ProjectTypeId: 1
-      }
-    ];
+  const {
+    data: projectsData,
+    isLoading: isProjectsLoading,
+    refetch
+  } = useOngoingProjects({
+    projectQueryParams: {
+      userId: userId || '',
+      PageNumber: pageNumber,
+      PageSize: pageSize
+    }
+  });
 
-    setProjects(response);
+  const projects = projectsData?.data;
+  const pagination = projectsData?.pagination;
+
+  const handlePageChange = (newPageNumber: number) => {
+    setPageNumber(newPageNumber);
+    refetch();
   };
 
+  if (isProjectsLoading) {
+    return <div className='flex h-screen items-center justify-center'>Loading projects...</div>;
+  }
+
+  if (!projects || projects.length === 0) {
+    return (
+      <div className='flex h-screen items-center justify-center'>No ongoing projects found.</div>
+    );
+  }
+
   return (
-    <div className='container mx-auto p-4'>
-      <h1 className='mb-4 text-2xl font-bold'>Your Projects</h1>
-      <div className='flex gap-4 overflow-auto'>
+    <div className='container mx-auto p-8'>
+      <h1 className='mb-8 text-center text-3xl font-bold'>Your Projects</h1>
+      <div className='mb-4 flex justify-center'>
+        {userId && <CreateProjectDialog userId={userId} onSuccess={refetch} />}
+      </div>
+      <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
         {projects.map((project) => (
-          <div key={project.id} className='w-64 rounded-lg border bg-gray-100 p-4 shadow-sm'>
-            <h2 className='text-xl font-semibold text-blue-600'>{project.Name}</h2>
-            <p className='mb-2 text-gray-700'>{project.Description}</p>
-            <p className='text-sm text-blue-600'>Task undone: 5</p>
+          <div
+            key={project.id}
+            className='rounded-lg border bg-white p-6 shadow-md transition-shadow duration-300 hover:shadow-lg'
+          >
             <Link
-              className='mt-2 flex items-center text-sm text-blue-600'
               to={`/project/workspace/${project.id}`}
+              className='mb-2 text-xl font-bold text-blue-600'
             >
-              Go to project workspace <span className='ml-1'>→</span>
+              {project.name}
             </Link>
+            <p className='mb-4 text-gray-700'>{project.description}</p>
+            <p className='mb-4 text-sm text-blue-600'>Task Undone: {project.taskUndone}</p>
           </div>
         ))}
       </div>
+      {pagination && (
+        <div className='mt-8 flex justify-center'>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href='#'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handlePageChange(Math.max(1, pageNumber - 1));
+                  }}
+                />
+              </PaginationItem>
+              {Array.from({ length: pagination.totalPages }, (_, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink
+                    href='#'
+                    isActive={index + 1 === pageNumber}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handlePageChange(index + 1);
+                    }}
+                  >
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              <PaginationItem>
+                <PaginationNext
+                  href='#'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handlePageChange(pagination.CurrentPage + 1);
+                  }}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      )}
     </div>
   );
 };
