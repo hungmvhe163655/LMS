@@ -66,8 +66,8 @@ namespace Service
             var hold = await
                 _repository
                 .TaskList
-                .GetByCondition(x => x.ProjectId.Equals(projectId), false)
-                .Include(y => y.Tasks)
+                .GetByCondition(x => x.ProjectId.Equals(projectId), false).OrderBy(a => a.Order)
+                .Include(y => y.Tasks.OrderBy(t => t.Order))
                 .ThenInclude(z => z.AssignedToUser)
                 .ToListAsync();
 
