@@ -39,8 +39,12 @@ namespace Service
         private readonly Lazy<ITaskListService> _taskListService;
 
         private readonly Lazy<IProjectService> _projectService;
+
         private readonly Lazy<IMemberService> _memberService;
+
         private readonly Lazy<IDeviceService> _deviceService;
+
+        private readonly Lazy<ICommentService> _commentService;
         //
         public ServiceManager(
             IRepositoryManager repositoryManager,
@@ -85,7 +89,10 @@ namespace Service
             _memberService = new Lazy<IMemberService>(() => new MemberService(repositoryManager, mapper));
 
             _deviceService = new Lazy<IDeviceService>(() => new DeviceService(repositoryManager, mapper));
+
+            _commentService = new Lazy<ICommentService>(() => new CommentService(repositoryManager, mapper));
         }
+        public ICommentService CommentService => _commentService.Value;
         public IAccountService AccountService => _accountService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
         public IMailService MailService => _mailService.Value;

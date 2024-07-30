@@ -138,7 +138,7 @@ namespace Repository
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Comments_Accounts");
 
-                entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
+                entity.HasOne(d => d.Parent).WithMany(p => p.Childs)
                     .HasForeignKey(d => d.ParentId)
                     .HasConstraintName("FK_Comments_Comments");
 

@@ -15,5 +15,6 @@ namespace Service.Contracts
         IProjectService ProjectService { get; }
         IMemberService MemberService { get; }
         IDeviceService DeviceService { get; }
+        ICommentService CommentService { get; }
     }
 }

@@ -264,7 +264,7 @@ namespace Service
         }
         public async Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model)
         {
-            var hold_folder = new Folder { Id = Guid.NewGuid(), CreatedBy = model.CreatedBy, CreatedDate = DateTime.Now, LastModifiedDate = DateTime.Now, Name = model.Name };
+            var hold_folder = new Folder { Id = Guid.NewGuid(), CreatedBy = model.CreatedBy, ProjectId = model.ProjectId, CreatedDate = DateTime.Now, LastModifiedDate = DateTime.Now, Name = model.Name };
 
             await _repositoryManager.Folder.AddFolder(hold_folder);
 
@@ -296,6 +296,7 @@ namespace Service
 
             return _mappers.Map<FolderResponseModel>(hold_folder);
         }
+        /*
         public async Task DeleteFolder(Guid folderID)
         {
             var hold_folder = await _repositoryManager.Folder.GetFolder(folderID, false);
@@ -313,6 +314,32 @@ namespace Service
             _repositoryManager.FolderClosure.DeleteListFolder(descendants_ancestors);
 
             _repositoryManager.File.DeleteRange(hold_files);
+
+            await _repositoryManager.Save();
+        }
+        */
+        public async Task DeleteFolder(Guid folderID)
+        {
+            var FolderToDelete = new List<Guid>();
+
+            var descendants_ancestors = new List<FolderClosure>();
+
+            var hold_folder = await _repositoryManager.Folder.GetFolder(folderID, false) ?? throw new BadRequestException("Not a valid folder ID");
+
+            var hold_folderClosure_descendant = _repositoryManager.FolderClosure.FindDescendants(folderID, false);
+
+            foreach (var item in hold_folderClosure_descendant)
+            {
+                descendants_ancestors.AddRange(_repositoryManager.FolderClosure.FindAncestors(item.DescendantID, false));
+            }
+
+            FolderToDelete.AddRange(hold_folderClosure_descendant.Select(x => x.DescendantID));
+
+            var hold_files = await _repositoryManager.File.FindAll(false).Where(x => FolderToDelete.Contains(x.FolderId)).ToListAsync();
+
+            _repositoryManager.File.DeleteRange(hold_files);
+
+            _repositoryManager.FolderClosure.DeleteListFolder(descendants_ancestors);
 
             await _repositoryManager.Save();
         }

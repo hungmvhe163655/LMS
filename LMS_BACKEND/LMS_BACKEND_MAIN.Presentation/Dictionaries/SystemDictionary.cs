@@ -31,6 +31,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
         public const string ReportAPI = "api/reports";
 
         public const string RateLimitAPI = "api/rate-limit";
+
+        public const string CommentAPI = "api/comments";
     }
     public static class AuthorizeScheme
     {
@@ -167,6 +169,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
         public const string GetById = "{id:guid}/user/{userid}";
 
         public const string MarkNotificationAsRead = "{id:guid}/read/user/{userid}";
+
+        #endregion
+
+        #region CommentAPIs
+
+        public const string GetCommentByTaskId = "task/{taskid:guid}";
+
+        public const string CreateComment = "task/{taskid:guid}";
 
         #endregion
     }

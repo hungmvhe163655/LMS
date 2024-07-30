@@ -10,7 +10,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
     [Route(APIs.FolderAPI)]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+    [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
     public class FolderController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
@@ -43,11 +43,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return CreatedAtAction(nameof(GetFolder),new {id = result.Id}, result);
         }
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteFolder(Guid FolderID)
+        public async Task<IActionResult> DeleteFolder(Guid id)
         {
-            await _serviceManager.FileService.DeleteFolder(FolderID);
+            await _serviceManager.FileService.DeleteFolder(id);
 
-            return StatusCode(StatusCodes.Status201Created, new ResponseMessage { Message = "DELETEFILE" });
+            return Ok(new ResponseMessage { Message = "DELETEFILE" });
         }
 
     }

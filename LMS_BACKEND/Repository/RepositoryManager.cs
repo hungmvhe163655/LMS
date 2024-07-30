@@ -43,6 +43,8 @@ namespace Repository
         private readonly Lazy<IProjectTypeRepository> _projectTypeRepository;
 
         private readonly Lazy<IMemberRepository> _memberRepository;
+
+        private readonly Lazy<ICommentRepository> _commentRepository;
         public RepositoryManager(DataContext context)
         {
             _context = context;
@@ -86,6 +88,8 @@ namespace Repository
             _notificationAccountRepository = new Lazy<INotificationAccountRepository>(() => new NotificationAccountRepository(context));
 
             _imageRepository = new Lazy<IImageRepository>(() => new ImageRepository(context));
+
+            _commentRepository = new Lazy<ICommentRepository>(() => new CommentRepository(context));
             //khoi tao newsRepo
         }
         public INotificationAccountRepository NotificationAccount => _notificationAccountRepository.Value;
@@ -125,6 +129,8 @@ namespace Repository
         public IDeviceRepository Device => _deviceRepository.Value;
 
         public IImageRepository Image => _imageRepository.Value;
+
+        public ICommentRepository Comment => _commentRepository.Value;
 
         public async Task Save() => await _context.SaveChangesAsync();
     }

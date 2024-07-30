@@ -24,9 +24,9 @@ check = true;
 while (check)
 {
     Console.WriteLine("Please enter your Accesskey");
-    accessKey = Console.ReadLine();
+    accessKey = Console.ReadLine() ?? "";
     Console.WriteLine("Is this correct? " + accessKey + " y/n: ");
-    checker = Console.ReadLine();
+    checker = Console.ReadLine() ?? "";
     if (checker != null && checker.Equals("y"))
     {
         check = false;
@@ -37,9 +37,9 @@ check = true;
 while (check)
 {
     Console.WriteLine("Please enter your SecretKey");
-    secretKey = Console.ReadLine();
+    secretKey = Console.ReadLine() ?? "";
     Console.WriteLine("Is this correct? " + secretKey + " y/n: ");
-    checker = Console.ReadLine();
+    checker = Console.ReadLine() ?? "";
     if (checker != null && checker.Equals("y"))
     {
         check = false;
@@ -51,9 +51,9 @@ check = true;
 while (check)
 {
     Console.WriteLine("Write down your service Url: ");
-    url = Console.ReadLine();
+    url = Console.ReadLine() ?? "";
     Console.WriteLine("Is this correct? " + url + " y/n: ");
-    checker = Console.ReadLine();
+    checker = Console.ReadLine() ?? "";
     if (checker != null && checker.Equals("y"))
     {
         check = false;
