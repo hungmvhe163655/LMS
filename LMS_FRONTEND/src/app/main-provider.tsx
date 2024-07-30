@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import * as React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -7,13 +7,11 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Spinner } from '@/components/app/spinner';
 import { MainErrorFallback } from '@/components/errors/main';
 import { Toaster } from '@/components/ui/toaster';
-// import { queryClient } from '@/lib/react-query';
+import { queryClient } from '@/lib/react-query';
 
 type AppProviderProps = {
   children: React.ReactNode;
 };
-
-const queryClient = new QueryClient();
 
 export function AppProvider({ children }: AppProviderProps) {
   return (
@@ -24,15 +22,13 @@ export function AppProvider({ children }: AppProviderProps) {
         </div>
       }
     >
-      <ErrorBoundary fallback={<MainErrorFallback />}>
-        <HelmetProvider>
-          <QueryClientProvider client={queryClient}>
-            {children}
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
-        </HelmetProvider>
-        <Toaster />
-      </ErrorBoundary>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <ErrorBoundary FallbackComponent={MainErrorFallback}>{children}</ErrorBoundary>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </HelmetProvider>
+      <Toaster />
     </React.Suspense>
   );
 }

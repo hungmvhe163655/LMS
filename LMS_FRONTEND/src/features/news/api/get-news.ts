@@ -5,6 +5,7 @@ import { QueryConfig } from '@/lib/react-query';
 import { Pagination } from '@/types/api';
 
 import { News, NewsQueryParams } from '../types/api';
+import { newsKeys } from '../utils/queries';
 
 export const getNews = async (
   params?: NewsQueryParams
@@ -19,7 +20,7 @@ export const getNews = async (
 
 export const getNewsQueryOptions = (params?: NewsQueryParams) => {
   return queryOptions({
-    queryKey: ['news', params],
+    queryKey: newsKeys.list(params),
     queryFn: () => getNews(params)
   });
 };

@@ -3,9 +3,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
-import { getNewsQueryOptions } from './get-news';
+import { CreateNewsAPISchema } from '../types/api';
+import { newsKeys } from '../utils/queries';
 
-export const createNews = async (data: any) => {
+export const createNews = async (data: CreateNewsAPISchema) => {
   const res = await api.post(`/news`, data);
   return res.data;
 };
@@ -24,7 +25,7 @@ export const useCreateNews = ({ mutationConfig }: UseCreateNewsOptions = {}) => 
     mutationFn: createNews,
     onSuccess: (...args) => {
       queryClient.invalidateQueries({
-        queryKey: getNewsQueryOptions().queryKey
+        queryKey: newsKeys.lists()
       });
       onSuccess?.(...args);
     }

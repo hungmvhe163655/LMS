@@ -9,11 +9,13 @@ import BookingScheduleRoute from './device/booking-schedule';
 import ErrorRoute from './errors';
 import NewsRoute from './news';
 import ProfileRoute from './profile';
+import ProjectResourcesRoute from './project-resources';
 import ListAllTasksRoute from './project-workspace/list-all-task';
 import ListProjectTasksRoute from './project-workspace/list-project-tasks';
 import OngoingProjectsRoute from './project-workspace/ongoing-projects';
 import ProjectWorkspaceRoute from './project-workspace/project-workspace';
 import SupervisorRoute from './supervisor';
+import VerifyAccountsRoute from './verify-account';
 
 export const createRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
@@ -30,7 +32,7 @@ export const createRouter = (queryClient: QueryClient) =>
       children: [NewsRoute]
     },
     {
-      path: '/dashboard',
+      path: 'dashboard',
       children: [StudentDashboardRoute, SupervisorDashboardRoute, LabDirectorDashboardRoute]
     },
     {
@@ -44,6 +46,10 @@ export const createRouter = (queryClient: QueryClient) =>
     {
       path: 'supervisor',
       children: [SupervisorRoute]
+    },
+    {
+      path: 'verify-account',
+      children: [VerifyAccountsRoute]
     },
     {
       path: 'error',
@@ -61,6 +67,10 @@ export const createRouter = (queryClient: QueryClient) =>
     {
       path: 'device',
       children: [BookingScheduleRoute]
+    },
+    {
+      path: 'resources',
+      children: [ProjectResourcesRoute]
     },
     {
       path: '/',

@@ -18,12 +18,12 @@ export function NewsTableToolbarActions() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      searchTerm: searchParams.get('searchTerm') ?? ''
+      searchTerm: searchParams.get('search_term') ?? ''
     }
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    searchParams.set('searchTerm', values.searchTerm);
+    searchParams.set('search_term', values.searchTerm);
     setSearchParams(searchParams);
   }
 

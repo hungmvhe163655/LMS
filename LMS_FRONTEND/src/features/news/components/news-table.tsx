@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { DataTable } from '@/components/ui/data-table/data-table';
@@ -16,7 +16,7 @@ export function NewsTable() {
   const page = searchParams.get('page') || 1;
   const perPage = searchParams.get('per_page') || 10;
   const sort = searchParams.get('sort');
-  const searchTerm = searchParams.get('searchTerm');
+  const searchTerm = searchParams.get('search_term');
 
   const { data, isLoading } = useNews({
     newsQueryParameter: {
@@ -28,7 +28,7 @@ export function NewsTable() {
   });
 
   // Memoize the columns so they don't re-render on every render
-  const columns = React.useMemo(() => getColumns(), []);
+  const columns = useMemo(() => getColumns(), []);
 
   const { table } = useDataTable({
     data: data?.data || [],

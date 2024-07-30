@@ -6,6 +6,8 @@ import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { EditorState } from 'prosemirror-state';
+import { useEffect } from 'react';
 
 import RichTextEditorToolbar from './rich-text-toolbar';
 
@@ -56,11 +58,24 @@ const RichText = ({ value, onChange, limit }: RichTextEditorProps) => {
         inclusive: false
       })
     ],
-    content: value, // Set the initial content with the provided value
+    content: value,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML()); // Call the onChange callback with the updated HTML content
     }
   });
+
+  useEffect(() => {
+    if (editor?.isEmpty) {
+      editor.commands.setContent(value);
+      // The following code clears the history. Hopefully without side effects.
+      const newEditorState = EditorState.create({
+        doc: editor.state.doc,
+        plugins: editor.state.plugins,
+        schema: editor.state.schema
+      });
+      editor.view.updateState(newEditorState);
+    }
+  }, [value, editor]);
 
   if (!editor) {
     return <div>Something went wrong!</div>;

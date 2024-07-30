@@ -1,6 +1,7 @@
 export const ERROR = {
   IS_BANNED: 'ISBANNED',
-  UNVERIFIED: 'UNVERIFIED'
+  UNVERIFIED: 'UNVERIFIED',
+  NETWORK: 'ERR_NETWORK'
 } as const;
 
 export const ROLES = {

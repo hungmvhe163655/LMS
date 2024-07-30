@@ -5,7 +5,7 @@ type LayoutProps = {
   message: string;
 };
 
-export function NotFoundFallback({ title, message }: LayoutProps) {
+export function ErrorFallback({ title, message }: LayoutProps) {
   return (
     <div className='m-auto flex h-dvh items-center justify-center font-semibold'>
       <div className='text-center'>

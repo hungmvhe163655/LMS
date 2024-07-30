@@ -1,10 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
 
 import { Link } from '@/components/app/link';
 import RichText from '@/components/app/rich-text/rich-text';
+import { Spinner } from '@/components/app/spinner';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -26,47 +27,55 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { authStore } from '@/lib/auth-store';
 
-import { useCreateNews } from '../api/create-news';
 import { useNewsById } from '../api/get-news-id';
-
-const limit = 1000;
-
-const formSchema = z.object({
-  title: z.string().min(1).trim(),
-  content: z.string().min(1).max(limit).trim()
-});
+import { useUpdateNews } from '../api/update-news';
+import { CONTENT_LIMIT, updateNewsInputSchema, UpdateNewsInputSchema } from '../types/api';
 
 export function UpdateNewsForm({ id }: { id: string }) {
-  const { data } = useNewsById({ id });
-  const { accessData } = authStore.getState();
+  const { data, isLoading } = useNewsById({ id });
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { mutate: createNews } = useCreateNews();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { mutate: updateNews } = useUpdateNews();
+  const form = useForm<UpdateNewsInputSchema>({
+    resolver: zodResolver(updateNewsInputSchema),
     defaultValues: {
-      title: data?.title,
-      content: data?.content
+      title: '',
+      content: ''
     }
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const data = {
-      ...values,
-      createdBy: accessData?.id
+  useEffect(() => {
+    if (data) {
+      form.reset(data);
+    }
+  }, [data, form]);
+
+  function onSubmit(values: UpdateNewsInputSchema) {
+    const sendData = {
+      data: {
+        ...values
+      },
+      newsId: id
     };
 
-    createNews(data, {
+    updateNews(sendData, {
       onSuccess: () => {
         navigate('/news');
         toast({
           variant: 'success',
-          description: 'Save News Success'
+          description: 'Update News Success'
         });
       }
     });
+  }
+
+  if (isLoading) {
+    return (
+      <div className='flex h-48 w-full items-center justify-center'>
+        <Spinner size='lg' />
+      </div>
+    );
   }
 
   return (
@@ -94,7 +103,7 @@ export function UpdateNewsForm({ id }: { id: string }) {
             <FormItem className='flex flex-col'>
               <FormLabel className='text-xl'>Content</FormLabel>
               <FormControl>
-                <RichText onChange={field.onChange} value={field.value} limit={limit} />
+                <RichText onChange={field.onChange} value={field.value} limit={CONTENT_LIMIT} />
               </FormControl>
               <FormMessage />
             </FormItem>
