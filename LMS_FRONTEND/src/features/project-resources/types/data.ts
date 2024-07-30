@@ -1,6 +1,6 @@
-import { Folder, File } from './api';
+import { ResourceFolder, ResourceFile } from './api';
 
-export const data: (Folder | File)[] = [
+export const data: (ResourceFolder | ResourceFile)[] = [
   {
     id: 'folder1',
     name: 'Documents',

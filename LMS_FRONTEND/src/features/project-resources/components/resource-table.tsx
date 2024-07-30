@@ -1,70 +1,36 @@
-import { defaultStyles, FileIcon } from 'react-file-icon';
-import { FaFolder } from 'react-icons/fa';
+import { DragEndEvent } from '@dnd-kit/core';
+import { useMemo } from 'react';
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '@/components/ui/scrollable-table';
-import { humanFileSize } from '@/utils/format-file-size';
-import { getFileExtension } from '@/utils/get-file-extension';
+import DragAndDropTable from '@/components/ui/dnd-table/dnd-table';
+import { useDataTable } from '@/hooks/use-data-table';
 
 import { RESOURCE } from '../types/constant';
 import { data } from '../types/data';
 
-export function ResourceTable() {
-  return (
-    <div className='w-full'>
-      <div className='rounded-md border shadow-md'>
-        <div className='relative h-screen overflow-auto'>
-          <Table>
-            <TableHeader className='sticky top-0 bg-secondary'>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Created By</TableHead>
-                <TableHead>Created Date</TableHead>
-                <TableHead>Size</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.map((item) => {
-                const ext = getFileExtension(item.name); // Extract file extension
+import { getColumns } from './resource-columns';
 
-                return (
-                  <TableRow key={item.id}>
-                    <TableCell className='flex items-center'>
-                      {item.type === RESOURCE.FILE ? (
-                        <div className='flex items-center space-x-2'>
-                          <div className='flex size-6 items-center justify-center'>
-                            <FileIcon
-                              extension={ext}
-                              {...defaultStyles[ext as keyof typeof defaultStyles]}
-                            />
-                          </div>
-                          <span>{item.name}</span>
-                        </div>
-                      ) : (
-                        <div className='flex items-center space-x-2'>
-                          <FaFolder className='size-6' />
-                          <span>{item.name}</span>
-                        </div>
-                      )}
-                    </TableCell>
-                    <TableCell>{item.createdBy}</TableCell>
-                    <TableCell>{item.createdDate.toDateString()}</TableCell>
-                    <TableCell>
-                      {item.type === RESOURCE.FILE ? humanFileSize(item.size) : '-'}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </div>
-      </div>
-    </div>
-  );
+export function ResourceTable() {
+  // Memoize the columns so they don't re-render on every render
+  const columns = useMemo(() => getColumns(), []);
+
+  const { table } = useDataTable({
+    data: data || [],
+    pageCount: 0,
+    columns
+  });
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (active.id !== over?.id) {
+      const activeItem = table.getRowModel().rows.find((row) => row.id === active.id);
+      const overItem = table.getRowModel().rows.find((row) => row.id === over?.id);
+
+      if (overItem?.original.type === RESOURCE.FOLDER) {
+        // Implement logic to move `activeItem` into `overItem` folder
+        console.log(`Move ${activeItem?.original.name} into folder ${overItem.original.name}`);
+      }
+    }
+  };
+
+  return <DragAndDropTable table={table} handleDragEnd={handleDragEnd} />;
 }

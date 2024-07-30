@@ -7,11 +7,11 @@ type BaseItem = {
   createdDate: Date;
 };
 
-export type Folder = {
+export type ResourceFolder = {
   type: typeof RESOURCE.FOLDER;
 } & BaseItem;
 
-export type File = {
+export type ResourceFile = {
   type: typeof RESOURCE.FILE;
   size: number;
 } & BaseItem;
