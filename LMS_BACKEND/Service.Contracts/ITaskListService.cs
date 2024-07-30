@@ -11,5 +11,7 @@ namespace Service.Contracts
         Task<TaskListResponseModel> CreateTaskList(CreateTaskListRequestModel model);
         Task UpdateTaskList(UpdateTaskListRequestModel model);
         Task DeleteTaskList(Guid tasklistId);
+        Task<(TaskListUpdateRequestModel taskListToPatch, TaskList taskListEntity)> GetTaskListForPatch(Guid projectId, Guid taskListId);
+        Task SaveChangesForPatch(TaskListUpdateRequestModel taskListToPatch, TaskList taskListEntity, string userId);
     }
 }

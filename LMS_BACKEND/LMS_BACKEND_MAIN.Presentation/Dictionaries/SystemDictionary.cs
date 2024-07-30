@@ -144,6 +144,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         public const string MoveTaskToTaskList = "{tasklistid:guid}/tasks/{taskid:guid}";
 
+        public const string MoveTaskInTaskList = "{tasklistid:guid}/tasks/{taskid:guid}/move";
+
         #endregion
 
         #region ProjectAPIs
@@ -159,6 +161,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
         public const string ValidateJoinRequest = "{id:guid}/join-request";
 
         public const string GetProjects = "user/{userid}";
+
+        public const string MoveTaskListInProjectt = "{projectId:guid}/task-lists/{taskListId:guid}";
 
         #endregion
 

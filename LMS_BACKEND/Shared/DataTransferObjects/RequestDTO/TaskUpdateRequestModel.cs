@@ -9,6 +9,7 @@
         public string? Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime DueDate { get; set; }
+        public int Order { get; set; } = 0;
         public string TaskPriority { get; set; } = "";
         public Guid TaskListId { get; set; }
         public Guid ProjectId { get; set; }
