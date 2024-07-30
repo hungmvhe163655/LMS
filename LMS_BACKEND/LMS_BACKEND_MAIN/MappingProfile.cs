@@ -27,7 +27,6 @@ namespace LMS_BACKEND_MAIN
                   .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
                   .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
             CreateMap<CreateNewsRequestModel, News>()
-                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.CreatedBy))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
                 .ForMember(dest => dest.NewsFiles, opt => opt.MapFrom(src =>

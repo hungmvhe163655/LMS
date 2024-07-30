@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
@@ -22,7 +23,25 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetFolder(Guid id)
         {
-            return Ok(await _serviceManager.FileService.GetFolderContent(id));
+            var result = await _serviceManager.FileService.GetFolderWithId(id);
+
+            return Ok(result);
+        }
+
+        [HttpGet(RoutesAPI.GetFolderFolders)]
+        public async Task<IActionResult> GetFolderFolders([FromQuery] FolderRequestParameters param, Guid id)
+        {
+            var result = await _serviceManager.FileService.GetFolderFolders(param, id);
+
+            return Ok(new FolderContentResponseModel { ListObject = result.Data, Remaining = result.DataLeft });
+        }
+
+        [HttpGet(RoutesAPI.GetFolderFiles)]
+        public async Task<IActionResult> GetFolderFiles([FromQuery] FilesRequestParameters param, Guid id)
+        {
+            var result = await _serviceManager.FileService.GetFolderFiles(param, id);
+
+            return Ok(new FolderContentResponseModel { ListObject = result.Data, Remaining = result.CountLeft });
         }
 
         [HttpGet(RoutesAPI.GetProjectFolderScheme)]
@@ -40,7 +59,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             {
                 return BadRequest(new ResponseMessage { Message = "Failed Create Folder" });
             }
-            return CreatedAtAction(nameof(GetFolder),new {id = result.Id}, result);
+            return CreatedAtAction(nameof(GetFolder), new { id = result.Id }, result);
         }
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteFolder(Guid id)

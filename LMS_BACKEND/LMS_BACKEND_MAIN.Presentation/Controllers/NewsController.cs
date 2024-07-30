@@ -1,10 +1,12 @@
-﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
+﻿using Entities.Exceptions;
+using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
@@ -30,6 +32,17 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(pageResult.news);
         }
 
+        private async Task<string> CheckUser()
+        {
+            var userClaims = User.Claims;
+
+            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
+
+            return hold.Id;
+        }
+
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetNewsById(Guid id)
         {
@@ -41,7 +54,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateNews(CreateNewsRequestModel model)
         {
-            var result = await _service.NewsService.CreateNewsAsync(model);
+            var result = await _service.NewsService.CreateNewsAsync( CheckUser().Result, model);
 
             return CreatedAtAction(nameof(GetNewsById), new { id = result.Id }, result);
         }

@@ -15,6 +15,7 @@ namespace Service.Contracts
         Task<DeviceReturnModel> CreateNewDevice(string userId, CreateDeviceRequestModel model);
         Task UpdateDevice(Guid id, UpdateDeviceRequestModel model);
         Task<DeviceReturnModel> GetDeviceById(Guid id);
+        Task DeleteDevice(Guid id);
 
     }
 }
