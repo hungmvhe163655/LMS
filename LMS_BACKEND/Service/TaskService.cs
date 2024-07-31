@@ -219,7 +219,17 @@ namespace Service
 
             if (!IsMemberInProject(taskEntity.TaskListId, userId).Result) throw new BadRequestException("Member is not in project");
 
-            _mapper.Map(taskToPatch, taskEntity);
+            var task = _mapper.Map(taskToPatch, taskEntity);
+
+            var taskListId = task.TaskListId;
+            var tasks = await _repository.Task.GetTasksWithTaskListId(taskListId, true).OrderBy(t => t.Order).ToListAsync();
+
+            task.Order = tasks.Count + 1;
+
+            for (var i = 0; i < tasks.Count; i++)
+            {
+                tasks[i].Order = i + 1;
+            }
 
             await _repository.Save();
 
