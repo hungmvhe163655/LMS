@@ -215,11 +215,11 @@ namespace Service
 
         public async Task SaveChangesForPatch(TaskResponseModel taskToPatch, Tasks taskEntity, string userId)
         {
-            if (!IsTaskListAvailable(taskEntity.TaskListId).Result) throw new BadRequestException("Task lists already have maximum tasks");
-
-            if (!IsMemberInProject(taskEntity.TaskListId, userId).Result) throw new BadRequestException("Member is not in project");
-
             var task = _mapper.Map(taskToPatch, taskEntity);
+
+            if (!IsTaskListAvailable(task.TaskListId).Result) throw new BadRequestException("Task lists already have maximum tasks");
+
+            if (!IsMemberInProject(task.TaskListId, userId).Result) throw new BadRequestException("Member is not in project");
 
             var taskListId = task.TaskListId;
             var tasks = await _repository.Task.GetTasksWithTaskListId(taskListId, true).OrderBy(t => t.Order).ToListAsync();
