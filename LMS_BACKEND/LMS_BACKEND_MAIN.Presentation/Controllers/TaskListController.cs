@@ -66,7 +66,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpPatch(RoutesAPI.MoveTaskToTaskList)]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
-        public async Task<IActionResult> MoveTaskToTaskList(Guid taskListId, Guid taskid, [FromBody] JsonPatchDocument<TaskUpdateRequestModel> patchDoc)
+        public async Task<IActionResult> MoveTaskToTaskList(Guid taskListId, Guid taskid, [FromBody] JsonPatchDocument<TaskResponseModel> patchDoc)
         {
             if (!patchDoc.Operations.Any()) throw new BadRequestException("patchDoc object sent from client is null.");
 
@@ -81,7 +81,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
         [HttpPatch(RoutesAPI.MoveTaskInTaskList)]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
-        public async Task<IActionResult> MoveTaskInTaskList(Guid taskListId, Guid taskid, [FromBody] JsonPatchDocument<TaskUpdateRequestModel> patchDoc)
+        public async Task<IActionResult> MoveTaskInTaskList(Guid taskListId, Guid taskid, [FromBody] JsonPatchDocument<TaskResponseModel> patchDoc)
         {
             if (!patchDoc.Operations.Any()) throw new BadRequestException("patchDoc object sent from client is null.");
 

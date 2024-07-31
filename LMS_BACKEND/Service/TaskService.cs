@@ -200,7 +200,7 @@ namespace Service
             return _mapper.Map<TaskResponseModel>(await _repository.Task.GetTaskWithId(id, false).FirstAsync());
         }
 
-        public async Task<(TaskUpdateRequestModel taskToPatch, Tasks taskEntity)> GetTaskForPatch(Guid taskListId, Guid taskId)
+        public async Task<(TaskResponseModel taskToPatch, Tasks taskEntity)> GetTaskForPatch(Guid taskListId, Guid taskId)
         {
             var taskList = await _repository.TaskList.GetByCondition(x => x.Id.Equals(taskListId), false).Include(x => x.Tasks).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
 
@@ -208,12 +208,12 @@ namespace Service
 
             var hold = await _repository.Task.GetTaskWithId(taskId, true).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task with id {taskId}");
 
-            var taskToPatch = _mapper.Map<TaskUpdateRequestModel>(hold);
+            var taskToPatch = _mapper.Map<TaskResponseModel>(hold);
 
             return (taskToPatch, hold);
         }
 
-        public async Task SaveChangesForPatch(TaskUpdateRequestModel taskToPatch, Tasks taskEntity, string userId)
+        public async Task SaveChangesForPatch(TaskResponseModel taskToPatch, Tasks taskEntity, string userId)
         {
             if (!IsTaskListAvailable(taskEntity.TaskListId).Result) throw new BadRequestException("Task lists already have maximum tasks");
 
@@ -225,7 +225,7 @@ namespace Service
 
         }
 
-        public async Task SaveChangesInTaskListForPatch(TaskUpdateRequestModel taskToPatch, Tasks taskEntity, string userId)
+        public async Task SaveChangesInTaskListForPatch(TaskResponseModel taskToPatch, Tasks taskEntity, string userId)
         {
             if (!IsMemberInProject(taskEntity.TaskListId, userId).Result) throw new BadRequestException("Member is not in project");
 
