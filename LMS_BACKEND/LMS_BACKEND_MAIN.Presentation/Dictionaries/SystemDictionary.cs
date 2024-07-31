@@ -138,6 +138,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         public const string AttachFileToTask = "add-file/{id:guid}/{fileid:guid}";
 
+        public const string AssignUserToTask = "{id:guid}/assign/user/{userid}";
+
         #endregion
 
         #region TaskListAPIs

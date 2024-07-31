@@ -35,5 +35,10 @@ namespace Service
             _repository.Member.Delete(hold);
             await _repository.Save();
         }
+
+        public async Task<Guid> GetProjectIdWithMemberId(string MemberId)
+        {
+            return await _repository.Member.GetByCondition(x=>x.UserId.Equals(MemberId), false).Select(z=>z.ProjectId).FirstOrDefaultAsync();
+        }
     }
 }
