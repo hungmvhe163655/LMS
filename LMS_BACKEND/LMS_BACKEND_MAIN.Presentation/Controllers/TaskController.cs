@@ -39,9 +39,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTask(TaskCreateRequestModel model)
         {
-            if (!(await CheckUser()).Equals(model.CreatedBy)) throw new UnauthorizedException("You don't have access to this fuction");
+            var hold_user = await CheckUser();
 
-            var hold = await _service.TaskService.CreateTask(model);
+            var hold = await _service.TaskService.CreateTask(model, hold_user);
 
             return CreatedAtAction(nameof(GetTaskById), new { id = hold.Id }, hold);
         }
@@ -54,12 +54,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "Attach success" });
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateTask([FromBody] TaskUpdateRequestModel model)
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateTask(Guid id, [FromBody] TaskUpdateRequestModel model)
         {
             if (!(await CheckUser()).Equals(model.CreatedBy)) throw new UnauthorizedException("You don't have access to this fuction");
 
-            await _service.TaskService.EditTask(model);
+            await _service.TaskService.EditTask(model, id);
 
             return Ok(new ResponseMessage { Message = "Update Task success" });
         }

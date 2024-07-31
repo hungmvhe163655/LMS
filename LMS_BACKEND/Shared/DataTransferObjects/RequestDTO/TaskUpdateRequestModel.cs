@@ -2,7 +2,6 @@
 {
     public class TaskUpdateRequestModel
     {
-        public Guid Id { get; set; }
         public string? Title { get; set; }
         public string? CreatedBy { get; set; }
         public bool? RequiredValidation { get; set; }
@@ -11,8 +10,6 @@
         public DateTime DueDate { get; set; }
         public int Order { get; set; } = 0;
         public string TaskPriority { get; set; } = "";
-        public Guid TaskListId { get; set; }
-        public Guid ProjectId { get; set; }
         public string TaskStatus { get; set; } = "";
         public string? AssignedTo { get; set; }
         public byte[] RowVersion { get; set; } = new byte[0];
