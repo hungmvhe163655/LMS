@@ -43,6 +43,8 @@ namespace Service
 
             hold.Id = Guid.NewGuid();
 
+            hold.Order = 0;
+
             await _repository.TaskList.AddNewTaskList(hold);
 
             await _repository.Save();
