@@ -70,15 +70,28 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             if (!patchDoc.Operations.Any()) throw new BadRequestException("patchDoc object sent from client is null.");
 
-            var result = await _service.TaskService.MoveTaskForPatch(taskListId, taskid);
-
-            var old_list = result.taskEntity.TaskListId;
+            var result = await _service.TaskService.GetTaskForPatch(taskListId, taskid);
 
             patchDoc.ApplyTo(result.taskToPatch);
 
-            var new_list = await _service.TaskService.SaveChangesForPatch(result.taskToPatch, result.taskEntity, CheckUser().Result);
+            await _service.TaskService.SaveChangesForPatch(result.taskToPatch, result.taskEntity, CheckUser().Result);
 
-            return Ok(new ResponseMessage { Message = $"Move task {taskid} to task list from {old_list} to list {new_list} successfully " });
+            return NoContent();
+        }
+
+        [HttpPatch(RoutesAPI.MoveTaskInTaskList)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        public async Task<IActionResult> MoveTaskInTaskList(Guid taskListId, Guid taskid, [FromBody] JsonPatchDocument<TaskUpdateRequestModel> patchDoc)
+        {
+            if (!patchDoc.Operations.Any()) throw new BadRequestException("patchDoc object sent from client is null.");
+
+            var result = await _service.TaskService.GetTaskForPatch(taskListId, taskid);
+
+            patchDoc.ApplyTo(result.taskToPatch);
+
+            await _service.TaskService.SaveChangesInTaskListForPatch(result.taskToPatch, result.taskEntity, CheckUser().Result);
+
+            return NoContent();
         }
 
     }

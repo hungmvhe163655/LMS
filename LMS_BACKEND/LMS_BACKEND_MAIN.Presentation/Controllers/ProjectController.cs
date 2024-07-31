@@ -1,6 +1,7 @@
 ﻿using Entities.Exceptions;
 using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
@@ -105,5 +106,21 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return hold.Id;
         }
+
+        [HttpPatch(RoutesAPI.MoveTaskListInProjectt)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        public async Task<IActionResult> MoveTaskListInProject(Guid projectId, Guid taskListId, [FromBody] JsonPatchDocument<TaskListUpdateRequestModel> patchDoc)
+        {
+            if (!patchDoc.Operations.Any()) throw new BadRequestException("patchDoc object sent from client is null.");
+
+            var result = await _service.TaskListService.GetTaskListForPatch(projectId, taskListId);
+
+            patchDoc.ApplyTo(result.taskListToPatch);
+
+            await _service.TaskListService.SaveChangesForPatch(result.taskListToPatch, result.taskListEntity, CheckUser().Result);
+
+            return NoContent();
+        }
+
     }
 }
