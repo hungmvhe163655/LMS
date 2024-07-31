@@ -27,7 +27,7 @@ interface SortableTaskProps {
 const SortableTask: React.FC<SortableTaskProps> = ({ task, setIsDialogOpen }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: task.id,
-    data: { type: 'Task' }
+    data: { type: 'Task', order: task.order }
   });
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,7 +56,8 @@ const SortableTask: React.FC<SortableTaskProps> = ({ task, setIsDialogOpen }) =>
           </CardHeader>
           <CardContent>
             <p>ID: {task.id}</p>
-            <p>Assigned to: {task.assignedTo}</p>
+            <p>Assigned to: {task.assignedToUser}</p>
+            <p>Order: {task.order}</p>
             <Button onClick={() => handleDialogOpenChange(true)} data-no-dnd='true'>
               → View Detail
             </Button>

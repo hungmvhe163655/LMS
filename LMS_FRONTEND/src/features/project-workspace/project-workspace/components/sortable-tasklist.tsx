@@ -48,7 +48,7 @@ const SortableTaskList: React.FC<TaskListProps> = ({
                 {
                   id: `task-${Math.random().toString(36).substr(2, 9)}`,
                   title: newTaskTitle,
-                  assignedTo: 'You'
+                  assignedTo: 'none'
                 } as Task
               ]
             };
@@ -81,9 +81,12 @@ const SortableTaskList: React.FC<TaskListProps> = ({
     >
       <div className='mb-2 flex items-center justify-between'>
         <h3 className='text-xl font-semibold'>
-          {taskList.name} <span>{taskList.id}</span>
+          {taskList.name}
+          {/* <span>{taskList.id}</span> */}
           {/* <span className='text-sm'>({taskList.maxTasks?.valueOf()} Max Tasks)</span> */}
         </h3>
+      </div>
+      <div>
         <Button
           variant='outline'
           size='sm'
@@ -91,6 +94,9 @@ const SortableTaskList: React.FC<TaskListProps> = ({
           data-no-dnd='true'
         >
           Edit
+        </Button>
+        <Button variant='outline' size='sm' data-no-dnd='true'>
+          Delete
         </Button>
       </div>
       <hr className='my-2' />

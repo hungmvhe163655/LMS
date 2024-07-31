@@ -1,4 +1,4 @@
-import { DndContext, closestCenter, DragOverEvent, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, closestCenter, DragEndEvent, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 import { addNewTaskList } from '../api/add-new-task'; // Import the addNewTaskList function
+import { useChangeTaskOrder } from '../api/change-task-order';
 import { getTaskLists } from '../api/get-tasklists';
 import { useUpdateTaskList } from '../api/move-task';
 import type { TaskList as TaskListType } from '../types/project-types';
@@ -49,29 +50,44 @@ const ProjectWorkspace: React.FC = () => {
     }
   }, [projectId]);
 
-  const handleDragEnd = (event: DragOverEvent) => {
+  const { mutate: changeTaskOrderMutate } = useChangeTaskOrder({
+    mutationConfig: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['taskLists', projectId] });
+      }
+    }
+  });
+
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (active && over) {
       // Task on Task
       if (active.data.current?.type === 'Task' && over.data.current?.type === 'Task') {
-        console.log(over.data.current);
-        const sourceList = taskLists.find((list) =>
+        const sourceList = taskLists?.find((list) =>
           list.tasks.some((task) => task.id === active.id)
         );
-        const targetList = taskLists.find((list) => list.tasks.some((task) => task.id === over.id));
+        const targetList = taskLists?.find((list) =>
+          list.tasks.some((task) => task.id === over.id)
+        );
 
         if (!sourceList || !targetList) return;
 
         const draggedTask = sourceList.tasks.find((task) => task.id === active.id);
         if (!draggedTask) return;
 
-        // Task on Task of the same collumn
+        // Task on Task of the same column
+
         if (sourceList === targetList) {
           const overIndex = targetList.tasks.findIndex((task) => task.id === over.id);
           const sourceIndex = targetList.tasks.findIndex((task) => task.id === active.id);
 
           if (sourceList.tasks.length > 1) {
+            changeTaskOrderMutate({
+              taskListId: sourceList.id,
+              taskId: draggedTask.id,
+              order: over.data.current?.order
+            });
             setTaskLists((prev) => {
               const updatedLists = prev.map((list) => {
                 if (list.id === sourceList.id) {
@@ -86,7 +102,7 @@ const ProjectWorkspace: React.FC = () => {
             });
           }
         } else {
-          // Task on Task of the different collumn
+          // Task on Task of a different column
           updateTaskListMutate({
             taskId: draggedTask.id,
             srcTaskListId: sourceList.id,
@@ -108,16 +124,16 @@ const ProjectWorkspace: React.FC = () => {
       }
       // Task on TaskList
       if (active.data.current?.type === 'Task' && over.data.current?.type === 'TaskList') {
-        const sourceList = taskLists.find((list) =>
+        const sourceList = taskLists?.find((list) =>
           list.tasks.some((task) => task.id === active.id)
         );
-        const targetList = taskLists.find((list) => list.id === over.id);
+        const targetList = taskLists?.find((list) => list.id === over.id);
 
         if (!sourceList || !targetList) return;
 
         const draggedTask = sourceList.tasks.find((task) => task.id === active.id);
         if (!draggedTask) return;
-        // Task on different TaskList
+        // Task on a different TaskList
         if (sourceList !== targetList) {
           updateTaskListMutate({
             taskId: draggedTask.id,
@@ -140,13 +156,13 @@ const ProjectWorkspace: React.FC = () => {
       }
       // TaskList on TaskList
       if (active.data.current?.type === 'TaskList' && over.data.current?.type === 'TaskList') {
-        const sourceIndex = taskLists.findIndex((list) => list.id === active.id);
-        const targetIndex = taskLists.findIndex((list) => list.id === over.id);
+        const sourceIndex = taskLists?.findIndex((list) => list.id === active.id);
+        const targetIndex = taskLists?.findIndex((list) => list.id === over.id);
 
         setTaskLists((prev) => {
           const updatedLists = [...prev];
-          const [movedList] = updatedLists.splice(sourceIndex, 1);
-          updatedLists.splice(targetIndex, 0, movedList);
+          const [movedList] = updatedLists.splice(sourceIndex!, 1);
+          updatedLists.splice(targetIndex!, 0, movedList);
           return updatedLists;
         });
       }
@@ -170,12 +186,12 @@ const ProjectWorkspace: React.FC = () => {
       </Button>
       <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd} sensors={sensors}>
         <SortableContext
-          items={taskLists.map((list) => list.id)}
+          items={taskLists?.map((list) => list.id) || []}
           strategy={horizontalListSortingStrategy}
           disabled={isDialogOpen} // Disable sorting if dialog is open
         >
           <div className='flex gap-4 overflow-auto'>
-            {taskLists.map((taskList) => (
+            {taskLists?.map((taskList) => (
               <SortableTaskList
                 key={taskList.id}
                 taskList={taskList}

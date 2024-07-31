@@ -33,7 +33,8 @@ export const useUpdateTaskList = ({ mutationConfig }: UseUpdateTaskListOptions =
     ...restConfig,
     mutationFn: updateTaskList,
     onSuccess: (data, ...args) => {
-      queryClient.invalidateQueries({ queryKey: ['taskLists'] }); // Invalidate queries to refetch updated data
+      console.log('Mutation success, invalidating queries');
+      queryClient.invalidateQueries({ queryKey: ['taskLists'] }); // Make sure the query key is correct
       onSuccess?.(data, ...args);
     }
   });

@@ -14,6 +14,8 @@ export interface Task {
   projectId?: string;
   taskStatusId?: string;
   assignedTo: string;
+  assignedToUser: string;
+  order: number;
 }
 
 export interface TaskList {
