@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 
-import { addNewTaskList } from '../api/add-new-task'; // Import the addNewTaskList function
+import { addNewTaskList } from '../api/add-new-tasklist'; // Import the addNewTaskList function
 import { useChangeTaskOrder } from '../api/change-task-order';
 import { getTaskLists } from '../api/get-tasklists';
 import { useUpdateTaskList } from '../api/move-task';
@@ -197,7 +197,8 @@ const ProjectWorkspace: React.FC = () => {
                 taskList={taskList}
                 tasks={taskList.tasks}
                 setTasks={setTaskLists}
-                setIsDialogOpen={setIsDialogOpen} // Pass the state setter to children
+                setIsDialogOpen={setIsDialogOpen}
+                projectId={projectId?.toString()}
               />
             ))}
           </div>

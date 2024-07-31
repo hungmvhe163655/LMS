@@ -55,9 +55,9 @@ const SortableTask: React.FC<SortableTaskProps> = ({ task, setIsDialogOpen }) =>
             <CardTitle>{task.title}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>ID: {task.id}</p>
-            <p>Assigned to: {task.assignedToUser}</p>
-            <p>Order: {task.order}</p>
+            <p className='text-lg font-bold'>{task.title}</p>
+            <p>{task.description}</p>
+            {/* <p>Order: {task.order}</p> */}
             <Button onClick={() => handleDialogOpenChange(true)} data-no-dnd='true'>
               → View Detail
             </Button>

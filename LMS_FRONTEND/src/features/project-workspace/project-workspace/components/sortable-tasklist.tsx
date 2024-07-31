@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
+import { useAddNewTask } from '../api/add-new-task'; // Import the add new task hook
 import type { Task, TaskList as TaskListType } from '../types/project-types';
 
 import SortableTask from './sortable-task';
@@ -13,6 +14,7 @@ import UpdateTaskListDialog from './update-task-list-dialog'; // Import the new 
 interface TaskListProps {
   taskList: TaskListType;
   tasks: Task[];
+  projectId: string | undefined;
   setTasks: React.Dispatch<React.SetStateAction<TaskListType[]>>;
   setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>; // Add setIsDialogOpen prop
 }
@@ -21,7 +23,8 @@ const SortableTaskList: React.FC<TaskListProps> = ({
   taskList,
   tasks,
   setTasks,
-  setIsDialogOpen
+  setIsDialogOpen,
+  projectId
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: taskList.id,
@@ -36,27 +39,33 @@ const SortableTaskList: React.FC<TaskListProps> = ({
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
 
+  const { mutate: addNewTaskMutate } = useAddNewTask();
+
   const handleAddTask = () => {
     if (newTaskTitle.trim()) {
-      setTasks((prev) => {
-        return prev.map((list) => {
-          if (list.id === taskList.id) {
-            return {
-              ...list,
-              tasks: [
-                ...list.tasks,
-                {
-                  id: `task-${Math.random().toString(36).substr(2, 9)}`,
-                  title: newTaskTitle,
-                  assignedTo: 'none'
-                } as Task
-              ]
-            };
+      addNewTaskMutate(
+        {
+          title: newTaskTitle,
+          taskListId: taskList.id,
+          projectId: projectId
+        },
+        {
+          onSuccess: (newTask) => {
+            setTasks((prev) => {
+              return prev.map((list) => {
+                if (list.id === taskList.id) {
+                  return {
+                    ...list,
+                    tasks: [...list.tasks, newTask]
+                  };
+                }
+                return list;
+              });
+            });
+            setNewTaskTitle('');
           }
-          return list;
-        });
-      });
-      setNewTaskTitle('');
+        }
+      );
     }
   };
 
@@ -81,12 +90,9 @@ const SortableTaskList: React.FC<TaskListProps> = ({
     >
       <div className='mb-2 flex items-center justify-between'>
         <h3 className='text-xl font-semibold'>
-          {taskList.name}
-          {/* <span>{taskList.id}</span> */}
+          {taskList.name} <span>{taskList.id}</span>
           {/* <span className='text-sm'>({taskList.maxTasks?.valueOf()} Max Tasks)</span> */}
         </h3>
-      </div>
-      <div>
         <Button
           variant='outline'
           size='sm'
@@ -95,7 +101,7 @@ const SortableTaskList: React.FC<TaskListProps> = ({
         >
           Edit
         </Button>
-        <Button variant='outline' size='sm' data-no-dnd='true'>
+        <Button variant='destructive' size='sm' data-no-dnd='true'>
           Delete
         </Button>
       </div>
