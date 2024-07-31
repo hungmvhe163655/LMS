@@ -64,17 +64,6 @@ namespace Service
             var hold = _mapper.Map<Tasks>(model);
 
             hold.CreatedBy = hold_user;
-            /*
-            var hold_creator = await
-                _repository
-                .Account
-                .GetByCondition(x => x.Id.Equals(hold_user), true)
-                .Include(y => y.Members
-                .Where(z => z.IsLeader && z.ProjectId
-                .Equals(model.ProjectId) && z.UserId
-                .Equals(hold_user)))
-                .FirstOrDefaultAsync();
-            */
 
             var hold_creator = await
                 _repository
@@ -83,19 +72,6 @@ namespace Service
                 .Equals(model.ProjectId) && x.UserId
                 .Equals(hold_user), false)
                 .FirstOrDefaultAsync();
-            /*
-                        var hold_worker = await
-                            _repository
-                            .Account
-                            .GetByCondition(x => x.Id
-                            .Equals(model.AssignedTo), true)
-                            .Include(y => y.Members
-                            .Where(z => z.ProjectId
-                            .Equals(model.ProjectId) && z.UserId
-                            .Equals(model.AssignedTo)))
-                            .FirstOrDefaultAsync();
-
-                    */
 
             var hold_worker = await
                 _repository
@@ -108,7 +84,7 @@ namespace Service
 
             if (hold_creator == null) throw new BadRequestException("User Id does not existed or not in this project");
 
-            if (hold_worker == null) throw new BadRequestException("Assigned user id does not existed or not in this project");
+            if (hold_worker == null) hold.AssignedTo = null;
 
             hold.Id = Guid.NewGuid();
 
@@ -133,15 +109,20 @@ namespace Service
             return _mapper.Map<TaskResponseModel>(hold);
         }
 
-        public async Task EditTask(TaskUpdateRequestModel model, Guid id)
+        public async Task EditTask(TaskUpdateRequestModel model, Guid id, string editorId)
         {
             var hold = await _repository.Task.GetTaskWithId(id, false).Include(t => t.TaskHistories).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid task id");
 
+            var hold_editor = await
+              _repository
+              .Member
+              .GetByCondition(x => x.UserId.Equals(editorId) && x.ProjectId.Equals(hold.ProjectId) && x.IsLeader, false).FirstOrDefaultAsync() ?? throw new BadRequestException($"User does not have permission to managing tasks from this project");
+
             var hold_validmember = await _repository.Member.GetByCondition(x => x.UserId.Equals(model.AssignedTo), false).FirstOrDefaultAsync();
 
-            if (hold_validmember == null) throw new BadRequestException("Assigned user id does not existed or not in this project");
-
             _mapper.Map(model, hold);
+
+            if (hold_validmember == null) hold.AssignedTo = null;
 
             var hold_version = _mapper.Map<TaskHistory>(hold);
 
@@ -156,22 +137,44 @@ namespace Service
             await _repository.Save();
         }
 
+        public async Task AssignUserToTask(Guid taskId, string userId, string editorId)
+        {
+            var hold = await _repository.Task.GetTaskWithId(taskId, false).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid task id");
+
+            var hold_editor = await
+              _repository
+              .Member
+              .GetByCondition(x => x.UserId.Equals(editorId) && x.ProjectId.Equals(hold.ProjectId) && x.IsLeader, false).FirstOrDefaultAsync() ?? throw new BadRequestException($"User does not have permission to managing tasks from this project");
+
+            var hold_worker = await
+                _repository
+                .Member
+                .GetByCondition(x => x.UserId
+                .Equals(userId) && x.ProjectId
+                .Equals(hold.ProjectId), false)
+                .Select(z => z.User)
+                .FirstOrDefaultAsync() ?? throw new BadRequestException("User not exist or not in this project");
+
+            hold.AssignedTo = hold_worker.Id;
+
+            await _repository.Task.UpdateTask(hold);
+
+            await _repository.Save();
+
+        }
+
         public async Task DeleteTask(Guid id, string userId)
         {
             var hold = await _repository.Task.GetTaskWithId(id, false).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid Task id");
 
             var hold_creator = await
                 _repository
-                .Account
-                .GetByCondition(x => x.Id
-                .Equals(userId), true)
-                .Include(y => y.Members
-                .Where(z => z.IsLeader && z.IsLeader && z.ProjectId
-                .Equals(hold.ProjectId) && z.UserId
-                .Equals(userId)))
-                .FirstOrDefaultAsync();
-
-            if (hold_creator == null) throw new BadRequestException("User is not allow to interract with this project");
+                .Member
+                .GetByCondition(x => x.UserId
+                .Equals(userId) && x.ProjectId
+                .Equals(hold.ProjectId) && x.IsLeader, false)
+                .FirstOrDefaultAsync()
+                ?? throw new BadRequestException("User is not allow to interract with this project");
 
             _repository.TaskHistory.DeleteTaskHistory(id);
 
@@ -197,7 +200,7 @@ namespace Service
             return _mapper.Map<TaskResponseModel>(await _repository.Task.GetTaskWithId(id, false).FirstAsync());
         }
 
-        public async Task<(TaskUpdateRequestModel taskToPatch, Tasks taskEntity)> GetTaskForPatch(Guid taskListId, Guid taskId)
+        public async Task<(TaskResponseModel taskToPatch, Tasks taskEntity)> GetTaskForPatch(Guid taskListId, Guid taskId)
         {
             var taskList = await _repository.TaskList.GetByCondition(x => x.Id.Equals(taskListId), false).Include(x => x.Tasks).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task list with id {taskListId}");
 
@@ -205,12 +208,12 @@ namespace Service
 
             var hold = await _repository.Task.GetTaskWithId(taskId, true).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can not find task with id {taskId}");
 
-            var taskToPatch = _mapper.Map<TaskUpdateRequestModel>(hold);
+            var taskToPatch = _mapper.Map<TaskResponseModel>(hold);
 
             return (taskToPatch, hold);
         }
 
-        public async Task SaveChangesForPatch(TaskUpdateRequestModel taskToPatch, Tasks taskEntity, string userId)
+        public async Task SaveChangesForPatch(TaskResponseModel taskToPatch, Tasks taskEntity, string userId)
         {
             if (!IsTaskListAvailable(taskEntity.TaskListId).Result) throw new BadRequestException("Task lists already have maximum tasks");
 
@@ -222,7 +225,7 @@ namespace Service
 
         }
 
-        public async Task SaveChangesInTaskListForPatch(TaskUpdateRequestModel taskToPatch, Tasks taskEntity, string userId)
+        public async Task SaveChangesInTaskListForPatch(TaskResponseModel taskToPatch, Tasks taskEntity, string userId)
         {
             if (!IsMemberInProject(taskEntity.TaskListId, userId).Result) throw new BadRequestException("Member is not in project");
 

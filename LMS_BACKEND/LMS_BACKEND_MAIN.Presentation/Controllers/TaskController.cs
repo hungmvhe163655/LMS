@@ -57,11 +57,17 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateTask(Guid id, [FromBody] TaskUpdateRequestModel model)
         {
-            if (!(await CheckUser()).Equals(model.CreatedBy)) throw new UnauthorizedException("You don't have access to this fuction");
-
-            await _service.TaskService.EditTask(model, id);
+            await _service.TaskService.EditTask(model, id, await CheckUser());
 
             return Ok(new ResponseMessage { Message = "Update Task success" });
+        }
+
+        [HttpPut(RoutesAPI.AssignUserToTask)]
+        public async Task<IActionResult> AssignUserToTask(Guid id, string userid)
+        {
+            await _service.TaskService.AssignUserToTask(id, userid, await CheckUser());
+
+            return NoContent();
         }
 
         [HttpDelete("{id:guid}")]
