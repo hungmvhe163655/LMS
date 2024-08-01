@@ -66,14 +66,29 @@ export function ResourceTable() {
   });
 
   // Combine folder and file data using useMemo
-  const flatFolderData = useMemo(
-    () => folderData?.pages?.flatMap((page) => page.data) ?? [],
-    [folderData]
-  );
-  const flatFileData = useMemo(
-    () => fileData?.pages?.flatMap((page) => page.data) ?? [],
-    [fileData]
-  );
+  const flatFolderData = useMemo(() => {
+    return (
+      folderData?.pages?.flatMap((page) =>
+        page.data.map((item) => ({
+          ...item,
+          type: RESOURCE.FOLDER
+        }))
+      ) ?? []
+    );
+  }, [folderData]);
+
+  const flatFileData = useMemo(() => {
+    return (
+      fileData?.pages?.flatMap((page) =>
+        page.data.map((item) => ({
+          ...item,
+          type: RESOURCE.FILE,
+          size: item.size // Ensure that size is available in the raw data
+        }))
+      ) ?? []
+    );
+  }, [fileData]);
+
   const combinedData = useMemo(
     () => [...flatFolderData, ...flatFileData],
     [flatFolderData, flatFileData]
