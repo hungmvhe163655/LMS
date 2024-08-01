@@ -6,9 +6,10 @@ import {
   OnChangeFn,
   SortingState
 } from '@tanstack/react-table';
-import { useRef, useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 import DragAndDropTable from '@/components/ui/dnd-table/dnd-table';
+import InfiniteScroll from '@/components/ui/infinite-scroll';
 
 import { useFiles } from '../api/get-files';
 import { useFolders } from '../api/get-folders';
@@ -18,11 +19,10 @@ import { RESOURCE } from '../types/constant';
 import { getColumns } from './resource-columns';
 
 export function ResourceTable() {
-  const tableContainerRef = useRef<HTMLDivElement>(null);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [resourceQueryParameter, setResourceQueryParameter] = useState<ResourceQueryParams>({
-    Top: undefined,
-    Take: undefined,
+    Top: 0,
+    Take: 5,
     OrderBy: 'name.desc'
   });
 
@@ -41,11 +41,10 @@ export function ResourceTable() {
   // Fetch folders
   const {
     data: folderData,
-    fetchNextPage: fetchNextFolderPage,
     hasNextPage: hasNextFolderPage,
-    isFetchingNextPage: isFetchingNextFolderPage,
     isLoading: isFolderLoading,
-    isError: isFolderError
+    isError: isFolderError,
+    fetchNextPage: fetchNextFolderPage
   } = useFolders({
     id: folderId,
     resourceQueryParameter
@@ -55,9 +54,8 @@ export function ResourceTable() {
   const {
     data: fileData,
     fetchNextPage: fetchNextFilePage,
-    hasNextPage: hasNextFilePage,
-    isFetchingNextPage: isFetchingNextFilePage,
     isLoading: isFileLoading,
+    hasNextPage: hasNextFilePage,
     isError: isFileError
   } = useFiles({
     id: folderId,
@@ -102,8 +100,7 @@ export function ResourceTable() {
     state: { sorting },
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    manualSorting: true,
-    debugTable: true
+    manualSorting: true
   });
 
   const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
@@ -128,49 +125,6 @@ export function ResourceTable() {
     }
   };
 
-  useEffect(() => {
-    // Store the current ref value in a variable to use in the cleanup function
-    const currentContainer = tableContainerRef.current;
-
-    if (currentContainer) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (
-            entries[0].isIntersecting &&
-            (hasNextFolderPage || hasNextFilePage) &&
-            !(isFetchingNextFilePage || isFetchingNextFolderPage)
-          ) {
-            if (hasNextFolderPage) {
-              fetchNextFolderPage();
-            } else if (hasNextFilePage) {
-              fetchNextFilePage();
-            }
-          }
-        },
-        { root: currentContainer, rootMargin: '0px', threshold: 1.0 }
-      );
-
-      const lastElement = currentContainer.lastElementChild;
-      if (lastElement) {
-        observer.observe(lastElement);
-      }
-
-      // Cleanup function to unobserve the last element
-      return () => {
-        if (lastElement) {
-          observer.unobserve(lastElement);
-        }
-      };
-    }
-  }, [
-    fetchNextFolderPage,
-    fetchNextFilePage,
-    hasNextFolderPage,
-    hasNextFilePage,
-    isFetchingNextFilePage,
-    isFetchingNextFolderPage
-  ]);
-
   if (isFolderLoading || isFileLoading) {
     return <>Loading...</>;
   }
@@ -180,8 +134,19 @@ export function ResourceTable() {
   }
 
   return (
-    <div className='container relative h-[600px] overflow-auto' ref={tableContainerRef}>
+    <InfiniteScroll
+      isLoading={isFolderLoading || isFileLoading}
+      hasMore={hasNextFolderPage || hasNextFilePage}
+      next={() => {
+        if (hasNextFolderPage) {
+          fetchNextFolderPage();
+        } else if (!hasNextFolderPage && !isFileLoading && !isFileError) {
+          fetchNextFilePage();
+        }
+      }}
+      threshold={1}
+    >
       <DragAndDropTable table={table} handleDragEnd={handleDragEnd} />
-    </div>
+    </InfiniteScroll>
   );
 }
