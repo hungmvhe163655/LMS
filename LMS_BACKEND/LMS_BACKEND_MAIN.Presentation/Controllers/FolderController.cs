@@ -35,7 +35,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var fileStream = await _serviceManager.FileService.DownloadFolder(id);
 
-            return File(fileStream, "application/zip", "files.zip");
+            return File(fileStream.Data, "application/zip", fileStream.FileName + ".zip");
         }
 
         [HttpGet(RoutesAPI.GetFolderFolders)]

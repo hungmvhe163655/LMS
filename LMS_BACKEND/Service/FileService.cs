@@ -277,15 +277,17 @@ namespace Service
 
         }
 
-        public async Task<byte[]> DownloadFolder(Guid id)
+        public async Task<(byte[] Data, string FileName)> DownloadFolder(Guid id)
         {
+            var hold_folder = await _repositoryManager.Folder.GetByCondition(x => x.Id.Equals(id), false).FirstOrDefaultAsync() ?? throw new BadRequestException("Folder doest existed");
+
             var hold = (await _repositoryManager.File.GetByCondition(x => x.FolderId.Equals(id), false).ToListAsync()).Select(x => x.Id).ToList() ?? throw new BadRequestException("Folder don't exist or empty");
 
             var hold_metadata = await GetFileMetaDataWithKeyAsync(hold);
 
             var end = await DownloadAndZipFilesFromS3Async(hold_metadata);
 
-            return end;
+            return (end, hold_folder.Name ?? "Zipped");
         }
 
         public async Task EditFolder(FolderEditRequestModel model)
