@@ -59,6 +59,7 @@ jobs:
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           SERVICE_URL: ${{ secrets.SERVICE_URL }}
+          EMAILADMIN: ${{ secrets.EMAILADMIN }}
         run: |
           ssh -o "StrictHostKeyChecking=no" ec2-user@${{ secrets.EC2_IP }} << 'EOF'
             docker pull ${{ secrets.DOCKER_USERNAME }}/your-repo:latest
