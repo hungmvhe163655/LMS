@@ -28,34 +28,49 @@ jobs:
            context: .
            push: true
            tags: ${{ secrets.DOCKER_USERNAME }}/your-repo:latest
-        
+
   deploy-backend:
-      needs: build-and-push-backend
-      runs-on: ubuntu-latest
-  
-      steps:
+    needs: build-and-push-backend
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2
-  
+
       - name: Install AWS CLI
         run: |
           sudo apt-get update
           sudo apt-get install -y python3 python3-pip
           pip3 install awscli
           aws --version
-  
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2  
-  
+
+      - name: Install SSH client
+        run: sudo apt-get install -y openssh-client
+
       - name: Deploy to EC2
+        env:
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          SERVICE_URL: ${{ secrets.SERVICE_URL }}
+          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+          IV_KEY: ${{ secrets.IV_KEY }}
         run: |
           ssh -o "StrictHostKeyChecking=no" ec2-user@${{ secrets.EC2_IP }} << 'EOF'
             docker pull ${{ secrets.DOCKER_USERNAME }}/your-repo:latest
             docker stop your-container || true
             docker rm your-container || true
-            docker run -d -p 80:80 --name your-container ${{ secrets.DOCKER_USERNAME }}/your-repo:latest
+            docker run -d -p 80:80 \
+              -e ACCESS_KEY=${{ secrets.ACCESS_KEY }} \
+              -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
+              -e SERVICE_URL=${{ secrets.SERVICE_URL }} \
+              -e ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }} \
+              -e IV_KEY=${{ secrets.IV_KEY }} \
+              --name your-container ${{ secrets.DOCKER_USERNAME }}/your-repo:latest
           EOF
