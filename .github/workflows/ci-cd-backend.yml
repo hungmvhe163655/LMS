@@ -70,6 +70,7 @@ jobs:
               -e ACCESS_KEY=${{ secrets.ACCESS_KEY }} \
               -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
               -e SERVICE_URL=${{ secrets.SERVICE_URL }} \
+              -e EMAILADMIN=${{ secrets.EMAILADMIN }} \
               -e ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }} \
               -e IV_KEY=${{ secrets.IV_KEY }} \
               --name your-container ${{ secrets.DOCKER_USERNAME }}/your-repo:latest
