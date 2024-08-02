@@ -89,6 +89,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return Ok(await _serviceManager.FileService.UploadFile(memoryStream, file.ContentType, type));
         }
+
         [HttpGet(RoutesAPI.DownloadImage)]
         public async Task<IActionResult> DownloadImage(string key)
         {
@@ -96,6 +97,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return File(hold, "image/png");
         }
+
         [HttpDelete(RoutesAPI.DeleteImage)]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         public async Task<IActionResult> DeleteImage(string key)

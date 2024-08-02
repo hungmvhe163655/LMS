@@ -11,6 +11,7 @@ using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 using Shared.GlobalVariables;
+using System.IO.Compression;
 using System.Net;
 
 namespace Service
@@ -127,6 +128,50 @@ namespace Service
 
 
         }
+
+        private async Task<Dictionary<string, string>> GetFileMetaDataWithKeyAsync(List<Guid> fileIds)
+        {
+            return await _repositoryManager.File
+                                    .GetByCondition(x => fileIds.Contains(x.Id), false)
+                                    .ToDictionaryAsync(f => f.FileKey, f => f.Name);
+        }
+
+        public async Task<byte[]> DownloadAndZipFilesFromS3Async(Dictionary<string, string> fileMetadata)
+        {
+            var zipStream = new MemoryStream();
+
+            using (var archive = new ZipArchive(zipStream, ZipArchiveMode.Create, true))
+            {
+                foreach (var kvp in fileMetadata)
+                {
+                    var fileKey = kvp.Key;
+
+                    var originalFileName = kvp.Value;
+
+                    var request = new GetObjectRequest
+                    {
+                        BucketName = _bucketName,
+                        Key = fileKey
+                    };
+
+                    using (var response = await _s3Client.GetObjectAsync(request))
+                    using (var entryStream = response.ResponseStream)
+                    {
+                        var entry = archive.CreateEntry(originalFileName);
+
+                        using (var entryFileStream = entry.Open())
+                        {
+                            await entryStream.CopyToAsync(entryFileStream);
+                        }
+                    }
+                }
+            }
+
+            zipStream.Position = 0;
+
+            return zipStream.ToArray();
+        }
+
         private async Task<Files> FindFileById(Guid id)
         {
             var end = await _repositoryManager.File.GetFile(id, false).FirstOrDefaultAsync();
@@ -231,6 +276,18 @@ namespace Service
             await _repositoryManager.Save();
 
         }
+
+        public async Task<byte[]> DownloadFolder(Guid id)
+        {
+            var hold = (await _repositoryManager.File.GetByCondition(x => x.FolderId.Equals(id), false).ToListAsync()).Select(x => x.Id).ToList() ?? throw new BadRequestException("Folder don't exist or empty");
+
+            var hold_metadata = await GetFileMetaDataWithKeyAsync(hold);
+
+            var end = await DownloadAndZipFilesFromS3Async(hold_metadata);
+
+            return end;
+        }
+
         public async Task EditFolder(FolderEditRequestModel model)
         {
             var hold = _mappers.Map<Folder>(model);
