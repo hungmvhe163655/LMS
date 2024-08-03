@@ -103,4 +103,12 @@ jobs:
             docker ps -a
             echo "Step 7: Checking for any references to 'piax'"
             docker ps -a | grep piax || true
+
+            sudo docker run -d -e ACCESS_KEY=${{ secrets.ACCESS_KEY }} \
+            -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
+            -e POSTGRES_ENV_POSTGRES_USER='bar' \
+            -e SERVICE_URL=${{ secrets.SERVICE_URL }} \
+            -e EMAILADMIN=${{ secrets.EMAILADMIN }} \
+            -p 80:80 \
+            --name lms-backend-container minhtche161354/lms-backend:latest
           EOF
