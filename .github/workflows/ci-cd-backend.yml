@@ -88,6 +88,5 @@ jobs:
           docker pull ${{ secrets.DOCKER_USERNAME }}/lms-backend:latest
           docker stop lms-backend-container || true
           docker rm lms-backend-container || true
-          docker run -d -p 80:80 --name lms-backend-container \
-            ${{ secrets.DOCKER_USERNAME }}/lms-backend:latest
+          docker run -d -p 80:80 -e EMAILADMIN=${{ secrets.EMAILADMIN }} --name lms-backend-container ${{ secrets.DOCKER_USERNAME }}/lms-backend:latest
           EOF
