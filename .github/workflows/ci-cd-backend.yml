@@ -25,9 +25,9 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-           context: .
+           context: ./LMS_BACKEND
            push: true
-           tags: ${{ secrets.DOCKER_USERNAME }}/your-repo:latest
+           tags: ${{ secrets.DOCKER_USERNAME }}/lms-backend:latest
 
   deploy-backend:
     needs: build-and-push-backend
@@ -62,13 +62,13 @@ jobs:
           EMAILADMIN: ${{ secrets.EMAILADMIN }}
         run: |
           ssh -o "StrictHostKeyChecking=no" ec2-user@${{ secrets.EC2_IP }} << 'EOF'
-            docker pull ${{ secrets.DOCKER_USERNAME }}/your-repo:latest
-            docker stop your-container || true
-            docker rm your-container || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/lms-backend:latest
+            docker stop lms-backend-container || true
+            docker rm lms-backend-container || true
             docker run -d -p 80:80 \
               -e ACCESS_KEY=${{ secrets.ACCESS_KEY }} \
               -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
               -e SERVICE_URL=${{ secrets.SERVICE_URL }} \
               -e EMAILADMIN=${{ secrets.EMAILADMIN }} \
-              --name your-container ${{ secrets.DOCKER_USERNAME }}/your-repo:latest
+              --name lms-backend-container ${{ secrets.DOCKER_USERNAME }}/lms-backend:latest
           EOF
