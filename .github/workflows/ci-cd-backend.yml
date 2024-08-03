@@ -103,4 +103,4 @@ jobs:
             docker ps -a
             echo "Step 7: Checking for any references to 'piax'"
             docker ps -a | grep piax || true
-            EOF
+          EOF
