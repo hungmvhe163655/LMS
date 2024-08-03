@@ -1,15 +1,12 @@
-﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
+﻿using Entities.Exceptions;
+using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
-using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -36,8 +33,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateNewTaskList(CreateTaskListRequestModel model)
         {
-            await _service.TaskListService.CreateTaskList(model);
-            return Ok(new ResponseMessage { Message = "Create Task list successfully" });
+            var result = await _service.TaskListService.CreateTaskList(model);
+            return CreatedAtAction(nameof(GetTaskListById), new { taskListId = result.Id }, result);
         }
 
         [HttpPut]
@@ -54,6 +51,47 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             await _service.TaskListService.DeleteTaskList(tasklistId);
             return Ok(new ResponseMessage { Message = "Delete task list successfully" });
+        }
+
+        private async Task<string> CheckUser()
+        {
+            var userClaims = User.Claims;
+
+            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
+
+            return hold.Id;
+        }
+
+        [HttpPatch(RoutesAPI.MoveTaskToTaskList)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        public async Task<IActionResult> MoveTaskToTaskList(Guid taskListId, Guid taskid, [FromBody] JsonPatchDocument<TaskResponseModel> patchDoc)
+        {
+            if (!patchDoc.Operations.Any()) throw new BadRequestException("patchDoc object sent from client is null.");
+
+            var result = await _service.TaskService.GetTaskForPatch(taskListId, taskid);
+
+            patchDoc.ApplyTo(result.taskToPatch);
+
+            await _service.TaskService.SaveChangesForPatch(result.taskToPatch, result.taskEntity, CheckUser().Result);
+
+            return NoContent();
+        }
+
+        [HttpPatch(RoutesAPI.MoveTaskInTaskList)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        public async Task<IActionResult> MoveTaskInTaskList(Guid taskListId, Guid taskid, [FromBody] JsonPatchDocument<TaskResponseModel> patchDoc)
+        {
+            if (!patchDoc.Operations.Any()) throw new BadRequestException("patchDoc object sent from client is null.");
+
+            var result = await _service.TaskService.GetTaskForPatch(taskListId, taskid);
+
+            patchDoc.ApplyTo(result.taskToPatch);
+
+            await _service.TaskService.SaveChangesInTaskListForPatch(result.taskToPatch, result.taskEntity, CheckUser().Result);
+
+            return NoContent();
         }
 
     }

@@ -1,17 +1,19 @@
-﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
+﻿using Entities.Exceptions;
+using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using System.Security.Claims;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
     [Route(APIs.NewsAPI)]
     [ApiController]
+    [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
     public class NewsController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -20,9 +22,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = service;
         }
-
+        
         [HttpGet]
-        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetNewsAsync([FromQuery] NewsRequestParameters newsParameters)
         {
             var pageResult = await _service.NewsService.GetNewsAsync(newsParameters, trackChanges: false);
@@ -31,37 +32,48 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(pageResult.news);
         }
 
+        private async Task<string> CheckUser()
+        {
+            var userClaims = User.Claims;
+
+            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
+
+            return hold.Id;
+        }
+
         [HttpGet("{id:guid}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetNewsById(Guid id)
         {
-                var data = await _service.NewsService.GetNewsById(id);
-                return Ok(data);
+            var data = await _service.NewsService.GetNewsById(id);
+            return Ok(data);
         }
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult CreateNews(CreateNewsRequestModel model)
+        [Authorize(Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> CreateNews(CreateNewsRequestModel model)
         {
-                var data = _service.NewsService.CreateNewsAsync(model);
-                return Ok(data);
+            var result = await _service.NewsService.CreateNewsAsync( CheckUser().Result, model);
+
+            return CreatedAtAction(nameof(GetNewsById), new { id = result.Id }, result);
         }
 
-        [HttpPut]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Update(UpdateNewsRequestModel model)
+        [HttpPut("{id:guid}")]
+        [Authorize(Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> Update(Guid id, UpdateNewsRequestModel model)
         {
-                await _service.NewsService.UpdateNews(model);
-                return Ok(new ResponseMessage { Message = "Update successfully" });
+            await _service.NewsService.UpdateNews(id, model);
+            return Ok(new ResponseMessage { Message = "Update successfully" });
         }
 
 
         [HttpDelete("{id:guid}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> Delete(Guid id)
         {
-                await _service.NewsService.DeleteNews(id);
-                return Ok(new ResponseMessage { Message = "Delete successfully" });
+            await _service.NewsService.DeleteNews(id);
+            return NoContent();
         }
 
     }

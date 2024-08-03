@@ -1,4 +1,6 @@
-﻿using Contracts.Interfaces;
+﻿using Amazon.S3;
+using Asp.Versioning;
+using Contracts.Interfaces;
 using Entities.ConfigurationModels;
 using Entities.Models;
 using LoggerServices;
@@ -8,18 +10,14 @@ using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Service;
 using Service.Contracts;
-using System.Net.Mail;
 using System.Net;
-using System.Text;
-using Amazon.S3;
+using System.Net.Mail;
 using Amazon;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Diagnostics;
-using Shared.DataTransferObjects.ResponseDTO;
-using Asp.Versioning;
-using Microsoft.AspNetCore.Mvc;
-using LMS_BACKEND_MAIN.Presentation.Controllers;
-using Marvin.Cache.Headers;
+using System.Text;
+using AspNetCoreRateLimit;
+using Contracts;
+using Repository.Helper;
 
 namespace LMS_BACKEND_MAIN.Extentions
 {
@@ -27,8 +25,43 @@ namespace LMS_BACKEND_MAIN.Extentions
     {
         public string[]? Origins { get; set; }
     }
+    public class LimitRule
+    {
+        public string Endpoint { get; set; } = "*";
+        public double Limit { get; set; } = 3;
+        public string Period { get; set; } = "5m";
+    }
+    public class LimitConfig
+    {
+        public LimitRule[] LimitRule { get; set; } = null!;
+    }
     public static class ServiceExtentions
     {
+        public static void ConfigureRateLimitingOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            var RateConfig = new LimitConfig();
+
+            configuration.GetSection("RateConfig").Bind(RateConfig);
+
+            var rateLimitRules = new List<RateLimitRule>();
+
+            foreach (var item in RateConfig.LimitRule)
+            
+            rateLimitRules.Add(new RateLimitRule { Endpoint = item.Endpoint, Limit = item.Limit, Period = item.Period });
+            
+            services.Configure<IpRateLimitOptions>(opt =>
+            {
+                opt.GeneralRules = rateLimitRules;
+            });
+
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+            services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+        }
         public static void ConfigureVersioning(this IServiceCollection services)
         {
             services.AddApiVersioning(opt =>
@@ -130,53 +163,42 @@ namespace LMS_BACKEND_MAIN.Extentions
             services.AddScoped<IRepositoryManager, RepositoryManager>();
         public static void ConfigureServiceManager(this IServiceCollection services) =>
             services.AddScoped<IServiceManager, ServiceManager>();
+        public static void ConfigureCacheRedis(this IServiceCollection services) =>
+            services.AddSingleton<IRedisCacheHelper, RedisCacheHelper>();
         public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration) =>
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
         public static void ConfigureResponseCaching(this IServiceCollection services) =>
             services.AddResponseCaching();
-        public static void ConfigureHttpCacheHeaders(this IServiceCollection services) =>
-            services.AddHttpCacheHeaders(
-                (expirationOpt) =>
-                {
-                    expirationOpt.MaxAge = 120;
-                    expirationOpt.CacheLocation = CacheLocation.Private;
-                },
-                    (validationOpt) =>
-                    {
-                        validationOpt.MustRevalidate = true;
-                    });
         public static void ConfigureAwsS3(this IServiceCollection services, IConfiguration configuration)
         {//nho chay app setup truoc khi release phai sua phan encryptionkey vaf iv nay
 
             //Comment dong code nay lai truoc khi build app
 
-            // tu day
+             //tu day
 
-            //var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
+            var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
 
 
-            //var iv = Environment.GetEnvironmentVariable("ivKey");
+            var iv = Environment.GetEnvironmentVariable("ivKey");
 
-            //var awsOptions = configuration.GetAWSOptions("AWS");
+            var awsOptions = configuration.GetAWSOptions("AWS");
 
-            //var url = Environment.GetEnvironmentVariable("SERVICE_URL");
+            var url = Environment.GetEnvironmentVariable("SERVICE_URL");
 
-            //awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
+            awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
 
-            //var holdAccess = Environment.GetEnvironmentVariable("ENCRYPTED_ACCESS_KEY");
+            var holdAccess = Environment.GetEnvironmentVariable("ACCESS_KEY");
 
-            //var holdSecret = Environment.GetEnvironmentVariable("ENCRYPTED_SECRET_KEY");
+            var holdSecret = Environment.GetEnvironmentVariable("SECRET_KEY");
 
-            //if (holdAccess == null || holdSecret == null || encryptionKey == null || iv == null || url == null)
-            //    throw new InvalidOperationException("environment variable not set.");
+            if (holdAccess == null || holdSecret == null || url == null)
+                throw new InvalidOperationException("environment variable not set.");
 
-            //awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
-            //    Decrypter.DecryptString(holdAccess, encryptionKey, iv),
-            //    Decrypter.DecryptString(holdSecret, encryptionKey, iv)
-            //);
-            //awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
+            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(holdAccess, holdSecret);
+            
+            awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
 
-            //services.AddDefaultAWSOptions(awsOptions);
+            services.AddDefaultAWSOptions(awsOptions);
 
             //Den day
 

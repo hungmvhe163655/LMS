@@ -13,7 +13,7 @@ namespace LMS_BACKEND_MAIN.ContextFactory
             .AddJsonFile("appsettings.json")
             .Build();
             var builder = new DbContextOptionsBuilder<DataContext>()
-            .UseSqlServer(configuration.GetConnectionString("LemaoString"), a=> a.MigrationsAssembly("LMS_BACKEND_MAIN"));
+            .UseSqlServer(configuration.GetConnectionString("LemaoString"), a => a.MigrationsAssembly("LMS_BACKEND_MAIN"));
             return new DataContext(builder.Options);
         }
     }

@@ -1,7 +1,11 @@
-﻿namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
+namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 {
     public static class APIs
     {
+        public const string DeviceAPI = "api/devices";
+
+        public const string NotificationAPI = "api/notifications";
+
         public const string AuthenticationAPI = "api/auth";
 
         public const string AccountAPI = "api/accounts";
@@ -23,6 +27,12 @@
         public const string TaskListAPI = "api/task-lists";
 
         public const string ProfileAPI = "api/profile";
+
+        public const string ReportAPI = "api/reports";
+
+        public const string RateLimitAPI = "api/rate-limit";
+
+        public const string CommentAPI = "api/comments";
     }
     public static class AuthorizeScheme
     {
@@ -44,7 +54,7 @@
 
         public const string GetUsersSup = "accounts-supervisor";
 
-        public const string VerifyEmailSend = "verify-email-send";
+        public const string VerifyEmailSend = "email-verification-send";
 
         public const string GetCurrentLoggedInUser = "me";
 
@@ -62,9 +72,9 @@
 
         public const string RegisterSupervisor = "register/supervisor";
 
-        public const string VerifyEmail = "verify-email";
+        public const string VerifyEmail = "email-verification";
 
-        public const string ReSendVerifyEmail = "resend-verify-email";
+        public const string ReSendVerifyEmail = "email-verification-resend";
 
         #endregion
 
@@ -72,16 +82,37 @@
 
         public const string CreateAdmin = "create-admin";
 
-        public const string GetAccountNeedVerified = "need-verified";
+        public const string GetAccountNeedVerify = "verification";
 
-        public const string UpdateAccountVerifyStatus = "verify-account";
+        public const string GetSupervisorNeedVerify = "supervisor/verification";
+
+        public const string UpdateAccountVerifyStatus = "verification";
 
         #endregion
 
         #region FilesAPIs
+
         public const string UploadFile = "upload/{folderid:guid}";
 
         public const string DownloadFile = "download/{id:guid}";
+
+        public const string UploadImage = "upload/image/{type}";
+
+        public const string DownloadImage = "download/image/{key}";
+
+        public const string DeleteImage = "image/{key}";
+
+        #endregion
+
+        #region FolderAPIs
+
+        public const string GetProjectFolderScheme = "project/{id:guid}/root";
+
+        public const string GetFolderFolders = "{id:guid}/content/folders";
+
+        public const string GetFolderFiles = "{id:guid}/content/files";
+
+        public const string DownloadFolder = "{id:guid}/download";
 
         #endregion
 
@@ -93,9 +124,9 @@
 
         #region ProfileAPIs
 
-        public const string GetProjectWithMember = "{userId}/projects";
+        public const string ChangePassword = "change-password/{id}";
 
-        public const string ChangePassword = "change-password";
+        public const string ChangePasswordOtp = "change-password-otp/{id}";
 
         public const string ChangeEmailOtp = "change-email-otp/{id}";
 
@@ -107,11 +138,63 @@
 
         public const string GetTaskByProjectId = "project/{id:guid}";
 
+        public const string AttachFileToTask = "add-file/{id:guid}/{fileid:guid}";
+
+        public const string AssignUserToTask = "{id:guid}/assign/user/{userid}";
+
+        #endregion
+
+        #region TaskListAPIs
+
+        public const string MoveTaskToTaskList = "{tasklistid:guid}/tasks/{taskid:guid}";
+
+        public const string MoveTaskInTaskList = "{tasklistid:guid}/tasks/{taskid:guid}/move";
+
         #endregion
 
         #region ProjectAPIs
 
+        public const string GetProjectResources = "{projectId:guid}/resources";
+
         public const string GetTaskListByProject = "{projectId:guid}/task-lists";
+
+        public const string GetMemberInProject = "{projectId:guid}/members";
+
+        public const string GetJoinRequest = "{id:guid}/join-request";
+
+        public const string ValidateJoinRequest = "{id:guid}/join-request";
+
+        public const string GetProjects = "user/{userid}";
+
+        public const string MoveTaskListInProjectt = "{projectId:guid}/task-lists/{taskListId:guid}";
+
+        #endregion
+
+        #region ReportsAPIs
+
+        public const string GetAllByDeviceId = "device/{id:guid}";
+
+        #endregion
+
+        #region NotificationAPIs
+
+        public const string GetById = "{id:guid}/user/{userid}";
+
+        public const string MarkNotificationAsRead = "{id:guid}/read/user/{userid}";
+
+        #endregion
+
+        #region CommentAPIs
+
+        public const string GetCommentByTaskId = "task/{taskid:guid}";
+
+        public const string CreateComment = "task/{taskid:guid}";
+
+        #endregion
+
+        #region SchedulesAPIs
+
+        public const string GetScheduleByDevice = "devices/{id:guid}";
 
         #endregion
     }

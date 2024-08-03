@@ -1,7 +1,10 @@
-﻿namespace Entities.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Entities.Models
 {
     public class Label
     {
+        [Key]
         public Guid Id { get; set; }
         public string? Name { get; set; }
         public string? HexColor { get; set; }

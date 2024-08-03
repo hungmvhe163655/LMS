@@ -10,6 +10,7 @@ using Service.Contracts;
 using Shared;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
+using Shared.GlobalVariables;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -71,7 +72,7 @@ namespace Service
 
             var verifierRole = await _userManager.GetRolesAsync(verifier);
 
-            if (verifierRole == null || !(verifierRole.Contains("Supervisor") || (verifierRole.Contains("Labadmin"))))
+            if (verifierRole == null || !(verifierRole.Contains(ROLES.SUPERVISOR) || (verifierRole.Contains(ROLES.ADMIN))))
 
                 throw new BadRequestException("Verifier's not authorized");
 
@@ -89,7 +90,9 @@ namespace Service
             {
                 user.EmailConfirmed = true;
 
-                user.VerifiedBy = verifier.Id;
+                if (model.Roles.Contains(ROLES.STUDENT)) user.VerifiedBy = verifier.Id;
+
+                if (model.Roles.Contains(ROLES.SUPERVISOR)) user.VerifiedBy = null;
 
                 user.UserName = model.RollNumber ?? user.Id.ToString();
 
@@ -115,11 +118,11 @@ namespace Service
 
                 if (user == null) throw new Exception("Errors occurs during the registing process");
 
-                var hold = model.Roles.Contains("Student") ? new StudentDetail { AccountId = user.Id, RollNumber = model.RollNumber } : null;
+                var hold = model.Roles.Contains(ROLES.STUDENT) ? new StudentDetail { AccountId = user.Id, RollNumber = model.RollNumber } : null;
 
                 if (hold != null)
                 {
-                    _repositoryManager.studentDetail.Create(hold);
+                    _repositoryManager.StudentDetail.Create(hold);
 
                     await _repositoryManager.Save();
                 }
@@ -339,6 +342,32 @@ namespace Service
             };
             var tokenHandler = new JwtSecurityTokenHandler();
 
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+
+            if (securityToken is not JwtSecurityToken jwtSecurityToken ||
+           !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
+            StringComparison.InvariantCultureIgnoreCase))
+            {
+                throw new SecurityTokenException("Invalid token");
+            }
+
+            return principal;
+        }
+
+        private ClaimsPrincipal GetPrincipalFromExpiredTokenMode2(string token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = true,
+                ValidateIssuer = true,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_Secret)),
+                ValidateLifetime = false,
+                ValidIssuer = _jwtConfiguration.ValidIssuer,
+                ValidAudience = _jwtConfiguration.ValidAudience
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
 
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
 
@@ -351,6 +380,7 @@ namespace Service
 
             return principal;
         }
+
         public async Task<TokenDTO> CreateToken(bool populateExp)//gui ve request token de duy tri dang nhap
         {
             if (_account != null)
@@ -382,26 +412,27 @@ namespace Service
         }
         public async Task<TokenDTO> RefreshTokens(TokenDTO tokenDto)
         {
-            var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
+            var principal = GetPrincipalFromExpiredTokenMode2(tokenDto.AccessToken);
 
             if (principal.Identity != null && principal.Identity.Name != null)
             {
                 var user = await _userManager.FindByNameAsync(principal.Identity.Name);
 
                 if (user == null || user.UserRefreshToken != tokenDto.RefreshToken || user.UserRefreshTokenExpiryTime <= DateTime.Now)
-                    return new TokenDTO("Not Found", "Not Found");
+
+                    throw new BadRequestException("Refresh Token was expired");
 
                 _account = user;
 
                 return await CreateToken(false);
             }
-            return new TokenDTO("Not Found", "Not Found");
+            throw new BadRequestException("Invalid AccessToken");
         }
         public async Task<bool> InvalidateToken(TokenDTO tokenDTO)//logout logic
         {
             try
             {
-                var principal = GetPrincipalFromExpiredToken(tokenDTO.AccessToken);
+                var principal = GetPrincipalFromExpiredTokenMode2(tokenDTO.AccessToken);
 
                 if (principal.Identity == null || principal.Identity.Name == null) return false;
 

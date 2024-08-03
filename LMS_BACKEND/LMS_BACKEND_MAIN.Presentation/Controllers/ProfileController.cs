@@ -22,10 +22,34 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPost(RoutesAPI.ChangePassword)]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestModel model)
+        public async Task<IActionResult> ChangePassword(string id, [FromBody] ChangePasswordRequestModel model)
         {
-            await _service.AccountService.ChangePasswordAsync(model.UserID, model.OldPassword, model.NewPassword);
+            if (!CheckUser().Equals(id)) throw new BadRequestException("user don't have the right to function");
+
+            var account = await _service.AccountService.GetUserById(id);
+
+            await _service.MailService.SendOTP(account.Email, "ChangePasswordKey");
+
             return Ok(new ResponseMessage { Message = "Change Password Successully" });
+        }
+        [HttpPost(RoutesAPI.ChangePasswordOtp)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> ChangePasswordOtp(string id, [FromBody] ChangePasswordRequestModel model)
+        {
+            if (string.IsNullOrWhiteSpace(id)) return BadRequest(ModelState);
+
+            if (!CheckUser().Equals(id)) throw new BadRequestException("user don't have the right to function");
+
+            var account = await _service.AccountService.GetUserById(id);
+
+            if (await _service.MailService.VerifyOtp(account.Email, model.Token ?? "-", "ChangePasswordKey"))
+            {
+                await _service.AccountService.ChangePasswordAsync(id, model.OldPassword, model.NewPassword);
+
+                return Ok(new ResponseMessage { Message = "Change password successfully" });
+            }
+            return BadRequest(new ResponseMessage { Message = "wrong verify code or password" });
         }
 
         [HttpPost(RoutesAPI.ChangeEmail)]
@@ -80,14 +104,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
 
             return hold.Id;
-        }
-
-        [HttpGet(RoutesAPI.GetProjectWithMember)]
-        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
-        public IActionResult GetProjectWithMember(string userId)
-        {
-            var data = _service.ProjectService.GetProjects(userId);
-            return Ok(data);
         }
     }
 }

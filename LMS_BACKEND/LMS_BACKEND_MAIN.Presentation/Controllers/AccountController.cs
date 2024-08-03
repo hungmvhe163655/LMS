@@ -3,11 +3,11 @@ using LMS_BACKEND_MAIN.Presentation.Attributes;
 using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
@@ -21,23 +21,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = service;
         }
-        /*
-        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.ADMIN)]
-        [HttpPost(RoutesAPI.CreateAdmin)]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreateAdmin([FromBody] RegisterRequestModel model)
-        {
-            var result = await _service.AuthenticationService.RegisterLabLead(model);
 
-            return StatusCode(201, result);
-        }
-        */
-        //[Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
-        [HttpGet(RoutesAPI.GetAccountNeedVerified)]
-        public async Task<IActionResult> GetAccountNeedVerified([FromQuery] NeedVerifyParameters param)
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear, Roles = Roles.SUPERVISOR)]
+        [HttpGet(RoutesAPI.GetAccountNeedVerify)]
+        public async Task<IActionResult> GetSupervisorNeedVerify([FromQuery] NeedVerifyParameters param)
         {
-            var user = await
-            _service.AccountService.GetVerifierAccounts(param);
+            var user = await _service.AccountService.GetVerifierAccountsSuper(param, await CheckUser());
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(user.meta));
 
@@ -49,19 +38,32 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateAccountVerifyStatus([FromBody] UpdateVerifyStatusRequestModel model)
         {
-            var user = await _service.AccountService.GetUserById(model.verifierID)?? throw new BadRequestException("User with that id is not found");
+            var hold = await CheckUser();
 
-            await _service.AccountService.UpdateAccountVerifyStatus(model.UserID, model.verifierID);
+            await _service.AccountService.UpdateAccountVerifyStatus(model.Users, hold);
 
-            return Ok(new ResponseMessage { Message = "Update User " + user.FullName + " Status Successully" });
+            return Ok(new ResponseMessage { Message = "Update User Status Successully" });
         }
+
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> GetAccountDetail(string id)
         {
             var data = await _service.AccountService.GetAccountDetail(id);
+
             return Ok(data);
+        }
+
+        private async Task<string> CheckUser()
+        {
+            var userClaims = User.Claims;
+
+            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
+
+            return hold.Id;
         }
     }
 }

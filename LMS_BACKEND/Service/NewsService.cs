@@ -2,7 +2,7 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
@@ -14,86 +14,92 @@ namespace Service
     {
 
         private readonly IRepositoryManager _repository;
-        private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
 
-        public NewsService(ILoggerManager logger, IRepositoryManager repository, IMapper mapper)
+        public NewsService(IRepositoryManager repository, IMapper mapper)
         {
             _repository = repository;
-            _logger = logger;
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateNewsAsync(CreateNewsRequestModel model)
+        public async Task<NewsReponseModel> CreateNewsAsync(string userId, CreateNewsRequestModel model)
         {
-            try
+            //var hold_user = await _repository.Account.GetByCondition(entity => entity.Id.Equals(userId), true).FirstOrDefaultAsync()
+            //    ?? throw new BadRequestException($"Can't find user with id {userId}");
+
+            var hold = new News
             {
-                var users = await _repository.account.GetByConditionAsync(entity => entity.Id.Equals(model.CreatedBy), true);
-                var user = users.FirstOrDefault();
-                if (user != null && model.Title != null)
+                Id = Guid.NewGuid(),
+                Title = model.Title,
+                Content = model.Content ?? "",
+                CreatedBy = userId,
+                CreatedDate = DateTime.Now,
+            };
+
+            if (model.FileKey?.Any() == true)
+            {
+                var newsFiles = model.FileKey.Select(fileKey => new NewsFileRequestModel
                 {
-                    await _repository.news.CreateAsync(new News
-                    {
-                        Id = Guid.NewGuid(),
-                        Content = model.Content,
-                        Title = model.Title,
-                        CreatedDate = model.CreatedDate,
-                        CreatedBy = user.Id ?? ""
-                    });
-                    await _repository.Save();
-                    return true;
-                }
-                return false;
+                    Id = Guid.NewGuid(),
+                    NewsID = hold.Id,
+                    FileKey = fileKey
+                });
+
+                var mappedNewsFiles = _mapper.Map<IEnumerable<NewsFile>>(newsFiles);
+                await _repository.NewsFile.AddRange(mappedNewsFiles);
             }
-            catch
-            {
-                throw;
-            }
+            await _repository.News.CreateAsync(hold);
+            await _repository.Save();
+            return _mapper.Map<NewsReponseModel>(hold);
         }
 
         public async Task DeleteNews(Guid id)
         {
-            var newses = _repository.news.GetByCondition(entity => entity.Id.Equals(id), false);
-            var news = newses.First();
-            if (news == null) 
-                throw new BadRequestException("News wth id: "+ id + "doesn't exist");
-            _repository.news.Delete(news);
+            var hold = await _repository.News.GetNews(id, false) ?? throw new BadRequestException("News wth id: " + id + "doesn't exist");
+            var hold_newsFile = await _repository.NewsFile.GetByConditionAsync(n => n.NewsID.Equals(id), false);
+            if(hold_newsFile.Any())
+            {
+                _repository.NewsFile.DeleteRange(hold_newsFile);
+            }
+            _repository.News.Delete(hold);
             await _repository.Save();
         }
 
         public async Task<(IEnumerable<NewsReponseModel> news, MetaData metaData)> GetNewsAsync(NewsRequestParameters newsParameter, bool trackChanges)
         {
-            var newsFromDb = await _repository.news.GetNewsAsync(newsParameter, trackChanges);
-            foreach (var news in newsFromDb)
-            {
-                var hold = await _repository.account.GetByConditionAsync(a => a.Id.Equals(news.CreatedBy), false);
-                var account = hold.FirstOrDefault();
-                if (account == null) throw new BadRequestException("");
-                news.CreatedBy = account.FullName != null ? account.FullName : account.Email;
-            }
+            var newsFromDb = await _repository.News.GetNewsAsync(newsParameter, trackChanges) ?? throw new BadRequestException("Can't find any news");
             var newsDto = _mapper.Map<IEnumerable<NewsReponseModel>>(newsFromDb);
             return (news: newsDto, metaData: newsFromDb.MetaData);
         }
 
         public async Task<NewsReponseModel> GetNewsById(Guid id)
         {
-            try
-            {
-                var news = await _repository.news.GetByConditionAsync(news => news.Id.Equals(id), false);
-                if (news == null) throw new BadRequestException("Can't found news with id " + id);
-                return _mapper.Map<NewsReponseModel>(news.First());
-            }
-            catch
-            {
-                throw;
-            }
+            var news = await _repository.News.GetNews(id, false) ?? throw new BadRequestException("Can't found news with id " + id);
+            return _mapper.Map<NewsReponseModel>(news);
         }
 
-        public async Task UpdateNews(UpdateNewsRequestModel model)
+        public async Task UpdateNews(Guid id, UpdateNewsRequestModel model)
         {
-            var hold = _repository.news.GetNews(model.Id, true);
-            if (hold == null) throw new BadRequestException("News with id: " + model.Id + " is not exist");
+            var hold = await _repository.News.GetNews(id, true) ?? throw new BadRequestException("News with id: " + id + " is not exist");
             _mapper.Map(model, hold);
+            if (model.FileKey?.Any() == true)
+            {
+                var existingFiles = await _repository.NewsFile.GetByCondition(f => f.NewsID.Equals(hold.Id), false).ToListAsync();
+                if (existingFiles.Any())
+                {
+                    _repository.NewsFile.DeleteRange(existingFiles);
+                }
+
+                var newsFiles = model.FileKey.Select(fileKey => new NewsFileRequestModel
+                {
+                    Id = Guid.NewGuid(),
+                    NewsID = hold.Id,
+                    FileKey = fileKey
+                });
+
+                var mappedNewsFiles = _mapper.Map<IEnumerable<NewsFile>>(newsFiles);
+                await _repository.NewsFile.AddRange(mappedNewsFiles);
+            }
             await _repository.Save();
         }
 

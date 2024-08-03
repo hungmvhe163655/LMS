@@ -4,7 +4,8 @@ namespace Contracts.Interfaces
 {
     public interface IFolderClosureRepository : IRepositoryBase<FolderClosure>
     {
-        IEnumerable<FolderClosure> FindAncestors(Guid Ancs_Id, bool track);
+        Task<IEnumerable<FolderClosure>> GetProjectFoldersByRoot(Guid rootId, bool track);
+        IQueryable<FolderClosure> FindAncestors(Guid Ancs_Id, bool track);
         Task<bool> AddLeaf(IEnumerable<FolderClosure> hold);
         IEnumerable<FolderClosure> GetFolderContent(Guid Id, bool track);
         IEnumerable<FolderClosure> GetBranch(Guid Id, bool track);
