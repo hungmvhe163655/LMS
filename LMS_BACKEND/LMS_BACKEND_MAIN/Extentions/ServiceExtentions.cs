@@ -196,7 +196,7 @@ namespace LMS_BACKEND_MAIN.Extentions
 
             awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(holdAccess, holdSecret);
             
-            awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
+            awsOptions.DefaultClientConfig.ServiceURL = url;
 
             services.AddDefaultAWSOptions(awsOptions);
 
