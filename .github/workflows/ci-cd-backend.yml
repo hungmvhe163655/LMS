@@ -82,32 +82,17 @@ jobs:
           EMAILADMIN: ${{ secrets.EMAILADMIN }}
         run: |
           ssh -o "StrictHostKeyChecking=no" ec2-user@${{ secrets.EC2_IP }} << 'EOF'
-            set -x  # Enable debugging to print all executed commands
-            echo "Step 1: Docker login"
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            echo "Step 2: Pulling Docker image"
+
             docker pull ${{ secrets.DOCKER_USERNAME }}/lms-backend:latest
-            echo "Step 3: Stopping and removing existing container if it exists"
+
             docker stop lms-backend-container || true
             docker rm lms-backend-container || true
-            echo "Step 4: Listing all Docker images"
-            docker images
-            echo "Step 5: Running the new Docker container"
+
             docker run -d -p 80:80 --name lms-backend-container \
               -e ACCESS_KEY=${{ secrets.ACCESS_KEY }} \
               -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
               -e SERVICE_URL=${{ secrets.SERVICE_URL }} \
               -e EMAILADMIN=${{ secrets.EMAILADMIN }} \
               ${{ secrets.DOCKER_USERNAME }}/lms-backend:latest
-            echo "Step 6: Listing all running containers"
-            docker ps -a
-            echo "Step 7: Checking for any references to 'piax'"
-            docker ps -a | grep piax || true
-
-            docker run -d -e ACCESS_KEY=${{ secrets.ACCESS_KEY }} \
-            -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
-            -e SERVICE_URL=${{ secrets.SERVICE_URL }} \
-            -e EMAILADMIN=${{ secrets.EMAILADMIN }} \
-            -p 80:80 \
-            --name lms-backend-container minhtche161354/lms-backend:latest
           EOF
