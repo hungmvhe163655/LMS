@@ -90,6 +90,7 @@ jobs:
           docker rm lms-backend-container || true
           docker run -d -p 80:80 --name lms-backend-container \
           -v /path/on/host:/root/.aspnet/DataProtection-Keys \
+          -e SECRET="${{ secrets.SECRET_JWT }}" \
           -e ACCESS_KEY="${{ secrets.ACCESS_KEY }}" \
           -e SECRET_KEY="${{ secrets.SECRET_KEY }}" \
           -e SERVICE_URL="${{ secrets.SERVICE_URL }}" \
