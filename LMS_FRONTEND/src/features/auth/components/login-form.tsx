@@ -15,12 +15,12 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { loginInputSchema, useLogin } from '@/lib/auth';
 
-// FormSchema and Validation
+import { useLogin } from '../api/login';
+import { loginInputSchema } from '../utils/schema';
 
-function LoginForm() {
-  const login = useLogin();
+export const LoginForm = () => {
+  const { mutate: login, isPending } = useLogin();
 
   const form = useForm<z.infer<typeof loginInputSchema>>({
     resolver: zodResolver(loginInputSchema),
@@ -31,7 +31,7 @@ function LoginForm() {
   });
 
   function onSubmit(data: z.infer<typeof loginInputSchema>) {
-    login.mutate(data);
+    login(data);
   }
 
   return (
@@ -70,23 +70,23 @@ function LoginForm() {
                 </FormItem>
               )}
             />
-            <Button type='submit' className='w-full'>
-              Login
+            <Button type='submit' className='w-full' disabled={isPending}>
+              {isPending ? 'Logging in...' : 'Login'}
             </Button>
           </form>
         </Form>
       </CardContent>
-      <CardFooter className='flex-col space-y-2'>
-        <p>
-          Don&apos;t have an account? <Link to='/auth/register/choose-role'>Register now!</Link>
-        </p>
-        <p>
+      <CardFooter className='flex flex-col items-start space-y-1'>
+        <div>
+          Don&apos;t have an account? <Link to='/auth/register'>Register now!</Link>
+        </div>
+        <div>
           Don&apos;t remember your password?{' '}
           <Link to='/auth/forget-password'> Forget Password</Link>
-        </p>
+        </div>
       </CardFooter>
     </Card>
   );
-}
+};
 
 export default LoginForm;
