@@ -80,22 +80,34 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           SERVICE_URL: ${{ secrets.SERVICE_URL }}
           EMAILADMIN: ${{ secrets.EMAILADMIN }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          EC2_IP: ${{ secrets.EC2_IP }}
         run: |
-          ssh -o "StrictHostKeyChecking=no" ec2-user@$EC2_IP << 'EOF'
-            # Navigate to the directory where docker-compose.yml is located
-            cd /path/to/your/project
+          ssh -o "StrictHostKeyChecking=no" ec2-user@${{ secrets.EC2_IP }} << 'EOF'
+            set -x  # Enable debugging to print all executed commands
+            echo "Step 1: Docker login"
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            echo "Step 2: Pulling Docker image"
+            docker pull ${{ secrets.DOCKER_USERNAME }}/lms-backend:latest
+            echo "Step 3: Stopping and removing existing container if it exists"
+            docker stop lms-backend-container || true
+            docker rm lms-backend-container || true
+            echo "Step 4: Listing all Docker images"
+            docker images
+            echo "Step 5: Running the new Docker container"
+            docker run -d -p 80:80 --name lms-backend-container \
+              -e ACCESS_KEY=${{ secrets.ACCESS_KEY }} \
+              -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
+              -e SERVICE_URL=${{ secrets.SERVICE_URL }} \
+              -e EMAILADMIN=${{ secrets.EMAILADMIN }} \
+              ${{ secrets.DOCKER_USERNAME }}/lms-backend:latest
+            echo "Step 6: Listing all running containers"
+            docker ps -a
+            echo "Step 7: Checking for any references to 'piax'"
+            docker ps -a | grep piax || true
 
-            docker login -u $DOCKER_USERNAME -p ${{ secrets.DOCKER_PASSWORD }}
-
-            docker pull $DOCKER_USERNAME/lms-backend:latest
-
-            if ! command -v docker-compose &> /dev/null; then
-              echo "docker-compose not found. Installing..."
-              sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '\"' -f 4)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-              sudo chmod +x /usr/local/bin/docker-compose
-            fi
-            docker-compose down || true
-            docker-compose up -d
+            docker run -d -e ACCESS_KEY=${{ secrets.ACCESS_KEY }} \
+            -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
+            -e SERVICE_URL=${{ secrets.SERVICE_URL }} \
+            -e EMAILADMIN=${{ secrets.EMAILADMIN }} \
+            -p 80:80 \
+            --name lms-backend-container minhtche161354/lms-backend:latest
           EOF
