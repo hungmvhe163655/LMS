@@ -79,19 +79,16 @@ jobs:
           EMAILADMIN: ${{ secrets.EMAILADMIN }}
         run: |
           ssh -o "StrictHostKeyChecking=no" ec2-user@${{ secrets.EC2_IP }} << 'EOF'
-            # Log in to Docker registry if needed
+
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-  
-            # Pull the Docker image
+
             docker pull ${{ secrets.DOCKER_USERNAME }}/lms-backend:latest
-  
-            # Check if container exists
-            if docker ps -a --format '{{.Names}}' | grep -q 'lms-backend-container'; then
-              docker stop lms-backend-container
-              docker rm lms-backend-container
-            fi
-  
-            # Run the container
+
+            #if docker ps -a --format '{{.Names}}' | grep -q 'lms-backend-container'; then
+            #  docker stop lms-backend-container
+            #  docker rm lms-backend-container
+            #fi
+
             docker run -d -p 80:80 \
               -e ACCESS_KEY=${{ secrets.ACCESS_KEY }} \
               -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
