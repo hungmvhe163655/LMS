@@ -1,0 +1,11 @@
+version: '3'
+services:
+  lms-backend:
+    image: ${{ secrets.DOCKER_USERNAME }}/lms-backend:latest
+    ports:
+      - "80:80"
+    environment:
+      ACCESS_KEY: ${ACCESS_KEY}
+      SECRET_KEY: ${SECRET_KEY}
+      SERVICE_URL: ${SERVICE_URL}
+      EMAILADMIN: ${EMAILADMIN}
