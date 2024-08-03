@@ -1,4 +1,4 @@
-﻿namespace Shared.DataTransferObjects.ResponseDTO
+namespace Shared.DataTransferObjects.ResponseDTO
 {
     public class AccountReturnModel
     {
@@ -13,6 +13,7 @@
         public bool IsDeleted { get; set; }
         public bool IsBanned { get; set; }
         public bool IsVerified { get; set; }
+        public AccountDetailResponseModel? Detail { get; set; }
         public IList<string> Roles { get; set; } = new List<string>();
     }
 }

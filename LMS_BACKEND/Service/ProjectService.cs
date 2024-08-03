@@ -2,93 +2,145 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using Shared.GlobalVariables;
 
 namespace Service
 {
     public class ProjectService : IProjectService
     {
         private readonly IRepositoryManager _repository;
-        private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
 
-        public ProjectService(ILoggerManager logger, IRepositoryManager repository, IMapper mapper)
+        public ProjectService(IRepositoryManager repository, IMapper mapper)
         {
             _repository = repository;
-            _logger = logger;
             _mapper = mapper;
         }
 
-        public async Task CreatNewProject(CreateProjectRequestModel model)
+        public async Task<ProjectResponseModel> CreatNewProject(string userId, CreateProjectRequestModel model)
         {
             var hold = _mapper.Map<Project>(model);
+
             hold.Id = Guid.NewGuid();
             hold.CreatedDate = DateTime.Now;
-            hold.ProjectStatusId = 1;
+            hold.ProjectStatus = PROJECT_STATUS.INITIALIZING;
+            var rootid = Guid.NewGuid();
+            var root = new Folder
+            {
+                Id = rootid,
+                CreatedBy = userId,
+                CreatedDate = DateTime.Now,
+                IsRoot = true,
+                LastModifiedDate = DateTime.Now,
+                ProjectId = hold.Id,
+                Name = hold.Id + "Root",
+                FolderClosureAncestor = new List<FolderClosure> { new FolderClosure { AncestorID = rootid, DescendantID = rootid, Depth = 0 } }
+            };
             var member = new Member
             {
-                UserId = model.CreatedBy,
+                UserId = userId,
                 ProjectId = hold.Id,
                 IsLeader = true,
                 JoinDate = DateTime.Now,
             };
-            _repository.member.Create(member);
-            _repository.project.Create(hold);
+            _repository.Member.Create(member);
+            _repository.Project.Create(hold);
+            await _repository.Folder.AddFolder(root);
             await _repository.Save();
+
+            return _mapper.Map<ProjectResponseModel>(hold);
         }
 
-        public async Task<IEnumerable<Project>> GetAllProjects()
+        public async Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetAllProjects(ProjectRequestParameters projetParameter, bool trackChange)
         {
-            var hold = await _repository.project.FindAllAsync(false);
-            if (hold == null) throw new BadRequestException("Can not find any project");
-            return hold;
+            var projectFromDb = await _repository.Project.GetAllProjectsAsync(projetParameter, trackChange) ?? throw new BadRequestException("No projects found for the specified user.");
+
+            var projectsDto = _mapper.Map<IEnumerable<ProjectResponseModel>>(projectFromDb);
+
+            return (projects: projectsDto, metaData: projectFromDb.MetaData);
         }
 
-        public IEnumerable<ProjectResponseModel> GetOnGoingProjects(string userId)
+        public async Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetProjects(string userId, ProjectRequestParameters projetParameter, bool trackChange)
         {
-            var projectIds = _repository.member
-                .GetByCondition(m => m.UserId != null && m.UserId.Equals(userId), false)
-                .Select(m => m.ProjectId)
-                .ToList();
+            var projectFromDb = await _repository.Project.GetProjectAsync(userId, projetParameter, trackChange) ?? throw new BadRequestException("No projects found for the specified user.");
 
-            var projects = _repository.project
-                .GetByCondition(p => projectIds.Contains(p.Id), false)
-                .Where(p => p.ProjectStatusId == 2)
-                .ToList();
+            var totalTaskUndone = 0;
 
-            if (!projects.Any())
-                throw new BadRequestException("No projects found for the specified user.");
+            var projectsDto = projectFromDb.Select(p =>
+            {
+                var undoneTasks = p.TaskLists
+                    .SelectMany(tl => tl.Tasks)
+                    .Where(t => t.TaskStatus != TASK_STATUS.CLOSE)
+                    .ToList();
 
-            var result = _mapper.Map<IEnumerable<ProjectResponseModel>>(projects);
+                var taskUndoneCount = p.TaskLists.Sum(tl => tl.Tasks.Count(t => t.TaskStatus != TASK_STATUS.CLOSE));
+                totalTaskUndone += taskUndoneCount;
 
-            return result;
+                var taskUndoneListDto = _mapper.Map<IEnumerable<TasksViewResponseModel>>(undoneTasks);
+
+                var projectDto = _mapper.Map<ProjectResponseModel>(p);
+                projectDto.TaskUndone = taskUndoneCount;
+                projectDto.ListTaskUndone = taskUndoneListDto;
+
+                return projectDto;
+            }).ToList();
+
+            return (projects: projectsDto, metaData: projectFromDb.MetaData);
         }
 
-        public IEnumerable<ProjectResponseModel> GetProjects(string userId)
+        public async Task<ProjectResponseModel> GetProjectById(Guid id)
         {
-            var projectIds = _repository.member
-                .GetByCondition(m => m.UserId != null && m.UserId.Equals(userId), false)
-                .Select(m => m.ProjectId)
-                .ToList();
-
-            var projects = _repository.project
-                .GetByCondition(p => projectIds.Contains(p.Id), false)
-                .ToList();
-
-            if (!projects.Any())
-                throw new BadRequestException("No projects found for the specified user.");
-
-            var result = _mapper.Map<IEnumerable<ProjectResponseModel>>(projects);
-
-            return result;
+            var hold = await _repository.Project.GetByCondition(p => p.Id.Equals(id), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can't find project with id {id}");
+            return (_mapper.Map<ProjectResponseModel>(hold));
         }
 
         public async Task UpdateProject(Guid projectId, UpdateProjectRequestModel model)
         {
             model.Id = projectId;
             var hold = _mapper.Map<Project>(model);
+            await _repository.Save();
+        }
+
+        public async Task<GetFolderContentResponseModel> GetProjectResources(Guid ProjectID)
+        {
+
+            var root = await _repository.Folder.GetRootByProjectId(ProjectID).FirstOrDefaultAsync() ?? throw new Exception("Project associated with that ID currently doesn't have a root");
+
+            var end = await _repository.File.GetFiles(false, root.Id);
+
+            var folders = new List<Folder>();
+
+            return new GetFolderContentResponseModel { Files = end.ToList(), Folders = folders };
+        }
+        public async Task<IEnumerable<AccountRequestJoinResponseModel>> GetJoinRequest(Guid projectId)
+        {
+            var hold = await _repository.Member.GetByCondition(x => x.ProjectId.Equals(projectId) && !x.IsValidTeamMember, false).Include(y => y.User).ToListAsync();
+            List<Account> end = new List<Account>();
+            foreach (var item in hold)
+            {
+                if (item.User != null) end.Add(item.User);
+            }
+            return _mapper.Map<List<AccountRequestJoinResponseModel>>(end);
+        }
+        public async Task ValidateJoinRequest(IEnumerable<UpdateStudentJoinRequestModel> Listmodel, Guid id)
+        {
+            foreach (var item in Listmodel)
+            {
+                var hold = await
+                    _repository
+                    .Member
+                    .GetByCondition(x => x.UserId.Equals(item.Id) && x.ProjectId.Equals(id) && x.ProjectId.Equals(item.ProjectID), false)
+                    .FirstOrDefaultAsync() ?? throw new Exception("Error due to database logic");
+
+                if (!item.Accepted) _repository.Member.Delete(hold);
+
+                else hold.IsValidTeamMember = true;
+            }
             await _repository.Save();
         }
     }

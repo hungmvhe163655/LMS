@@ -581,9 +581,7 @@
                 extension = "." + extension;
             }
 
-            string mime;
-
-            return _mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
+            return _mappings.TryGetValue(extension, out string? mime) ? mime : "application/octet-stream";
         }
     }
 }

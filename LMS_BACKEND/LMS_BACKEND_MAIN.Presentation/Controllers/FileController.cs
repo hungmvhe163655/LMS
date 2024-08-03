@@ -1,10 +1,12 @@
 ﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
+using System.IO;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -19,13 +21,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _serviceManager = serviceManager;
         }
         [HttpPost(RoutesAPI.UploadFile)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         public async Task<IActionResult> UploadFile(Guid folderid, [FromForm] IFormFile file)
         {
             if (file.Length == 0)
             {
                 return BadRequest(new ResponseMessage { Message = "File Is Null Or Empty" });
             }
-            var metadata = new FileUploadRequestModel { FolderId = folderid, MimeType = file.ContentType, Size = file.Length, Name = file.Name };
+            var metadata = new FileUploadRequestModel { FolderId = folderid, MimeType = file.ContentType, Size = file.Length, Name = file.FileName };
 
             if (metadata == null)
             {
@@ -38,16 +41,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             memoryStream.Position = 0;
 
+            var result = await _serviceManager.FileService.CreateFile(metadata, memoryStream);
 
-            await _serviceManager.FileService.CreateFile(metadata, memoryStream);
-
-
-            return Ok(new ResponseMessage { Message = "File uploaded successfully." });
+            return CreatedAtAction(nameof(DownloadFile), new { id = result.Id }, result);
 
         }
 
         [HttpGet]
         [Route(RoutesAPI.DownloadFile)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         public async Task<IActionResult> DownloadFile(Guid id)
         {
 
@@ -65,12 +67,45 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return File(fileStream, fileDetail.MimeType, fileDetail.Name);
 
         }
+
         [HttpDelete("{id:guid}")]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         public async Task<IActionResult> DeleteFile(Guid id)
         {
             await _serviceManager.FileService.DeleteFile(id);
 
             return Ok(new ResponseMessage { Message = "DELETEFILE" });
         }
+
+        [HttpPost(RoutesAPI.UploadImage)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        public async Task<IActionResult> UploadImage(string type, [FromForm] IFormFile file)
+        {
+            using var memoryStream = new MemoryStream();
+
+            await file.CopyToAsync(memoryStream);
+
+            memoryStream.Position = 0;
+
+            return Ok(await _serviceManager.FileService.UploadFile(memoryStream, file.ContentType, type));
+        }
+
+        [HttpGet(RoutesAPI.DownloadImage)]
+        public async Task<IActionResult> DownloadImage(string key)
+        {
+            var hold = await _serviceManager.FileService.DownloadFile(key);
+
+            return File(hold, "image/png");
+        }
+
+        [HttpDelete(RoutesAPI.DeleteImage)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        public async Task<IActionResult> DeleteImage(string key)
+        {
+            await _serviceManager.FileService.RemoveFile(key);
+
+            return Ok(new ResponseMessage { Message = "Remove Success" });
+        }
+
     }
 }

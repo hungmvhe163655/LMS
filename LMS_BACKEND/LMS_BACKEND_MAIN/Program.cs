@@ -1,3 +1,6 @@
+using AspNetCoreRateLimit;
+using Contracts.Interfaces;
+using LMS_BACKEND_MAIN.Configurations;
 using LMS_BACKEND_MAIN.Extentions;
 using LMS_BACKEND_MAIN.Presentation.Attributes;
 using Microsoft.AspNetCore.Mvc;
@@ -6,16 +9,27 @@ using Microsoft.Extensions.Options;
 using NLog;
 using Repository;
 using Servive.Hubs;
-using LMS_BACKEND_MAIN.Configurations;
-using Contracts.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromFile(Path.Combine(Directory.GetCurrentDirectory(), "nlog.config")).GetCurrentClassLogger();
 
 var connectionString = builder.Configuration.GetConnectionString("LemaoString") ?? throw new InvalidOperationException("Connection string 'Cnn' not found.");
+
+//var redisString = builder.Configuration.GetConnectionString("LemaoString2") ?? throw new InvalidOperationException("Redis connectrion string was not found");
+
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(connectionString));
+
+/*
+builder.Services.AddStackExchangeRedisCache(
+    options =>
+    {
+        options.Configuration = redisString;
+
+        options.InstanceName = nameof(LMS_BACKEND_MAIN);
+    });
+*/
 
 builder.Services.ConfigureRepositoryManager();
 
@@ -29,6 +43,10 @@ builder.Services.ConfigureCor(builder.Configuration);
 
 builder.Services.AddMemoryCache();
 
+builder.Services.ConfigureRateLimitingOptions(builder.Configuration);
+
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.ConfigureIISIntegration();
 
 builder.Services.ConfigureLoggerService();
@@ -41,7 +59,9 @@ builder.Services.AddJwtConfiguration(builder.Configuration);
 
 builder.Services.ConfigureResponseCaching();
 
-builder.Services.ConfigureHttpCacheHeaders();
+//builder.Services.ConfigureCacheRedis();
+
+//builder.Services.ConfigureHttpCacheHeaders();
 
 builder.Services.AddControllers(
     config =>
@@ -56,12 +76,16 @@ builder.Services.AddTransient<IConfigureOptions<MvcOptions>, MvcOptionsSetup>();
 
 builder.Services.AddScoped<ValidationFilterAttribute>();
 
+builder.Services.AddScoped<DTOFilter>();
+
 builder.Services.AddAuthentication();
 
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("adminorsupervisor", policy => policy.RequireRole("labadmin", "supervisor"));
+
     options.AddPolicy("admin", policy => policy.RequireRole("labadmin"));
+
     options.AddPolicy("supervisor", policy => policy.RequireRole("supervisor"));
 });
 
@@ -85,6 +109,7 @@ app.ConfigureExceptionHandler(log);
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+
     app.UseSwaggerUI();
 }
 else
@@ -94,9 +119,11 @@ else
 
 app.UseStaticFiles();
 
-app.UseHttpCacheHeaders();
+//app.UseHttpCacheHeaders();
 
 app.UseResponseCaching();
+
+app.UseIpRateLimiting();
 
 app.UseCors("CorsPolicy");
 

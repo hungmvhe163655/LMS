@@ -1,4 +1,4 @@
-﻿namespace Service.Contracts
+namespace Service.Contracts
 {
     public interface IServiceManager
     {
@@ -11,6 +11,10 @@
         IScheduleService ScheduleService { get; }
         ITaskService TaskService { get; }
         ITaskListService TaskListService { get; }
+        IReportService ReportService { get; }
         IProjectService ProjectService { get; }
+        IMemberService MemberService { get; }
+        IDeviceService DeviceService { get; }
+        ICommentService CommentService { get; }
     }
 }

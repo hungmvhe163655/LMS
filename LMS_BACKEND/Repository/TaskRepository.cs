@@ -1,5 +1,9 @@
 ﻿using Contracts.Interfaces;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
+using Shared.DataTransferObjects.RequestParameters;
+using Shared.GlobalVariables;
 
 namespace Repository
 {
@@ -17,7 +21,21 @@ namespace Repository
 
         public IQueryable<Tasks> GetTasksWithProjectId(Guid projectId, bool check) => FindAll(check).Where(x => x.ProjectId.Equals(projectId));
 
-        public IQueryable<Tasks> GetTasksWithTaskListId(Guid taskListId, bool check) => FindAll(check).Where(x => x.TaskListId.Equals(taskListId));
+        public IQueryable<Tasks> GetTasksWithTaskListId(Guid taskListId, bool check) => FindAll(check).Where(x => x.TaskListId.Equals(taskListId)).OrderBy(t=>t.Order);
 
+        public async Task<PagedList<Tasks>> GetAllTaskByUser(string userId, TaskRequestParameters parameters, bool check)
+        {
+            var tasks= await GetByCondition(t => t.AssignedTo != null && t.AssignedTo.Equals(userId), check)
+                .FilterTasks(parameters.startDateFilter,parameters.endDateFilter, parameters.ProjectIdFilter, parameters.TaskStatusFilter)
+                .Search(parameters)
+                .Sort(parameters.OrderBy)
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .ToListAsync();
+
+            var count = await FindAll(check).FilterTasks(parameters.startDateFilter, parameters.endDateFilter).Search(parameters).CountAsync();
+
+            return new PagedList<Tasks>(tasks, count, parameters.PageNumber, parameters.PageSize);
+        }
     }
 }

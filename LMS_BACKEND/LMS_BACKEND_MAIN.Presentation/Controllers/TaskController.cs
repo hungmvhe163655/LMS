@@ -1,16 +1,14 @@
-﻿using Entities.Exceptions;
+﻿using Contracts.Interfaces;
+using Entities.Exceptions;
 using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
+using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -20,6 +18,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
     public class TaskController : ControllerBase
     {
         private readonly IServiceManager _service;
+
         public TaskController(IServiceManager serviceManager)
         {
             _service = serviceManager;
@@ -40,21 +39,35 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTask(TaskCreateRequestModel model)
         {
-            if (!(await CheckUser()).Equals(model.CreatedBy)) throw new UnauthorizedException("You don't have access to this fuction");
+            var hold_user = await CheckUser();
 
-            await _service.TaskService.CreateTask(model);
+            var hold = await _service.TaskService.CreateTask(model, hold_user);
 
-            return Ok(new ResponseMessage { Message = "Create Task success" });
+            return CreatedAtAction(nameof(GetTaskById), new { id = hold.Id }, hold);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateTask([FromBody] TaskUpdateRequestModel model)
+        [HttpPut(RoutesAPI.AttachFileToTask)]
+        public async Task<IActionResult> AttachFileToTask(Guid id, Guid fileid)
         {
-            if (!(await CheckUser()).Equals(model.CreatedBy)) throw new UnauthorizedException("You don't have access to this fuction");
+            await _service.FileService.AttachToTask(id, fileid);
 
-            await _service.TaskService.EditTask(model);
+            return Ok(new ResponseMessage { Message = "Attach success" });
+        }
+
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateTask(Guid id, [FromBody] TaskUpdateRequestModel model)
+        {
+            await _service.TaskService.EditTask(model, id, await CheckUser());
 
             return Ok(new ResponseMessage { Message = "Update Task success" });
+        }
+
+        [HttpPut(RoutesAPI.AssignUserToTask)]
+        public async Task<IActionResult> AssignUserToTask(Guid id, string userid)
+        {
+            await _service.TaskService.AssignUserToTask(id, userid, await CheckUser());
+
+            return NoContent();
         }
 
         [HttpDelete("{id:guid}")]
@@ -63,6 +76,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             await _service.TaskService.DeleteTask(id, CheckUser().Result);
 
             return Ok(new ResponseMessage { Message = "Delete Success" });
+        }
+
+        [HttpGet("userId/{userId}")]
+        public async Task<IActionResult> GetAllTaskByUser(string userId, [FromQuery] TaskRequestParameters parameters)
+        {
+            var pageResult = await _service.TaskService.GetTasksByUser(userId, parameters);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
+            return Ok(pageResult.tasks);
         }
 
         private async Task<string> CheckUser()

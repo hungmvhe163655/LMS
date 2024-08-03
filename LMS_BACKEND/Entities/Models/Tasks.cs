@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
     public class Tasks
     {
+        [Key]
         public Guid Id { get; set; }
         public string? Title { get; set; }
         public string CreatedBy { get; set; } = null!;
@@ -19,16 +14,19 @@ namespace Entities.Models
         public DateTime CreatedDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime DueDate { get; set; }
-        public int TaskPriorityId { get; set; }
+        public int Order { get; set; } = 0;
+        public string TaskPriority { get; set; } = null!;
+        //public int TaskPriorityId { get; set; }
         public Guid TaskListId { get; set; }
         public Guid ProjectId { get; set; }
-        public int TaskStatusId { get; set; }
+        //public int TaskStatusId { get; set; }
+        public string TaskStatus { get; set; } = null!;
         public string? AssignedTo { get; set; }
         public virtual Account? AssignedToUser { get; set; }
         //[JsonIgnore]
         //public virtual Account? CreatedByUser { get; set; }
         [Timestamp]
-        public byte[] RowVersion { get; set; }
+        public byte[]? RowVersion { get; set; } = null;
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
         // public virtual ICollection<Tasks> InversePredecessorTask { get; set; } = new List<Tasks>();
@@ -39,9 +37,9 @@ namespace Entities.Models
 
         public virtual TaskList TaskList { get; set; } = null!;
 
-        public virtual TaskPriorities TaskPriority { get; set; } = null!;
+        //public virtual TaskPriorities TaskPriority { get; set; } = null!;
 
-        public virtual TasksStatus TaskStatus { get; set; } = null!;
+        //public virtual TasksStatus TaskStatus { get; set; } = null!;
 
         public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
 

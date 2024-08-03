@@ -18,7 +18,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPost("Notifi")]
         public async Task<IActionResult> CreateNotifyTest([FromBody] CreateNotificationRequestModel model)
         {
-            var hold = await _service.NotificationService.CreateNotification(model.Title, model.Content, model.Type, model.CreateUserId, "lmao");
+            var hold = await _service.NotificationService.CreateNotification(model);
             return Ok(hold);
         }
     }

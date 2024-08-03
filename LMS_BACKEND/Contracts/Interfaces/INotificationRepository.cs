@@ -1,9 +1,11 @@
 ﻿using Entities.Models;
+using Shared.DataTransferObjects.RequestParameters;
 
 namespace Contracts.Interfaces
 {
     public interface INotificationRepository : IRepositoryBase<Notification>
     {
-        Task<bool> saveNotification(Notification notification);
+        IQueryable<Notification> GetNotifications(NotificationParameters param, bool track);
+        Task<bool> SaveNotification(Notification notification);
     }
 }

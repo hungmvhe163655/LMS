@@ -1,11 +1,6 @@
 ﻿using Contracts.Interfaces;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -17,7 +12,12 @@ namespace Repository
 
         public async Task<IEnumerable<TaskList>> GetTaskList(Guid projectId, bool trackChanges)
         {
-            var hold = await FindAll(trackChanges).Where(n => n.ProjectId.Equals(projectId)).Include(t => t.Tasks).ThenInclude(x => x.TaskStatus).ToListAsync();
+            var hold = await FindAll(trackChanges)
+                .Where(n => n.ProjectId.Equals(projectId))
+                .Include(t => t.Tasks)
+                .ThenInclude(x => x.TaskStatus)
+                .OrderBy(tl=>tl.Order)
+                .ToListAsync();
             return hold;
         }
 

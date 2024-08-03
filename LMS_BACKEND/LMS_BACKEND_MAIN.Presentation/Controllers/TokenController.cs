@@ -8,6 +8,7 @@ using Shared;
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
     [Route(APIs.TOKEN)]
+    [ApiController]
     public class TokenController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -17,8 +18,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpPost(RoutesAPI.TokenRefresh)]
-        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(DTOFilter))]
         public async Task<IActionResult> TokenRefresh([FromBody] TokenDTO model)
         {
             var tokenDtoEnd = await _service.AuthenticationService.RefreshTokens(model);
