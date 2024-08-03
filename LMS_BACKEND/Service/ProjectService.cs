@@ -22,7 +22,7 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<ProjectResponseModel> CreatNewProject(string userId, CreateProjectRequestModel model)
+        public async Task<ProjectViewResponseModel> CreatNewProject(string userId, CreateProjectRequestModel model)
         {
             var hold = _mapper.Map<Project>(model);
 
@@ -48,12 +48,12 @@ namespace Service
                 IsLeader = true,
                 JoinDate = DateTime.Now,
             };
-            _repository.Member.Create(member);
             _repository.Project.Create(hold);
+            _repository.Member.Create(member);
             await _repository.Folder.AddFolder(root);
             await _repository.Save();
 
-            return _mapper.Map<ProjectResponseModel>(hold);
+            return _mapper.Map<ProjectViewResponseModel>(hold);
         }
 
         public async Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetAllProjects(ProjectRequestParameters projetParameter, bool trackChange)
@@ -93,10 +93,10 @@ namespace Service
             return (projects: projectsDto, metaData: projectFromDb.MetaData);
         }
 
-        public async Task<ProjectResponseModel> GetProjectById(Guid id)
+        public async Task<ProjectViewResponseModel> GetProjectById(Guid id)
         {
             var hold = await _repository.Project.GetByCondition(p => p.Id.Equals(id), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can't find project with id {id}");
-            return (_mapper.Map<ProjectResponseModel>(hold));
+            return (_mapper.Map<ProjectViewResponseModel>(hold));
         }
 
         public async Task UpdateProject(Guid projectId, UpdateProjectRequestModel model)
