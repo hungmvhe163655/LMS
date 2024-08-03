@@ -27,7 +27,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-           context: ./LMS_BACKEND
+           context: ./LMS_BACKEND/LMS_BACKEND_MAIN
            push: true
            tags: ${{ secrets.DOCKER_USERNAME }}/lms-backend:latest
 
