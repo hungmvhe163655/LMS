@@ -48,7 +48,7 @@ namespace LMS_UnitTest.ProjectTest
 
             var project = new Project
             {
-                Id = new Guid("160aee46-53e2-453f-ba16-59b82e0f4ff1"),
+                Id = Guid.NewGuid(),
                 Name = model.Name,
                 Description = model.Description,
                 CreatedDate = DateTime.Now,
@@ -94,9 +94,11 @@ namespace LMS_UnitTest.ProjectTest
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(project.Id, result.Id);
             Assert.Equal(model.Name, result.Name);
             Assert.Equal(model.Description, result.Description);
+            Assert.Equal(model.MaxMember, result.MaxMember);
+            Assert.Equal(model.IsRecruiting, result.IsRecruiting);
+            Assert.Equal(model.ProjectTypeId, result.ProjectTypeId);
 
             _repositoryManagerMock.Verify(r => r.Project.Create(It.IsAny<Project>()), Times.Once);
             _repositoryManagerMock.Verify(r => r.Member.Create(It.IsAny<Member>()), Times.Once);
