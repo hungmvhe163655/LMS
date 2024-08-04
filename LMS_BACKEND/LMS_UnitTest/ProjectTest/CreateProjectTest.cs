@@ -81,7 +81,11 @@ namespace LMS_UnitTest.ProjectTest
             {
                 Id = project.Id,
                 Name = project.Name,
-                Description = project.Description
+                Description = project.Description,
+                MaxMember = project.MaxMember,
+                IsRecruiting = project.IsRecruiting,
+                ProjectTypeId = project.ProjectTypeId
+
             });
 
             _repositoryManagerMock.Setup(r => r.Project.Create(It.IsAny<Project>()));

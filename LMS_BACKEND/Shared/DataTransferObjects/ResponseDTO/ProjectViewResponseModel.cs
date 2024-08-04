@@ -12,7 +12,7 @@ namespace Shared.DataTransferObjects.ResponseDTO
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
         public int MaxMember { get; set; }
-        public bool IsRecruiting { get; set; }
+        public bool? IsRecruiting { get; set; } = null!;
         public int ProjectTypeId { get; set; }
     }
 }
