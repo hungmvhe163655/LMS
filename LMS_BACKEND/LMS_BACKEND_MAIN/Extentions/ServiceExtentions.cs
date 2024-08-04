@@ -175,8 +175,9 @@ namespace LMS_BACKEND_MAIN.Extentions
             //Comment dong code nay lai truoc khi build app
 
              //tu day
-             
+             /*
             var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
+
 
             var iv = Environment.GetEnvironmentVariable("ivKey");
 
@@ -198,7 +199,7 @@ namespace LMS_BACKEND_MAIN.Extentions
             awsOptions.DefaultClientConfig.ServiceURL = url;
 
             services.AddDefaultAWSOptions(awsOptions);
-             
+             */
             //Den day
 
             services.AddAWSService<IAmazonS3>();
