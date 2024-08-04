@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces;
+using Entities.Exceptions;
 using Entities.Models;
 using Moq;
 using Service;
+using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
 using Xunit;
@@ -67,30 +69,73 @@ namespace LMS_UnitTest.NewsTest
             _mapperMock.Verify(m => m.Map<NewsReponseModel>(It.IsAny<News>()), Times.Once);
 
             Assert.NotNull(result);
-            Assert.Equal(createRequest.Content, result.Content);
+            Assert.Equal(createRequest.Title, result.Title);
         }
-        //[Fact]
-        //public static async Task CreateNewsWithRequiredFields()
-        //{
-        //    //Arrange
 
-        //    var mockManager = new Mock<IRepositoryManager>();
-        //    var mockMapper = new Mock<IMapper>();
+        [Fact]
+        public async Task CreateNewsAsync_WithoutFileKey_CreatesNewsSuccessfully()
+        {
+            // Arrange
+            var userId = "User123";
+            var model = new CreateNewsRequestModel
+            {
+                Title = "Sample Title",
+                Content = "Sample Content",
+                FileKey = new List<string>()
+            };
 
-        //    var userId = Guid.NewGuid();
+            // Act
+            var result = await _newsServiceMock.CreateNewsAsync(userId, model);
 
-        //    var newsData = new CreateNewsRequestModel()
-        //    {
-        //        Title = "test",
-        //    };
+            // Assert
+            _repositoryManagerMock.Verify(r => r.News.CreateAsync(It.IsAny<News>()), Times.Once);
+            _repositoryManagerMock.Verify(r => r.NewsFile.AddRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Never);
+            _repositoryManagerMock.Verify(r => r.Save(), Times.Once);
+            _mapperMock.Verify(m => m.Map<NewsReponseModel>(It.IsAny<News>()), Times.Once);
 
-        //    var service = new NewsService(mockManager.Object, mockMapper.Object);
+            Assert.NotNull(result);
+            Assert.Equal(model.Title, result.Title);
+        }
 
-        //    //Act
-        //    var response = await service.CreateNewsAsync( userId.ToString(), newsData);
+        [Fact]
+        public async Task CreateNewsAsync_WithoutTitle_ThrowsArgumentException()
+        {
+            // Arrange
+            var userId = "User123";
+            var model = new CreateNewsRequestModel
+            {
+                Title = "",
+                Content = "Sample Content",
+                FileKey = new List<string> { "FileKey123" }
+            };
 
-        //    //Assert
-        //    Assert.NotNull(response);
-        //}
+            // Act & Assert
+            await Assert.ThrowsAsync<BadRequestException>(() => _newsServiceMock.CreateNewsAsync(userId, model));
+        }
+
+        [Fact]
+        public async Task CreateNewsAsync_WithEmptyFileKey_DoesNotAddNewsFile()
+        {
+            // Arrange
+            var userId = "User123";
+            var model = new CreateNewsRequestModel
+            {
+                Title = "Sample Title",
+                Content = "Sample Content",
+                FileKey = new List<string> { "" }
+            };
+
+            // Act
+            var result = await _newsServiceMock.CreateNewsAsync(userId, model);
+
+            // Assert
+            _repositoryManagerMock.Verify(r => r.News.CreateAsync(It.IsAny<News>()), Times.Once);
+            _repositoryManagerMock.Verify(r => r.NewsFile.AddRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Once);
+            _repositoryManagerMock.Verify(r => r.Save(), Times.Once);
+            _mapperMock.Verify(m => m.Map<NewsReponseModel>(It.IsAny<News>()), Times.Once);
+
+            Assert.NotNull(result);
+            Assert.Equal(model.Title, result.Title);
+        }
     }
 }

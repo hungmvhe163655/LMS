@@ -3,6 +3,7 @@ using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
@@ -24,8 +25,7 @@ namespace Service
 
         public async Task<NewsReponseModel> CreateNewsAsync(string userId, CreateNewsRequestModel model)
         {
-            //var hold_user = await _repository.Account.GetByCondition(entity => entity.Id.Equals(userId), true).FirstOrDefaultAsync()
-            //    ?? throw new BadRequestException($"Can't find user with id {userId}");
+            if (model.Title.IsNullOrEmpty()) throw new BadRequestException("Title is required");
 
             var hold = new News
             {
