@@ -51,6 +51,9 @@ namespace LMS_UnitTest.ProjectTest
                 Id = Guid.NewGuid(),
                 Name = model.Name,
                 Description = model.Description,
+                MaxMember = model.MaxMember,
+                IsRecruiting = model.IsRecruiting,
+                ProjectTypeId = model.ProjectTypeId,
                 CreatedDate = DateTime.Now,
                 ProjectStatus = PROJECT_STATUS.INITIALIZING
             };
