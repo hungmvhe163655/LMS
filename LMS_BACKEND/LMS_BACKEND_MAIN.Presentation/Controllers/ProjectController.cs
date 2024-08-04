@@ -46,6 +46,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(result);
         }
 
+        [HttpPut("{id:guid}")]
+        [Authorize(Roles = Roles.SUPERVISOR)]
+        public async Task<IActionResult> UpdateProject(Guid id, [FromBody] ProjectUpdateRequestModel model)
+        {
+            await (_service.ProjectService.UpdateProject(model, id, await CheckUser()));
+            return Ok(new ResponseMessage { Message = "Update project successfuly" });
+        }
+
         [HttpPost]
         [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateProjejct(CreateProjectRequestModel model)

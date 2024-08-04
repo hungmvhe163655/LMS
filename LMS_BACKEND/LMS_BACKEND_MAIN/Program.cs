@@ -3,6 +3,7 @@ using Contracts.Interfaces;
 using LMS_BACKEND_MAIN.Configurations;
 using LMS_BACKEND_MAIN.Extentions;
 using LMS_BACKEND_MAIN.Presentation.Attributes;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
