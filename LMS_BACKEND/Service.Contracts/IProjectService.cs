@@ -11,7 +11,7 @@ namespace Service.Contracts
         Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetAllProjects(ProjectRequestParameters projetParameter, bool trackChange);
         Task<ProjectViewResponseModel> GetProjectById(Guid id);
         Task<ProjectViewResponseModel> CreatNewProject(string userId, CreateProjectRequestModel model);
-        Task UpdateProject(Guid projectId, UpdateProjectRequestModel model);
+        Task UpdateProject(ProjectUpdateRequestModel model, Guid id, string userID);
         Task<GetFolderContentResponseModel> GetProjectResources(Guid ProjectID);
         Task<IEnumerable<AccountRequestJoinResponseModel>> GetJoinRequest(Guid projectId);
         Task ValidateJoinRequest(IEnumerable<UpdateStudentJoinRequestModel> Listmodel, Guid id);
