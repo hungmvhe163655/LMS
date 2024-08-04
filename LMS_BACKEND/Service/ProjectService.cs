@@ -65,6 +65,33 @@ namespace Service
             return (projects: projectsDto, metaData: projectFromDb.MetaData);
         }
 
+        public async Task UpdateProject(ProjectUpdateRequestModel model, Guid id, string userID)
+        {
+            if (model.LeaderId != null && model.LeaderId.Equals(userID)) throw new BadRequestException("Bad request");
+
+            var newLeaderID = model.LeaderId;
+
+            var hold = await _repository.Project.GetByCondition(x => x.Id.Equals(id), true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid project");
+
+            var members = await _repository.Member.GetByCondition(x => x.ProjectId.Equals(id), true).ToListAsync() ?? throw new BadRequestException("Project doesn't have any member");
+
+            if (!members.Where(x => x.IsLeader).Select(y => y.UserId).Contains(userID)) throw new BadRequestException("user don't have permission to work in this project");
+
+            var hold_new_leader = members.Where(x => !x.IsLeader && x.UserId.Equals(newLeaderID)).FirstOrDefault();
+
+            if (hold_new_leader != null)
+            {
+                var hold_old_leader = members.Where(x => x.IsLeader && !x.UserId.Equals(userID)).FirstOrDefault();
+
+                if(hold_old_leader != null) hold_old_leader.IsLeader = false;
+
+                hold_new_leader.IsLeader = true;
+            }
+            _mapper.Map(model, hold);
+
+            await _repository.Save();
+        }
+
         public async Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetProjects(string userId, ProjectRequestParameters projetParameter, bool trackChange)
         {
             var projectFromDb = await _repository.Project.GetProjectAsync(userId, projetParameter, trackChange) ?? throw new BadRequestException("No projects found for the specified user.");
