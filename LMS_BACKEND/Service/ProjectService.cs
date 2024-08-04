@@ -22,8 +22,9 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<ProjectViewResponseModel> CreatNewProject(string userId, CreateProjectRequestModel model)
+        public async Task<ProjectViewResponseModel> CreateNewProject(string userId, CreateProjectRequestModel model)
         {
+
             var hold = _mapper.Map<Project>(model);
 
             hold.Id = Guid.NewGuid();
