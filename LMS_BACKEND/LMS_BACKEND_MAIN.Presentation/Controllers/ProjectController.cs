@@ -50,7 +50,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateProjejct(CreateProjectRequestModel model)
         {
-            var result = await _service.ProjectService.CreatNewProject(CheckUser().Result ,model);
+            var result = await _service.ProjectService.CreateNewProject(CheckUser().Result ,model);
 
             return CreatedAtAction(nameof(GetProject), new { id = result.Id }, result);
         }

@@ -10,7 +10,7 @@ namespace Service.Contracts
         Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetProjects(string userId, ProjectRequestParameters projetParameter, bool trackChange);
         Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetAllProjects(ProjectRequestParameters projetParameter, bool trackChange);
         Task<ProjectViewResponseModel> GetProjectById(Guid id);
-        Task<ProjectViewResponseModel> CreatNewProject(string userId, CreateProjectRequestModel model);
+        Task<ProjectViewResponseModel> CreateNewProject(string userId, CreateProjectRequestModel model);
         Task UpdateProject(Guid projectId, UpdateProjectRequestModel model);
         Task<GetFolderContentResponseModel> GetProjectResources(Guid ProjectID);
         Task<IEnumerable<AccountRequestJoinResponseModel>> GetJoinRequest(Guid projectId);

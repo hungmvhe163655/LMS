@@ -43,7 +43,7 @@ namespace LMS_BACKEND_MAIN
                         : new List<NewsFile>()
                 ))
                 .ReverseMap();
-            CreateMap<NewsReponseModel, News>()
+            CreateMap<NewsResponseModel, News>()
                 .ForPath(dest => dest.CreatedByNavigation.FullName, opt => opt.MapFrom(src => src.CreatedBy))
                 .ReverseMap();
             CreateMap<AccountVerifyUpdateDTO, Account>().ReverseMap();
