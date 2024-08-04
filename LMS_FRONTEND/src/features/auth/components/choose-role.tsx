@@ -1,30 +1,32 @@
 import { GiTeacher } from 'react-icons/gi';
 import { PiStudent } from 'react-icons/pi';
 
-import { Link } from '@/components/app/link';
+import { ROLES } from '@/types/constant';
 
-function ChooseRoleRegister() {
+import { Role } from '../utils/schema';
+
+interface SelectRoleProps {
+  onSelectRole: (role: Role) => void;
+}
+
+function ChooseRoleRegister({ onSelectRole }: SelectRoleProps) {
   return (
     <div className='flex justify-center space-x-8'>
-      <Link
-        to='/auth/register/choose-role/student'
-        className='rounded-lg bg-slate-200 text-black hover:bg-slate-300 hover:text-black'
+      <button
+        className='flex flex-col items-center rounded-md bg-slate-200 p-4 hover:bg-slate-300'
+        onClick={() => onSelectRole(ROLES.STUDENT)}
       >
-        <div className='rounded-md p-4'>
-          <PiStudent className='size-32' />
-          <p className='text-center font-bold'>Student</p>
-        </div>
-      </Link>
+        <PiStudent className='size-32' />
+        <p className='text-center font-bold'>Student</p>
+      </button>
 
-      <Link
-        to='/auth/register/choose-role/supervisor'
-        className='rounded-lg bg-slate-200 text-black hover:bg-slate-300 hover:text-black'
+      <button
+        className='flex flex-col items-center rounded-md bg-slate-200 p-4 hover:bg-slate-300'
+        onClick={() => onSelectRole(ROLES.SUPERVISOR)}
       >
-        <div className='p-4'>
-          <GiTeacher className='size-32' />
-          <p className='text-center font-bold'>Supervisor</p>
-        </div>
-      </Link>
+        <GiTeacher className='size-32' />
+        <p className='text-center font-bold'>Supervisor</p>
+      </button>
     </div>
   );
 }

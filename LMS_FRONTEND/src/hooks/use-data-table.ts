@@ -121,7 +121,7 @@ export function useDataTable<TData, TValue>({
 }: UseDataTableProps<TData, TValue>) {
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
-  const [searchParams, _] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   // Search params
   const search = schema.parse(Object.fromEntries(searchParams));

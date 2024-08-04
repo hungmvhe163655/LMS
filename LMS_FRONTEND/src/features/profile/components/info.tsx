@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
+import { Navigate } from 'react-router-dom';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -9,59 +12,63 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
+import { useCurrentLoginUser } from '@/hooks/use-current-login-user';
+import { ROLES } from '@/types/constant';
 
 import { EditProfileForm } from './edit-profile-form';
+import { StudentDetail } from './student-detail';
 
 export function Info() {
+  const { data: user, isLoading } = useCurrentLoginUser();
+  const [open, setOpen] = useState(false);
+  const role = user?.roles[0];
+  const isStudent = user?.roles.includes(ROLES.STUDENT);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return <Navigate to={`/auth/login`} />;
+  }
+
   return (
     <div className='mx-auto flex max-w-4xl rounded-lg bg-white p-10 shadow-md'>
-      <div className='w-full'>
-        <div className='flex'>
+      <div className='w-full lg:flex lg:justify-between'>
+        <div className='flex flex-col lg:w-full lg:flex-row'>
           {/* First Column */}
-          <div className='w-1/2'>
-            <div className='flex space-y-4'>
-              <Avatar className='mr-4 size-32'>
+          <div className='lg:w-1/2'>
+            <div className='flex flex-col space-y-4 lg:flex-row'>
+              <Avatar className='my-auto mr-4 size-32 text-4xl font-bold'>
                 <AvatarFallback>VH</AvatarFallback>
               </Avatar>
               <div className='my-auto flex flex-col space-y-1'>
-                <span className='text-xl font-bold'>Mai Viet Hung</span>
-                <span className='text-gray-600'>Student</span>
-                <span className='text-gray-600'>HE163644</span>
+                <span className='text-xl font-bold'>{user.fullName}</span>
+                <span className='italic text-gray-600'>{role}</span>
+                <span className='text-sm text-gray-500 '>{user.gender}</span>
               </div>
             </div>
           </div>
 
           {/* Second Column */}
-          <div className='my-auto w-1/2'>
-            <div className='flex space-y-2'>
-              <div className='flex flex-col space-y-4'>
-                <span className='text-gray-600'>
-                  <span className='font-bold'> Major:</span> Computer Science
-                </span>
-                <span></span>
-                <span className='text-gray-600'>
-                  <span className='font-bold'>Specialized:</span> AI & Machine Learning
-                </span>
-              </div>
-            </div>
-          </div>
+          <div className='my-auto lg:w-1/2'>{isStudent && <StudentDetail user={user} />}</div>
         </div>
-      </div>
-      <div>
-        <Dialog>
-          <DialogTrigger asChild>
-            <button className='inline-flex items-center rounded-lg bg-blue-500 p-3 text-white hover:bg-blue-600'>
-              Edit <FaEdit className='ml-2' />
-            </button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Edit profile</DialogTitle>
-              <DialogDescription>Make changes to your profile here.</DialogDescription>
-            </DialogHeader>
-            <EditProfileForm />
-          </DialogContent>
-        </Dialog>
+        <div className='mt-2'>
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button className='flex w-full items-center justify-center rounded-lg bg-blue-500 p-3 text-white hover:bg-blue-600 lg:w-auto'>
+                Edit <FaEdit className='ml-2' />
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Edit profile</DialogTitle>
+                <DialogDescription>Make changes to your profile here.</DialogDescription>
+              </DialogHeader>
+              <EditProfileForm user={user} onSubmitForm={setOpen} />
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
     </div>
   );

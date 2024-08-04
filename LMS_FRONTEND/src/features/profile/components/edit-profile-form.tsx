@@ -12,37 +12,58 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { toast } from '@/components/ui/use-toast';
+import { User } from '@/types/api';
+import { ROLES } from '@/types/constant';
+
+import { useUpdateProfile } from '../api/update-profile';
 
 const formSchema = z.object({
   fullName: z.string().min(3),
-  rollNumber: z
-    .string()
-    .min(8)
-    .regex(/^[A-Za-z]{2}\d{6}$/, {
-      message: 'Invalid Roll Number'
-    }),
-  major: z.string().min(6),
-  specilized: z.string().min(6)
+  gender: z.enum(['male', 'female']),
+  major: z.string().min(6).optional().or(z.literal('')),
+  specilized: z.string().min(6).optional().or(z.literal(''))
 });
 
-export function EditProfileForm() {
+interface EditProfileFormProps {
+  user: User;
+  onSubmitForm: (open: boolean) => void;
+}
+
+export function EditProfileForm({ user, onSubmitForm }: EditProfileFormProps) {
+  const isStudent = user.roles.includes(ROLES.STUDENT);
+  const { mutate: updateProdfile } = useUpdateProfile();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: 'Mai Viet Hung',
-      rollNumber: 'HE163644',
-      major: 'Computer Science',
-      specilized: 'AI & Machine Learning'
+      fullName: user.fullName,
+      major: user?.major,
+      specilized: user?.specialized,
+      gender: user.gender.toLowerCase() === 'male' ? 'male' : 'female'
     }
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
+    updateProdfile(
+      { ...data, id: user.id, gender: data.gender.toLowerCase() === 'male' },
+      {
+        onSuccess: () => {
+          onSubmitForm(false);
+          toast({
+            variant: 'success',
+            description: 'Edit Success!'
+          });
+        }
+      }
+    );
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3 p-3'>
+        {/* Full Name */}
         <FormField
           control={form.control}
           name='fullName'
@@ -56,45 +77,69 @@ export function EditProfileForm() {
             </FormItem>
           )}
         />
+
+        {/* Gender */}
         <FormField
           control={form.control}
-          name='rollNumber'
+          name='gender'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Roll Number</FormLabel>
-              <FormControl>
-                <Input type='text' {...field} />
+              <FormLabel>Gender</FormLabel>
+              <FormControl className='flex items-center space-x-6'>
+                <RadioGroup onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormItem className='flex space-x-3 space-y-0'>
+                    <FormControl>
+                      <RadioGroupItem value='male' />
+                    </FormControl>
+                    <FormLabel className='font-normal'>Male</FormLabel>
+                  </FormItem>
+                  <FormItem className='flex space-x-3 space-y-0'>
+                    <FormControl>
+                      <RadioGroupItem value='female' />
+                    </FormControl>
+                    <FormLabel className='font-normal'>Female</FormLabel>
+                  </FormItem>
+                </RadioGroup>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name='major'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Major</FormLabel>
-              <FormControl>
-                <Input type='text' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='specilized'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Specilized</FormLabel>
-              <FormControl>
-                <Input type='text' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
+        {/* Major */}
+        {isStudent && (
+          <FormField
+            control={form.control}
+            name='major'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Major</FormLabel>
+                <FormControl>
+                  <Input type='text' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+
+        {/* Specilized */}
+        {isStudent && (
+          <FormField
+            control={form.control}
+            name='specilized'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Specilized</FormLabel>
+                <FormControl>
+                  <Input type='text' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+
         <div className='flex justify-end'>
           <Button type='submit'>Confirm</Button>
         </div>

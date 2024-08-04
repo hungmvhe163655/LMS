@@ -1,10 +1,10 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
-import { News, NewsQueryParams } from '../types/api';
-
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { Pagination } from '@/types/api';
+
+import { News, NewsQueryParams } from '../types/api';
 
 export const getNews = async (
   params?: NewsQueryParams

@@ -1,3 +1,5 @@
+import { ROLES } from '@/types/constant';
+
 export type BaseEntity = {
   id: string;
   createdDate: Date;
@@ -7,14 +9,26 @@ export type Entity<T> = {
   [K in keyof T]: T[K];
 } & BaseEntity;
 
+export type Roles = (typeof ROLES)[keyof typeof ROLES][];
+
 export type User = Entity<{
-  fullname: string;
   email: string;
-  gender: boolean;
-  verifiedBy: string | null;
+  phoneNumber: string;
+  userName: string;
+  fullName: string;
+  gender: string;
   isDeleted: boolean;
   isBanned: boolean;
-  roles: ('SUPERVISOR' | 'STUDENT' | 'LAB_DIRECTOR')[];
+  isVerified: boolean;
+  verifiedBy: string | null;
+  roles: Roles;
+  rollNumber?: string;
+  major?: string;
+  specialized?: string;
+}>;
+
+export type UserLogin = Entity<{
+  roles: Roles;
 }>;
 
 export type Pagination = {
@@ -27,12 +41,17 @@ export type Pagination = {
 };
 
 export type QueryParams = {
-  PageNumber?: number;
-  PageSize?: number;
+  PageNumber: number;
+  PageSize: number;
+  OrderBy: string | null;
+};
+
+export type Token = {
+  accessToken: string;
+  refreshToken: string;
 };
 
 export type AuthResponse = {
-  accessToken: string;
-  refreshToken: string;
+  token: Token;
   user: User;
 };
