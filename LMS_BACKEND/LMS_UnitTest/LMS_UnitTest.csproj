@@ -22,4 +22,11 @@
     <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DeviceTest\" />
+    <Folder Include="ScheduleTest\" />
+    <Folder Include="TaskTest\" />
+    <Folder Include="TaskListTest\" />
+  </ItemGroup>
+
 </Project>
