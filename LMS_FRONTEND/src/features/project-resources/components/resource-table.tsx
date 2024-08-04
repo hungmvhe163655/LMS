@@ -9,10 +9,8 @@ import {
 import { useState, useEffect, useMemo } from 'react';
 
 import DragAndDropTable from '@/components/ui/dnd-table/dnd-table';
-import InfiniteScroll from '@/components/ui/infinite-scroll';
 
-import { useFiles } from '../api/get-files';
-import { useFolders } from '../api/get-folders';
+import { useResource } from '../api/get-resource';
 import { ResourceQueryParams } from '../types/api';
 import { RESOURCE } from '../types/constant';
 
@@ -22,7 +20,7 @@ export function ResourceTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [resourceQueryParameter, setResourceQueryParameter] = useState<ResourceQueryParams>({
     Top: 0,
-    Take: 5,
+    Take: 10,
     OrderBy: 'name.desc'
   });
 
@@ -39,63 +37,15 @@ export function ResourceTable() {
   }, [sorting]);
 
   // Fetch folders
-  const {
-    data: folderData,
-    hasNextPage: hasNextFolderPage,
-    isLoading: isFolderLoading,
-    isError: isFolderError,
-    fetchNextPage: fetchNextFolderPage
-  } = useFolders({
+  const { isError, isLoading, data, hasMore, fetchNextResourcePage } = useResource({
     id: folderId,
     resourceQueryParameter
   });
 
-  // Fetch files if no more folders
-  const {
-    data: fileData,
-    fetchNextPage: fetchNextFilePage,
-    isLoading: isFileLoading,
-    hasNextPage: hasNextFilePage,
-    isError: isFileError
-  } = useFiles({
-    id: folderId,
-    resourceQueryParameter,
-    enabled: !hasNextFolderPage
-  });
-
-  // Combine folder and file data using useMemo
-  const flatFolderData = useMemo(() => {
-    return (
-      folderData?.pages?.flatMap((page) =>
-        page.data.map((item) => ({
-          ...item,
-          type: RESOURCE.FOLDER
-        }))
-      ) ?? []
-    );
-  }, [folderData]);
-
-  const flatFileData = useMemo(() => {
-    return (
-      fileData?.pages?.flatMap((page) =>
-        page.data.map((item) => ({
-          ...item,
-          type: RESOURCE.FILE,
-          size: item.size // Ensure that size is available in the raw data
-        }))
-      ) ?? []
-    );
-  }, [fileData]);
-
-  const combinedData = useMemo(
-    () => [...flatFolderData, ...flatFileData],
-    [flatFolderData, flatFileData]
-  );
-
   const columns = useMemo(() => getColumns(), []);
 
   const table = useReactTable({
-    data: combinedData,
+    data,
     columns,
     state: { sorting },
     getCoreRowModel: getCoreRowModel(),
@@ -125,28 +75,21 @@ export function ResourceTable() {
     }
   };
 
-  if (isFolderLoading || isFileLoading) {
+  if (isLoading) {
     return <>Loading...</>;
   }
 
-  if (isFolderError || isFileError) {
+  if (isError) {
     return <>Error loading resources</>;
   }
 
   return (
-    <InfiniteScroll
-      isLoading={isFolderLoading || isFileLoading}
-      hasMore={hasNextFolderPage || hasNextFilePage}
-      next={() => {
-        if (hasNextFolderPage) {
-          fetchNextFolderPage();
-        } else if (!hasNextFolderPage && !isFileLoading && !isFileError) {
-          fetchNextFilePage();
-        }
-      }}
-      threshold={1}
-    >
-      <DragAndDropTable table={table} handleDragEnd={handleDragEnd} />
-    </InfiniteScroll>
+    <DragAndDropTable
+      table={table}
+      handleDragEnd={handleDragEnd}
+      isLoading={isLoading}
+      hasMore={hasMore}
+      next={fetchNextResourcePage}
+    />
   );
 }
