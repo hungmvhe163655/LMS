@@ -330,18 +330,18 @@ namespace Service
 
             return new GetFolderContentResponseModel { Files = end, Folders = folders };
         }
-        public async Task<(IEnumerable<FolderResponseModel> Data, int DataLeft)> GetFolderFolders(FolderRequestParameters param, Guid folderID)
+        public async Task<(IEnumerable<FolderResponseModel> Data, int Cursor)> GetFolderFolders(FolderRequestParameters param, Guid folderID)
         {
             var folders = await _repositoryManager.Folder.GetFolderWithDescendantDepth1Id(param, folderID);
 
-            return (_mappers.Map<IEnumerable<FolderResponseModel>>(folders.Data), folders.CountLeft);
+            return (_mappers.Map<IEnumerable<FolderResponseModel>>(folders.Data), folders.Cursor);
         }
 
-        public async Task<(IEnumerable<FileResponseModel> Data, int CountLeft)> GetFolderFiles(FilesRequestParameters param, Guid folderID)
+        public async Task<(IEnumerable<FileResponseModel> Data, int Cursor)> GetFolderFiles(FilesRequestParameters param, Guid folderID)
         {
             var hold_file = await _repositoryManager.File.GetFileWithFolderId(param, folderID);
 
-            return (_mappers.Map<IEnumerable<FileResponseModel>>(hold_file.Data), hold_file.CountLeft);
+            return (_mappers.Map<IEnumerable<FileResponseModel>>(hold_file.Data), hold_file.Cursor);
         }
 
         public async Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model)

@@ -43,7 +43,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var result = await _serviceManager.FileService.GetFolderFolders(param, id);
 
-            return Ok(new FolderContentResponseModel { ListObject = result.Data, Remaining = result.DataLeft });
+            return Ok(new FolderContentResponseModel { ListObject = result.Data, Cursor = result.Cursor });
         }
 
         [HttpGet(RoutesAPI.GetFolderFiles)]
@@ -51,7 +51,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             var result = await _serviceManager.FileService.GetFolderFiles(param, id);
 
-            return Ok(new FolderContentResponseModel { ListObject = result.Data, Remaining = result.CountLeft });
+            return Ok(new FolderContentResponseModel { ListObject = result.Data, Cursor = result.Cursor });
         }
 
         [HttpGet(RoutesAPI.GetProjectFolderScheme)]

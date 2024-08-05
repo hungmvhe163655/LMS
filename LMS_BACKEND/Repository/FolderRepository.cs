@@ -13,7 +13,7 @@ namespace Repository
         public FolderRepository(DataContext context) : base(context)
         {
         }
-        public async Task<(IQueryable<Folder> Data, int CountLeft)> GetFolderWithDescendantDepth1Id(FolderRequestParameters param, Guid FatherId)
+        public async Task<(IQueryable<Folder> Data, int Cursor)> GetFolderWithDescendantDepth1Id(FolderRequestParameters param, Guid FatherId)
         {
             var hold =
                 (await
@@ -31,11 +31,11 @@ namespace Repository
 
             var result = param.Take > 0
                 ? end
-                .Skip(param.Top ?? SCROLL_LIST.DEFAULT_TOP)
-                .Take(param.Take ?? SCROLL_LIST.SMALL30)
+                .Skip(param.Cursor ?? SCROLL_LIST.DEFAULT_TOP)
+                .Take(param.Take ?? SCROLL_LIST.TINY10)
                 : end;
 
-            return (result, end.Count() - (result.Count() + param.Top ?? 0));
+            return (result, result.Count() + param.Cursor ?? 0);
         }
 
         public async Task<Folder> GetFolder(Guid id, bool track)
