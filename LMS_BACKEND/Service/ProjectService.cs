@@ -74,7 +74,7 @@ namespace Service
 
             var hold = await _repository.Project.GetByCondition(x => x.Id.Equals(id), true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid project");
 
-            var members = await _repository.Member.GetByCondition(x => x.ProjectId.Equals(id), true).ToListAsync() ?? throw new BadRequestException("Project doesn't have any member");
+            var members = await _repository.Member.GetByCondition(x => x.ProjectId.Equals(id) && x.IsValidTeamMember, true).ToListAsync() ?? throw new BadRequestException("Project doesn't have any member");
 
             if (!members.Where(x => x.IsLeader).Select(y => y.UserId).Contains(userID)) throw new BadRequestException("user don't have permission to work in this project");
 
