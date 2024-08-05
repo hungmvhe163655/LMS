@@ -8,7 +8,7 @@ namespace Shared.DataTransferObjects.RequestParameters
 {
     public class FilesRequestParameters
     {
-        public int? Top { get; set; }
+        public int? Cursor { get; set; }
         public int? Take { get; set; }
         public string? OrderBy { get; set; }
     }

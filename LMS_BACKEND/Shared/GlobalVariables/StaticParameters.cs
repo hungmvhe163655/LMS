@@ -190,6 +190,8 @@ namespace Shared.GlobalVariables
 
     public static class SCROLL_LIST
     {
+        public const int TINY10 = 10;
+
         public const int SMALL30 = 30;
 
         public const int MEDIUM50 = 50;

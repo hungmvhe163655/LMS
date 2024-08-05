@@ -17,17 +17,17 @@ namespace Repository
             GetByCondition(x => x.FolderId.Equals(FolderId), track)
             .OrderBy(x => x.Name)
             .ToListAsync();
-        public async Task<(IQueryable<Files> Data, int CountLeft)> GetFileWithFolderId(FilesRequestParameters param, Guid FolderId)
+        public async Task<(IQueryable<Files> Data, int Cursor)> GetFileWithFolderId(FilesRequestParameters param, Guid FolderId)
         {
             var hold = GetByCondition(x => x.FolderId.Equals(FolderId), false).Sort(param.OrderBy);
 
-            var end = hold.Skip(param.Top ?? SCROLL_LIST.DEFAULT_TOP).Take(param.Take ?? SCROLL_LIST.MEDIUM50);
+            if (param.Cursor == null) return (hold, 0);
 
-            var total = await hold.CountAsync();
+            var end = hold.Skip(param.Cursor ?? SCROLL_LIST.DEFAULT_TOP).Take(param.Take ?? SCROLL_LIST.TINY10);
 
-            var taken = end.CountAsync().Result + param.Top ?? 0;
+            var taken = (await end.CountAsync()) + param.Cursor ?? 0;
 
-            return (end, total - taken);
+            return (end, taken);
         }
         public async Task<IEnumerable<Files>> GetFilesWithQuery(bool track, FileRequestParameters parameters)
         {
