@@ -17,7 +17,7 @@ namespace Repository
             GetByCondition(x => x.FolderId.Equals(FolderId), track)
             .OrderBy(x => x.Name)
             .ToListAsync();
-        public async Task<(IQueryable<Files> Data, int Cursor)> GetFileWithFolderId(FilesRequestParameters param, Guid FolderId)
+        public async Task<(IQueryable<Files> Data, int? Cursor)> GetFileWithFolderId(FilesRequestParameters param, Guid FolderId)
         {
             var hold = GetByCondition(x => x.FolderId.Equals(FolderId), false).Sort(param.OrderBy);
 
@@ -27,7 +27,7 @@ namespace Repository
 
             var taken = (await end.CountAsync()) + param.Cursor ?? 0;
 
-            return (end, taken);
+            return (end,hold.Count() > taken ? taken : null);
         }
         public async Task<IEnumerable<Files>> GetFilesWithQuery(bool track, FileRequestParameters parameters)
         {
