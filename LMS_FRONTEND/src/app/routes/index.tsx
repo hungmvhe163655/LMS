@@ -13,6 +13,7 @@ import ProjectResourcesRoute from './project-resources';
 import ListAllTasksRoute from './project-workspace/list-all-task';
 import ListProjectTasksRoute from './project-workspace/list-project-tasks';
 import OngoingProjectsRoute from './project-workspace/ongoing-projects';
+import ProjectSettingsRoute from './project-workspace/project-settings';
 import ProjectWorkspaceRoute from './project-workspace/project-workspace';
 import SupervisorRoute from './supervisor';
 import VerifyAccountsRoute from './verify-account';
@@ -61,7 +62,8 @@ export const createRouter = (queryClient: QueryClient) =>
         OngoingProjectsRoute,
         ProjectWorkspaceRoute,
         ListAllTasksRoute,
-        ListProjectTasksRoute
+        ListProjectTasksRoute,
+        ProjectSettingsRoute
       ]
     },
     {

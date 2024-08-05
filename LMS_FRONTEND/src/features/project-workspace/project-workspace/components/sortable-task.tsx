@@ -19,6 +19,8 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { Task } from '@/features/project-workspace/project-workspace/types/project-types';
 
+import { useDeleteTask } from '../api/delete-task';
+
 interface SortableTaskProps {
   task: Task;
   setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>; // Add setIsDialogOpen prop
@@ -36,9 +38,21 @@ const SortableTask: React.FC<SortableTaskProps> = ({ task, setIsDialogOpen }) =>
     transition
   };
 
+  const { mutate: deleteTaskMutate } = useDeleteTask({
+    mutationConfig: {
+      onSuccess: () => {
+        setIsOpen(false);
+      }
+    }
+  });
+
   const handleDialogOpenChange = (isOpen: boolean) => {
     setIsOpen(isOpen);
     setIsDialogOpen(isOpen);
+  };
+
+  const handleDeleteTask = () => {
+    deleteTaskMutate(task.id);
   };
 
   return (
@@ -52,11 +66,16 @@ const SortableTask: React.FC<SortableTaskProps> = ({ task, setIsDialogOpen }) =>
           className='mb-2 cursor-pointer'
         >
           <CardHeader>
-            <CardTitle>{task.title}</CardTitle>
+            <CardTitle>{task.id}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className='text-lg font-bold'>{task.title}</p>
-            <p>{task.description}</p>
+            <p className='text-lg font-bold'>{task.id}</p>
+            <p className='text-lg '>
+              {task.description.trim() == '' ? 'No description' : task.description}
+            </p>
+            <p className='text-sm'>
+              {task.assignedToUser == 'NotFound' ? 'Not Assigned' : task.assignedToUser}
+            </p>
             {/* <p>Order: {task.order}</p> */}
             <Button onClick={() => handleDialogOpenChange(true)} data-no-dnd='true'>
               → View Detail
@@ -128,6 +147,9 @@ const SortableTask: React.FC<SortableTaskProps> = ({ task, setIsDialogOpen }) =>
           </Tabs>
         </div>
         <DialogFooter>
+          <Button variant='destructive' size='sm' onClick={handleDeleteTask} data-no-dnd='true'>
+            Delete
+          </Button>
           <Button variant='outline' onClick={() => handleDialogOpenChange(false)}>
             Cancel
           </Button>

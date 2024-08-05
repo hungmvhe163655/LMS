@@ -20,7 +20,7 @@ export const addNewTask = async ({
     title,
     createdBy: userId,
     requiredValidation: true,
-    description: title,
+    description: '',
     taskPriority: 'Low',
     taskListId,
     projectId,

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 import { useAddNewTask } from '../api/add-new-task'; // Import the add new task hook
+import { useDeleteTaskList } from '../api/delete-tasklist'; // Import the delete task list hook
 import type { Task, TaskList as TaskListType } from '../types/project-types';
 
 import SortableTask from './sortable-task';
@@ -40,6 +41,7 @@ const SortableTaskList: React.FC<TaskListProps> = ({
   const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
 
   const { mutate: addNewTaskMutate } = useAddNewTask();
+  const { mutate: deleteTaskListMutate } = useDeleteTaskList();
 
   const handleAddTask = () => {
     if (newTaskTitle.trim()) {
@@ -47,7 +49,7 @@ const SortableTaskList: React.FC<TaskListProps> = ({
         {
           title: newTaskTitle,
           taskListId: taskList.id,
-          projectId: projectId
+          projectId: projectId || ''
         },
         {
           onSuccess: (newTask) => {
@@ -67,6 +69,14 @@ const SortableTaskList: React.FC<TaskListProps> = ({
         }
       );
     }
+  };
+
+  const handleDeleteTaskList = () => {
+    deleteTaskListMutate(taskList.id, {
+      onSuccess: () => {
+        setTasks((prev) => prev.filter((list) => list.id !== taskList.id));
+      }
+    });
   };
 
   const renderPlaceholderTask = () => {
@@ -90,9 +100,12 @@ const SortableTaskList: React.FC<TaskListProps> = ({
     >
       <div className='mb-2 flex items-center justify-between'>
         <h3 className='text-xl font-semibold'>
-          {taskList.name} <span>{taskList.id}</span>
+          <div>{taskList.name}</div>
+          {/* <div>{taskList.id}</div> */}
           {/* <span className='text-sm'>({taskList.maxTasks?.valueOf()} Max Tasks)</span> */}
         </h3>
+      </div>
+      <div>
         <Button
           variant='outline'
           size='sm'
@@ -101,7 +114,7 @@ const SortableTaskList: React.FC<TaskListProps> = ({
         >
           Edit
         </Button>
-        <Button variant='destructive' size='sm' data-no-dnd='true'>
+        <Button variant='destructive' size='sm' onClick={handleDeleteTaskList} data-no-dnd='true'>
           Delete
         </Button>
       </div>
@@ -122,7 +135,7 @@ const SortableTaskList: React.FC<TaskListProps> = ({
           onChange={(e) => setNewTaskTitle(e.target.value)}
           placeholder='New task title'
           className='mb-2'
-          data-no-dnd='true' // Added data-no-dnd attribute
+          data-no-dnd='true'
         />
         <Button onClick={handleAddTask} className='w-full' data-no-dnd='true'>
           Add New Task
