@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
@@ -26,6 +27,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             var result = await _serviceManager.FileService.GetFolderWithId(id);
 
             return Ok(result);
+        }
+
+        [HttpGet]
+        [Route(RoutesAPI.DownloadFolder)]
+        public async Task<IActionResult> DownloadFolder(Guid id)
+        {
+            var fileStream = await _serviceManager.FileService.DownloadFolder(id);
+
+            return File(fileStream.Data, "application/zip", fileStream.FileName + ".zip");
         }
 
         [HttpGet(RoutesAPI.GetFolderFolders)]
@@ -61,6 +71,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             }
             return CreatedAtAction(nameof(GetFolder), new { id = result.Id }, result);
         }
+
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteFolder(Guid id)
         {

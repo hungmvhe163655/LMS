@@ -11,6 +11,7 @@ namespace Service.Contracts
         Task<(byte[], FileResponseModel)> GetFile(Guid fileID);
         Task<FolderResponseModel> GetFolderWithId(Guid folderId);
         Task<(IEnumerable<FolderResponseModel> Data, int DataLeft)> GetFolderFolders(FolderRequestParameters param, Guid folderID);
+        Task<(byte[] Data, string FileName)> DownloadFolder(Guid id);
         Task<(IEnumerable<FileResponseModel> Data, int CountLeft)> GetFolderFiles(FilesRequestParameters param, Guid folderID);
         Task EditFile(FileEditRequestModel model);
         Task DeleteFile(Guid id);
