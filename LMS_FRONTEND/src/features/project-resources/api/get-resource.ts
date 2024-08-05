@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { api } from '@/lib/api-client';
 
@@ -9,23 +9,24 @@ import { fileKeys, folderKeys } from '../utils/queries';
 
 const fetchFiles = async (
   id: string,
-  params?: ResourceQueryParams
-): Promise<{ data: ResourceFile[]; remainingData: number }> => {
+  params: ResourceQueryParams
+): Promise<{ data: ResourceFile[]; cursor?: number }> => {
   const response = await api.get(`/folders/${id}/content/files`, { params });
   return {
-    data: response.data.listObject,
-    remainingData: response.data.remainingData
+    data: response.data.data,
+    cursor: response.data.cursor
   };
 };
 
 const fetchFolders = async (
   id: string,
-  params?: ResourceQueryParams
-): Promise<{ data: ResourceFolder[]; remainingData: number }> => {
+  params: ResourceQueryParams
+): Promise<{ data: ResourceFolder[]; cursor?: number; folderRemaining: number }> => {
   const response = await api.get(`/folders/${id}/content/folders`, { params });
   return {
-    data: response.data.listObject,
-    remainingData: response.data.remainingData
+    data: response.data.data,
+    cursor: response.data.cursor,
+    folderRemaining: params.Take - response.data.data.length
   };
 };
 
@@ -36,43 +37,26 @@ export const useResource = ({
   id: string;
   resourceQueryParameter: ResourceQueryParams;
 }) => {
-  const [remainingTake, setRemainingTake] = useState(resourceQueryParameter.Take || 0);
-
   const folderQuery = useInfiniteQuery({
     queryKey: folderKeys.lists(id, resourceQueryParameter),
-    queryFn: async ({ pageParam = resourceQueryParameter }) => {
-      const result = await fetchFolders(id, pageParam);
-      const totalFetchedFolders = result.data.length;
-      const newRemainingTake = (resourceQueryParameter.Take || 0) - totalFetchedFolders;
-      setRemainingTake(newRemainingTake > 0 ? newRemainingTake : 0);
-      return result;
-    },
-    getNextPageParam: (lastPage) => {
-      const nextTake = resourceQueryParameter.Take;
-
-      return lastPage.remainingData > 0 ? { ...resourceQueryParameter, Take: nextTake } : undefined;
-    },
-    initialPageParam: resourceQueryParameter
+    queryFn: () => fetchFolders(id, resourceQueryParameter),
+    getNextPageParam: (lastPage) => lastPage.cursor,
+    initialPageParam: 0
   });
 
   const fileQuery = useInfiniteQuery({
-    queryKey: fileKeys.lists(id, { ...resourceQueryParameter, Take: remainingTake }),
-    queryFn: ({ pageParam = resourceQueryParameter }) =>
-      fetchFiles(id, { ...pageParam, Take: remainingTake }),
-    getNextPageParam: (lastPage) => {
-      return lastPage.remainingData > 0
-        ? { ...resourceQueryParameter, Take: lastPage.remainingData }
-        : undefined;
-    },
-    initialPageParam: resourceQueryParameter,
-    enabled: remainingTake > 0 // Start fetching files only when folders are fully fetched and there is a remaining take
+    queryKey: fileKeys.lists(id, resourceQueryParameter),
+    queryFn: () => fetchFiles(id, resourceQueryParameter),
+    getNextPageParam: (lastPage) => lastPage.cursor,
+    initialPageParam: 0,
+    enabled: !folderQuery.hasNextPage
   });
 
   const fetchNextResourcePage = async () => {
     if (folderQuery.hasNextPage) {
-      await folderQuery.fetchNextPage();
-    } else if (fileQuery.hasNextPage) {
-      await fileQuery.fetchNextPage();
+      folderQuery.fetchNextPage();
+    } else if (!folderQuery.isLoading && fileQuery.hasNextPage) {
+      fileQuery.fetchNextPage();
     }
   };
 
@@ -103,8 +87,7 @@ export const useResource = ({
 
   const isLoading = folderQuery.isLoading || fileQuery.isLoading;
   const isError = folderQuery.isError || fileQuery.isError;
-  const remainingFiles = fileQuery.data?.pages?.[0].remainingData; // Just check File, no more files then it's over
-  const hasMore = remainingFiles === undefined || remainingFiles > 0;
+  const hasMore = folderQuery.hasNextPage || fileQuery.hasNextPage;
 
   return { isError, isLoading, data, hasMore, fetchNextResourcePage };
 };

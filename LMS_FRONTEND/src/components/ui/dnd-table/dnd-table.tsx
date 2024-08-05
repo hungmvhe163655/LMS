@@ -20,25 +20,14 @@ import {
   TableCell
 } from '@/components/ui/table';
 
-import InfiniteScroll from '../infinite-scroll';
-
 import { DndRow } from './dnd-row';
 
 interface DragAndDropTableProps<TData> {
   table: TanstackTable<TData>;
   handleDragEnd: (event: DragEndEvent) => void;
-  isLoading: boolean;
-  hasMore: boolean;
-  next: () => unknown;
 }
 
-const DragAndDropTable: React.FC<DragAndDropTableProps<any>> = ({
-  table,
-  handleDragEnd,
-  isLoading,
-  hasMore,
-  next
-}) => {
+const DragAndDropTable: React.FC<DragAndDropTableProps<any>> = ({ table, handleDragEnd }) => {
   const sensors = useSensors(
     useSensor(MouseSensor),
     useSensor(TouchSensor),
@@ -80,7 +69,6 @@ const DragAndDropTable: React.FC<DragAndDropTableProps<any>> = ({
                 </TableCell>
               </TableRow>
             )}
-            <InfiniteScroll hasMore={hasMore} isLoading={isLoading} next={next} />
           </TableBody>
         </Table>
       </div>

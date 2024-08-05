@@ -7,6 +7,7 @@ import {
   SortingState
 } from '@tanstack/react-table';
 import { useState, useEffect, useMemo } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import DragAndDropTable from '@/components/ui/dnd-table/dnd-table';
 
@@ -19,7 +20,7 @@ import { getColumns } from './resource-columns';
 export function ResourceTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [resourceQueryParameter, setResourceQueryParameter] = useState<ResourceQueryParams>({
-    Top: 0,
+    Cursor: 0,
     Take: 10,
     OrderBy: 'name.desc'
   });
@@ -84,12 +85,13 @@ export function ResourceTable() {
   }
 
   return (
-    <DragAndDropTable
-      table={table}
-      handleDragEnd={handleDragEnd}
-      isLoading={isLoading}
-      hasMore={hasMore}
+    <InfiniteScroll
+      dataLength={data.length}
       next={fetchNextResourcePage}
-    />
+      hasMore={hasMore}
+      loader={<h4>Loading more 2 items...</h4>}
+    >
+      <DragAndDropTable table={table} handleDragEnd={handleDragEnd} />
+    </InfiniteScroll>
   );
 }

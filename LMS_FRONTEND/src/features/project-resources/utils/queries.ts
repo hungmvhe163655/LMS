@@ -15,5 +15,6 @@ export const fileKeys = {
   content: (id: string) => [...fileKeys.contents(), id] as const,
 
   list: (id: string) => [...fileKeys.content(id), 'list'] as const,
-  lists: (id: string, params?: ResourceQueryParams) => [...fileKeys.list(id), params] as const
+  lists: (id: string, params?: ResourceQueryParams, ...remaining: any) =>
+    [...fileKeys.list(id), params, ...remaining] as const
 };
