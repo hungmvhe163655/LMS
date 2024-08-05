@@ -145,6 +145,7 @@ namespace Service
 
             return new GetFolderContentResponseModel { Files = end.ToList(), Folders = folders };
         }
+
         public async Task<IEnumerable<AccountRequestJoinResponseModel>> GetJoinRequest(Guid projectId)
         {
             var hold = await _repository.Member.GetByCondition(x => x.ProjectId.Equals(projectId) && !x.IsValidTeamMember, false).Include(y => y.User).ToListAsync();
@@ -155,6 +156,7 @@ namespace Service
             }
             return _mapper.Map<List<AccountRequestJoinResponseModel>>(end);
         }
+
         public async Task ValidateJoinRequest(IEnumerable<UpdateStudentJoinRequestModel> Listmodel, Guid id)
         {
             foreach (var item in Listmodel)
