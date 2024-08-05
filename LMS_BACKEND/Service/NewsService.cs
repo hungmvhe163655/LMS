@@ -3,6 +3,7 @@ using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
@@ -22,10 +23,9 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<NewsReponseModel> CreateNewsAsync(string userId, CreateNewsRequestModel model)
+        public async Task<NewsResponseModel> CreateNewsAsync(string userId, CreateNewsRequestModel model)
         {
-            //var hold_user = await _repository.Account.GetByCondition(entity => entity.Id.Equals(userId), true).FirstOrDefaultAsync()
-            //    ?? throw new BadRequestException($"Can't find user with id {userId}");
+            if (model.Title.IsNullOrEmpty()) throw new BadRequestException("Title is required");
 
             var hold = new News
             {
@@ -50,12 +50,12 @@ namespace Service
             }
             await _repository.News.CreateAsync(hold);
             await _repository.Save();
-            return _mapper.Map<NewsReponseModel>(hold);
+            return _mapper.Map<NewsResponseModel>(hold);
         }
 
         public async Task DeleteNews(Guid id)
         {
-            var hold = await _repository.News.GetNews(id, false) ?? throw new BadRequestException("News wth id: " + id + "doesn't exist");
+            var hold = await _repository.News.GetNews(id, false) ?? throw new BadRequestException("News with id: " + id + " doesn't exist");
             var hold_newsFile = await _repository.NewsFile.GetByConditionAsync(n => n.NewsID.Equals(id), false);
             if(hold_newsFile.Any())
             {
@@ -65,17 +65,17 @@ namespace Service
             await _repository.Save();
         }
 
-        public async Task<(IEnumerable<NewsReponseModel> news, MetaData metaData)> GetNewsAsync(NewsRequestParameters newsParameter, bool trackChanges)
+        public async Task<(IEnumerable<NewsResponseModel> news, MetaData metaData)> GetNewsAsync(NewsRequestParameters newsParameter, bool trackChanges)
         {
             var newsFromDb = await _repository.News.GetNewsAsync(newsParameter, trackChanges) ?? throw new BadRequestException("Can't find any news");
-            var newsDto = _mapper.Map<IEnumerable<NewsReponseModel>>(newsFromDb);
+            var newsDto = _mapper.Map<IEnumerable<NewsResponseModel>>(newsFromDb);
             return (news: newsDto, metaData: newsFromDb.MetaData);
         }
 
-        public async Task<NewsReponseModel> GetNewsById(Guid id)
+        public async Task<NewsResponseModel> GetNewsById(Guid id)
         {
             var news = await _repository.News.GetNews(id, false) ?? throw new BadRequestException("Can't found news with id " + id);
-            return _mapper.Map<NewsReponseModel>(news);
+            return _mapper.Map<NewsResponseModel>(news);
         }
 
         public async Task UpdateNews(Guid id, UpdateNewsRequestModel model)

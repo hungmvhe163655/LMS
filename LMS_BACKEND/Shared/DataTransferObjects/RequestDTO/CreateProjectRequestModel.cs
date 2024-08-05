@@ -6,8 +6,6 @@
 
         public string? Description { get; set; }
 
-        public DateTime CreatedDate { get; set; }
-
         public int MaxMember { get; set; }
 
         public bool IsRecruiting { get; set; }
