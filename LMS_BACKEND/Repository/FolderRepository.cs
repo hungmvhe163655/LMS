@@ -29,11 +29,11 @@ namespace Repository
 
             var end = GetByCondition(x => hold.Contains(x.Id), false).SortContent(param.OrderBy);
 
-            var result = param.Take > 0
-                ? end
+            if (param.Cursor == null) return (end, 0);
+
+            var result = end
                 .Skip(param.Cursor ?? SCROLL_LIST.DEFAULT_TOP)
-                .Take(param.Take ?? SCROLL_LIST.TINY10)
-                : end;
+                .Take(param.Take ?? SCROLL_LIST.TINY10);
 
             return (result, result.Count() + param.Cursor ?? 0);
         }

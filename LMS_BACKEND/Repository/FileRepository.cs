@@ -21,6 +21,8 @@ namespace Repository
         {
             var hold = GetByCondition(x => x.FolderId.Equals(FolderId), false).Sort(param.OrderBy);
 
+            if (param.Cursor == null) return (hold, 0);
+
             var end = hold.Skip(param.Cursor ?? SCROLL_LIST.DEFAULT_TOP).Take(param.Take ?? SCROLL_LIST.TINY10);
 
             var taken = (await end.CountAsync()) + param.Cursor ?? 0;
