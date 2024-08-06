@@ -10,5 +10,6 @@ namespace Contracts.Interfaces
         bool EditFile(Files hold);
         Task<bool> CreateFile(Files hold);
         Task<IEnumerable<Files>> GetFiles(bool track, Guid FolderId);
+        IQueryable<Files> GetFileWithFolderId_NoPaged(string? orderBy, Guid folderId);
     }
 }

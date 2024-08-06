@@ -114,6 +114,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         public const string DownloadFolder = "{id:guid}/download";
 
+        public const string GetFolderContent = "{id:guid}/content";
+
         #endregion
 
         #region TokenAPIs
