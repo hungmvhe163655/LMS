@@ -13,7 +13,6 @@ namespace Shared.DataTransferObjects.ResponseDTO
         public string? CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
-        public Guid ProjectId { get; set; }
-        public bool IsRoot { get; set; }
+        //public bool IsRoot { get; set; }
     }
 }

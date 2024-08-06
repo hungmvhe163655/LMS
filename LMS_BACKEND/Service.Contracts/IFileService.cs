@@ -10,12 +10,13 @@ namespace Service.Contracts
         Task<FileResponseModel> CreateFile(FileUploadRequestModel model, Stream inputStream);
         Task<(byte[], FileResponseModel)> GetFile(Guid fileID);
         Task<FolderResponseModel> GetFolderWithId(Guid folderId);
-        Task<(IEnumerable<FolderResponseModel> Data, int DataLeft)> GetFolderFolders(FolderRequestParameters param, Guid folderID);
-        Task<(IEnumerable<FileResponseModel> Data, int CountLeft)> GetFolderFiles(FilesRequestParameters param, Guid folderID);
+        Task<(IEnumerable<FolderResponseModel> Data, int? Cursor)> GetFolderFolders(FolderRequestParameters param, Guid folderID);
+        Task<(byte[] Data, string FileName)> DownloadFolder(Guid id);
+        Task<(IEnumerable<FileResponseModel> Data, int? Cursor)> GetFolderFiles(FilesRequestParameters param, Guid folderID);
         Task EditFile(FileEditRequestModel model);
         Task DeleteFile(Guid id);
         Task EditFolder(FolderEditRequestModel model);
-        Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID);
+        Task<(GetFolderContentResponseModel Data, int? Cursor)> GetFolderContent(FolderRequestParameters param, Guid folderID);
         Task<List<FolderBranchDisplayResponseModel>> GetRootWithProjectId(Guid projectId);
         Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model);
         Task DeleteFolder(Guid folderID);

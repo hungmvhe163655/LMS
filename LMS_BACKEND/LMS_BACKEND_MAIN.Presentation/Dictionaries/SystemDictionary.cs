@@ -112,6 +112,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         public const string GetFolderFiles = "{id:guid}/content/files";
 
+        public const string DownloadFolder = "{id:guid}/download";
+
+        public const string GetFolderContent = "{id:guid}/content";
+
         #endregion
 
         #region TokenAPIs
@@ -138,11 +142,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         public const string AttachFileToTask = "add-file/{id:guid}/{fileid:guid}";
 
+        public const string AssignUserToTask = "{id:guid}/assign/user/{userid}";
+
         #endregion
 
         #region TaskListAPIs
 
         public const string MoveTaskToTaskList = "{tasklistid:guid}/tasks/{taskid:guid}";
+
+        public const string MoveTaskInTaskList = "{tasklistid:guid}/tasks/{taskid:guid}/move";
 
         #endregion
 
@@ -159,6 +167,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
         public const string ValidateJoinRequest = "{id:guid}/join-request";
 
         public const string GetProjects = "user/{userid}";
+
+        public const string MoveTaskListInProjectt = "{projectId:guid}/task-lists/{taskListId:guid}";
 
         #endregion
 
@@ -181,6 +191,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
         public const string GetCommentByTaskId = "task/{taskid:guid}";
 
         public const string CreateComment = "task/{taskid:guid}";
+
+        #endregion
+
+        #region SchedulesAPIs
+
+        public const string GetScheduleByDevice = "devices/{id:guid}";
 
         #endregion
     }

@@ -174,8 +174,8 @@ namespace LMS_BACKEND_MAIN.Extentions
 
             //Comment dong code nay lai truoc khi build app
 
-            // tu day
-
+             //tu day
+             
             var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
 
 
@@ -187,21 +187,19 @@ namespace LMS_BACKEND_MAIN.Extentions
 
             awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
 
-            var holdAccess = Environment.GetEnvironmentVariable("ENCRYPTED_ACCESS_KEY");
+            var holdAccess = Environment.GetEnvironmentVariable("ACCESS_KEY");
 
-            var holdSecret = Environment.GetEnvironmentVariable("ENCRYPTED_SECRET_KEY");
+            var holdSecret = Environment.GetEnvironmentVariable("SECRET_KEY");
 
-            if (holdAccess == null || holdSecret == null || encryptionKey == null || iv == null || url == null)
+            if (holdAccess == null || holdSecret == null || url == null)
                 throw new InvalidOperationException("environment variable not set.");
 
-            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
-                Decrypter.DecryptString(holdAccess, encryptionKey, iv),
-                Decrypter.DecryptString(holdSecret, encryptionKey, iv)
-            );
-            awsOptions.DefaultClientConfig.ServiceURL = Decrypter.DecryptString(url, encryptionKey, iv);
+            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(holdAccess, holdSecret);
+            
+            awsOptions.DefaultClientConfig.ServiceURL = url;
 
             services.AddDefaultAWSOptions(awsOptions);
-
+             
             //Den day
 
             services.AddAWSService<IAmazonS3>();

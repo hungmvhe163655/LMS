@@ -11,6 +11,7 @@ using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 using Shared.GlobalVariables;
+using System.IO.Compression;
 using System.Net;
 
 namespace Service
@@ -127,6 +128,50 @@ namespace Service
 
 
         }
+
+        private async Task<Dictionary<string, string>> GetFileMetaDataWithKeyAsync(List<Guid> fileIds)
+        {
+            return await _repositoryManager.File
+                                    .GetByCondition(x => fileIds.Contains(x.Id), false)
+                                    .ToDictionaryAsync(f => f.FileKey, f => f.Name);
+        }
+
+        public async Task<byte[]> DownloadAndZipFilesFromS3Async(Dictionary<string, string> fileMetadata)
+        {
+            var zipStream = new MemoryStream();
+
+            using (var archive = new ZipArchive(zipStream, ZipArchiveMode.Create, true))
+            {
+                foreach (var kvp in fileMetadata)
+                {
+                    var fileKey = kvp.Key;
+
+                    var originalFileName = kvp.Value;
+
+                    var request = new GetObjectRequest
+                    {
+                        BucketName = _bucketName,
+                        Key = fileKey
+                    };
+
+                    using (var response = await _s3Client.GetObjectAsync(request))
+                    using (var entryStream = response.ResponseStream)
+                    {
+                        var entry = archive.CreateEntry(originalFileName);
+
+                        using (var entryFileStream = entry.Open())
+                        {
+                            await entryStream.CopyToAsync(entryFileStream);
+                        }
+                    }
+                }
+            }
+
+            zipStream.Position = 0;
+
+            return zipStream.ToArray();
+        }
+
         private async Task<Files> FindFileById(Guid id)
         {
             var end = await _repositoryManager.File.GetFile(id, false).FirstOrDefaultAsync();
@@ -231,6 +276,20 @@ namespace Service
             await _repositoryManager.Save();
 
         }
+
+        public async Task<(byte[] Data, string FileName)> DownloadFolder(Guid id)
+        {
+            var hold_folder = await _repositoryManager.Folder.GetByCondition(x => x.Id.Equals(id), false).FirstOrDefaultAsync() ?? throw new BadRequestException("Folder doest existed");
+
+            var hold = (await _repositoryManager.File.GetByCondition(x => x.FolderId.Equals(id), false).ToListAsync()).Select(x => x.Id).ToList() ?? throw new BadRequestException("Folder don't exist or empty");
+
+            var hold_metadata = await GetFileMetaDataWithKeyAsync(hold);
+
+            var end = await DownloadAndZipFilesFromS3Async(hold_metadata);
+
+            return (end, hold_folder.Name ?? "Zipped");
+        }
+
         public async Task EditFolder(FolderEditRequestModel model)
         {
             var hold = _mappers.Map<Folder>(model);
@@ -257,8 +316,34 @@ namespace Service
             return folders;
         }
 
-        public async Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID)
+        public async Task<(GetFolderContentResponseModel Data, int? Cursor)> GetFolderContent(FolderRequestParameters param, Guid folderID)
         {
+            var hold_folders = await (await _repositoryManager.Folder.GetFolderWithDescendantDepth1Id_NoPaged(param.OrderBy, folderID)).ToListAsync();
+
+            var end_folders = hold_folders.Skip(param.Cursor ?? SCROLL_LIST.DEFAULT_TOP).Take(param.Take ?? SCROLL_LIST.TINY10).ToList();
+
+            var hold_files = await _repositoryManager.File.GetFileWithFolderId_NoPaged(param.OrderBy, folderID).ToListAsync();
+
+            int taken = end_folders.Count + (param.Cursor ?? SCROLL_LIST.DEFAULT_TOP);
+
+            if (!end_folders.Any() || end_folders.Count < (param.Take ?? SCROLL_LIST.TINY10))
+            {
+                var new_skip = (param.Cursor ?? SCROLL_LIST.DEFAULT_TOP) - hold_folders.Count;
+
+                var remain_take = (param.Take ?? SCROLL_LIST.TINY10) - end_folders.Count();
+
+                var end_files = hold_files.Skip(new_skip).Take(remain_take).ToList();
+
+                taken += end_files.Count;
+
+                return (new GetFolderContentResponseModel { Files = _mappers.Map<List<FileResponseModel>>(end_files), Folders = _mappers.Map<List<FolderResponseModel>>(end_folders) }, hold_folders.Count + hold_files.Count > taken ? taken : null);
+            }
+
+            return (new GetFolderContentResponseModel { Folders = _mappers.Map<List<FolderResponseModel>>(end_folders) }, hold_folders.Count + hold_files.Count > taken ? taken : null);
+
+
+
+            /*
             var hold_file = await _repositoryManager.File.GetFiles(false, folderID);
 
             var end = hold_file.ToList();
@@ -270,19 +355,22 @@ namespace Service
             foreach (var item in hold_folder_branch) folders.Add(await _repositoryManager.Folder.GetFolder(item.DescendantID, false));
 
             return new GetFolderContentResponseModel { Files = end, Folders = folders };
+            */
+
         }
-        public async Task<(IEnumerable<FolderResponseModel> Data, int DataLeft)> GetFolderFolders(FolderRequestParameters param, Guid folderID)
+
+        public async Task<(IEnumerable<FolderResponseModel> Data, int? Cursor)> GetFolderFolders(FolderRequestParameters param, Guid folderID)
         {
             var folders = await _repositoryManager.Folder.GetFolderWithDescendantDepth1Id(param, folderID);
 
-            return (_mappers.Map<IEnumerable<FolderResponseModel>>(folders.Data), folders.CountLeft);
+            return (_mappers.Map<IEnumerable<FolderResponseModel>>(folders.Data), folders.Cursor);
         }
 
-        public async Task<(IEnumerable<FileResponseModel> Data, int CountLeft)> GetFolderFiles(FilesRequestParameters param, Guid folderID)
+        public async Task<(IEnumerable<FileResponseModel> Data, int? Cursor)> GetFolderFiles(FilesRequestParameters param, Guid folderID)
         {
             var hold_file = await _repositoryManager.File.GetFileWithFolderId(param, folderID);
 
-            return (_mappers.Map<IEnumerable<FileResponseModel>>(hold_file.Data), hold_file.CountLeft);
+            return (_mappers.Map<IEnumerable<FileResponseModel>>(hold_file.Data), hold_file.Cursor);
         }
 
         public async Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model)

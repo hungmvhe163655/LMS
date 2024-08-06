@@ -14,10 +14,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             _service = service;
         }
-        [HttpGet]
-        public async Task<IActionResult> GetScheduleByDevice([FromBody] ScheduleRequestModel model)
+        [HttpGet(RoutesAPI.GetScheduleByDevice)]
+        public async Task<IActionResult> GetScheduleByDevice(Guid id, [FromBody] ScheduleRequestModel model)
         {
-            return Ok(await _service.ScheduleService.GetScheduleForDevice(model));
+            return Ok(await _service.ScheduleService.GetScheduleForDevice(model, id));
         }
 
         [HttpPost]
