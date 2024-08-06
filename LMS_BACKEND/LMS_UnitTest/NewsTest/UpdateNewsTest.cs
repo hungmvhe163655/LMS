@@ -2,6 +2,7 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Service;
 using Shared.DataTransferObjects.RequestDTO;
@@ -102,11 +103,11 @@ namespace LMS_UnitTest.NewsTest
                 Content = "Old Content"
             };
 
-            var existingFiles = new List<NewsFile>
-        {
-            new NewsFile { Id = Guid.NewGuid(), NewsID = id, FileKey = "oldFile1" },
-            new NewsFile { Id = Guid.NewGuid(), NewsID = id, FileKey = "oldFile2" }
-        };
+            var existingFiles = GetQueryableMockDbSet<NewsFile>(new List<NewsFile>
+            {
+                new NewsFile { Id = Guid.NewGuid(), NewsID = id, FileKey = "oldFile1" },
+                new NewsFile { Id = Guid.NewGuid(), NewsID = id, FileKey = "oldFile2" }
+            });
 
             var newFiles = model.FileKey.Select(fileKey => new NewsFile
             {
@@ -116,7 +117,7 @@ namespace LMS_UnitTest.NewsTest
             }).ToList();
 
             _repositoryManagerMock.Setup(repo => repo.News.GetNews(id, true)).ReturnsAsync(existingNews);
-            _repositoryManagerMock.Setup(repo => repo.NewsFile.GetByCondition(f => f.NewsID.Equals(id), false)).Returns(existingFiles.AsQueryable());
+            _repositoryManagerMock.Setup(repo => repo.NewsFile.GetByCondition(f => f.NewsID.Equals(id), false)).Returns(existingFiles);
             _repositoryManagerMock.Setup(repo => repo.NewsFile.DeleteRange(existingFiles));
             _repositoryManagerMock.Setup(repo => repo.NewsFile.AddRange(It.IsAny<IEnumerable<NewsFile>>()));
             _repositoryManagerMock.Setup(repo => repo.Save()).Returns(Task.CompletedTask);
@@ -165,6 +166,20 @@ namespace LMS_UnitTest.NewsTest
             _repositoryManagerMock.Verify(repo => repo.NewsFile.DeleteRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Never);
             _repositoryManagerMock.Verify(repo => repo.NewsFile.AddRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Never);
             _repositoryManagerMock.Verify(repo => repo.Save(), Times.Once);
+        }
+
+        private static DbSet<T> GetQueryableMockDbSet<T>(List<T> sourceList) where T : class
+        {
+            var queryable = sourceList.AsQueryable();
+
+            var dbSet = new Mock<DbSet<T>>();
+            dbSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
+            dbSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
+            dbSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
+            dbSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
+            dbSet.Setup(d => d.Add(It.IsAny<T>())).Callback<T>((s) => sourceList.Add(s));
+
+            return dbSet.Object;
         }
     }
 }
