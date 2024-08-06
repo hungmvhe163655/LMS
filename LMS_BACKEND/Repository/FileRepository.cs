@@ -29,6 +29,12 @@ namespace Repository
 
             return (end,hold.Count() > taken ? taken : null);
         }
+
+        public IQueryable<Files> GetFileWithFolderId_NoPaged(string? orderBy, Guid folderId)
+        {
+           return GetByCondition(x => x.FolderId.Equals(folderId), false).Sort(orderBy);
+        }
+
         public async Task<IEnumerable<Files>> GetFilesWithQuery(bool track, FileRequestParameters parameters)
         {
             if (parameters.SearchTerm != null)

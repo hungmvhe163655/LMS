@@ -316,8 +316,34 @@ namespace Service
             return folders;
         }
 
-        public async Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID)
+        public async Task<(GetFolderContentResponseModel Data, int? Cursor)> GetFolderContent(FolderRequestParameters param, Guid folderID)
         {
+            var hold_folders = await (await _repositoryManager.Folder.GetFolderWithDescendantDepth1Id_NoPaged(param.OrderBy, folderID)).ToListAsync();
+
+            var end_folders = hold_folders.Skip(param.Cursor ?? SCROLL_LIST.DEFAULT_TOP).Take(param.Take ?? SCROLL_LIST.TINY10).ToList();
+
+            var hold_files = await _repositoryManager.File.GetFileWithFolderId_NoPaged(param.OrderBy, folderID).ToListAsync();
+
+            int taken = end_folders.Count + (param.Cursor ?? SCROLL_LIST.DEFAULT_TOP);
+
+            if (!end_folders.Any() || end_folders.Count < (param.Take ?? SCROLL_LIST.TINY10))
+            {
+                var new_skip = (param.Cursor ?? SCROLL_LIST.DEFAULT_TOP) - hold_folders.Count;
+
+                var remain_take = (param.Take ?? SCROLL_LIST.TINY10) - end_folders.Count();
+
+                var end_files = hold_files.Skip(new_skip).Take(remain_take).ToList();
+
+                taken += end_files.Count;
+
+                return (new GetFolderContentResponseModel { Files = _mappers.Map<List<FileResponseModel>>(end_files), Folders = _mappers.Map<List<FolderResponseModel>>(end_folders) }, hold_folders.Count + hold_files.Count > taken ? taken : null);
+            }
+
+            return (new GetFolderContentResponseModel { Folders = _mappers.Map<List<FolderResponseModel>>(end_folders) }, hold_folders.Count + hold_files.Count > taken ? taken : null);
+
+
+
+            /*
             var hold_file = await _repositoryManager.File.GetFiles(false, folderID);
 
             var end = hold_file.ToList();
@@ -329,7 +355,10 @@ namespace Service
             foreach (var item in hold_folder_branch) folders.Add(await _repositoryManager.Folder.GetFolder(item.DescendantID, false));
 
             return new GetFolderContentResponseModel { Files = end, Folders = folders };
+            */
+
         }
+
         public async Task<(IEnumerable<FolderResponseModel> Data, int? Cursor)> GetFolderFolders(FolderRequestParameters param, Guid folderID)
         {
             var folders = await _repositoryManager.Folder.GetFolderWithDescendantDepth1Id(param, folderID);

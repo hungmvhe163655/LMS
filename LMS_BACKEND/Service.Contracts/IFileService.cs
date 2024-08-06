@@ -16,7 +16,7 @@ namespace Service.Contracts
         Task EditFile(FileEditRequestModel model);
         Task DeleteFile(Guid id);
         Task EditFolder(FolderEditRequestModel model);
-        Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID);
+        Task<(GetFolderContentResponseModel Data, int? Cursor)> GetFolderContent(FolderRequestParameters param, Guid folderID);
         Task<List<FolderBranchDisplayResponseModel>> GetRootWithProjectId(Guid projectId);
         Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model);
         Task DeleteFolder(Guid folderID);

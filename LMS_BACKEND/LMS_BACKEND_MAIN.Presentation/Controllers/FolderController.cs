@@ -41,17 +41,25 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpGet(RoutesAPI.GetFolderFolders)]
         public async Task<IActionResult> GetFolderFolders([FromQuery] FolderRequestParameters param, Guid id)
         {
-            var result = await _serviceManager.FileService.GetFolderFolders(param, id);
+            var (Data, Cursor) = await _serviceManager.FileService.GetFolderFolders(param, id);
 
-            return result.Cursor != null ? Ok(new { result.Data, result.Cursor }) : Ok(new { result.Data });
+            return Cursor != null ? Ok(new { Data, Cursor }) : Ok(new { Data });
         }
 
         [HttpGet(RoutesAPI.GetFolderFiles)]
         public async Task<IActionResult> GetFolderFiles([FromQuery] FilesRequestParameters param, Guid id)
         {
-            var result = await _serviceManager.FileService.GetFolderFiles(param, id);
+            var (Data, Cursor) = await _serviceManager.FileService.GetFolderFiles(param, id);
 
-            return result.Cursor != null ? Ok(new { result.Data, result.Cursor }) : Ok(new { result.Data });
+            return Cursor != null ? Ok(new { Data, Cursor }) : Ok(new { Data });
+        }
+
+        [HttpGet(RoutesAPI.GetFolderContent)]
+        public async Task<IActionResult> GetFolderContent([FromQuery] FolderRequestParameters param, Guid id)
+        {
+            var (Data, Cursor) = await _serviceManager.FileService.GetFolderContent(param, id);
+
+            return Cursor != null ? Ok(new { Data, Cursor }) : Ok(new { Data });
         }
 
         [HttpGet(RoutesAPI.GetProjectFolderScheme)]
