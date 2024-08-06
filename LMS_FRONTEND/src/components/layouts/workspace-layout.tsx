@@ -6,7 +6,7 @@ import { ProtectedRoute } from '@/lib/protected-route';
 import '/src/index.css';
 
 // eslint-disable-next-line import/order
-import { WorkspaceSidebar } from '../app/workspace-sidebar';
+import WorkspaceSidebar from '../app/workspace-sidebar';
 
 // Define the RootLayout component
 export default function WorkspaceLayout({ children }: { children: React.ReactNode }) {

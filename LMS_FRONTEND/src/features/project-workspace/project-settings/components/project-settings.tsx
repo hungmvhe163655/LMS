@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -16,6 +17,8 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 
+import { useProjectById } from '../api/get-project-by-id';
+
 interface ProjectSettingsForm {
   numberOfMembers: number;
   allowRequestsJoin: boolean;
@@ -25,19 +28,37 @@ interface ProjectSettingsForm {
 }
 
 const ProjectSettings: React.FC = () => {
-  const { register, handleSubmit, watch } = useForm<ProjectSettingsForm>({
+  const { projectId } = useParams<{ projectId: string }>();
+
+  const { register, handleSubmit, setValue, watch } = useForm<ProjectSettingsForm>({
     defaultValues: {
-      numberOfMembers: 5,
+      numberOfMembers: 0,
       allowRequestsJoin: false,
-      projectName: 'LMS',
+      projectName: '',
       projectDescription: '',
-      currentLeader: 'Mai Viet Hung'
+      currentLeader: ''
     }
   });
+
+  const { data: projectData, isLoading } = useProjectById({ projectId: projectId! });
+
+  useEffect(() => {
+    if (projectData) {
+      setValue('projectName', projectData.name);
+      setValue('projectDescription', projectData.description);
+      // Assuming currentLeader and numberOfMembers come from projectData
+      // setValue('currentLeader', projectData.currentLeader);
+      // setValue('numberOfMembers', projectData.numberOfMembers);
+    }
+  }, [projectData, setValue]);
 
   const onSubmit = (data: ProjectSettingsForm) => {
     console.log(data);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className='container mx-auto p-6'>
@@ -61,7 +82,7 @@ const ProjectSettings: React.FC = () => {
         </div>
         <div className='flex items-center space-x-4'>
           <Label className='min-w-[200px]'>Current Leader:</Label>
-          <Select>
+          <Select {...register('currentLeader')}>
             <SelectTrigger className='w-[180px]'>
               <SelectValue placeholder='Select a leader' />
             </SelectTrigger>
