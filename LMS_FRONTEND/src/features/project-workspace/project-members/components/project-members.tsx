@@ -24,7 +24,6 @@ const ProjectMembers: React.FC = () => {
     <div className='container mx-auto p-6'>
       <h1 className='mb-6 text-2xl font-bold'>Member Management</h1>
       <div className='mb-4 flex justify-between'>
-        <p className='text-lg'>Supervisor: Le Phuong Chi</p>
         <p className='text-lg'>Team Size: {members?.length}/5</p>
       </div>
       <Table className='min-w-full'>
