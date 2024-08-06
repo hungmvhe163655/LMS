@@ -19,5 +19,12 @@ namespace Repository
 
             DeleteRange(hold);
         }
+
+        public IQueryable<TaskHistory> GetTaskHistoriesWithTaskId(Guid taskId, bool track)
+        {
+            var hold = GetByCondition(x=>x.TaskGuid.Equals(taskId), track);
+
+            return hold;
+        }
     }
 }

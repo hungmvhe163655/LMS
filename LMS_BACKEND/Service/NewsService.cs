@@ -85,6 +85,7 @@ namespace Service
             if (model.FileKey?.Any() == true)
             {
                 var existingFiles = await _repository.NewsFile.GetByCondition(f => f.NewsID.Equals(hold.Id), false).ToListAsync();
+
                 if (existingFiles.Any())
                 {
                     _repository.NewsFile.DeleteRange(existingFiles);

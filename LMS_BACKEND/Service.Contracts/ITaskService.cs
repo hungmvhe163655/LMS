@@ -9,6 +9,8 @@ namespace Service.Contracts
     {
         Task<IEnumerable<TaskResponseModel>> GetTasksWithProjectId(Guid projectId);
         Task<IEnumerable<TaskResponseModel>> GetTasksWithTaskListId(Guid taskListId);
+
+        Task<IEnumerable<TaskHistory>> GetTaskHistoriesWithTaskId(Guid taskId);
         Task<TaskResponseModel> GetTaskByID(Guid id);
         Task AssignUserToTask(Guid taskId, string userId, string editor);
         Task<TaskResponseModel> CreateTask(TaskCreateRequestModel model, string hold_user);
