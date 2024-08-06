@@ -17,7 +17,7 @@ export type ResourceFile = {
 } & BaseItem;
 
 export type ResourceQueryParams = {
-  Cursor: number;
+  Cursor?: number;
   Take: number;
   OrderBy?: string;
 };

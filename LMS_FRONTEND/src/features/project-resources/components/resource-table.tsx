@@ -11,7 +11,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 import DragAndDropTable from '@/components/ui/dnd-table/dnd-table';
 
-import { useResource } from '../api/get-resource';
+import { useResources } from '../api/get-resource';
 import { ResourceQueryParams } from '../types/api';
 import { RESOURCE } from '../types/constant';
 
@@ -38,15 +38,16 @@ export function ResourceTable() {
   }, [sorting]);
 
   // Fetch folders
-  const { isError, isLoading, data, hasMore, fetchNextResourcePage } = useResource({
+  const { isError, isLoading, data, hasNextPage, fetchNextPage } = useResources({
     id: folderId,
     resourceQueryParameter
   });
 
   const columns = useMemo(() => getColumns(), []);
+  const flatData = useMemo(() => data?.pages.flatMap((page) => page.data), [data]);
 
   const table = useReactTable({
-    data,
+    data: flatData ?? [],
     columns,
     state: { sorting },
     getCoreRowModel: getCoreRowModel(),
@@ -86,10 +87,10 @@ export function ResourceTable() {
 
   return (
     <InfiniteScroll
-      dataLength={data.length}
-      next={fetchNextResourcePage}
-      hasMore={hasMore}
-      loader={<h4>Loading more 2 items...</h4>}
+      dataLength={flatData?.length ?? 0}
+      next={fetchNextPage}
+      hasMore={hasNextPage}
+      loader={<h4>Loading more items...</h4>}
     >
       <DragAndDropTable table={table} handleDragEnd={handleDragEnd} />
     </InfiniteScroll>
