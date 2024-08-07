@@ -84,7 +84,16 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             var pageResult = await _service.TaskService.GetTasksByUser(userId, parameters);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
+
             return Ok(pageResult.tasks);
+        }
+        [HttpGet]
+        [Route("{id:guid}/history")]
+        public async Task<IActionResult> GetTaskHistoriesWithId(Guid Id)
+        {
+            var result = await _service.TaskService.GetTaskHistoriesWithTaskId(Id);
+
+            return Ok(result);
         }
 
         private async Task<string> CheckUser()
@@ -97,5 +106,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return hold.Id;
         }
+
     }
 }

@@ -38,6 +38,13 @@ namespace Service
             return hold;
         }
 
+        public async Task<IEnumerable<TaskHistory>> GetTaskHistoriesWithTaskId(Guid taskId)
+        {
+            var hold = await _repository.TaskHistory.GetTaskHistoriesWithTaskId(taskId, false).ToListAsync();
+
+            return hold;
+        }
+
         /*
         public async Task<IEnumerable<TaskResponseModel>> GetTasksWithProjectId(Guid projectId)
         {
@@ -242,7 +249,7 @@ namespace Service
             var task = _mapper.Map(taskToPatch, taskEntity);
 
             var taskListId = taskEntity.TaskListId;
-            var tasks= await _repository.Task.GetTasksWithTaskListId(taskListId, true).OrderBy(t => t.Order).ToListAsync();
+            var tasks = await _repository.Task.GetTasksWithTaskListId(taskListId, true).OrderBy(t => t.Order).ToListAsync();
 
             if (taskToPatch.Order < 1 || taskToPatch.Order > tasks.Count) throw new BadRequestException("Invalid Order value");
 
