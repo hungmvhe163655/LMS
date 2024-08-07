@@ -10,8 +10,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const BookingSchedule: React.FC = () => {
   const { deviceId } = useParams<{ deviceId: string }>();
-  // const [dateInput, setDateInput] = useState(moment().format('YYYY-MM-DD'));
-  const [dateInput] = useState(moment().format('YYYY-MM-DD'));
+  const [viewDate, setViewDate] = useState(moment().startOf('month')); // Track the current view date
+  const [dateInput, setDateInput] = useState(viewDate.format('YYYY-MM-DD')); // Format the view date for API
   const {
     data: schedules,
     isLoading,
@@ -19,10 +19,12 @@ const BookingSchedule: React.FC = () => {
   } = useSchedulesForDevice({ deviceId: deviceId!, dateInput });
 
   useEffect(() => {
-    if (!deviceId) {
-      // Handle error if deviceId is missing
-    }
-  }, [deviceId]);
+    setDateInput(viewDate.format('YYYY-MM-DD')); // Update dateInput whenever viewDate changes
+  }, [viewDate]);
+
+  const handleNavigate = (newDate: moment.Moment) => {
+    setViewDate(newDate); // Update view date and trigger re-fetch
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -63,6 +65,8 @@ const BookingSchedule: React.FC = () => {
         events={events}
         views={['week', 'day', 'month']}
         components={{ event: EventComponent }}
+        date={viewDate.toDate()}
+        onNavigate={(newDate) => handleNavigate(moment(newDate))}
       />
     </div>
   );
