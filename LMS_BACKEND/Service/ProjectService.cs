@@ -175,5 +175,11 @@ namespace Service
             }
             await _repository.Save();
         }
+
+        public async Task<int> CountProject(string type)
+        {
+            var projects = await _repository.Project.GetByCondition(x => x.ProjectStatus.Equals(type), false).ToListAsync();
+            return projects.Count;
+        }
     }
 }

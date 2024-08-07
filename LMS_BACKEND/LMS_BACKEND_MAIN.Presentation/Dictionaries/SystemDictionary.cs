@@ -210,6 +210,12 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         public const string GetOverallReport = "overall-report";
 
+        public const string GetMemberReport = "member-report";
+
+        public const string GetActiveProject = "active-project";
+
+        public const string GetDeviceReport = "device-report";
+
         #endregion
     }
 }
