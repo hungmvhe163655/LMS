@@ -476,5 +476,20 @@ namespace Service
 
             await _repositoryManager.Save();
         }
+
+        public async Task MoveFileToFolder(Guid fileId, Guid newFolderID)
+        {
+            var file = await _repositoryManager.File.GetFile(fileId, true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid fileid");
+
+            var hold_folder = await _repositoryManager.Folder.GetFolder(file.FolderId, false);
+
+            var project_folders = await _repositoryManager.Folder.GetFoldersByProjectId(hold_folder.ProjectId, false).Select(y => y.Id).ToListAsync() ?? throw new Exception($"Internalerror {nameof(MoveFileToFolder)}");
+
+            if (!project_folders.Contains(newFolderID)) throw new BadRequestException("Destination id is invalid or folder doesn't beloging in the same project");
+
+            file.FolderId = newFolderID;
+
+            await _repositoryManager.Save();
+        }
     }
 }

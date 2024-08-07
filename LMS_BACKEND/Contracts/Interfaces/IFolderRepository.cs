@@ -12,5 +12,6 @@ namespace Contracts.Interfaces
         Task<bool> AddFolder(Folder folder);
         bool UpdateFolder(Folder folder);
         IQueryable<Folder> GetRootByProjectId(Guid projectId);
+        IQueryable<Folder> GetFoldersByProjectId(Guid projectId, bool track);
     }
 }

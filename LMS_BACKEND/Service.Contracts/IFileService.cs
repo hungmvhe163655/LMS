@@ -24,6 +24,7 @@ namespace Service.Contracts
         Task<string> UploadFile(Stream inputStream, string mime, string type);
         Task<byte[]> DownloadFile(string fileKey);
         Task RemoveFile(string fileKey);
+        Task MoveFileToFolder(Guid fileId, Guid newFolderID);
     }
 
 }
