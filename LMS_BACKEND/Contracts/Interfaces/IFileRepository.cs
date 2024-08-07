@@ -6,9 +6,10 @@ namespace Contracts.Interfaces
     public interface IFileRepository : IRepositoryBase<Files>
     {
         IQueryable<Files> GetFile(Guid id, bool track);
-        Task<(IQueryable<Files> Data, int CountLeft)> GetFileWithFolderId(FilesRequestParameters param, Guid FolderId);
+        Task<(IQueryable<Files> Data, int? Cursor)> GetFileWithFolderId(FilesRequestParameters param, Guid FolderId);
         bool EditFile(Files hold);
         Task<bool> CreateFile(Files hold);
         Task<IEnumerable<Files>> GetFiles(bool track, Guid FolderId);
+        IQueryable<Files> GetFileWithFolderId_NoPaged(string? orderBy, Guid folderId);
     }
 }

@@ -4,7 +4,7 @@ namespace Shared.DataTransferObjects.ResponseDTO
 {
     public class GetFolderContentResponseModel
     {
-        public ICollection<Folder> Folders { get; set; } = new List<Folder> { };
-        public ICollection<Files> Files { get; set; } = new List<Files> { };
+        public ICollection<FolderResponseModel> Folders { get; set; } = new List<FolderResponseModel> { };
+        public ICollection<FileResponseModel> Files { get; set; } = new List<FileResponseModel> { };
     }
 }

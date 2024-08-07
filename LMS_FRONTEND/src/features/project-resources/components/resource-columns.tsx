@@ -33,7 +33,6 @@ export function getColumns(): ColumnDef<ResourceFolder | ResourceFile>[] {
           </div>
         );
       },
-      enableHiding: false,
       enableSorting: false
     },
     {
@@ -51,6 +50,14 @@ export function getColumns(): ColumnDef<ResourceFolder | ResourceFile>[] {
     {
       accessorKey: 'size',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Size' />,
+      cell: ({ row }) => {
+        return row.original.type === RESOURCE.FILE ? humanFileSize(row.original.size) : '-';
+      },
+      enableSorting: false,
+      enableHiding: false
+    },
+    {
+      id: 'actions',
       cell: ({ row }) => {
         return row.original.type === RESOURCE.FILE ? humanFileSize(row.original.size) : '-';
       },

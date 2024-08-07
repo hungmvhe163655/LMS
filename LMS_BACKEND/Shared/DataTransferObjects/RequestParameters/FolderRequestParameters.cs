@@ -8,8 +8,8 @@ namespace Shared.DataTransferObjects.RequestParameters
 {
     public class FolderRequestParameters
     {
-        public int? Top { get; set; } = 0;
-        public int? Take { get; set; } = 0;
+        public int? Cursor { get; set; }
+        public int? Take { get; set; }
         public string? OrderBy { get; set; }
     }
 }

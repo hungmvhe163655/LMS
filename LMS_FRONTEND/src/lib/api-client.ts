@@ -82,27 +82,22 @@ api.interceptors.response.use(
         refreshToken: getRefreshToken()
       };
 
-      try {
-        const response = await axios.post(`${env.API_URL}/token/refresh-token`, token);
-        const { accessToken, refreshToken } = response.data;
+      const response = await axios.post(`${env.API_URL}/token/refresh-token`, token);
+      const { accessToken, refreshToken } = response.data;
 
-        // Nếu token được làm mới lại thì gửi lại Request
-        if (refreshToken) {
-          setAccessToken(accessToken);
-          setRefreshToken(refreshToken);
+      // Nếu token được làm mới lại thì gửi lại Request
+      if (refreshToken) {
+        setAccessToken(accessToken);
+        setRefreshToken(refreshToken);
 
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-          return api(originalRequest);
-        }
-
-        return Promise.reject(error);
-      } catch (error) {
-        const { clearAccessData } = authStore.getState();
-        clearAccessData();
-        clearTokens();
-        window.location.href = '/auth/login';
-        return Promise.reject(error);
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+        return api(originalRequest);
       }
+      const { clearAccessData } = authStore.getState();
+      clearAccessData();
+      clearTokens();
+      window.location.href = '/auth/login';
+      return Promise.reject(error);
     }
 
     toast({

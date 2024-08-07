@@ -6,5 +6,6 @@ namespace Contracts.Interfaces
     {
         Task AddTaskHistory(TaskHistory task);
         void DeleteTaskHistory(Guid taskId);
+        IQueryable<TaskHistory> GetTaskHistoriesWithTaskId(Guid taskId, bool track);
     }
 }

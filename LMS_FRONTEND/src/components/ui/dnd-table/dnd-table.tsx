@@ -9,6 +9,7 @@ import {
   KeyboardSensor
 } from '@dnd-kit/core';
 import { flexRender, Table as TanstackTable } from '@tanstack/react-table';
+import React from 'react';
 
 import {
   Table,
@@ -26,7 +27,7 @@ interface DragAndDropTableProps<TData> {
   handleDragEnd: (event: DragEndEvent) => void;
 }
 
-const DragAndDropTable = <TData,>({ table, handleDragEnd }: DragAndDropTableProps<TData>) => {
+const DragAndDropTable: React.FC<DragAndDropTableProps<any>> = ({ table, handleDragEnd }) => {
   const sensors = useSensors(
     useSensor(MouseSensor),
     useSensor(TouchSensor),

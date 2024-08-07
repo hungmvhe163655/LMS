@@ -84,7 +84,7 @@ namespace Service
             {
                 var hold_old_leader = members.Where(x => x.IsLeader && !x.UserId.Equals(userID)).FirstOrDefault();
 
-                if(hold_old_leader != null) hold_old_leader.IsLeader = false;
+                if (hold_old_leader != null) hold_old_leader.IsLeader = false;
 
                 hold_new_leader.IsLeader = true;
             }
@@ -143,7 +143,7 @@ namespace Service
 
             var folders = new List<Folder>();
 
-            return new GetFolderContentResponseModel { Files = end.ToList(), Folders = folders };
+            return new GetFolderContentResponseModel { Files = _mapper.Map<List<FileResponseModel>>(end.ToList()), Folders = _mapper.Map<List<FolderResponseModel>>(folders) };
         }
 
         public async Task<IEnumerable<AccountRequestJoinResponseModel>> GetJoinRequest(Guid projectId)
