@@ -17,7 +17,7 @@ namespace Service
     {
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
-        private readonly IHubContext<NotificationHub> _hubContext;
+        //private readonly IHubContext<NotificationHub> _hubContext;
 
         public ProjectService(IRepositoryManager repository, IMapper mapper)
         {
@@ -90,7 +90,9 @@ namespace Service
 
                 hold_new_leader.IsLeader = true;
             }
-            _mapper.Map(model, hold);    
+            _mapper.Map(model, hold);
+
+            //foreach (var item in members) await _hubContext.Clients.Groups(item.UserId).SendAsync("ReceiveUserNotification", _mapper.Map<NotificationResponseModel>(hold));
 
             await _repository.Save();
         }

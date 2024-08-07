@@ -11,19 +11,21 @@ namespace Servive.Hubs
             await Clients.All.SendAsync("ReceiveSystemNotification", notification);
         }
 
-        public async Task SendProjectNotification(string projectId, NotificationResponseModel notification)
+        public async Task SendProjectNotification(string UserId, NotificationResponseModel notification)
         {
-            await Clients.Group(projectId).SendAsync("ReceiveProjectNotification", notification);
+            await Clients.Group(UserId).SendAsync("ReceiveUserNotification", notification);
         }
 
-        public async Task AddToProjectGroup(string projectId)
+        public async Task AddToUserGroup(string UserId)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, projectId);
+            await Groups.AddToGroupAsync(Context.ConnectionId, UserId);
+            Console.WriteLine($"Client {Context.ConnectionId} added to group {UserId}");
         }
 
-        public async Task RemoveFromProjectGroup(string projectId)
+        public async Task RemoveFromUserGroup(string UserId)
         {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, projectId);
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, UserId);
+            Console.WriteLine($"Client {Context.ConnectionId} removed from group {UserId}");
         }
     }
 }

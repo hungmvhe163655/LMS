@@ -40,12 +40,10 @@ namespace Service
 
         private readonly IRepositoryManager _repositoryManager;
 
-        private readonly IHubContext<NotificationHub> _hubContext;
-
 
         private readonly string _Secret;
         private Account? _account;
-        public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<Account> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IRepositoryManager repositoryManager, IHubContext<NotificationHub> hub)
+        public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<Account> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IRepositoryManager repositoryManager)
         {
             _logger = logger;
 
@@ -66,8 +64,6 @@ namespace Service
             _Secret = hold ?? throw new Exception("Failed to find variable for Secret");
 
             _repositoryManager = repositoryManager;
-
-            _hubContext = hub;
         }
         public async Task<AccountReturnModel> Register(RegisterRequestModel model)
         {
@@ -255,15 +251,6 @@ namespace Service
                 if (_account.IsBanned)
                 {
                     return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = $"ISBANNED|{_account.UserName}" };
-                }
-                if(_account.TwoFactorEnabled)
-                {
-                    var hold_projects = await _repositoryManager.Member.GetByCondition(x => x.UserId.Equals(_account.Id), false).Select(y => y.ProjectId).ToListAsync();
-
-                    foreach (var projectId in hold_projects)
-                    {
-                        await _hubContext.Clients.User(_account.Id).SendAsync("AddToProjectGroup", projectId);
-                    }
                 }
 
                 return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = "SUCCESS|" + (_account.TwoFactorEnabled ? "TWOFACTOR" : "ONEFACTOR") };
