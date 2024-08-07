@@ -2,8 +2,10 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
+using Servive.Hubs;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
@@ -15,6 +17,7 @@ namespace Service
     {
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
         public ProjectService(IRepositoryManager repository, IMapper mapper)
         {
@@ -87,7 +90,7 @@ namespace Service
 
                 hold_new_leader.IsLeader = true;
             }
-            _mapper.Map(model, hold);
+            _mapper.Map(model, hold);    
 
             await _repository.Save();
         }

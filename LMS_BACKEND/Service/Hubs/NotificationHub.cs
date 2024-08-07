@@ -1,21 +1,29 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.SignalR;
+using Shared.DataTransferObjects.ResponseDTO;
 
 namespace Servive.Hubs
 {
     public class NotificationHub : Hub
     {
-        public async Task SendNotifyToProject(string projectID, Notification noti)
+        public async Task SendSystemNotification(NotificationResponseModel notification)
         {
-            await Clients.Group(projectID).SendAsync("ReceiveMessage", noti);
+            await Clients.All.SendAsync("ReceiveSystemNotification", notification);
         }
-        public async Task AddToTeam(string projectID)
+
+        public async Task SendProjectNotification(string projectId, NotificationResponseModel notification)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, projectID);
+            await Clients.Group(projectId).SendAsync("ReceiveProjectNotification", notification);
         }
-        public async Task RemoveFromTeam(string projectID)
+
+        public async Task AddToProjectGroup(string projectId)
         {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, projectID);
+            await Groups.AddToGroupAsync(Context.ConnectionId, projectId);
+        }
+
+        public async Task RemoveFromProjectGroup(string projectId)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, projectId);
         }
     }
 }
