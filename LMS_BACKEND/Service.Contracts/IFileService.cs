@@ -18,7 +18,7 @@ namespace Service.Contracts
         Task EditFolder(FolderEditRequestModel model);
         Task<(GetFolderContentResponseModel Data, int? Cursor)> GetFolderContent(FolderRequestParameters param, Guid folderID);
         Task<List<FolderBranchDisplayResponseModel>> GetRootWithProjectId(Guid projectId);
-        Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model);
+        Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model, string userId, Guid AncestorID);
         Task DeleteFolder(Guid folderID);
         Task AttachToTask(Guid taskId, Guid fileID);
         Task<string> UploadFile(Stream inputStream, string mime, string type);

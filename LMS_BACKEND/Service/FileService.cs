@@ -373,39 +373,35 @@ namespace Service
             return (_mappers.Map<IEnumerable<FileResponseModel>>(hold_file.Data), hold_file.Cursor);
         }
 
-        public async Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model)
+        public async Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model, string userId, Guid AncestorId)
         {
+            if (AncestorId == Guid.Empty) throw new BadRequestException("AncestorId can not be null");
+
+            var hold_father = await _repositoryManager.Folder.GetByCondition(x => x.Id.Equals(AncestorId), false).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid FolderID");
+
+            var hold_ancs = await _repositoryManager.FolderClosure.FindAncestors(AncestorId, true).ToListAsync() ?? throw new BadRequestException("Create a root folder is not allowed");
+
             var hold_folder = new Folder
             {
                 Id = Guid.NewGuid(),
-                CreatedBy = model.CreatedBy,
-                ProjectId = model.ProjectId,
+                CreatedBy = userId,
+                ProjectId = hold_father.ProjectId,
                 CreatedDate = DateTime.Now,
                 LastModifiedDate = DateTime.Now,
                 Name = model.Name
             };
-            if (model.ProjectId == Guid.Empty) throw new BadRequestException("Project Id can not be null");
 
-            if (model.AncestorId != Guid.Empty)
+            var end = new List<FolderClosure>();
+
+            foreach (var item in hold_ancs)
             {
-                var hold_ancs = await _repositoryManager.FolderClosure.FindAncestors(model.AncestorId, true).ToListAsync();
-
-                var end = new List<FolderClosure>();
-
-                foreach (var item in hold_ancs)
-                {
-                    end.Add(new FolderClosure { AncestorID = item.AncestorID, DescendantID = hold_folder.Id, Depth = item.Depth + 1 });
-                }
-                end.Add(new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 });
-
-                await _repositoryManager.Folder.AddFolder(hold_folder);
-
-                await _repositoryManager.FolderClosure.AddRange(end);
+                end.Add(new FolderClosure { AncestorID = item.AncestorID, DescendantID = hold_folder.Id, Depth = item.Depth + 1 });
             }
-            else
-            {
-                throw new BadRequestException("AncestorId can not be null");
-            }
+            end.Add(new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 });
+
+            await _repositoryManager.Folder.AddFolder(hold_folder);
+
+            await _repositoryManager.FolderClosure.AddRange(end);
 
             await _repositoryManager.Save();
 

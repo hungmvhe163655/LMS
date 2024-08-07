@@ -1,4 +1,5 @@
-﻿using LMS_BACKEND_MAIN.Presentation.Dictionaries;
+﻿using Entities.Exceptions;
+using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using System.Security.Claims;
 
 namespace LMS_BACKEND_MAIN.Presentation.Controllers
 {
@@ -68,10 +70,10 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(await _serviceManager.FileService.GetRootWithProjectId(id));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateFolder(CreateFolderRequestModel model)
+        [HttpPost("{id:guid}")]
+        public async Task<IActionResult> CreateFolder(Guid id, CreateFolderRequestModel model)
         {
-            var result = await _serviceManager.FileService.CreateFolder(model);
+            var result = await _serviceManager.FileService.CreateFolder(model, await CheckUser(), id);
 
             if (result == null)
             {
@@ -86,6 +88,17 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             await _serviceManager.FileService.DeleteFolder(id);
 
             return Ok(new ResponseMessage { Message = "DELETEFILE" });
+        }
+
+        private async Task<string> CheckUser()
+        {
+            var userClaims = User.Claims;
+
+            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            var hold = await _serviceManager.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
+
+            return hold.Id;
         }
 
     }
