@@ -96,7 +96,7 @@ const SortableTaskList: React.FC<TaskListProps> = ({
       style={style}
       {...attributes}
       {...listeners}
-      className='w-80 rounded-md border bg-white p-4 shadow-md'
+      className='max-h-dvh w-80 overflow-y-auto rounded-md border bg-white p-4 shadow-md'
     >
       <div className='mb-2 flex items-center justify-between'>
         <h3 className='text-xl font-semibold'>
