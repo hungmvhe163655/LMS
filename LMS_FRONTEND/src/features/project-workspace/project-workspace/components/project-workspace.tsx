@@ -178,19 +178,20 @@ const ProjectWorkspace: React.FC = () => {
   };
 
   return (
-    <div className='h-fit min-h-screen bg-gray-100 p-4'>
+    <div className='size-full overflow-x-auto bg-gray-100 p-4'>
       <h1 className='mb-4 text-2xl font-bold'>Project Workspace</h1>
       <p className='text-lg font-medium'>ID in the workspace: {projectId}</p>
       <Button onClick={handleAddTaskList} className='mb-4'>
         Add New Task List
       </Button>
+
       <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd} sensors={sensors}>
         <SortableContext
           items={taskLists?.map((list) => list.id) || []}
           strategy={horizontalListSortingStrategy}
           disabled={isDialogOpen} // Disable sorting if dialog is open
         >
-          <div className='flex gap-4 overflow-auto'>
+          <ol className='flex max-h-[60dvh] min-w-fit flex-1 gap-4'>
             {taskLists?.map((taskList) => (
               <SortableTaskList
                 key={taskList.id}
@@ -201,7 +202,7 @@ const ProjectWorkspace: React.FC = () => {
                 projectId={projectId?.toString()}
               />
             ))}
-          </div>
+          </ol>
         </SortableContext>
       </DndContext>
     </div>

@@ -1,6 +1,7 @@
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import React, { useState } from 'react';
+import { Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,11 +17,11 @@ interface TaskListProps {
   taskList: TaskListType;
   tasks: Task[];
   projectId: string | undefined;
-  setTasks: React.Dispatch<React.SetStateAction<TaskListType[]>>;
-  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>; // Add setIsDialogOpen prop
+  setTasks: Dispatch<SetStateAction<TaskListType[]>>;
+  setIsDialogOpen: Dispatch<SetStateAction<boolean>>; // Add setIsDialogOpen prop
 }
 
-const SortableTaskList: React.FC<TaskListProps> = ({
+const SortableTaskList: FC<TaskListProps> = ({
   taskList,
   tasks,
   setTasks,
@@ -91,33 +92,34 @@ const SortableTaskList: React.FC<TaskListProps> = ({
   };
 
   return (
-    <div
+    <li
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
-      className='max-h-dvh w-80 overflow-y-auto rounded-md border bg-white p-4 shadow-md'
+      className='relative w-full overflow-auto rounded-md border bg-slate-300 px-4 shadow-md'
     >
-      <div className='mb-2 flex items-center justify-between'>
+      <div className='sticky top-0 flex justify-between bg-slate-300 p-3 align-middle'>
         <h3 className='text-xl font-semibold'>
           <div>{taskList.name}</div>
           {/* <div>{taskList.id}</div> */}
           {/* <span className='text-sm'>({taskList.maxTasks?.valueOf()} Max Tasks)</span> */}
         </h3>
+        <div className='flex space-x-2 align-middle'>
+          <Button
+            variant='success'
+            size='sm'
+            onClick={() => setIsUpdateDialogOpen(true)}
+            data-no-dnd='true'
+          >
+            <Pencil2Icon />
+          </Button>
+          <Button variant='destructive' size='sm' onClick={handleDeleteTaskList} data-no-dnd='true'>
+            <TrashIcon />
+          </Button>
+        </div>
       </div>
-      <div>
-        <Button
-          variant='outline'
-          size='sm'
-          onClick={() => setIsUpdateDialogOpen(true)}
-          data-no-dnd='true'
-        >
-          Edit
-        </Button>
-        <Button variant='destructive' size='sm' onClick={handleDeleteTaskList} data-no-dnd='true'>
-          Delete
-        </Button>
-      </div>
+
       <hr className='my-2' />
       <SortableContext items={tasks.map((task) => task.id)} strategy={verticalListSortingStrategy}>
         {renderPlaceholderTask()}
@@ -147,7 +149,7 @@ const SortableTaskList: React.FC<TaskListProps> = ({
         taskList={taskList}
         setTasks={setTasks}
       />
-    </div>
+    </li>
   );
 };
 
