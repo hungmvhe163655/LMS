@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 import { Link } from '@/components/app/link';
@@ -9,22 +9,32 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { Input } from '@/components/ui/input';
 
 const formSchema = z.object({
-  searchTerm: z.string()
+  searchTerm: z.string().optional()
 });
 
 export function NewsTableToolbarActions() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      searchTerm: searchParams.get('search_term') ?? ''
+      searchTerm: new URLSearchParams(location.search).get('search_term') ?? ''
     }
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    searchParams.set('search_term', values.searchTerm);
-    setSearchParams(searchParams);
+    const queryParams = new URLSearchParams();
+
+    queryParams.set('page', '1');
+    // Include the `search_term` parameter if provided
+    if (values.searchTerm) {
+      queryParams.set('search_term', values.searchTerm);
+    }
+
+    navigate(`${location.pathname}?${queryParams.toString()}`, {
+      replace: true
+    });
   }
 
   return (
