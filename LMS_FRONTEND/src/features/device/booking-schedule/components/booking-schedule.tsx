@@ -10,7 +10,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const BookingSchedule: React.FC = () => {
   const { deviceId } = useParams<{ deviceId: string }>();
-  const [viewDate, setViewDate] = useState(moment().startOf('month')); // Track the current view date
+  const [viewDate, setViewDate] = useState(moment('2024-07-24')); // Track the current view date
   const [dateInput, setDateInput] = useState(viewDate.format('YYYY-MM-DD')); // Format the view date for API
   const {
     data: schedules,

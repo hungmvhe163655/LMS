@@ -5,19 +5,19 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import { useAddNewTask } from '../api/add-new-task'; // Import the add new task hook
-import { useDeleteTaskList } from '../api/delete-tasklist'; // Import the delete task list hook
+import { useAddNewTask } from '../api/add-new-task';
+import { useDeleteTaskList } from '../api/delete-tasklist';
 import type { Task, TaskList as TaskListType } from '../types/project-types';
 
 import SortableTask from './sortable-task';
-import UpdateTaskListDialog from './update-task-list-dialog'; // Import the new dialog component
+import UpdateTaskListDialog from './update-task-list-dialog';
 
 interface TaskListProps {
   taskList: TaskListType;
   tasks: Task[];
   projectId: string | undefined;
   setTasks: React.Dispatch<React.SetStateAction<TaskListType[]>>;
-  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>; // Add setIsDialogOpen prop
+  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SortableTaskList: React.FC<TaskListProps> = ({
@@ -109,7 +109,10 @@ const SortableTaskList: React.FC<TaskListProps> = ({
         <Button
           variant='outline'
           size='sm'
-          onClick={() => setIsUpdateDialogOpen(true)}
+          onClick={() => {
+            setIsUpdateDialogOpen(true);
+            setIsDialogOpen(true);
+          }}
           data-no-dnd='true'
         >
           Edit
@@ -122,11 +125,7 @@ const SortableTaskList: React.FC<TaskListProps> = ({
       <SortableContext items={tasks.map((task) => task.id)} strategy={verticalListSortingStrategy}>
         {renderPlaceholderTask()}
         {tasks.map((task) => (
-          <SortableTask
-            key={task.id}
-            task={task}
-            setIsDialogOpen={setIsDialogOpen} // Pass the state setter to children
-          />
+          <SortableTask key={task.id} task={task} setIsDialogOpen={setIsDialogOpen} />
         ))}
       </SortableContext>
       <div className='mt-4'>
@@ -143,7 +142,10 @@ const SortableTaskList: React.FC<TaskListProps> = ({
       </div>
       <UpdateTaskListDialog
         isOpen={isUpdateDialogOpen}
-        onClose={() => setIsUpdateDialogOpen(false)}
+        onClose={() => {
+          setIsUpdateDialogOpen(false);
+          setIsDialogOpen(false);
+        }}
         taskList={taskList}
         setTasks={setTasks}
       />

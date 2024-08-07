@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { useUpdateTaskList } from '../api/update-task-list'; // Correct import
+import { useUpdateTaskList } from '../api/update-task-list';
 import { TaskList } from '../types/project-types';
 
 const taskListSchema = z.object({
@@ -44,18 +44,9 @@ interface UpdateTaskListDialogProps {
 const UpdateTaskListDialog: React.FC<UpdateTaskListDialogProps> = ({
   isOpen,
   onClose,
-  taskList,
-  setTasks
+  taskList
 }) => {
-  const { mutate: updateTaskList } = useUpdateTaskList({
-    mutationConfig: {
-      onSuccess: (updatedTaskList) => {
-        setTasks((prev) =>
-          prev.map((list) => (list.id === updatedTaskList.id ? updatedTaskList : list))
-        );
-      }
-    }
-  });
+  const { mutate: updateTaskList } = useUpdateTaskList();
 
   const form = useForm<TaskListFormData>({
     resolver: zodResolver(taskListSchema),

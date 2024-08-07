@@ -4,6 +4,7 @@ import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 
 import type { TaskList } from '../types/project-types';
+import { taskListKeys } from '../utils/queries';
 
 export const getTaskLists = async (projectId: string): Promise<TaskList[]> => {
   const response = await api.get(`/projects/${projectId}/task-lists`);
@@ -12,7 +13,7 @@ export const getTaskLists = async (projectId: string): Promise<TaskList[]> => {
 
 export const getTaskListsQueryOptions = (projectId: string) => {
   return queryOptions({
-    queryKey: ['task-lists', projectId],
+    queryKey: taskListKeys.details(projectId),
     queryFn: () => getTaskLists(projectId)
   });
 };
