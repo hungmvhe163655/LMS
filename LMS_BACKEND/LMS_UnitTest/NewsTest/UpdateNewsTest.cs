@@ -2,6 +2,7 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using LMS_UnitTest.Helper;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Service;
@@ -9,6 +10,7 @@ using Shared.DataTransferObjects.RequestDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -50,7 +52,7 @@ namespace LMS_UnitTest.NewsTest
         }
 
         [Fact]
-        public async Task UpdateNews_ShouldUpdateNews_WhenModelIsValid()
+        public async Task UpdateNews_ShouldUpdateNews_WhenModelIsValid_HaveFiles()
         {
             // Arrange
             var id = Guid.NewGuid();
@@ -68,8 +70,10 @@ namespace LMS_UnitTest.NewsTest
                 Content = "Old Content"
             };
 
+            var mockQueryable = MockQueryableExtensions.CreateMockQueryable(new List<NewsFile>().AsQueryable());
+
             _repositoryManagerMock.Setup(repo => repo.News.GetNews(id, true)).ReturnsAsync(existingNews);
-            _repositoryManagerMock.Setup(repo => repo.NewsFile.GetByCondition(f => f.NewsID.Equals(id), false)).Returns(new List<NewsFile>().AsQueryable());
+            _repositoryManagerMock.Setup(repo => repo.NewsFile.GetByCondition(It.IsAny<Expression<Func<NewsFile, bool>>>(), false)).Returns(mockQueryable.Object);
             _repositoryManagerMock.Setup(repo => repo.Save()).Returns(Task.CompletedTask);
             _mapperMock.Setup(mapper => mapper.Map(model, existingNews));
 
@@ -79,10 +83,47 @@ namespace LMS_UnitTest.NewsTest
             // Assert
             _repositoryManagerMock.Verify(repo => repo.News.GetNews(id, true), Times.Once);
             _mapperMock.Verify(mapper => mapper.Map(model, existingNews), Times.Once);
-            _repositoryManagerMock.Verify(repo => repo.NewsFile.DeleteRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Once);
+            _repositoryManagerMock.Verify(repo => repo.NewsFile.DeleteRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Never);
+            _repositoryManagerMock.Verify(repo => repo.NewsFile.AddRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Once);
+            _repositoryManagerMock.Verify(repo => repo.Save(), Times.Once);
+        }[Fact]
+        public async Task UpdateNews_ShouldUpdateNews_WhenModelIsValid_NotHaveFile()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var model = new UpdateNewsRequestModel
+            {
+                Title = "Updated Title",
+                Content = "Updated Content",
+                FileKey = new List<string> { "file1", "file2" }
+            };
+
+            var existingNews = new News
+            {
+                Id = id,
+                Title = "Old Title",
+                Content = "Old Content"
+            };
+
+            var mockQueryable = MockQueryableExtensions.CreateMockQueryable(new List<NewsFile>().AsQueryable());
+
+            _repositoryManagerMock.Setup(repo => repo.News.GetNews(id, true)).ReturnsAsync(existingNews);
+            _repositoryManagerMock.Setup(repo => repo.NewsFile.GetByCondition(It.IsAny<Expression<Func<NewsFile, bool>>>(), false)).Returns(mockQueryable.Object);
+            _repositoryManagerMock.Setup(repo => repo.Save()).Returns(Task.CompletedTask);
+            _mapperMock.Setup(mapper => mapper.Map(model, existingNews));
+
+            // Act
+            await _newsServiceMock.UpdateNews(id, model);
+
+            // Assert
+            _repositoryManagerMock.Verify(repo => repo.News.GetNews(id, true), Times.Once);
+            _mapperMock.Verify(mapper => mapper.Map(model, existingNews), Times.Once);
+            _repositoryManagerMock.Verify(repo => repo.NewsFile.DeleteRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Never);
             _repositoryManagerMock.Verify(repo => repo.NewsFile.AddRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Once);
             _repositoryManagerMock.Verify(repo => repo.Save(), Times.Once);
         }
+
+
 
         [Fact]
         public async Task UpdateNews_ShouldDeleteExistingFiles_WhenFileKeysProvided()
@@ -103,11 +144,15 @@ namespace LMS_UnitTest.NewsTest
                 Content = "Old Content"
             };
 
-            var existingFiles = GetQueryableMockDbSet<NewsFile>(new List<NewsFile>
+            var existingFilesList = new List<NewsFile>
             {
                 new NewsFile { Id = Guid.NewGuid(), NewsID = id, FileKey = "oldFile1" },
                 new NewsFile { Id = Guid.NewGuid(), NewsID = id, FileKey = "oldFile2" }
-            });
+            };
+
+            var existingFiles = existingFilesList.AsQueryable();
+
+            var mockQueryable = MockQueryableExtensions.CreateMockQueryable(existingFiles);
 
             var newFiles = model.FileKey.Select(fileKey => new NewsFile
             {
@@ -117,7 +162,7 @@ namespace LMS_UnitTest.NewsTest
             }).ToList();
 
             _repositoryManagerMock.Setup(repo => repo.News.GetNews(id, true)).ReturnsAsync(existingNews);
-            _repositoryManagerMock.Setup(repo => repo.NewsFile.GetByCondition(f => f.NewsID.Equals(id), false)).Returns(existingFiles);
+            _repositoryManagerMock.Setup(repo => repo.NewsFile.GetByCondition(It.IsAny<Expression<Func<NewsFile, bool>>>(), false)).Returns(mockQueryable.Object);
             _repositoryManagerMock.Setup(repo => repo.NewsFile.DeleteRange(existingFiles));
             _repositoryManagerMock.Setup(repo => repo.NewsFile.AddRange(It.IsAny<IEnumerable<NewsFile>>()));
             _repositoryManagerMock.Setup(repo => repo.Save()).Returns(Task.CompletedTask);
@@ -166,20 +211,6 @@ namespace LMS_UnitTest.NewsTest
             _repositoryManagerMock.Verify(repo => repo.NewsFile.DeleteRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Never);
             _repositoryManagerMock.Verify(repo => repo.NewsFile.AddRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Never);
             _repositoryManagerMock.Verify(repo => repo.Save(), Times.Once);
-        }
-
-        private static DbSet<T> GetQueryableMockDbSet<T>(List<T> sourceList) where T : class
-        {
-            var queryable = sourceList.AsQueryable();
-
-            var dbSet = new Mock<DbSet<T>>();
-            dbSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            dbSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            dbSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            dbSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-            dbSet.Setup(d => d.Add(It.IsAny<T>())).Callback<T>((s) => sourceList.Add(s));
-
-            return dbSet.Object;
         }
     }
 }
