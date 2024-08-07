@@ -420,7 +420,7 @@ namespace Service
 
                 if (user == null || user.UserRefreshToken != tokenDto.RefreshToken || user.UserRefreshTokenExpiryTime <= DateTime.Now)
 
-                    throw new BadRequestException("Refresh Token was expired");
+                    throw new UnauthorizedException("Refresh Token was expired");
 
                 _account = user;
 

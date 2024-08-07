@@ -201,6 +201,13 @@ namespace Shared.GlobalVariables
         public const int DEFAULT_TOP = 0;
     }
 
+    public static class TIME_FRAME
+    {
+        public const string WEEK = "Week";
+
+        public const string MONTH = "Month";
+    }
+
     //public static class StaticParameters
     //{
     //    #region ROLES
