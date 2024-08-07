@@ -24,8 +24,12 @@ export const DndRow = ({ row, children }: { row: any; children: React.ReactNode 
     opacity: isDragging ? 0.8 : 1,
     zIndex: isDragging ? 1 : 0,
     backgroundColor: isOver ? 'lightgreen' : 'lightgray',
-    position: 'relative'
+    position: 'relative',
+    width: '100%',
+    display: 'table',
+    tableLayout: 'fixed'
   };
+
   return (
     <TableRow
       ref={(node) => {
@@ -33,6 +37,7 @@ export const DndRow = ({ row, children }: { row: any; children: React.ReactNode 
         setDroppableRef(node);
       }}
       style={style}
+      className='w-full'
       {...attributes}
       {...listeners}
     >

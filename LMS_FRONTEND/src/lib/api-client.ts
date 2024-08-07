@@ -74,7 +74,7 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // Chưa đăng nhập
+    // Liệu có làm mới access Token được không
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const token = {
@@ -82,22 +82,28 @@ api.interceptors.response.use(
         refreshToken: getRefreshToken()
       };
 
-      const response = await axios.post(`${env.API_URL}/token/refresh-token`, token);
-      const { accessToken, refreshToken } = response.data;
+      try {
+        const response = await axios.post(`${env.API_URL}/token/refresh-token`, token);
 
-      // Nếu token được làm mới lại thì gửi lại Request
-      if (refreshToken) {
+        // Nếu token được làm mới lại thì gửi lại Request
+        const { accessToken, refreshToken } = response.data;
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
 
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return api(originalRequest);
+      } catch {
+        // Nếu không làm mới lại thì xóa local storage và quay lại login
+        const { clearAccessData } = authStore.getState();
+        clearAccessData();
+        clearTokens();
+        toast({
+          variant: 'destructive',
+          description: 'Your login session is over!'
+        });
+        window.location.href = '/auth/login';
+        return Promise.reject(error);
       }
-      const { clearAccessData } = authStore.getState();
-      clearAccessData();
-      clearTokens();
-      window.location.href = '/auth/login';
-      return Promise.reject(error);
     }
 
     toast({

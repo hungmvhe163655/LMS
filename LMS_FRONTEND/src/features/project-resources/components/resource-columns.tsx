@@ -16,24 +16,28 @@ export function getColumns(): ColumnDef<ResourceFolder | ResourceFile>[] {
       accessorKey: 'name',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Name' />,
       cell: ({ row }) => {
-        const ext = getFileExtension(row.original.name);
         const rowName = row.original.name;
-
-        return row.original.type === RESOURCE.FILE ? (
-          <div className='flex items-center space-x-2'>
-            <div className='flex size-6 items-center justify-center'>
-              <FileIcon extension={ext} {...defaultStyles[ext as keyof typeof defaultStyles]} />
+        if (row.original.type === RESOURCE.FILE) {
+          const ext = getFileExtension(row.original.name);
+          return (
+            <div className='flex items-center space-x-2'>
+              <div className='flex size-6 items-center justify-center'>
+                <FileIcon extension={ext} {...defaultStyles[ext as keyof typeof defaultStyles]} />
+              </div>
+              <span>{rowName}</span>
             </div>
-            <span>{rowName}</span>
-          </div>
-        ) : (
+          );
+        }
+
+        return (
           <div className='flex items-center space-x-2'>
             <FaFolder className='size-6' />
             <span>{rowName}</span>
           </div>
         );
       },
-      enableSorting: false
+      enableSorting: false,
+      enableHiding: false
     },
     {
       accessorKey: 'createdBy',

@@ -12,7 +12,7 @@ const formSchema = z.object({
   searchTerm: z.string().optional()
 });
 
-export function NewsTableToolbarActions() {
+export function NewsTableToolbar() {
   const navigate = useNavigate();
   const location = useLocation();
 

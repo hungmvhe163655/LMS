@@ -1,4 +1,4 @@
-const ProjectWorkspaceRoute = {
+const WorkspaceRoute = {
   path: 'workspace/:projectId',
   lazy: async () => {
     const { ProjectWorkspacePage: ProjectWorkspacePage } = await import('./project-workspace-page');
@@ -6,4 +6,4 @@ const ProjectWorkspaceRoute = {
   }
 };
 
-export default ProjectWorkspaceRoute;
+export default WorkspaceRoute;

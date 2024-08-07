@@ -10,13 +10,13 @@ import DevicesListRoute from './device/devices-list';
 import ErrorRoute from './errors';
 import NewsRoute from './news';
 import ProfileRoute from './profile';
-import ProjectResourcesRoute from './project-resources';
-import ListAllTasksRoute from './project-workspace/list-all-task';
-import ListProjectTasksRoute from './project-workspace/list-project-tasks';
-import OngoingProjectsRoute from './project-workspace/ongoing-projects';
-import ProjectMembersRoute from './project-workspace/project-members';
-import ProjectSettingsRoute from './project-workspace/project-settings';
-import ProjectWorkspaceRoute from './project-workspace/project-workspace';
+import ListAllTasksRoute from './project/list-all-task';
+import ListProjectTasksRoute from './project/list-project-tasks';
+import MembersRoute from './project/members';
+import OngoingProjectsRoute from './project/ongoings';
+import ResourcesRoute from './project/resources';
+import SettingsRoute from './project/settings';
+import WorkspaceRoute from './project/workspace';
 import SupervisorRoute from './supervisor';
 import VerifyAccountsRoute from './verify-account';
 
@@ -62,20 +62,17 @@ export const createRouter = (queryClient: QueryClient) =>
       path: 'project',
       children: [
         OngoingProjectsRoute,
-        ProjectWorkspaceRoute,
+        WorkspaceRoute,
         ListAllTasksRoute,
         ListProjectTasksRoute,
-        ProjectSettingsRoute,
-        ProjectMembersRoute
+        SettingsRoute,
+        MembersRoute,
+        ResourcesRoute
       ]
     },
     {
       path: 'device',
       children: [BookingScheduleRoute, DevicesListRoute]
-    },
-    {
-      path: 'resources',
-      children: [ProjectResourcesRoute]
     },
     {
       path: '/',

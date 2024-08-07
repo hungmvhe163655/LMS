@@ -8,7 +8,7 @@ import { useDataTable } from '@/hooks/use-data-table';
 import { useNews } from '../api/get-news';
 
 import { getColumns } from './news-columns';
-import { NewsTableToolbarActions } from './news-table-toolbar-actions';
+import { NewsTableToolbar } from './news-table-toolbar';
 
 export function NewsTable() {
   const [searchParams] = useSearchParams();
@@ -42,7 +42,7 @@ export function NewsTable() {
 
   return (
     <DataTable table={table}>
-      <NewsTableToolbarActions />
+      <NewsTableToolbar />
     </DataTable>
   );
 }

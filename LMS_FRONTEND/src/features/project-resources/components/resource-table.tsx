@@ -8,6 +8,8 @@ import {
 } from '@tanstack/react-table';
 import { useState, useEffect, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useMediaQuery } from 'react-responsive';
+import { useParams } from 'react-router-dom';
 
 import DragAndDropTable from '@/components/ui/dnd-table/dnd-table';
 
@@ -16,16 +18,18 @@ import { ResourceQueryParams } from '../types/api';
 import { RESOURCE } from '../types/constant';
 
 import { getColumns } from './resource-columns';
+import { ResourceTableToolbars } from './resource-table-toolbar';
 
 export function ResourceTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const isBigScreen = useMediaQuery({ query: '(min-width: 1024px)' });
   const [resourceQueryParameter, setResourceQueryParameter] = useState<ResourceQueryParams>({
     Cursor: 0,
-    Take: 10,
+    Take: isBigScreen ? 20 : 10,
     OrderBy: 'name.desc'
   });
 
-  const folderId = '0a6457aa-1f74-438c-bd6f-2807710be0cd'; // Replace with your actual folder ID
+  const { folderId } = useParams() as { folderId: string };
 
   useEffect(() => {
     if (sorting.length > 0) {
@@ -92,7 +96,9 @@ export function ResourceTable() {
       hasMore={hasNextPage}
       loader={<h4>Loading more items...</h4>}
     >
-      <DragAndDropTable table={table} handleDragEnd={handleDragEnd} />
+      <DragAndDropTable table={table} handleDragEnd={handleDragEnd}>
+        <ResourceTableToolbars />
+      </DragAndDropTable>
     </InfiniteScroll>
   );
 }
