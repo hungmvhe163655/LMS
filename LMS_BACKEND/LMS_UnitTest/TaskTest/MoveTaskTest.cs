@@ -2,6 +2,7 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using LMS_UnitTest.Helper;
 using Moq;
 using Service;
 using Shared.DataTransferObjects.ResponseDTO;
@@ -59,11 +60,13 @@ namespace LMS_UnitTest.TaskTest
         [Fact]
         public async Task GetTaskForPatch_ShouldThrowBadRequestException_WhenTaskListNotFound()
         {
-            var taskListId = Guid.NewGuid();
-            var taskId = Guid.NewGuid();
+            var taskListId = Guid.Parse("00000000-0000-0000-0000-000000000000");
+            var taskId = Guid.Parse("00000000-0000-0000-0000-000000000000");
+
+            var mockQueryable = MockQueryableExtensions.CreateMockQueryable((new List<TaskList>()).AsQueryable());
 
             _repositoryManagerMock.Setup(r => r.TaskList.GetByCondition(It.IsAny<Expression<Func<TaskList, bool>>>(), false))
-                .Returns(Enumerable.Empty<TaskList>().AsQueryable());
+                .Returns(mockQueryable.Object);
 
             await Assert.ThrowsAsync<BadRequestException>(() => _taskService.GetTaskForPatch(taskListId, taskId));
         }

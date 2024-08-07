@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts.Interfaces;
 using Entities.Models;
+using LMS_UnitTest.Helper;
 using Moq;
 using Service;
 using Shared.DataTransferObjects.ResponseDTO;
@@ -36,13 +37,15 @@ namespace LMS_UnitTest.ProjectTest
             // Arrange
             var projectId = Guid.NewGuid();
             var members = new List<Member>
-        {
-            new Member { UserId = "1", ProjectId = projectId, IsValidTeamMember = false, User = new Account { Id = "1", FullName = "John Doe", CreatedDate = DateTime.Now } },
-            new Member { UserId = "2", ProjectId = projectId, IsValidTeamMember = false, User = new Account { Id = "2", FullName = "Jane Doe", CreatedDate = DateTime.Now } }
-        }.AsQueryable();
+            {
+                new Member { UserId = "1", ProjectId = projectId, IsValidTeamMember = false, User = new Account { Id = "1", FullName = "John Doe", CreatedDate = DateTime.Now } },
+                new Member { UserId = "2", ProjectId = projectId, IsValidTeamMember = false, User = new Account { Id = "2", FullName = "Jane Doe", CreatedDate = DateTime.Now } }
+            }.AsQueryable();
 
-            //_repositoryManagerMock.Setup(r => r.Member.GetByCondition(It.IsAny<Func<Member, bool>>(), false))
-            //    .Returns(members);
+            var mockQueryable = MockQueryableExtensions.CreateMockQueryable(members);
+
+            _repositoryManagerMock.Setup(r => r.Member.GetByCondition(It.IsAny<Expression<Func<Member, bool>>>(), false))
+                .Returns(mockQueryable.Object);
 
             _mapperMock.Setup(m => m.Map<List<AccountRequestJoinResponseModel>>(It.IsAny<List<Account>>()))
                 .Returns(new List<AccountRequestJoinResponseModel>
@@ -66,8 +69,10 @@ namespace LMS_UnitTest.ProjectTest
             var projectId = Guid.NewGuid();
             var members = new List<Member>().AsQueryable();
 
-            //_repositoryManagerMock.Setup(r => r.Member.GetByCondition(It.IsAny<Func<Member, bool>>(), false))
-            //    .Returns(members);
+            var mockQueryable = MockQueryableExtensions.CreateMockQueryable(members);
+
+            _repositoryManagerMock.Setup(r => r.Member.GetByCondition(It.IsAny<Expression<Func<Member, bool>>>(), false))
+                .Returns(mockQueryable.Object);
 
             _mapperMock.Setup(m => m.Map<List<AccountRequestJoinResponseModel>>(It.IsAny<List<Account>>()))
                 .Returns(new List<AccountRequestJoinResponseModel>());
@@ -86,13 +91,15 @@ namespace LMS_UnitTest.ProjectTest
             // Arrange
             var projectId = Guid.NewGuid();
             var members = new List<Member>
-        {
-            new Member { UserId = "1", ProjectId = projectId, IsValidTeamMember = false, User = new Account { Id = "1", FullName = "John Doe", CreatedDate = DateTime.Now } },
-            new Member { UserId = "2", ProjectId = projectId, IsValidTeamMember = false, User = new Account { Id = "2", FullName = "Jane Doe", CreatedDate = DateTime.Now } }
-        }.AsQueryable();
+            {
+                new Member { UserId = "1", ProjectId = projectId, IsValidTeamMember = false, User = new Account { Id = "1", FullName = "John Doe", CreatedDate = DateTime.Now } },
+                new Member { UserId = "2", ProjectId = projectId, IsValidTeamMember = false, User = new Account { Id = "2", FullName = "Jane Doe", CreatedDate = DateTime.Now } }
+            }.AsQueryable();
 
-            //_repositoryManagerMock.Setup(r => r.Member.GetByCondition(It.IsAny<Func<Member, bool>>(), false))
-            //    .Returns(members);
+            var mockQueryable = MockQueryableExtensions.CreateMockQueryable(members);
+
+            _repositoryManagerMock.Setup(r => r.Member.GetByCondition(It.IsAny<Expression<Func<Member, bool>>>(), false))
+                .Returns(mockQueryable.Object);
 
             _mapperMock.Setup(m => m.Map<List<AccountRequestJoinResponseModel>>(It.IsAny<List<Account>>()))
                 .Returns(new List<AccountRequestJoinResponseModel>
@@ -115,13 +122,15 @@ namespace LMS_UnitTest.ProjectTest
             // Arrange
             var projectId = Guid.NewGuid();
             var members = new List<Member>
-        {
-            new Member { UserId = "1", ProjectId = projectId, IsValidTeamMember = false, User = null },
-            new Member { UserId = "2", ProjectId = projectId, IsValidTeamMember = false, User = null }
-        };
+            {
+                new Member { UserId = "1", ProjectId = projectId, IsValidTeamMember = false, User = null },
+                new Member { UserId = "2", ProjectId = projectId, IsValidTeamMember = false, User = null }
+            };
+
+            var mockQueryable = MockQueryableExtensions.CreateMockQueryable(members.AsQueryable());
 
             _repositoryManagerMock.Setup(r => r.Member.GetByCondition(It.IsAny<Expression<Func<Member, bool>>>(), false))
-                .Returns(members.AsQueryable);
+                .Returns(mockQueryable.Object);
 
             _mapperMock.Setup(m => m.Map<List<AccountRequestJoinResponseModel>>(It.IsAny<List<Account>>()))
                 .Returns(new List<AccountRequestJoinResponseModel>());

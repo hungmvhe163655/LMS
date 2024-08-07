@@ -33,6 +33,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
         public const string RateLimitAPI = "api/rate-limit";
 
         public const string CommentAPI = "api/comments";
+
+        public const string DashboardAPI = "api/dashboard";
     }
     public static class AuthorizeScheme
     {
@@ -195,6 +197,18 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
         #region SchedulesAPIs
 
         public const string GetScheduleByDevice = "devices/{id:guid}";
+
+        #endregion
+
+        #region DashboardAPIs
+
+        public const string GetNotification = "notification";
+
+        public const string GetOngoingProject = "project";
+
+        public const string GetCurrentTask = "task";
+
+        public const string GetOverallReport = "overall-report";
 
         #endregion
     }

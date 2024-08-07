@@ -6,6 +6,7 @@ using AutoMapper;
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using LMS_UnitTest.Helper;
 using Moq;
 using Service;
 using Shared.DataTransferObjects.RequestParameters;
@@ -76,11 +77,13 @@ namespace LMS_UnitTest.ProjectTest
         public async Task GetProjectResources_ShouldReturnEmptyFilesAndFolders_WhenNoFilesExist()
         {
             // Arrange
-            var projectId = Guid.NewGuid();
-            var rootFolder = new Folder { Id = Guid.NewGuid() };
+            var projectId = Guid.Parse("00000000-0000-0000-0000-000000000000");
+            var rootFolder = new Folder { Id = Guid.Parse("00000000-0000-0000-0000-000000000000") };
+
+            var mockQueryable = MockQueryableExtensions.CreateMockQueryable((new List<Folder> { rootFolder }).AsQueryable());
 
             _repositoryManagerMock.Setup(r => r.Folder.GetRootByProjectId(projectId))
-                .Returns(new List<Folder> { rootFolder }.AsQueryable());
+                .Returns(mockQueryable.Object);
 
             _repositoryManagerMock.Setup(r => r.File.GetFiles(false, rootFolder.Id))
                 .ReturnsAsync(new List<Files>());

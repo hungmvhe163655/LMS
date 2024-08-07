@@ -137,7 +137,7 @@ namespace LMS_UnitTest.ProjectTest
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<NullReferenceException>(() => _projectServiceMock.CreateNewProject(string.Empty, model));
+            await Assert.ThrowsAsync<BadRequestException>(() => _projectServiceMock.CreateNewProject(string.Empty, model));
         }
 
     }

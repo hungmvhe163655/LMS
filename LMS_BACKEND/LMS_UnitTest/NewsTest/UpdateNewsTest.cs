@@ -86,7 +86,9 @@ namespace LMS_UnitTest.NewsTest
             _repositoryManagerMock.Verify(repo => repo.NewsFile.DeleteRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Never);
             _repositoryManagerMock.Verify(repo => repo.NewsFile.AddRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Once);
             _repositoryManagerMock.Verify(repo => repo.Save(), Times.Once);
-        }[Fact]
+        }
+        
+        [Fact]
         public async Task UpdateNews_ShouldUpdateNews_WhenModelIsValid_NotHaveFile()
         {
             // Arrange
@@ -95,7 +97,6 @@ namespace LMS_UnitTest.NewsTest
             {
                 Title = "Updated Title",
                 Content = "Updated Content",
-                FileKey = new List<string> { "file1", "file2" }
             };
 
             var existingNews = new News
@@ -105,10 +106,7 @@ namespace LMS_UnitTest.NewsTest
                 Content = "Old Content"
             };
 
-            var mockQueryable = MockQueryableExtensions.CreateMockQueryable(new List<NewsFile>().AsQueryable());
-
             _repositoryManagerMock.Setup(repo => repo.News.GetNews(id, true)).ReturnsAsync(existingNews);
-            _repositoryManagerMock.Setup(repo => repo.NewsFile.GetByCondition(It.IsAny<Expression<Func<NewsFile, bool>>>(), false)).Returns(mockQueryable.Object);
             _repositoryManagerMock.Setup(repo => repo.Save()).Returns(Task.CompletedTask);
             _mapperMock.Setup(mapper => mapper.Map(model, existingNews));
 
@@ -118,8 +116,6 @@ namespace LMS_UnitTest.NewsTest
             // Assert
             _repositoryManagerMock.Verify(repo => repo.News.GetNews(id, true), Times.Once);
             _mapperMock.Verify(mapper => mapper.Map(model, existingNews), Times.Once);
-            _repositoryManagerMock.Verify(repo => repo.NewsFile.DeleteRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Never);
-            _repositoryManagerMock.Verify(repo => repo.NewsFile.AddRange(It.IsAny<IEnumerable<NewsFile>>()), Times.Once);
             _repositoryManagerMock.Verify(repo => repo.Save(), Times.Once);
         }
 

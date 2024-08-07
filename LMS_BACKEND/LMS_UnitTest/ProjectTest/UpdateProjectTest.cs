@@ -2,6 +2,7 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using LMS_UnitTest.Helper;
 using Moq;
 using Service;
 using Service.Contracts;
@@ -128,10 +129,13 @@ namespace LMS_UnitTest.ProjectTest
 
             var project = new Project { Id = projectId };
 
+            var mockProject = MockQueryableExtensions.CreateMockQueryable((new List<Project> { project }).AsQueryable());
+            var mockMember = MockQueryableExtensions.CreateMockQueryable(Enumerable.Empty<Member>().AsQueryable());
+
             _repositoryManagerMock.Setup(r => r.Project.GetByCondition(It.IsAny<Expression<Func<Project, bool>>>(), true))
-                .Returns((new List<Project> { project }).AsQueryable());
+                .Returns(mockProject.Object);
             _repositoryManagerMock.Setup(r => r.Member.GetByCondition(It.IsAny<Expression<Func<Member, bool>>>(), true))
-                .Returns(Enumerable.Empty<Member>().AsQueryable());
+                .Returns(mockMember.Object);
 
             await Assert.ThrowsAsync<BadRequestException>(() => _projectServiceMock.UpdateProject(model, projectId, userId));
         }

@@ -3,6 +3,7 @@ using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
@@ -24,6 +25,7 @@ namespace Service
 
         public async Task<ProjectViewResponseModel> CreateNewProject(string userId, CreateProjectRequestModel model)
         {
+            if(userId.IsNullOrEmpty()) throw new BadRequestException("User Id can be null");
 
             var hold = _mapper.Map<Project>(model);
 

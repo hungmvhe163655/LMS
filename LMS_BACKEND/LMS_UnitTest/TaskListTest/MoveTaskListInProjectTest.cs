@@ -2,6 +2,7 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using LMS_UnitTest.Helper;
 using Moq;
 using Service;
 using Service.Contracts;
@@ -41,11 +42,14 @@ namespace LMS_UnitTest.TaskListTest
             var taskList = new TaskList { Id = taskListId };
             var taskListUpdateRequestModel = new TaskListUpdateRequestModel();
 
+            var mockProject = MockQueryableExtensions.CreateMockQueryable((new List<Project> { project }).AsQueryable());
+            var mockTaskList = MockQueryableExtensions.CreateMockQueryable((new List<TaskList> { taskList }).AsQueryable());
+
             _repositoryManagerMock.Setup(r => r.Project.GetByCondition(It.IsAny<Expression<Func<Project, bool>>>(), false))
-                .Returns((new List<Project> { project }).AsQueryable());
+                .Returns(mockProject.Object);
 
             _repositoryManagerMock.Setup(r => r.TaskList.GetByCondition(It.IsAny<Expression<Func<TaskList, bool>>>(), true))
-                .Returns((new List<TaskList> { taskList }).AsQueryable());
+                .Returns(mockTaskList.Object);
 
             _mapperMock.Setup(m => m.Map<TaskListUpdateRequestModel>(It.IsAny<TaskList>())).Returns(taskListUpdateRequestModel);
 
