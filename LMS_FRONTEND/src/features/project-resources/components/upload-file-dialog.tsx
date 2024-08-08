@@ -25,38 +25,34 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
-import { useCreateFolder } from '../api/create-folder';
-import {
-  createFolderAPISchema,
-  createFolderInputSchema,
-  CreateFolderInputSchema
-} from '../types/api';
+import { useUploadFile } from '../api/upload-file';
+import { uploadFileInputSchema, UploadFileInputSchema } from '../types/api';
 
-export function CreateFolderDialog() {
+export function UploadFileDialog() {
   const { folderId } = useParams() as { folderId: string };
   const [isOpen, setIsOpen] = useState(false);
 
   const { toast } = useToast();
-  const { mutate: createFolder, isPending } = useCreateFolder();
-  const form = useForm<CreateFolderInputSchema>({
-    resolver: zodResolver(createFolderInputSchema),
+  const { mutate: uploadFile, isPending } = useUploadFile();
+  const form = useForm<UploadFileInputSchema>({
+    resolver: zodResolver(uploadFileInputSchema),
     defaultValues: {
-      name: ''
+      file: undefined
     }
   });
 
-  function onSubmit(values: CreateFolderInputSchema) {
-    const data = createFolderAPISchema.parse({
+  function onSubmit(values: UploadFileInputSchema) {
+    const data = {
       ...values,
-      ancestorId: folderId
-    });
+      folderId
+    };
 
-    createFolder(data, {
+    uploadFile(data, {
       onSuccess: () => {
         setIsOpen(false);
         toast({
           variant: 'success',
-          description: 'Create Folders Success'
+          description: 'File Uploaded Successfully'
         });
       }
     });
@@ -65,31 +61,36 @@ export function CreateFolderDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant='outline'>Create Folder</Button>
+        <Button variant='outline'>Upload File</Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
-          <DialogTitle>Create Folder</DialogTitle>
-          <DialogDescription>Create a folder, the folder will appear above.</DialogDescription>
+          <DialogTitle>Upload File</DialogTitle>
+          <DialogDescription>Upload a file to the selected folder.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-1 flex-col space-y-3'>
-            {/* Title */}
+            {/* File Input */}
             <FormField
               control={form.control}
-              name='name'
-              render={({ field }) => (
+              name='file'
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              render={({ field: { value, onChange, ...fieldProps } }) => (
                 <FormItem>
-                  <FormLabel className='text-xl'>Title</FormLabel>
+                  <FormLabel className='text-xl'>File</FormLabel>
                   <FormControl>
-                    <Input type='text' {...field} />
+                    <Input
+                      type='file'
+                      {...fieldProps}
+                      onChange={(event) => onChange(event.target.files && event.target.files[0])}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <Button type='submit' disabled={isPending}>
-              Create
+              Upload
             </Button>
           </form>
         </Form>

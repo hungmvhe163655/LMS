@@ -43,3 +43,15 @@ export const updateFolderAPISchema = z
   })
   .and(createFolderInputSchema);
 export type UpdateFolderFolderAPISchema = z.infer<typeof updateFolderAPISchema>;
+
+export const uploadFileInputSchema = z.object({
+  file: z.instanceof(File)
+});
+export type UploadFileInputSchema = z.infer<typeof uploadFileInputSchema>;
+
+export const uploadFileAPISchema = z
+  .object({
+    folderId: z.string().min(1)
+  })
+  .and(uploadFileInputSchema);
+export type UploadFileAPISchema = z.infer<typeof uploadFileAPISchema>;
