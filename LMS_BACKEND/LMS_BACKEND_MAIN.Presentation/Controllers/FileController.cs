@@ -24,17 +24,13 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         public async Task<IActionResult> UploadFile(Guid folderid, [FromForm] IFormFile file)
         {
-            if (file.Length == 0)
-            {
-                return BadRequest(new ResponseMessage { Message = "File Is Null Or Empty" });
-            }
+
+            if (file.Length == 0) return BadRequest(new ResponseMessage { Message = "File Is Null Or Empty" });
+            
+            if (file.Length > 52428800) return BadRequest(new ResponseMessage { Message = "Upload file maximum size is 50MB" });
+
             var metadata = new FileUploadRequestModel { FolderId = folderid, MimeType = file.ContentType, Size = file.Length, Name = file.FileName };
-
-            if (metadata == null)
-            {
-                return BadRequest(new ResponseMessage { Message = "Metadata is required" });
-            }
-
+            
             using var memoryStream = new MemoryStream();
 
             await file.CopyToAsync(memoryStream);
@@ -43,7 +39,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             var result = await _serviceManager.FileService.CreateFile(metadata, memoryStream);
 
-            return CreatedAtAction(nameof(DownloadFile), new { id = result.Id }, result);
+            return Ok(new ResponseMessage { Message = "File upload success" });
 
         }
 

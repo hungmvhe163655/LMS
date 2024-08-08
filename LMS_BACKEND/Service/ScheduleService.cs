@@ -21,7 +21,7 @@ namespace Service
             _mapper = mapper;
         }
 
-        private (DateTime, DateTime) GetWeek(DateTime input)
+        private static (DateTime, DateTime) GetWeek(DateTime input)
         {
             DateTime startOfWeek = input.AddDays(-(int)input.DayOfWeek + (int)DayOfWeek.Monday).Date;
 
@@ -30,7 +30,7 @@ namespace Service
             return (startOfWeek, endOfWeek);
         }
 
-        private (DateTime, DateTime) GetMonth(DateTime input)
+        private static (DateTime, DateTime) GetMonth(DateTime input)
         {
             DateTime startOfMonth = new DateTime(input.Year, input.Month, 1);
 
@@ -75,12 +75,18 @@ namespace Service
 
             if (hold.EndDate <= DateTime.Now) throw new UnauthorizedException("The booking schedule was already finished");
 
+            //if (hold.StartDate <= DateTime.Now) throw new UnauthorizedException("The booking schedule is already in progress ");
+
             _repository.Schedule.DeleteSchedule(hold);
 
             await _repository.Save();
         }
         public async Task UpdateSchedule(Guid id, ScheduleUpdateRequestModel model)
         {
+            if (model.EndDate <= model.StartDate) throw new BadRequestException("EndDate can not be smaller than StartDate");
+
+            if (model.EndDate <= DateTime.Now || model.StartDate < DateTime.Now) throw new BadRequestException("Can not create schedule with datetime before current time");
+
             var hold = await _repository.Schedule.GetSchedule(id, true);
 
             if (hold == null) throw new BadRequestException("No schedule with such Id existed");

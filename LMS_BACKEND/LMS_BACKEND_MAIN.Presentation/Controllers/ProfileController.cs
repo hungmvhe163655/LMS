@@ -24,7 +24,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ChangePassword(string id, [FromBody] ChangePasswordRequestModel model)
         {
-            if (!CheckUser().Equals(id)) throw new BadRequestException("user don't have the right to function");
+            if (_service.AccountService.CheckUser(User).Result.Equals(id)) throw new BadRequestException("user don't have the right to function");
 
             var account = await _service.AccountService.GetUserById(id);
 
@@ -39,7 +39,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             if (string.IsNullOrWhiteSpace(id)) return BadRequest(ModelState);
 
-            if (!CheckUser().Equals(id)) throw new BadRequestException("user don't have the right to function");
+            if (_service.AccountService.CheckUser(User).Result.Equals(id)) throw new BadRequestException("user don't have the right to function");
 
             var account = await _service.AccountService.GetUserById(id);
 
@@ -57,7 +57,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ChangeEmail(string id, [FromBody] ChangeEmailRequestModel model)
         {
-            if (!CheckUser().Equals(id)) throw new BadRequestException("user don't have the right to function");
+            if (_service.AccountService.CheckUser(User).Result.Equals(id)) throw new BadRequestException("user don't have the right to function");
 
             if (await _service.AccountService.GetUserByEmail(model.Email, false) != null) throw new BadRequestException("user with that email is already existed");
 
@@ -73,7 +73,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ChangeEmailOtp(string id, [FromBody] ChangeEmailRequestModel model)
         {
-            if (!CheckUser().Equals(id)) throw new BadRequestException("user don't have the right to function");
+            if (_service.AccountService.CheckUser(User).Result.Equals(id)) throw new BadRequestException("user don't have the right to function");
 
             if (await _service.AccountService.GetUserByEmail(model.Email, false) != null) throw new BadRequestException("user with that email is already existed");
 
@@ -94,16 +94,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             await _service.AccountService.UpdateProfileAsync(model);
 
             return Ok(new ResponseMessage { Message = "Update Profile Successully" });
-        }
-        private async Task<string> CheckUser()
-        {
-            var userClaims = User.Claims;
-
-            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-
-            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
-
-            return hold.Id;
         }
     }
 }

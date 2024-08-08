@@ -174,33 +174,34 @@ namespace LMS_BACKEND_MAIN.Extentions
 
             //Comment dong code nay lai truoc khi build app
 
-             //tu day
-             
-            //var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
+            //tu day
 
 
-            //var iv = Environment.GetEnvironmentVariable("ivKey");
+            var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
 
-            //var awsOptions = configuration.GetAWSOptions("AWS");
 
-            //var url = Environment.GetEnvironmentVariable("SERVICE_URL");
+            var iv = Environment.GetEnvironmentVariable("ivKey");
 
-            //awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
+            var awsOptions = configuration.GetAWSOptions("AWS");
 
-            //var holdAccess = Environment.GetEnvironmentVariable("ACCESS_KEY");
+            var url = Environment.GetEnvironmentVariable("SERVICE_URL");
 
-            //var holdSecret = Environment.GetEnvironmentVariable("SECRET_KEY");
+            awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
 
-            //if (holdAccess == null || holdSecret == null || url == null)
-            //    throw new InvalidOperationException("environment variable not set.");
+            var holdAccess = Environment.GetEnvironmentVariable("ACCESS_KEY");
 
-            //awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(holdAccess, holdSecret);
-            
-            //awsOptions.DefaultClientConfig.ServiceURL = url;
+            var holdSecret = Environment.GetEnvironmentVariable("SECRET_KEY");
 
-            //services.AddDefaultAWSOptions(awsOptions);
-             
-            
+            if (holdAccess == null || holdSecret == null || url == null)
+                throw new InvalidOperationException("environment variable not set.");
+
+            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(holdAccess, holdSecret);
+
+            awsOptions.DefaultClientConfig.ServiceURL = url;
+
+            services.AddDefaultAWSOptions(awsOptions);
+
+
             //Den day
 
             services.AddAWSService<IAmazonS3>();
