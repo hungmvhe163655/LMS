@@ -10,6 +10,7 @@ using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 using Shared.GlobalVariables;
+using System.Security.Claims;
 
 namespace Service
 {
@@ -37,6 +38,17 @@ namespace Service
             _userManager = userManager;
             _roleManager = roleManager;
         }
+        public async Task<string> CheckUser(ClaimsPrincipal user)
+        {
+            var userClaims = user.Claims;
+
+            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? throw new BadRequestException("Please login first");
+
+            var hold = await _repository.Account.FindByNameAsync(username, false) ?? throw new BadRequestException("Bad username");
+
+            return hold.Id;
+        }
+
         public async Task<IEnumerable<AccountManagementResponseModel>> TaskGetAccountForManagement(RequestParameters lamao)
         {
             var hold = await _repository.Account.GetPagedAsync(lamao, false);

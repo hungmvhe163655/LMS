@@ -26,7 +26,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpGet(RoutesAPI.GetAccountNeedVerify)]
         public async Task<IActionResult> GetSupervisorNeedVerify([FromQuery] NeedVerifyParameters param)
         {
-            var user = await _service.AccountService.GetVerifierAccountsSuper(param, await CheckUser());
+            var current = await _service.AccountService.CheckUser(User);
+
+            var user = await _service.AccountService.GetVerifierAccountsSuper(param, current);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(user.meta));
 
@@ -38,7 +40,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateAccountVerifyStatus([FromBody] UpdateVerifyStatusRequestModel model)
         {
-            var hold = await CheckUser();
+            var hold = await _service.AccountService.CheckUser(User);
 
             await _service.AccountService.UpdateAccountVerifyStatus(model.Users, hold);
 
@@ -53,17 +55,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             var data = await _service.AccountService.GetAccountDetail(id);
 
             return Ok(data);
-        }
-
-        private async Task<string> CheckUser()
-        {
-            var userClaims = User.Claims;
-
-            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-
-            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
-
-            return hold.Id;
         }
     }
 }

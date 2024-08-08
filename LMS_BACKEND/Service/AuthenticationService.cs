@@ -6,6 +6,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
@@ -40,10 +41,12 @@ namespace Service
 
         private readonly IRepositoryManager _repositoryManager;
 
+        private readonly IMemoryCache _cache;
+
 
         private readonly string _Secret;
         private Account? _account;
-        public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<Account> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IRepositoryManager repositoryManager)
+        public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<Account> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IRepositoryManager repositoryManager, IMemoryCache cache)
         {
             _logger = logger;
 
@@ -64,9 +67,15 @@ namespace Service
             _Secret = hold ?? throw new Exception("Failed to find variable for Secret");
 
             _repositoryManager = repositoryManager;
+
+            _cache = cache;
         }
         public async Task<AccountReturnModel> Register(RegisterRequestModel model)
         {
+            _cache.TryGetValue($"{model.Email}_IsOkForAccountCreation", out string? end_token);
+
+            if (string.IsNullOrWhiteSpace(end_token) || !end_token.Equals(model.EmailValidateCode)) throw new BadRequestException("Email was unverified");
+
             var user = _mapper.Map<Account>(model);
 
             var verifier = await _userManager.FindByIdAsync(model.VerifiedByUserID);

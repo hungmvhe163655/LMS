@@ -52,9 +52,11 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> UpdateProject(Guid id, [FromBody] ProjectUpdateRequestModel model)
         {
-            await (_service.ProjectService.UpdateProject(model, id, await CheckUser()));
+            var current = await _service.AccountService.CheckUser(User);
 
-            await (_service.NotificationService.CreateNotificationForProject(id, "Project Update", $"Project {model.Name} has been update", await CheckUser()));
+            await (_service.ProjectService.UpdateProject(model, id, current));
+
+            await (_service.NotificationService.CreateNotificationForProject(id, "Project Update", $"Project {model.Name} has been update", current));
 
             return Ok(new ResponseMessage { Message = "Update project successfuly" });
         }
@@ -63,7 +65,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateProjejct(CreateProjectRequestModel model)
         {
-            var result = await _service.ProjectService.CreateNewProject(CheckUser().Result ,model);
+            var current = await _service.AccountService.CheckUser(User);
+
+            var result = await _service.ProjectService.CreateNewProject(current ,model);
 
             return CreatedAtAction(nameof(GetProject), new { id = result.Id }, result);
         }
@@ -109,17 +113,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(pageResult.projects);
         }
 
-        private async Task<string> CheckUser()
-        {
-            var userClaims = User.Claims;
-
-            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-
-            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
-
-            return hold.Id;
-        }
-
         [HttpPatch(RoutesAPI.MoveTaskListInProjectt)]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         public async Task<IActionResult> MoveTaskListInProject(Guid projectId, Guid taskListId, [FromBody] JsonPatchDocument<TaskListUpdateRequestModel> patchDoc)
@@ -130,7 +123,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             patchDoc.ApplyTo(result.taskListToPatch);
 
-            await _service.TaskListService.SaveChangesForPatch(result.taskListToPatch, result.taskListEntity, CheckUser().Result);
+            var current = await _service.AccountService.CheckUser(User);
+
+            await _service.TaskListService.SaveChangesForPatch(result.taskListToPatch, result.taskListEntity, current);
 
             return NoContent();
         }

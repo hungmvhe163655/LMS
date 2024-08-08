@@ -39,7 +39,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTask(TaskCreateRequestModel model)
         {
-            var hold_user = await CheckUser();
+            var hold_user = await _service.AccountService.CheckUser(User);
 
             var hold = await _service.TaskService.CreateTask(model, hold_user);
 
@@ -57,7 +57,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateTask(Guid id, [FromBody] TaskUpdateRequestModel model)
         {
-            await _service.TaskService.EditTask(model, id, await CheckUser());
+            var current = await _service.AccountService.CheckUser(User);
+
+            await _service.TaskService.EditTask(model, id, current);
 
             return Ok(new ResponseMessage { Message = "Update Task success" });
         }
@@ -65,7 +67,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPut(RoutesAPI.AssignUserToTask)]
         public async Task<IActionResult> AssignUserToTask(Guid id, string userid)
         {
-            await _service.TaskService.AssignUserToTask(id, userid, await CheckUser());
+            var current = await _service.AccountService.CheckUser(User);
+
+            await _service.TaskService.AssignUserToTask(id, userid, current);
 
             return NoContent();
         }
@@ -73,7 +77,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteTask(Guid id)
         {
-            await _service.TaskService.DeleteTask(id, CheckUser().Result);
+            var current = await _service.AccountService.CheckUser(User);
+
+            await _service.TaskService.DeleteTask(id, current);
 
             return Ok(new ResponseMessage { Message = "Delete Success" });
         }
@@ -95,17 +101,5 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return Ok(result);
         }
-
-        private async Task<string> CheckUser()
-        {
-            var userClaims = User.Claims;
-
-            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-
-            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
-
-            return hold.Id;
-        }
-
     }
 }

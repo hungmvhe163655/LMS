@@ -47,6 +47,11 @@ namespace Service
         {
             return $"{email}_verifyEmail";
         }
+
+        private string GetAccountCreateGreenLightKey(string email)
+        {
+            return $"{email}_IsOkForAccountCreation";
+        }
         private bool IsValidEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -149,7 +154,7 @@ namespace Service
 
             return await SendMailGmailSmtp(_Mail.Split("/")[0], email, "LMS - EMAIL VERIFY", "Your email verification code: " + token + "\nThis code will be valid for 2 minutes");
         }
-        public bool VerifyEmailOtp(string email, string AuCode)
+        public string VerifyEmailOtp(string email, string AuCode)
         {
             if (email == null || !IsValidEmail(email)) throw new ArgumentNullException(nameof(Account));
 
@@ -159,9 +164,15 @@ namespace Service
 
             if (_cache.TryGetValue(cacheKey, out string? storedToken))
             {
-                return !string.IsNullOrEmpty(storedToken) ? storedToken.Equals(AuCode) : false;
+                if (string.IsNullOrEmpty(storedToken) || !storedToken.Equals(AuCode)) throw new BadRequestException("Incorrect OTP");
+
+                var end_token = GenerateOtp();
+
+                _cache.Set(GetAccountCreateGreenLightKey(email), end_token, TimeSpan.FromMinutes(10));
+
+                return end_token;
             }
-            return false;
+            return "#";
         }
         public async Task<bool> SendMailToUser(string email, string content, string header)
         {

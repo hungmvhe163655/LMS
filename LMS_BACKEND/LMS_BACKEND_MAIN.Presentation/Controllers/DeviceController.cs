@@ -44,22 +44,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(result);
         }
 
-        private async Task<string> CheckUser()
-        {
-            var userClaims = User.Claims;
-
-            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-
-            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
-
-            return hold.Id;
-        }
-
         [HttpPost]
         [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateDevice(CreateDeviceRequestModel model)
         {
-            var result = await _service.DeviceService.CreateNewDevice(CheckUser().Result, model);
+            var current = await _service.AccountService.CheckUser(User);
+
+            var result = await _service.DeviceService.CreateNewDevice(current, model);
+
             return CreatedAtAction(nameof(GetDevicesById), new { id = result.Id }, result);
         }
 

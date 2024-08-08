@@ -48,7 +48,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPost(RoutesAPI.CreateComment)]
         public async Task<IActionResult> CreateComment(Guid taskid, [FromBody] CreateCommentRequestModel model)
         {
-            var hold = await _service.CommentService.CreateComment(model, await CheckUser(), taskid);
+            var current = await _service.AccountService.CheckUser(User);
+
+            var hold = await _service.CommentService.CreateComment(model, current, taskid);
 
             return CreatedAtAction(nameof(GetCommentById), new { id = hold.Id }, hold);
         }
@@ -66,17 +68,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             await _service.CommentService.UpdateComment(model, id);
 
             return Ok(new ResponseMessage { Message = "Update success" });
-        }
-
-        private async Task<string> CheckUser()
-        {
-            var userClaims = User.Claims;
-
-            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-
-            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
-
-            return hold.Id;
         }
     }
 }
