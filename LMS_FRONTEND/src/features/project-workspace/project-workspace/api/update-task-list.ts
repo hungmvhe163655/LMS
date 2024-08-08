@@ -1,7 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
+
+import { taskListKeys } from '../utils/queries';
 
 export const updateTaskList = async ({
   id,
@@ -25,6 +28,7 @@ type UseUpdateTaskListOptions = {
 };
 
 export const useUpdateTaskList = ({ mutationConfig }: UseUpdateTaskListOptions = {}) => {
+  const { projectId } = useParams() as { projectId: string };
   const queryClient = useQueryClient();
 
   const { onSuccess, ...restConfig } = mutationConfig || {};
@@ -32,10 +36,10 @@ export const useUpdateTaskList = ({ mutationConfig }: UseUpdateTaskListOptions =
   return useMutation({
     ...restConfig,
     mutationFn: updateTaskList,
-    onSuccess: (data, ...args) => {
-      console.log('Mutation success, invalidating queries');
-      queryClient.invalidateQueries({ queryKey: ['taskLists'] }); // Make sure the query key is correct
-      onSuccess?.(data, ...args);
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: taskListKeys.all });
+      console.log(projectId);
+      onSuccess?.(data, variables, context);
     }
   });
 };

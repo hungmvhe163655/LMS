@@ -1,11 +1,11 @@
-import { BaseLayout } from '@/components/layouts/base-layout';
+import { Layout } from '@/components/layouts/default-layout';
 import DevicesList from '@/features/device/devices-list/components/devices-list';
 
 export function DevicesListPage() {
   return (
-    <BaseLayout>
+    <Layout>
       <DevicesList></DevicesList>
-    </BaseLayout>
+    </Layout>
   );
 }
 

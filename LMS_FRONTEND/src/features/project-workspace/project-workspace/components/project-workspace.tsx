@@ -6,39 +6,33 @@ import { useParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 
-import { addNewTaskList } from '../api/add-new-tasklist'; // Import the addNewTaskList function
+import { addNewTaskList } from '../api/add-new-tasklist';
 import { useChangeTaskOrder } from '../api/change-task-order';
 import { getTaskLists } from '../api/get-tasklists';
 import { useUpdateTaskList } from '../api/move-task';
 import type { TaskList as TaskListType } from '../types/project-types';
 
-import { MouseSensor, KeyboardSensor } from './customer-sensors'; // Import the custom sensors
+import { MouseSensor, KeyboardSensor } from './customer-sensors';
 import SortableTaskList from './sortable-tasklist';
 
 const ProjectWorkspace: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const [taskLists, setTaskLists] = useState<TaskListType[]>([]);
-  const [isDialogOpen, setIsDialogOpen] = useState(false); // Track if dialog is open
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const mouseSensor = useSensor(MouseSensor);
   const keyboardSensor = useSensor(KeyboardSensor);
   const sensors = useSensors(mouseSensor, keyboardSensor);
 
   const queryClient = useQueryClient();
 
-  const { mutate: updateTaskListMutate } = useUpdateTaskList({
-    mutationConfig: {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['taskLists', projectId] });
-      }
-    }
-  });
+  const { mutate: updateTaskListMutate } = useUpdateTaskList();
 
   const addTaskListMutation = useMutation({
     mutationFn: addNewTaskList,
-    onSuccess: (newTaskList) => {
-      queryClient.invalidateQueries({ queryKey: ['taskLists', projectId] });
-      setTaskLists((prev) => [...prev, newTaskList]);
-    },
+    // onSuccess: (newTaskList) => {
+    //   queryClient.invalidateQueries({ queryKey: ['taskLists', projectId] });
+    //   setTaskLists((prev) => [...prev, newTaskList]);
+    // },
     onError: (error) => {
       console.error('Error adding task list:', error);
     }
