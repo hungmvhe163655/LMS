@@ -2,9 +2,11 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
+using Servive.Hubs;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
@@ -16,6 +18,7 @@ namespace Service
     {
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
+        //private readonly IHubContext<NotificationHub> _hubContext;
 
         public ProjectService(IRepositoryManager repository, IMapper mapper)
         {
@@ -86,11 +89,13 @@ namespace Service
             {
                 var hold_old_leader = members.Where(x => x.IsLeader && !x.UserId.Equals(userID)).FirstOrDefault();
 
-                if(hold_old_leader != null) hold_old_leader.IsLeader = false;
+                if (hold_old_leader != null) hold_old_leader.IsLeader = false;
 
                 hold_new_leader.IsLeader = true;
             }
             _mapper.Map(model, hold);
+
+            //foreach (var item in members) await _hubContext.Clients.Groups(item.UserId).SendAsync("ReceiveUserNotification", _mapper.Map<NotificationResponseModel>(hold));
 
             await _repository.Save();
         }
@@ -145,7 +150,7 @@ namespace Service
 
             var folders = new List<Folder>();
 
-            return new GetFolderContentResponseModel { Files = end.ToList(), Folders = folders };
+            return new GetFolderContentResponseModel { Files = _mapper.Map<List<FileResponseModel>>(end.ToList()), Folders = _mapper.Map<List<FolderResponseModel>>(folders) };
         }
 
         public async Task<IEnumerable<AccountRequestJoinResponseModel>> GetJoinRequest(Guid projectId)

@@ -15,7 +15,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = service;
         }
         [HttpGet(RoutesAPI.GetScheduleByDevice)]
-        public async Task<IActionResult> GetScheduleByDevice(Guid id, [FromBody] ScheduleRequestModel model)
+        public async Task<IActionResult> GetScheduleByDevice(Guid id, [FromQuery] ScheduleRequestModel model)
         {
             return Ok(await _service.ScheduleService.GetScheduleForDevice(model, id));
         }

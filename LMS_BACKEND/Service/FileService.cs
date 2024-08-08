@@ -316,8 +316,34 @@ namespace Service
             return folders;
         }
 
-        public async Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID)
+        public async Task<(GetFolderContentResponseModel Data, int? Cursor)> GetFolderContent(FolderRequestParameters param, Guid folderID)
         {
+            var hold_folders = await (await _repositoryManager.Folder.GetFolderWithDescendantDepth1Id_NoPaged(param.OrderBy, folderID)).ToListAsync();
+
+            var end_folders = hold_folders.Skip(param.Cursor ?? SCROLL_LIST.DEFAULT_TOP).Take(param.Take ?? SCROLL_LIST.TINY10).ToList();
+
+            var hold_files = await _repositoryManager.File.GetFileWithFolderId_NoPaged(param.OrderBy, folderID).ToListAsync();
+
+            int taken = end_folders.Count + (param.Cursor ?? SCROLL_LIST.DEFAULT_TOP);
+
+            if (!end_folders.Any() || end_folders.Count < (param.Take ?? SCROLL_LIST.TINY10))
+            {
+                var new_skip = (param.Cursor ?? SCROLL_LIST.DEFAULT_TOP) - hold_folders.Count;
+
+                var remain_take = (param.Take ?? SCROLL_LIST.TINY10) - end_folders.Count();
+
+                var end_files = hold_files.Skip(new_skip).Take(remain_take).ToList();
+
+                taken += end_files.Count;
+
+                return (new GetFolderContentResponseModel { Files = _mappers.Map<List<FileResponseModel>>(end_files), Folders = _mappers.Map<List<FolderResponseModel>>(end_folders) }, hold_folders.Count + hold_files.Count > taken ? taken : null);
+            }
+
+            return (new GetFolderContentResponseModel { Folders = _mappers.Map<List<FolderResponseModel>>(end_folders) }, hold_folders.Count + hold_files.Count > taken ? taken : null);
+
+
+
+            /*
             var hold_file = await _repositoryManager.File.GetFiles(false, folderID);
 
             var end = hold_file.ToList();
@@ -329,7 +355,10 @@ namespace Service
             foreach (var item in hold_folder_branch) folders.Add(await _repositoryManager.Folder.GetFolder(item.DescendantID, false));
 
             return new GetFolderContentResponseModel { Files = end, Folders = folders };
+            */
+
         }
+
         public async Task<(IEnumerable<FolderResponseModel> Data, int? Cursor)> GetFolderFolders(FolderRequestParameters param, Guid folderID)
         {
             var folders = await _repositoryManager.Folder.GetFolderWithDescendantDepth1Id(param, folderID);
@@ -344,39 +373,35 @@ namespace Service
             return (_mappers.Map<IEnumerable<FileResponseModel>>(hold_file.Data), hold_file.Cursor);
         }
 
-        public async Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model)
+        public async Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model, string userId, Guid AncestorId)
         {
+            if (AncestorId == Guid.Empty) throw new BadRequestException("AncestorId can not be null");
+
+            var hold_father = await _repositoryManager.Folder.GetByCondition(x => x.Id.Equals(AncestorId), false).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid FolderID");
+
+            var hold_ancs = await _repositoryManager.FolderClosure.FindAncestors(AncestorId, true).ToListAsync() ?? throw new BadRequestException("Create a root folder is not allowed");
+
             var hold_folder = new Folder
             {
                 Id = Guid.NewGuid(),
-                CreatedBy = model.CreatedBy,
-                ProjectId = model.ProjectId,
+                CreatedBy = userId,
+                ProjectId = hold_father.ProjectId,
                 CreatedDate = DateTime.Now,
                 LastModifiedDate = DateTime.Now,
                 Name = model.Name
             };
-            if (model.ProjectId == Guid.Empty) throw new BadRequestException("Project Id can not be null");
 
-            if (model.AncestorId != Guid.Empty)
+            var end = new List<FolderClosure>();
+
+            foreach (var item in hold_ancs)
             {
-                var hold_ancs = await _repositoryManager.FolderClosure.FindAncestors(model.AncestorId, true).ToListAsync();
-
-                var end = new List<FolderClosure>();
-
-                foreach (var item in hold_ancs)
-                {
-                    end.Add(new FolderClosure { AncestorID = item.AncestorID, DescendantID = hold_folder.Id, Depth = item.Depth + 1 });
-                }
-                end.Add(new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 });
-
-                await _repositoryManager.Folder.AddFolder(hold_folder);
-
-                await _repositoryManager.FolderClosure.AddRange(end);
+                end.Add(new FolderClosure { AncestorID = item.AncestorID, DescendantID = hold_folder.Id, Depth = item.Depth + 1 });
             }
-            else
-            {
-                throw new BadRequestException("AncestorId can not be null");
-            }
+            end.Add(new FolderClosure { AncestorID = hold_folder.Id, DescendantID = hold_folder.Id, Depth = 0 });
+
+            await _repositoryManager.Folder.AddFolder(hold_folder);
+
+            await _repositoryManager.FolderClosure.AddRange(end);
 
             await _repositoryManager.Save();
 
@@ -444,6 +469,21 @@ namespace Service
             task.Files.Add(file);
 
             file.Tasks.Add(task);
+
+            await _repositoryManager.Save();
+        }
+
+        public async Task MoveFileToFolder(Guid fileId, Guid newFolderID)
+        {
+            var file = await _repositoryManager.File.GetFile(fileId, true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid fileid");
+
+            var hold_folder = await _repositoryManager.Folder.GetFolder(file.FolderId, false);
+
+            var project_folders = await _repositoryManager.Folder.GetFoldersByProjectId(hold_folder.ProjectId, false).Select(y => y.Id).ToListAsync() ?? throw new Exception($"Internalerror {nameof(MoveFileToFolder)}");
+
+            if (!project_folders.Contains(newFolderID)) throw new BadRequestException("Destination id is invalid or folder doesn't beloging in the same project");
+
+            file.FolderId = newFolderID;
 
             await _repositoryManager.Save();
         }

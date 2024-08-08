@@ -16,14 +16,15 @@ namespace Service.Contracts
         Task EditFile(FileEditRequestModel model);
         Task DeleteFile(Guid id);
         Task EditFolder(FolderEditRequestModel model);
-        Task<GetFolderContentResponseModel> GetFolderContent(Guid folderID);
+        Task<(GetFolderContentResponseModel Data, int? Cursor)> GetFolderContent(FolderRequestParameters param, Guid folderID);
         Task<List<FolderBranchDisplayResponseModel>> GetRootWithProjectId(Guid projectId);
-        Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model);
+        Task<FolderResponseModel> CreateFolder(CreateFolderRequestModel model, string userId, Guid AncestorID);
         Task DeleteFolder(Guid folderID);
         Task AttachToTask(Guid taskId, Guid fileID);
         Task<string> UploadFile(Stream inputStream, string mime, string type);
         Task<byte[]> DownloadFile(string fileKey);
         Task RemoveFile(string fileKey);
+        Task MoveFileToFolder(Guid fileId, Guid newFolderID);
     }
 
 }

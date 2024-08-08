@@ -25,14 +25,6 @@ namespace Repository
         }
         public async Task<bool> SaveNotification(Notification notification)
         {
-            notification.NotificationsAccounts
-                   .Add(
-                new NotificationAccount
-                {
-                    AccountId = notification.CreatedBy ?? throw new BadRequestException("Invalid user Id"),
-                    IsRead = false,
-                    NotificationId = notification.Id
-                });
             await CreateAsync(notification);
             return true;
         }

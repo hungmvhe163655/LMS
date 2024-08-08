@@ -200,6 +200,7 @@ namespace LMS_BACKEND_MAIN.Extentions
 
             services.AddDefaultAWSOptions(awsOptions);
              
+            
             //Den day
 
             services.AddAWSService<IAmazonS3>();

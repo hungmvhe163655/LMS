@@ -5,6 +5,7 @@ using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
+using Shared.GlobalVariables;
 
 namespace Service
 {
@@ -28,11 +29,21 @@ namespace Service
 
             return (startOfWeek, endOfWeek);
         }
+
+        private (DateTime, DateTime) GetMonth(DateTime input)
+        {
+            DateTime startOfMonth = new DateTime(input.Year, input.Month, 1);
+
+            DateTime endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
+
+            return (startOfMonth, endOfMonth);
+        }
+
         public async Task<IEnumerable<ScheduleResponseModel>> GetScheduleForDevice(ScheduleRequestModel model, Guid id)
         {
             if (model == null) throw new BadRequestException("lamao");
 
-            var (startTime, EndTime) = GetWeek(model.DateInput);
+            var (startTime, EndTime) = (model.TimeFrame != null && model.TimeFrame.Equals(TIME_FRAME.WEEK)) ? GetWeek(model.DateInput) : GetMonth(model.DateInput);
 
             var result = _mapper.Map<IEnumerable<ScheduleResponseModel>>(await _repository.Schedule.GetScheduleByDevice(id, startTime, EndTime, false));
 

@@ -94,6 +94,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
 
         #region FilesAPIs
 
+        public const string MoveImageToFolder = "{id:guid}/move/folder/{folderid:guid}";
+
         public const string UploadFile = "upload/{folderid:guid}";
 
         public const string DownloadFile = "download/{id:guid}";
@@ -115,6 +117,8 @@ namespace LMS_BACKEND_MAIN.Presentation.Dictionaries
         public const string GetFolderFiles = "{id:guid}/content/files";
 
         public const string DownloadFolder = "{id:guid}/download";
+
+        public const string GetFolderContent = "{id:guid}/content";
 
         #endregion
 

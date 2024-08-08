@@ -27,7 +27,7 @@ namespace Service
 
         public async Task<NotificationResponseModel> CreateNotification(CreateNotificationRequestModel model)
         {
-            var hold = new Notification {ProjectId = Guid.Parse(model.Group??""), Id = Guid.NewGuid(), Title = model.Title, Content = model.Content, NotificationType = MAPPARAM.GetNotificationTypeValue(model.Type), CreatedBy = model.CreateUserId, Url = "lmao.com" };//sua cho nay
+            var hold = new Notification { ProjectId = Guid.Parse(model.Group ?? ""), Id = Guid.NewGuid(), Title = model.Title, Content = model.Content, NotificationType = MAPPARAM.GetNotificationTypeValue(model.Type), CreatedBy = model.CreateUserId, Url = "lmao.com" };//sua cho nay
 
             if (hold.NotificationType.Equals(NOTIFICATION_TYPE.PROJECT))
             {
@@ -43,6 +43,8 @@ namespace Service
                     if (item.User == null) continue;
 
                     item.User.NotificationsAccounts.Add(new NotificationAccount { NotificationId = hold.Id, AccountId = item.User.Id, IsRead = false });
+
+                    await _hubContext.Clients.Groups(item.UserId).SendAsync("ReceiveUserNotification", _mapper.Map<NotificationResponseModel>(hold));
                 }
             }
 
@@ -50,7 +52,31 @@ namespace Service
 
             await _repositoryManager.Save();
 
-            await _hubContext.Clients.Groups(model.Group).SendAsync("ReceiveNotification", hold);
+            if (!hold.NotificationType.Equals(NOTIFICATION_TYPE.PROJECT)) await _hubContext.Clients.All.SendAsync("ReceiveSystemNotification", _mapper.Map<NotificationResponseModel>(hold));
+
+            return _mapper.Map<NotificationResponseModel>(hold);
+        }
+
+        public async Task<NotificationResponseModel> CreateNotificationForProject(Guid projectId, string title, string content, string user)
+        {
+            var hold = new Notification { ProjectId = projectId, Id = Guid.NewGuid(), Title = title, Content = content, NotificationType = NOTIFICATION_TYPE.PROJECT, CreatedBy = user, Url = $"projects/{projectId}" };
+
+            var hold_members = await
+                _repositoryManager
+                .Member
+                .GetByCondition(x => x.ProjectId.Equals(projectId) && x.IsValidTeamMember, true)
+                .ToListAsync() ?? throw new BadRequestException("Invalid project ID");
+
+            foreach (var item in hold_members)
+            {
+                hold.NotificationsAccounts.Add(new NotificationAccount { NotificationId = hold.Id, AccountId = item.UserId, IsRead = false });
+            }
+
+            await _repositoryManager.Notification.SaveNotification(hold);
+
+            await _repositoryManager.Save();
+
+            foreach (var item in hold_members) await _hubContext.Clients.Groups(item.UserId).SendAsync("ReceiveUserNotification", _mapper.Map<NotificationResponseModel>(hold));
 
             return _mapper.Map<NotificationResponseModel>(hold);
         }
@@ -110,6 +136,16 @@ namespace Service
 
             await _repositoryManager.Save();
 
+        }
+
+        public async Task NotifyProjectMembers(string projectId, NotificationResponseModel notification)
+        {
+            await _hubContext.Clients.Group(projectId).SendAsync("ReceiveProjectNotification", notification);
+        }
+
+        public async Task NotifyAllUsers(NotificationResponseModel notification)
+        {
+            await _hubContext.Clients.All.SendAsync("ReceiveSystemNotification", notification);
         }
     }
 }

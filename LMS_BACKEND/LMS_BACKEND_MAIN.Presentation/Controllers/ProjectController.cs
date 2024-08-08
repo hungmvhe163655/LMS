@@ -3,10 +3,12 @@ using LMS_BACKEND_MAIN.Presentation.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using Shared.GlobalVariables;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -51,6 +53,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> UpdateProject(Guid id, [FromBody] ProjectUpdateRequestModel model)
         {
             await (_service.ProjectService.UpdateProject(model, id, await CheckUser()));
+
+            await (_service.NotificationService.CreateNotificationForProject(id, "Project Update", $"Project {model.Name} has been update", await CheckUser()));
+
             return Ok(new ResponseMessage { Message = "Update project successfuly" });
         }
 

@@ -4,9 +4,12 @@ using Entities.ConfigurationModels;
 using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
+using Servive.Hubs;
 using Shared;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
@@ -249,7 +252,8 @@ namespace Service
                 {
                     return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = $"ISBANNED|{_account.UserName}" };
                 }
-                return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = "SUCCESS|" + (_account != null && _account.TwoFactorEnabled ? "TWOFACTOR" : "ONEFACTOR") };
+
+                return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = "SUCCESS|" + (_account.TwoFactorEnabled ? "TWOFACTOR" : "ONEFACTOR") };
             }
             throw new BadRequestException("NOT FOUND ACCOUNT OR INCORRECT PASSWORD");
         }
@@ -420,7 +424,7 @@ namespace Service
 
                 if (user == null || user.UserRefreshToken != tokenDto.RefreshToken || user.UserRefreshTokenExpiryTime <= DateTime.Now)
 
-                    throw new BadRequestException("Refresh Token was expired");
+                    throw new UnauthorizedException("Refresh Token was expired");
 
                 _account = user;
 

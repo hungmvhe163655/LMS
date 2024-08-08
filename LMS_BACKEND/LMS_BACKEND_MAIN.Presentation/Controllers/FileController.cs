@@ -107,5 +107,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "Remove Success" });
         }
 
+        [HttpPut(RoutesAPI.MoveImageToFolder)]
+        [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
+        public async Task<IActionResult> MoveImageToFolder(Guid id, Guid folderid)
+        {
+            await _serviceManager.FileService.MoveFileToFolder(id, folderid);
+
+            return Ok(new ResponseMessage { Message = $"Move file to folder {folderid} successfully" });
+        }
+
     }
 }
