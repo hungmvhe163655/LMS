@@ -4,6 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Servive.Hubs;
 using Shared.DataTransferObjects.RequestDTO;
@@ -25,8 +26,10 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<ProjectResponseModel> CreatNewProject(string userId, CreateProjectRequestModel model)
+        public async Task<ProjectViewResponseModel> CreateNewProject(string userId, CreateProjectRequestModel model)
         {
+            if(userId.IsNullOrEmpty()) throw new BadRequestException("User Id can be null");
+
             var hold = _mapper.Map<Project>(model);
 
             hold.Id = Guid.NewGuid();
@@ -51,12 +54,12 @@ namespace Service
                 IsLeader = true,
                 JoinDate = DateTime.Now,
             };
-            _repository.Member.Create(member);
             _repository.Project.Create(hold);
+            _repository.Member.Create(member);
             await _repository.Folder.AddFolder(root);
             await _repository.Save();
 
-            return _mapper.Map<ProjectResponseModel>(hold);
+            return _mapper.Map<ProjectViewResponseModel>(hold);
         }
 
         public async Task<(IEnumerable<ProjectResponseModel> projects, MetaData metaData)> GetAllProjects(ProjectRequestParameters projetParameter, bool trackChange)
@@ -125,10 +128,10 @@ namespace Service
             return (projects: projectsDto, metaData: projectFromDb.MetaData);
         }
 
-        public async Task<ProjectResponseModel> GetProjectById(Guid id)
+        public async Task<ProjectViewResponseModel> GetProjectById(Guid id)
         {
             var hold = await _repository.Project.GetByCondition(p => p.Id.Equals(id), false).FirstOrDefaultAsync() ?? throw new BadRequestException($"Can't find project with id {id}");
-            return (_mapper.Map<ProjectResponseModel>(hold));
+            return (_mapper.Map<ProjectViewResponseModel>(hold));
         }
 
         public async Task UpdateProject(Guid projectId, UpdateProjectRequestModel model)
@@ -149,6 +152,7 @@ namespace Service
 
             return new GetFolderContentResponseModel { Files = _mapper.Map<List<FileResponseModel>>(end.ToList()), Folders = _mapper.Map<List<FolderResponseModel>>(folders) };
         }
+
         public async Task<IEnumerable<AccountRequestJoinResponseModel>> GetJoinRequest(Guid projectId)
         {
             var hold = await _repository.Member.GetByCondition(x => x.ProjectId.Equals(projectId) && !x.IsValidTeamMember, false).Include(y => y.User).ToListAsync();
@@ -159,6 +163,7 @@ namespace Service
             }
             return _mapper.Map<List<AccountRequestJoinResponseModel>>(end);
         }
+
         public async Task ValidateJoinRequest(IEnumerable<UpdateStudentJoinRequestModel> Listmodel, Guid id)
         {
             foreach (var item in Listmodel)
@@ -174,6 +179,12 @@ namespace Service
                 else hold.IsValidTeamMember = true;
             }
             await _repository.Save();
+        }
+
+        public async Task<int> CountProject(string type)
+        {
+            var projects = await _repository.Project.GetByCondition(x => x.ProjectStatus.Equals(type), false).ToListAsync();
+            return projects.Count;
         }
     }
 }

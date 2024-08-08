@@ -176,29 +176,29 @@ namespace LMS_BACKEND_MAIN.Extentions
 
              //tu day
              
-            var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
+            //var encryptionKey = Environment.GetEnvironmentVariable("EncryptionKey");
 
 
-            var iv = Environment.GetEnvironmentVariable("ivKey");
+            //var iv = Environment.GetEnvironmentVariable("ivKey");
 
-            var awsOptions = configuration.GetAWSOptions("AWS");
+            //var awsOptions = configuration.GetAWSOptions("AWS");
 
-            var url = Environment.GetEnvironmentVariable("SERVICE_URL");
+            //var url = Environment.GetEnvironmentVariable("SERVICE_URL");
 
-            awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
+            //awsOptions.Region = RegionEndpoint.USEast1; // Use auto region
 
-            var holdAccess = Environment.GetEnvironmentVariable("ACCESS_KEY");
+            //var holdAccess = Environment.GetEnvironmentVariable("ACCESS_KEY");
 
-            var holdSecret = Environment.GetEnvironmentVariable("SECRET_KEY");
+            //var holdSecret = Environment.GetEnvironmentVariable("SECRET_KEY");
 
-            if (holdAccess == null || holdSecret == null || url == null)
-                throw new InvalidOperationException("environment variable not set.");
+            //if (holdAccess == null || holdSecret == null || url == null)
+            //    throw new InvalidOperationException("environment variable not set.");
 
-            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(holdAccess, holdSecret);
+            //awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(holdAccess, holdSecret);
             
-            awsOptions.DefaultClientConfig.ServiceURL = url;
+            //awsOptions.DefaultClientConfig.ServiceURL = url;
 
-            services.AddDefaultAWSOptions(awsOptions);
+            //services.AddDefaultAWSOptions(awsOptions);
              
             
             //Den day

@@ -292,9 +292,9 @@ namespace Service
 
         public async Task EditFolder(Guid id,FolderEditRequestModel model)
         {
-            var hold = _repositoryManager.Folder.GetByCondition(x => x.Id.Equals(id), true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid Folder Id");
+            var hold = await _repositoryManager.Folder.GetByCondition(x => x.Id.Equals(id), true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid Folder Id");
 
-            await _mappers.Map(model, hold);
+            _mappers.Map(model, hold);
 
             await _repositoryManager.Save();
         }

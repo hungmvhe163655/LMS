@@ -12,7 +12,7 @@ using Repository;
 namespace LMS_BACKEND_MAIN.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240725110833_InitialDB")]
+    [Migration("20240808060712_InitialDB")]
     partial class InitialDB
     {
         /// <inheritdoc />
@@ -86,6 +86,9 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<DateTime>("LoginSessionAge")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -142,520 +145,700 @@ namespace LMS_BACKEND_MAIN.Migrations
                         {
                             Id = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "06d8078e-c099-435d-b121-ebd5cad36600",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(4925),
+                            ConcurrencyStamp = "ee953994-6969-4e15-8bf0-7569a35e18cc",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "minhtche161354@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(4941),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(640),
                             FullName = "Tran Cong Minh",
                             Gender = false,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "MINHTCHE161354@FPT.EDU.VN",
                             NormalizedUserName = "MINHTCHE161354",
                             PasswordHash = "AQAAAAIAAYagAAAAELgUn5wJH9empSyZm7MdUy84spVESi+LvNCV8nDY9PMgoY0fOBYhfZO/MPZHjSZimA==",
                             PhoneNumber = "0963661093",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "75df296b-d790-454b-b5a0-076db2be16c9",
+                            SecurityStamp = "e5b8ff74-0d9c-448b-badc-3f8995cee1e8",
                             TwoFactorEnabled = false,
                             UserName = "minhtche161354",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(4941),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(640),
                             VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5fbb8dd4-213c-423a-8acc-e4d02d16c8a5",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(4952),
+                            ConcurrencyStamp = "2f896540-bb23-4f3f-bf37-de49344f72ca",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "thailshe160614@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(4953),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(667),
                             FullName = "Le Sy Thai",
                             Gender = true,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "THAILSHE160614@FPT.EDU.VN",
                             NormalizedUserName = "THAILSHE160614",
                             PasswordHash = "AQAAAAIAAYagAAAAEO5SGANyOkCieJN+MspCJeIbBLjDruXYD5omO5+7u9NVKctIo979jEts1uoDaalzTw==",
                             PhoneNumber = "0497461220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "763f327f-3cd1-4b1e-b1ff-c82ee2d3fdcf",
+                            SecurityStamp = "427e30d3-4683-42fc-8fbf-80197191ea77",
                             TwoFactorEnabled = false,
                             UserName = "thailshe160614",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(4954),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(667),
                             VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "a687bb04-4f19-49d5-a60f-2db52044767c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "abc8435a-9df0-4c0a-96d7-81b6ec22b79f",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(4991),
+                            ConcurrencyStamp = "7eeb4fd1-eabe-4dbd-8836-4a7e4ee89459",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "hungmvhe163655@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(4992),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(684),
                             FullName = "Mai Viet Hung",
                             Gender = true,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "HUNGMVHE163655@FPT.EDU.VN",
                             NormalizedUserName = "HUNGMVHE163655",
                             PasswordHash = "AQAAAAIAAYagAAAAEHaY3BZO2ooRDvclwsiVvksAaPExz0GAXkEHlfwAtwfVBfRcw9gQTR02USItL9NrSg==",
                             PhoneNumber = "0975461220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "e5b13737-67da-461e-9fdb-7aa3fe605dea",
+                            SecurityStamp = "f8872db2-eb0b-4f08-8879-7f7d41f5a5c1",
                             TwoFactorEnabled = false,
                             UserName = "hungmvhe163655",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(4992),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(685),
                             VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "67dc968a-666f-4dbb-a539-757e5e6fb031",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5003),
+                            ConcurrencyStamp = "a4b069e3-0575-4946-9c04-d745616f4c1e",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "cuongndhe163098@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5004),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(701),
                             FullName = "Nguyen Duc Cuong",
                             Gender = true,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "CUONGNDHE163098@FPT.EDU.VN",
                             NormalizedUserName = "CUONGNDHE163098",
                             PasswordHash = "AQAAAAIAAYagAAAAENVZ95qV36S0GH4gzip/nSmI9JKDA1CAGuL2+t1ysccrtPgGLrSZ6k9v/tS37ojoSw==",
                             PhoneNumber = "0975465220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "58797ff0-07e2-40a3-8ede-e955158ea5fc",
+                            SecurityStamp = "e4ae71f0-e9a4-402b-800e-1819c19512ef",
                             TwoFactorEnabled = false,
                             UserName = "cuongndhe163098",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5004),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(702),
                             VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9eb6c74a-6c14-4adf-9647-4008bf5e86a7",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5012),
+                            ConcurrencyStamp = "71afe47b-7980-40ed-bec8-e74cb2a7b5c7",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "hoangnmhe163884@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5012),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(721),
                             FullName = "Nguyen Minh Hoang",
                             Gender = false,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "HOANGNMHE163884@FPT.EDU.VN",
                             NormalizedUserName = "HOANGNMHE163884",
                             PasswordHash = "AQAAAAIAAYagAAAAEBSeWGYcWJzo0jTXDBqXgYkMmzdQCRKsLrFMaaqieAdCHchkvB2oa1eRy3gsuvWyVw==",
                             PhoneNumber = "0975765220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "95daf409-d63a-4475-8f19-1259e9c4894e",
+                            SecurityStamp = "1b4e03ca-13df-42c2-a886-46114a48785b",
                             TwoFactorEnabled = false,
                             UserName = "hoangnmhe163884",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5013),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(721),
                             VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "7397c854-194b-4749-9205-f46e4f2fccf8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5c7496e3-4167-4370-b42a-34f8956f215f",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5020),
-                            Email = "littlejohn123@gmail.com",
+                            ConcurrencyStamp = "1fd9032c-6813-4a4b-9fb4-6db60f42bd66",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "oaipbhe160516@fpt.edu.vn",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5021),
-                            FullName = "John",
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(737),
+                            FullName = "Pham Ba Oai",
                             Gender = true,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "LITTLEJOHN123@GMAIL.COM",
-                            NormalizedUserName = "LITTLEJOHN",
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NormalizedEmail = "OAIPBHE160516@FPT.EDU.VN",
+                            NormalizedUserName = "OAIPBHE160516",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965765228",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "d2c07bd0-515a-4b84-b1a2-f4341cce1110",
+                            SecurityStamp = "fd5d4c3a-6225-4c88-82bf-17a40de48eae",
                             TwoFactorEnabled = false,
-                            UserName = "littlejohn",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5021),
+                            UserName = "oaipbhe160516",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(737),
                             VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1dca5174-5949-4d70-b78e-4a5553e6ed03",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5030),
+                            ConcurrencyStamp = "53903d36-bc50-4baa-a5c0-d0b9a84d9987",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "kenshiyonezu123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5031),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(753),
                             FullName = "Kenshi Yonezu",
                             Gender = true,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "KENSHIYONEZU123@GMAIL.COM",
                             NormalizedUserName = "KENSHIYONEZU",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965765120",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "41413a6a-4c8c-41dd-b579-e229d36ade38",
+                            SecurityStamp = "86114a1b-b45b-4319-bd89-6590237cdf56",
                             TwoFactorEnabled = false,
                             UserName = "kenshiyonezu",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5032),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(753),
                             VerifiedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209"
                         },
                         new
                         {
                             Id = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2ccfc437-c6be-4092-9e01-82fd524d25f5",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5039),
+                            ConcurrencyStamp = "0319a650-7a95-4a69-a2bb-2dc0f1fa8acd",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "gakkou123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5040),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(791),
                             FullName = "Gakkou Atarashi",
                             Gender = false,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "GAKKOU123@GMAIL.COM",
                             NormalizedUserName = "GAKKOU",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965795220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "180c260f-3e40-4ab4-af68-0ed6e86bc6f9",
+                            SecurityStamp = "1eee5ddb-6beb-45a8-84a6-18c3ef38f288",
                             TwoFactorEnabled = false,
                             UserName = "gakkou",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5040),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(792),
                             VerifiedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209"
                         },
                         new
                         {
                             Id = "d4325be4-cb11-4f2f-b29e-dc52024d6c65",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4fe6156c-70e1-4140-bfca-3eaf413704cb",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5049),
+                            ConcurrencyStamp = "8c3eef89-5014-41da-8cad-2c984bbe9951",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "nguyentrunghieu123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5050),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(823),
                             FullName = "Nguyen Trung Hieu",
                             Gender = true,
                             IsBanned = true,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "NGUYENTRUNGHIEU123@GMAIL.COM",
                             NormalizedUserName = "HIEUNTHE168975",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965795220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "a76be44c-db2b-466b-b675-9a04a458dca9",
+                            SecurityStamp = "0bbac837-b1f2-423a-b965-7aabbb0b9e10",
                             TwoFactorEnabled = false,
                             UserName = "hieunthe168975",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5050),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(824),
                             VerifiedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209"
                         },
                         new
                         {
                             Id = "b745d464-f213-487c-8469-1f0d10d32224",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "efee00dc-699a-4af1-8978-65f7d489b66b",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5058),
+                            ConcurrencyStamp = "0176842e-a977-4c23-94b7-82ec86a2709e",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "caohoanganh123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5059),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(850),
                             FullName = "Cao Hoang Anh",
                             Gender = true,
                             IsBanned = false,
                             IsDeleted = true,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "CAOHOANGANH123@GMAIL.COM",
                             NormalizedUserName = "ANHCHHE161236",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965795220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "8261ee67-31c5-41c6-8303-5fbf840c7aaa",
+                            SecurityStamp = "0560fce2-8529-41d8-b9aa-68f0f38b4171",
                             TwoFactorEnabled = false,
                             UserName = "anhchhe161236",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5059),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(852),
                             VerifiedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209"
                         },
                         new
                         {
                             Id = "d7d2f268-eea4-4299-9342-800564cc6411",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2f78ef0c-345e-4560-8fb6-b53f4851262c",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5087),
+                            ConcurrencyStamp = "69cb9fbb-82c2-4431-84c4-e7f55c08057a",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "doantrungnam123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5088),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(875),
                             FullName = "Doan Trung Nam",
                             Gender = true,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = false,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "DOANTRUNGNAM123@GMAIL.COM",
                             NormalizedUserName = "NAMDTHE159865",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965795220",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "5df93567-b125-486a-8887-d274e49debf9",
+                            SecurityStamp = "58e1fe7c-6689-45e2-8d2f-f6b18649d959",
                             TwoFactorEnabled = false,
                             UserName = "namdthe159865",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5088)
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(875),
+                            VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a227f4aa-e73b-467c-a4aa-8ba7f797f1e2",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5098),
+                            ConcurrencyStamp = "75de109f-dde4-41a5-8044-aff9f926d0f8",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "chilp123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5099),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(890),
                             FullName = "Le Phuong Chi",
                             Gender = false,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "CHILP123@GMAIL.COM",
                             NormalizedUserName = "CHILP",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965796856",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "433fb52d-2609-4dc3-bfa0-728a3ea112ce",
+                            SecurityStamp = "0bf121c7-e0f0-4434-8aeb-1dcfb46ba1ef",
                             TwoFactorEnabled = false,
                             UserName = "chilp",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5099),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(891),
                             VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "c4a15b23-9d00-4ec5-acc9-493354e91973",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9bc5bf1e-0e10-4dc4-81f4-c3c618aabbd7",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5107),
+                            ConcurrencyStamp = "e8081e88-ee0b-47ec-985d-bade4d09de82",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tientd123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5108),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(910),
                             FullName = "Ta Dinh Tien",
                             Gender = true,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "TIENTD123@GMAIL.COM",
                             NormalizedUserName = "TIENTD",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965796963",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "35dd5d63-9d3f-467c-8e4b-454dca050fc2",
+                            SecurityStamp = "98b33fa0-8a27-4754-8201-8b57e771778a",
                             TwoFactorEnabled = false,
                             UserName = "tientd",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5108),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(911),
                             VerifiedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
                         new
                         {
                             Id = "29df78da-8830-4bb3-8ece-f11cf9f5cc34",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e7f6b432-bd85-4ce9-b889-54e96bb4b78a",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5115),
+                            ConcurrencyStamp = "238d79a8-edd6-41ff-a6c8-a811169a9623",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "lamndt123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5116),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(926),
                             FullName = "Nguyen Duc Tung Lam",
                             Gender = true,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "LAMNDT123@GMAIL.COM",
                             NormalizedUserName = "LAMNDT",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965796741",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "0c2b95a3-9193-4378-a699-d38d34cef1c9",
+                            SecurityStamp = "5721abc1-0554-41e4-96bb-b48840059718",
                             TwoFactorEnabled = false,
                             UserName = "lamndt",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5117),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(926),
                             VerifiedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832"
                         },
                         new
                         {
                             Id = "e214c150-f35c-4567-aaf0-c103d4e4d198",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "191c70b8-cc3a-4a03-8cc3-4dc0d172bdb4",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5126),
+                            ConcurrencyStamp = "cfecf5a3-a4eb-4815-8dea-4c4884d40e97",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "duongdd123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5126),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(984),
                             FullName = "Do Duc Duong",
                             Gender = true,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "DUONGDD123@GMAIL.COM",
                             NormalizedUserName = "DUONGDD",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965796852",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "06971da4-c65b-4e84-85fa-db5e5efa02b5",
+                            SecurityStamp = "6c6442f4-db95-41db-a99e-9201cbfd219d",
                             TwoFactorEnabled = false,
                             UserName = "duongdd",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5127),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(988),
                             VerifiedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832"
                         },
                         new
                         {
                             Id = "72339042-5a5d-46f1-9b24-c5446332a29c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e4b86326-debd-44f5-b344-00a3df74ffc1",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5134),
+                            ConcurrencyStamp = "70d9e5a7-3f90-4619-b21a-7337b25b2798",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "hungpv123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5135),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1016),
                             FullName = "Pham Van Hung",
                             Gender = true,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "HUNGPV123@GMAIL.COM",
                             NormalizedUserName = "HUNGPV",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965796741",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "f57cde9a-e059-4f70-8b8f-4694fbc13bab",
+                            SecurityStamp = "61af5934-f13c-4722-a21b-9f16e7186ccc",
                             TwoFactorEnabled = false,
                             UserName = "hungpv",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5135),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1017),
                             VerifiedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832"
                         },
                         new
                         {
                             Id = "89d0ed33-21e5-401e-b3b4-963ef6e6be16",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2ee27343-951c-4055-8519-b8910f19fcca",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5144),
+                            ConcurrencyStamp = "6f83a482-5f6d-48fa-a45d-5d45fee4e9b8",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "longpt123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5145),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1032),
                             FullName = "Phi Thang Long",
                             Gender = true,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "LONGPT123@GMAIL.COM",
                             NormalizedUserName = "LONGPT",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965796123",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "eb816092-e70f-47d5-9893-de5040082a0b",
+                            SecurityStamp = "40a7e316-b050-421b-9a13-b7d52516a405",
                             TwoFactorEnabled = false,
                             UserName = "longpt",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5145),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1033),
                             VerifiedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973"
                         },
                         new
                         {
                             Id = "75beaf54-8c16-4464-9cd5-fa272d942f43",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "eed290cf-0506-4330-8755-d927229b79fe",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5173),
+                            ConcurrencyStamp = "ddbb2262-4c34-4b78-96c2-eeb4017492e8",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "thanhkn123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5174),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1054),
                             FullName = "Kim Nhat Thanh",
                             Gender = true,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "THANHKN123@GMAIL.COM",
                             NormalizedUserName = "THANHKN",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965796456",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "83465707-91eb-4f04-9d4d-a52c6db0af80",
+                            SecurityStamp = "8b89aee2-3219-46c8-8bfe-9f68af0f16b0",
                             TwoFactorEnabled = false,
                             UserName = "thanhkn",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5174),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1055),
                             VerifiedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973"
                         },
                         new
                         {
                             Id = "85b70a16-20bb-400f-a478-78c6f8c6d067",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "244a85b0-71b5-4a53-85c4-0403c8e8b4be",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5183),
+                            ConcurrencyStamp = "5f9b770c-69bf-4beb-b937-6dbe8da9be3b",
+                            CreatedDate = new DateTime(2023, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "linhltm123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5184),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1072),
                             FullName = "Le Thi Mai Linh",
                             Gender = false,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "LINHLTM123@GMAIL.COM",
                             NormalizedUserName = "LINHLMT",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965796789",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "147afb9d-d293-453c-9ed4-7ea13dbcfc64",
+                            SecurityStamp = "a90a067f-f238-4bef-ba01-42052077eabf",
                             TwoFactorEnabled = false,
                             UserName = "linltm",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5184),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1072),
                             VerifiedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973"
                         },
                         new
                         {
                             Id = "094505b2-4be4-43c6-ac2f-53428f706d19",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b14d677d-be18-4e56-ae3e-e689f9c6c2dd",
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5193),
+                            ConcurrencyStamp = "a9634f80-2b2c-4479-be75-f0a599e23ad2",
+                            CreatedDate = new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "phuongdb123@gmail.com",
                             EmailConfirmed = true,
-                            EmailVerifyCodeAge = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5194),
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1088),
                             FullName = "Dao Bich Phuong",
                             Gender = false,
                             IsBanned = false,
                             IsDeleted = false,
                             IsVerified = true,
                             LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NormalizedEmail = "PHUONGDB123@GMAIL.COM",
                             NormalizedUserName = "PHUONGDB",
                             PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
                             PhoneNumber = "0965796789",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "a2834d50-cf7a-4f3b-80bc-eb999f966825",
+                            SecurityStamp = "f6d3272f-bda2-463d-8a13-8e7dfb079f7e",
                             TwoFactorEnabled = false,
                             UserName = "phuongdb",
-                            UserRefreshTokenExpiryTime = new DateTime(2024, 7, 25, 11, 8, 32, 870, DateTimeKind.Utc).AddTicks(5195),
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1089),
                             VerifiedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973"
+                        },
+                        new
+                        {
+                            Id = "7c9d1962-a18c-48c9-8c1d-a8cc1a338500",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "44b5062e-dcbc-4cd7-adfa-1d16fd1d126d",
+                            CreatedDate = new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "huongnt135@fe.edu.vn",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1107),
+                            FullName = "Nguyen Thuy Huong",
+                            Gender = false,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = false,
+                            LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NormalizedEmail = "HUONGNT135@FE.EDU.VN",
+                            NormalizedUserName = "HUONGNT7",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0961396789",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "dc6b2a51-c10a-4264-b4bf-cda70dd2e299",
+                            TwoFactorEnabled = false,
+                            UserName = "huongnt7",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1108)
+                        },
+                        new
+                        {
+                            Id = "2c3fb112-bab3-4e92-8ea5-99f9e459eebb",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "2a49d7ae-ec4f-4ca2-a009-441fb1dccce9",
+                            CreatedDate = new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "duongtb@fe.edu.vn",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1123),
+                            FullName = "Tran Binh Duong",
+                            Gender = true,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = false,
+                            LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NormalizedEmail = "DUONGTB@FE.EDU.VN",
+                            NormalizedUserName = "DUONGTB",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0961396719",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "e2d65df3-a723-46d4-a5bf-805c5be9a08a",
+                            TwoFactorEnabled = false,
+                            UserName = "duongtb",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1124)
+                        },
+                        new
+                        {
+                            Id = "fde461fc-70cb-4334-be2a-521f1e7984da",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6b6506f6-ffe2-4c3f-8029-5e12b196e0be",
+                            CreatedDate = new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "sangnv@fe.edu.vn",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1147),
+                            FullName = "Nguyen Van Sang",
+                            Gender = true,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = false,
+                            LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NormalizedEmail = "SANGNV@FE.EDU.VN",
+                            NormalizedUserName = "SANGNV",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0961396489",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "6975ca5d-3fc5-4a14-aa4c-c4714303454c",
+                            TwoFactorEnabled = false,
+                            UserName = "sangnv",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1147)
+                        },
+                        new
+                        {
+                            Id = "aa95f3d5-3f75-422a-b667-48afe6789500",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "cd7ea74f-fc23-4239-ad93-f1281733024f",
+                            CreatedDate = new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "luannd@fpt.edu.vn",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1166),
+                            FullName = "Ngo Doan Luan",
+                            Gender = true,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = false,
+                            LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NormalizedEmail = "LUANND@FPT.EDU.VN",
+                            NormalizedUserName = "LUANND",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0961396789",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "e8ea7f4e-a95c-4df8-b85d-7a3dfac7d3af",
+                            TwoFactorEnabled = false,
+                            UserName = "luannd",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1166),
+                            VerifiedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832"
+                        },
+                        new
+                        {
+                            Id = "fbf09f94-8b51-4611-8997-a40481400e5d",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6ebf839a-93b8-45fe-be8e-b9ecbbb5490b",
+                            CreatedDate = new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "nhanpt@fpt.edu.vn",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1182),
+                            FullName = "Phan Trong Nhan",
+                            Gender = true,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = false,
+                            LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NormalizedEmail = "NHANPT@FPT.EDU.VN",
+                            NormalizedUserName = "NHANPT",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0969396789",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "0fbd6416-e4b2-4baa-b6f2-56d9247d50a0",
+                            TwoFactorEnabled = false,
+                            UserName = "nhanpt",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1183),
+                            VerifiedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832"
+                        },
+                        new
+                        {
+                            Id = "f0c48f74-0461-4b07-abf1-912384cd5cbc",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e9532543-9eb3-42d4-95a7-24f33e76c82d",
+                            CreatedDate = new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "quynhbn@fpt.edu.vn",
+                            EmailConfirmed = true,
+                            EmailVerifyCodeAge = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1201),
+                            FullName = "Bui Ngoc Quynh",
+                            Gender = true,
+                            IsBanned = false,
+                            IsDeleted = false,
+                            IsVerified = false,
+                            LockoutEnabled = false,
+                            LoginSessionAge = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NormalizedEmail = "QUYNHBN@FPT.EDU.VN",
+                            NormalizedUserName = "QUYNHBN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgJ1v35yMdrboz2wNnq7ycAFHmE2gEKN5HvTBhtJlXU94370YPUlLqftEVfKcYgPA==",
+                            PhoneNumber = "0969396289",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "7cc45cbf-380b-4b17-93d3-f39ce5e2ecf3",
+                            TwoFactorEnabled = false,
+                            UserName = "quynhbn",
+                            UserRefreshTokenExpiryTime = new DateTime(2024, 8, 8, 6, 7, 11, 528, DateTimeKind.Utc).AddTicks(1201),
+                            VerifiedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832"
                         });
                 });
 
@@ -753,7 +936,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Primary server",
                             DeviceStatus = "Available",
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 24, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5625),
+                            LastUsed = new DateTime(2024, 8, 7, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1953),
                             Name = "Server",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
@@ -763,7 +946,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Network switch",
                             DeviceStatus = "Disable",
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 10, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5646),
+                            LastUsed = new DateTime(2024, 7, 24, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1988),
                             Name = "Switch",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
@@ -773,7 +956,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Dell UltraSharp U2723QE 27 inch",
                             DeviceStatus = "In Use",
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 23, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5629),
+                            LastUsed = new DateTime(2024, 8, 6, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1959),
                             Name = "Screen",
                             OwnedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209"
                         },
@@ -783,7 +966,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Thai's PC",
                             DeviceStatus = "Available",
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 22, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5632),
+                            LastUsed = new DateTime(2024, 8, 5, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1963),
                             Name = "PC",
                             OwnedBy = "a687bb04-4f19-49d5-a60f-2db52044767c"
                         },
@@ -793,7 +976,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Main office router",
                             DeviceStatus = "Disable",
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 15, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5635),
+                            LastUsed = new DateTime(2024, 7, 29, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1968),
                             Name = "Router",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
@@ -803,7 +986,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Development desktop",
                             DeviceStatus = "Available",
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 24, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5637),
+                            LastUsed = new DateTime(2024, 8, 7, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1971),
                             Name = "Desktop",
                             OwnedBy = "a687bb04-4f19-49d5-a60f-2db52044767c"
                         },
@@ -813,7 +996,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "High resolution monitor",
                             DeviceStatus = "In Use",
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 20, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5639),
+                            LastUsed = new DateTime(2024, 8, 3, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1974),
                             Name = "Monitor",
                             OwnedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209"
                         },
@@ -823,7 +1006,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Office printer",
                             DeviceStatus = "Available",
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 18, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5641),
+                            LastUsed = new DateTime(2024, 8, 1, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1978),
                             Name = "Printer",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         },
@@ -833,7 +1016,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Designer's tablet",
                             DeviceStatus = "In Use",
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 23, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5642),
+                            LastUsed = new DateTime(2024, 8, 6, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1981),
                             Name = "Tablet",
                             OwnedBy = "a687bb04-4f19-49d5-a60f-2db52044767c"
                         },
@@ -843,7 +1026,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Description = "Conference room projector",
                             DeviceStatus = "Available",
                             IsDeleted = false,
-                            LastUsed = new DateTime(2024, 7, 21, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5644),
+                            LastUsed = new DateTime(2024, 8, 4, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1985),
                             Name = "Projector",
                             OwnedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d"
                         });
@@ -930,6 +1113,578 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("Folders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("cf0647c4-82c9-4c1a-b66e-e0aabd1ffa8c"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = true,
+                            LastModifiedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "AI-based Image Recognition",
+                            ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f")
+                        },
+                        new
+                        {
+                            Id = new Guid("3d4da4c6-7b89-4583-b043-9a772ef0d615"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Plans",
+                            ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f")
+                        },
+                        new
+                        {
+                            Id = new Guid("364bae55-459c-4cec-94fa-596de7121c02"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Meeting notes",
+                            ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f")
+                        },
+                        new
+                        {
+                            Id = new Guid("fc1cc9c8-3e2d-48ff-b57b-6068ccb8b821"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Reports",
+                            ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f")
+                        },
+                        new
+                        {
+                            Id = new Guid("5d3d515c-eeff-4b58-9a40-cbdfb8344b6e"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Designs",
+                            ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f")
+                        },
+                        new
+                        {
+                            Id = new Guid("26dceddb-c8a3-40f7-ab01-664c1c8ccb5e"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Training",
+                            ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f")
+                        },
+                        new
+                        {
+                            Id = new Guid("6bcf0059-9d2a-489d-805e-8e25415cfcf1"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Archives",
+                            ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f")
+                        },
+                        new
+                        {
+                            Id = new Guid("a5dad23d-e411-4b40-bce5-8c92327606bb"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "References",
+                            ProjectId = new Guid("f671377a-4c92-444a-ac7c-065c9fd0962f")
+                        },
+                        new
+                        {
+                            Id = new Guid("02c8e950-82cd-4581-b718-26ee9d8119c1"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = true,
+                            LastModifiedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "LIMS",
+                            ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d")
+                        },
+                        new
+                        {
+                            Id = new Guid("8e082ab2-9d91-4d61-bc04-3c012386838e"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Plans",
+                            ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d")
+                        },
+                        new
+                        {
+                            Id = new Guid("0f82480b-dbb4-42da-af33-e61a1cf8a681"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Meeting notes",
+                            ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d")
+                        },
+                        new
+                        {
+                            Id = new Guid("1adbdbd5-f1db-4b7c-82e2-54da8c447170"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Reports",
+                            ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d")
+                        },
+                        new
+                        {
+                            Id = new Guid("6094b285-a9e0-4b92-8096-a965d601ad77"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Designs",
+                            ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d")
+                        },
+                        new
+                        {
+                            Id = new Guid("a98f0c49-0ba1-4d2a-bdeb-226969c791e5"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Training",
+                            ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d")
+                        },
+                        new
+                        {
+                            Id = new Guid("3fc3f95e-224b-4ddf-9625-6f2a5453ce8a"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Archives",
+                            ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d")
+                        },
+                        new
+                        {
+                            Id = new Guid("8661d921-e356-4dbb-bcc3-7cbf8c75af04"),
+                            CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
+                            CreatedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "References",
+                            ProjectId = new Guid("c70f946f-c591-4794-b053-174765ae386d")
+                        },
+                        new
+                        {
+                            Id = new Guid("10971ed7-08d3-494e-910e-013ed8b087eb"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = true,
+                            LastModifiedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "VR application for patient",
+                            ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310")
+                        },
+                        new
+                        {
+                            Id = new Guid("8a3f6023-3c34-4147-8457-b09065857c9f"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Plans",
+                            ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310")
+                        },
+                        new
+                        {
+                            Id = new Guid("d8c6ec2a-4a4c-403d-a955-55be2b3d1bf4"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Meeting notes",
+                            ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310")
+                        },
+                        new
+                        {
+                            Id = new Guid("2f66eb6d-d1dc-4a22-bfb7-01e9474da600"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Reports",
+                            ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310")
+                        },
+                        new
+                        {
+                            Id = new Guid("31306682-6aca-4631-9d30-d3654399fc0f"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Designs",
+                            ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310")
+                        },
+                        new
+                        {
+                            Id = new Guid("6044f3de-4532-46ec-8919-1a97cc6995dc"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Training",
+                            ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310")
+                        },
+                        new
+                        {
+                            Id = new Guid("4550149d-dd89-4836-a2af-a3757a11d216"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Archives",
+                            ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310")
+                        },
+                        new
+                        {
+                            Id = new Guid("ac740fb1-7d49-488f-aa1e-5d2b6c5706b2"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "References",
+                            ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310")
+                        },
+                        new
+                        {
+                            Id = new Guid("02fb7bc5-0304-4375-899b-011c18a24d02"),
+                            CreatedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832",
+                            CreatedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = true,
+                            LastModifiedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Research Paper on Quantum Computing",
+                            ProjectId = new Guid("1b3c2e9a-c77c-417e-a093-8d701d2b4821")
+                        },
+                        new
+                        {
+                            Id = new Guid("5a336113-63ff-475f-b1cd-aa96b9044cba"),
+                            CreatedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832",
+                            CreatedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Plans",
+                            ProjectId = new Guid("1b3c2e9a-c77c-417e-a093-8d701d2b4821")
+                        },
+                        new
+                        {
+                            Id = new Guid("8c147809-aa39-46ce-b21e-a92d36fc3930"),
+                            CreatedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832",
+                            CreatedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Documents",
+                            ProjectId = new Guid("1b3c2e9a-c77c-417e-a093-8d701d2b4821")
+                        },
+                        new
+                        {
+                            Id = new Guid("4e08ebca-e59f-4a0b-bee8-7b796bee55b8"),
+                            CreatedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832",
+                            CreatedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Report",
+                            ProjectId = new Guid("1b3c2e9a-c77c-417e-a093-8d701d2b4821")
+                        },
+                        new
+                        {
+                            Id = new Guid("741a6c86-ccf7-4332-bad0-83640682a461"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2023, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = true,
+                            LastModifiedDate = new DateTime(2024, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "AI in Healthcare",
+                            ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42")
+                        },
+                        new
+                        {
+                            Id = new Guid("3b61e61b-170d-4631-8618-83dfed8a9912"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2023, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Plans",
+                            ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42")
+                        },
+                        new
+                        {
+                            Id = new Guid("eb80ac42-bc4e-4f5f-b984-e5ffaa295bb7"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2023, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Meeting notes",
+                            ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42")
+                        },
+                        new
+                        {
+                            Id = new Guid("0007e96d-7dbe-4497-95e3-5d1874001b9c"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2023, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Reports",
+                            ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42")
+                        },
+                        new
+                        {
+                            Id = new Guid("0fc95522-0f6f-4b95-b285-8c27e90e6ca4"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2023, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Designs",
+                            ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42")
+                        },
+                        new
+                        {
+                            Id = new Guid("63c40e3d-a6fe-4c6a-a0d0-97ef3fb15aef"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2023, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Training",
+                            ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42")
+                        },
+                        new
+                        {
+                            Id = new Guid("e080f78e-0a10-48cc-9882-955482d61c2d"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2023, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Archives",
+                            ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42")
+                        },
+                        new
+                        {
+                            Id = new Guid("dae3e199-ba63-4042-a8e8-13ad2101e389"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2023, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "References",
+                            ProjectId = new Guid("10fee09a-22f0-4e5e-96b3-62417249ee42")
+                        },
+                        new
+                        {
+                            Id = new Guid("1c448e0c-0c0f-4510-b3a7-c627fd0a07b7"),
+                            CreatedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973",
+                            CreatedDate = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = true,
+                            LastModifiedDate = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Environmental Monitoring",
+                            ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe")
+                        },
+                        new
+                        {
+                            Id = new Guid("77e69b15-e545-4759-9d25-84348395f831"),
+                            CreatedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973",
+                            CreatedDate = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Plans",
+                            ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe")
+                        },
+                        new
+                        {
+                            Id = new Guid("b33a15a8-9de7-4530-9f13-5930f060e71b"),
+                            CreatedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973",
+                            CreatedDate = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Meeting notes",
+                            ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe")
+                        },
+                        new
+                        {
+                            Id = new Guid("6f5a29a1-8b39-4a81-a38e-b72f2066e949"),
+                            CreatedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973",
+                            CreatedDate = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Reports",
+                            ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe")
+                        },
+                        new
+                        {
+                            Id = new Guid("bfe40217-6318-43b0-b8df-369cb4341be0"),
+                            CreatedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973",
+                            CreatedDate = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Designs",
+                            ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe")
+                        },
+                        new
+                        {
+                            Id = new Guid("5d404237-1509-4fc3-b813-c197390638f4"),
+                            CreatedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973",
+                            CreatedDate = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "References",
+                            ProjectId = new Guid("e02093b0-3a46-4b6f-87e0-5c7a5be650fe")
+                        },
+                        new
+                        {
+                            Id = new Guid("e3805407-9ec5-4639-b375-d8314e3493ff"),
+                            CreatedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832",
+                            CreatedDate = new DateTime(2024, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = true,
+                            LastModifiedDate = new DateTime(2024, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Mobile Health App",
+                            ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1")
+                        },
+                        new
+                        {
+                            Id = new Guid("21e0c3a6-e1fd-4b0e-9f81-bbf09612c039"),
+                            CreatedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832",
+                            CreatedDate = new DateTime(2024, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Plans",
+                            ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1")
+                        },
+                        new
+                        {
+                            Id = new Guid("a1fb5dbd-27c9-458a-b077-b68be232ff14"),
+                            CreatedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832",
+                            CreatedDate = new DateTime(2024, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Designs",
+                            ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1")
+                        },
+                        new
+                        {
+                            Id = new Guid("65a377c8-a617-4231-b44c-02a63b0cba16"),
+                            CreatedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832",
+                            CreatedDate = new DateTime(2024, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Reports",
+                            ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1")
+                        },
+                        new
+                        {
+                            Id = new Guid("924ba20b-f0dd-4f7f-8d32-077b56878bcc"),
+                            CreatedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832",
+                            CreatedDate = new DateTime(2024, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "References",
+                            ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1")
+                        },
+                        new
+                        {
+                            Id = new Guid("e6790242-91e6-476a-89eb-a6278e5576ea"),
+                            CreatedBy = "f64cc4f0-ada8-4b0b-86c7-d28b29bc4832",
+                            CreatedDate = new DateTime(2024, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Archives",
+                            ProjectId = new Guid("52dd6c08-8b05-43b3-96a6-fc1c654011a1")
+                        },
+                        new
+                        {
+                            Id = new Guid("ec97db29-f1ce-49e7-a48c-ff0242bde1ee"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2024, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = true,
+                            LastModifiedDate = new DateTime(2024, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Virtual Reality Training Platform",
+                            ProjectId = new Guid("f2cc754b-fd44-45db-b3d8-32db885ba9bd")
+                        },
+                        new
+                        {
+                            Id = new Guid("67dde407-6c9c-4ecb-b195-2adce8df3240"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2024, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Documents",
+                            ProjectId = new Guid("f2cc754b-fd44-45db-b3d8-32db885ba9bd")
+                        },
+                        new
+                        {
+                            Id = new Guid("763faa23-09e3-4a63-a2db-acb1749fda5d"),
+                            CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            CreatedDate = new DateTime(2024, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Plans",
+                            ProjectId = new Guid("f2cc754b-fd44-45db-b3d8-32db885ba9bd")
+                        },
+                        new
+                        {
+                            Id = new Guid("d99bab87-a53b-45fe-97c4-2ebb2374f19b"),
+                            CreatedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973",
+                            CreatedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = true,
+                            LastModifiedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Data Analytics for Public Health",
+                            ProjectId = new Guid("f2cc754b-fd44-45db-b3d8-32db885ba9bd")
+                        },
+                        new
+                        {
+                            Id = new Guid("85a28539-fbfa-4f78-8291-404d70ca55be"),
+                            CreatedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973",
+                            CreatedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Plans",
+                            ProjectId = new Guid("f2cc754b-fd44-45db-b3d8-32db885ba9bd")
+                        },
+                        new
+                        {
+                            Id = new Guid("528d1c9a-6f9b-4e06-b142-81aa611bee85"),
+                            CreatedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973",
+                            CreatedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Report",
+                            ProjectId = new Guid("f2cc754b-fd44-45db-b3d8-32db885ba9bd")
+                        },
+                        new
+                        {
+                            Id = new Guid("ae2e1149-8242-4e8c-8bbc-8ed4fca7a0c9"),
+                            CreatedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973",
+                            CreatedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Meeting Notes",
+                            ProjectId = new Guid("f2cc754b-fd44-45db-b3d8-32db885ba9bd")
+                        },
+                        new
+                        {
+                            Id = new Guid("2fda3f69-9971-4415-83c3-2f0fd0e6fdd1"),
+                            CreatedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973",
+                            CreatedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Designs",
+                            ProjectId = new Guid("f2cc754b-fd44-45db-b3d8-32db885ba9bd")
+                        },
+                        new
+                        {
+                            Id = new Guid("f13840b4-fa77-4cfe-83cd-0a71b7115191"),
+                            CreatedBy = "c4a15b23-9d00-4ec5-acc9-493354e91973",
+                            CreatedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRoot = false,
+                            LastModifiedDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "References",
+                            ProjectId = new Guid("f2cc754b-fd44-45db-b3d8-32db885ba9bd")
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.FolderClosure", b =>
@@ -951,6 +1706,638 @@ namespace LMS_BACKEND_MAIN.Migrations
                     b.HasIndex("DescendantID");
 
                     b.ToTable("FoldersClosure");
+
+                    b.HasData(
+                        new
+                        {
+                            AncestorID = new Guid("cf0647c4-82c9-4c1a-b66e-e0aabd1ffa8c"),
+                            DescendantID = new Guid("cf0647c4-82c9-4c1a-b66e-e0aabd1ffa8c"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("cf0647c4-82c9-4c1a-b66e-e0aabd1ffa8c"),
+                            DescendantID = new Guid("3d4da4c6-7b89-4583-b043-9a772ef0d615"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("3d4da4c6-7b89-4583-b043-9a772ef0d615"),
+                            DescendantID = new Guid("3d4da4c6-7b89-4583-b043-9a772ef0d615"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("cf0647c4-82c9-4c1a-b66e-e0aabd1ffa8c"),
+                            DescendantID = new Guid("364bae55-459c-4cec-94fa-596de7121c02"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("364bae55-459c-4cec-94fa-596de7121c02"),
+                            DescendantID = new Guid("364bae55-459c-4cec-94fa-596de7121c02"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("cf0647c4-82c9-4c1a-b66e-e0aabd1ffa8c"),
+                            DescendantID = new Guid("fc1cc9c8-3e2d-48ff-b57b-6068ccb8b821"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("fc1cc9c8-3e2d-48ff-b57b-6068ccb8b821"),
+                            DescendantID = new Guid("fc1cc9c8-3e2d-48ff-b57b-6068ccb8b821"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("cf0647c4-82c9-4c1a-b66e-e0aabd1ffa8c"),
+                            DescendantID = new Guid("5d3d515c-eeff-4b58-9a40-cbdfb8344b6e"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("5d3d515c-eeff-4b58-9a40-cbdfb8344b6e"),
+                            DescendantID = new Guid("5d3d515c-eeff-4b58-9a40-cbdfb8344b6e"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("cf0647c4-82c9-4c1a-b66e-e0aabd1ffa8c"),
+                            DescendantID = new Guid("26dceddb-c8a3-40f7-ab01-664c1c8ccb5e"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("26dceddb-c8a3-40f7-ab01-664c1c8ccb5e"),
+                            DescendantID = new Guid("26dceddb-c8a3-40f7-ab01-664c1c8ccb5e"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("cf0647c4-82c9-4c1a-b66e-e0aabd1ffa8c"),
+                            DescendantID = new Guid("6bcf0059-9d2a-489d-805e-8e25415cfcf1"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("6bcf0059-9d2a-489d-805e-8e25415cfcf1"),
+                            DescendantID = new Guid("6bcf0059-9d2a-489d-805e-8e25415cfcf1"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("cf0647c4-82c9-4c1a-b66e-e0aabd1ffa8c"),
+                            DescendantID = new Guid("a5dad23d-e411-4b40-bce5-8c92327606bb"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("a5dad23d-e411-4b40-bce5-8c92327606bb"),
+                            DescendantID = new Guid("a5dad23d-e411-4b40-bce5-8c92327606bb"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("02c8e950-82cd-4581-b718-26ee9d8119c1"),
+                            DescendantID = new Guid("02c8e950-82cd-4581-b718-26ee9d8119c1"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("02c8e950-82cd-4581-b718-26ee9d8119c1"),
+                            DescendantID = new Guid("8e082ab2-9d91-4d61-bc04-3c012386838e"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("8e082ab2-9d91-4d61-bc04-3c012386838e"),
+                            DescendantID = new Guid("8e082ab2-9d91-4d61-bc04-3c012386838e"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("02c8e950-82cd-4581-b718-26ee9d8119c1"),
+                            DescendantID = new Guid("0f82480b-dbb4-42da-af33-e61a1cf8a681"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("0f82480b-dbb4-42da-af33-e61a1cf8a681"),
+                            DescendantID = new Guid("0f82480b-dbb4-42da-af33-e61a1cf8a681"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("02c8e950-82cd-4581-b718-26ee9d8119c1"),
+                            DescendantID = new Guid("1adbdbd5-f1db-4b7c-82e2-54da8c447170"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("1adbdbd5-f1db-4b7c-82e2-54da8c447170"),
+                            DescendantID = new Guid("1adbdbd5-f1db-4b7c-82e2-54da8c447170"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("02c8e950-82cd-4581-b718-26ee9d8119c1"),
+                            DescendantID = new Guid("6094b285-a9e0-4b92-8096-a965d601ad77"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("6094b285-a9e0-4b92-8096-a965d601ad77"),
+                            DescendantID = new Guid("6094b285-a9e0-4b92-8096-a965d601ad77"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("02c8e950-82cd-4581-b718-26ee9d8119c1"),
+                            DescendantID = new Guid("a98f0c49-0ba1-4d2a-bdeb-226969c791e5"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("a98f0c49-0ba1-4d2a-bdeb-226969c791e5"),
+                            DescendantID = new Guid("a98f0c49-0ba1-4d2a-bdeb-226969c791e5"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("02c8e950-82cd-4581-b718-26ee9d8119c1"),
+                            DescendantID = new Guid("3fc3f95e-224b-4ddf-9625-6f2a5453ce8a"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("3fc3f95e-224b-4ddf-9625-6f2a5453ce8a"),
+                            DescendantID = new Guid("3fc3f95e-224b-4ddf-9625-6f2a5453ce8a"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("02c8e950-82cd-4581-b718-26ee9d8119c1"),
+                            DescendantID = new Guid("8661d921-e356-4dbb-bcc3-7cbf8c75af04"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("8661d921-e356-4dbb-bcc3-7cbf8c75af04"),
+                            DescendantID = new Guid("8661d921-e356-4dbb-bcc3-7cbf8c75af04"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("10971ed7-08d3-494e-910e-013ed8b087eb"),
+                            DescendantID = new Guid("10971ed7-08d3-494e-910e-013ed8b087eb"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("10971ed7-08d3-494e-910e-013ed8b087eb"),
+                            DescendantID = new Guid("8a3f6023-3c34-4147-8457-b09065857c9f"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("8a3f6023-3c34-4147-8457-b09065857c9f"),
+                            DescendantID = new Guid("8a3f6023-3c34-4147-8457-b09065857c9f"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("10971ed7-08d3-494e-910e-013ed8b087eb"),
+                            DescendantID = new Guid("d8c6ec2a-4a4c-403d-a955-55be2b3d1bf4"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("d8c6ec2a-4a4c-403d-a955-55be2b3d1bf4"),
+                            DescendantID = new Guid("d8c6ec2a-4a4c-403d-a955-55be2b3d1bf4"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("10971ed7-08d3-494e-910e-013ed8b087eb"),
+                            DescendantID = new Guid("2f66eb6d-d1dc-4a22-bfb7-01e9474da600"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("2f66eb6d-d1dc-4a22-bfb7-01e9474da600"),
+                            DescendantID = new Guid("2f66eb6d-d1dc-4a22-bfb7-01e9474da600"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("10971ed7-08d3-494e-910e-013ed8b087eb"),
+                            DescendantID = new Guid("31306682-6aca-4631-9d30-d3654399fc0f"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("31306682-6aca-4631-9d30-d3654399fc0f"),
+                            DescendantID = new Guid("31306682-6aca-4631-9d30-d3654399fc0f"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("10971ed7-08d3-494e-910e-013ed8b087eb"),
+                            DescendantID = new Guid("6044f3de-4532-46ec-8919-1a97cc6995dc"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("6044f3de-4532-46ec-8919-1a97cc6995dc"),
+                            DescendantID = new Guid("6044f3de-4532-46ec-8919-1a97cc6995dc"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("10971ed7-08d3-494e-910e-013ed8b087eb"),
+                            DescendantID = new Guid("4550149d-dd89-4836-a2af-a3757a11d216"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("4550149d-dd89-4836-a2af-a3757a11d216"),
+                            DescendantID = new Guid("4550149d-dd89-4836-a2af-a3757a11d216"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("10971ed7-08d3-494e-910e-013ed8b087eb"),
+                            DescendantID = new Guid("ac740fb1-7d49-488f-aa1e-5d2b6c5706b2"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("ac740fb1-7d49-488f-aa1e-5d2b6c5706b2"),
+                            DescendantID = new Guid("ac740fb1-7d49-488f-aa1e-5d2b6c5706b2"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("02fb7bc5-0304-4375-899b-011c18a24d02"),
+                            DescendantID = new Guid("02fb7bc5-0304-4375-899b-011c18a24d02"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("02fb7bc5-0304-4375-899b-011c18a24d02"),
+                            DescendantID = new Guid("5a336113-63ff-475f-b1cd-aa96b9044cba"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("5a336113-63ff-475f-b1cd-aa96b9044cba"),
+                            DescendantID = new Guid("5a336113-63ff-475f-b1cd-aa96b9044cba"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("02fb7bc5-0304-4375-899b-011c18a24d02"),
+                            DescendantID = new Guid("8c147809-aa39-46ce-b21e-a92d36fc3930"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("8c147809-aa39-46ce-b21e-a92d36fc3930"),
+                            DescendantID = new Guid("8c147809-aa39-46ce-b21e-a92d36fc3930"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("02fb7bc5-0304-4375-899b-011c18a24d02"),
+                            DescendantID = new Guid("4e08ebca-e59f-4a0b-bee8-7b796bee55b8"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("4e08ebca-e59f-4a0b-bee8-7b796bee55b8"),
+                            DescendantID = new Guid("4e08ebca-e59f-4a0b-bee8-7b796bee55b8"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("741a6c86-ccf7-4332-bad0-83640682a461"),
+                            DescendantID = new Guid("741a6c86-ccf7-4332-bad0-83640682a461"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("741a6c86-ccf7-4332-bad0-83640682a461"),
+                            DescendantID = new Guid("3b61e61b-170d-4631-8618-83dfed8a9912"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("3b61e61b-170d-4631-8618-83dfed8a9912"),
+                            DescendantID = new Guid("3b61e61b-170d-4631-8618-83dfed8a9912"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("741a6c86-ccf7-4332-bad0-83640682a461"),
+                            DescendantID = new Guid("eb80ac42-bc4e-4f5f-b984-e5ffaa295bb7"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("eb80ac42-bc4e-4f5f-b984-e5ffaa295bb7"),
+                            DescendantID = new Guid("eb80ac42-bc4e-4f5f-b984-e5ffaa295bb7"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("741a6c86-ccf7-4332-bad0-83640682a461"),
+                            DescendantID = new Guid("0007e96d-7dbe-4497-95e3-5d1874001b9c"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("0007e96d-7dbe-4497-95e3-5d1874001b9c"),
+                            DescendantID = new Guid("0007e96d-7dbe-4497-95e3-5d1874001b9c"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("741a6c86-ccf7-4332-bad0-83640682a461"),
+                            DescendantID = new Guid("0fc95522-0f6f-4b95-b285-8c27e90e6ca4"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("0fc95522-0f6f-4b95-b285-8c27e90e6ca4"),
+                            DescendantID = new Guid("0fc95522-0f6f-4b95-b285-8c27e90e6ca4"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("741a6c86-ccf7-4332-bad0-83640682a461"),
+                            DescendantID = new Guid("63c40e3d-a6fe-4c6a-a0d0-97ef3fb15aef"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("63c40e3d-a6fe-4c6a-a0d0-97ef3fb15aef"),
+                            DescendantID = new Guid("63c40e3d-a6fe-4c6a-a0d0-97ef3fb15aef"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("741a6c86-ccf7-4332-bad0-83640682a461"),
+                            DescendantID = new Guid("e080f78e-0a10-48cc-9882-955482d61c2d"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("e080f78e-0a10-48cc-9882-955482d61c2d"),
+                            DescendantID = new Guid("e080f78e-0a10-48cc-9882-955482d61c2d"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("741a6c86-ccf7-4332-bad0-83640682a461"),
+                            DescendantID = new Guid("dae3e199-ba63-4042-a8e8-13ad2101e389"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("dae3e199-ba63-4042-a8e8-13ad2101e389"),
+                            DescendantID = new Guid("dae3e199-ba63-4042-a8e8-13ad2101e389"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("1c448e0c-0c0f-4510-b3a7-c627fd0a07b7"),
+                            DescendantID = new Guid("1c448e0c-0c0f-4510-b3a7-c627fd0a07b7"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("1c448e0c-0c0f-4510-b3a7-c627fd0a07b7"),
+                            DescendantID = new Guid("77e69b15-e545-4759-9d25-84348395f831"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("77e69b15-e545-4759-9d25-84348395f831"),
+                            DescendantID = new Guid("77e69b15-e545-4759-9d25-84348395f831"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("1c448e0c-0c0f-4510-b3a7-c627fd0a07b7"),
+                            DescendantID = new Guid("b33a15a8-9de7-4530-9f13-5930f060e71b"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("b33a15a8-9de7-4530-9f13-5930f060e71b"),
+                            DescendantID = new Guid("b33a15a8-9de7-4530-9f13-5930f060e71b"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("1c448e0c-0c0f-4510-b3a7-c627fd0a07b7"),
+                            DescendantID = new Guid("6f5a29a1-8b39-4a81-a38e-b72f2066e949"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("6f5a29a1-8b39-4a81-a38e-b72f2066e949"),
+                            DescendantID = new Guid("6f5a29a1-8b39-4a81-a38e-b72f2066e949"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("1c448e0c-0c0f-4510-b3a7-c627fd0a07b7"),
+                            DescendantID = new Guid("bfe40217-6318-43b0-b8df-369cb4341be0"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("bfe40217-6318-43b0-b8df-369cb4341be0"),
+                            DescendantID = new Guid("bfe40217-6318-43b0-b8df-369cb4341be0"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("1c448e0c-0c0f-4510-b3a7-c627fd0a07b7"),
+                            DescendantID = new Guid("5d404237-1509-4fc3-b813-c197390638f4"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("5d404237-1509-4fc3-b813-c197390638f4"),
+                            DescendantID = new Guid("5d404237-1509-4fc3-b813-c197390638f4"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("e3805407-9ec5-4639-b375-d8314e3493ff"),
+                            DescendantID = new Guid("e3805407-9ec5-4639-b375-d8314e3493ff"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("e3805407-9ec5-4639-b375-d8314e3493ff"),
+                            DescendantID = new Guid("21e0c3a6-e1fd-4b0e-9f81-bbf09612c039"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("21e0c3a6-e1fd-4b0e-9f81-bbf09612c039"),
+                            DescendantID = new Guid("21e0c3a6-e1fd-4b0e-9f81-bbf09612c039"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("e3805407-9ec5-4639-b375-d8314e3493ff"),
+                            DescendantID = new Guid("a1fb5dbd-27c9-458a-b077-b68be232ff14"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("a1fb5dbd-27c9-458a-b077-b68be232ff14"),
+                            DescendantID = new Guid("a1fb5dbd-27c9-458a-b077-b68be232ff14"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("e3805407-9ec5-4639-b375-d8314e3493ff"),
+                            DescendantID = new Guid("65a377c8-a617-4231-b44c-02a63b0cba16"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("65a377c8-a617-4231-b44c-02a63b0cba16"),
+                            DescendantID = new Guid("65a377c8-a617-4231-b44c-02a63b0cba16"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("e3805407-9ec5-4639-b375-d8314e3493ff"),
+                            DescendantID = new Guid("924ba20b-f0dd-4f7f-8d32-077b56878bcc"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("924ba20b-f0dd-4f7f-8d32-077b56878bcc"),
+                            DescendantID = new Guid("924ba20b-f0dd-4f7f-8d32-077b56878bcc"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("e3805407-9ec5-4639-b375-d8314e3493ff"),
+                            DescendantID = new Guid("e6790242-91e6-476a-89eb-a6278e5576ea"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("e6790242-91e6-476a-89eb-a6278e5576ea"),
+                            DescendantID = new Guid("e6790242-91e6-476a-89eb-a6278e5576ea"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("ec97db29-f1ce-49e7-a48c-ff0242bde1ee"),
+                            DescendantID = new Guid("ec97db29-f1ce-49e7-a48c-ff0242bde1ee"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("ec97db29-f1ce-49e7-a48c-ff0242bde1ee"),
+                            DescendantID = new Guid("67dde407-6c9c-4ecb-b195-2adce8df3240"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("67dde407-6c9c-4ecb-b195-2adce8df3240"),
+                            DescendantID = new Guid("67dde407-6c9c-4ecb-b195-2adce8df3240"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("ec97db29-f1ce-49e7-a48c-ff0242bde1ee"),
+                            DescendantID = new Guid("763faa23-09e3-4a63-a2db-acb1749fda5d"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("763faa23-09e3-4a63-a2db-acb1749fda5d"),
+                            DescendantID = new Guid("763faa23-09e3-4a63-a2db-acb1749fda5d"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("d99bab87-a53b-45fe-97c4-2ebb2374f19b"),
+                            DescendantID = new Guid("d99bab87-a53b-45fe-97c4-2ebb2374f19b"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("d99bab87-a53b-45fe-97c4-2ebb2374f19b"),
+                            DescendantID = new Guid("85a28539-fbfa-4f78-8291-404d70ca55be"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("85a28539-fbfa-4f78-8291-404d70ca55be"),
+                            DescendantID = new Guid("85a28539-fbfa-4f78-8291-404d70ca55be"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("d99bab87-a53b-45fe-97c4-2ebb2374f19b"),
+                            DescendantID = new Guid("528d1c9a-6f9b-4e06-b142-81aa611bee85"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("528d1c9a-6f9b-4e06-b142-81aa611bee85"),
+                            DescendantID = new Guid("528d1c9a-6f9b-4e06-b142-81aa611bee85"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("d99bab87-a53b-45fe-97c4-2ebb2374f19b"),
+                            DescendantID = new Guid("ae2e1149-8242-4e8c-8bbc-8ed4fca7a0c9"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("ae2e1149-8242-4e8c-8bbc-8ed4fca7a0c9"),
+                            DescendantID = new Guid("ae2e1149-8242-4e8c-8bbc-8ed4fca7a0c9"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("d99bab87-a53b-45fe-97c4-2ebb2374f19b"),
+                            DescendantID = new Guid("2fda3f69-9971-4415-83c3-2f0fd0e6fdd1"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("2fda3f69-9971-4415-83c3-2f0fd0e6fdd1"),
+                            DescendantID = new Guid("2fda3f69-9971-4415-83c3-2f0fd0e6fdd1"),
+                            Depth = 0
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("d99bab87-a53b-45fe-97c4-2ebb2374f19b"),
+                            DescendantID = new Guid("f13840b4-fa77-4cfe-83cd-0a71b7115191"),
+                            Depth = 1
+                        },
+                        new
+                        {
+                            AncestorID = new Guid("f13840b4-fa77-4cfe-83cd-0a71b7115191"),
+                            DescendantID = new Guid("f13840b4-fa77-4cfe-83cd-0a71b7115191"),
+                            Depth = 0
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.Images", b =>
@@ -1318,6 +2705,15 @@ namespace LMS_BACKEND_MAIN.Migrations
                             IsLeader = false,
                             IsValidTeamMember = true,
                             JoinDate = new DateTime(2023, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProjectId = new Guid("f2cc754b-fd44-45db-b3d8-32db885ba9bd"),
+                            UserId = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
+                            IsDeleted = false,
+                            IsLeader = true,
+                            IsValidTeamMember = true,
+                            JoinDate = new DateTime(2024, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -2369,7 +3765,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("e331de18-289c-403d-8028-26c4b595587a"),
                             Content = "A new system update will be available tomorrow.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 7, 24, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5326),
+                            CreatedDate = new DateTime(2024, 8, 7, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1524),
                             NotificationType = "System",
                             Title = "System Update",
                             Url = ""
@@ -2379,7 +3775,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("dc42dcc5-b3d1-4bab-8263-bee081234d38"),
                             Content = "Scheduled maintenance will occur this weekend.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 7, 23, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5336),
+                            CreatedDate = new DateTime(2024, 8, 6, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1544),
                             NotificationType = "System",
                             Title = "Maintenance Notice",
                             Url = ""
@@ -2389,7 +3785,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("86514fb2-c7d5-487c-ba29-371a8c8c825d"),
                             Content = "We are excited to announce a new feature in our application.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 7, 22, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5339),
+                            CreatedDate = new DateTime(2024, 8, 5, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1549),
                             NotificationType = "System",
                             Title = "New Feature Release",
                             Url = ""
@@ -2399,7 +3795,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("b20db794-17a6-4802-aa6f-7e540e34643b"),
                             Content = "Please update your password to enhance security.",
                             CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
-                            CreatedDate = new DateTime(2024, 7, 21, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5341),
+                            CreatedDate = new DateTime(2024, 8, 4, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1563),
                             NotificationType = "System",
                             Title = "Security Alert",
                             Url = ""
@@ -2409,7 +3805,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("d6dedee7-ab6d-4bfd-bdf7-b3665679cc50"),
                             Content = "The system will be down for maintenance tonight.",
                             CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
-                            CreatedDate = new DateTime(2024, 7, 20, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5343),
+                            CreatedDate = new DateTime(2024, 8, 3, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1568),
                             NotificationType = "System",
                             Title = "Downtime Notification",
                             Url = ""
@@ -2419,7 +3815,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("e4455de4-ff95-4957-85a1-b03b8b97f9c3"),
                             Content = "Join weekly meeting.",
                             CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
-                            CreatedDate = new DateTime(2024, 7, 19, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5345),
+                            CreatedDate = new DateTime(2024, 8, 2, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1572),
                             NotificationType = "Project",
                             Title = "Weekly Meeting",
                             Url = ""
@@ -2429,7 +3825,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("4f517076-e6c7-43ce-93b6-9aeae4857760"),
                             Content = "Don't miss out on our latest promotions!",
                             CreatedBy = "a687bb04-4f19-49d5-a60f-2db52044767c",
-                            CreatedDate = new DateTime(2024, 7, 18, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5347),
+                            CreatedDate = new DateTime(2024, 8, 1, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1576),
                             NotificationType = "Project",
                             Title = "Promotion Alert",
                             Url = ""
@@ -2439,7 +3835,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("931129a9-986f-4560-99f1-a06b692c71a1"),
                             Content = "Please take a moment to complete our user survey.",
                             CreatedBy = "6c6abe62-f811-4a8b-96eb-ed326c47d209",
-                            CreatedDate = new DateTime(2024, 7, 17, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5349),
+                            CreatedDate = new DateTime(2024, 7, 31, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1580),
                             NotificationType = "Project",
                             Title = "Survey Request",
                             Url = ""
@@ -2449,7 +3845,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("5754541e-7c1e-4839-8021-963e90f6e4e0"),
                             Content = "Your account details have been updated.",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 7, 16, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5351),
+                            CreatedDate = new DateTime(2024, 7, 30, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1583),
                             NotificationType = "System",
                             Title = "Account Notice",
                             Url = ""
@@ -2459,7 +3855,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("a48b1a4c-83de-4469-a9ec-dbf01ea41ad5"),
                             Content = "Don't forget about the event tomorrow!",
                             CreatedBy = "97571dcc-079e-4c3a-ba9b-bbde3d03a03d",
-                            CreatedDate = new DateTime(2024, 7, 15, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5353),
+                            CreatedDate = new DateTime(2024, 7, 29, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(1586),
                             NotificationType = "System",
                             Title = "Event Reminder",
                             Url = ""
@@ -3437,7 +4833,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("75fb870f-e344-40c9-ab85-101631f22505"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5786),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2226),
                             Description = "Device was used for setting up a new development environment.",
                             DeviceStatus = "Available",
                             ScheduleId = new Guid("44efa2a7-4f64-4fc6-bbbe-869099817d4f")
@@ -3445,7 +4841,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("d3b039bd-813c-4b33-af98-2264dcb440c0"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5789),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2230),
                             Description = "The laptop was utilized for testing the latest software build.",
                             DeviceStatus = "In Use",
                             ScheduleId = new Guid("e377b750-0b20-4943-9e5d-6909d4810f13")
@@ -3453,7 +4849,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("c8fb056c-cff8-4db2-b951-01859431a35e"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5791),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2232),
                             Description = "Router firmware was updated and tested.",
                             DeviceStatus = "Available",
                             ScheduleId = new Guid("37d2c7b3-7406-418d-9062-e81dfff02d9a")
@@ -3461,7 +4857,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("8455c9b0-c2ca-4de4-bdee-3070dc8af954"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5792),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2234),
                             Description = "The desktop was used for backend development tasks.",
                             DeviceStatus = "Available",
                             ScheduleId = new Guid("e0fa81b1-9eea-4b4b-93a7-b7a34aae4014")
@@ -3469,7 +4865,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("426c57ce-68aa-498b-b603-16cf1e7a238d"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5794),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2237),
                             Description = "Monitor calibrated for color accuracy.",
                             DeviceStatus = "Available",
                             ScheduleId = new Guid("db1fcaa0-e934-4429-a567-2ac802d0b453")
@@ -3477,7 +4873,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("285ce1fd-470c-4474-ad1b-ba273c0e8653"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5796),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2240),
                             Description = "Printer serviced and toner replaced.",
                             DeviceStatus = "Available",
                             ScheduleId = new Guid("27f1b969-1b68-4cf8-8a51-c8be5356f7f8")
@@ -3485,7 +4881,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("dd8ac1ac-0f4f-45af-825e-e74e531b66dc"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5797),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2242),
                             Description = "Tablet used for sketching new UI designs.",
                             DeviceStatus = "Available",
                             ScheduleId = new Guid("4da0b3f8-95aa-40cd-ab32-75876ca13900")
@@ -3493,7 +4889,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("f1dcaea6-1670-47d7-b8cb-398b89ca09d0"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5799),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2245),
                             Description = "Projector used in a client presentation.",
                             DeviceStatus = "Available",
                             ScheduleId = new Guid("80d34442-7c14-4060-ae8f-24cda38e63f9")
@@ -3501,7 +4897,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("0e287e15-6c9f-44ab-9fb3-dc183f5e5e92"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5800),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2247),
                             Description = "Network switch configuration updated.",
                             DeviceStatus = "Available",
                             ScheduleId = new Guid("5dc94e7f-845b-480b-8c81-f1d50c359491")
@@ -3509,7 +4905,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("78d4e5bd-d685-49b5-8b12-e71df921ec65"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5802),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2249),
                             Description = "Server performance was monitored during load testing.",
                             DeviceStatus = "Available",
                             ScheduleId = new Guid("70f625f4-33f5-4c62-9718-d3e2c420e703")
@@ -3517,7 +4913,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("b9d04c5f-2ec0-4da1-92ab-7ef9bdcd82e4"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5803),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2251),
                             Description = "Developer's laptop used for bug fixing.",
                             DeviceStatus = "In Use",
                             ScheduleId = new Guid("77153502-8631-4b5f-b05d-76d4796c06d4")
@@ -3525,7 +4921,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("5faf118e-4687-47c2-9b83-ecb389b8b6d5"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5804),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2253),
                             Description = "Router settings optimized for network traffic.",
                             DeviceStatus = "Available",
                             ScheduleId = new Guid("8bb44d07-f470-4434-a023-6bdffb4311cc")
@@ -3533,7 +4929,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("76199946-58bd-473a-95a7-9da8afcb9fc7"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5806),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2256),
                             Description = "Desktop setup for new project development.",
                             DeviceStatus = "Available",
                             ScheduleId = new Guid("4fa30f09-e82a-4375-a28f-8190a8667a09")
@@ -3541,7 +4937,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("e4880a12-6d1d-4e9b-8832-89c5982b1346"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5807),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2258),
                             Description = "High-resolution monitor tested with graphic design software.",
                             DeviceStatus = "In Use",
                             ScheduleId = new Guid("77790ba9-1f3c-4943-9e39-097000fc6fa2")
@@ -3549,7 +4945,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("06a6fcd7-eb30-4728-9856-ee8d00f84810"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5809),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2260),
                             Description = "Designer's tablet updated with latest design apps.",
                             DeviceStatus = "Available",
                             ScheduleId = new Guid("5b1615a6-b870-456a-a483-e99a3f9122dc")
@@ -3557,7 +4953,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("cf4dfffd-74e9-46dd-b9b5-2a9d09001564"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5810),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2262),
                             Description = "Projector used for team meeting presentations.",
                             DeviceStatus = "Available",
                             ScheduleId = new Guid("ff18bb51-3c4e-4fcb-a73e-39f60996be8c")
@@ -3565,7 +4961,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("19f6bcc1-2a8d-4c5d-ab3b-d5d3b21da159"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5811),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2265),
                             Description = "Network switch maintenance and inspection.",
                             DeviceStatus = "In Use",
                             ScheduleId = new Guid("eb607a7a-2572-4a16-bbbd-99f3db25d40b")
@@ -3573,7 +4969,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("697817b7-9d65-47dd-a39b-909f89e25bce"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5813),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2267),
                             Description = "The desktop was used for backend development tasks.",
                             DeviceStatus = "Available",
                             ScheduleId = new Guid("5547314b-521a-47e9-ad60-5e376e686636")
@@ -3581,7 +4977,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("b774e795-3469-4b58-afe0-5f6e9e0a6aec"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5814),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2271),
                             Description = "The desktop was used for backend development tasks.",
                             DeviceStatus = "In Use",
                             ScheduleId = new Guid("9bfeb5df-03a4-4ae5-904e-1779c19a5313")
@@ -3589,7 +4985,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             Id = new Guid("5e2385b4-08f6-4e9e-888b-5d94c4b7fb78"),
-                            CreatedDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5815),
+                            CreatedDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2273),
                             Description = "The desktop was used for backend development tasks.",
                             DeviceStatus = "In Use",
                             ScheduleId = new Guid("6500363e-6574-42e7-8577-6dc87a55ce15")
@@ -3643,200 +5039,200 @@ namespace LMS_BACKEND_MAIN.Migrations
                             Id = new Guid("44efa2a7-4f64-4fc6-bbbe-869099817d4f"),
                             AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             DeviceId = new Guid("9eae03ad-745d-47c0-baef-ae4657964e6a"),
-                            EndDate = new DateTime(2024, 7, 25, 20, 8, 32, 870, DateTimeKind.Local).AddTicks(5679),
+                            EndDate = new DateTime(2024, 8, 8, 15, 7, 11, 528, DateTimeKind.Local).AddTicks(2034),
                             Purpose = "Testing",
-                            ScheduledDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5674),
-                            StartDate = new DateTime(2024, 7, 25, 19, 8, 32, 870, DateTimeKind.Local).AddTicks(5678)
+                            ScheduledDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2031),
+                            StartDate = new DateTime(2024, 8, 8, 14, 7, 11, 528, DateTimeKind.Local).AddTicks(2032)
                         },
                         new
                         {
                             Id = new Guid("70f625f4-33f5-4c62-9718-d3e2c420e703"),
                             AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 23, 0, 8, 32, 870, DateTimeKind.Local).AddTicks(5706),
+                            EndDate = new DateTime(2024, 8, 5, 19, 7, 11, 528, DateTimeKind.Local).AddTicks(2108),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 22, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5705),
-                            StartDate = new DateTime(2024, 7, 22, 23, 8, 32, 870, DateTimeKind.Local).AddTicks(5705)
+                            ScheduledDate = new DateTime(2024, 8, 5, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2106),
+                            StartDate = new DateTime(2024, 8, 5, 18, 7, 11, 528, DateTimeKind.Local).AddTicks(2107)
                         },
                         new
                         {
                             Id = new Guid("77153502-8631-4b5f-b05d-76d4796c06d4"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 21, 22, 8, 32, 870, DateTimeKind.Local).AddTicks(5709),
+                            EndDate = new DateTime(2024, 8, 4, 17, 7, 11, 528, DateTimeKind.Local).AddTicks(2121),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 21, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5708),
-                            StartDate = new DateTime(2024, 7, 21, 21, 8, 32, 870, DateTimeKind.Local).AddTicks(5708)
+                            ScheduledDate = new DateTime(2024, 8, 4, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2119),
+                            StartDate = new DateTime(2024, 8, 4, 16, 7, 11, 528, DateTimeKind.Local).AddTicks(2120)
                         },
                         new
                         {
                             Id = new Guid("8bb44d07-f470-4434-a023-6bdffb4311cc"),
                             AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 21, 0, 8, 32, 870, DateTimeKind.Local).AddTicks(5712),
+                            EndDate = new DateTime(2024, 8, 3, 19, 7, 11, 528, DateTimeKind.Local).AddTicks(2126),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 20, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5711),
-                            StartDate = new DateTime(2024, 7, 20, 23, 8, 32, 870, DateTimeKind.Local).AddTicks(5711)
+                            ScheduledDate = new DateTime(2024, 8, 3, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2124),
+                            StartDate = new DateTime(2024, 8, 3, 18, 7, 11, 528, DateTimeKind.Local).AddTicks(2125)
                         },
                         new
                         {
                             Id = new Guid("4fa30f09-e82a-4375-a28f-8190a8667a09"),
                             AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 20, 0, 8, 32, 870, DateTimeKind.Local).AddTicks(5715),
+                            EndDate = new DateTime(2024, 8, 2, 19, 7, 11, 528, DateTimeKind.Local).AddTicks(2132),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 19, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5713),
-                            StartDate = new DateTime(2024, 7, 19, 21, 8, 32, 870, DateTimeKind.Local).AddTicks(5714)
+                            ScheduledDate = new DateTime(2024, 8, 2, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2129),
+                            StartDate = new DateTime(2024, 8, 2, 16, 7, 11, 528, DateTimeKind.Local).AddTicks(2130)
                         },
                         new
                         {
                             Id = new Guid("77790ba9-1f3c-4943-9e39-097000fc6fa2"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 18, 22, 8, 32, 870, DateTimeKind.Local).AddTicks(5717),
+                            EndDate = new DateTime(2024, 8, 1, 17, 7, 11, 528, DateTimeKind.Local).AddTicks(2137),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 18, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5716),
-                            StartDate = new DateTime(2024, 7, 18, 21, 8, 32, 870, DateTimeKind.Local).AddTicks(5717)
+                            ScheduledDate = new DateTime(2024, 8, 1, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2135),
+                            StartDate = new DateTime(2024, 8, 1, 16, 7, 11, 528, DateTimeKind.Local).AddTicks(2136)
                         },
                         new
                         {
                             Id = new Guid("5b1615a6-b870-456a-a483-e99a3f9122dc"),
                             AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             DeviceId = new Guid("11d331b4-136c-4844-a686-ffc38c103268"),
-                            EndDate = new DateTime(2024, 7, 23, 22, 8, 32, 870, DateTimeKind.Local).AddTicks(5720),
+                            EndDate = new DateTime(2024, 8, 6, 17, 7, 11, 528, DateTimeKind.Local).AddTicks(2142),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 23, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5719),
-                            StartDate = new DateTime(2024, 7, 23, 21, 8, 32, 870, DateTimeKind.Local).AddTicks(5719)
+                            ScheduledDate = new DateTime(2024, 8, 6, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2140),
+                            StartDate = new DateTime(2024, 8, 6, 16, 7, 11, 528, DateTimeKind.Local).AddTicks(2141)
                         },
                         new
                         {
                             Id = new Guid("ff18bb51-3c4e-4fcb-a73e-39f60996be8c"),
                             AccountId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
                             DeviceId = new Guid("b4dc2d48-482a-48a2-bad6-7a1e0e3139b7"),
-                            EndDate = new DateTime(2024, 7, 24, 22, 8, 32, 870, DateTimeKind.Local).AddTicks(5723),
+                            EndDate = new DateTime(2024, 8, 7, 17, 7, 11, 528, DateTimeKind.Local).AddTicks(2156),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 24, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5722),
-                            StartDate = new DateTime(2024, 7, 24, 21, 8, 32, 870, DateTimeKind.Local).AddTicks(5722)
+                            ScheduledDate = new DateTime(2024, 8, 7, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2154),
+                            StartDate = new DateTime(2024, 8, 7, 16, 7, 11, 528, DateTimeKind.Local).AddTicks(2155)
                         },
                         new
                         {
                             Id = new Guid("eb607a7a-2572-4a16-bbbd-99f3db25d40b"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("0a395b72-ae0d-4a49-b7f8-1763de733068"),
-                            EndDate = new DateTime(2024, 7, 25, 22, 8, 32, 870, DateTimeKind.Local).AddTicks(5725),
+                            EndDate = new DateTime(2024, 8, 8, 17, 7, 11, 528, DateTimeKind.Local).AddTicks(2161),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5724),
-                            StartDate = new DateTime(2024, 7, 25, 21, 8, 32, 870, DateTimeKind.Local).AddTicks(5725)
+                            ScheduledDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2159),
+                            StartDate = new DateTime(2024, 8, 8, 16, 7, 11, 528, DateTimeKind.Local).AddTicks(2160)
                         },
                         new
                         {
                             Id = new Guid("5547314b-521a-47e9-ad60-5e376e686636"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("5947a22f-0191-419c-873b-4324b5b95e84"),
-                            EndDate = new DateTime(2024, 7, 25, 22, 8, 32, 870, DateTimeKind.Local).AddTicks(5728),
+                            EndDate = new DateTime(2024, 8, 8, 17, 7, 11, 528, DateTimeKind.Local).AddTicks(2166),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5727),
-                            StartDate = new DateTime(2024, 7, 25, 21, 8, 32, 870, DateTimeKind.Local).AddTicks(5728)
+                            ScheduledDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2164),
+                            StartDate = new DateTime(2024, 8, 8, 16, 7, 11, 528, DateTimeKind.Local).AddTicks(2165)
                         },
                         new
                         {
                             Id = new Guid("9bfeb5df-03a4-4ae5-904e-1779c19a5313"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("a1d65f8a-f7fd-4995-940f-6ab254523f90"),
-                            EndDate = new DateTime(2024, 7, 24, 22, 8, 32, 870, DateTimeKind.Local).AddTicks(5731),
+                            EndDate = new DateTime(2024, 8, 7, 17, 7, 11, 528, DateTimeKind.Local).AddTicks(2171),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 24, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5730),
-                            StartDate = new DateTime(2024, 7, 24, 21, 8, 32, 870, DateTimeKind.Local).AddTicks(5730)
+                            ScheduledDate = new DateTime(2024, 8, 7, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2169),
+                            StartDate = new DateTime(2024, 8, 7, 16, 7, 11, 528, DateTimeKind.Local).AddTicks(2170)
                         },
                         new
                         {
                             Id = new Guid("e377b750-0b20-4943-9e5d-6909d4810f13"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("9eae03ad-745d-47c0-baef-ae4657964e6a"),
-                            EndDate = new DateTime(2024, 7, 25, 22, 8, 32, 870, DateTimeKind.Local).AddTicks(5683),
+                            EndDate = new DateTime(2024, 8, 8, 17, 7, 11, 528, DateTimeKind.Local).AddTicks(2039),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 25, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5681),
-                            StartDate = new DateTime(2024, 7, 25, 21, 8, 32, 870, DateTimeKind.Local).AddTicks(5682)
+                            ScheduledDate = new DateTime(2024, 8, 8, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2037),
+                            StartDate = new DateTime(2024, 8, 8, 16, 7, 11, 528, DateTimeKind.Local).AddTicks(2038)
                         },
                         new
                         {
                             Id = new Guid("6500363e-6574-42e7-8577-6dc87a55ce15"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("eb934470-4e73-41a8-8304-3bcb1ea18502"),
-                            EndDate = new DateTime(2024, 7, 23, 22, 8, 32, 870, DateTimeKind.Local).AddTicks(5734),
+                            EndDate = new DateTime(2024, 8, 6, 17, 7, 11, 528, DateTimeKind.Local).AddTicks(2176),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 23, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5733),
-                            StartDate = new DateTime(2024, 7, 23, 21, 8, 32, 870, DateTimeKind.Local).AddTicks(5733)
+                            ScheduledDate = new DateTime(2024, 8, 6, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2174),
+                            StartDate = new DateTime(2024, 8, 6, 16, 7, 11, 528, DateTimeKind.Local).AddTicks(2175)
                         },
                         new
                         {
                             Id = new Guid("37d2c7b3-7406-418d-9062-e81dfff02d9a"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("0104f1af-a314-4c64-8b8d-92c72caa97df"),
-                            EndDate = new DateTime(2024, 7, 24, 20, 8, 32, 870, DateTimeKind.Local).AddTicks(5686),
+                            EndDate = new DateTime(2024, 8, 7, 15, 7, 11, 528, DateTimeKind.Local).AddTicks(2044),
                             Purpose = "Testing",
-                            ScheduledDate = new DateTime(2024, 7, 24, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5685),
-                            StartDate = new DateTime(2024, 7, 24, 19, 8, 32, 870, DateTimeKind.Local).AddTicks(5686)
+                            ScheduledDate = new DateTime(2024, 8, 7, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2042),
+                            StartDate = new DateTime(2024, 8, 7, 14, 7, 11, 528, DateTimeKind.Local).AddTicks(2043)
                         },
                         new
                         {
                             Id = new Guid("e0fa81b1-9eea-4b4b-93a7-b7a34aae4014"),
                             AccountId = "7397c854-194b-4749-9205-f46e4f2fccf8",
                             DeviceId = new Guid("0104f1af-a314-4c64-8b8d-92c72caa97df"),
-                            EndDate = new DateTime(2024, 7, 24, 22, 8, 32, 870, DateTimeKind.Local).AddTicks(5689),
+                            EndDate = new DateTime(2024, 8, 7, 17, 7, 11, 528, DateTimeKind.Local).AddTicks(2074),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 24, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5688),
-                            StartDate = new DateTime(2024, 7, 24, 21, 8, 32, 870, DateTimeKind.Local).AddTicks(5689)
+                            ScheduledDate = new DateTime(2024, 8, 7, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2053),
+                            StartDate = new DateTime(2024, 8, 7, 16, 7, 11, 528, DateTimeKind.Local).AddTicks(2072)
                         },
                         new
                         {
                             Id = new Guid("db1fcaa0-e934-4429-a567-2ac802d0b453"),
                             AccountId = "6ad0a020-e6a6-4e66-8f4a-d815594ba862",
                             DeviceId = new Guid("0104f1af-a314-4c64-8b8d-92c72caa97df"),
-                            EndDate = new DateTime(2024, 7, 25, 0, 8, 32, 870, DateTimeKind.Local).AddTicks(5692),
+                            EndDate = new DateTime(2024, 8, 7, 19, 7, 11, 528, DateTimeKind.Local).AddTicks(2079),
                             Purpose = "Testing",
-                            ScheduledDate = new DateTime(2024, 7, 24, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5691),
-                            StartDate = new DateTime(2024, 7, 24, 23, 8, 32, 870, DateTimeKind.Local).AddTicks(5691)
+                            ScheduledDate = new DateTime(2024, 8, 7, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2077),
+                            StartDate = new DateTime(2024, 8, 7, 18, 7, 11, 528, DateTimeKind.Local).AddTicks(2078)
                         },
                         new
                         {
                             Id = new Guid("27f1b969-1b68-4cf8-8a51-c8be5356f7f8"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 23, 22, 8, 32, 870, DateTimeKind.Local).AddTicks(5695),
+                            EndDate = new DateTime(2024, 8, 6, 17, 7, 11, 528, DateTimeKind.Local).AddTicks(2087),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 23, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5694),
-                            StartDate = new DateTime(2024, 7, 23, 21, 8, 32, 870, DateTimeKind.Local).AddTicks(5694)
+                            ScheduledDate = new DateTime(2024, 8, 6, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2082),
+                            StartDate = new DateTime(2024, 8, 6, 16, 7, 11, 528, DateTimeKind.Local).AddTicks(2086)
                         },
                         new
                         {
                             Id = new Guid("4da0b3f8-95aa-40cd-ab32-75876ca13900"),
                             AccountId = "603600b5-ca65-4fa7-817e-4583ef22b330",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 24, 0, 8, 32, 870, DateTimeKind.Local).AddTicks(5698),
+                            EndDate = new DateTime(2024, 8, 6, 19, 7, 11, 528, DateTimeKind.Local).AddTicks(2093),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 23, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5697),
-                            StartDate = new DateTime(2024, 7, 23, 23, 8, 32, 870, DateTimeKind.Local).AddTicks(5697)
+                            ScheduledDate = new DateTime(2024, 8, 6, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2091),
+                            StartDate = new DateTime(2024, 8, 6, 18, 7, 11, 528, DateTimeKind.Local).AddTicks(2092)
                         },
                         new
                         {
                             Id = new Guid("80d34442-7c14-4060-ae8f-24cda38e63f9"),
                             AccountId = "1c5c3b44-7164-4232-a49a-10ab367d5102",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 24, 20, 8, 32, 870, DateTimeKind.Local).AddTicks(5700),
+                            EndDate = new DateTime(2024, 8, 7, 15, 7, 11, 528, DateTimeKind.Local).AddTicks(2098),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 24, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5699),
-                            StartDate = new DateTime(2024, 7, 24, 19, 8, 32, 870, DateTimeKind.Local).AddTicks(5700)
+                            ScheduledDate = new DateTime(2024, 8, 7, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2096),
+                            StartDate = new DateTime(2024, 8, 7, 14, 7, 11, 528, DateTimeKind.Local).AddTicks(2097)
                         },
                         new
                         {
                             Id = new Guid("5dc94e7f-845b-480b-8c81-f1d50c359491"),
                             AccountId = "68fdf17c-7cbe-4a4c-a674-c530ffc77667",
                             DeviceId = new Guid("2bda9dfe-1337-4372-bec0-c4c5e690ff6a"),
-                            EndDate = new DateTime(2024, 7, 22, 22, 8, 32, 870, DateTimeKind.Local).AddTicks(5703),
+                            EndDate = new DateTime(2024, 8, 5, 17, 7, 11, 528, DateTimeKind.Local).AddTicks(2103),
                             Purpose = "Development",
-                            ScheduledDate = new DateTime(2024, 7, 22, 18, 8, 32, 870, DateTimeKind.Local).AddTicks(5702),
-                            StartDate = new DateTime(2024, 7, 22, 21, 8, 32, 870, DateTimeKind.Local).AddTicks(5703)
+                            ScheduledDate = new DateTime(2024, 8, 5, 13, 7, 11, 528, DateTimeKind.Local).AddTicks(2101),
+                            StartDate = new DateTime(2024, 8, 5, 16, 7, 11, 528, DateTimeKind.Local).AddTicks(2102)
                         });
                 });
 
@@ -6475,6 +7871,21 @@ namespace LMS_BACKEND_MAIN.Migrations
                         },
                         new
                         {
+                            UserId = "7c9d1962-a18c-48c9-8c1d-a8cc1a338500",
+                            RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d"
+                        },
+                        new
+                        {
+                            UserId = "2c3fb112-bab3-4e92-8ea5-99f9e459eebb",
+                            RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d"
+                        },
+                        new
+                        {
+                            UserId = "fde461fc-70cb-4334-be2a-521f1e7984da",
+                            RoleId = "fef2c515-3fe0-4b7d-9f9f-a2ecca647e8d"
+                        },
+                        new
+                        {
                             UserId = "a687bb04-4f19-49d5-a60f-2db52044767c",
                             RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2"
                         },
@@ -6551,6 +7962,21 @@ namespace LMS_BACKEND_MAIN.Migrations
                         new
                         {
                             UserId = "094505b2-4be4-43c6-ac2f-53428f706d19",
+                            RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2"
+                        },
+                        new
+                        {
+                            UserId = "aa95f3d5-3f75-422a-b667-48afe6789500",
+                            RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2"
+                        },
+                        new
+                        {
+                            UserId = "fbf09f94-8b51-4611-8997-a40481400e5d",
+                            RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2"
+                        },
+                        new
+                        {
+                            UserId = "f0c48f74-0461-4b07-abf1-912384cd5cbc",
                             RoleId = "cd10e24b-ecbc-4dd0-8141-32c452e1d1c2"
                         });
                 });
@@ -6660,7 +8086,7 @@ namespace LMS_BACKEND_MAIN.Migrations
                         .HasConstraintName("FK_Comments_Accounts");
 
                     b.HasOne("Entities.Models.Comment", "Parent")
-                        .WithMany("InverseParent")
+                        .WithMany("Childs")
                         .HasForeignKey("ParentId")
                         .HasConstraintName("FK_Comments_Comments");
 
@@ -7088,7 +8514,7 @@ namespace LMS_BACKEND_MAIN.Migrations
 
             modelBuilder.Entity("Entities.Models.Comment", b =>
                 {
-                    b.Navigation("InverseParent");
+                    b.Navigation("Childs");
                 });
 
             modelBuilder.Entity("Entities.Models.Device", b =>
