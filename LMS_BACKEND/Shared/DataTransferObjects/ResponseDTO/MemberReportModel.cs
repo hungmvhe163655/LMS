@@ -8,7 +8,7 @@ namespace Shared.DataTransferObjects.ResponseDTO
 {
     public class MemberReportModel
     {
-        public int Unverified { get; set; }
-        public int Verified { get; set; }
+        public int Online { get; set; }
+        public int Offline { get; set; }
     }
 }
