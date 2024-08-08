@@ -58,6 +58,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpGet(RoutesAPI.GetOngoingProject)]
+        [Authorize(Roles = Roles.ADMIN_SUPER)]
         public async Task<IActionResult> GetOngoingProject()
         {
             var param = new ProjectRequestParameters
@@ -74,6 +75,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpGet(RoutesAPI.GetOverallReport)]
+        [Authorize(Roles = Roles.ADMIN)]
         public async Task<IActionResult> GetOverallReport()
         {
             var project = await _service.ProjectService.CountProject(PROJECT_STATUS.ONGOING);
@@ -91,6 +93,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpGet(RoutesAPI.GetMemberReport)]
+        [Authorize(Roles = Roles.ADMIN)]
         public async Task<IActionResult> GetMemberReport()
         {
             var verified = await _service.AccountService.CountMember("Verified");
@@ -105,6 +108,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpGet(RoutesAPI.GetActiveProject)]
+        [Authorize(Roles = Roles.ADMIN)]
         public async Task<IActionResult> GetActiveProject()
         {
             var initializing = await _service.ProjectService.CountProject(PROJECT_STATUS.INITIALIZING);
@@ -124,6 +128,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
 
         [HttpGet(RoutesAPI.GetDeviceReport)]
+        [Authorize(Roles = Roles.ADMIN)]
         public async Task<IActionResult> GetDeviceReport()
         {
             var inUse = await _service.DeviceService.CountDevice(DEVICE_STATUS.INUSE);
