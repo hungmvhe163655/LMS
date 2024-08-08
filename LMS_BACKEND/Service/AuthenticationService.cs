@@ -252,6 +252,9 @@ namespace Service
                 {
                     return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = $"ISBANNED|{_account.UserName}" };
                 }
+                _account.LoginSessionAge = DateTime.Now.AddMinutes(10);
+
+                await _userManager.UpdateAsync(_account);
 
                 return new HiddenAccountResponseModel { AccountId = _account.Id, VerifierId = _account.VerifiedBy ?? "", Message = "SUCCESS|" + (_account.TwoFactorEnabled ? "TWOFACTOR" : "ONEFACTOR") };
             }
@@ -425,6 +428,10 @@ namespace Service
                 if (user == null || user.UserRefreshToken != tokenDto.RefreshToken || user.UserRefreshTokenExpiryTime <= DateTime.Now)
 
                     throw new UnauthorizedException("Refresh Token was expired");
+
+                user.LoginSessionAge = DateTime.Now.AddMinutes(10);
+
+                await _userManager.UpdateAsync(user);
 
                 _account = user;
 

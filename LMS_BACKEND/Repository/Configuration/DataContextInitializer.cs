@@ -5704,6 +5704,7 @@ namespace Repository.Configuration
                 CreatedBy = user1.Id,
                 CreatedDate = new DateTime(2023, 12, 09),
                 LastModifiedDate = new DateTime(2023, 12, 09),
+                ProjectId = prj7.Id,
                 IsRoot = false
             };
             Folder f1_6 = new Folder
@@ -6013,7 +6014,7 @@ namespace Repository.Configuration
 
             Folder f6 = new Folder
             {
-                Id = new Guid("dae3e199-ba63-4042-a8e8-13ad2101e389"),
+                Id = new Guid("1c448e0c-0c0f-4510-b3a7-c627fd0a07b7"),
                 Name = "Environmental Monitoring",
                 CreatedBy = user13.Id,
                 CreatedDate = new DateTime(2024, 01, 16),
@@ -6169,8 +6170,8 @@ namespace Repository.Configuration
                 Id = new Guid("d99bab87-a53b-45fe-97c4-2ebb2374f19b"),
                 Name = "Data Analytics for Public Health",
                 CreatedBy = user13.Id,
-                CreatedDate = new DateTime(2024, 30, 06),
-                LastModifiedDate = new DateTime(2024, 30, 06),
+                CreatedDate = new DateTime(2024, 06, 30),
+                LastModifiedDate = new DateTime(2024, 06, 30),
                 ProjectId = prj8.Id,
                 IsRoot = true
             };
@@ -6179,8 +6180,8 @@ namespace Repository.Configuration
                 Id = new Guid("85a28539-fbfa-4f78-8291-404d70ca55be"),
                 Name = "Plans",
                 CreatedBy = user13.Id,
-                CreatedDate = new DateTime(2024, 30, 06),
-                LastModifiedDate = new DateTime(2024, 30, 06),
+                CreatedDate = new DateTime(2024, 06, 30),
+                LastModifiedDate = new DateTime(2024, 06, 30),
                 ProjectId = prj8.Id,
                 IsRoot = false
             };
@@ -6189,8 +6190,8 @@ namespace Repository.Configuration
                 Id = new Guid("528d1c9a-6f9b-4e06-b142-81aa611bee85"),
                 Name = "Report",
                 CreatedBy = user13.Id,
-                CreatedDate = new DateTime(2024, 30, 06),
-                LastModifiedDate = new DateTime(2024, 30, 06),
+                CreatedDate = new DateTime(2024, 06, 30),
+                LastModifiedDate = new DateTime(2024, 06, 30),
                 ProjectId = prj8.Id,
                 IsRoot = false
             };
@@ -6199,8 +6200,8 @@ namespace Repository.Configuration
                 Id = new Guid("ae2e1149-8242-4e8c-8bbc-8ed4fca7a0c9"),
                 Name = "Meeting Notes",
                 CreatedBy = user13.Id,
-                CreatedDate = new DateTime(2024, 30, 06),
-                LastModifiedDate = new DateTime(2024, 30, 06),
+                CreatedDate = new DateTime(2024, 06, 30),
+                LastModifiedDate = new DateTime(2024, 06, 30),
                 ProjectId = prj8.Id,
                 IsRoot = false
             };
@@ -6209,8 +6210,8 @@ namespace Repository.Configuration
                 Id = new Guid("2fda3f69-9971-4415-83c3-2f0fd0e6fdd1"),
                 Name = "Designs",
                 CreatedBy = user13.Id,
-                CreatedDate = new DateTime(2024, 30, 06),
-                LastModifiedDate = new DateTime(2024, 30, 06),
+                CreatedDate = new DateTime(2024, 06, 30),
+                LastModifiedDate = new DateTime(2024, 06, 30),
                 ProjectId = prj8.Id,
                 IsRoot = false
             };
@@ -6219,14 +6220,14 @@ namespace Repository.Configuration
                 Id = new Guid("f13840b4-fa77-4cfe-83cd-0a71b7115191"),
                 Name = "References",
                 CreatedBy = user13.Id,
-                CreatedDate = new DateTime(2024, 30, 06),
-                LastModifiedDate = new DateTime(2024, 30, 06),
+                CreatedDate = new DateTime(2024, 06, 30),
+                LastModifiedDate = new DateTime(2024, 06, 30),
                 ProjectId = prj8.Id,
                 IsRoot = false
             };
 
-            builder.Entity<Folder>().HasData(f1, f1_1, f1_2, f1_3, f1_4, f1_5, f1_6, f2, f2_1, f2_2, f2_3, f2_4, f2_5, f2_6, f2_7, f3, f3_1, f3_2, f3_3, f3_4, f3_5, f3_6, f3_7, f4, f4_1, f4_2, f4_3, f5, f5_1, f5_2, f5_3, f5_4, f5_5, f5_6, f5_7, f6, f6_1, f6_2, f6_3, f6_4, f6_5, f7, f7_1, f7_2, f7_3, f7_4, f7_5, f8, f8_1, f8_2, f9, f9_1, f9_2, f9_3, f9_4, f9_5);
-            builder.Entity<Folder>().HasData(
+            builder.Entity<Folder>().HasData(f1, f1_1, f1_2, f1_3, f1_4, f1_5, f1_6, f1_7, f2, f2_1, f2_2, f2_3, f2_4, f2_5, f2_6, f2_7, f3, f3_1, f3_2, f3_3, f3_4, f3_5, f3_6, f3_7, f4, f4_1, f4_2, f4_3, f5, f5_1, f5_2, f5_3, f5_4, f5_5, f5_6, f5_7, f6, f6_1, f6_2, f6_3, f6_4, f6_5, f7, f7_1, f7_2, f7_3, f7_4, f7_5, f8, f8_1, f8_2, f9, f9_1, f9_2, f9_3, f9_4, f9_5);
+            builder.Entity<FolderClosure>().HasData(
                 new FolderClosure
                 {
                     AncestorID = f1.Id,
@@ -6539,12 +6540,12 @@ namespace Repository.Configuration
                     DescendantID = f4_3.Id,
                     Depth = 0
                 },
-                    new FolderClosure
-                    {
-                        AncestorID = f5.Id,
-                        DescendantID = f5.Id,
-                        Depth = 0
-                    },
+                new FolderClosure
+                {
+                    AncestorID = f5.Id,
+                    DescendantID = f5.Id,
+                    Depth = 0
+                },
                 new FolderClosure
                 {
                     AncestorID = f5.Id,
@@ -6824,7 +6825,7 @@ namespace Repository.Configuration
                 new FolderClosure
                 {
                     AncestorID = f9.Id,
-                    DescendantID = f9.Id,
+                    DescendantID = f9_3.Id,
                     Depth = 1
                 },
                 new FolderClosure
