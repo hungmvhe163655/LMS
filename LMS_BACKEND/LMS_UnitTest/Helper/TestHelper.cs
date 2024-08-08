@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Moq;
 using System;
@@ -22,6 +23,10 @@ namespace LMS_UnitTest.Helper
             mockQueryable.As<IQueryable<T>>()
                          .Setup(m => m.Provider)
                          .Returns(new TestAsyncQueryProvider<T>(sourceList.Provider));
+
+            //mockQueryable.As<IQueryable<T>>()
+            //    .Setup(m => m.FirstOrDefaultAsync(It.IsAny<CancellationToken>()))
+            //    .Returns(new TestAsyncEnumerator<T>(sourceList.First()))
 
             mockQueryable.As<IQueryable<T>>().Setup(m => m.Expression).Returns(sourceList.Expression);
             mockQueryable.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(sourceList.ElementType);
@@ -88,6 +93,8 @@ namespace LMS_UnitTest.Helper
 
         IQueryProvider IQueryable.Provider => new TestAsyncQueryProvider<T>(this);
     }
+
+    //public class TestFirstOrDefaultAsync<T> : 
 
     public class TestAsyncEnumerator<T> : IAsyncEnumerator<T>
     {
