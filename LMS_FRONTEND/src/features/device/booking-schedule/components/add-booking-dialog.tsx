@@ -25,7 +25,7 @@ const schema = z.object({
 
 type AddBookingFormValues = z.infer<typeof schema>;
 
-const AddBookingDialog: React.FC<{ deviceId: string; accountId: string }> = ({
+const AddBookingDialog: React.FC<{ deviceId: string; accountId: string | undefined }> = ({
   deviceId,
   accountId
 }) => {

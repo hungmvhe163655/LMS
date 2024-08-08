@@ -1,7 +1,9 @@
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { View, Views } from 'react-big-calendar';
 import { useParams } from 'react-router-dom';
+
+import { authStore } from '@/lib/auth-store';
 
 import { useSchedulesForDevice, Schedule } from '../api/get-schedules-for-device';
 
@@ -13,7 +15,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const BookingSchedule: React.FC = () => {
   const { deviceId } = useParams<{ deviceId: string }>();
-  const accountId = '603600b5-ca65-4fa7-817e-4583ef22b330'; // Replace with actual account ID
+  const { accessData } = authStore.getState();
+  const accountId = accessData?.id;
   const [viewDate, setViewDate] = useState(moment()); // Track the current view date
   const [view, setView] = useState<View>(Views.WEEK); // Track the current view (month, week, day)
   const [dateInput, setDateInput] = useState(viewDate.format('YYYY-MM-DD')); // Format the view date for API
@@ -43,21 +46,21 @@ const BookingSchedule: React.FC = () => {
     setDateInput(viewDate.format('YYYY-MM-DD')); // Trigger re-fetch on view change
   };
 
-  const handleDoubleClickEvent = (event: any) => {
-    const schedule = schedules?.find((sched) => sched.account.fullName === event.title);
-    if (schedule) {
-      setSelectedSchedule(schedule);
-      setIsDialogOpen(true);
-    }
-  };
-
-  // const handleDoubleClickEvent = useCallback((calEvent: any) => {
-  //   const schedule = schedules?.find((sched) => sched.account.fullName === calEvent.title);
-  //   if (schedule) {
-  //     setSelectedSchedule(schedule);
-  //     setIsDialogOpen(true);
-  //   }
-  // }, []);
+  const handleDoubleClickEvent = useCallback(
+    (calEvent: any) => {
+      const schedule = schedules?.find(
+        (sched) =>
+          sched.account.fullName === calEvent.title &&
+          moment(sched.startDate).isSame(calEvent.start) &&
+          moment(sched.endDate).isSame(calEvent.end)
+      );
+      if (schedule) {
+        setSelectedSchedule(schedule);
+        setIsDialogOpen(true);
+      }
+    },
+    [schedules]
+  );
 
   if (isLoading) {
     return <div>Loading...</div>;

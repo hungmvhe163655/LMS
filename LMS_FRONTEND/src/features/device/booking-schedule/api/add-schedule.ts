@@ -5,7 +5,7 @@ import { api } from '@/lib/api-client';
 
 export type AddBookingPayload = {
   deviceId: string;
-  accountId: string;
+  accountId: string | undefined;
   startDate: string;
   endDate: string;
   purpose: string;

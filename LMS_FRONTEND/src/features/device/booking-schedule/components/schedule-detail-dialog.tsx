@@ -32,7 +32,7 @@ const ScheduleDetailDialog: React.FC<ScheduleDetailDialogProps> = ({
     }
   });
 
-  if (!schedule) return null;
+  if (!schedule || !schedule.account) return null;
 
   const handleDelete = () => {
     deleteSchedule(schedule.id);
