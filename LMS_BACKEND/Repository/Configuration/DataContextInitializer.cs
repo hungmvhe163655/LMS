@@ -22,7 +22,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0963661093",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = false,
                 IsDeleted = false,
                 IsBanned = false,
@@ -47,7 +47,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0497461220",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -72,7 +72,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0975461220",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -98,7 +98,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0975465220",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -123,7 +123,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0975765220",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = false,
                 IsDeleted = false,
                 IsBanned = false,
@@ -137,18 +137,18 @@ namespace Repository.Configuration
             Account user6 = new Account()
             {
                 Id = "7397c854-194b-4749-9205-f46e4f2fccf8",
-                UserName = "littlejohn",
-                NormalizedUserName = ("littlejohn").ToUpper(),
-                FullName = "John",
-                Email = "littlejohn123@gmail.com",
-                NormalizedEmail = ("littlejohn123@gmail.com").ToUpper(),
+                UserName = "oaipbhe160516",
+                NormalizedUserName = ("oaipbhe160516").ToUpper(),
+                FullName = "Pham Ba Oai",
+                Email = "oaipbhe160516@fpt.edu.vn",
+                NormalizedEmail = ("oaipbhe160516@fpt.edu.vn").ToUpper(),
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965765228",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -173,7 +173,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965765120",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -198,7 +198,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965795220",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = false,
                 IsDeleted = false,
                 IsBanned = false,
@@ -222,7 +222,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965795220",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = true,
@@ -246,7 +246,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965795220",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = true,
                 IsDeleted = true,
                 IsBanned = false,
@@ -270,7 +270,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965795220",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -294,7 +294,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965796856",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = false,
                 IsDeleted = false,
                 IsBanned = false,
@@ -318,7 +318,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965796963",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -342,7 +342,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965796741",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -366,7 +366,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965796852",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -390,7 +390,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965796741",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -414,7 +414,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965796123",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -438,7 +438,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965796456",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -462,7 +462,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965796789",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2023, 5, 8),
                 Gender = false,
                 IsDeleted = false,
                 IsBanned = false,
@@ -486,7 +486,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0965796789",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2024, 3, 8),
                 Gender = false,
                 IsDeleted = false,
                 IsBanned = false,
@@ -511,7 +511,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0961396789",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2024, 3, 8),
                 Gender = false,
                 IsDeleted = false,
                 IsBanned = false,
@@ -536,7 +536,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0961396719",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2024, 3, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -561,7 +561,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0961396489",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2024, 3, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -586,7 +586,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0961396789",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2024, 3, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -611,7 +611,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0969396789",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2024, 3, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -636,7 +636,7 @@ namespace Repository.Configuration
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PhoneNumber = "0969396289",
-                CreatedDate = DateTime.Now,
+                CreatedDate = new DateTime(2024, 3, 8),
                 Gender = true,
                 IsDeleted = false,
                 IsBanned = false,
@@ -995,10 +995,11 @@ namespace Repository.Configuration
                 Content = "Don't forget about the event tomorrow!",
                 CreatedDate = DateTime.Now.AddDays(-10),
                 Url = "",
-                
                 NotificationType = NOTIFICATION_TYPE.SYSTEM,
                 CreatedBy = user1.Id,
             };
+
+
 
             builder.Entity<Notification>().HasData(noti1, noti2, noti3, noti4, noti5, noti6, noti7, noti8, noti9, noti10);
             //builder.Entity<NotificationType>().HasData(
@@ -2786,6 +2787,13 @@ namespace Repository.Configuration
                 },
                 new Member
                 {
+                    ProjectId = prj8.Id,
+                    UserId = user2.Id,
+                    IsLeader = true,
+                    JoinDate = new DateTime(2024, 07, 05)
+                },
+                new Member
+                {
                     ProjectId = prj9.Id,
                     UserId = user13.Id,
                     IsLeader = true,
@@ -3579,7 +3587,7 @@ namespace Repository.Configuration
                 Id = new Guid("5618a016-156a-449c-92e6-926eabe0cf8a"),
                 Name = "UI/UX Design",
                 MaxTasks = 4,
-                Order= 2,
+                Order = 2,
                 ProjectId = prj6.Id
             };
             TaskList tl24 = new TaskList
@@ -3587,7 +3595,7 @@ namespace Repository.Configuration
                 Id = new Guid("431dd63b-469e-4589-b1c6-4b4af20a7728"),
                 Name = "Development",
                 MaxTasks = 6,
-                Order= 3,
+                Order = 3,
                 ProjectId = prj6.Id
             };
             TaskList tl25 = new TaskList
@@ -4738,7 +4746,7 @@ namespace Repository.Configuration
                 TaskListId = new Guid("2c81e116-5120-4920-bf51-092081bfc67d"),
                 ProjectId = new Guid("2f722609-dace-4c60-a6f3-19e015546310"),
                 TaskStatus = TASK_STATUS.OPEN_TODO,
-                Order = 3,  
+                Order = 3,
                 AssignedTo = user8.Id
             };
             Tasks t20 = new Tasks
@@ -5638,6 +5646,1219 @@ namespace Repository.Configuration
             };
 
             builder.Entity<Tasks>().HasData(t1, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t2, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t3, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t4, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t5, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t6, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t7, t70, t71, t8, t9);
+
+            Folder f1 = new Folder
+            {
+                Id = new Guid("cf0647c4-82c9-4c1a-b66e-e0aabd1ffa8c"),
+                Name = "AI-based Image Recognition",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2023, 12, 09),
+                LastModifiedDate = new DateTime(2023, 12, 09),
+                ProjectId = prj7.Id,
+                IsRoot = true
+            };
+            Folder f1_1 = new Folder
+            {
+                Id = new Guid("3d4da4c6-7b89-4583-b043-9a772ef0d615"),
+                Name = "Plans",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2023, 12, 09),
+                LastModifiedDate = new DateTime(2023, 12, 09),
+                ProjectId = prj7.Id,
+                IsRoot = false
+            };
+            Folder f1_2 = new Folder
+            {
+                Id = new Guid("364bae55-459c-4cec-94fa-596de7121c02"),
+                Name = "Meeting notes",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2023, 12, 09),
+                LastModifiedDate = new DateTime(2023, 12, 09),
+                ProjectId = prj7.Id,
+                IsRoot = false
+            };
+            Folder f1_3 = new Folder
+            {
+                Id = new Guid("fc1cc9c8-3e2d-48ff-b57b-6068ccb8b821"),
+                Name = "Reports",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2023, 12, 09),
+                LastModifiedDate = new DateTime(2023, 12, 09),
+                ProjectId = prj7.Id,
+                IsRoot = false
+            };
+            Folder f1_4 = new Folder
+            {
+                Id = new Guid("5d3d515c-eeff-4b58-9a40-cbdfb8344b6e"),
+                Name = "Designs",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2023, 12, 09),
+                LastModifiedDate = new DateTime(2023, 12, 09),
+                ProjectId = prj7.Id,
+                IsRoot = false
+            };
+            Folder f1_5 = new Folder
+            {
+                Id = new Guid("26dceddb-c8a3-40f7-ab01-664c1c8ccb5e"),
+                Name = "Training",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2023, 12, 09),
+                LastModifiedDate = new DateTime(2023, 12, 09),
+                IsRoot = false
+            };
+            Folder f1_6 = new Folder
+            {
+                Id = new Guid("6bcf0059-9d2a-489d-805e-8e25415cfcf1"),
+                Name = "Archives",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2023, 12, 09),
+                LastModifiedDate = new DateTime(2023, 12, 09),
+                ProjectId = prj7.Id,
+                IsRoot = false
+            };
+            Folder f1_7 = new Folder
+            {
+                Id = new Guid("a5dad23d-e411-4b40-bce5-8c92327606bb"),
+                Name = "References",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2023, 12, 09),
+                LastModifiedDate = new DateTime(2023, 12, 09),
+                ProjectId = prj7.Id,
+                IsRoot = false
+            };
+
+            Folder f2 = new Folder
+            {
+                Id = new Guid("02c8e950-82cd-4581-b718-26ee9d8119c1"),
+                Name = "LIMS",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 05, 01),
+                LastModifiedDate = new DateTime(2024, 05, 01),
+                ProjectId = prj1.Id,
+                IsRoot = true
+            };
+            Folder f2_1 = new Folder
+            {
+                Id = new Guid("8e082ab2-9d91-4d61-bc04-3c012386838e"),
+                Name = "Plans",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 05, 01),
+                LastModifiedDate = new DateTime(2024, 05, 01),
+                ProjectId = prj1.Id,
+                IsRoot = false
+            };
+            Folder f2_2 = new Folder
+            {
+                Id = new Guid("0f82480b-dbb4-42da-af33-e61a1cf8a681"),
+                Name = "Meeting notes",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 05, 01),
+                LastModifiedDate = new DateTime(2024, 05, 01),
+                ProjectId = prj1.Id,
+                IsRoot = false
+            };
+            Folder f2_3 = new Folder
+            {
+                Id = new Guid("1adbdbd5-f1db-4b7c-82e2-54da8c447170"),
+                Name = "Reports",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 05, 01),
+                LastModifiedDate = new DateTime(2024, 05, 01),
+                ProjectId = prj1.Id,
+                IsRoot = false
+            };
+            Folder f2_4 = new Folder
+            {
+                Id = new Guid("6094b285-a9e0-4b92-8096-a965d601ad77"),
+                Name = "Designs",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 05, 01),
+                LastModifiedDate = new DateTime(2024, 05, 01),
+                ProjectId = prj1.Id,
+                IsRoot = false
+            };
+            Folder f2_5 = new Folder
+            {
+                Id = new Guid("a98f0c49-0ba1-4d2a-bdeb-226969c791e5"),
+                Name = "Training",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 05, 01),
+                LastModifiedDate = new DateTime(2024, 05, 01),
+                ProjectId = prj1.Id,
+                IsRoot = false
+            };
+            Folder f2_6 = new Folder
+            {
+                Id = new Guid("3fc3f95e-224b-4ddf-9625-6f2a5453ce8a"),
+                Name = "Archives",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 05, 01),
+                LastModifiedDate = new DateTime(2024, 05, 01),
+                ProjectId = prj1.Id,
+                IsRoot = false
+            };
+            Folder f2_7 = new Folder
+            {
+                Id = new Guid("8661d921-e356-4dbb-bcc3-7cbf8c75af04"),
+                Name = "References",
+                CreatedBy = user1.Id,
+                CreatedDate = new DateTime(2024, 05, 01),
+                LastModifiedDate = new DateTime(2024, 05, 01),
+                ProjectId = prj1.Id,
+                IsRoot = false
+            };
+
+            Folder f3 = new Folder
+            {
+                Id = new Guid("10971ed7-08d3-494e-910e-013ed8b087eb"),
+                Name = "VR application for patient",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2024, 06, 12),
+                LastModifiedDate = new DateTime(2024, 06, 12),
+                ProjectId = prj2.Id,
+                IsRoot = true
+            };
+            Folder f3_1 = new Folder
+            {
+                Id = new Guid("8a3f6023-3c34-4147-8457-b09065857c9f"),
+                Name = "Plans",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2024, 06, 12),
+                LastModifiedDate = new DateTime(2024, 06, 12),
+                ProjectId = prj2.Id,
+                IsRoot = false
+            };
+            Folder f3_2 = new Folder
+            {
+                Id = new Guid("d8c6ec2a-4a4c-403d-a955-55be2b3d1bf4"),
+                Name = "Meeting notes",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2024, 06, 12),
+                LastModifiedDate = new DateTime(2024, 06, 12),
+                ProjectId = prj2.Id,
+                IsRoot = false
+            };
+            Folder f3_3 = new Folder
+            {
+                Id = new Guid("2f66eb6d-d1dc-4a22-bfb7-01e9474da600"),
+                Name = "Reports",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2024, 06, 12),
+                LastModifiedDate = new DateTime(2024, 06, 12),
+                ProjectId = prj2.Id,
+                IsRoot = false
+            };
+            Folder f3_4 = new Folder
+            {
+                Id = new Guid("31306682-6aca-4631-9d30-d3654399fc0f"),
+                Name = "Designs",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2024, 06, 12),
+                LastModifiedDate = new DateTime(2024, 06, 12),
+                ProjectId = prj2.Id,
+                IsRoot = false
+            };
+            Folder f3_5 = new Folder
+            {
+                Id = new Guid("6044f3de-4532-46ec-8919-1a97cc6995dc"),
+                Name = "Training",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2024, 06, 12),
+                LastModifiedDate = new DateTime(2024, 06, 12),
+                ProjectId = prj2.Id,
+                IsRoot = false
+            };
+            Folder f3_6 = new Folder
+            {
+                Id = new Guid("4550149d-dd89-4836-a2af-a3757a11d216"),
+                Name = "Archives",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2024, 06, 12),
+                LastModifiedDate = new DateTime(2024, 06, 12),
+                ProjectId = prj2.Id,
+                IsRoot = false
+            };
+            Folder f3_7 = new Folder
+            {
+                Id = new Guid("ac740fb1-7d49-488f-aa1e-5d2b6c5706b2"),
+                Name = "References",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2024, 06, 12),
+                LastModifiedDate = new DateTime(2024, 06, 12),
+                ProjectId = prj2.Id,
+                IsRoot = false
+            };
+
+            Folder f4 = new Folder
+            {
+                Id = new Guid("02fb7bc5-0304-4375-899b-011c18a24d02"),
+                Name = "Research Paper on Quantum Computing",
+                CreatedBy = user12.Id,
+                CreatedDate = new DateTime(2024, 06, 30),
+                LastModifiedDate = new DateTime(2024, 06, 30),
+                ProjectId = prj3.Id,
+                IsRoot = true
+            };
+            Folder f4_1 = new Folder
+            {
+                Id = new Guid("5a336113-63ff-475f-b1cd-aa96b9044cba"),
+                Name = "Plans",
+                CreatedBy = user12.Id,
+                CreatedDate = new DateTime(2024, 06, 30),
+                LastModifiedDate = new DateTime(2024, 06, 30),
+                ProjectId = prj3.Id,
+                IsRoot = false
+            };
+            Folder f4_2 = new Folder
+            {
+                Id = new Guid("8c147809-aa39-46ce-b21e-a92d36fc3930"),
+                Name = "Documents",
+                CreatedBy = user12.Id,
+                CreatedDate = new DateTime(2024, 06, 30),
+                LastModifiedDate = new DateTime(2024, 06, 30),
+                ProjectId = prj3.Id,
+                IsRoot = false
+            };
+            Folder f4_3 = new Folder
+            {
+                Id = new Guid("4e08ebca-e59f-4a0b-bee8-7b796bee55b8"),
+                Name = "Report",
+                CreatedBy = user12.Id,
+                CreatedDate = new DateTime(2024, 06, 30),
+                LastModifiedDate = new DateTime(2024, 06, 30),
+                ProjectId = prj3.Id,
+                IsRoot = false
+            };
+
+            Folder f5 = new Folder
+            {
+                Id = new Guid("741a6c86-ccf7-4332-bad0-83640682a461"),
+                Name = "AI in Healthcare",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2023, 12, 06),
+                LastModifiedDate = new DateTime(2024, 12, 06),
+                ProjectId = prj4.Id,
+                IsRoot = true
+            };
+            Folder f5_1 = new Folder
+            {
+                Id = new Guid("3b61e61b-170d-4631-8618-83dfed8a9912"),
+                Name = "Plans",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2023, 12, 06),
+                LastModifiedDate = new DateTime(2024, 12, 06),
+                ProjectId = prj4.Id,
+                IsRoot = false
+            };
+            Folder f5_2 = new Folder
+            {
+                Id = new Guid("eb80ac42-bc4e-4f5f-b984-e5ffaa295bb7"),
+                Name = "Meeting notes",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2023, 12, 06),
+                LastModifiedDate = new DateTime(2024, 12, 06),
+                ProjectId = prj4.Id,
+                IsRoot = false
+            };
+            Folder f5_3 = new Folder
+            {
+                Id = new Guid("0007e96d-7dbe-4497-95e3-5d1874001b9c"),
+                Name = "Reports",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2023, 12, 06),
+                LastModifiedDate = new DateTime(2024, 12, 06),
+                ProjectId = prj4.Id,
+                IsRoot = false
+            };
+            Folder f5_4 = new Folder
+            {
+                Id = new Guid("0fc95522-0f6f-4b95-b285-8c27e90e6ca4"),
+                Name = "Designs",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2023, 12, 06),
+                LastModifiedDate = new DateTime(2024, 12, 06),
+                ProjectId = prj4.Id,
+                IsRoot = false
+            };
+            Folder f5_5 = new Folder
+            {
+                Id = new Guid("63c40e3d-a6fe-4c6a-a0d0-97ef3fb15aef"),
+                Name = "Training",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2023, 12, 06),
+                LastModifiedDate = new DateTime(2024, 12, 06),
+                ProjectId = prj4.Id,
+                IsRoot = false
+            };
+            Folder f5_6 = new Folder
+            {
+                Id = new Guid("e080f78e-0a10-48cc-9882-955482d61c2d"),
+                Name = "Archives",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2023, 12, 06),
+                LastModifiedDate = new DateTime(2024, 12, 06),
+                ProjectId = prj4.Id,
+                IsRoot = false
+            };
+            Folder f5_7 = new Folder
+            {
+                Id = new Guid("dae3e199-ba63-4042-a8e8-13ad2101e389"),
+                Name = "References",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2023, 12, 06),
+                LastModifiedDate = new DateTime(2024, 12, 06),
+                ProjectId = prj4.Id,
+                IsRoot = false
+            };
+
+            Folder f6 = new Folder
+            {
+                Id = new Guid("dae3e199-ba63-4042-a8e8-13ad2101e389"),
+                Name = "Environmental Monitoring",
+                CreatedBy = user13.Id,
+                CreatedDate = new DateTime(2024, 01, 16),
+                LastModifiedDate = new DateTime(2024, 01, 16),
+                ProjectId = prj5.Id,
+                IsRoot = true
+            };
+            Folder f6_1 = new Folder
+            {
+                Id = new Guid("77e69b15-e545-4759-9d25-84348395f831"),
+                Name = "Plans",
+                CreatedBy = user13.Id,
+                CreatedDate = new DateTime(2024, 01, 16),
+                LastModifiedDate = new DateTime(2024, 01, 16),
+                ProjectId = prj5.Id,
+                IsRoot = false
+            };
+            Folder f6_2 = new Folder
+            {
+                Id = new Guid("b33a15a8-9de7-4530-9f13-5930f060e71b"),
+                Name = "Meeting notes",
+                CreatedBy = user13.Id,
+                CreatedDate = new DateTime(2024, 01, 16),
+                LastModifiedDate = new DateTime(2024, 01, 16),
+                ProjectId = prj5.Id,
+                IsRoot = false
+            };
+            Folder f6_3 = new Folder
+            {
+                Id = new Guid("6f5a29a1-8b39-4a81-a38e-b72f2066e949"),
+                Name = "Reports",
+                CreatedBy = user13.Id,
+                CreatedDate = new DateTime(2024, 01, 16),
+                LastModifiedDate = new DateTime(2024, 01, 16),
+                ProjectId = prj5.Id,
+                IsRoot = false
+            };
+            Folder f6_4 = new Folder
+            {
+                Id = new Guid("bfe40217-6318-43b0-b8df-369cb4341be0"),
+                Name = "Designs",
+                CreatedBy = user13.Id,
+                CreatedDate = new DateTime(2024, 01, 16),
+                LastModifiedDate = new DateTime(2024, 01, 16),
+                ProjectId = prj5.Id,
+                IsRoot = false
+            };
+            Folder f6_5 = new Folder
+            {
+                Id = new Guid("5d404237-1509-4fc3-b813-c197390638f4"),
+                Name = "References",
+                CreatedBy = user13.Id,
+                CreatedDate = new DateTime(2024, 01, 16),
+                LastModifiedDate = new DateTime(2024, 01, 16),
+                ProjectId = prj5.Id,
+                IsRoot = false
+            };
+
+            Folder f7 = new Folder
+            {
+                Id = new Guid("e3805407-9ec5-4639-b375-d8314e3493ff"),
+                Name = "Mobile Health App",
+                CreatedBy = user12.Id,
+                CreatedDate = new DateTime(2024, 01, 06),
+                LastModifiedDate = new DateTime(2024, 01, 06),
+                ProjectId = prj6.Id,
+                IsRoot = true
+            };
+            Folder f7_1 = new Folder
+            {
+                Id = new Guid("21e0c3a6-e1fd-4b0e-9f81-bbf09612c039"),
+                Name = "Plans",
+                CreatedBy = user12.Id,
+                CreatedDate = new DateTime(2024, 01, 06),
+                LastModifiedDate = new DateTime(2024, 01, 06),
+                ProjectId = prj6.Id,
+                IsRoot = false
+            };
+            Folder f7_2 = new Folder
+            {
+                Id = new Guid("a1fb5dbd-27c9-458a-b077-b68be232ff14"),
+                Name = "Designs",
+                CreatedBy = user12.Id,
+                CreatedDate = new DateTime(2024, 01, 06),
+                LastModifiedDate = new DateTime(2024, 01, 06),
+                ProjectId = prj6.Id,
+                IsRoot = false
+            };
+            Folder f7_3 = new Folder
+            {
+                Id = new Guid("65a377c8-a617-4231-b44c-02a63b0cba16"),
+                Name = "Reports",
+                CreatedBy = user12.Id,
+                CreatedDate = new DateTime(2024, 01, 06),
+                LastModifiedDate = new DateTime(2024, 01, 06),
+                ProjectId = prj6.Id,
+                IsRoot = false
+            };
+            Folder f7_4 = new Folder
+            {
+                Id = new Guid("924ba20b-f0dd-4f7f-8d32-077b56878bcc"),
+                Name = "References",
+                CreatedBy = user12.Id,
+                CreatedDate = new DateTime(2024, 01, 06),
+                LastModifiedDate = new DateTime(2024, 01, 06),
+                ProjectId = prj6.Id,
+                IsRoot = false
+            };
+            Folder f7_5 = new Folder
+            {
+                Id = new Guid("e6790242-91e6-476a-89eb-a6278e5576ea"),
+                Name = "Archives",
+                CreatedBy = user12.Id,
+                CreatedDate = new DateTime(2024, 01, 06),
+                LastModifiedDate = new DateTime(2024, 01, 06),
+                ProjectId = prj6.Id,
+                IsRoot = false
+            };
+
+            Folder f8 = new Folder
+            {
+                Id = new Guid("ec97db29-f1ce-49e7-a48c-ff0242bde1ee"),
+                Name = "Virtual Reality Training Platform",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2024, 07, 05),
+                LastModifiedDate = new DateTime(2024, 07, 05),
+                ProjectId = prj8.Id,
+                IsRoot = true
+            };
+            Folder f8_1 = new Folder
+            {
+                Id = new Guid("67dde407-6c9c-4ecb-b195-2adce8df3240"),
+                Name = "Documents",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2024, 07, 05),
+                LastModifiedDate = new DateTime(2024, 07, 05),
+                ProjectId = prj8.Id,
+                IsRoot = false
+            };
+            Folder f8_2 = new Folder
+            {
+                Id = new Guid("763faa23-09e3-4a63-a2db-acb1749fda5d"),
+                Name = "Plans",
+                CreatedBy = user2.Id,
+                CreatedDate = new DateTime(2024, 07, 05),
+                LastModifiedDate = new DateTime(2024, 07, 05),
+                ProjectId = prj8.Id,
+                IsRoot = false
+            };
+
+            Folder f9 = new Folder
+            {
+                Id = new Guid("d99bab87-a53b-45fe-97c4-2ebb2374f19b"),
+                Name = "Data Analytics for Public Health",
+                CreatedBy = user13.Id,
+                CreatedDate = new DateTime(2024, 30, 06),
+                LastModifiedDate = new DateTime(2024, 30, 06),
+                ProjectId = prj8.Id,
+                IsRoot = true
+            };
+            Folder f9_1 = new Folder
+            {
+                Id = new Guid("85a28539-fbfa-4f78-8291-404d70ca55be"),
+                Name = "Plans",
+                CreatedBy = user13.Id,
+                CreatedDate = new DateTime(2024, 30, 06),
+                LastModifiedDate = new DateTime(2024, 30, 06),
+                ProjectId = prj8.Id,
+                IsRoot = false
+            };
+            Folder f9_2 = new Folder
+            {
+                Id = new Guid("528d1c9a-6f9b-4e06-b142-81aa611bee85"),
+                Name = "Report",
+                CreatedBy = user13.Id,
+                CreatedDate = new DateTime(2024, 30, 06),
+                LastModifiedDate = new DateTime(2024, 30, 06),
+                ProjectId = prj8.Id,
+                IsRoot = false
+            };
+            Folder f9_3 = new Folder
+            {
+                Id = new Guid("ae2e1149-8242-4e8c-8bbc-8ed4fca7a0c9"),
+                Name = "Meeting Notes",
+                CreatedBy = user13.Id,
+                CreatedDate = new DateTime(2024, 30, 06),
+                LastModifiedDate = new DateTime(2024, 30, 06),
+                ProjectId = prj8.Id,
+                IsRoot = false
+            };
+            Folder f9_4 = new Folder
+            {
+                Id = new Guid("2fda3f69-9971-4415-83c3-2f0fd0e6fdd1"),
+                Name = "Designs",
+                CreatedBy = user13.Id,
+                CreatedDate = new DateTime(2024, 30, 06),
+                LastModifiedDate = new DateTime(2024, 30, 06),
+                ProjectId = prj8.Id,
+                IsRoot = false
+            };
+            Folder f9_5 = new Folder
+            {
+                Id = new Guid("f13840b4-fa77-4cfe-83cd-0a71b7115191"),
+                Name = "References",
+                CreatedBy = user13.Id,
+                CreatedDate = new DateTime(2024, 30, 06),
+                LastModifiedDate = new DateTime(2024, 30, 06),
+                ProjectId = prj8.Id,
+                IsRoot = false
+            };
+
+            builder.Entity<Folder>().HasData(f1, f1_1, f1_2, f1_3, f1_4, f1_5, f1_6, f2, f2_1, f2_2, f2_3, f2_4, f2_5, f2_6, f2_7, f3, f3_1, f3_2, f3_3, f3_4, f3_5, f3_6, f3_7, f4, f4_1, f4_2, f4_3, f5, f5_1, f5_2, f5_3, f5_4, f5_5, f5_6, f5_7, f6, f6_1, f6_2, f6_3, f6_4, f6_5, f7, f7_1, f7_2, f7_3, f7_4, f7_5, f8, f8_1, f8_2, f9, f9_1, f9_2, f9_3, f9_4, f9_5);
+            builder.Entity<Folder>().HasData(
+                new FolderClosure
+                {
+                    AncestorID = f1.Id,
+                    DescendantID = f1.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f1.Id,
+                    DescendantID = f1_1.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f1_1.Id,
+                    DescendantID = f1_1.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f1.Id,
+                    DescendantID = f1_2.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f1_2.Id,
+                    DescendantID = f1_2.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f1.Id,
+                    DescendantID = f1_3.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f1_3.Id,
+                    DescendantID = f1_3.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f1.Id,
+                    DescendantID = f1_4.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f1_4.Id,
+                    DescendantID = f1_4.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f1.Id,
+                    DescendantID = f1_5.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f1_5.Id,
+                    DescendantID = f1_5.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f1.Id,
+                    DescendantID = f1_6.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f1_6.Id,
+                    DescendantID = f1_6.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f1.Id,
+                    DescendantID = f1_7.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f1_7.Id,
+                    DescendantID = f1_7.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2.Id,
+                    DescendantID = f2.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2.Id,
+                    DescendantID = f2_1.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2_1.Id,
+                    DescendantID = f2_1.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2.Id,
+                    DescendantID = f2_2.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2_2.Id,
+                    DescendantID = f2_2.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2.Id,
+                    DescendantID = f2_3.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2_3.Id,
+                    DescendantID = f2_3.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2.Id,
+                    DescendantID = f2_4.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2_4.Id,
+                    DescendantID = f2_4.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2.Id,
+                    DescendantID = f2_5.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2_5.Id,
+                    DescendantID = f2_5.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2.Id,
+                    DescendantID = f2_6.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2_6.Id,
+                    DescendantID = f2_6.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2.Id,
+                    DescendantID = f2_7.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f2_7.Id,
+                    DescendantID = f2_7.Id,
+                    Depth = 0
+                },
+                    new FolderClosure
+                    {
+                        AncestorID = f3.Id,
+                        DescendantID = f3.Id,
+                        Depth = 0
+                    },
+                new FolderClosure
+                {
+                    AncestorID = f3.Id,
+                    DescendantID = f3_1.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f3_1.Id,
+                    DescendantID = f3_1.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f3.Id,
+                    DescendantID = f3_2.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f3_2.Id,
+                    DescendantID = f3_2.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f3.Id,
+                    DescendantID = f3_3.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f3_3.Id,
+                    DescendantID = f3_3.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f3.Id,
+                    DescendantID = f3_4.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f3_4.Id,
+                    DescendantID = f3_4.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f3.Id,
+                    DescendantID = f3_5.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f3_5.Id,
+                    DescendantID = f3_5.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f3.Id,
+                    DescendantID = f3_6.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f3_6.Id,
+                    DescendantID = f3_6.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f3.Id,
+                    DescendantID = f3_7.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f3_7.Id,
+                    DescendantID = f3_7.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f4.Id,
+                    DescendantID = f4.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f4.Id,
+                    DescendantID = f4_1.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f4_1.Id,
+                    DescendantID = f4_1.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f4.Id,
+                    DescendantID = f4_2.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f4_2.Id,
+                    DescendantID = f4_2.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f4.Id,
+                    DescendantID = f4_3.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f4_3.Id,
+                    DescendantID = f4_3.Id,
+                    Depth = 0
+                },
+                    new FolderClosure
+                    {
+                        AncestorID = f5.Id,
+                        DescendantID = f5.Id,
+                        Depth = 0
+                    },
+                new FolderClosure
+                {
+                    AncestorID = f5.Id,
+                    DescendantID = f5_1.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f5_1.Id,
+                    DescendantID = f5_1.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f5.Id,
+                    DescendantID = f5_2.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f5_2.Id,
+                    DescendantID = f5_2.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f5.Id,
+                    DescendantID = f5_3.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f5_3.Id,
+                    DescendantID = f5_3.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f5.Id,
+                    DescendantID = f5_4.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f5_4.Id,
+                    DescendantID = f5_4.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f5.Id,
+                    DescendantID = f5_5.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f5_5.Id,
+                    DescendantID = f5_5.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f5.Id,
+                    DescendantID = f5_6.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f5_6.Id,
+                    DescendantID = f5_6.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f5.Id,
+                    DescendantID = f5_7.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f5_7.Id,
+                    DescendantID = f5_7.Id,
+                    Depth = 0
+                },
+                    new FolderClosure
+                    {
+                        AncestorID = f6.Id,
+                        DescendantID = f6.Id,
+                        Depth = 0
+                    },
+                new FolderClosure
+                {
+                    AncestorID = f6.Id,
+                    DescendantID = f6_1.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f6_1.Id,
+                    DescendantID = f6_1.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f6.Id,
+                    DescendantID = f6_2.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f6_2.Id,
+                    DescendantID = f6_2.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f6.Id,
+                    DescendantID = f6_3.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f6_3.Id,
+                    DescendantID = f6_3.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f6.Id,
+                    DescendantID = f6_4.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f6_4.Id,
+                    DescendantID = f6_4.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f6.Id,
+                    DescendantID = f6_5.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f6_5.Id,
+                    DescendantID = f6_5.Id,
+                    Depth = 0
+                },
+                    new FolderClosure
+                    {
+                        AncestorID = f7.Id,
+                        DescendantID = f7.Id,
+                        Depth = 0
+                    },
+                new FolderClosure
+                {
+                    AncestorID = f7.Id,
+                    DescendantID = f7_1.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f7_1.Id,
+                    DescendantID = f7_1.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f7.Id,
+                    DescendantID = f7_2.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f7_2.Id,
+                    DescendantID = f7_2.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f7.Id,
+                    DescendantID = f7_3.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f7_3.Id,
+                    DescendantID = f7_3.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f7.Id,
+                    DescendantID = f7_4.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f7_4.Id,
+                    DescendantID = f7_4.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f7.Id,
+                    DescendantID = f7_5.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f7_5.Id,
+                    DescendantID = f7_5.Id,
+                    Depth = 0
+                },
+                    new FolderClosure
+                    {
+                        AncestorID = f8.Id,
+                        DescendantID = f8.Id,
+                        Depth = 0
+                    },
+                new FolderClosure
+                {
+                    AncestorID = f8.Id,
+                    DescendantID = f8_1.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f8_1.Id,
+                    DescendantID = f8_1.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f8.Id,
+                    DescendantID = f8_2.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f8_2.Id,
+                    DescendantID = f8_2.Id,
+                    Depth = 0
+                },
+                    new FolderClosure
+                    {
+                        AncestorID = f9.Id,
+                        DescendantID = f9.Id,
+                        Depth = 0
+                    },
+                new FolderClosure
+                {
+                    AncestorID = f9.Id,
+                    DescendantID = f9_1.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f9_1.Id,
+                    DescendantID = f9_1.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f9.Id,
+                    DescendantID = f9_2.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f9_2.Id,
+                    DescendantID = f9_2.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f9.Id,
+                    DescendantID = f9.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f9_3.Id,
+                    DescendantID = f9_3.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f9.Id,
+                    DescendantID = f9_4.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f9_4.Id,
+                    DescendantID = f9_4.Id,
+                    Depth = 0
+                },
+                new FolderClosure
+                {
+                    AncestorID = f9.Id,
+                    DescendantID = f9_5.Id,
+                    Depth = 1
+                },
+                new FolderClosure
+                {
+                    AncestorID = f9_5.Id,
+                    DescendantID = f9_5.Id,
+                    Depth = 0
+                }
+            );
+
         }
     }
 }

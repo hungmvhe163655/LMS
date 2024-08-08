@@ -271,6 +271,30 @@ namespace Service
 
             return _mapper.Map<IEnumerable<AccountRequestJoinResponseModel>>(hold);
         }
+
+        public async Task<int> CountMember(string type)
+        {
+            var hold = new List<Account>();
+
+            if (type.Equals("Banned"))
+            {
+                hold = await _repository.Account.GetByCondition(x => x.IsBanned == true && x.IsVerified == true, false).ToListAsync();
+            }
+            else if (type.Equals("Deleted"))
+            {
+                hold = await _repository.Account.GetByCondition(x => x.IsDeleted == true && x.IsVerified == true, false).ToListAsync();
+            }
+            else if (type.Equals("Unverified"))
+            {
+                hold = await _repository.Account.GetByCondition(x => x.IsVerified == false, false).ToListAsync();
+            }
+            else if (type.Equals("Verified"))
+            {
+                hold = await _repository.Account.GetByCondition(x => x.IsBanned == false && x.IsDeleted == false && x.IsVerified == true, false).ToListAsync();
+            }
+            return hold.Count;
+        }
+
         //public async Task<bool> ChangePhoneNumberAsync(string userId, string phoneNumber, string verifyCode)
         //{
         //    try

@@ -77,5 +77,11 @@ namespace Service
 
             await _repository.Save();
         }
+
+        public async Task<int> CountDevice(string type)
+        {
+            var hold = await _repository.Device.GetByCondition(x => x.DeviceStatus.Equals(type), false).ToListAsync();
+            return hold.Count;
+        }
     }
 }
