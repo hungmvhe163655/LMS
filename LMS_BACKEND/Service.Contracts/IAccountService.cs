@@ -33,6 +33,7 @@ namespace Service.Contracts
         Task ChangeEmailAsync(string id, ChangeEmailRequestModel model);
 
         Task<IEnumerable<AccountRequestJoinResponseModel>> GetUserWithRole(string role);
-        Task<int> CountMember(string type);
+        Task<int> CountMember();
+        Task<MemberReportModel> GetActiveMember();
     }
 }
