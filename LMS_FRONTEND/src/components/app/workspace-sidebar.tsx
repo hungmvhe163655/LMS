@@ -40,7 +40,7 @@ const WorkspaceSidebar: React.FC = () => {
     });
     sidebarItems.push({
       title: 'Resources',
-      href: `/project/workspace/${projectId}/resources/${data?.id}`,
+      href: `/project/${projectId}/resources/${data?.id}`,
       icon: <FaUser />
     });
   }

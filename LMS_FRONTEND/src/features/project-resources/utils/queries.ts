@@ -6,9 +6,12 @@ export const resourceKeys = {
   contents: () => [...resourceKeys.all, 'content'] as const,
   content: (id: string) => [...resourceKeys.contents(), id] as const,
 
-  list: (id: string) => [...resourceKeys.content(id), 'list'] as const,
-  lists: (id: string, params?: ResourceQueryParams) => [...resourceKeys.list(id), params] as const,
+  lists: (id: string) => [...resourceKeys.content(id), 'list'] as const,
+  list: (id: string, params?: ResourceQueryParams) => [...resourceKeys.lists(id), params] as const,
 
   roots: () => [...resourceKeys.all, 'root'] as const,
-  root: (projectId: string) => [...resourceKeys.roots(), projectId] as const
+  root: (projectId: string) => [...resourceKeys.roots(), projectId] as const,
+
+  files: () => [...resourceKeys.all, 'file'] as const,
+  file: (fileId: string) => [...resourceKeys.files(), fileId] as const
 };

@@ -1,7 +1,9 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { defaultStyles, FileIcon } from 'react-file-icon';
 import { FaFolder } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
 
+import { Link } from '@/components/app/link';
 import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
 import { formatDateNoHours } from '@/utils/format';
 import { humanFileSize } from '@/utils/format-file-size';
@@ -17,7 +19,9 @@ export function getColumns(): ColumnDef<ResourceFolder | ResourceFile>[] {
     {
       accessorKey: 'name',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Name' />,
-      cell: ({ row }) => {
+      cell: function Cell({ row }) {
+        const { projectId } = useParams() as { projectId: string };
+
         const rowName = row.original.name;
         if (row.original.type === RESOURCE.FILE) {
           const ext = getFileExtension(row.original.name);
@@ -32,10 +36,12 @@ export function getColumns(): ColumnDef<ResourceFolder | ResourceFile>[] {
         }
 
         return (
-          <div className='flex items-center space-x-2'>
-            <FaFolder className='size-6' />
-            <span>{rowName}</span>
-          </div>
+          <Link to={`/project/${projectId}/resources/${row.original.id}`}>
+            <div className='flex items-center space-x-2'>
+              <FaFolder className='size-6' />
+              <span>{rowName}</span>
+            </div>
+          </Link>
         );
       },
       enableSorting: false,

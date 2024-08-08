@@ -1,4 +1,4 @@
-import { DotsHorizontalIcon, DownloadIcon, Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
+import { DotsHorizontalIcon, Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
 import { Row } from '@tanstack/react-table';
 import { useState } from 'react';
 
@@ -7,7 +7,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 
@@ -15,6 +14,7 @@ import { ResourceFile, ResourceFolder } from '../types/api';
 import { RESOURCE } from '../types/constant';
 
 import { DeleteResourceDialog } from './delete-resource-diaglog';
+import { DownloadComponent } from './download-component';
 import { UpdateFolderDialog } from './update-folder-dialog';
 
 export function DropdownActions({ row }: { row: Row<ResourceFolder | ResourceFile> }) {
@@ -53,16 +53,12 @@ export function DropdownActions({ row }: { row: Row<ResourceFolder | ResourceFil
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end' className='w-40' data-no-dnd='true'>
-          <DropdownMenuItem onSelect={() => setShowDeleteResourceDialog(true)}>
-            Download <DownloadIcon />
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
+          {row.original.type === RESOURCE.FILE && <DownloadComponent id={row.original.id} />}
           {row.original.type === RESOURCE.FOLDER && (
             <DropdownMenuItem onSelect={() => setShowUpdateFolderDialog(true)}>
               Edit <Pencil2Icon />
             </DropdownMenuItem>
           )}
-          <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => setShowDeleteResourceDialog(true)}>
             Delete <TrashIcon />
           </DropdownMenuItem>

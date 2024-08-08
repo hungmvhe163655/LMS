@@ -34,7 +34,7 @@ export const useResources = ({
   resourceQueryParameter: ResourceQueryParams;
 }) => {
   return useInfiniteQuery({
-    queryKey: resourceKeys.lists(id, resourceQueryParameter),
+    queryKey: resourceKeys.list(id, resourceQueryParameter),
     queryFn: ({ pageParam = resourceQueryParameter }) => fetchResources(id, pageParam),
     getNextPageParam: (lastPage) => {
       if (lastPage.data.length === 0 || !lastPage.cursor) return undefined; // No more data to fetch

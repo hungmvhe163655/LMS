@@ -45,7 +45,9 @@ export const updateFolderAPISchema = z
 export type UpdateFolderFolderAPISchema = z.infer<typeof updateFolderAPISchema>;
 
 export const uploadFileInputSchema = z.object({
-  file: z.instanceof(File)
+  file: z.instanceof(File).refine((file) => file.size <= 15 * 1024 * 1024, {
+    message: 'File size must not exceed 15 MB'
+  })
 });
 export type UploadFileInputSchema = z.infer<typeof uploadFileInputSchema>;
 
