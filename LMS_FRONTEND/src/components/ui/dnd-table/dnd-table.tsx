@@ -21,11 +21,12 @@ import {
 } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 
-import { DndRow } from './dnd-row';
+import DndRow from './dnd-row';
 
 interface DragAndDropTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
   table: TanstackTable<TData>;
   handleDragEnd: (event: DragEndEvent) => void;
+  nonDraggableColumns?: string[];
 }
 
 const DragAndDropTable: React.FC<DragAndDropTableProps<any>> = ({
@@ -33,6 +34,7 @@ const DragAndDropTable: React.FC<DragAndDropTableProps<any>> = ({
   handleDragEnd,
   children,
   className,
+  nonDraggableColumns = [],
   ...props
 }) => {
   const sensors = useSensors(
@@ -66,7 +68,7 @@ const DragAndDropTable: React.FC<DragAndDropTableProps<any>> = ({
             <TableBody className='block shrink grow overflow-y-scroll'>
               {table.getRowModel().rows.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <DndRow key={row.id} row={row}>
+                  <DndRow key={row.id} row={row} nonDraggableColumns={nonDraggableColumns}>
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}

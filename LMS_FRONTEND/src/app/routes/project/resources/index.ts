@@ -1,5 +1,5 @@
 const ResourcesRoute = {
-  path: 'workspace/:projectId/resources/:folderId',
+  path: ':projectId/resources/:folderId',
   lazy: async () => {
     const { ProjectResourcesTablePage: ProjectResourcesTablePage } = await import(
       './project-resources-table'

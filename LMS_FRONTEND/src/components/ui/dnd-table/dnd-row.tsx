@@ -4,7 +4,13 @@ import { CSSProperties } from 'react';
 
 import { TableRow } from '@/components/ui/table';
 
-export const DndRow = ({ row, children }: { row: any; children: React.ReactNode }) => {
+interface DndRowProps {
+  row: any;
+  children: React.ReactNode;
+  nonDraggableColumns?: string[];
+}
+
+export const DndRow: React.FC<DndRowProps> = ({ row, children, nonDraggableColumns = [] }) => {
   const {
     attributes,
     listeners,
@@ -12,7 +18,10 @@ export const DndRow = ({ row, children }: { row: any; children: React.ReactNode 
     transform,
     isDragging
   } = useDraggable({
-    id: row.id
+    id: row.id,
+    disabled: nonDraggableColumns.some((col) =>
+      row.getVisibleCells().some((cell: any) => cell.column.id === col)
+    )
   });
 
   const { setNodeRef: setDroppableRef, isOver } = useDroppable({
@@ -45,3 +54,5 @@ export const DndRow = ({ row, children }: { row: any; children: React.ReactNode 
     </TableRow>
   );
 };
+
+export default DndRow;

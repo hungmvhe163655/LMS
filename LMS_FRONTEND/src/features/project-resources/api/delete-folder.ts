@@ -3,29 +3,28 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
-import { CreateFolderAPISchema } from '../types/api';
 import { resourceKeys } from '../utils/queries';
 
-export const createFolder = async (data: CreateFolderAPISchema) => {
-  const res = await api.post(`/folders/${data.ancestorId}`, data);
+export const deleteFolder = async ({ id }: { id: string }) => {
+  const res = await api.delete(`/folders/${id}`);
   return res.data;
 };
 
-type UseCreateFolderOptions = {
-  mutationConfig?: MutationConfig<typeof createFolder>;
+type UseDeleteFolderOptions = {
+  mutationConfig?: MutationConfig<typeof deleteFolder>;
 };
 
-export const useCreateFolder = ({ mutationConfig }: UseCreateFolderOptions = {}) => {
+export const useDeleteFolder = ({ mutationConfig }: UseDeleteFolderOptions = {}) => {
   const queryClient = useQueryClient();
 
   const { onSuccess, ...restConfig } = mutationConfig || {};
 
   return useMutation({
     ...restConfig,
-    mutationFn: createFolder,
+    mutationFn: deleteFolder,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({
-        queryKey: resourceKeys.content(variables.ancestorId)
+        queryKey: resourceKeys.contents()
       });
       onSuccess?.(data, variables, context);
     }

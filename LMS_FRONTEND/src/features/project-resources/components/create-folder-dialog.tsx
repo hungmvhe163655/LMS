@@ -44,7 +44,7 @@ export function CreateFolderDialog() {
   const form = useForm<CreateFolderInputSchema>({
     resolver: zodResolver(createFolderInputSchema),
     defaultValues: {
-      title: ''
+      name: ''
     }
   });
 
@@ -82,7 +82,7 @@ export function CreateFolderDialog() {
             {/* Title */}
             <FormField
               control={form.control}
-              name='title'
+              name='name'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className='text-xl'>Title</FormLabel>

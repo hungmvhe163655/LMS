@@ -10,6 +10,8 @@ import { getFileExtension } from '@/utils/get-file-extension';
 import { ResourceFile, ResourceFolder } from '../types/api';
 import { RESOURCE } from '../types/constant';
 
+import { DropdownActions } from './dropdown-actions';
+
 export function getColumns(): ColumnDef<ResourceFolder | ResourceFile>[] {
   return [
     {
@@ -63,7 +65,7 @@ export function getColumns(): ColumnDef<ResourceFolder | ResourceFile>[] {
     {
       id: 'actions',
       cell: ({ row }) => {
-        return row.original.type === RESOURCE.FILE ? humanFileSize(row.original.size) : '-';
+        return <DropdownActions row={row} />;
       },
       enableSorting: false,
       enableHiding: false

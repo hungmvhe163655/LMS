@@ -14,30 +14,32 @@ import {
 import { ResourceFile, ResourceFolder } from '../types/api';
 import { RESOURCE } from '../types/constant';
 
-import { DeleteFilesDialog } from './delete-resource-diaglog';
+import { DeleteResourceDialog } from './delete-resource-diaglog';
 import { UpdateFolderDialog } from './update-folder-dialog';
 
 export function DropdownActions({ row }: { row: Row<ResourceFolder | ResourceFile> }) {
-  const [showUpdateTaskSheet, setShowUpdateTaskSheet] = useState(false);
-  const [showDeleteTaskDialog, setShowDeleteTaskDialog] = useState(false);
+  const [showUpdateFolderDialog, setShowUpdateFolderDialog] = useState(false);
+  const [showDeleteResourceDialog, setShowDeleteResourceDialog] = useState(false);
+
+  function handleOnSuccess() {
+    setShowDeleteResourceDialog(false);
+  }
 
   return (
     <>
       {row.original.type === RESOURCE.FOLDER && (
         <UpdateFolderDialog
-          open={showUpdateTaskSheet}
-          onOpenChange={setShowUpdateTaskSheet}
+          open={showUpdateFolderDialog}
+          onOpenChange={setShowUpdateFolderDialog}
           folder={row.original}
         />
       )}
-      {row.original.type === RESOURCE.FILE && (
-        <DeleteFilesDialog
-          open={showDeleteTaskDialog}
-          onOpenChange={setShowDeleteTaskDialog}
-          files={[row.original]}
-          onSuccess={() => row.toggleSelected(false)}
-        />
-      )}
+      <DeleteResourceDialog
+        open={showDeleteResourceDialog}
+        onOpenChange={setShowDeleteResourceDialog}
+        resource={row.original}
+        onSuccess={handleOnSuccess}
+      />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -49,15 +51,15 @@ export function DropdownActions({ row }: { row: Row<ResourceFolder | ResourceFil
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end' className='w-40'>
-          <DropdownMenuItem onSelect={() => setShowDeleteTaskDialog(true)}>
+          <DropdownMenuItem onSelect={() => setShowDeleteResourceDialog(true)}>
             Download <DownloadIcon />
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onSelect={() => setShowUpdateTaskSheet(true)}>
+          <DropdownMenuItem onSelect={() => setShowUpdateFolderDialog(true)}>
             Edit <Pencil2Icon />
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onSelect={() => setShowDeleteTaskDialog(true)}>
+          <DropdownMenuItem onClick={() => setShowDeleteResourceDialog(true)}>
             Delete <TrashIcon />
           </DropdownMenuItem>
         </DropdownMenuContent>
