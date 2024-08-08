@@ -96,11 +96,7 @@ export function ResourceTable() {
       hasMore={hasNextPage}
       loader={<h4>Loading more items...</h4>}
     >
-      <DragAndDropTable
-        table={table}
-        handleDragEnd={handleDragEnd}
-        nonDraggableColumns={['actions']}
-      >
+      <DragAndDropTable table={table} handleDragEnd={handleDragEnd}>
         <ResourceTableToolbars />
       </DragAndDropTable>
     </InfiniteScroll>

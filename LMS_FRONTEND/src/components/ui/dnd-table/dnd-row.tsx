@@ -7,10 +7,9 @@ import { TableRow } from '@/components/ui/table';
 interface DndRowProps {
   row: any;
   children: React.ReactNode;
-  nonDraggableColumns?: string[];
 }
 
-export const DndRow: React.FC<DndRowProps> = ({ row, children, nonDraggableColumns = [] }) => {
+export const DndRow: React.FC<DndRowProps> = ({ row, children }) => {
   const {
     attributes,
     listeners,
@@ -18,10 +17,7 @@ export const DndRow: React.FC<DndRowProps> = ({ row, children, nonDraggableColum
     transform,
     isDragging
   } = useDraggable({
-    id: row.id,
-    disabled: nonDraggableColumns.some((col) =>
-      row.getVisibleCells().some((cell: any) => cell.column.id === col)
-    )
+    id: row.id
   });
 
   const { setNodeRef: setDroppableRef, isOver } = useDroppable({

@@ -59,7 +59,7 @@ export function DeleteResourceDialog({ resource, onSuccess, ...props }: DeleteRe
 
   return (
     <Dialog {...props}>
-      <DialogContent>
+      <DialogContent data-no-dnd='true'>
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>

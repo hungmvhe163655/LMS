@@ -26,7 +26,7 @@ export function DropdownActions({ row }: { row: Row<ResourceFolder | ResourceFil
   }
 
   return (
-    <>
+    <div data-no-dnd='true'>
       {row.original.type === RESOURCE.FOLDER && (
         <UpdateFolderDialog
           open={showUpdateFolderDialog}
@@ -50,7 +50,7 @@ export function DropdownActions({ row }: { row: Row<ResourceFolder | ResourceFil
             <DotsHorizontalIcon className='size-4' aria-hidden='true' />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align='end' className='w-40'>
+        <DropdownMenuContent align='end' className='w-40' data-no-dnd='true'>
           <DropdownMenuItem onSelect={() => setShowDeleteResourceDialog(true)}>
             Download <DownloadIcon />
           </DropdownMenuItem>
@@ -64,6 +64,6 @@ export function DropdownActions({ row }: { row: Row<ResourceFolder | ResourceFil
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </>
+    </div>
   );
 }

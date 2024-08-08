@@ -1,13 +1,4 @@
-import {
-  DndContext,
-  DragEndEvent,
-  closestCenter,
-  useSensor,
-  useSensors,
-  MouseSensor,
-  TouchSensor,
-  KeyboardSensor
-} from '@dnd-kit/core';
+import { DndContext, DragEndEvent, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
 import { flexRender, Table as TanstackTable } from '@tanstack/react-table';
 import React from 'react';
 
@@ -20,13 +11,13 @@ import {
   TableCell
 } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
+import { KeyboardSensor, MouseSensor } from '@/utils/dnd-utils';
 
 import DndRow from './dnd-row';
 
 interface DragAndDropTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
   table: TanstackTable<TData>;
   handleDragEnd: (event: DragEndEvent) => void;
-  nonDraggableColumns?: string[];
 }
 
 const DragAndDropTable: React.FC<DragAndDropTableProps<any>> = ({
@@ -34,14 +25,9 @@ const DragAndDropTable: React.FC<DragAndDropTableProps<any>> = ({
   handleDragEnd,
   children,
   className,
-  nonDraggableColumns = [],
   ...props
 }) => {
-  const sensors = useSensors(
-    useSensor(MouseSensor),
-    useSensor(TouchSensor),
-    useSensor(KeyboardSensor)
-  );
+  const sensors = useSensors(useSensor(MouseSensor), useSensor(KeyboardSensor));
 
   return (
     <div className={cn('w-full space-y-2.5 overflow-auto', className)} {...props}>
@@ -68,7 +54,7 @@ const DragAndDropTable: React.FC<DragAndDropTableProps<any>> = ({
             <TableBody className='block shrink grow overflow-y-scroll'>
               {table.getRowModel().rows.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <DndRow key={row.id} row={row} nonDraggableColumns={nonDraggableColumns}>
+                  <DndRow key={row.id} row={row}>
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
