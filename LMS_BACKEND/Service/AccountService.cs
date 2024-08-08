@@ -10,6 +10,7 @@ using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
 using Shared.GlobalVariables;
+using System.Security.Claims;
 
 namespace Service
 {
@@ -37,6 +38,17 @@ namespace Service
             _userManager = userManager;
             _roleManager = roleManager;
         }
+        public async Task<string> CheckUser(ClaimsPrincipal user)
+        {
+            var userClaims = user.Claims;
+
+            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? throw new BadRequestException("Please login first");
+
+            var hold = await _repository.Account.FindByNameAsync(username, false) ?? throw new BadRequestException("Bad username");
+
+            return hold.Id;
+        }
+
         public async Task<IEnumerable<AccountManagementResponseModel>> TaskGetAccountForManagement(RequestParameters lamao)
         {
             var hold = await _repository.Account.GetPagedAsync(lamao, false);
@@ -272,27 +284,17 @@ namespace Service
             return _mapper.Map<IEnumerable<AccountRequestJoinResponseModel>>(hold);
         }
 
-        public async Task<int> CountMember(string type)
+        public async Task<int> CountMember()
         {
-            var hold = new List<Account>();
-
-            if (type.Equals("Banned"))
-            {
-                hold = await _repository.Account.GetByCondition(x => x.IsBanned == true && x.IsVerified == true, false).ToListAsync();
-            }
-            else if (type.Equals("Deleted"))
-            {
-                hold = await _repository.Account.GetByCondition(x => x.IsDeleted == true && x.IsVerified == true, false).ToListAsync();
-            }
-            else if (type.Equals("Unverified"))
-            {
-                hold = await _repository.Account.GetByCondition(x => x.IsVerified == false, false).ToListAsync();
-            }
-            else if (type.Equals("Verified"))
-            {
-                hold = await _repository.Account.GetByCondition(x => x.IsBanned == false && x.IsDeleted == false && x.IsVerified == true, false).ToListAsync();
-            }
+            var hold = await _repository.Account.GetByCondition(x => x.IsBanned == false && x.IsDeleted == false && x.IsVerified == true, false).ToListAsync();
             return hold.Count;
+        }
+
+        public async Task<MemberReportModel> GetActiveMember()
+        {
+            var hold_member = await _repository.Account.GetByCondition(x => x.IsBanned == false && x.IsDeleted == false && x.IsVerified == true, false).CountAsync();
+            var hold_online = await _repository.Account.GetByCondition(x => x.LoginSessionAge.CompareTo(DateTime.UtcNow) > 0, false).CountAsync();
+            return new MemberReportModel {Online = hold_online, Offline = hold_member - hold_online };
         }
 
         //public async Task<bool> ChangePhoneNumberAsync(string userId, string phoneNumber, string verifyCode)

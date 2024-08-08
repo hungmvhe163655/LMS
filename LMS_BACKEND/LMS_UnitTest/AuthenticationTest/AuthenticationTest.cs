@@ -7,6 +7,7 @@ using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using Service;
@@ -35,6 +36,8 @@ namespace LMS_UnitTest.AuthenticationTest
 
         private readonly AuthenticationService _authService;
 
+        private readonly Mock<IMemoryCache> _cache;
+
 
         public AuthenticationServiceTests()
         {
@@ -50,6 +53,8 @@ namespace LMS_UnitTest.AuthenticationTest
 
             _configurationMock = new Mock<IConfiguration>();
 
+            _cache = new Mock<IMemoryCache>();
+
             _configurationMock.Setup(c => c.GetSection(It.IsAny<string>())).Returns(new Mock<IConfigurationSection>().Object);
             _authService = new AuthenticationService(
                 _loggerMock.Object,
@@ -57,7 +62,8 @@ namespace LMS_UnitTest.AuthenticationTest
                 _userManagerMock.Object,
                 _configurationMock.Object,
                 _roleManagerMock.Object,
-                _repositoryManagerMock.Object);
+                _repositoryManagerMock.Object,
+                _cache.Object);
         }
 
         [Fact]

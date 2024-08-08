@@ -32,17 +32,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(pageResult.news);
         }
 
-        private async Task<string> CheckUser()
-        {
-            var userClaims = User.Claims;
-
-            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-
-            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
-
-            return hold.Id;
-        }
-
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetNewsById(Guid id)
         {
@@ -54,7 +43,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(Roles = Roles.SUPERVISOR)]
         public async Task<IActionResult> CreateNews(CreateNewsRequestModel model)
         {
-            var result = await _service.NewsService.CreateNewsAsync( CheckUser().Result, model);
+            var current = await _service.AccountService.CheckUser(User);
+
+            var result = await _service.NewsService.CreateNewsAsync( current, model);
 
             return CreatedAtAction(nameof(GetNewsById), new { id = result.Id }, result);
         }

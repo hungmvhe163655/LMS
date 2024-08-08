@@ -1,12 +1,15 @@
 ﻿using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using System.Security.Claims;
 
 namespace Service.Contracts
 {
     public interface IAccountService
     {
         Task ChangeVerifierForId(string id, string verifierId);
+
+        Task<string> CheckUser(ClaimsPrincipal user);
 
         Task<IEnumerable<MinorAccountReturnModel>> GetAccountNameWithRole(string role);
 
@@ -33,6 +36,7 @@ namespace Service.Contracts
         Task ChangeEmailAsync(string id, ChangeEmailRequestModel model);
 
         Task<IEnumerable<AccountRequestJoinResponseModel>> GetUserWithRole(string role);
-        Task<int> CountMember(string type);
+        Task<int> CountMember();
+        Task<MemberReportModel> GetActiveMember();
     }
 }

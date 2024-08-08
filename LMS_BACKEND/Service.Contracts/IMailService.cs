@@ -8,6 +8,6 @@
         Task<bool> SendTwoFactorOtp(string email);
         Task<bool> SendMailToUser(string email, string content, string header);
         Task<bool> SendVerifyEmailOtp(string email);
-        public bool VerifyEmailOtp(string email, string AuCode);
+        public string VerifyEmailOtp(string email, string AuCode);
     }
 }

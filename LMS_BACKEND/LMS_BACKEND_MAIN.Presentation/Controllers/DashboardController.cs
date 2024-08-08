@@ -29,17 +29,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             _service = service;
         }
 
-        private async Task<string> CheckUser()
-        {
-            var userClaims = User.Claims;
-
-            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-
-            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
-
-            return hold.Id;
-        }
-
         [HttpGet(RoutesAPI.GetNotification)]
         public async Task<IActionResult> GetImportantNotification()
         {
@@ -47,7 +36,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             {
                 PageNumber = 1,
                 PageSize = 5,
-                UserId = CheckUser().Result
+                UserId = await _service.AccountService.CheckUser(User)
             };
 
             var hold = await _service.NotificationService.GetPagedNotifications(param);
@@ -66,8 +55,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
                 PageNumber= 1,
                 PageSize = 1,
             };
+            var current = await _service.AccountService.CheckUser(User);
 
-            var pageResult = await _service.ProjectService.GetProjects(CheckUser().Result, param, trackChange: false);
+            var pageResult = await _service.ProjectService.GetProjects(current, param, trackChange: false);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
 
@@ -79,7 +69,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         public async Task<IActionResult> GetOverallReport()
         {
             var project = await _service.ProjectService.CountProject(PROJECT_STATUS.ONGOING);
-            var account = await _service.AccountService.CountMember("Verified");
+            var account = await _service.AccountService.CountMember();
             var device = await _service.DeviceService.CountDevice(DEVICE_STATUS.AVAILABLE) + await _service.DeviceService.CountDevice(DEVICE_STATUS.INUSE);
 
             var report = new OverallResponseModel
@@ -96,14 +86,7 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [Authorize(Roles = Roles.ADMIN)]
         public async Task<IActionResult> GetMemberReport()
         {
-            var verified = await _service.AccountService.CountMember("Verified");
-            var unverified = await _service.AccountService.CountMember("Unverified");
-
-            var data = new MemberReportModel
-            {
-                Unverified = unverified,
-                Verified = verified,
-            };
+            var data = await _service.AccountService.GetActiveMember();
             return Ok(data);
         }
 

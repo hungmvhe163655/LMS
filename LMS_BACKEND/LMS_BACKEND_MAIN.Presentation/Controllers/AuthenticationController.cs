@@ -146,12 +146,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         {
             if (await _service.AccountService.GetUserByEmail(model.Email, false) != null) throw new BadRequestException("User is already existed");
 
-            if (_service.MailService.VerifyEmailOtp(model.Email, model.AuCode))
-            {
-                return Ok(new ResponseMessage { Message = "Email Verified Successfully" });
-            }
+            var hold = _service.MailService.VerifyEmailOtp(model.Email, model.AuCode);
 
-            return BadRequest(new ResponseMessage { Message = "Invalid Token" });
+            return Ok(new ResponseMessage { Message = hold });
         }
 
         [HttpGet(RoutesAPI.GetCurrentLoggedInUser)]

@@ -73,7 +73,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpPost("{id:guid}")]
         public async Task<IActionResult> CreateFolder(Guid id, CreateFolderRequestModel model)
         {
-            var result = await _serviceManager.FileService.CreateFolder(model, await CheckUser(), id);
+            var current = await _serviceManager.AccountService.CheckUser(User);
+
+            var result = await _serviceManager.FileService.CreateFolder(model, current, id);
 
             if (result == null)
             {
@@ -97,17 +99,5 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             return Ok(new ResponseMessage { Message = "Update Successfully" });
         }
-
-        private async Task<string> CheckUser()
-        {
-            var userClaims = User.Claims;
-
-            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-
-            var hold = await _serviceManager.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
-
-            return hold.Id;
-        }
-
     }
 }

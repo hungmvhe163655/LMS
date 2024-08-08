@@ -53,17 +53,6 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "Delete task list successfully" });
         }
 
-        private async Task<string> CheckUser()
-        {
-            var userClaims = User.Claims;
-
-            var username = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-
-            var hold = await _service.AccountService.GetUserByName(username ?? throw new UnauthorizedException("lamao"));
-
-            return hold.Id;
-        }
-
         [HttpPatch(RoutesAPI.MoveTaskToTaskList)]
         [Authorize(AuthenticationSchemes = AuthorizeScheme.Bear)]
         public async Task<IActionResult> MoveTaskToTaskList(Guid taskListId, Guid taskid, [FromBody] JsonPatchDocument<TaskResponseModel> patchDoc)
@@ -74,7 +63,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             patchDoc.ApplyTo(result.taskToPatch);
 
-            await _service.TaskService.SaveChangesForPatch(result.taskToPatch, result.taskEntity, CheckUser().Result);
+            var current = await _service.AccountService.CheckUser(User);
+
+            await _service.TaskService.SaveChangesForPatch(result.taskToPatch, result.taskEntity, current);
 
             return NoContent();
         }
@@ -89,7 +80,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
 
             patchDoc.ApplyTo(result.taskToPatch);
 
-            await _service.TaskService.SaveChangesInTaskListForPatch(result.taskToPatch, result.taskEntity, CheckUser().Result);
+            var current = await _service.AccountService.CheckUser(User);
+
+            await _service.TaskService.SaveChangesInTaskListForPatch(result.taskToPatch, result.taskEntity, current);
 
             return NoContent();
         }

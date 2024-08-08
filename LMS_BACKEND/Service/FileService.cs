@@ -195,6 +195,8 @@ namespace Service
         }
         public async Task<FileResponseModel> CreateFile(FileUploadRequestModel model, Stream inputStream)
         {
+            if (model.MimeType.Equals("application/octet-stream")) throw new BadRequestException("Invalid file type");
+
             model.FileKey = Guid.NewGuid().ToString();
 
             var hold = _mappers.Map<Files>(model);
@@ -290,7 +292,7 @@ namespace Service
             return (end, hold_folder.Name ?? "Zipped");
         }
 
-        public async Task EditFolder(Guid id,FolderEditRequestModel model)
+        public async Task EditFolder(Guid id, FolderEditRequestModel model)
         {
             var hold = await _repositoryManager.Folder.GetByCondition(x => x.Id.Equals(id), true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid Folder Id");
 
