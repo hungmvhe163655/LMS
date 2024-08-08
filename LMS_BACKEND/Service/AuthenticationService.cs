@@ -74,7 +74,7 @@ namespace Service
         {
             _cache.TryGetValue($"{model.Email}_IsOkForAccountCreation", out string? end_token);
 
-            if (string.IsNullOrWhiteSpace(end_token) || !end_token.Equals(model.EmailValidateCode)) throw new BadRequestException("Email was unverified");
+            if (string.IsNullOrWhiteSpace(end_token) || !end_token.Equals(model.EmailValidationCode)) throw new BadRequestException("Email was unverified");
 
             var user = _mapper.Map<Account>(model);
 

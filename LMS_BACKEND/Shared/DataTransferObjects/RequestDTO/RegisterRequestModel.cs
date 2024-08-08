@@ -14,7 +14,7 @@ namespace Shared.DataTransferObjects.RequestDTO
         public string VerifiedByUserID { get; set; } = null!;
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; } = null!;
-        public string EmailValidateCode { get; set; } = null!;
+        public string EmailValidationCode { get; set; } = null!;
         public ICollection<string> Roles { get; init; } = null!;
     }
 }
