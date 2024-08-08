@@ -24,7 +24,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { authStore } from '@/lib/auth-store';
 
 import { useCreateFolder } from '../api/create-folder';
 import {
@@ -34,13 +33,11 @@ import {
 } from '../types/api';
 
 export function CreateFolderDialog() {
-  const { accessData } = authStore.getState();
   const { folderId } = useParams() as { folderId: string };
-  const { projectId } = useParams() as { projectId: string };
   const [isOpen, setIsOpen] = useState(false);
 
   const { toast } = useToast();
-  const { mutate: createFolder } = useCreateFolder();
+  const { mutate: createFolder, isPending } = useCreateFolder();
   const form = useForm<CreateFolderInputSchema>({
     resolver: zodResolver(createFolderInputSchema),
     defaultValues: {
@@ -51,8 +48,6 @@ export function CreateFolderDialog() {
   function onSubmit(values: CreateFolderInputSchema) {
     const data = createFolderAPISchema.parse({
       ...values,
-      createdBy: accessData?.id,
-      projectId: projectId,
       ancestorId: folderId
     });
 
@@ -93,7 +88,9 @@ export function CreateFolderDialog() {
                 </FormItem>
               )}
             />
-            <Button type='submit'>Create</Button>
+            <Button type='submit' disabled={isPending}>
+              Create
+            </Button>
           </form>
         </Form>
         <DialogFooter className='sm:justify-start'>

@@ -23,6 +23,7 @@ export function DropdownActions({ row }: { row: Row<ResourceFolder | ResourceFil
 
   function handleOnSuccess() {
     setShowDeleteResourceDialog(false);
+    setShowUpdateFolderDialog(false);
   }
 
   return (
@@ -32,6 +33,7 @@ export function DropdownActions({ row }: { row: Row<ResourceFolder | ResourceFil
           open={showUpdateFolderDialog}
           onOpenChange={setShowUpdateFolderDialog}
           folder={row.original}
+          onSuccess={handleOnSuccess}
         />
       )}
       <DeleteResourceDialog
@@ -55,9 +57,11 @@ export function DropdownActions({ row }: { row: Row<ResourceFolder | ResourceFil
             Download <DownloadIcon />
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onSelect={() => setShowUpdateFolderDialog(true)}>
-            Edit <Pencil2Icon />
-          </DropdownMenuItem>
+          {row.original.type === RESOURCE.FOLDER && (
+            <DropdownMenuItem onSelect={() => setShowUpdateFolderDialog(true)}>
+              Edit <Pencil2Icon />
+            </DropdownMenuItem>
+          )}
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => setShowDeleteResourceDialog(true)}>
             Delete <TrashIcon />

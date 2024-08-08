@@ -36,3 +36,10 @@ export const createFolderAPISchema = z
   })
   .and(createFolderInputSchema);
 export type CreateFolderAPISchema = z.infer<typeof createFolderAPISchema>;
+
+export const updateFolderAPISchema = z
+  .object({
+    id: z.string().min(1)
+  })
+  .and(createFolderInputSchema);
+export type UpdateFolderFolderAPISchema = z.infer<typeof updateFolderAPISchema>;

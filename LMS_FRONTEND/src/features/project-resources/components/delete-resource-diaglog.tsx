@@ -23,9 +23,9 @@ interface DeleteResourceDialogProps extends React.ComponentPropsWithoutRef<typeo
 }
 
 export function DeleteResourceDialog({ resource, onSuccess, ...props }: DeleteResourceDialogProps) {
-  const { mutate: deleteFolder } = useDeleteFolder();
+  const { mutate: deleteFolder, isPending: isDeletingFolder } = useDeleteFolder();
   const { toast } = useToast();
-  const { mutate: deleteFile } = useDeleteFile();
+  const { mutate: deleteFile, isPending: isDeletingFile } = useDeleteFile();
 
   function handleDelete() {
     if (resource.type === RESOURCE.FOLDER) {
@@ -70,7 +70,12 @@ export function DeleteResourceDialog({ resource, onSuccess, ...props }: DeleteRe
           <DialogClose asChild>
             <Button variant='outline'>Cancel</Button>
           </DialogClose>
-          <Button aria-label='Delete selected rows' variant='destructive' onClick={handleDelete}>
+          <Button
+            aria-label='Delete selected rows'
+            variant='destructive'
+            onClick={handleDelete}
+            disabled={isDeletingFile || isDeletingFolder}
+          >
             Delete
           </Button>
         </DialogFooter>
