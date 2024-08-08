@@ -20,10 +20,11 @@ export type Schedule = {
 
 export const getSchedulesForDevice = async (
   deviceId: string,
-  dateInput: string
+  dateInput: string,
+  timeFrame: string // Add timeFrame parameter
 ): Promise<Schedule[]> => {
   const response = await api.get(`/schedules/devices/${deviceId}`, {
-    params: { dateInput: dateInput }
+    params: { dateInput: dateInput, TimeFrame: timeFrame }
   });
   return response.data;
 };
@@ -31,17 +32,19 @@ export const getSchedulesForDevice = async (
 type UseSchedulesForDeviceOptions = {
   deviceId: string;
   dateInput: string;
+  timeFrame: string; // Add timeFrame parameter
   queryConfig?: QueryConfig<typeof getSchedulesForDevice>;
 };
 
 export const useSchedulesForDevice = ({
   deviceId,
   dateInput,
+  timeFrame,
   queryConfig
 }: UseSchedulesForDeviceOptions) => {
   return useQuery({
-    queryKey: ['schedules-for-device', deviceId, dateInput],
-    queryFn: () => getSchedulesForDevice(deviceId, dateInput),
+    queryKey: ['schedules-for-device', deviceId, dateInput, timeFrame],
+    queryFn: () => getSchedulesForDevice(deviceId, dateInput, timeFrame),
     ...queryConfig
   });
 };
