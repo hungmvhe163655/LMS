@@ -290,11 +290,11 @@ namespace Service
             return (end, hold_folder.Name ?? "Zipped");
         }
 
-        public async Task EditFolder(FolderEditRequestModel model)
+        public async Task EditFolder(Guid id,FolderEditRequestModel model)
         {
-            var hold = _mappers.Map<Folder>(model);
+            var hold = _repositoryManager.Folder.GetByCondition(x => x.Id.Equals(id), true).FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid Folder Id");
 
-            _repositoryManager.Folder.UpdateFolder(hold);
+            await _mappers.Map(model, hold);
 
             await _repositoryManager.Save();
         }

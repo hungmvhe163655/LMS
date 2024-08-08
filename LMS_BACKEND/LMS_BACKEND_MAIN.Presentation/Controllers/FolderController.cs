@@ -90,6 +90,14 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
             return Ok(new ResponseMessage { Message = "DELETEFILE" });
         }
 
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateFoldername(Guid id, [FromBody] FolderEditRequestModel model)
+        {
+            await _serviceManager.FileService.EditFolder(id, model);
+
+            return Ok(new ResponseMessage { Message = "Update Successfully" });
+        }
+
         private async Task<string> CheckUser()
         {
             var userClaims = User.Claims;

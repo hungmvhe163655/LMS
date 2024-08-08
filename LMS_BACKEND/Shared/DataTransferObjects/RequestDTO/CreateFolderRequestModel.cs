@@ -2,6 +2,6 @@
 {
     public class CreateFolderRequestModel
     {
-        public string? Name { get; set; }
+        public string Name { get; set; } = "New Folder";
     }
 }

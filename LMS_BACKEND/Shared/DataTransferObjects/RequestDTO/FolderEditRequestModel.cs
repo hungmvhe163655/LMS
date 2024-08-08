@@ -2,6 +2,6 @@
 {
     public class FolderEditRequestModel
     {
-
+        public string Name { get; set; } = null!;
     }
 }

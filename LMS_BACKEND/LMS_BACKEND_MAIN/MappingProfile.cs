@@ -147,6 +147,7 @@ namespace LMS_BACKEND_MAIN
 
             CreateMap<CreateCommentRequestModel, Comment>();
             CreateMap<ProjectUpdateRequestModel, Project>();
+            CreateMap<FolderEditRequestModel, Folder>();
         }
     }
 }
