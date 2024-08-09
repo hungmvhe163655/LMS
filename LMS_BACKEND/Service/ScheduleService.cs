@@ -2,6 +2,7 @@
 using Contracts.Interfaces;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.ResponseDTO;
@@ -108,6 +109,13 @@ namespace Service
             var hold = await _repository.Schedule.GetSchedule(id, false);
 
             return _mapper.Map<ScheduleRequestModel>(hold);
+        }
+
+        public async Task<IEnumerable<Schedule>> GetDueSchedulesAsync()
+        {
+            var hold = await _repository.Schedule.GetDueSchedules(DateTime.Now, 10).ToListAsync();
+
+            return hold;
         }
     }
 }

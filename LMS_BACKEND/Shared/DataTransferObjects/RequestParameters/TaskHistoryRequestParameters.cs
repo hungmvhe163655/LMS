@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects.RequestParameters
 {
-    public class CommentParameters
+    public class TaskHistoryRequestParameters
     {
         public int? Cursor { get; set; }
         public int? Take { get; set; }

@@ -26,6 +26,13 @@ namespace Repository
                 .Equals(deviceId) && ((x.StartDate >= startTime && x.StartDate < endTime) || (x.EndDate <= endTime && x.EndDate > startTime))
                 ).Include(x => x.Device).Include(x => x.Account)
             .ToListAsync();
+
+        public IQueryable<Schedule> GetDueSchedules(DateTime current, int delay)
+        {
+            var hold = GetByCondition(x => x.EndDate >= current.AddMinutes(delay) && x.EndDate < current, false);
+
+            return hold;
+        }
         public async Task<IEnumerable<Schedule>> GetAllByDevice(Guid id, bool track) => await FindAll(track).ToListAsync();
         public async Task CreateScheduleForDevice(Schedule schedule) => await CreateAsync(schedule);
         public void DeleteSchedule(Schedule schedule) => Delete(schedule);

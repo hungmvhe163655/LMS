@@ -1,6 +1,8 @@
 ﻿using Contracts.Interfaces;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
+using Shared.DataTransferObjects.RequestParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +17,12 @@ namespace Repository
         {
         }
 
-        public IQueryable<Comment> GetCommentByTaskId(Guid taskId)
+        public IQueryable<Comment> GetCommentByTaskId(Guid taskId, CommentParameters param)
         {
             return GetByCondition(x => x.TaskId.Equals(taskId) && x.ParentId == null, false).Include(x => x.Childs).ThenInclude(y => y.CreatedByUser).Include(z => z.CreatedByUser);
         }
 
-        public async Task<List<Comment>> GetCommentByTaskId2(Guid taskId)
+        public async Task<List<Comment>> GetCommentByTaskId2(Guid taskId, CommentParameters param)
         {
             var comments = GetByCondition(x => x.TaskId.Equals(taskId) && x.ParentId == null, true)
                             .Include(x => x.CreatedByUser)
@@ -29,7 +31,7 @@ namespace Repository
 
             foreach (var comment in comments) await LoadChildren(comment);
             
-            return comments;
+            return comments.Sort(param.OrderBy);
         }
 
         private async Task LoadChildren(Comment comment)

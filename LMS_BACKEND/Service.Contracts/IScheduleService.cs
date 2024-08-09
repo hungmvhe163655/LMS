@@ -11,5 +11,6 @@ namespace Service.Contracts
         Task UpdateSchedule(Guid id, ScheduleUpdateRequestModel model);
         Task<ScheduleResponseModel> CreateScheduleForDevice(ScheduleCreateRequestModel model);
         Task<ScheduleRequestModel> GetSchedule(Guid id);
+        Task<IEnumerable<Schedule>> GetDueSchedulesAsync();
     }
 }

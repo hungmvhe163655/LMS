@@ -6,6 +6,7 @@ using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using Shared.GlobalVariables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,15 +27,17 @@ namespace Service
         }
 
         //public async Task<PagedList<CommentResponseModel>> GetPagedComment(Guid taskId, CommentParameters param)
-        public async Task<PagedList<CommentResponseModel>> GetPagedComment(Guid taskId, CommentParameters param)
+        public async Task<(List<CommentResponseModel> Data, int? Cursor)> GetListComment(Guid taskId, CommentParameters param)
         {
-            //var hold = _repository.Comment.GetCommentByTaskId(taskId);
-
-            var hold2 = await _repository.Comment.GetCommentByTaskId2(taskId);
+            var hold2 = await _repository.Comment.GetCommentByTaskId2(taskId, param);
 
             //return PagedList<CommentResponseModel>.ToPagedList(_mapper.Map<IEnumerable<CommentResponseModel>>(await hold.ToListAsync()), param.PageNumber, param.PageSize);
 
-            return PagedList<CommentResponseModel>.ToPagedList(_mapper.Map<IEnumerable<CommentResponseModel>>(hold2), param.PageNumber, param.PageSize);
+            var end = hold2.Skip(param.Cursor ?? SCROLL_LIST.DEFAULT_TOP).Take(param.Take ?? SCROLL_LIST.TINY10).ToList();
+
+            var taken = end.Count + (param.Cursor ?? SCROLL_LIST.DEFAULT_TOP);
+
+            return (_mapper.Map<List<CommentResponseModel>>(end), hold2.Count > taken ? taken : null);
 
         }
 
