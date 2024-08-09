@@ -107,7 +107,7 @@ namespace Service
 
             return result;
         }
-        public async Task<AccountReturnModel> GetUserById(string id) => _mapper.Map<AccountReturnModel>(await _repository.Account.GetByCondition(entity => entity.Id.Equals(id) && entity.IsVerified, false).FirstAsync());
+        public async Task<AccountReturnModel> GetUserById(string id) => _mapper.Map<AccountReturnModel>(await _repository.Account.GetByCondition(entity => entity.Id.Equals(id) && entity.IsVerified, false).FirstOrDefaultAsync());
         public async Task<AccountReturnModel> GetUserByName(string userName)
         {
 

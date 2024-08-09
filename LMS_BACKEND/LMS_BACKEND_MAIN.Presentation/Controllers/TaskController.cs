@@ -7,6 +7,7 @@ using Service.Contracts;
 using Shared.DataTransferObjects.RequestDTO;
 using Shared.DataTransferObjects.RequestParameters;
 using Shared.DataTransferObjects.ResponseDTO;
+using Shared.GlobalVariables;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -95,11 +96,15 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         }
         [HttpGet]
         [Route("{id:guid}/history")]
-        public async Task<IActionResult> GetTaskHistoriesWithId(Guid Id)
+        public async Task<IActionResult> GetTaskHistoriesWithId(Guid Id, [FromQuery] TaskHistoryRequestParameters param)
         {
             var result = await _service.TaskService.GetTaskHistoriesWithTaskId(Id);
 
-            return Ok(result);
+            var end = result.Skip(param.Cursor ?? SCROLL_LIST.DEFAULT_TOP).Take(param.Take ?? SCROLL_LIST.TINY10).ToList();
+
+            var taken = end.Count + (param.Cursor ?? SCROLL_LIST.DEFAULT_TOP);
+
+            return result.Count() > taken ? Ok(new { Data = end, Cursor = taken }) : Ok(new { Data = end });
         }
     }
 }

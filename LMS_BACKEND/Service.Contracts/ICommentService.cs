@@ -13,7 +13,7 @@ namespace Service.Contracts
     {
         Task UpdateComment(UpdateCommentRequestModel model, Guid Id);
         //Task<PagedList<CommentResponseModel>> GetPagedComment(Guid taskId, CommentParameters param);
-        Task<PagedList<CommentResponseModel>> GetPagedComment(Guid taskId, CommentParameters param);
+        Task<(List<CommentResponseModel> Data, int? Cursor)> GetListComment(Guid taskId, CommentParameters param);
         Task<CommentResponseModel> CreateComment(CreateCommentRequestModel model, string userid, Guid taskId);
         Task<CommentResponseModel> GetCommentById(Guid id);
     }

@@ -8,6 +8,7 @@ namespace Contracts.Interfaces
         Task<IEnumerable<Schedule>> GetScheduleByDevice(Guid deviceId, DateTime startTime, DateTime endTime, bool track);
         Task<IEnumerable<Schedule>> GetAllByDevice(Guid deviceId, bool track);
         Task CreateScheduleForDevice(Schedule schedule);
+        IQueryable<Schedule> GetDueSchedules(DateTime current, int delay);
         void UpdateScheduleForDevice(Schedule schedule);
         void DeleteSchedule(Schedule schedule);
         Task<Schedule?> GetSchedule(Guid ScheduleId, bool track);

@@ -38,11 +38,9 @@ namespace LMS_BACKEND_MAIN.Presentation.Controllers
         [HttpGet(RoutesAPI.GetCommentByTaskId)]
         public async Task<IActionResult> GetCommentByTaskId(Guid taskid, [FromQuery] CommentParameters param)
         {
-            var hold = await _service.CommentService.GetPagedComment(taskid, param);
+            var (Data, Cursor) = await _service.CommentService.GetListComment(taskid, param);
 
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(hold.MetaData));
-
-            return Ok(hold.ToList());
+            return Cursor == null ? Ok(new { Data }) : Ok(new { Data, Cursor });
         }
 
         [HttpPost(RoutesAPI.CreateComment)]

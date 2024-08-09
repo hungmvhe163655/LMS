@@ -278,6 +278,14 @@ namespace Service
             await _repositoryManager.Save();
 
         }
+        public async Task<(byte[] Data, string FileName)> DownloadMultipleFiles(List<Guid> files)
+        {
+            var hold_metadata = await GetFileMetaDataWithKeyAsync(files);
+
+            var end = await DownloadAndZipFilesFromS3Async(hold_metadata);
+
+            return (end, "zipped");
+        }
 
         public async Task<(byte[] Data, string FileName)> DownloadFolder(Guid id)
         {
